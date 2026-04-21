@@ -1,0 +1,65 @@
+{
+  "CNickelIndex": "e12|e3|e3|e|:102|13|11|1|",
+  "MassScales": 5,
+  "FunctionClass": "unknown",
+  "EpsilonOrder": "1",
+  "References": [
+    "arXiv:1711.09572 (Phys.Lett.B 779 (353), 2018)"
+  ],
+  "Records": [
+    {
+      "reference": "arXiv:1711.09572 (Phys.Lett.B 779 (353), 2018)",
+      "authors": "Liu, Xiao, Ma, Yan-Qing, Wang, Chen-Yu",
+      "description": "Infrared-divergent multi-scale 1-loop box with one doubled propagator (massive line, indicated by cross). One internal mass $m$, two on-shell massive external legs ($p_3,p_4$ with masses $m_3,m_4$), and two off-shell legs ($p_1,p_2$). Kinematic point: $p_1^2=1.2$, $p_2^2=3.1$, $p_3^2=m_3^2=2.7$, $p_4^2=m_4^2=7.5$, $m^2=5.4$, $t=-1.0$, $s=(m_3+m_4)^2(1+\\delta)=19.2(1+\\delta)$ with $\\delta$ scanned in $10^{-7}..1$. Computed numerically via the new auxiliary-mass-flow ODE method using a dimension-recurrence based one-loop ODE [Eq. (8)]; results given as a Laurent series through $\\mathcal{O}(\\varepsilon)$ with at least 10 correct significant digits. Compared against FIESTA4.",
+      "epsOrders": "1",
+      "familyName": "1-loop box example, Fig. 1(a)",
+      "method": "series_expansion",
+      "tools": [
+        "FIESTA"
+      ],
+      "ancillaryFiles": false,
+      "doi": "10.1016/j.physletb.2018.02.026",
+      "texkey": "Liu:2017jxz",
+      "masterCount": 0,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "numerical",
+      "location": "Section 'An one-loop example', Fig. 1(a)",
+      "recordId": "bx_8137efedb112",
+      "verified": false,
+      "verifiedAt": ""
+    }
+  ],
+  "Names": [
+    "1-loop box example, Fig. 1(a)"
+  ],
+  "Source": [
+    "arXiv"
+  ],
+  "Loops": 1,
+  "NumPropagators": 4,
+  "Results": [],
+  "edges": "{{{1, 2}, 0}, {{1, 3}, m[2]}, {{2, 4}, m[3]}, {{3, 4}, m[1]}}",
+  "nodes": "{{1, m[1]}, {2, m[1]}, {4, m[1]}, {3, m[1]}}",
+  "CanonicalName": "3-mass box, 3 massive propagators (b)",
+  "MassConfig": {
+    "numEdges": 4,
+    "numMassiveEdges": 3,
+    "numMasslessEdges": 1,
+    "distinctInternalMasses": 3,
+    "internalMassLabels": [
+      "m[2]",
+      "m[3]",
+      "m[1]"
+    ],
+    "edgeMassPattern": "0123",
+    "numExtLegs": 4,
+    "numOnshellMassiveExtLegs": 4,
+    "numMasslessExtLegs": 0,
+    "extLegSignature": "MMMM"
+  },
+  "commonNames": [
+    "D₀(3 masses)"
+  ],
+  "Subsectors": [],
+  "ParentSectors": []
+}

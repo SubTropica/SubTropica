@@ -1,0 +1,56 @@
+{
+  "CNickelIndex": "123|e4|e4|e4||:011|20|01|01||",
+  "MassScales": 2,
+  "FunctionClass": "mixed",
+  "EpsilonOrder": "≤ 4",
+  "References": [
+    "arXiv:1701.05905"
+  ],
+  "Records": [
+    {
+      "epsOrders": "≤ 4",
+      "reference": "arXiv:1701.05905",
+      "authors": "Lorenzo Tancredi, Andreas von Manteuffel",
+      "description": "A non-planar three-point integral is computed. The result involves integrals over products of elliptic integrals and polylogarithms. Mathematica-readable solutions for the subtopologies are given at https://arxiv.org/src/1701.05905v1/anc/sol-subtopos.m",
+      "recordId": "1501189715.Isfb",
+      "computationLevel": "full",
+      "dimScheme": "d=4-2*eps",
+      "location": "Eq.(2.1)",
+      "verified": false,
+      "verifiedAt": ""
+    }
+  ],
+  "Source": [
+    "arXiv",
+    "Loopedia"
+  ],
+  "Results": [],
+  "Names": [
+    "Massive non-planar vertex",
+    "General non-planar vertex",
+    "Non-planar vertex",
+    "Non-planar triangle"
+  ],
+  "edges": "{{{1, 2}, 0}, {{1, 3}, m}, {{1, 4}, m}, {{2, 5}, 0}, {{3, 5}, m}, {{4, 5}, m}}",
+  "nodes": "{{2, M}, {3, 0}, {4, 0}}",
+  "CanonicalName": "Non-planar double box, 4 massive propagators (e)",
+  "MassConfig": {
+    "numEdges": 6,
+    "numMassiveEdges": 4,
+    "numMasslessEdges": 2,
+    "distinctInternalMasses": 1,
+    "internalMassLabels": [
+      "m"
+    ],
+    "edgeMassPattern": "011011",
+    "numExtLegs": 3,
+    "numOnshellMassiveExtLegs": 1,
+    "numMasslessExtLegs": 2,
+    "extLegSignature": "M00"
+  },
+  "Subsectors": [],
+  "ParentSectors": [
+    "123|e4|e4|e5|5|e|:110|01|01|00|0|0|",
+    "123|e4|e4|e5|5|e|:110|01|01|11|0|1|"
+  ]
+}

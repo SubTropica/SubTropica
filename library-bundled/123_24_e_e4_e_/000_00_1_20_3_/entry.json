@@ -1,0 +1,197 @@
+{
+  "CNickelIndex": "123|24|e|e4|e|:000|00|1|20|3|",
+  "MassScales": 1,
+  "FunctionClass": "MPL",
+  "EpsilonOrder": "0",
+  "References": [
+    "arXiv:1401.3546 (JHEP 10 (125), 2014)",
+    "arXiv:2502.05121 (JHEP 05 (185), 2025)",
+    "arXiv:2507.17815",
+    "arXiv:hep-ph/9402223 (Phys.Lett.B 332 (159), 1994)"
+  ],
+  "Records": [
+    {
+      "reference": "arXiv:2507.17815",
+      "authors": [
+        {
+          "full_name": "Barrera, Oscar",
+          "inspire_id": 2957072
+        },
+        {
+          "full_name": "Dersy, Aurélien",
+          "inspire_id": 2083042
+        },
+        {
+          "full_name": "Husain, Rabia",
+          "inspire_id": 1925286
+        },
+        {
+          "full_name": "Schwartz, Matthew D.",
+          "inspire_id": 1019662
+        },
+        {
+          "full_name": "Zhang, Xiaoyuan",
+          "inspire_id": 1806305
+        }
+      ],
+      "description": "Called T2 in the paper. 2-loop triangle ladder with three off-shell external legs and all massless internal lines. 6 propagators, 5 vertices. Finite in $d=4$, uniform transcendental weight 4. Conformal variables $z \\bar{z}=p_2^2/p_1^2$, $(1-z)(1-\\bar{z})=p_3^2/p_1^2$. Result involves $\\operatorname{Li}_4, \\operatorname{Li}_3, \\operatorname{Li}_2$ with prefactor $1/((1-z)(1-\\bar{z})(z-\\bar{z}))$. AMFlow: 1.1 CPU-h/point, 100 points, 20 digits.",
+      "epsOrders": "0",
+      "familyName": "2-loop massless three-mass triangle ladder",
+      "method": "DE, IBP",
+      "tools": [
+        "AMFlow",
+        "SOFIA",
+        "Kira",
+        "FireFly",
+        "GiNaC",
+        "Fplll",
+        "PolyLogTools"
+      ],
+      "ancillaryFiles": false,
+      "doi": "",
+      "texkey": "",
+      "masterCount": 0,
+      "dimScheme": "d=4",
+      "computationLevel": "full",
+      "location": "Eq. (30), Section 4.3, second diagram",
+      "recordId": "bx_3d81fd13d7dc",
+      "verified": false,
+      "verifiedAt": ""
+    },
+    {
+      "reference": "arXiv:hep-ph/9402223 (Phys.Lett.B 332 (159), 1994)",
+      "authors": "Usyukina, Natalia I., Davydychev, Andrei I.",
+      "description": "Two-loop planar ladder three-point diagram with massless propagators and all off-shell external momenta. Result expressed in terms of $\\Phi^{(2)}$ function involving polylogarithms up to $\\operatorname{Li}_4$.",
+      "epsOrders": "",
+      "familyName": "planar ladder (fig.1a)",
+      "method": "uniqueness, direct_integration",
+      "tools": [],
+      "ancillaryFiles": true,
+      "doi": "10.1016/0370-2693(94)90874-5",
+      "texkey": "Usyukina:1994iw",
+      "masterCount": 0,
+      "dimScheme": "d=4",
+      "computationLevel": "full",
+      "location": "eq.(14), eq.(15), sec.3",
+      "recordId": "bx_3f67467adc38",
+      "verified": false,
+      "verifiedAt": ""
+    },
+    {
+      "reference": "arXiv:2502.05121 (JHEP 05 (185), 2025)",
+      "authors": "von Hippel, Matt, Wilhelm, Matthias",
+      "description": "Two-loop triangle-box integral used as benchmark for machine-learning optimization of IBP seeding strategies. All external legs are massive with $p_1+p_2+p_3=0$. The paper applies genetic algorithms, FunSearch, and strongly typed genetic programming to discover improved seeding heuristics, reducing the number of IBP seeds from 14588 (rectangular) to 88.",
+      "epsOrders": "",
+      "familyName": "two-loop triangle-box",
+      "method": "IBP",
+      "tools": [
+        "Kira"
+      ],
+      "ancillaryFiles": false,
+      "doi": "10.1007/JHEP05(2025)185",
+      "texkey": "vonHippel:2025okr",
+      "masterCount": 16,
+      "dimScheme": "d=D",
+      "computationLevel": "IBP_only",
+      "location": "fig. 1, eq. (2.2)",
+      "recordId": "bx_57bbb4392961",
+      "verified": false,
+      "verifiedAt": ""
+    },
+    {
+      "authors": "Abreu, Samuel, Britto, Ruth, Duhr, Claude, Gardi, Einan",
+      "texkey": "Abreu:2014cla",
+      "verified": false,
+      "verifiedAt": "",
+      "reference": "arXiv:1401.3546, JHEP 10 (125), 2014",
+      "ancillaryFiles": [],
+      "recordId": "bf_6bf5487ef16a",
+      "masterCount": 1,
+      "transcendentalWeight": 4,
+      "computationLevel": "full",
+      "doi": "10.1007/JHEP10(2014)125",
+      "tools": [],
+      "description": "Two-loop three-point ladder with 6 massless propagators and 3 external masses, finite in $D=4$. Weight-4 result in $z,\\bar{z}$. Main example: all single/double cuts computed, integral reconstructed from cuts via dispersion and symbol reconstruction.",
+      "epsOrders": "-4,-3,-2,-1,0",
+      "method": [],
+      "dimScheme": "d=4",
+      "location": "Section 5, eq.(5.1); Appendices C,D",
+      "familyName": "T_L (two-loop three-point ladder)"
+    }
+  ],
+  "Names": [
+    "2-loop massless three-mass triangle ladder",
+    "planar ladder (fig.1a)",
+    "T_L (two-loop three-point ladder)",
+    "two-loop triangle-box"
+  ],
+  "Source": [
+    "arXiv"
+  ],
+  "Loops": 2,
+  "NumPropagators": 6,
+  "Results": [
+    {
+      "resultCompressed": "1:eJzdWktu2zAQlS03DYJcIlcpuugiC8PpBWxADgg4VRE5LeBzd1W0SUTRsEhqSM5QQ5lOFoplU8N5b958ZOtuU6+2V0VRNDft4aF6FlXzdb1fN2V7Wv1sRPuv2M7kgkV7uBfNfvtJnsnDd/FUNdu5PL1uD6v1XtQ/1jshlwtpVH0mly7r39WzOpV2lruXRry1f41ce+heeherdf2SbmtlQb532IRNDFeX+seW7f7ab7v6sYPUvyVpUMyYG+poPsPG1Tp5uhRibphQmG6NnXybw5z8PfEQdL40rlTmjgTZTBpUaZGD2Sd4wu0ETMp/QBydqKXJ+/rRGXxrJ3e8VSxNMIoB3n3C5jjSzZNZELKnwy9Iy3E5pO/qSKI++wmJ9QedGAP5KQNXBTYzU2cWyhP2zDpeWgK+nEmUxNQCsft4LofyZN8T1KpJqiO9VFX74ksRl1AWA8n2B0/tQRZ4inUP+/+I5mck5xdEaiDrfM57Gou5MbP1ZHz5FA8h4jNPCNIrnsYZPT36lI237nEeb94jLkDaVGoC1vF84UUdyBYQEAtdtBLDsSWxMMSHTU9QpyriEdnmCULHl4ZQ0UlIGbE9sGxKrbHRm5rzoTlJWuMgPDsmq5yTOJoijqM9JRaG81HKMXzk432+OcYzEqGaMGagiFchbVxhkU70DBOvgdAMA0DlARQxyaI6MGqg4OMrMK/wVO4RUwxf7AZTjFMaozHF3IfEVAyePj2BihM6yqzN1DMam56nGyZTtIbkEyZbYk84C+cp6JivPc4iCbZvULLwPtCYMxIEReslzv9S9x9VUeXhDD+dWHhcygnjGZSuPAChAoSqEHngQQUIl4oXDGhkgDxTAreUxlIf56prxB2mcaizGJ4uAE8BVYQgQNoggHPdaCDB6ZYzRMfRUS4rniw95yNGOX4ezBAxS+O6sCi7KtVcx2wBG/9A2OkxEWRTiPImzEXQH5ciDH+si7DEmOssPPoVflS+x0sRVyYJo6t0fGzaYvTmn2nhGQwaYaEb155CVZ26DYOxAzoVhx96mXQ4YhZEJSJWBvhn2iAIEyoLfROgsH4EeQcfn7z2",
+      "resultTeX": "\\frac{H\\left(0,\\frac{1}{z}\\,;1\\right) \\left(-3 \\log ^2\\left(\\frac{z-1}{z}\\right)-6 \\log \\left(\\frac{1}{(z-1) (\\text{zb}-1)}\\right) \\log \\left(\\frac{z-1}{z}\\right)-6 \\zeta(2)+12 H(0,z\\,;1)-6 H\\left(0,\\frac{z \\text{zb}}{z+\\text{zb}-1}\\,;1\\right)-6 H\\left(\\frac{z \\text{zb}}{z+\\text{zb}-1},z\\,;1\\right)+\\pi ^2\\right)+H\\left(0,\\frac{1}{\\text{zb}}\\,;1\\right) \\left(3 \\log ^2\\left(\\frac{\\text{zb}-1}{\\text{zb}}\\right)+6 \\log \\left(\\frac{1}{(z-1) (\\text{zb}-1)}\\right) \\log \\left(\\frac{\\text{zb}-1}{\\text{zb}}\\right)+6 \\zeta(2)-12 H(0,\\text{zb}\\,;1)+6 H\\left(0,\\frac{z \\text{zb}}{z+\\text{zb}-1}\\,;1\\right)+6 H\\left(\\frac{z \\text{zb}}{z+\\text{zb}-1},\\text{zb}\\,;1\\right)-\\pi ^2\\right)-3 \\left(\\zeta(2) \\log ^2\\left(\\frac{1}{1-z}\\right)-2 \\log \\left(\\frac{1}{z \\text{zb}}\\right) \\zeta(2) \\log \\left(\\frac{1}{1-z}\\right)-\\log ^2\\left(\\frac{1}{1-\\text{zb}}\\right) \\zeta(2)+2 \\log \\left(\\frac{1}{1-\\text{zb}}\\right) \\log \\left(\\frac{1}{z \\text{zb}}\\right) \\zeta(2)-4 \\zeta(2) H\\left(0,\\frac{z-1}{z}\\,;1\\right)+4 \\zeta(2) H\\left(0,\\frac{\\text{zb}-1}{\\text{zb}}\\,;1\\right)+2 \\zeta(2) H\\left(\\frac{(z-1) (\\text{zb}-1)}{z (\\text{zb}-1)-\\text{zb}},\\frac{z-1}{z}\\,;1\\right)-2 \\zeta(2) H\\left(\\frac{(z-1) (\\text{zb}-1)}{z (\\text{zb}-1)-\\text{zb}},\\frac{\\text{zb}-1}{\\text{zb}}\\,;1\\right)+4 \\log \\left(\\frac{(z-1) (\\text{zb}-1)}{z \\text{zb}}\\right) H\\left(0,0,\\frac{1}{z}\\,;1\\right)-4 \\log \\left(\\frac{(z-1) (\\text{zb}-1)}{z \\text{zb}}\\right) H\\left(0,0,\\frac{1}{\\text{zb}}\\,;1\\right)-2 \\log \\left(\\frac{1}{(z-1) (\\text{zb}-1)}\\right) H\\left(0,\\frac{1}{z},1\\,;1\\right)-2 \\log \\left(\\frac{(z-1) (\\text{zb}-1)}{z \\text{zb}}\\right) H\\left(0,\\frac{1}{z},\\frac{1}{z}\\,;1\\right)+2 \\log \\left(\\frac{1}{(z-1) (\\text{zb}-1)}\\right) H\\left(0,\\frac{1}{\\text{zb}},1\\,;1\\right)+2 \\log \\left(\\frac{(z-1) (\\text{zb}-1)}{z \\text{zb}}\\right) H\\left(0,\\frac{1}{\\text{zb}},\\frac{1}{\\text{zb}}\\,;1\\right)-2 \\log \\left(\\frac{1}{(z-1) (\\text{zb}-1)}\\right) H\\left(\\frac{1}{z},0,1\\,;1\\right)+2 \\log \\left(\\frac{1}{z \\text{zb}}\\right) H\\left(\\frac{1}{z},0,1\\,;1\\right)-2 \\log \\left(\\frac{(z-1) (\\text{zb}-1)}{z \\text{zb}}\\right) H\\left(\\frac{1}{z},0,\\frac{1}{z}\\,;1\\right)+2 \\log \\left(\\frac{1}{(z-1) (\\text{zb}-1)}\\right) H\\left(\\frac{1}{\\text{zb}},0,1\\,;1\\right)-2 \\log \\left(\\frac{1}{z \\text{zb}}\\right) H\\left(\\frac{1}{\\text{zb}},0,1\\,;1\\right)+2 \\log \\left(\\frac{(z-1) (\\text{zb}-1)}{z \\text{zb}}\\right) H\\left(\\frac{1}{\\text{zb}},0,\\frac{1}{\\text{zb}}\\,;1\\right)+6 H\\left(0,0,0,\\frac{1}{z}\\,;1\\right)-6 H\\left(0,0,0,\\frac{1}{\\text{zb}}\\,;1\\right)-4 H\\left(0,0,1,\\frac{1}{z}\\,;1\\right)+4 H\\left(0,0,1,\\frac{1}{\\text{zb}}\\,;1\\right)-4 H\\left(0,0,\\frac{1}{z},1\\,;1\\right)-4 H\\left(0,0,\\frac{1}{z},\\frac{1}{z}\\,;1\\right)+4 H\\left(0,0,\\frac{1}{\\text{zb}},1\\,;1\\right)+4 H\\left(0,0,\\frac{1}{\\text{zb}},\\frac{1}{\\text{zb}}\\,;1\\right)-2 H\\left(0,1,0,\\frac{1}{z}\\,;1\\right)+2 H\\left(0,1,0,\\frac{1}{\\text{zb}}\\,;1\\right)+2 H\\left(0,\\frac{1}{z},0,1\\,;1\\right)-2 H\\left(0,\\frac{1}{z},0,\\frac{1}{z}\\,;1\\right)-4 H\\left(0,\\frac{1}{z},1,1\\,;1\\right)+2 H\\right. \\cdots",
+      "dimension": "4 - 2*eps",
+      "epsOrder": 0,
+      "propExponents": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "propagators": [],
+      "numerators": [],
+      "internalMasses": [],
+      "externalMasses": [],
+      "substitutions": "{MM1 -> (1 - z)*(1 - zb), MM2 -> z*zb, MM3 -> 1}",
+      "normalization": "Automatic",
+      "stVersion": "SubTropica v1.0.379",
+      "stCommand": "STIntegrate[{{{{1, 4}, 0}, {{2, 4}, 0}, {{2, 3}, 0}, {{3, 5}, 0}, {{1, 5}, 0}, {{4, 5}, 0}}, {{1, Subscript[M, 1]}, {2, Subscript[M, 2]}, {3, Subscript[M, 3]}}}, Dimension -> \"4 - 2*eps\", Order -> 0, Substitutions -> {MM1 -> (1 - z)*(1 - zb), MM2 -> z*zb, MM3 -> 1}]",
+      "contributor": "SM",
+      "timestamp": "2026-04-19T18:59:45",
+      "byteCount": 40720,
+      "symbolTeX": "\\varepsilon^{0}\\colon\\;-\\frac{1}{(z-1) (\\text{zb}-1) (z-\\text{zb})}\\,(z \\otimes z-1 \\otimes z \\otimes z) + \\frac{1}{(z-1) (\\text{zb}-1) (z-\\text{zb})}\\,(z \\otimes z \\otimes z-1 \\otimes z) - \\frac{1}{(z-1) (\\text{zb}-1) (z-\\text{zb})}\\,(z \\otimes z-1 \\otimes z \\otimes \\text{zb}) - \\frac{1}{(z-1) (\\text{zb}-1) (z-\\text{zb})}\\,(z \\otimes z-1 \\otimes \\text{zb} \\otimes z) - \\frac{1}{(z-1) (\\text{zb}-1) (z-\\text{zb})}\\,(z \\otimes z-1 \\otimes \\text{zb} \\otimes \\text{zb}) + \\frac{1}{(z-1) (\\text{zb}-1) (z-\\text{zb})}\\,(z \\otimes z \\otimes z-1 \\otimes \\text{zb}) - \\frac{1}{(z-1) (\\text{zb}-1) (z-\\text{zb})}\\,(z \\otimes \\text{zb} \\otimes z-1 \\otimes z) - \\frac{1}{(z-1) (\\text{zb}-1) (z-\\text{zb})}\\,(z \\otimes \\text{zb} \\otimes z-1 \\otimes \\text{zb}) + \\frac{1}{(z-1) (\\text{zb}-1) (z-\\text{zb})}\\,(z \\otimes z \\otimes \\text{zb} \\otimes z-1) + \\frac{1}{(z-1) (\\text{zb}-1) (z-\\text{zb})}\\,(z \\otimes \\text{zb} \\otimes z \\otimes z-1) - \\frac{1}{(z-1) (\\text{zb}-1) (z-\\text{zb})}\\,(z \\otimes \\text{zb} \\otimes \\text{zb} \\otimes z-1) - \\frac{1}{(z-1) (\\text{zb}-1) (z-\\text{zb})}\\,(\\text{zb} \\otimes z \\otimes z-1 \\otimes z) - \\frac{1}{(z-1) (\\text{zb}-1) (z-\\text{zb})}\\,(\\text{zb} \\otimes z \\otimes z-1 \\otimes \\text{zb}) + \\frac{1}{(z-1) (\\text{zb}-1) (z-\\text{zb})}\\,(\\text{zb} \\otimes z \\otimes z \\otimes z-1) - \\frac{1}{(z-1) (\\text{zb}-1) (z-\\text{zb})}\\,(\\text{zb} \\otimes z \\otimes \\text{zb} \\otimes z-1) - \\frac{1}{(z-1) (\\text{zb}-1) (z-\\text{zb})}\\,(\\text{zb} \\otimes \\text{zb} \\otimes z \\otimes z-1) + \\frac{1}{(z-1) (\\text{zb}-1) (z-\\text{zb})}\\,(\\text{zb} \\otimes \\text{zb}-1 \\otimes \\text{zb} \\otimes \\text{zb}) - \\frac{1}{(z-1) (\\text{zb}-1) (z-\\text{zb})}\\,(\\text{zb} \\otimes \\text{zb} \\otimes \\text{zb}-1 \\otimes \\text{zb}) + \\frac{1}{(z-1) (\\text{zb}-1) (z-\\text{zb})}\\,(\\text{zb} \\otimes \\text{zb}-1 \\otimes z \\otimes z) + \\frac{1}{(z-1) (\\text{zb}-1) (z-\\text{zb})}\\,(\\text{zb} \\otimes \\text{zb}-1 \\otimes z \\otimes \\text{zb}) + \\frac{1}{(z-1) (\\text{zb}-1) (z-\\text{zb})}\\,(\\text{zb} \\otimes \\text{zb}-1 \\otimes \\text{zb} \\otimes z) + \\frac{1}{(z-1) (\\text{zb}-1) (z-\\text{zb})}\\,(\\text{zb} \\otimes z \\otimes \\text{zb}-1 \\otimes z) + \\frac{1}{(z-1) (\\text{zb}-1) (z-\\text{zb})}\\,(\\text{zb} \\otimes z \\otimes \\text{zb}-1 \\otimes \\text{zb}) - \\frac{1}{(z-1) (\\text{zb}-1) (z-\\text{zb})}\\,(\\text{zb} \\otimes \\text{zb} \\otimes \\text{zb}-1 \\otimes z) + \\frac{1}{(z-1) (\\text{zb}-1) (z-\\text{zb})}\\,(\\text{zb} \\otimes z \\otimes z \\otimes \\text{zb}-1) - \\frac{1}{(z-1) (\\text{zb}-1) (z-\\text{zb})}\\,(\\text{zb} \\otimes z \\otimes \\text{zb} \\otimes \\text{zb}-1) - \\frac{1}{(z-1) (\\text{zb}-1) (z-\\text{zb})}\\,(\\text{zb} \\otimes \\text{zb} \\otimes z \\otimes \\text{zb}-1) + \\frac{1}{(z-1) (\\text{zb}-1) (z-\\text{zb})}\\,(z \\otimes \\text{zb} \\otimes \\text{zb}-1 \\otimes z) + \\frac{1}{(z-1) (\\text{zb}-1) (z-\\text{zb})}\\,(z \\otimes \\text{zb} \\otimes \\text{zb}-1 \\otimes \\text{zb}) + \\frac{1}{(z-1) (\\text{zb}-1) (z-\\text{zb})}\\,(z \\otimes \\text{zb} \\otimes z \\otimes \\text{zb}-1) - \\frac{1}{(z-1) (\\text{zb}-1) (z-\\text{zb})}\\,(z \\otimes \\text{zb} \\otimes \\text{zb} \\otimes \\text{zb}-1) + \\frac{1}{(z-1) (\\text{zb}-1) (z-\\text{zb})}\\,(z \\otimes z \\otimes \\text{zb} \\otimes \\text{zb}-1)",
+      "alphabet": [
+        "z",
+        "z-1",
+        "\\text{zb}",
+        "\\text{zb}-1"
+      ],
+      "symbolWeight": 4,
+      "symbolTerms": 32,
+      "legOrder": [
+        1,
+        2,
+        3
+      ]
+    }
+  ],
+  "edges": "{{{1, 3}, 0}, {{1, 2}, 0}, {{2, 3}, 0}, {{3, 5}, 0}, {{2, 4}, 0}, {{4, 5}, 0}}",
+  "nodes": "{{1, M[3]}, {4, M[1]}, {5, M[2]}}",
+  "CanonicalName": "3-mass triangle-box",
+  "MassConfig": {
+    "numEdges": 6,
+    "numMassiveEdges": 0,
+    "numMasslessEdges": 6,
+    "distinctInternalMasses": 0,
+    "internalMassLabels": [],
+    "edgeMassPattern": "000000",
+    "numExtLegs": 3,
+    "numOnshellMassiveExtLegs": 3,
+    "numMasslessExtLegs": 0,
+    "extLegSignature": "MMM"
+  },
+  "Subsectors": [
+    "123|e23|e|e|:000|100|2|3|"
+  ],
+  "ParentSectors": [
+    "123|45|e4|e5|e|e|:000|00|00|10|0|2|",
+    "123|45|e4|e5|e|e|:000|00|00|10|2|3|",
+    "123|45|e4|e5|e|e|:000|00|10|20|3|4|"
+  ]
+}

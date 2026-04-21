@@ -1,0 +1,79 @@
+{
+  "CNickelIndex": "1112|3|e3|e|:1111|1|21|2|",
+  "MassScales": 1,
+  "FunctionClass": "MPL",
+  "EpsilonOrder": "0",
+  "References": [
+    "arXiv:2405.13286"
+  ],
+  "Records": [
+    {
+      "reference": "arXiv:2405.13286",
+      "authors": [
+        {
+          "full_name": "de Doncker, Elise",
+          "inspire_id": 1052498
+        },
+        {
+          "full_name": "Ishikawa, Tadashi",
+          "inspire_id": 1004851
+        },
+        {
+          "full_name": "Kato, Kiyoshi",
+          "inspire_id": 1003496
+        },
+        {
+          "full_name": "Yuasa, Fukuko",
+          "inspire_id": 982501
+        }
+      ],
+      "description": "Equal-mass three-loop two-point function with 6 internal lines: triple A-B bubble plus outer square path. The $1/\\varepsilon^2$ coefficient vanishes; analytic $C_{-1}$ and $C_0$ given as $m_4^2$-derivatives of Loop II. $C_1$ numerical, cross-checked against pySecDec. Called `Loop (III)` in the paper.",
+      "epsOrders": "0",
+      "familyName": "equal-mass 3-loop 2-point sunrise with outer square (6 propagators)",
+      "method": "direct_integration, sector_decomposition",
+      "tools": [
+        "pySecDec"
+      ],
+      "ancillaryFiles": false,
+      "doi": "",
+      "texkey": "",
+      "masterCount": 0,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "full",
+      "location": "Section 2, Eq. (2.13); Fig. 1 (Loop III)",
+      "recordId": "bx_29300ca5913b",
+      "verified": false,
+      "verifiedAt": ""
+    }
+  ],
+  "Names": [
+    "equal-mass 3-loop 2-point sunrise with outer square (6 propagators)"
+  ],
+  "Source": [
+    "arXiv"
+  ],
+  "Loops": 3,
+  "NumPropagators": 6,
+  "Results": [],
+  "edges": "{{{1, 2}, m}, {{1, 2}, m}, {{1, 2}, m}, {{1, 3}, m}, {{2, 4}, m}, {{3, 4}, m}}",
+  "nodes": "{{3, M}, {4, M}}",
+  "CanonicalName": "Equal-mass bubble-bubble-box",
+  "MassConfig": {
+    "numEdges": 6,
+    "numMassiveEdges": 6,
+    "numMasslessEdges": 0,
+    "distinctInternalMasses": 1,
+    "internalMassLabels": [
+      "m"
+    ],
+    "edgeMassPattern": "111111",
+    "numExtLegs": 2,
+    "numOnshellMassiveExtLegs": 2,
+    "numMasslessExtLegs": 0,
+    "extLegSignature": "MM"
+  },
+  "Subsectors": [
+    "1112|e2|e|:1111|21|2|"
+  ],
+  "ParentSectors": []
+}

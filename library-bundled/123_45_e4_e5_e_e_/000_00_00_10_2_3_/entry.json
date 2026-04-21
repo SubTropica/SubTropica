@@ -1,0 +1,69 @@
+{
+  "CNickelIndex": "123|45|e4|e5|e|e|:000|00|00|10|2|3|",
+  "MassScales": 5,
+  "FunctionClass": "MPL",
+  "EpsilonOrder": "",
+  "References": [
+    "arXiv:2103.04638"
+  ],
+  "Records": [
+    {
+      "authors": "Dlapa, Christoph, Li, Xiaodi, Zhang, Yang",
+      "texkey": "Dlapa:2021qsl",
+      "verified": false,
+      "verifiedAt": "",
+      "ancillaryPaths": [
+        "ancillary_files/letters.txt",
+        "ancillary_files/cMatrixList.txt"
+      ],
+      "reference": "arXiv:2103.04638, JHEP 07 (227), 2021",
+      "ancillaryFiles": [],
+      "recordId": "bf_9db6d9bb3dd2",
+      "masterCount": 47,
+      "computationLevel": "DE_only",
+      "doi": "10.1007/JHEP07(2021)227",
+      "tools": [
+        "FIRE",
+        "Kira",
+        "FiniteFlow"
+      ],
+      "description": "Two-loop planar double box with 3 massive external legs and 7 massless internal propagators. 47 MIs with UT basis constructed via leading singularity analysis in Baikov representation. 30-letter symbol alphabet.",
+      "epsOrders": "",
+      "method": [],
+      "dimScheme": "d=4-2*eps",
+      "location": "Section 3, Eq. (3.1)-(3.3), Fig. 1",
+      "familyName": "double box with three massive external legs"
+    }
+  ],
+  "Names": [
+    "double box with three massive external legs"
+  ],
+  "Source": [
+    "arXiv"
+  ],
+  "Loops": 2,
+  "NumPropagators": 7,
+  "Results": [],
+  "edges": "{{{1, 2}, 0}, {{1, 3}, 0}, {{1, 4}, 0}, {{2, 5}, 0}, {{2, 6}, 0}, {{3, 5}, 0}, {{4, 6}, 0}}",
+  "nodes": "{{3, 0}, {4, M[2]}, {6, M[3]}, {5, M[4]}}",
+  "CanonicalName": "3-mass double box (b)",
+  "MassConfig": {
+    "numEdges": 7,
+    "numMassiveEdges": 0,
+    "numMasslessEdges": 7,
+    "distinctInternalMasses": 0,
+    "internalMassLabels": [],
+    "edgeMassPattern": "0000000",
+    "numExtLegs": 4,
+    "numOnshellMassiveExtLegs": 3,
+    "numMasslessExtLegs": 1,
+    "extLegSignature": "0MMM"
+  },
+  "commonNames": [
+    "L2"
+  ],
+  "Subsectors": [
+    "123|24|e|e4|e|:000|00|1|20|3|"
+  ],
+  "ParentSectors": []
+}

@@ -1,0 +1,170 @@
+{
+  "CNickelIndex": "e112|e2|e|:0000|00|0|",
+  "MassScales": 0,
+  "FunctionClass": "hypergeometric",
+  "EpsilonOrder": "all orders",
+  "References": [
+    "arXiv:hep-ph/9912329 (Nucl.Phys.B 580 (485), 2000)",
+    "arXiv:1701.07356 (JHEP 04 (083), 2017)",
+    "arXiv:hep-ph/9402223 (Phys.Lett.B 332 (159), 1994)",
+    "arXiv:2507.17815 (Missing[\"KeyAbsent\", \"journal\"] Missing[\"KeyAbsent\", \"volume\"] (Missing[\"KeyAbsent\", \"pages\"]), Missing[\"KeyAbsent\", \"year\"])"
+  ],
+  "Records": [
+    {
+      "dimScheme": "d=D",
+      "recordId": "bf_732dffb87eb1",
+      "familyName": "2L-vertex-t4-MI1 / 2L-vertex-t4-MI2",
+      "verified": false,
+      "verifiedAt": "",
+      "authors": "Gehrmann, T., Remiddi, E.",
+      "texkey": "Gehrmann:1999as",
+      "computationLevel": "full",
+      "masterCount": 1,
+      "location": "Eq. (4.4), Section 4.2",
+      "method": [],
+      "reference": "arXiv:hep-ph/9912329, Nucl.Phys.B 580 (485), 2000",
+      "ancillaryFiles": [],
+      "description": "Two-loop massless vertex (three-point) master integral with $t=4$ propagators and two off-shell external legs. First of two master integrals for this topology. The result involves Gauss ${}_2F_1$ and generalized ${}_3F_2$ hypergeometric functions for arbitrary $d$.",
+      "epsOrders": "all orders",
+      "tools": [
+        "FORM"
+      ],
+      "doi": "10.1016/S0550-3213(00)00223-6"
+    },
+    {
+      "reference": "arXiv:1701.07356 (JHEP 04 (083), 2017)",
+      "authors": "Frellesvig, Hjalte, Papadopoulos, Costas G.",
+      "description": "Two-loop bubble-triangle with massless propagators and off-shell legs. Two master integrals forming part of a canonical basis. Maximal cut yields hypergeometric functions expanding to MPL with uniform transcendental weight through $\\mathcal{O}(\\varepsilon^3)$.",
+      "epsOrders": "3",
+      "familyName": "bubble-triangle",
+      "method": "intersection, IBP",
+      "tools": [],
+      "ancillaryFiles": true,
+      "doi": "10.1007/JHEP04(2017)083",
+      "texkey": "Frellesvig:2017aai",
+      "masterCount": 2,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "maximal_cut",
+      "location": "Appendix B.3, Eq. (B.16)-(B.19)",
+      "recordId": "bx_b0f7ac961ac6",
+      "verified": false,
+      "verifiedAt": ""
+    },
+    {
+      "reference": "arXiv:2507.17815 (JHEP 01 (014), 2026)",
+      "authors": [
+        {
+          "full_name": "Barrera, Oscar",
+          "inspire_id": 2957072
+        },
+        {
+          "full_name": "Dersy, Aurélien",
+          "inspire_id": 2083042
+        },
+        {
+          "full_name": "Husain, Rabia",
+          "inspire_id": 1925286
+        },
+        {
+          "full_name": "Schwartz, Matthew D.",
+          "inspire_id": 1019662
+        },
+        {
+          "full_name": "Zhang, Xiaoyuan",
+          "inspire_id": 1806305
+        }
+      ],
+      "description": "Called $I_1(x)$ in the paper. 2-loop 3-point master integral for $q\\bar{q}\\to VV$ planar topologies from Gehrmann, Tancredi, Weihs (1306.6344). Triangle topology with doubled edge $[1,2]$ (4 propagators, one squared indicated by dot). Two on-shell legs $p_1^2=p_2^2=0$ combined into $p_{12}=p_1+p_2$, two off-shell legs $q_1^2=q_2^2=Q^2$. Single variable $x$. Prefactor $P_1(x)=x/(m^2(1-x^2))$. Fitted at $\\varepsilon^{-1}$ (weight 2, 17 functions) and $\\varepsilon^0$ (weight 3, 58 functions). AMFlow: 8.5 CPU-min/point, 58 points, 28 digits.",
+      "epsOrders": "0",
+      "familyName": "2-loop sunrise-triangle with doubled propagator",
+      "method": "DE, IBP",
+      "tools": [
+        "AMFlow",
+        "SOFIA",
+        "BLADE",
+        "GiNaC"
+      ],
+      "ancillaryFiles": false,
+      "doi": "10.1007/JHEP01(2026)014",
+      "texkey": "Barrera:2025uin",
+      "masterCount": 0,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "full",
+      "location": "Eq. (19), Section 4.2, first diagram",
+      "recordId": "bx_c159f6fb6c0a",
+      "verified": false,
+      "verifiedAt": ""
+    }
+  ],
+  "Names": [
+    "Sunrise-triangle",
+    "Bubble-triangle",
+    "2L-vertex-t4-MI2",
+    "2L-vertex-t4-MI1",
+    "triangle with sunrise on edge (fig.1f)",
+    "2-loop sunrise-triangle with doubled propagator"
+  ],
+  "Source": [
+    "arXiv",
+    "Loopedia"
+  ],
+  "Loops": 2,
+  "NumPropagators": 4,
+  "Results": [
+    {
+      "resultCompressed": "1:eJxTTMoPSmNjYGAo5gISwalFmanFLoklicXMQG5qQXEmkGJIA3GKWYCET2ZxSRoTiMcBJIISSzLz8xJzMv8DQSbIFFxyTHA5ViARkpmbWoxFKSOQkymEYmFATmlx5lOgEWi6wcYixALyy1OLikHcgExslkGMAJkP9lhuVRlYVeY/kOPA1oIIALsGRh4=",
+      "resultTeX": "-\\frac{1}{6 \\varepsilon^2}-\\frac{1}{2 \\varepsilon}+\\frac{1}{18} \\left(-27 \\zeta(2)-\\pi ^2-27\\right)+O\\left(\\varepsilon^1\\right)",
+      "dimension": "4 - 2*eps",
+      "epsOrder": 0,
+      "propExponents": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "propagators": [],
+      "numerators": [],
+      "internalMasses": [],
+      "externalMasses": [],
+      "substitutions": "{}",
+      "normalization": "Automatic",
+      "stVersion": "SubTropica v1.0.308",
+      "stCommand": "",
+      "contributor": "Sebastian Mizera",
+      "timestamp": "2026-04-18T00:25:00",
+      "byteCount": 800,
+      "method": "vacuum_period",
+      "tools": [
+        "SubTropica"
+      ],
+      "VacuumPeriod": true,
+      "note": "Vacuum period: fully scaleless Feynman integral is 0 in dim-reg d=4-2e; this result is the Kontsevich-Zagier graph period at d=4 (F set to 1 when aF = O(e)).",
+      "symbolTeX": "",
+      "alphabet": [],
+      "symbolWeight": 0,
+      "symbolTerms": 0,
+      "legOrder": []
+    }
+  ],
+  "edges": "{{{1, 2}, 0}, {{1, 2}, 0}, {{1, 3}, 0}, {{2, 3}, 0}}",
+  "nodes": "{{1, 0}, {2, 0}, {3, 0}}",
+  "CanonicalName": "Massless sunrise triangle",
+  "MassConfig": {
+    "numEdges": 4,
+    "numMassiveEdges": 0,
+    "numMasslessEdges": 4,
+    "distinctInternalMasses": 0,
+    "internalMassLabels": [],
+    "edgeMassPattern": "0000",
+    "numExtLegs": 3,
+    "numOnshellMassiveExtLegs": 0,
+    "numMasslessExtLegs": 3,
+    "extLegSignature": "000"
+  },
+  "Subsectors": [],
+  "ParentSectors": [
+    "1123|e2|e3|e|:0000|00|00|0|",
+    "112|e3|e3|e|:000|00|00|0|",
+    "123|e23|e|e|:000|000|0|0|"
+  ]
+}

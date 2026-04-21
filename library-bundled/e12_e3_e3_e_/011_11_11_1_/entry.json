@@ -1,0 +1,61 @@
+{
+  "CNickelIndex": "e12|e3|e3|e|:011|11|11|1|",
+  "MassScales": 3,
+  "FunctionClass": "rational",
+  "EpsilonOrder": "",
+  "References": [
+    "arXiv:1610.08397 (Nucl.Phys.B 916 (94), 2017)"
+  ],
+  "Records": [
+    {
+      "reference": "arXiv:1610.08397 (Nucl.Phys.B 916 (94), 2017)",
+      "authors": "Primo, Amedeo, Tancredi, Lorenzo",
+      "description": "One-loop four-point box with all four internal propagators of equal mass $m$ and three off-shell external legs (one leg massless). Used as the inner sub-loop in the calculation of the two-loop non-planar triangle. Its maximal cut at $d=4$ is obtained by solving the homogeneous differential equation and is given in closed algebraic form by Eq. (4.13): $\\mathrm{Cut}(\\mathrm{Box}) = c / \\sqrt{(q_3^2 q_4^2 - t u)^2 + 4 m^2 [\\ldots]}$, where $t$ and $u$ are kinematic invariants of the box.",
+      "epsOrders": "",
+      "familyName": "one-loop box with four massive propagators and three off-shell legs",
+      "method": "DE",
+      "tools": [],
+      "ancillaryFiles": false,
+      "doi": "10.1016/j.nuclphysb.2016.12.021",
+      "texkey": "Primo:2016ebd",
+      "masterCount": 1,
+      "dimScheme": "d=D",
+      "computationLevel": "maximal_cut",
+      "location": "Section 4.1, Eq. (4.7) and Eq. (4.13)",
+      "recordId": "bx_d85c5cb4e2af",
+      "verified": false,
+      "verifiedAt": ""
+    }
+  ],
+  "Names": [
+    "one-loop box with four massive propagators and three off-shell legs"
+  ],
+  "Source": [
+    "arXiv"
+  ],
+  "Loops": 1,
+  "NumPropagators": 4,
+  "Results": [],
+  "edges": "{{{1, 2}, m}, {{1, 3}, m}, {{2, 4}, m}, {{3, 4}, m}}",
+  "nodes": "{{1, 0}, {2, m}, {4, m}, {3, m}}",
+  "CanonicalName": "Equal-mass box (c)",
+  "MassConfig": {
+    "numEdges": 4,
+    "numMassiveEdges": 4,
+    "numMasslessEdges": 0,
+    "distinctInternalMasses": 1,
+    "internalMassLabels": [
+      "m"
+    ],
+    "edgeMassPattern": "1111",
+    "numExtLegs": 4,
+    "numOnshellMassiveExtLegs": 3,
+    "numMasslessExtLegs": 1,
+    "extLegSignature": "0MMM"
+  },
+  "commonNames": [
+    "D₀(m)"
+  ],
+  "Subsectors": [],
+  "ParentSectors": []
+}

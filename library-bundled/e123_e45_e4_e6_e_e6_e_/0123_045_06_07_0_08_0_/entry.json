@@ -1,0 +1,105 @@
+{
+  "CNickelIndex": "e123|e45|e4|e6|e|e6|e|:0123|045|06|07|0|08|0|",
+  "MassScales": 22,
+  "FunctionClass": "elliptic",
+  "EpsilonOrder": "",
+  "References": [
+    "arXiv:2302.14840",
+    "arXiv:2209.10962 (Lett.Math.Phys. 113 (37), 2023)"
+  ],
+  "Records": [
+    {
+      "reference": "arXiv:2302.14840",
+      "authors": [
+        {
+          "full_name": "Doran, Charles F.",
+          "inspire_id": 1011530
+        },
+        {
+          "full_name": "Harder, Andrew",
+          "inspire_id": 2276840
+        },
+        {
+          "full_name": "Vanhove, Pierre",
+          "inspire_id": 984979
+        },
+        {
+          "full_name": "Pichon-Pharabod, Eric",
+          "inspire_id": 2637284
+        }
+      ],
+      "description": "The planar pentabox $(3,1,4)$: 7 vertices, 8 edges, $L=2$. Two trivalent vertices connected by chains of 3, 1 and 4 edges. For generic kinematics $\\mathrm{Gr}^W_6 H^6(X_{(3,1,4);D};\\mathbb{Q})$ is pure Tate and $W_4 H^6$ is mixed Tate; for $D\\ge 4$, $\\mathrm{Gr}^W_5 H^5(X_{(3,1,4);4};\\mathbb{Q})$ is $H^1(E)(-2)$ for an elliptic curve. The Picard-Fuchs operator $L_{(3,1,4);4}$ computed via the extended Griffiths-Dwork algorithm is irreducible of order 4 and Liouvillian, and therefore does not detect this elliptic curve in middle cohomology.",
+      "epsOrders": "",
+      "familyName": "two-loop pentabox (3,1,4)",
+      "method": "graph hypersurface, quadric fibration, mixed Hodge structure, Picard-Fuchs, Griffiths-Dwork",
+      "tools": [
+        "SageMath"
+      ],
+      "ancillaryFiles": false,
+      "doi": "",
+      "texkey": "",
+      "masterCount": 0,
+      "dimScheme": "d=D",
+      "computationLevel": "basis",
+      "location": "Section sec:pentabox (Theorem thm:pentabox); Figure fig:pentabox",
+      "recordId": "bx_08fc9eb07268",
+      "verified": false,
+      "verifiedAt": ""
+    },
+    {
+      "reference": "arXiv:2209.10962 (Lett.Math.Phys. 113 (37), 2023)",
+      "authors": "Lairez, Pierre, Vanhove, Pierre",
+      "description": "Two-loop massive pentabox (7-point) in $D=4$ with 8 generic masses. Picard-Fuchs operator is order 4 and degree 67, irreducible. Indicial equation $\\rho(\\rho-1)(\\rho+1)(\\rho-2)=0$ at $t=0$, all solutions analytic.",
+      "epsOrders": "",
+      "familyName": "pentabox 7-point",
+      "method": "DE",
+      "tools": [],
+      "ancillaryFiles": true,
+      "doi": "10.1007/s11005-023-01661-3",
+      "texkey": "Lairez:2022zkj",
+      "masterCount": 0,
+      "dimScheme": "d=4",
+      "computationLevel": "DE_only",
+      "location": "Section 5.4",
+      "recordId": "bx_99b2488f7e7e",
+      "verified": false,
+      "verifiedAt": ""
+    }
+  ],
+  "Names": [
+    "two-loop pentabox (3,1,4)",
+    "pentabox 7-point"
+  ],
+  "Source": [
+    "arXiv"
+  ],
+  "Loops": 2,
+  "NumPropagators": 8,
+  "Results": [],
+  "edges": "{{{1, 2}, m[1]}, {{1, 3}, m[2]}, {{1, 4}, m[3]}, {{2, 5}, m[4]}, {{2, 6}, m[5]}, {{3, 5}, m[6]}, {{4, 7}, m[7]}, {{6, 7}, m[8]}}",
+  "nodes": "{{1, 0}, {4, 0}, {7, 0}, {6, 0}, {2, 0}, {5, 0}, {3, 0}}",
+  "CanonicalName": "8-mass box-pentagon",
+  "MassConfig": {
+    "numEdges": 8,
+    "numMassiveEdges": 8,
+    "numMasslessEdges": 0,
+    "distinctInternalMasses": 8,
+    "internalMassLabels": [
+      "m[1]",
+      "m[2]",
+      "m[3]",
+      "m[4]",
+      "m[5]",
+      "m[6]",
+      "m[7]",
+      "m[8]"
+    ],
+    "edgeMassPattern": "12345678",
+    "numExtLegs": 7,
+    "numOnshellMassiveExtLegs": 0,
+    "numMasslessExtLegs": 7,
+    "extLegSignature": "0000000"
+  },
+  "Subsectors": [],
+  "ParentSectors": []
+}

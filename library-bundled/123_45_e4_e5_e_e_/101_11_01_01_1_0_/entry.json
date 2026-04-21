@@ -1,0 +1,61 @@
+{
+  "CNickelIndex": "123|45|e4|e5|e|e|:101|11|01|01|1|0|",
+  "MassScales": 3,
+  "FunctionClass": "elliptic",
+  "EpsilonOrder": "",
+  "References": [
+    "arXiv:1610.08397 (Nucl.Phys.B 916 (94), 2017)"
+  ],
+  "Records": [
+    {
+      "reference": "arXiv:1610.08397 (Nucl.Phys.B 916 (94), 2017)",
+      "authors": "Primo, Amedeo, Tancredi, Lorenzo",
+      "description": "Two-loop planar double-box with six internal propagators (five massive of equal mass $m$, one massless) and four external legs (three massless $p_1,p_2,p_3$ and one massive $p_4$ with $p_4^2 = m_h^2$). Originally computed in Bonciani et al. (1605.03157). The IBP reduction yields four master integrals; in $d=4$ the equation for $I_4$ decouples and the maximal cut of $I_3$ (which contains a dotted internal triangle subdiagram) vanishes, reducing the system to two coupled first-order homogeneous equations for $I_1$ and $I_2$. The maximal cut of $I_1$ is computed by first cutting the inner one-loop triangle and then localizing the remaining three delta-functions, producing a one-fold integral over a square root of a quartic in $k_0$. After standard change of variables one obtains $F_1 = \\operatorname{EllipticK}(\\omega)/\\sqrt{s^2(m_h^2-t)^2 - 4 m^2 s [m_h^2(s-t)+t(s+t) - 2 \\sqrt{-s t u m_h^2}]}$ (Eq. 4.36), with $\\omega$ given by Eq. 4.37. A second independent solution $F_2 = \\operatorname{EllipticK}(1-\\omega)/\\sqrt{\\ldots}$ is also constructed, and equivalent representations $\\tilde{F}_1, \\tilde{F}_2$ involving $\\operatorname{EllipticK}(1/\\omega), \\operatorname{EllipticK}(1-1/\\omega)$ are given (Eq. 4.43). The result agrees with Bonciani et al. for parameter $\\alpha=1$.",
+      "epsOrders": "",
+      "familyName": "elliptic planar two-loop double box with massive internal propagators",
+      "method": "IBP, DE",
+      "tools": [],
+      "ancillaryFiles": false,
+      "doi": "10.1016/j.nuclphysb.2016.12.021",
+      "texkey": "Primo:2016ebd",
+      "masterCount": 4,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "maximal_cut",
+      "location": "Section 4.2, Eqs. (4.21)-(4.41)",
+      "recordId": "bx_afcd5d925699",
+      "verified": false,
+      "verifiedAt": ""
+    }
+  ],
+  "Names": [
+    "elliptic planar two-loop double box with massive internal propagators"
+  ],
+  "Source": [
+    "arXiv"
+  ],
+  "Loops": 2,
+  "NumPropagators": 7,
+  "Results": [],
+  "edges": "{{{1, 2}, m}, {{1, 3}, 0}, {{1, 4}, m}, {{2, 5}, m}, {{2, 6}, m}, {{3, 5}, m}, {{4, 6}, m}}",
+  "nodes": "{{3, 0}, {4, 0}, {6, 0}, {5, m}}",
+  "CanonicalName": "Double box, 6 massive propagators (d)",
+  "MassConfig": {
+    "numEdges": 7,
+    "numMassiveEdges": 6,
+    "numMasslessEdges": 1,
+    "distinctInternalMasses": 1,
+    "internalMassLabels": [
+      "m"
+    ],
+    "edgeMassPattern": "1011111",
+    "numExtLegs": 4,
+    "numOnshellMassiveExtLegs": 1,
+    "numMasslessExtLegs": 3,
+    "extLegSignature": "000M"
+  },
+  "commonNames": [
+    "L2"
+  ],
+  "Subsectors": [],
+  "ParentSectors": []
+}

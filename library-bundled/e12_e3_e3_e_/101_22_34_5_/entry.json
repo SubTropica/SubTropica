@@ -1,0 +1,70 @@
+{
+  "CNickelIndex": "e12|e3|e3|e|:101|22|34|5|",
+  "MassScales": 7,
+  "FunctionClass": "MPL",
+  "EpsilonOrder": "-2,-1,0",
+  "References": [
+    "arXiv:0712.1851"
+  ],
+  "Records": [
+    {
+      "authors": "Ellis, R.Keith, Zanderighi, Giulia",
+      "texkey": "Ellis:2007qk",
+      "verified": false,
+      "verifiedAt": "",
+      "reference": "arXiv:0712.1851, JHEP 02 (002), 2008",
+      "ancillaryFiles": [],
+      "recordId": "bf_cff39eee5c9a",
+      "masterCount": 1,
+      "transcendentalWeight": 2,
+      "computationLevel": "full",
+      "doi": "10.1088/1126-6708/2008/02/002",
+      "tools": [],
+      "description": "Divergent one-loop box $I_4^D(m_2^2,p_2^2,p_3^2,m_4^2;s_{12},s_{23};0,m_2^2,m_3^2,m_4^2)$ with three massive and one massless internal line, $p_1^2=m_2^2$, $p_4^2=m_4^2$. Contains single $1/\\varepsilon$ soft pole. Result from Beenakker-Denner via replacement rule.",
+      "epsOrders": "-2,-1,0",
+      "method": [],
+      "dimScheme": "d=4-2*eps",
+      "location": "Sec. 3.2.5, Sec. 4.4.16",
+      "familyName": "Box_16"
+    }
+  ],
+  "Names": [
+    "3-internal-mass box",
+    "Box",
+    "D0"
+  ],
+  "Source": [
+    "arXiv",
+    "Loopedia"
+  ],
+  "Loops": 1,
+  "NumPropagators": 4,
+  "Results": [],
+  "edges": "{{{1, 2}, 0}, {{1, 3}, m[1]}, {{2, 4}, m[2]}, {{3, 4}, m[4]}}",
+  "nodes": "{{1, m[1]}, {2, m[2]}, {4, M[3]}, {3, M[4]}}",
+  "quadruple": "{E^(eps*EulerGamma)*Gamma[2 + eps], (x1 + x2 + x3 + x4)^(2*eps)*(s12*x2*x3 - s12*x1*x4 - s23*x1*x4 - x2^2*mm[1] - x2*x3*mm[1] + x1*x4*mm[1] - x2*x4*mm[1] - x2*x3*mm[2] - x3^2*mm[2] + x1*x4*mm[2] - x3*x4*mm[2] - x1*x4*mm[4] - x2*x4*mm[4] - x3*x4*mm[4] - x4^2*mm[4] + x1*x4*MM[3] + x3*x4*MM[3] + x1*x4*MM[5] + x2*x4*MM[5])^(-2 - eps), {x1, x2, x3, x4}, {s12, s23}}",
+  "CanonicalName": "3-mass box, 3 massive propagators (a)",
+  "MassConfig": {
+    "numEdges": 4,
+    "numMassiveEdges": 3,
+    "numMasslessEdges": 1,
+    "distinctInternalMasses": 3,
+    "internalMassLabels": [
+      "m[1]",
+      "m[2]",
+      "m[4]"
+    ],
+    "edgeMassPattern": "0123",
+    "numExtLegs": 4,
+    "numOnshellMassiveExtLegs": 4,
+    "numMasslessExtLegs": 0,
+    "extLegSignature": "MMMM"
+  },
+  "commonNames": [
+    "D₀(3 masses)"
+  ],
+  "Subsectors": [
+    "e12|e2|e|:101|22|3|"
+  ],
+  "ParentSectors": []
+}

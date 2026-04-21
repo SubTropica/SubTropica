@@ -1,0 +1,70 @@
+{
+  "CNickelIndex": "123|23|e|e|:111|12|3|3|",
+  "MassScales": 2,
+  "FunctionClass": "elliptic",
+  "EpsilonOrder": "",
+  "References": [
+    "arXiv:2405.18755"
+  ],
+  "Records": [
+    {
+      "reference": "arXiv:2405.18755",
+      "authors": [
+        {
+          "full_name": "Passarino, Giampiero",
+          "inspire_id": 994109
+        }
+      ],
+      "description": "Two-loop kite self-energy with five internal propagators, treated in three mass configurations: all equal; $m_3=0$ and the other four equal; $m_1=m_2=m_3=m$, $m_4=m_5=M$. After partial quadratization of the second Symanzik polynomial the configuration-independent integrand is reduced to generalized Fox functions. Landau thresholds $\\lambda=1/2$ and $\\lambda=1/3$ are analyzed.",
+      "epsOrders": "",
+      "familyName": "two-loop kite self-energy (5 propagators)",
+      "method": "direct_integration, Mellin-Barnes",
+      "tools": [],
+      "ancillaryFiles": false,
+      "doi": "",
+      "texkey": "",
+      "masterCount": 0,
+      "dimScheme": "d=D",
+      "computationLevel": "full",
+      "location": "Section 5.2; Fig. 2",
+      "recordId": "bx_bfda0dc2ff67",
+      "verified": false,
+      "verifiedAt": ""
+    }
+  ],
+  "Names": [
+    "two-loop kite self-energy (5 propagators)"
+  ],
+  "Source": [
+    "arXiv"
+  ],
+  "Loops": 2,
+  "NumPropagators": 5,
+  "Results": [],
+  "edges": "{{{1, 2}, m[1]}, {{1, 3}, m[1]}, {{1, 4}, m[1]}, {{2, 3}, m[1]}, {{2, 4}, m[2]}}",
+  "nodes": "{{3, M}, {4, M}}",
+  "CanonicalName": "2-mass kite",
+  "MassConfig": {
+    "numEdges": 5,
+    "numMassiveEdges": 5,
+    "numMasslessEdges": 0,
+    "distinctInternalMasses": 2,
+    "internalMassLabels": [
+      "m[1]",
+      "m[2]"
+    ],
+    "edgeMassPattern": "11112",
+    "numExtLegs": 2,
+    "numOnshellMassiveExtLegs": 2,
+    "numMasslessExtLegs": 0,
+    "extLegSignature": "MM"
+  },
+  "commonNames": [
+    "M"
+  ],
+  "Subsectors": [
+    "1122|e|e|:1111|2|2|",
+    "112|e2|e|:111|21|2|"
+  ],
+  "ParentSectors": []
+}

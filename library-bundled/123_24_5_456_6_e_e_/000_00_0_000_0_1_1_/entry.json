@@ -1,0 +1,80 @@
+{
+  "CNickelIndex": "123|24|5|456|6|e|e|:000|00|0|000|0|1|1|",
+  "MassScales": 0,
+  "FunctionClass": "MPL",
+  "EpsilonOrder": "-8,-7,-6,-5,-4,-3,-2,-1,0,1,2,3",
+  "References": [
+    "arXiv:1902.05076"
+  ],
+  "Records": [
+    {
+      "authors": [
+        {
+          "full_name": "Brüser, Robin",
+          "inspire_id": 1682961
+        },
+        {
+          "full_name": "Grozin, Andrey",
+          "inspire_id": 1007419
+        },
+        {
+          "full_name": "Henn, Johannes M.",
+          "inspire_id": 1040053
+        },
+        {
+          "full_name": "Stahlhofen, Maximilian",
+          "inspire_id": 1045923
+        }
+      ],
+      "texkey": "",
+      "verified": false,
+      "verifiedAt": "",
+      "reference": "arXiv:1902.05076",
+      "ancillaryFiles": [],
+      "recordId": "bf_0bd531a7ea02",
+      "masterCount": 46,
+      "transcendentalWeight": 7,
+      "computationLevel": "full",
+      "doi": "",
+      "tools": [
+        "FIRE",
+        "LiteRed",
+        "HyperInt",
+        "FIESTA"
+      ],
+      "description": "Four-loop HQET integral topology 5 for the matter-dependent cusp anomalous dimension at small angle. Defined via 16 propagators $D_k$ with $G(a_1,...,a_{16}) = e^{4 \\varepsilon \\gamma_E} \\int \\prod D_k^{-a_k}$, restricting $a_1=a_3=0$ and $a_4,a_5,a_{10},a_{11} \\geq 0$. Contains 3 HQET (Wilson line) propagators linear in $v.k_i$ combinations and 7 standard massless quadratic propagators. Two of the three new master integrals belong to this topology. Computed via Feynman parametrization and HyperInt, checked with FIESTA4. Topologies 1-3 are defined in the companion paper arXiv:1708.01221.",
+      "epsOrders": "-8,-7,-6,-5,-4,-3,-2,-1,0,1,2,3",
+      "method": [],
+      "dimScheme": "d=4-2*eps",
+      "location": "Eqs. (3.5)-(3.6), Section 3.2, restrictions in Eq. (3.8), topology shown in Figure 2",
+      "familyName": "Topology 5"
+    }
+  ],
+  "Names": [
+    "Topology 5",
+    "5-loop propagator (10 propagators)"
+  ],
+  "Source": [
+    "arXiv"
+  ],
+  "Loops": 4,
+  "NumPropagators": 10,
+  "Results": [],
+  "edges": "{{{1, 2}, 0}, {{1, 3}, 0}, {{1, 4}, 0}, {{1, 5}, 0}, {{2, 3}, 0}, {{2, 6}, 0}, {{4, 6}, 0}, {{4, 7}, 0}, {{5, 7}, 0}, {{6, 7}, 0}}",
+  "nodes": "{{3, M}, {5, M}}",
+  "CanonicalName": "Massless tetrahedral core (c)",
+  "MassConfig": {
+    "numEdges": 10,
+    "numMassiveEdges": 0,
+    "numMasslessEdges": 10,
+    "distinctInternalMasses": 0,
+    "internalMassLabels": [],
+    "edgeMassPattern": "0000000000",
+    "numExtLegs": 2,
+    "numOnshellMassiveExtLegs": 2,
+    "numMasslessExtLegs": 0,
+    "extLegSignature": "MM"
+  },
+  "Subsectors": [],
+  "ParentSectors": []
+}

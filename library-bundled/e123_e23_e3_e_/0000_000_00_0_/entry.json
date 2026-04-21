@@ -1,0 +1,116 @@
+{
+  "CNickelIndex": "e123|e23|e3|e|:0000|000|00|0|",
+  "MassScales": 2,
+  "FunctionClass": "MPL",
+  "EpsilonOrder": "6",
+  "References": [
+    "arXiv:1312.2588",
+    "arXiv:1802.02419"
+  ],
+  "Records": [
+    {
+      "reference": "arXiv:1312.2588",
+      "authors": [
+        {
+          "full_name": "Henn, Johannes M.",
+          "inspire_id": 1040053
+        },
+        {
+          "full_name": "Smirnov, Alexander V.",
+          "inspire_id": 1024152
+        },
+        {
+          "full_name": "Smirnov, Vladimir A.",
+          "inspire_id": 988366
+        }
+      ],
+      "description": "Three-loop non-planar K4 with one off-shell leg $(p_4^2=s+t+u)$. Same six propagators as K4 on-shell, 16 master integrals. Canonical DE with 7-letter alphabet, results in 2d Goncharov polylogarithms.",
+      "epsOrders": "6",
+      "familyName": "K4 off-shell / K4 on-shell",
+      "method": "DE, IBP",
+      "tools": [
+        "FIRE"
+      ],
+      "ancillaryFiles": false,
+      "doi": "",
+      "texkey": "",
+      "masterCount": 16,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "full",
+      "location": "Eq.(22)-(26), Sec.4",
+      "recordId": "bx_3031e3e22cb7",
+      "verified": false,
+      "verifiedAt": ""
+    },
+    {
+      "reference": "arXiv:1802.02419",
+      "authors": [
+        {
+          "full_name": "Meyer, Christoph",
+          "inspire_id": 1591111
+        },
+        {
+          "full_name": "Uwer, Peter",
+          "inspire_id": null
+        },
+        {
+          "full_name": "Kreimer, Dirk",
+          "inspire_id": null
+        },
+        {
+          "full_name": "Weinzierl, Stefan",
+          "inspire_id": null
+        }
+      ],
+      "description": "Three-loop massless 4-point $K_4$ (complete-graph on 4 vertices) topology with 6 propagators and 9 ISPs, 10 master integrals. Relevant for NNNLO QCD 2-jet production; first computed via DE in Henn, Mistlberger. Called $K_4$ in the paper. Canonical basis built with CANONICA in about 10 minutes; alphabet $\\{x,1+x\\}$ with $x=s/t$.",
+      "epsOrders": "",
+      "familyName": "massless 3-loop 4-point K4 (tetrahedron) topology",
+      "method": "IBP, DE",
+      "tools": [
+        "Reduze",
+        "Canonica"
+      ],
+      "ancillaryFiles": false,
+      "doi": "",
+      "texkey": "",
+      "masterCount": 10,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "basis",
+      "location": "Section 5.3, Eqs. (5.25)-(5.27)",
+      "recordId": "bx_8abae8cf4369",
+      "verified": false,
+      "verifiedAt": ""
+    }
+  ],
+  "Names": [
+    "K4 on-shell",
+    "K4 off-shell",
+    "massless 3-loop 4-point K4 (tetrahedron) topology"
+  ],
+  "Source": [
+    "arXiv"
+  ],
+  "Loops": 3,
+  "NumPropagators": 6,
+  "Results": [],
+  "edges": "{{{1, 2}, 0}, {{1, 3}, 0}, {{1, 4}, 0}, {{2, 3}, 0}, {{2, 4}, 0}, {{3, 4}, 0}}",
+  "nodes": "{{1, 0}, {2, 0}, {3, 0}, {4, 0}}",
+  "CanonicalName": "Massless envelope",
+  "MassConfig": {
+    "numEdges": 6,
+    "numMassiveEdges": 0,
+    "numMasslessEdges": 6,
+    "distinctInternalMasses": 0,
+    "internalMassLabels": [],
+    "edgeMassPattern": "000000",
+    "numExtLegs": 4,
+    "numOnshellMassiveExtLegs": 0,
+    "numMasslessExtLegs": 4,
+    "extLegSignature": "0000"
+  },
+  "commonNames": [
+    "K₄"
+  ],
+  "Subsectors": [],
+  "ParentSectors": []
+}

@@ -1,0 +1,84 @@
+{
+  "CNickelIndex": "123|45|e4|e5|e|e|:101|11|00|01|0|0|",
+  "MassScales": 3,
+  "FunctionClass": "elliptic",
+  "EpsilonOrder": "0",
+  "References": [
+    "arXiv:2509.15315"
+  ],
+  "Records": [
+    {
+      "reference": "arXiv:2509.15315",
+      "authors": [
+        {
+          "full_name": "Coro, Federico",
+          "inspire_id": 2689909
+        },
+        {
+          "full_name": "Nega, Christoph",
+          "inspire_id": 1969299
+        },
+        {
+          "full_name": "Tancredi, Lorenzo",
+          "inspire_id": 1284289
+        },
+        {
+          "full_name": "Wagner, Fabian J.",
+          "inspire_id": 2606401
+        }
+      ],
+      "description": "Second non-planar two-loop four-point family (called NPB in the paper), a crossed double box in which the massive quark propagates through the left side of the graph and a subset of the right crossed legs while the outer massless legs remain massless. Defined by 9 denominators (7 real propagators plus 2 ISPs). One of the five integral families used to express the two-loop amplitudes for di-jet and photon+jet production via a heavy-quark loop; identities among masters (including the 11 extra triangle-based relations discussed in Sec. 3.2) are derived explicitly for this topology. Canonical basis and epsilon-factorized differential equations given in the Zenodo ancillary, integrated through $\\mathcal{O}(\\varepsilon^0)$.",
+      "epsOrders": "0",
+      "familyName": "non-planar crossed double box with heavy-quark loop (NPB) / planar double box with heavy-quark loop (PLB)",
+      "method": "IBP, DE, series_expansion",
+      "tools": [
+        "QGRAF",
+        "FORM",
+        "Reduze",
+        "Kira"
+      ],
+      "ancillaryFiles": true,
+      "doi": "",
+      "texkey": "",
+      "masterCount": 220,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "full",
+      "location": "Appendix B, Table (fig:toposNP); Fig. (fig:gg_aa_diagrams); Sec. 3",
+      "recordId": "bx_18f3e03b0fbf",
+      "verified": false,
+      "verifiedAt": ""
+    }
+  ],
+  "Names": [
+    "planar double box with heavy-quark loop (PLB)",
+    "non-planar crossed double box with heavy-quark loop (NPB)"
+  ],
+  "Source": [
+    "arXiv"
+  ],
+  "Loops": 2,
+  "NumPropagators": 7,
+  "Results": [],
+  "edges": "{{{1, 2}, m}, {{1, 3}, 0}, {{1, 4}, m}, {{2, 5}, m}, {{2, 6}, m}, {{3, 5}, 0}, {{4, 6}, m}}",
+  "nodes": "{{3, 0}, {4, 0}, {6, 0}, {5, 0}}",
+  "CanonicalName": "Double box, 5 massive propagators (e)",
+  "MassConfig": {
+    "numEdges": 7,
+    "numMassiveEdges": 5,
+    "numMasslessEdges": 2,
+    "distinctInternalMasses": 1,
+    "internalMassLabels": [
+      "m"
+    ],
+    "edgeMassPattern": "1011101",
+    "numExtLegs": 4,
+    "numOnshellMassiveExtLegs": 0,
+    "numMasslessExtLegs": 4,
+    "extLegSignature": "0000"
+  },
+  "commonNames": [
+    "L2"
+  ],
+  "Subsectors": [],
+  "ParentSectors": []
+}

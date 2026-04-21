@@ -1,0 +1,80 @@
+{
+  "CNickelIndex": "123|45|e4|e5|e|e|:000|00|10|20|3|4|",
+  "MassScales": 4,
+  "FunctionClass": "unknown",
+  "EpsilonOrder": "",
+  "References": [
+    "arXiv:1308.4632",
+    "arXiv:1709.06055 (Phys.Rev.D 96 (), 2017)",
+    "arXiv:2309.16441 (JHEP 12 (140), 2023)"
+  ],
+  "Records": [
+    {
+      "authors": "Johansson, Henrik, Kosower, David A., Larsen, Kasper J.",
+      "texkey": "Johansson:2013sda",
+      "verified": false,
+      "verifiedAt": "",
+      "reference": "arXiv:1308.4632",
+      "ancillaryFiles": [],
+      "recordId": "bf_13084632P22f",
+      "masterCount": 4,
+      "computationLevel": "maximal_cut",
+      "doi": "10.1103/PhysRevD.89.125010",
+      "tools": [],
+      "description": "Planar double-box integral with four massive external legs and massless internal lines. The paper constructs generalized discontinuity operators (master contours) via maximal unitarity to extract the coefficients of the 4 master integrals in the two-loop amplitude basis expansion. IBP identities impose no contour constraints in this four-mass case; only parity-odd Levi-Civita insertions constrain the contours. An equal-mass specialization ($k_1^2=k_4^2$, $k_2^2=k_3^2$) reduces the master count to 3.",
+      "epsOrders": "0",
+      "method": [],
+      "dimScheme": "CDR",
+      "location": "eq. (3.1), (3.17), fig. 1",
+      "familyName": "P_2,2(**) (four-mass double box, class a)"
+    },
+    {
+      "reference": "arXiv:2309.16441 (JHEP 12 (140), 2023)",
+      "authors": "He, Song, Jiang, Xuhang, Liu, Jiahao, Yang, Qinglin",
+      "description": "Two-loop four-mass double-box integral family in $D=4-2\\varepsilon$ with 7 propagators and 2 ISPs. 74 master integrals, 68 symbol letters. Top sector has 4 master integrals ($J_1$-$J_4$); double-triangle sector has 7 master integrals ($J_{27}$-$J_{33}$) per sub-sector. For $J_1, J_2, J_3$ (and $J_{27}$-$J_{32}$), unique Schubert problems exist with one-to-one correspondence to UT basis; $J_4$ (and $J_{33}$) lack unique maximal cuts. All CDE entries for the top sector and double-triangle sector reproduced via cross-ratios of Schubert solutions. 11 square roots ($r_1$ through $r_{11}$) appear in the alphabet.",
+      "epsOrders": "",
+      "familyName": "four-mass double-box with massless propagators in D=4-2eps",
+      "method": "DE, IBP",
+      "tools": [],
+      "ancillaryFiles": true,
+      "doi": "10.1007/JHEP12(2023)140",
+      "texkey": "He:2023umf",
+      "masterCount": 74,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "full",
+      "location": "Section 3.2, Eqs. (3.10)-(3.12), Appendix C",
+      "recordId": "bx_e7866444a642",
+      "verified": false,
+      "verifiedAt": ""
+    }
+  ],
+  "Source": [
+    "arXiv"
+  ],
+  "Results": [],
+  "Names": [
+    "P_2,2(**) (four-mass double box, class a)"
+  ],
+  "CanonicalName": "4-mass double box (b)",
+  "edges": "{{{1, 2}, 0}, {{1, 3}, 0}, {{2, 4}, 0}, {{3, 4}, 0}, {{3, 5}, 0}, {{4, 6}, 0}, {{5, 6}, 0}}",
+  "nodes": "{{1, M[1]}, {2, M[2]}, {5, M[3]}, {6, M[4]}}",
+  "MassConfig": {
+    "numEdges": 7,
+    "numMassiveEdges": 0,
+    "numMasslessEdges": 7,
+    "distinctInternalMasses": 0,
+    "internalMassLabels": [],
+    "edgeMassPattern": "0000000",
+    "numExtLegs": 4,
+    "numOnshellMassiveExtLegs": 4,
+    "numMasslessExtLegs": 0,
+    "extLegSignature": "MMMM"
+  },
+  "commonNames": [
+    "L2"
+  ],
+  "Subsectors": [
+    "123|24|e|e4|e|:000|00|1|20|3|"
+  ],
+  "ParentSectors": []
+}

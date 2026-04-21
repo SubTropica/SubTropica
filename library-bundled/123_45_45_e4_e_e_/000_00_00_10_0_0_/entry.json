@@ -1,0 +1,57 @@
+{
+  "CNickelIndex": "123|45|45|e4|e|e|:000|00|00|10|0|0|",
+  "MassScales": 1,
+  "FunctionClass": "unknown",
+  "EpsilonOrder": "-2,-1,0,1",
+  "References": [
+    "arXiv:1004.3653",
+    "hep-ph/0607185"
+  ],
+  "Records": [
+    {
+      "epsOrders": "-2,-1,0,1",
+      "reference": "arXiv:1004.3653",
+      "authors": "T. Gehrmann, E.W.N. Glover, T. Huber, N. Ikizlerli, C. Studerus",
+      "description": "The authors give all master integrals used in the computation of quark and gluon form factors to three loops in QCD. These integrals are available in the annex A and have all a prefactor given by equation A.1.",
+      "recordId": "1499084266.1Jbn",
+      "verified": false,
+      "verifiedAt": ""
+    },
+    {
+      "reference": "hep-ph/0607185",
+      "authors": "T. Gehrmann, G. Heinrich, T. Huber, C. Studerus",
+      "recordId": "1479982881.PIP8",
+      "verified": false,
+      "verifiedAt": ""
+    }
+  ],
+  "Source": [
+    "arXiv",
+    "Loopedia"
+  ],
+  "Results": [],
+  "Names": [
+    "1-mass non-planar ladder vertex (3-point)",
+    "one-mass non-planar ladder vertex (3-point)",
+    "Non-planar ladder vertex (3-point)"
+  ],
+  "edges": "{{{1, 2}, 0}, {{1, 3}, 0}, {{1, 4}, 0}, {{2, 5}, 0}, {{2, 6}, 0}, {{3, 5}, 0}, {{3, 6}, 0}, {{4, 5}, 0}}",
+  "nodes": "{{4, M}, {5, 0}, {6, 0}}",
+  "CanonicalName": "1-mass quad-box core",
+  "MassConfig": {
+    "numEdges": 8,
+    "numMassiveEdges": 0,
+    "numMasslessEdges": 8,
+    "distinctInternalMasses": 0,
+    "internalMassLabels": [],
+    "edgeMassPattern": "00000000",
+    "numExtLegs": 3,
+    "numOnshellMassiveExtLegs": 1,
+    "numMasslessExtLegs": 2,
+    "extLegSignature": "M00"
+  },
+  "Subsectors": [],
+  "ParentSectors": [
+    "123|45|46|e5|e|6|e|:000|00|00|00|1|0|0|"
+  ]
+}

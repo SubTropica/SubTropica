@@ -1,0 +1,69 @@
+{
+  "CNickelIndex": "123|e4|e4|e5|5|e|:000|10|10|00|0|1|",
+  "MassScales": 3,
+  "FunctionClass": "elliptic",
+  "EpsilonOrder": "0",
+  "References": [
+    "arXiv:2312.00641"
+  ],
+  "Records": [
+    {
+      "reference": "arXiv:2312.00641",
+      "authors": [
+        {
+          "full_name": "Belitsky, A.V.",
+          "inspire_id": 1016889
+        },
+        {
+          "full_name": "Smirnov, V.A.",
+          "inspire_id": 988366
+        }
+      ],
+      "description": "Two-loop massless non-planar double box for three-leg form factors with off-shell external legs $p_1^2=p_2^2=p_3^2=-\\mu$, $q=p_1+p_2+p_3$, $q^2=-1$. Generic-$\\mu$ family has elliptic leading singularities in two level-six sectors ($G_{111101100}$, $G_{111111000}$) and the top level-seven sector $G_{111111100}$; these degenerate to algebraic as $\\mu \\to 0$, allowing construction of an asymptotically canonical basis of 97 UT masters via IBP with FIRE/LiteRed and Baikov leading-singularity analysis. Differential equations in $(u,v,w,\\mu)$ are solved iteratively through transcendental weight four in terms of multiple polylogarithms (Section 6 and anc/nbox/ResMPLnbox.m), also recast via classical Euler polylogs and $\\operatorname{Li}_{2,2}$ (anc/nbox/ResCPLnbox.m).",
+      "epsOrders": "0",
+      "familyName": "3-mass 2-loop 4-point non-planar double box (near mass-shell, asymptotically canonical)",
+      "method": "IBP, DE",
+      "tools": [
+        "FIRE",
+        "LiteRed"
+      ],
+      "ancillaryFiles": true,
+      "doi": "",
+      "texkey": "",
+      "masterCount": 97,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "full",
+      "location": "Section 2 Eqs. after (2.3)-(2.5); Sections 4-6; results in Section 6 and files anc/nbox/ResMPLnbox.m and anc/nbox/ResCPLnbox.m",
+      "recordId": "bx_5b516e3ae9ed",
+      "verified": false,
+      "verifiedAt": ""
+    }
+  ],
+  "Names": [],
+  "Source": [
+    "arXiv"
+  ],
+  "Loops": 2,
+  "NumPropagators": 7,
+  "Results": [],
+  "edges": "{{{1, 2}, 0}, {{1, 3}, 0}, {{1, 4}, 0}, {{2, 5}, 0}, {{3, 5}, 0}, {{4, 6}, 0}, {{5, 6}, 0}}",
+  "nodes": "{{2, M}, {3, M}, {4, 0}, {6, M}}",
+  "CanonicalName": "3-mass non-planar box-pentagon",
+  "MassConfig": {
+    "numEdges": 7,
+    "numMassiveEdges": 0,
+    "numMasslessEdges": 7,
+    "distinctInternalMasses": 0,
+    "internalMassLabels": [],
+    "edgeMassPattern": "0000000",
+    "numExtLegs": 4,
+    "numOnshellMassiveExtLegs": 3,
+    "numMasslessExtLegs": 1,
+    "extLegSignature": "MM0M"
+  },
+  "commonNames": [
+    "L2"
+  ],
+  "Subsectors": [],
+  "ParentSectors": []
+}

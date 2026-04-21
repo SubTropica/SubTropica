@@ -1,0 +1,147 @@
+{
+  "CNickelIndex": "e12|e3|e3|e|:000|00|01|0|",
+  "MassScales": 3,
+  "FunctionClass": "MPL",
+  "EpsilonOrder": "2",
+  "References": [
+    "arXiv:1709.07435",
+    "arXiv:1604.08581"
+  ],
+  "Records": [
+    {
+      "reference": "arXiv:1709.07435",
+      "authors": "Mastrolia, Pierpaolo, Passera, Massimo, Primo, Amedeo, Schubert, Ulrich",
+      "description": "One-loop box for mu-e scattering. 4 propagators (1 massive muon line, 3 massless). 5 MIs as GPLs in $x=-s/m^2$, $y$ from $-t/m^2=(1-y)^2/y$.",
+      "epsOrders": "2",
+      "familyName": "mue_1L",
+      "method": "DE, IBP",
+      "tools": [
+        "Reduze",
+        "GiNaC",
+        "SecDec"
+      ],
+      "ancillaryFiles": false,
+      "doi": "",
+      "texkey": "",
+      "masterCount": 5,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "full",
+      "location": "Eq. (3.3)",
+      "recordId": "bx_a0b16abbb0fd",
+      "verified": false,
+      "verifiedAt": ""
+    },
+    {
+      "reference": "arXiv:1604.08581",
+      "authors": [
+        {
+          "full_name": "Bonciani, Roberto",
+          "inspire_id": 1025883
+        },
+        {
+          "full_name": "Di Vita, Stefano",
+          "inspire_id": 1078369
+        },
+        {
+          "full_name": "Mastrolia, Pierpaolo",
+          "inspire_id": 1025886
+        },
+        {
+          "full_name": "Schubert, Ulrich",
+          "inspire_id": 1284288
+        }
+      ],
+      "description": "One-loop one-mass box for mixed EW-QCD Drell-Yan. Variables $x=-s/m^2, y=-t/m^2$. 5 MIs through $\\varepsilon^4$ in GPLs.",
+      "epsOrders": "4",
+      "familyName": "one-mass-1L",
+      "method": "DE, IBP",
+      "tools": [
+        "Reduze",
+        "SecDec"
+      ],
+      "ancillaryFiles": false,
+      "doi": "",
+      "texkey": "",
+      "masterCount": 5,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "full",
+      "location": "Section 3.1, topology (b)",
+      "recordId": "bx_c60bba2786d1",
+      "verified": false,
+      "verifiedAt": ""
+    }
+  ],
+  "Names": [
+    "mue_1L",
+    "one-mass-1L"
+  ],
+  "Source": [
+    "arXiv"
+  ],
+  "Loops": 1,
+  "NumPropagators": 4,
+  "Results": [
+    {
+      "resultCompressed": "1:eJzFVUtOwzAQDVBQhXIJJC5AuQILFl1EhQsEyalGSjDqpCBxYg7AigUw4yENdiYmSglk4Whsz+c9v7HP7uyqOEmSBE9puDEbMHiV1zkekWkeEOiXFGzgjIYlYF0csnVMwy1UBuGDvnYus09mIyY7ZOUWAwdks6pcBrxYSHA/XLMm/8Wl5PA3Bikbl5/L+cqvwfDz+SAO2OL1pV33+xKeYI3NmHOIQ6pTKhhQdzFTQs9pWOU12Pu8BC4EUi5pcvrSiAa0NC5wBkJYsP18N8cBr0u7dkjaKRamaFUVm4rWO+c2Vzo2l8pTVxYap6reg7pePUX01LU3/IlBvCnyGtpZoozgunCseBGU+yTSYztow1s0StHIxt2PpukLVLl/6XAfuxe7G5v8ouMx50bMBW6ue//3LP8GaFf48XelH5MK5jsT02HqveJisv+NzOor42unen50u+Cd/OTh5OETLg5AlA==",
+      "resultTeX": "-\\frac{1}{\\varepsilon^2 (m^2 s_{12}-s_{12} s_{23})}+\\frac{2 \\log \\left(\\frac{m^2-s_{23}}{m^2}\\right)+\\log (-s_{12})}{\\varepsilon s_{12} (m^2-s_{23})}+\\frac{12 H\\left(0,\\frac{m^2+s_{12}}{s_{12}+s_{23}}\\,;1\\right)-12 H\\left(\\frac{m^2}{s_{23}},\\frac{m^2+s_{12}}{s_{12}+s_{23}}\\,;1\\right)+36 H\\left(0,\\frac{m^2}{s_{23}}\\,;1\\right)-6 \\log ^2\\left(\\frac{m^2-s_{23}}{m^2+s_{12}}\\right)-24 \\log (-s_{12}) \\log \\left(1-\\frac{s_{23}}{m^2}\\right)-12 \\log \\left(-\\frac{s_{12}}{m^2}\\right) \\log \\left(\\frac{m^2-s_{23}}{m^2+s_{12}}\\right)+12 \\log \\left(1-\\frac{s_{23}}{m^2}\\right) \\log \\left(\\frac{m^2-s_{23}}{m^2+s_{12}}\\right)-12 \\log \\left(1-\\frac{s_{23}}{m^2}\\right) \\log \\left(\\frac{s_{23}-m^2}{s_{12}}\\right)-12 \\log ^2\\left(1-\\frac{s_{23}}{m^2}\\right)+12 \\zeta(2)-6 \\log ^2(-s_{12})-\\pi ^2}{12 s_{12} (m^2-s_{23})}+O\\left(\\varepsilon^1\\right)",
+      "dimension": "4 - 2*eps",
+      "epsOrder": "0",
+      "epsOrders": "0",
+      "propExponents": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "propagators": [],
+      "numerators": [],
+      "internalMasses": [],
+      "externalMasses": [],
+      "substitutions": "",
+      "rootSubstitutions": "{}",
+      "normalization": "Automatic",
+      "stVersion": "SubTropica v1.0.293",
+      "stCommand": "",
+      "contributor": "Sebastian Mizera",
+      "timestamp": "2026-04-15T16:01:05",
+      "verifiedAt": "2026-04-15T16:01:05",
+      "verified": true,
+      "method": "direct_integration",
+      "tools": [
+        "SubTropica"
+      ],
+      "methodLR": "Lungo",
+      "findRoots": false,
+      "byteCount": 7288
+    }
+  ],
+  "edges": "{{{1, 2}, 0}, {{1, 3}, 0}, {{2, 4}, 0}, {{3, 4}, m}}",
+  "nodes": "{{1, 0}, {2, 0}, {4, 0}, {3, 0}}",
+  "CanonicalName": "Box, 1 massive propagator (a)",
+  "MassConfig": {
+    "numEdges": 4,
+    "numMassiveEdges": 1,
+    "numMasslessEdges": 3,
+    "distinctInternalMasses": 1,
+    "internalMassLabels": [
+      "m"
+    ],
+    "edgeMassPattern": "0001",
+    "numExtLegs": 4,
+    "numOnshellMassiveExtLegs": 0,
+    "numMasslessExtLegs": 4,
+    "extLegSignature": "0000"
+  },
+  "commonNames": [
+    "D₀(1×m)",
+    "L1"
+  ],
+  "Subsectors": [
+    "e12|e2|e|:000|00|1|",
+    "e12|e2|e|:001|20|0|"
+  ],
+  "ParentSectors": [
+    "112|e3|e4|e4|e|:000|00|00|01|0|",
+    "112|e3|e4|e4|e|:001|00|00|00|0|"
+  ]
+}

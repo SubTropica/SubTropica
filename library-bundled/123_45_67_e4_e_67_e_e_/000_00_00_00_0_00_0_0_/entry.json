@@ -1,0 +1,72 @@
+{
+  "CNickelIndex": "123|45|67|e4|e|67|e|e|:000|00|00|00|0|00|0|0|",
+  "MassScales": 2,
+  "FunctionClass": "MPL",
+  "EpsilonOrder": "-6,-5,-4,-3,-2,-1,0",
+  "References": [
+    "arXiv:2111.13595",
+    "arXiv:2002.09492 (JHEP 04 (167), 2020)"
+  ],
+  "Records": [
+    {
+      "epsOrders": "-6,-5,-4,-3,-2,-1,0",
+      "reference": "arXiv:2111.13595",
+      "authors": "Piotr Bargiela, Fabrizio Caola, Andreas von Manteuffel, Lorenzo Tancredi",
+      "description": "The three-loop four-point massless Master Integrals are computed in planar, non-planar, and double-non-planar sectors. The result is given in terms of Harmonic Polylogarithms.",
+      "recordId": "1724944894.b9fq",
+      "verified": false,
+      "verifiedAt": ""
+    },
+    {
+      "reference": "arXiv:2002.09492 (JHEP 04 (167), 2020)",
+      "authors": "Henn, Johannes, Mistlberger, Bernhard, Smirnov, Vladimir A., Wasser, Pascal",
+      "description": "Three-loop non-planar box family B. Non-planar variant of the ladder with a twisted propagator $(k_2-k_3+p_1+p_2+p_3)^2$.",
+      "epsOrders": "8",
+      "familyName": "HMSW_B",
+      "method": "",
+      "tools": [],
+      "ancillaryFiles": true,
+      "doi": "10.1007/JHEP04(2020)167",
+      "texkey": "Henn:2020lye",
+      "masterCount": 47,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "full",
+      "location": "eq. 7.1, Table 1, ancillary FamilyDefinition.m (row 2)",
+      "recordId": "bx_e1722cd50146",
+      "verified": false,
+      "verifiedAt": ""
+    }
+  ],
+  "Source": [
+    "arXiv",
+    "Loopedia"
+  ],
+  "Results": [],
+  "Names": [
+    "Massless non-planar 3-loop ladder c",
+    "Non-planar 3-loop ladder C",
+    "HMSW_B"
+  ],
+  "edges": "{{{1, 2}, 0}, {{1, 3}, 0}, {{1, 4}, 0}, {{2, 5}, 0}, {{2, 6}, 0}, {{3, 7}, 0}, {{3, 8}, 0}, {{4, 5}, 0}, {{6, 7}, 0}, {{6, 8}, 0}}",
+  "nodes": "{{4, 0}, {5, 0}, {7, 0}, {8, 0}}",
+  "Loops": 3,
+  "NumPropagators": 10,
+  "CanonicalName": "Massless non-planar box-pentagon-box",
+  "MassConfig": {
+    "numEdges": 10,
+    "numMassiveEdges": 0,
+    "numMasslessEdges": 10,
+    "distinctInternalMasses": 0,
+    "internalMassLabels": [],
+    "edgeMassPattern": "0000000000",
+    "numExtLegs": 4,
+    "numOnshellMassiveExtLegs": 0,
+    "numMasslessExtLegs": 4,
+    "extLegSignature": "0000"
+  },
+  "commonNames": [
+    "L3"
+  ],
+  "Subsectors": [],
+  "ParentSectors": []
+}

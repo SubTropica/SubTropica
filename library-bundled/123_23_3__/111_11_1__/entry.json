@@ -1,0 +1,210 @@
+{
+  "CNickelIndex": "123|23|3||:111|11|1||",
+  "MassScales": 1,
+  "FunctionClass": "MPL",
+  "EpsilonOrder": "",
+  "References": [
+    "arXiv:1609.05071 (Missing[\"KeyAbsent\", \"journal\"] Missing[\"KeyAbsent\", \"volume\"] (Missing[\"KeyAbsent\", \"pages\"]), Missing[\"KeyAbsent\", \"year\"])",
+    "arXiv:1705.05136 (JHEP 08 (024), 2017)",
+    "arXiv:2506.12253 (Missing[\"KeyAbsent\", \"journal\"] Missing[\"KeyAbsent\", \"volume\"] (Missing[\"KeyAbsent\", \"pages\"]), Missing[\"KeyAbsent\", \"year\"])",
+    "arXiv:1810.07476",
+    "arXiv:2504.02573 (Missing[\"KeyAbsent\", \"journal\"] Missing[\"KeyAbsent\", \"volume\"] (Missing[\"KeyAbsent\", \"pages\"]), Missing[\"KeyAbsent\", \"year\"])"
+  ],
+  "Records": [
+    {
+      "reference": "arXiv:1609.05071 (Phys.Rev.D 94 (125028), 2016)",
+      "authors": [
+        {
+          "full_name": "Gracey, J.A.",
+          "inspire_id": 1007785
+        },
+        {
+          "full_name": "Luthe, T.",
+          "inspire_id": 1489112
+        },
+        {
+          "full_name": "Schroder, Y.",
+          "inspire_id": 989682
+        }
+      ],
+      "description": "Three-loop massive vacuum bubble family in $d=2-2\\varepsilon$ dimensions with all equal masses. Contains 3 pure master integrals: $I_{51}$ (3-rung ladder), $I_{62}$ (mercedes/benz with tail), and $I_{63}$ (tetrahedron/non-planar $K_4$). Number of independent scalar products equals number of propagators (6), so family is trivially complete. Analytic results for $\\varepsilon$ expansions given in terms of Clausen values, polylogarithms $\\operatorname{Li}_n(1/2)$, and zeta values.",
+      "epsOrders": "",
+      "familyName": "GN_vacuum_3L / GN 3-loop massive vacuum bubble",
+      "method": "IBP, Laporta_algorithm, PSLQ",
+      "tools": [
+        "Reduze",
+        "FORM",
+        "TFORM"
+      ],
+      "ancillaryFiles": false,
+      "doi": "10.1103/PhysRevD.94.125028",
+      "texkey": "Gracey:2016mio",
+      "masterCount": 3,
+      "dimScheme": "d=2-2*eps",
+      "computationLevel": "full",
+      "location": "Fig. 1 (topologies 51, 62, 63), Sec. 3, App. B",
+      "recordId": "bx_0f57847d9908",
+      "verified": false,
+      "verifiedAt": ""
+    },
+    {
+      "reference": "arXiv:1705.05136 (JHEP 08 (024), 2017)",
+      "authors": "Kniehl, B.A., Pikelner, A.F., Veretin, O.L.",
+      "description": "Three-loop massive vacuum integrals with Mercedes ($K_4$) topology, 6 propagators. Single mass scale (each propagator mass is 0 or $m$). 6 master integrals $D_6$-$D_N$ with various mass patterns. Epsilon expansions through weight 6 via Frobenius method on DEs in mass ratio and PSLQ reconstruction in $\\operatorname{HPL}(\\exp(i\\pi/3))$ basis.",
+      "epsOrders": "2",
+      "familyName": "D-type Mercedes vacuum",
+      "method": "DE, IBP, series_expansion",
+      "tools": [
+        "FORM"
+      ],
+      "ancillaryFiles": true,
+      "doi": "10.1007/JHEP08(2017)024",
+      "texkey": "Kniehl:2017ikj",
+      "masterCount": 6,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "full",
+      "location": "Eq. (2.2), Sec. 4.6, App. A",
+      "recordId": "bx_b8c8ab2ee972",
+      "verified": false,
+      "verifiedAt": ""
+    },
+    {
+      "reference": "arXiv:2506.12253 (JHEP 08 (088), 2025)",
+      "authors": [
+        {
+          "full_name": "von Manteuffel, Andreas",
+          "inspire_id": 1020667
+        },
+        {
+          "full_name": "Stöckinger, Dominik",
+          "inspire_id": 1023749
+        },
+        {
+          "full_name": "Weißwange, Matthias",
+          "inspire_id": 2130130
+        }
+      ],
+      "description": "Single-scale fully massive 3-loop $K_4$ tetrahedron vacuum bubble family $B_3$. Family convention from Luthe:2015ngq. Masters from Schroder/Martin. IBP with FIRE cross-checked.",
+      "epsOrders": "",
+      "familyName": "fully massive 3-loop vacuum bubble (tetrahedron, 6 propagators)",
+      "method": "IBP",
+      "tools": [
+        "FORM",
+        "FIRE",
+        "Reduze",
+        "Kira"
+      ],
+      "ancillaryFiles": false,
+      "doi": "10.1007/JHEP08(2025)088",
+      "texkey": "vonManteuffel:2025swv",
+      "masterCount": 0,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "IBP_only",
+      "location": "Sec. 3.1, Tab. 1 (column B_3)",
+      "recordId": "bx_b19de72aea59",
+      "verified": false,
+      "verifiedAt": ""
+    },
+    {
+      "reference": "arXiv:1810.07476",
+      "authors": [
+        {
+          "full_name": "Kniehl, Bernd A.",
+          "inspire_id": 1002569
+        },
+        {
+          "full_name": "Pikelner, Andrey F.",
+          "inspire_id": 1274217
+        },
+        {
+          "full_name": "Veretin, Oleg L.",
+          "inspire_id": 3128690
+        }
+      ],
+      "description": "Three-loop vacuum bubble integral of Mercedes-Benz topology with all six propagators carrying equal mass. Previously known single-scale result contributing to three-loop effective potential of general scalar theory.",
+      "epsOrders": "1",
+      "familyName": "single-mass 3-loop vacuum Mercedes-Benz (6 propagators)",
+      "method": "DE, IBP",
+      "tools": [
+        "LiteRed"
+      ],
+      "ancillaryFiles": false,
+      "doi": "",
+      "texkey": "",
+      "masterCount": 0,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "full",
+      "location": "Eq. (3), Fig. 1 topology A, Section 3",
+      "recordId": "bx_1a70ce22a786",
+      "verified": false,
+      "verifiedAt": ""
+    },
+    {
+      "reference": "arXiv:2504.02573",
+      "authors": [
+        {
+          "full_name": "Hu, Chang",
+          "inspire_id": 1839161
+        },
+        {
+          "full_name": "Li, Wen-Di",
+          "inspire_id": 1880158
+        },
+        {
+          "full_name": "Li, Xiang",
+          "inspire_id": 2838350
+        }
+      ],
+      "description": "Three-loop vacuum diagram ($K_4$ complete graph on 4 vertices) with all six propagators carrying equal mass. Seven top and sub-top sector master integrals.",
+      "epsOrders": "",
+      "familyName": "three-loop vacuum tetrahedron",
+      "method": "IBP",
+      "tools": [],
+      "ancillaryFiles": false,
+      "doi": "",
+      "texkey": "Hu:2025rrt",
+      "masterCount": 7,
+      "dimScheme": "d=D",
+      "computationLevel": "IBP_only",
+      "location": "Section 6.1",
+      "recordId": "bx_0cd9ef6850cb",
+      "verified": false,
+      "verifiedAt": ""
+    }
+  ],
+  "Names": [
+    "GN_vacuum_3L",
+    "D-type Mercedes vacuum",
+    "fully massive 3-loop vacuum bubble (tetrahedron, 6 propagators)",
+    "single-mass 3-loop vacuum Mercedes-Benz (6 propagators)",
+    "three-loop vacuum tetrahedron",
+    "GN 3-loop massive vacuum bubble"
+  ],
+  "Source": [
+    "arXiv"
+  ],
+  "Loops": 3,
+  "NumPropagators": 6,
+  "Results": [],
+  "edges": "{{{1, 2}, m}, {{1, 3}, m}, {{1, 4}, m}, {{2, 3}, m}, {{2, 4}, m}, {{3, 4}, m}}",
+  "nodes": "{}",
+  "CanonicalName": "Equal-mass envelope",
+  "MassConfig": {
+    "numEdges": 6,
+    "numMassiveEdges": 6,
+    "numMasslessEdges": 0,
+    "distinctInternalMasses": 1,
+    "internalMassLabels": [
+      "m"
+    ],
+    "edgeMassPattern": "111111",
+    "numExtLegs": 0,
+    "numOnshellMassiveExtLegs": 0,
+    "numMasslessExtLegs": 0,
+    "extLegSignature": ""
+  },
+  "Subsectors": [],
+  "ParentSectors": [
+    "112|34|34|4||:111|11|11|1||"
+  ]
+}

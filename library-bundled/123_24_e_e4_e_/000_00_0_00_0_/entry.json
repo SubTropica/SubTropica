@@ -1,0 +1,160 @@
+{
+  "CNickelIndex": "123|24|e|e4|e|:000|00|0|00|0|",
+  "MassScales": 0,
+  "FunctionClass": "unknown",
+  "EpsilonOrder": "",
+  "References": [
+    "arXiv:1712.09215 (Missing[\"KeyAbsent\", \"journal\"] Missing[\"KeyAbsent\", \"volume\"] (Missing[\"KeyAbsent\", \"pages\"]), Missing[\"KeyAbsent\", \"year\"])",
+    "arXiv:2502.05121 (JHEP 05 (185), 2025)",
+    "arXiv:hep-ph/9307327 (Missing[\"KeyAbsent\", \"journal\"] Missing[\"KeyAbsent\", \"volume\"] (Missing[\"KeyAbsent\", \"pages\"]), Missing[\"KeyAbsent\", \"year\"])",
+    "arXiv:2603.18691 (Missing[\"KeyAbsent\", \"journal\"] Missing[\"KeyAbsent\", \"volume\"] (Missing[\"KeyAbsent\", \"pages\"]), Missing[\"KeyAbsent\", \"year\"])"
+  ],
+  "Records": [
+    {
+      "reference": "arXiv:1712.09215 (Lett.Math.Phys. 109 (497-564), 2019)",
+      "authors": [
+        {
+          "full_name": "Bitoun, Thomas",
+          "inspire_id": 2478405
+        },
+        {
+          "full_name": "Bogner, Christian",
+          "inspire_id": 1051674
+        },
+        {
+          "full_name": "Klausen, Rene Pascal",
+          "inspire_id": 1760367
+        },
+        {
+          "full_name": "Panzer, Erik",
+          "inspire_id": 1261632
+        }
+      ],
+      "description": "Massless two-loop three-point graph with 6 propagators. Pedagogical example for parametric representation and ISP counting.",
+      "epsOrders": "",
+      "familyName": "Double triangle",
+      "method": "IBP",
+      "tools": [],
+      "ancillaryFiles": false,
+      "doi": "10.1007/s11005-018-1114-8",
+      "texkey": "Bitoun:2017nre",
+      "masterCount": 0,
+      "dimScheme": "d=D",
+      "computationLevel": "IBP_only",
+      "location": "Appendix A.1, Figure 9",
+      "recordId": "bx_0e60d385eab7",
+      "verified": false,
+      "verifiedAt": ""
+    },
+    {
+      "reference": "arXiv:hep-ph/9307327 (Phys.Atom.Nucl. 56 (1553-1557), 1993)",
+      "authors": [
+        {
+          "full_name": "Usyukina, N.I.",
+          "inspire_id": 2192017
+        },
+        {
+          "full_name": "Davydychev, Andrei I.",
+          "inspire_id": 1012291
+        }
+      ],
+      "description": "Two-loop planar ladder three-point $C^{(2)}(p_1^2,p_2^2,p_3^2)$ with massless internal lines and three generic off-shell external momenta. Computed at $n=4$ via uniqueness with analytic regularization. Closed-form $\\Phi^{(2)}(x,y)$ in Eq. (23) involves $\\operatorname{Li}_4, \\operatorname{Li}_3, \\operatorname{Li}_2$ of arguments $-\\rho x, -\\rho y$, plus log products and $\\zeta(4)$; weight 4.",
+      "epsOrders": "",
+      "familyName": "two-loop massless planar ladder triangle with off-shell external legs",
+      "method": "direct_integration, Mellin-Barnes",
+      "tools": [],
+      "ancillaryFiles": false,
+      "doi": "",
+      "texkey": "Usyukina:1992wz",
+      "masterCount": 1,
+      "dimScheme": "d=4",
+      "computationLevel": "full",
+      "location": "Section 3, Fig. 3, Eqs. (17)-(23)",
+      "recordId": "bx_6308eabbd689",
+      "verified": false,
+      "verifiedAt": ""
+    },
+    {
+      "reference": "arXiv:2603.18691",
+      "authors": [
+        {
+          "full_name": "Dhani, Prasanna K.",
+          "inspire_id": 1607975
+        },
+        {
+          "full_name": "Pyretzidis, Konstantinos",
+          "inspire_id": 2938780
+        },
+        {
+          "full_name": "Ramírez-Uribe, Selomit",
+          "inspire_id": 1730297
+        },
+        {
+          "full_name": "Ríos-Sánchez, José",
+          "inspire_id": 2760441
+        },
+        {
+          "full_name": "Sborlini, German F.R.",
+          "inspire_id": 1074173
+        },
+        {
+          "full_name": "Tiwari, Surabhi",
+          "inspire_id": 1935452
+        },
+        {
+          "full_name": "Rodrigo, Germán",
+          "inspire_id": 991497
+        }
+      ],
+      "description": "Two-loop massless 3-point with 6 propagators (alternate topology). IR-finite via LTD.",
+      "epsOrders": "0",
+      "familyName": "Massless 2-loop 3-point topology B (6 propagators) / Massless 2-loop 3-point topology A (6 propagators)",
+      "method": "direct_integration",
+      "tools": [],
+      "ancillaryFiles": false,
+      "doi": "",
+      "texkey": "Dhani:2026cxx",
+      "masterCount": 0,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "numerical",
+      "location": "Section 5, Table I",
+      "recordId": "bx_16c2aa30736a",
+      "verified": false,
+      "verifiedAt": ""
+    }
+  ],
+  "Names": [
+    "Double triangle",
+    "two-loop triangle-box",
+    "two-loop massless planar ladder triangle with off-shell external legs",
+    "Massless 2-loop 3-point topology A (6 propagators)",
+    "Massless 2-loop 3-point topology B (6 propagators)"
+  ],
+  "Source": [
+    "arXiv"
+  ],
+  "Loops": 2,
+  "NumPropagators": 6,
+  "Results": [],
+  "edges": "{{{1, 2}, 0}, {{1, 3}, 0}, {{1, 4}, 0}, {{2, 3}, 0}, {{2, 5}, 0}, {{4, 5}, 0}}",
+  "nodes": "{{3, 0}, {4, 0}, {5, 0}}",
+  "CanonicalName": "Massless triangle-box",
+  "MassConfig": {
+    "numEdges": 6,
+    "numMassiveEdges": 0,
+    "numMasslessEdges": 6,
+    "distinctInternalMasses": 0,
+    "internalMassLabels": [],
+    "edgeMassPattern": "000000",
+    "numExtLegs": 3,
+    "numOnshellMassiveExtLegs": 0,
+    "numMasslessExtLegs": 3,
+    "extLegSignature": "000"
+  },
+  "Subsectors": [
+    "1123|e|e3|e|:0000|0|00|0|",
+    "112|e3|e3|e|:000|00|00|0|",
+    "123|e23|e|e|:000|000|0|0|"
+  ],
+  "ParentSectors": []
+}

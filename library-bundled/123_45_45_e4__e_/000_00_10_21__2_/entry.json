@@ -1,0 +1,61 @@
+{
+  "CNickelIndex": "123|45|45|e4||e|:000|00|10|21||2|",
+  "MassScales": 1,
+  "FunctionClass": "MPL",
+  "EpsilonOrder": "all_orders",
+  "References": [
+    "arXiv:2405.14698 (JHEP 08 (002), 2024)"
+  ],
+  "Records": [
+    {
+      "reference": "arXiv:2405.14698 (JHEP 08 (002), 2024)",
+      "authors": "Reeck, Pascal, Shtabovenko, Vladyslav, Steinhauser, Matthias",
+      "description": "Sample three-loop two-point integral with eight propagators, six massless and two with mass $m_b$, used in Section 5.1 to illustrate FCFeynmanParametrize and FCFeynmanPrepare in FeynCalc 10 generating the Feynman parametric representation. Single-scale ($m_b^2=1$). Later evaluated with HyperInt using Cheng-Wu theorem and analytic regularization.",
+      "epsOrders": "all_orders",
+      "familyName": "2-mass three-loop 2-point parametrization example (8 propagators)",
+      "method": "direct_integration",
+      "tools": [
+        "HyperInt",
+        "PolyLogTools"
+      ],
+      "ancillaryFiles": false,
+      "doi": "10.1007/JHEP08(2024)002",
+      "texkey": "Reeck:2024iwk",
+      "masterCount": 0,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "full",
+      "location": "Section 5.1, verbatim block at lines 585-587",
+      "recordId": "bx_0434a5744b65",
+      "verified": false,
+      "verifiedAt": ""
+    }
+  ],
+  "Names": [
+    "2-mass three-loop 2-point parametrization example (8 propagators)"
+  ],
+  "Source": [
+    "arXiv"
+  ],
+  "Loops": 3,
+  "NumPropagators": 8,
+  "Results": [],
+  "edges": "{{{1, 2}, 0}, {{1, 3}, 0}, {{1, 4}, 0}, {{2, 5}, 0}, {{2, 6}, 0}, {{3, 5}, m}, {{3, 6}, 0}, {{4, 5}, m}}",
+  "nodes": "{{4, M}, {6, M}}",
+  "CanonicalName": "Quad-box core, 2 massive propagators",
+  "MassConfig": {
+    "numEdges": 8,
+    "numMassiveEdges": 2,
+    "numMasslessEdges": 6,
+    "distinctInternalMasses": 1,
+    "internalMassLabels": [
+      "m"
+    ],
+    "edgeMassPattern": "00000101",
+    "numExtLegs": 2,
+    "numOnshellMassiveExtLegs": 2,
+    "numMasslessExtLegs": 0,
+    "extLegSignature": "MM"
+  },
+  "Subsectors": [],
+  "ParentSectors": []
+}

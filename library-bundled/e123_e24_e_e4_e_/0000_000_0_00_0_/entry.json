@@ -1,0 +1,573 @@
+{
+  "CNickelIndex": "e123|e24|e|e4|e|:0000|000|0|00|0|",
+  "MassScales": 5,
+  "FunctionClass": "elliptic",
+  "EpsilonOrder": "",
+  "References": [
+    "arXiv:2302.14840",
+    "arXiv:2406.05943"
+  ],
+  "Records": [
+    {
+      "reference": "arXiv:2406.05943",
+      "authors": [
+        {
+          "full_name": "Hannesdottir, Holmfridur S.",
+          "inspire_id": 1741187
+        },
+        {
+          "full_name": "Lippstreu, Luke",
+          "inspire_id": 1744394
+        },
+        {
+          "full_name": "McLeod, Andrew J.",
+          "inspire_id": 1486130
+        },
+        {
+          "full_name": "Polackova, Maria",
+          "inspire_id": 2794871
+        }
+      ],
+      "description": "Two-loop massless five-point triangle-box, integral originally computed in Chicherin et al. 1809.06240. This paper derives 156 genealogical constraints on sequential discontinuities through weight seven, with 31 further empirical constraints unexplained.",
+      "epsOrders": "",
+      "familyName": "massless two-loop five-point triangle-box",
+      "method": "tropical",
+      "tools": [],
+      "ancillaryFiles": false,
+      "doi": "",
+      "texkey": "",
+      "masterCount": 0,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "partial_cut",
+      "location": "Figure 2 (left)",
+      "recordId": "bx_83db97301e51",
+      "verified": false,
+      "verifiedAt": ""
+    }
+  ],
+  "Names": [
+    "two-loop house graph (3,1,2)",
+    "massless two-loop five-point triangle-box"
+  ],
+  "Source": [
+    "arXiv"
+  ],
+  "Loops": 2,
+  "NumPropagators": 6,
+  "edges": "{{{1, 2}, 0}, {{1, 3}, 0}, {{1, 4}, 0}, {{2, 3}, 0}, {{2, 5}, 0}, {{4, 5}, 0}}",
+  "nodes": "{{1, 0}, {2, 0}, {3, 0}, {4, 0}, {5, 0}}",
+  "CanonicalName": "Massless triangle-box",
+  "MassConfig": {
+    "numEdges": 6,
+    "numMassiveEdges": 0,
+    "numMasslessEdges": 6,
+    "distinctInternalMasses": 0,
+    "internalMassLabels": [],
+    "edgeMassPattern": "000000",
+    "numExtLegs": 5,
+    "numOnshellMassiveExtLegs": 0,
+    "numMasslessExtLegs": 5,
+    "extLegSignature": "00000"
+  },
+  "Subsectors": [
+    "e123|e23|e|e|:0000|000|0|1|"
+  ],
+  "ParentSectors": [],
+  "Results": [
+    {
+      "resultCompressed": "1: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",
+      "resultTeX": "-\\frac{\\log \\left(\\frac{s_{12}+s_{15}-s_{34}}{s_{15}-s_{23}+s_{45}}\\right)}{\\varepsilon^3 s_{45} (-s_{12}-s_{23}+s_{34}+s_{45})}+\\frac{2 H\\left(0,\\frac{s_{15}-s_{23}+s_{45}}{-s_{12}-s_{23}+s_{34}+s_{45}}\\,;1\\right)-2 \\log ^2\\left(\\frac{s_{12}+s_{15}-s_{34}}{s_{15}-s_{23}+s_{45}}\\right)-\\log \\left(\\frac{s_{23}}{s_{45}}\\right) \\log \\left(\\frac{s_{12}+s_{15}-s_{34}}{s_{15}-s_{23}+s_{45}}\\right)-\\log \\left(-\\frac{s_{12}+s_{23}-s_{45}}{s_{45}}\\right) \\log \\left(\\frac{s_{12}+s_{15}-s_{34}}{s_{15}-s_{23}+s_{45}}\\right)+2 \\log (-s_{45}) \\log \\left(\\frac{s_{12}+s_{15}-s_{34}}{s_{15}-s_{23}+s_{45}}\\right)-3 \\log \\left(-\\frac{s_{45}}{s_{12}+s_{15}-s_{34}}\\right) \\log \\left(\\frac{s_{12}+s_{15}-s_{34}}{s_{15}-s_{23}+s_{45}}\\right)}{\\varepsilon^2 s_{45} (-s_{12}-s_{23}+s_{34}+s_{45})}+\\frac{3 \\log ^3\\left(\\frac{s_{23} (s_{12}+s_{15}-s_{34})}{(s_{12}+s_{23}-s_{34}-s_{45}) s_{45}}\\right)+3 \\log \\left(-\\frac{s_{12}+s_{23}-s_{45}}{s_{45}}\\right) \\log ^2\\left(\\frac{s_{23} (s_{12}+s_{15}-s_{34})}{(s_{12}+s_{23}-s_{34}-s_{45}) s_{45}}\\right)+6 \\log \\left(\\frac{s_{45}}{s_{23}}\\right) \\log ^2\\left(\\frac{s_{23} (s_{12}+s_{15}-s_{34})}{(s_{12}+s_{23}-s_{34}-s_{45}) s_{45}}\\right)-6 \\log \\left(\\frac{s_{12}+s_{15}-s_{34}}{s_{15}-s_{23}+s_{45}}\\right) \\log ^2\\left(\\frac{s_{23} (s_{12}+s_{15}-s_{34})}{(s_{12}+s_{23}-s_{34}-s_{45}) s_{45}}\\right)+3 \\log ^2\\left(\\frac{s_{45}}{s_{23}}\\right) \\log \\left(\\frac{s_{23} (s_{12}+s_{15}-s_{34})}{(s_{12}+s_{23}-s_{34}-s_{45}) s_{45}}\\right)+3 \\log ^2\\left(\\frac{s_{12}+s_{15}-s_{34}}{s_{15}-s_{23}+s_{45}}\\right) \\log \\left(\\frac{s_{23} (s_{12}+s_{15}-s_{34})}{(s_{12}+s_{23}-s_{34}-s_{45}) s_{45}}\\right)+6 \\log \\left(-\\frac{s_{12}+s_{23}-s_{45}}{s_{45}}\\right) \\log \\left(\\frac{s_{45}}{s_{23}}\\right) \\log \\left(\\frac{s_{23} (s_{12}+s_{15}-s_{34})}{(s_{12}+s_{23}-s_{34}-s_{45}) s_{45}}\\right)-6 \\log \\left(-\\frac{s_{12}+s_{23}-s_{45}}{s_{45}}\\right) \\log \\left(\\frac{s_{12}+s_{15}-s_{34}}{s_{15}-s_{23}+s_{45}}\\right) \\log \\left(\\frac{s_{23} (s_{12}+s_{15}-s_{34})}{(s_{12}+s_{23}-s_{34}-s_{45}) s_{45}}\\right)-6 \\log \\left(\\frac{s_{45}}{s_{23}}\\right) \\log \\left(\\frac{s_{12}+s_{15}-s_{34}}{s_{15}-s_{23}+s_{45}}\\right) \\log \\left(\\frac{s_{23} (s_{12}+s_{15}-s_{34})}{(s_{12}+s_{23}-s_{34}-s_{45}) s_{45}}\\right)+18 \\zeta(2) \\log \\left(\\frac{s_{23} (s_{12}+s_{15}-s_{34})}{(s_{12}+s_{23}-s_{34}-s_{45}) s_{45}}\\right)-13 \\log ^3\\left(\\frac{s_{12}+s_{15}-s_{34}}{s_{15}-s_{23}+s_{45}}\\right)+6 \\log (-s_{23}) \\log ^2\\left(\\frac{s_{12}+s_{15}-s_{34}}{s_{15}-s_{23}+s_{45}}\\right)-9 \\log \\left(\\frac{s_{23}}{s_{45}}\\right) \\log ^2\\left(\\frac{s_{12}+s_{15}-s_{34}}{s_{15}-s_{23}+s_{45}}\\right)-9 \\log \\left(-\\frac{s_{12}+s_{23}-s_{45}}{s_{45}}\\right) \\log ^2\\left(\\frac{s_{12}+s_{15}-s_{34}}{s_{15}-s_{23}+s_{45}}\\right)+18 \\log (-s_{45}) \\log ^2\\left(\\frac{s_{12}+s_{15}-s_{34}}{s_{15}-s_{23}+s_{45}}\\right)-27 \\log \\left(-\\frac{s_{45}}{s_{12}+s_{15}-s_{34}}\\right) \\log ^2\\left(\\frac{s_{12}+s_{15}-s_{34}}{s_{15}-s_{23}+s_{45}}\\right)-6 \\log ^2\\left(\\frac{s_{23}}{s_{45}}\\right) \\log \\left(\\frac{s_{12}+s_{15}-s_{34}}{s_{15}-s_{23}+s_{45}}\\right)-9 \\log ^2\\left(\\frac{s_{12}+s_{15}-s_{34}}{s_{45}}\\right) \\log \\left(\\frac{s_{12}+s_{15}-s_{34}}{s_{15}-s_{23}+s_{45}}\\right)-6 \\log ^2\\left(-\\frac{s_{12}+s_{23}-s_{45}}{s_{45}}\\right) \\log \\left(\\frac{s_{12}+s_{15}-s_{34}}{s_{15}-s_{23}+s_{45}}\\right)-12 \\log ^2(-s_{45}) \\log \\left(\\frac{s_{12}+s_{15}-s_{34}}{s_{15}-s_{23}+s_{45}}\\right)-27 \\log ^2\\left(-\\frac{s_{45}}{s_{12}+s_{15}-s_{34}}\\right) \\log \\left(\\frac{s_{12}+s_{15}-s_{34}}{s_{15}-s_{23}+s_{45}}\\right)+12 \\log (-s_{23}) \\log \\left(\\frac{s_{23}}{s_{45}}\\right) \\log \\left(\\frac{s_{12}+s_{15}-s_{34}}{s_{15}-s_{23}+s_{45}}\\right)-18 \\log \\left(-\\frac{s_{23}}{s_{12}+s_{15}-s_{34}}\\right) \\log \\left(\\frac{s_{12}+s_{15}-s_{34}}{s_{45}}\\right) \\log \\left(\\frac{s_{12}+s_{15}-s_{34}}{s_{15}-s_{23}+s_{45}}\\right)+18 \\log \\left(\\frac{s_{23}}{s_{45}}\\right) \\log \\left(\\frac{s_{12}+s_{15}-s_{34}}{s_{45}}\\right) \\log \\left(\\frac{s_{12}+s_{15}-s_{34}}{s_{15}-s_{23}+s_{45}}\\right)+12 \\log (s_{12}+s_{23}-s_{45}) \\log \\left(-\\frac{s_{12}+s_{23}-s_{45}}{s_{45}}\\right) \\log \\left(\\frac{s_{12}+s_{15}-s_{34}}{s_{15}-s_{23}+s_{45}}\\right)+36 \\log (-s_{45}) \\log \\left(-\\frac{s_{45}}{s_{12}+s_{15}-s_{34}}\\right) \\log \\left(\\frac{s_{12}+s_{15}-s_{34}}{s_{15}-s_{23}+s_{45}}\\right)-\\pi ^2 \\log \\left(\\frac{s_{12}+s_{15}-s_{34}}{s_{15}-s_{23}+s_{45}}\\right)-18 \\log \\left(\\frac{s_{12}+s_{23}-s_{45}}{s_{12}+s_{15}-s_{34}}\\right) \\log \\left(\\frac{s_{12}+s_{15}-s_{34}}{s_{15}-s_{23}+s_{45}}\\right) \\log \\left(\\frac{s_{15}-s_{23}-s_{34}+s_{45}}{s_{45}}\\right)+6 \\log \\left(-\\frac{s_{12}+s_{23}-s_{45}}{s_{45}}\\right) \\zeta(2)+6 \\log \\left(\\frac{s_{45}}{s_{23}}\\right) \\zeta(2)-48 \\log \\left(\\frac{s_{12}+s_{15}-s_{34}}{s_{15}-s_{23}+s_{45}}\\right) \\zeta(2)+18 \\log \\left(\\frac{s_{12}+s_{15}-s_{34}}{s_{15}-s_{23}+s_{45}}\\right) H\\left(0,\\frac{s_{45}}{s_{12}+s_{23}}\\,;1\\right)-18 \\log \\left(\\frac{s_{12}+s_{15}-s_{34}}{s_{15}-s_{23}+s_{45}}\\right) H\\left(0,\\frac{s_{45}}{-s_{15}+s_{23}+s_{34}}\\,;1\\right)+6 \\log \\left(-\\frac{s_{12}+s_{23}-s_{45}}{s_{45}}\\right) H\\left(0,-\\frac{s_{45}}{s_{23}-s_{45}}\\,;1\\right)-12 \\log (-s_{23}) H\\left(0,\\frac{s_{15}-s_{23}+s_{45}}{-s_{12}-s_{23}+s_{34}+s_{45}}\\,;1\\right)-12 \\log (s_{12}+s_{23}-s_{45}) H\\left(0,\\frac{s_{15}-s_{23}+s_{45}}{-s_{12}-s_{23}+s_{34}+s_{45}}\\,;1\\right)-6 \\log \\left(-\\frac{s_{12}+s_{23}-s_{45}}{s_{45}}\\right) H\\left(0,\\frac{(s_{12}+s_{23}-s_{34}-s_{45}) s_{45}}{-s_{15} s_{23}+s_{12} (s_{45}-s_{23})+(s_{23}-s_{45}) (s_{34}+s_{45})}\\,;1\\right)+18 \\log \\left(\\frac{s_{12}+s_{15}-s_{34}}{s_{15}-s_{23}+s_{45}}\\right) H\\left(\\frac{s_{45}}{s_{12}+s_{23}},\\frac{s_{45}}{-s_{15}+s_{23}+s_{34}}\\,;1\\right)+6 \\log \\left(-\\frac{s_{12}+s_{23}-s_{45}}{s_{45}}\\right) H\\left(-\\frac{s_{45}}{s_{23}-s_{45}},-\\frac{(s_{12}+s_{23}-s_{34}-s_{45}) s_{45}}{s_{15} s_{23}+s_{12} (s_{23}-s_{45})-(s_{23}-s_{45}) (s_{34}+s_{45})}\\,;1\\right)+18 \\log \\left(\\frac{s_{12}+s_{23}-s_{45}}{s_{12}+s_{15}-s_{34}}\\right) H\\left(\\frac{s_{15}-s_{23}+s_{45}}{s_{34}},\\frac{s_{15}-s_{23}+s_{45}}{-s_{12}-s_{23}+s_{34}+s_{45}}\\,;1\\right)+18 \\log \\left(-\\frac{s_{23}}{s_{12}+s_{15}-s_{34}}\\right) H\\left(\\frac{s_{15}+s_{45}}{-s_{12}+s_{34}+s_{45}},-\\frac{s_{15}-s_{23}+s_{45}}{s_{12}+s_{23}-s_{34}-s_{45}}\\,;1\\right)+18 H\\left(0,0,\\frac{s_{15}-s_{23}+s_{45}}{-s_{12}-s_{23}+s_{34}+s_{45}}\\,;1\\right)-12 H\\left(0,0,\\frac{(s_{12}+s_{23}-s_{34}-s_{45}) s_{45}}{-s_{15} s_{23}+s_{12} (s_{45}-s_{23})+(s_{23}-s_{45}) (s_{34}+s_{45})}\\,;1\\right)-6 H(0,1,1\\,;1)-18 H\\left(0,1,\\frac{s_{15}-s_{23}+s_{45}}{-s_{12}-s_{23}+s_{34}+s_{45}}\\,;1\\right)+6 H\\left(0,1,\\frac{(s_{12}+s_{23}-s_{34}-s_{45}) s_{45}}{-s_{15} s_{23}+s_{12} (s_{45}-s_{23})+(s_{23}-s_{45}) (s_{34}+s_{45})}\\,;1\\right)-6 H\\left(0,-\\frac{s_{45}}{s_{23}-s_{45}},1\\,;1\\right)+6 H\\left(0,-\\frac{s_{45}}{s_{23}-s_{45}},-\\frac{(s_{12}+s_{23}-s_{34}-s_{45}) s_{45}}{s_{15} s_{23}+s_{12} (s_{23}-s_{45})-(s_{23}-s_{45}) (s_{34}+s_{45})}\\,;1\\right)-18 H\\left(0,\\frac{s_{15}-s_{23}+s_{45}}{s_{34}},\\frac{s_{15}-s_{23}+s_{45}}{-s_{12}-s_{23}+s_{34}+s_{45}}\\,;1\\right)-12 H\\left(0,\\frac{s_{15}-s_{23}+s_{45}}{-s_{12}-s_{23}+s_{34}+s_{45}},1\\,;1\\right)+36 H\\left(0,\\frac{s_{15}-s_{23}+s_{45}}{-s_{12}-s_{23}+s_{34}+s_{45}},\\frac{s_{15}-s_{23}+s_{45}}{-s_{12}-s_{23}+s_{34}+s_{45}}\\,;1\\right)-6 H\\left(0,\\frac{(s_{12}+s_{23}-s_{34}-s_{45}) s_{45}}{-s_{15} s_{23}+s_{12} (s_{45}-s_{23})+(s_{23}-s_{45}) (s_{34}+s_{45})},\\frac{(s_{12}+s_{23}-s_{34}-s_{45}) s_{45}}{-s_{15} s_{23}+s_{12} (s_{45}-s_{23})+(s_{23}-s_{45}) (s_{34}+s_{45})}\\,;1\\right)-6 H\\left(-\\frac{s_{45}}{s_{23}-s_{45}},0,1\\,;1\\right)+6 H\\left(-\\frac{s_{45}}{s_{23}-s_{45}},0,-\\frac{(s_{12}+s_{23}-s_{34}-s_{45}) s_{45}}{s_{15} s_{23}+s_{12} (s_{23}-s_{45})-(s_{23}-s_{45}) (s_{34}+s_{45})}\\,;1\\right)-6 H\\left(-\\frac{s_{45}}{s_{23}-s_{45}},1,-\\frac{(s_{12}+s_{23}-s_{34}-s_{45}) s_{45}}{s_{15} s_{23}+s_{12} (s_{23}-s_{45})-(s_{23}-s_{45}) (s_{34}+s_{45})}\\,;1\\right)+6 H\\left(-\\frac{s_{45}}{s_{23}-s_{45}},-\\frac{(s_{12}+s_{23}-s_{34}-s_{45}) s_{45}}{s_{15} s_{23}+s_{12} (s_{23}-s_{45})-(s_{23}-s_{45}) (s_{34}+s_{45})},-\\frac{(s_{12}+s_{23}-s_{34}-s_{45}) s_{45}}{s_{15} s_{23}+s_{12} (s_{23}-s_{45})-(s_{23}-s_{45}) (s_{34}+s_{45})}\\,;1\\right)+18 H\\left(\\frac{s_{15}+s_{45}}{-s_{12}+s_{34}+s_{45}},1,-\\frac{s_{15}-s_{23}+s_{45}}{s_{12}+s_{23}-s_{34}-s_{45}}\\,;1\\right)+18 H\\left(\\frac{s_{15}+s_{45}}{-s_{12}+s_{34}+s_{45}},-\\frac{s_{15}-s_{23}+s_{45}}{s_{12}+s_{23}-s_{34}-s_{45}},1\\,;1\\right)+18 H\\left(\\frac{s_{15}-s_{23}+s_{45}}{-s_{12}-s_{23}+s_{34}+s_{45}},-\\frac{s_{15}+s_{45}}{s_{12}-s_{34}-s_{45}},\\frac{s_{15}-s_{23}+s_{45}}{-s_{12}-s_{23}+s_{34}+s_{45}}\\,;1\\right)+18 H\\left(\\frac{s_{15}-s_{23}+s_{45}}{-s_{12}-s_{23}+s_{34}+s_{45}},\\frac{s_{15}-s_{23}+s_{45}}{s_{34}},\\frac{s_{15}-s_{23}+s_{45}}{-s_{12}-s_{23}+s_{34}+s_{45}}\\,;1\\right)}{6 s_{45} (-s_{12}-s_{23}+s_{34}+s_{45}) \\varepsilon}+(\\text{more terms})+O\\left(\\varepsilon^1\\right)",
+      "dimension": "4 - 2*eps",
+      "epsOrder": "0",
+      "epsOrders": "0",
+      "propExponents": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "propagators": [],
+      "numerators": [],
+      "internalMasses": [],
+      "externalMasses": [],
+      "substitutions": "",
+      "rootSubstitutions": "{Wm[1] -> (-(s12*s15) + s12*s23 - s23*s34 + s15*s45 - s34*s45 + Sqrt[4*s34*(s12*s23 + s15*s23 - s23*s34)*s45 + (-(s12*s15) + s12*s23 - s23*s34 + s15*s45 - s34*s45)^2])/(2*s34*s45), Wp[1] -> (-(s12*s15) + s12*s23 - s23*s34 + s15*s45 - s34*s45 - Sqrt[4*s34*(s12*s23 + s15*s23 - s23*s34)*s45 + (-(s12*s15) + s12*s23 - s23*s34 + s15*s45 - s34*s45)^2])/(2*s34*s45), Wm[2] -> (-(s12*s15) + s12*s23 - s23*s34 + s15*s45 - s34*s45 - Sqrt[-4*s34*(-(s12*s23) - s15*s23 + s23*s34)*s45 + (s12*s15 - s12*s23 + s23*s34 - s15*s45 + s34*s45)^2])/(2*s34*s45), Wp[2] -> (-(s12*s15) + s12*s23 - s23*s34 + s15*s45 - s34*s45 + Sqrt[-4*s34*(-(s12*s23) - s15*s23 + s23*s34)*s45 + (s12*s15 - s12*s23 + s23*s34 - s15*s45 + s34*s45)^2])/(2*s34*s45)}",
+      "normalization": "Automatic",
+      "stVersion": "SubTropica v1.0.400",
+      "stCommand": "",
+      "contributor": "Sebastian Mizera",
+      "timestamp": "2026-04-20T03:20:21",
+      "verifiedAt": "2026-04-20T03:20:21",
+      "verified": true,
+      "method": "direct_integration",
+      "tools": [
+        "SubTropica"
+      ],
+      "methodLR": "Lungo",
+      "byteCount": 1646824,
+      "symbolTeX": "\\begin{aligned}\\varepsilon^{-3}&\\colon\\;\\frac{1}{s_{45} (s_{12}+s_{23}-s_{34}-s_{45})}\\,(s_{12}+s_{15}-s_{34}) + \\frac{1}{s_{45} (-s_{12}-s_{23}+s_{34}+s_{45})}\\,(s_{15}-s_{23}+s_{45}) \\\\ \\varepsilon^{-2}&\\colon\\;-\\frac{2}{s_{45} (-s_{12}-s_{23}+s_{34}+s_{45})}\\,(-s_{15}+s_{23}-s_{45} \\otimes s_{12}+s_{15}-s_{34}) + \\frac{2}{s_{45} (-s_{12}-s_{23}+s_{34}+s_{45})}\\,(-s_{15}+s_{23}-s_{45} \\otimes s_{15}-s_{23}+s_{45}) + \\frac{2}{s_{45} (-s_{12}-s_{23}+s_{34}+s_{45})}\\,(s_{12}+s_{23}-s_{34}-s_{45} \\otimes s_{12}+s_{15}-s_{34}) - \\frac{2}{s_{45} (-s_{12}-s_{23}+s_{34}+s_{45})}\\,(s_{12}+s_{23}-s_{34}-s_{45} \\otimes s_{15}-s_{23}+s_{45}) + \\frac{1}{s_{45} (s_{12}+s_{23}-s_{34}-s_{45})}\\,(s_{23} \\otimes s_{12}+s_{15}-s_{34}) + \\frac{1}{s_{45} (-s_{12}-s_{23}+s_{34}+s_{45})}\\,(s_{23} \\otimes s_{15}-s_{23}+s_{45}) + \\frac{1}{s_{45} (-s_{12}-s_{23}+s_{34}+s_{45})}\\,(s_{45} \\otimes s_{12}+s_{15}-s_{34}) + \\frac{1}{s_{45} (s_{12}+s_{23}-s_{34}-s_{45})}\\,(s_{45} \\otimes s_{15}-s_{23}+s_{45}) + \\frac{1}{s_{45} (s_{12}+s_{23}-s_{34}-s_{45})}\\,(s_{12}+s_{15}-s_{34} \\otimes s_{23}) + \\frac{1}{s_{45} (-s_{12}-s_{23}+s_{34}+s_{45})}\\,(s_{12}+s_{15}-s_{34} \\otimes s_{45}) + \\frac{1}{s_{45} (-s_{12}-s_{23}+s_{34}+s_{45})}\\,(s_{15}-s_{23}+s_{45} \\otimes s_{23}) + \\frac{1}{s_{45} (s_{12}+s_{23}-s_{34}-s_{45})}\\,(s_{15}-s_{23}+s_{45} \\otimes s_{45}) + \\frac{1}{s_{45} (s_{12}+s_{23}-s_{34}-s_{45})}\\,(s_{12}+s_{23}-s_{45} \\otimes s_{12}+s_{15}-s_{34}) + \\frac{1}{s_{45} (-s_{12}-s_{23}+s_{34}+s_{45})}\\,(s_{12}+s_{23}-s_{45} \\otimes s_{15}-s_{23}+s_{45}) + \\frac{1}{s_{45} (s_{12}+s_{23}-s_{34}-s_{45})}\\,(s_{12}+s_{15}-s_{34} \\otimes s_{12}+s_{23}-s_{45}) + \\frac{1}{s_{45} (-s_{12}-s_{23}+s_{34}+s_{45})}\\,(s_{15}-s_{23}+s_{45} \\otimes s_{12}+s_{23}-s_{45}) + \\frac{2}{s_{45} (-s_{12}-s_{23}+s_{34}+s_{45})}\\,(s_{12}+s_{15}-s_{34} \\otimes s_{12}+s_{15}-s_{34}) + \\frac{1}{s_{45} (-s_{12}-s_{23}+s_{34}+s_{45})}\\,(s_{12}+s_{15}-s_{34} \\otimes s_{15}-s_{23}+s_{45}) + \\frac{1}{s_{45} (-s_{12}-s_{23}+s_{34}+s_{45})}\\,(s_{15}-s_{23}+s_{45} \\otimes s_{12}+s_{15}-s_{34}) - \\frac{4}{s_{45} (-s_{12}-s_{23}+s_{34}+s_{45})}\\,(s_{15}-s_{23}+s_{45} \\otimes s_{15}-s_{23}+s_{45}) \\\\ \\varepsilon^{-1}&\\colon\\;\\frac{3}{s_{45} (-s_{12}-s_{23}+s_{34}+s_{45})}\\,(-s_{15}+s_{23}-s_{45} \\otimes -s_{15}+s_{23}-s_{45} \\otimes s_{12}+s_{15}-s_{34}) - \\frac{3}{s_{45} (-s_{12}-s_{23}+s_{34}+s_{45})}\\,(-s_{15}+s_{23}-s_{45} \\otimes -s_{15}+s_{23}-s_{45} \\otimes s_{15}-s_{23}+s_{45}) + \\frac{1}{s_{45} (s_{12}+s_{23}-s_{34}-s_{45})}\\,(-s_{15}+s_{23}-s_{45} \\otimes s_{12}+s_{23}-s_{34}-s_{45} \\otimes s_{12}+s_{15}-s_{34}) + \\frac{2}{s_{45} (-s_{12}-s_{23}+s_{34}+s_{45})}\\,(-s_{15}+s_{23}-s_{45} \\otimes s_{12}+s_{23}-s_{34}-s_{45} \\otimes s_{15}-s_{23}+s_{45}) + \\frac{1}{s_{45} (-s_{12}-s_{23}+s_{34}+s_{45})}\\,(s_{12}+s_{23}-s_{34}-s_{45} \\otimes -s_{15}+s_{23}-s_{45} \\otimes s_{12}+s_{15}-s_{34}) + \\frac{1}{s_{45} (s_{12}+s_{23}-s_{34}-s_{45})}\\,(s_{12}+s_{23}-s_{34}-s_{45} \\otimes -s_{15}+s_{23}-s_{45} \\otimes s_{15}-s_{23}+s_{45}) - \\frac{4}{s_{45} (-s_{12}-s_{23}+s_{34}+s_{45})}\\,(s_{12}+s_{23}-s_{34}-s_{45} \\otimes s_{12}+s_{23}-s_{34}-s_{45} \\otimes s_{12}+s_{15}-s_{34}) + \\frac{4}{s_{45} (-s_{12}-s_{23}+s_{34}+s_{45})}\\,(s_{12}+s_{23}-s_{34}-s_{45} \\otimes s_{12}+s_{23}-s_{34}-s_{45} \\otimes s_{15}-s_{23}+s_{45}) - \\frac{2}{s_{45} (-s_{12}-s_{23}+s_{34}+s_{45})}\\,(s_{12}+s_{23}-s_{34}-s_{45} \\otimes s_{45} \\otimes s_{12}+s_{15}-s_{34}) - \\frac{2}{s_{45} (-s_{12}-s_{23}+s_{34}+s_{45})}\\,(s_{45} \\otimes s_{12}+s_{23}-s_{34}-s_{45} \\otimes s_{12}+s_{15}-s_{34}) + \\frac{1}{s_{45} (s_{12}+s_{23}-s_{34}-s_{45})}\\,(s_{45} \\otimes s_{45} \\otimes s_{12}+s_{15}-s_{34}) + \\frac{1}{s_{45} (s_{12}+s_{23}-s_{34}-s_{45})}\\,(s_{12}+s_{15}-s_{34} \\otimes -s_{15}+s_{23}-s_{45} \\otimes s_{12}+s_{15}-s_{34}) + \\frac{1}{s_{45} (-s_{12}-s_{23}+s_{34}+s_{45})}\\,(s_{12}+s_{15}-s_{34} \\otimes -s_{15}+s_{23}-s_{45} \\otimes s_{15}-s_{23}+s_{45}) + \\frac{1}{s_{45} (s_{12}+s_{23}-s_{34}-s_{45})}\\,(s_{12}+s_{15}-s_{34} \\otimes s_{12}+s_{23}-s_{34}-s_{45} \\otimes s_{12}+s_{15}-s_{34}) + \\frac{1}{s_{45} (-s_{12}-s_{23}+s_{34}+s_{45})}\\,(s_{12}+s_{15}-s_{34} \\otimes s_{12}+s_{23}-s_{34}-s_{45} \\otimes s_{15}-s_{23}+s_{45}) + \\frac{1}{s_{45} (s_{12}+s_{23}-s_{34}-s_{45})}\\,(s_{23} \\otimes s_{12}+s_{23}-s_{34}-s_{45} \\otimes s_{12}+s_{15}-s_{34}) + \\frac{1}{s_{45} (-s_{12}-s_{23}+s_{34}+s_{45})}\\,(s_{23} \\otimes s_{45} \\otimes s_{12}+s_{15}-s_{34}) + \\frac{1}{s_{45} (-s_{12}-s_{23}+s_{34}+s_{45})}\\,(s_{12}+s_{15}-s_{34} \\otimes s_{45} \\otimes s_{23}) - \\frac{2}{s_{45} (-s_{12}-s_{23}+s_{34}+s_{45})}\\,(s_{12}+s_{15}-s_{34} \\otimes s_{45} \\otimes s_{12}+s_{15}-s_{34}) + \\frac{1}{s_{45} (s_{12}+s_{23}-s_{34}-s_{45})}\\,(s_{12}+s_{15}-s_{34} \\otimes s_{45} \\otimes s_{45}) + \\frac{1}{s_{45} (-s_{12}-s_{23}+s_{34}+s_{45})}\\,(s_{45} \\otimes s_{15}-s_{23}+s_{45} \\otimes s_{23}) + \\frac{1}{s_{45} (-s_{12}-s_{23}+s_{34}+s_{45})}\\,(s_{45} \\otimes s_{15}-s_{23}+s_{45} \\otimes s_{12}+s_{15}-s_{34})  + \\cdots",
+      "alphabet": [
+        "s_{12}+s_{15}-s_{34}",
+        "s_{15}-s_{23}+s_{45}",
+        "-s_{15}+s_{23}-s_{45}",
+        "s_{12}+s_{23}-s_{34}-s_{45}",
+        "s_{23}",
+        "s_{45}",
+        "s_{12}+s_{23}-s_{45}",
+        "s_{34}",
+        "s_{12}-s_{34}-s_{45}",
+        "s_{15}+s_{45}",
+        "-s_{12}+s_{34}+s_{45}",
+        "-s_{15}+s_{23}+s_{34}-s_{45}",
+        "s_{15}-s_{23}-s_{34}+s_{45}",
+        "s_{12}",
+        "s_{12}+s_{23}",
+        "s_{15}",
+        "s_{23}-s_{45}",
+        "s_{12}+s_{15}-s_{34}-s_{45}",
+        "s_{12} s_{23}-s_{12} s_{45}+s_{15} s_{23}-s_{23} s_{34}-s_{23} s_{45}+s_{34} s_{45}+s_{45}^2",
+        "W_1^-+1",
+        "W_1^-",
+        "W_2^-+1",
+        "W_2^-",
+        "W_1^++1",
+        "W_1^+",
+        "W_2^++1",
+        "W_2^+",
+        "s_{12} s_{45} W_1^-+s_{23} s_{45} W_1^--s_{34} s_{45} W_1^-+s_{45}^2 \\left(-W_1^-\\right)+s_{12} s_{23}+s_{15} s_{23}-s_{23} s_{34}",
+        "s_{12} s_{45} W_2^-+s_{23} s_{45} W_2^--s_{34} s_{45} W_2^-+s_{45}^2 \\left(-W_2^-\\right)+s_{12} s_{23}+s_{15} s_{23}-s_{23} s_{34}",
+        "s_{12} s_{45} W_1^++s_{23} s_{45} W_1^+-s_{34} s_{45} W_1^++s_{45}^2 \\left(-W_1^+\\right)+s_{12} s_{23}+s_{15} s_{23}-s_{23} s_{34}",
+        "s_{12} s_{45} W_2^++s_{23} s_{45} W_2^+-s_{34} s_{45} W_2^++s_{45}^2 \\left(-W_2^+\\right)+s_{12} s_{23}+s_{15} s_{23}-s_{23} s_{34}",
+        "-s_{12} s_{23}+s_{12} s_{45}-s_{15} s_{23}+s_{23} s_{34}+s_{23} s_{45}-s_{34} s_{45}-s_{45}^2",
+        "s_{45} W_2^-+s_{15}+s_{45}",
+        "s_{45} W_2^++s_{15}+s_{45}",
+        "s_{45} W_2^-+s_{23}",
+        "s_{45} W_2^++s_{23}",
+        "s_{15}-s_{23}-s_{34}",
+        "s_{45} W_2^-+s_{12}+s_{23}",
+        "s_{45} W_2^++s_{12}+s_{23}",
+        "-s_{12}-s_{15}+s_{34}+s_{45}",
+        "s_{45} W_2^-+s_{12}+s_{15}-s_{34}",
+        "s_{45} W_2^++s_{12}+s_{15}-s_{34}",
+        "s_{15} W_1^--s_{23} W_1^--s_{34} W_1^-+s_{45} W_1^-+s_{12}+s_{15}-s_{34}",
+        "s_{15} W_1^+-s_{23} W_1^+-s_{34} W_1^++s_{45} W_1^++s_{12}+s_{15}-s_{34}",
+        "s_{45} W_1^-+s_{15}+s_{45}",
+        "s_{45} W_1^++s_{15}+s_{45}",
+        "s_{12}^2+s_{12} s_{23}-s_{12} s_{34}-s_{12} s_{45}-s_{15} s_{23}+s_{23}^2-s_{23} s_{45}",
+        "-s_{15}+s_{23}+s_{34}",
+        "-s_{12}-s_{23}+s_{34}+s_{45}",
+        "s_{45} W_1^-+s_{12}+s_{15}-s_{34}",
+        "s_{45} W_1^++s_{12}+s_{15}-s_{34}",
+        "-s_{12} s_{45}+s_{15} s_{23}-s_{23}^2-s_{23} s_{34}+s_{34} s_{45}+s_{45}^2",
+        "s_{12} s_{45}-s_{15} s_{23}+s_{23}^2+s_{23} s_{34}-s_{34} s_{45}-s_{45}^2",
+        "-s_{15} W_1^-+s_{23} W_1^-+s_{34} W_1^--s_{45} W_1^--s_{12}-s_{15}+s_{34}",
+        "-s_{15} W_1^++s_{23} W_1^++s_{34} W_1^+-s_{45} W_1^+-s_{12}-s_{15}+s_{34}"
+      ],
+      "symbolWeight": 4,
+      "symbolTerms": 20266,
+      "normalizedSymbolTeX": "\\begin{aligned}\\varepsilon^{-3}&\\colon\\;\\frac{1}{s_{45} (s_{12}+s_{23}-s_{34}-s_{45})}\\!\\left[(W_1) - (W_2)\\right] \\\\ \\varepsilon^{-2}&\\colon\\;\\frac{1}{s_{45} (s_{12}+s_{23}-s_{34}-s_{45})}\\!\\left[2\\,(W_2 \\otimes W_1) - 2\\,(W_2 \\otimes W_2) - 2\\,(W_3 \\otimes W_1) + 2\\,(W_3 \\otimes W_2) + (W_4 \\otimes W_1) - (W_4 \\otimes W_2) - (W_5 \\otimes W_1) + (W_5 \\otimes W_2) + (W_1 \\otimes W_4) - (W_1 \\otimes W_5) - (W_2 \\otimes W_4) + (W_2 \\otimes W_5) + (W_6 \\otimes W_1) - (W_6 \\otimes W_2) + (W_1 \\otimes W_6) - (W_2 \\otimes W_6) - 2\\,(W_1 \\otimes W_1) - (W_1 \\otimes W_2) - (W_2 \\otimes W_1) + 4\\,(W_2 \\otimes W_2)\\right] \\\\ \\varepsilon^{-1}&\\colon\\;\\frac{1}{s_{45} (s_{12}+s_{23}-s_{34}-s_{45})}\\!\\left[-3\\,(W_2 \\otimes W_2 \\otimes W_1) + 3\\,(W_2 \\otimes W_2 \\otimes W_2) + (W_2 \\otimes W_3 \\otimes W_1) - 2\\,(W_2 \\otimes W_3 \\otimes W_2) - (W_3 \\otimes W_2 \\otimes W_1) + (W_3 \\otimes W_2 \\otimes W_2) + 4\\,(W_3 \\otimes W_3 \\otimes W_1) - 4\\,(W_3 \\otimes W_3 \\otimes W_2) + 2\\,(W_3 \\otimes W_5 \\otimes W_1) + 2\\,(W_5 \\otimes W_3 \\otimes W_1) + (W_5 \\otimes W_5 \\otimes W_1) + (W_1 \\otimes W_2 \\otimes W_1) - (W_1 \\otimes W_2 \\otimes W_2) + (W_1 \\otimes W_3 \\otimes W_1) - (W_1 \\otimes W_3 \\otimes W_2) + (W_4 \\otimes W_3 \\otimes W_1) - (W_4 \\otimes W_5 \\otimes W_1) - (W_1 \\otimes W_5 \\otimes W_4) + 2\\,(W_1 \\otimes W_5 \\otimes W_1) + (W_1 \\otimes W_5 \\otimes W_5) - (W_5 \\otimes W_2 \\otimes W_4) - (W_5 \\otimes W_2 \\otimes W_1) + (W_5 \\otimes W_2 \\otimes W_5) + 2\\,(W_5 \\otimes W_2 \\otimes W_4) - 2\\,(W_5 \\otimes W_2 \\otimes W_5) + (W_2 \\otimes W_3 \\otimes W_3) + 2\\,(W_2 \\otimes W_5 \\otimes W_4) - 3\\,(W_2 \\otimes W_5 \\otimes W_5) + 3\\,(W_7 \\otimes W_6 \\otimes W_1) - 3\\,(W_7 \\otimes W_6 \\otimes W_2) - 3\\,(W_7 \\otimes W_3 \\otimes W_1) + 3\\,(W_7 \\otimes W_3 \\otimes W_2) - 3\\,(W_2 \\otimes W_6 \\otimes W_1) + 3\\,(W_2 \\otimes W_6 \\otimes W_2) + (W_2 \\otimes W_3 \\otimes W_2) + (W_6 \\otimes W_2 \\otimes W_1) - (W_6 \\otimes W_2 \\otimes W_2) + (W_6 \\otimes W_3 \\otimes W_1) - (W_6 \\otimes W_3 \\otimes W_2) + 3\\,(W_6 \\otimes W_2 \\otimes W_2) - 5\\,(W_2 \\otimes W_1 \\otimes W_1) - 4\\,(W_2 \\otimes W_1 \\otimes W_2) + 4\\,(W_3 \\otimes W_1 \\otimes W_1) + 2\\,(W_3 \\otimes W_1 \\otimes W_2) - 2\\,(W_2 \\otimes W_2 \\otimes W_1) + 6\\,(W_2 \\otimes W_2 \\otimes W_2) - (W_3 \\otimes W_2 \\otimes W_1) - 5\\,(W_3 \\otimes W_2 \\otimes W_2) - 2\\,(W_3 \\otimes W_4 \\otimes W_1) - 2\\,(W_3 \\otimes W_1 \\otimes W_4) + 2\\,(W_3 \\otimes W_1 \\otimes W_5) - (W_5 \\otimes W_4 \\otimes W_1) - (W_5 \\otimes W_1 \\otimes W_4) + 2\\,(W_5 \\otimes W_1 \\otimes W_1) + (W_5 \\otimes W_1 \\otimes W_5) + 2\\,(W_3 \\otimes W_2 \\otimes W_4) - 2\\,(W_3 \\otimes W_2 \\otimes W_5) - 2\\,(W_1 \\otimes W_4 \\otimes W_4) - (W_1 \\otimes W_4 \\otimes W_5) - (W_1 \\otimes W_2 \\otimes W_4) + (W_1 \\otimes W_2 \\otimes W_5) + 3\\,(W_2 \\otimes W_4 \\otimes W_4) - (W_2 \\otimes W_4 \\otimes W_5) + 3\\,(W_2 \\otimes W_1 \\otimes W_1) - (W_2 \\otimes W_1 \\otimes W_5) - (W_2 \\otimes W_3 \\otimes W_3) - (W_2 \\otimes W_5 \\otimes W_4) - (W_2 \\otimes W_5 \\otimes W_1) + 2\\,(W_2 \\otimes W_5 \\otimes W_5) + 3\\,(W_4 \\otimes W_2 \\otimes W_1) + 3\\,(W_2 \\otimes W_2 \\otimes W_4) - (W_2 \\otimes W_2 \\otimes W_3) - (W_2 \\otimes W_2 \\otimes W_5) - (W_4 \\otimes W_2 \\otimes W_4) + (W_4 \\otimes W_2 \\otimes W_5) - (W_2 \\otimes W_4 \\otimes W_4) + 2\\,(W_2 \\otimes W_4 \\otimes W_5) - (W_2 \\otimes W_2 \\otimes W_4) + (W_2 \\otimes W_2 \\otimes W_5) + 3\\,(W_8 \\otimes W_4 \\otimes W_1) - 3\\,(W_8 \\otimes W_4 \\otimes W_2) - 3\\,(W_8 \\otimes W_3 \\otimes W_1) + 3\\,(W_8 \\otimes W_3 \\otimes W_2) + 2\\,(W_3 \\otimes W_4 \\otimes W_2) + 3\\,(W_8 \\otimes W_8 \\otimes W_1) - 3\\,(W_8 \\otimes W_8 \\otimes W_9) + 4\\,(W_1 \\otimes W_1 \\otimes W_1) + 3\\,(W_1 \\otimes W_8 \\otimes W_1) - 3\\,(W_1 \\otimes W_8 \\otimes W_9) - 3\\,(W_2 \\otimes W_1 \\otimes W_9) - 3\\,(W_2 \\otimes W_8 \\otimes W_1) + 3\\,(W_2 \\otimes W_8 \\otimes W_9) - 2\\,(W_4 \\otimes W_1 \\otimes W_1) + 2\\,(W_4 \\otimes W_1 \\otimes W_2) - (W_4 \\otimes W_3 \\otimes W_2) + 3\\,(W_4 \\otimes W_8 \\otimes W_1) - 3\\,(W_4 \\otimes W_8 \\otimes W_9) - 3\\,(W_8 \\otimes W_8 \\otimes W_1) + 3\\,(W_8 \\otimes W_8 \\otimes W_9) - 2\\,(W_1 \\otimes W_4 \\otimes W_1) + 2\\,(W_1 \\otimes W_4 \\otimes W_2) - 3\\,(W_1 \\otimes W_8 \\otimes W_1) + 3\\,(W_1 \\otimes W_8 \\otimes W_9) - 2\\,(W_4 \\otimes W_4 \\otimes W_1) + 2\\,(W_4 \\otimes W_4 \\otimes W_2) - 2\\,(W_4 \\otimes W_2 \\otimes W_1) - 3\\,(W_4 \\otimes W_8 \\otimes W_1) + 3\\,(W_4 \\otimes W_8 \\otimes W_9) + (W_2 \\otimes W_4 \\otimes W_1) + 3\\,(W_2 \\otimes W_8 \\otimes W_1) - 3\\,(W_2 \\otimes W_8 \\otimes W_9) - 3\\,(W_4 \\otimes W_9 \\otimes W_2) + 2\\,(W_1 \\otimes W_1 \\otimes W_2) - 3\\,(W_1 \\otimes W_9 \\otimes W_2) - (W_2 \\otimes W_4 \\otimes W_2) + 3\\,(W_2 \\otimes W_9 \\otimes W_2) - 3\\,(W_8 \\otimes W_1 \\otimes W_2) + 3\\,(W_8 \\otimes W_9 \\otimes W_2) + (W_1 \\otimes W_6 \\otimes W_1) - (W_1 \\otimes W_6 \\otimes W_2) - 2\\,(W_6 \\otimes W_6 \\otimes W_1) + 2\\,(W_6 \\otimes W_6 \\otimes W_2) - (W_6 \\otimes W_1 \\otimes W_2) + (W_2 \\otimes W_1 \\otimes W_4) + 2\\,(W_4 \\otimes W_2 \\otimes W_2) - 2\\,(W_4 \\otimes W_1 \\otimes W_4)  + \\cdots",
+      "wDefinitions": [
+        {
+          "label": "W_1",
+          "kind": "rational",
+          "pairIndex": null,
+          "definition": "\\frac{s_{12}+s_{15}-s_{34}}{s_{12}}",
+          "originalLetter": "s_{12}+s_{15}-s_{34}"
+        },
+        {
+          "label": "W_2",
+          "kind": "rational",
+          "pairIndex": null,
+          "definition": "\\frac{s_{15}-s_{23}+s_{45}}{s_{12}}",
+          "originalLetter": "s_{15}-s_{23}+s_{45}"
+        },
+        {
+          "label": "W_3",
+          "kind": "rational",
+          "pairIndex": null,
+          "definition": "\\frac{s_{12}+s_{23}-s_{34}-s_{45}}{s_{12}}",
+          "originalLetter": "s_{12}+s_{23}-s_{34}-s_{45}"
+        },
+        {
+          "label": "W_4",
+          "kind": "rational",
+          "pairIndex": null,
+          "definition": "\\frac{s_{23}}{s_{12}}",
+          "originalLetter": "s_{23}"
+        },
+        {
+          "label": "W_5",
+          "kind": "rational",
+          "pairIndex": null,
+          "definition": "\\frac{s_{45}}{s_{12}}",
+          "originalLetter": "s_{45}"
+        },
+        {
+          "label": "W_6",
+          "kind": "rational",
+          "pairIndex": null,
+          "definition": "\\frac{s_{12}+s_{23}-s_{45}}{s_{12}}",
+          "originalLetter": "s_{12}+s_{23}-s_{45}"
+        },
+        {
+          "label": "W_7",
+          "kind": "rational",
+          "pairIndex": null,
+          "definition": "\\frac{s_{34}}{s_{12}}",
+          "originalLetter": "s_{34}"
+        },
+        {
+          "label": "W_8",
+          "kind": "rational",
+          "pairIndex": null,
+          "definition": "\\frac{s_{12}-s_{34}-s_{45}}{s_{12}}",
+          "originalLetter": "s_{12}-s_{34}-s_{45}"
+        },
+        {
+          "label": "W_9",
+          "kind": "rational",
+          "pairIndex": null,
+          "definition": "\\frac{s_{15}+s_{45}}{s_{12}}",
+          "originalLetter": "s_{15}+s_{45}"
+        },
+        {
+          "label": "W_{10}",
+          "kind": "rational",
+          "pairIndex": null,
+          "definition": "\\frac{-s_{15}+s_{23}+s_{34}-s_{45}}{s_{12}}",
+          "originalLetter": "-s_{15}+s_{23}+s_{34}-s_{45}"
+        },
+        {
+          "label": "W_{11}",
+          "kind": "rational",
+          "pairIndex": null,
+          "definition": "\\frac{s_{12}+s_{23}}{s_{12}}",
+          "originalLetter": "s_{12}+s_{23}"
+        },
+        {
+          "label": "W_{12}",
+          "kind": "rational",
+          "pairIndex": null,
+          "definition": "\\frac{s_{15}}{s_{12}}",
+          "originalLetter": "s_{15}"
+        },
+        {
+          "label": "W_{13}",
+          "kind": "rational",
+          "pairIndex": null,
+          "definition": "\\frac{s_{23}-s_{45}}{s_{12}}",
+          "originalLetter": "s_{23}-s_{45}"
+        },
+        {
+          "label": "W_{14}",
+          "kind": "rational",
+          "pairIndex": null,
+          "definition": "\\frac{s_{12}+s_{15}-s_{34}-s_{45}}{s_{12}}",
+          "originalLetter": "s_{12}+s_{15}-s_{34}-s_{45}"
+        },
+        {
+          "label": "W_{15}",
+          "kind": "rational",
+          "pairIndex": null,
+          "definition": "\\frac{s_{12} s_{23}+s_{15} s_{23}-s_{23} s_{34}-s_{12} s_{45}-s_{23} s_{45}+s_{34} s_{45}+s_{45}^2}{s_{12}}",
+          "originalLetter": "s_{12} s_{23}-s_{12} s_{45}+s_{15} s_{23}-s_{23} s_{34}-s_{23} s_{45}+s_{34} s_{45}+s_{45}^2"
+        },
+        {
+          "label": "W_{16}",
+          "kind": "rational",
+          "pairIndex": null,
+          "definition": "\\frac{1+W_1^-}{s_{12}}",
+          "originalLetter": "W_1^-+1"
+        },
+        {
+          "label": "W^-_1",
+          "kind": "algebraic",
+          "pairIndex": 1,
+          "definition": "\\frac{\\sqrt{(-s_{12} s_{15}+s_{12} s_{23}+s_{15} s_{45}-s_{23} s_{34}-s_{34} s_{45})^2+4 s_{34} s_{45} (s_{12} s_{23}+s_{15} s_{23}-s_{23} s_{34})}-s_{12} s_{15}+s_{12} s_{23}+s_{15} s_{45}-s_{23} s_{34}-s_{34} s_{45}}{2 s_{34} s_{45}}",
+          "originalLetter": "W_1^-",
+          "polynomialTeX": "-s_{12} s_{15} x_{3}+s_{12} s_{23} x_{3}+s_{12} s_{23}+s_{15} s_{23}+s_{15} s_{45} x_{3}-s_{23} s_{34} x_{3}-s_{23} s_{34}-s_{34} s_{45} x_{3}^2-s_{34} s_{45} x_{3}",
+          "discriminantTeX": "(-s_{12} s_{15}+s_{12} s_{23}+s_{15} s_{45}-s_{23} s_{34}-s_{34} s_{45})^2+4 s_{34} s_{45} (s_{12} s_{23}+s_{15} s_{23}-s_{23} s_{34})"
+        },
+        {
+          "label": "W_{17}",
+          "kind": "rational",
+          "pairIndex": null,
+          "definition": "\\frac{1+W_2^-}{s_{12}}",
+          "originalLetter": "W_2^-+1"
+        },
+        {
+          "label": "W^-_2",
+          "kind": "algebraic",
+          "pairIndex": 2,
+          "definition": "\\frac{-\\sqrt{(s_{12} s_{15}-s_{12} s_{23}-s_{15} s_{45}+s_{23} s_{34}+s_{34} s_{45})^2-4 s_{34} s_{45} (-s_{12} s_{23}-s_{15} s_{23}+s_{23} s_{34})}-s_{12} s_{15}+s_{12} s_{23}+s_{15} s_{45}-s_{23} s_{34}-s_{34} s_{45}}{2 s_{34} s_{45}}",
+          "originalLetter": "W_2^-",
+          "polynomialTeX": "s_{12} s_{15} x_{3}-s_{12} s_{23} x_{3}-s_{12} s_{23}-s_{15} s_{23}-s_{15} s_{45} x_{3}+s_{23} s_{34} x_{3}+s_{23} s_{34}+s_{34} s_{45} x_{3}^2+s_{34} s_{45} x_{3}",
+          "discriminantTeX": "(s_{12} s_{15}-s_{12} s_{23}-s_{15} s_{45}+s_{23} s_{34}+s_{34} s_{45})^2-4 s_{34} s_{45} (-s_{12} s_{23}-s_{15} s_{23}+s_{23} s_{34})"
+        },
+        {
+          "label": "W_{18}",
+          "kind": "rational",
+          "pairIndex": null,
+          "definition": "\\frac{1+W_1^+}{s_{12}}",
+          "originalLetter": "W_1^++1"
+        },
+        {
+          "label": "W^+_1",
+          "kind": "algebraic",
+          "pairIndex": 1,
+          "definition": "\\frac{-\\sqrt{(-s_{12} s_{15}+s_{12} s_{23}+s_{15} s_{45}-s_{23} s_{34}-s_{34} s_{45})^2+4 s_{34} s_{45} (s_{12} s_{23}+s_{15} s_{23}-s_{23} s_{34})}-s_{12} s_{15}+s_{12} s_{23}+s_{15} s_{45}-s_{23} s_{34}-s_{34} s_{45}}{2 s_{34} s_{45}}",
+          "originalLetter": "W_1^+",
+          "polynomialTeX": "-s_{12} s_{15} x_{3}+s_{12} s_{23} x_{3}+s_{12} s_{23}+s_{15} s_{23}+s_{15} s_{45} x_{3}-s_{23} s_{34} x_{3}-s_{23} s_{34}-s_{34} s_{45} x_{3}^2-s_{34} s_{45} x_{3}",
+          "discriminantTeX": "(-s_{12} s_{15}+s_{12} s_{23}+s_{15} s_{45}-s_{23} s_{34}-s_{34} s_{45})^2+4 s_{34} s_{45} (s_{12} s_{23}+s_{15} s_{23}-s_{23} s_{34})"
+        },
+        {
+          "label": "W_{19}",
+          "kind": "rational",
+          "pairIndex": null,
+          "definition": "\\frac{1+W_2^+}{s_{12}}",
+          "originalLetter": "W_2^++1"
+        },
+        {
+          "label": "W^+_2",
+          "kind": "algebraic",
+          "pairIndex": 2,
+          "definition": "\\frac{\\sqrt{(s_{12} s_{15}-s_{12} s_{23}-s_{15} s_{45}+s_{23} s_{34}+s_{34} s_{45})^2-4 s_{34} s_{45} (-s_{12} s_{23}-s_{15} s_{23}+s_{23} s_{34})}-s_{12} s_{15}+s_{12} s_{23}+s_{15} s_{45}-s_{23} s_{34}-s_{34} s_{45}}{2 s_{34} s_{45}}",
+          "originalLetter": "W_2^+",
+          "polynomialTeX": "s_{12} s_{15} x_{3}-s_{12} s_{23} x_{3}-s_{12} s_{23}-s_{15} s_{23}-s_{15} s_{45} x_{3}+s_{23} s_{34} x_{3}+s_{23} s_{34}+s_{34} s_{45} x_{3}^2+s_{34} s_{45} x_{3}",
+          "discriminantTeX": "(s_{12} s_{15}-s_{12} s_{23}-s_{15} s_{45}+s_{23} s_{34}+s_{34} s_{45})^2-4 s_{34} s_{45} (-s_{12} s_{23}-s_{15} s_{23}+s_{23} s_{34})"
+        },
+        {
+          "label": "W_{20}",
+          "kind": "rational",
+          "pairIndex": null,
+          "definition": "\\frac{s_{12} s_{23}+s_{15} s_{23}-s_{23} s_{34}+s_{12} s_{45} W_1^-+s_{23} s_{45} W_1^--s_{34} s_{45} W_1^--s_{45}^2 W_1^-}{s_{12}}",
+          "originalLetter": "s_{12} s_{45} W_1^-+s_{23} s_{45} W_1^--s_{34} s_{45} W_1^-+s_{45}^2 \\left(-W_1^-\\right)+s_{12} s_{23}+s_{15} s_{23}-s_{23} s_{34}"
+        },
+        {
+          "label": "W_{21}",
+          "kind": "rational",
+          "pairIndex": null,
+          "definition": "\\frac{s_{12} s_{23}+s_{15} s_{23}-s_{23} s_{34}+s_{12} s_{45} W_2^-+s_{23} s_{45} W_2^--s_{34} s_{45} W_2^--s_{45}^2 W_2^-}{s_{12}}",
+          "originalLetter": "s_{12} s_{45} W_2^-+s_{23} s_{45} W_2^--s_{34} s_{45} W_2^-+s_{45}^2 \\left(-W_2^-\\right)+s_{12} s_{23}+s_{15} s_{23}-s_{23} s_{34}"
+        },
+        {
+          "label": "W_{22}",
+          "kind": "rational",
+          "pairIndex": null,
+          "definition": "\\frac{s_{12} s_{23}+s_{15} s_{23}-s_{23} s_{34}+s_{12} s_{45} W_1^++s_{23} s_{45} W_1^+-s_{34} s_{45} W_1^+-s_{45}^2 W_1^+}{s_{12}}",
+          "originalLetter": "s_{12} s_{45} W_1^++s_{23} s_{45} W_1^+-s_{34} s_{45} W_1^++s_{45}^2 \\left(-W_1^+\\right)+s_{12} s_{23}+s_{15} s_{23}-s_{23} s_{34}"
+        },
+        {
+          "label": "W_{23}",
+          "kind": "rational",
+          "pairIndex": null,
+          "definition": "\\frac{s_{12} s_{23}+s_{15} s_{23}-s_{23} s_{34}+s_{12} s_{45} W_2^++s_{23} s_{45} W_2^+-s_{34} s_{45} W_2^+-s_{45}^2 W_2^+}{s_{12}}",
+          "originalLetter": "s_{12} s_{45} W_2^++s_{23} s_{45} W_2^+-s_{34} s_{45} W_2^++s_{45}^2 \\left(-W_2^+\\right)+s_{12} s_{23}+s_{15} s_{23}-s_{23} s_{34}"
+        },
+        {
+          "label": "W_{24}",
+          "kind": "rational",
+          "pairIndex": null,
+          "definition": "\\frac{s_{15}+s_{45}+s_{45} W_2^-}{s_{12}}",
+          "originalLetter": "s_{45} W_2^-+s_{15}+s_{45}"
+        },
+        {
+          "label": "W_{25}",
+          "kind": "rational",
+          "pairIndex": null,
+          "definition": "\\frac{s_{15}+s_{45}+s_{45} W_2^+}{s_{12}}",
+          "originalLetter": "s_{45} W_2^++s_{15}+s_{45}"
+        },
+        {
+          "label": "W_{26}",
+          "kind": "rational",
+          "pairIndex": null,
+          "definition": "\\frac{s_{23}+s_{45} W_2^-}{s_{12}}",
+          "originalLetter": "s_{45} W_2^-+s_{23}"
+        },
+        {
+          "label": "W_{27}",
+          "kind": "rational",
+          "pairIndex": null,
+          "definition": "\\frac{s_{23}+s_{45} W_2^+}{s_{12}}",
+          "originalLetter": "s_{45} W_2^++s_{23}"
+        },
+        {
+          "label": "W_{28}",
+          "kind": "rational",
+          "pairIndex": null,
+          "definition": "\\frac{s_{15}-s_{23}-s_{34}}{s_{12}}",
+          "originalLetter": "s_{15}-s_{23}-s_{34}"
+        },
+        {
+          "label": "W_{29}",
+          "kind": "rational",
+          "pairIndex": null,
+          "definition": "\\frac{s_{12}+s_{23}+s_{45} W_2^-}{s_{12}}",
+          "originalLetter": "s_{45} W_2^-+s_{12}+s_{23}"
+        },
+        {
+          "label": "W_{30}",
+          "kind": "rational",
+          "pairIndex": null,
+          "definition": "\\frac{s_{12}+s_{23}+s_{45} W_2^+}{s_{12}}",
+          "originalLetter": "s_{45} W_2^++s_{12}+s_{23}"
+        },
+        {
+          "label": "W_{31}",
+          "kind": "rational",
+          "pairIndex": null,
+          "definition": "\\frac{s_{12}+s_{15}-s_{34}+s_{45} W_2^-}{s_{12}}",
+          "originalLetter": "s_{45} W_2^-+s_{12}+s_{15}-s_{34}"
+        },
+        {
+          "label": "W_{32}",
+          "kind": "rational",
+          "pairIndex": null,
+          "definition": "\\frac{s_{12}+s_{15}-s_{34}+s_{45} W_2^+}{s_{12}}",
+          "originalLetter": "s_{45} W_2^++s_{12}+s_{15}-s_{34}"
+        },
+        {
+          "label": "W_{33}",
+          "kind": "rational",
+          "pairIndex": null,
+          "definition": "\\frac{s_{12}+s_{15}-s_{34}+s_{15} W_1^--s_{23} W_1^--s_{34} W_1^-+s_{45} W_1^-}{s_{12}}",
+          "originalLetter": "s_{15} W_1^--s_{23} W_1^--s_{34} W_1^-+s_{45} W_1^-+s_{12}+s_{15}-s_{34}"
+        },
+        {
+          "label": "W_{34}",
+          "kind": "rational",
+          "pairIndex": null,
+          "definition": "\\frac{s_{12}+s_{15}-s_{34}+s_{15} W_1^+-s_{23} W_1^+-s_{34} W_1^++s_{45} W_1^+}{s_{12}}",
+          "originalLetter": "s_{15} W_1^+-s_{23} W_1^+-s_{34} W_1^++s_{45} W_1^++s_{12}+s_{15}-s_{34}"
+        },
+        {
+          "label": "W_{35}",
+          "kind": "rational",
+          "pairIndex": null,
+          "definition": "\\frac{s_{15}+s_{45}+s_{45} W_1^-}{s_{12}}",
+          "originalLetter": "s_{45} W_1^-+s_{15}+s_{45}"
+        },
+        {
+          "label": "W_{36}",
+          "kind": "rational",
+          "pairIndex": null,
+          "definition": "\\frac{s_{15}+s_{45}+s_{45} W_1^+}{s_{12}}",
+          "originalLetter": "s_{45} W_1^++s_{15}+s_{45}"
+        },
+        {
+          "label": "W_{37}",
+          "kind": "rational",
+          "pairIndex": null,
+          "definition": "\\frac{s_{12}^2+s_{12} s_{23}-s_{15} s_{23}+s_{23}^2-s_{12} s_{34}-s_{12} s_{45}-s_{23} s_{45}}{s_{12}}",
+          "originalLetter": "s_{12}^2+s_{12} s_{23}-s_{12} s_{34}-s_{12} s_{45}-s_{15} s_{23}+s_{23}^2-s_{23} s_{45}"
+        },
+        {
+          "label": "W_{38}",
+          "kind": "rational",
+          "pairIndex": null,
+          "definition": "\\frac{s_{12}+s_{15}-s_{34}+s_{45} W_1^-}{s_{12}}",
+          "originalLetter": "s_{45} W_1^-+s_{12}+s_{15}-s_{34}"
+        },
+        {
+          "label": "W_{39}",
+          "kind": "rational",
+          "pairIndex": null,
+          "definition": "\\frac{s_{12}+s_{15}-s_{34}+s_{45} W_1^+}{s_{12}}",
+          "originalLetter": "s_{45} W_1^++s_{12}+s_{15}-s_{34}"
+        },
+        {
+          "label": "W_{40}",
+          "kind": "rational",
+          "pairIndex": null,
+          "definition": "\\frac{s_{15} s_{23}-s_{23}^2-s_{23} s_{34}-s_{12} s_{45}+s_{34} s_{45}+s_{45}^2}{s_{12}}",
+          "originalLetter": "-s_{12} s_{45}+s_{15} s_{23}-s_{23}^2-s_{23} s_{34}+s_{34} s_{45}+s_{45}^2"
+        }
+      ],
+      "normalizedAlphabet": [
+        "W_1",
+        "W_2",
+        "W_3",
+        "W_4",
+        "W_5",
+        "W_6",
+        "W_7",
+        "W_8",
+        "W_9",
+        "W_{10}",
+        "W_{11}",
+        "W_{12}",
+        "W_{13}",
+        "W_{14}",
+        "W_{15}",
+        "W_{16}",
+        "W^-_1",
+        "W_{17}",
+        "W^-_2",
+        "W_{18}",
+        "W^+_1",
+        "W_{19}",
+        "W^+_2",
+        "W_{20}",
+        "W_{21}",
+        "W_{22}",
+        "W_{23}",
+        "W_{24}",
+        "W_{25}",
+        "W_{26}",
+        "W_{27}",
+        "W_{28}",
+        "W_{29}",
+        "W_{30}",
+        "W_{31}",
+        "W_{32}",
+        "W_{33}",
+        "W_{34}",
+        "W_{35}",
+        "W_{36}",
+        "W_{37}",
+        "W_{38}",
+        "W_{39}",
+        "W_{40}"
+      ],
+      "symbolScale": "s_{12}",
+      "normalizedSymbolTerms": 20096,
+      "legOrder": [],
+      "findRoots": true,
+      "algebraicLetters": [
+        {
+          "index": 1,
+          "variable": "x3",
+          "polynomial": "s12*s23 + s15*s23 - s23*s34 - s12*s15*x3 + s12*s23*x3 - s23*s34*x3 + s15*s45*x3 - s34*s45*x3 - s34*s45*x3^2",
+          "LC": "-(s34*s45)",
+          "sum": "(-(s12*s15) + s12*s23 - s23*s34 + s15*s45 - s34*s45)/(s34*s45)",
+          "product": "(-(s12*s23) - s15*s23 + s23*s34)/(s34*s45)",
+          "discriminant": "4*s34*(s12*s23 + s15*s23 - s23*s34)*s45 + (-(s12*s15) + s12*s23 - s23*s34 + s15*s45 - s34*s45)^2",
+          "minusRoot": "(-(s12*s15) + s12*s23 - s23*s34 + s15*s45 - s34*s45 + Sqrt[4*s34*(s12*s23 + s15*s23 - s23*s34)*s45 + (-(s12*s15) + s12*s23 - s23*s34 + s15*s45 - s34*s45)^2])/(2*s34*s45)",
+          "plusRoot": "(-(s12*s15) + s12*s23 - s23*s34 + s15*s45 - s34*s45 - Sqrt[4*s34*(s12*s23 + s15*s23 - s23*s34)*s45 + (-(s12*s15) + s12*s23 - s23*s34 + s15*s45 - s34*s45)^2])/(2*s34*s45)",
+          "polynomialTeX": "-s_{12} s_{15} x_{3}+s_{12} s_{23} x_{3}+s_{12} s_{23}+s_{15} s_{23}+s_{15} s_{45} x_{3}-s_{23} s_{34} x_{3}-s_{23} s_{34}-s_{34} s_{45} x_{3}^2-s_{34} s_{45} x_{3}",
+          "discriminantTeX": "(-s_{12} s_{15}+s_{12} s_{23}+s_{15} s_{45}-s_{23} s_{34}-s_{34} s_{45})^2+4 s_{34} s_{45} (s_{12} s_{23}+s_{15} s_{23}-s_{23} s_{34})",
+          "minusRootTeX": "\\frac{\\sqrt{(-s_{12} s_{15}+s_{12} s_{23}+s_{15} s_{45}-s_{23} s_{34}-s_{34} s_{45})^2+4 s_{34} s_{45} (s_{12} s_{23}+s_{15} s_{23}-s_{23} s_{34})}-s_{12} s_{15}+s_{12} s_{23}+s_{15} s_{45}-s_{23} s_{34}-s_{34} s_{45}}{2 s_{34} s_{45}}",
+          "plusRootTeX": "\\frac{-\\sqrt{(-s_{12} s_{15}+s_{12} s_{23}+s_{15} s_{45}-s_{23} s_{34}-s_{34} s_{45})^2+4 s_{34} s_{45} (s_{12} s_{23}+s_{15} s_{23}-s_{23} s_{34})}-s_{12} s_{15}+s_{12} s_{23}+s_{15} s_{45}-s_{23} s_{34}-s_{34} s_{45}}{2 s_{34} s_{45}}"
+        },
+        {
+          "index": 2,
+          "variable": "x3",
+          "polynomial": "-(s12*s23) - s15*s23 + s23*s34 + s12*s15*x3 - s12*s23*x3 + s23*s34*x3 - s15*s45*x3 + s34*s45*x3 + s34*s45*x3^2",
+          "LC": "s34*s45",
+          "sum": "(-(s12*s15) + s12*s23 - s23*s34 + s15*s45 - s34*s45)/(s34*s45)",
+          "product": "(-(s12*s23) - s15*s23 + s23*s34)/(s34*s45)",
+          "discriminant": "-4*s34*(-(s12*s23) - s15*s23 + s23*s34)*s45 + (s12*s15 - s12*s23 + s23*s34 - s15*s45 + s34*s45)^2",
+          "minusRoot": "(-(s12*s15) + s12*s23 - s23*s34 + s15*s45 - s34*s45 - Sqrt[-4*s34*(-(s12*s23) - s15*s23 + s23*s34)*s45 + (s12*s15 - s12*s23 + s23*s34 - s15*s45 + s34*s45)^2])/(2*s34*s45)",
+          "plusRoot": "(-(s12*s15) + s12*s23 - s23*s34 + s15*s45 - s34*s45 + Sqrt[-4*s34*(-(s12*s23) - s15*s23 + s23*s34)*s45 + (s12*s15 - s12*s23 + s23*s34 - s15*s45 + s34*s45)^2])/(2*s34*s45)",
+          "polynomialTeX": "s_{12} s_{15} x_{3}-s_{12} s_{23} x_{3}-s_{12} s_{23}-s_{15} s_{23}-s_{15} s_{45} x_{3}+s_{23} s_{34} x_{3}+s_{23} s_{34}+s_{34} s_{45} x_{3}^2+s_{34} s_{45} x_{3}",
+          "discriminantTeX": "(s_{12} s_{15}-s_{12} s_{23}-s_{15} s_{45}+s_{23} s_{34}+s_{34} s_{45})^2-4 s_{34} s_{45} (-s_{12} s_{23}-s_{15} s_{23}+s_{23} s_{34})",
+          "minusRootTeX": "\\frac{-\\sqrt{(s_{12} s_{15}-s_{12} s_{23}-s_{15} s_{45}+s_{23} s_{34}+s_{34} s_{45})^2-4 s_{34} s_{45} (-s_{12} s_{23}-s_{15} s_{23}+s_{23} s_{34})}-s_{12} s_{15}+s_{12} s_{23}+s_{15} s_{45}-s_{23} s_{34}-s_{34} s_{45}}{2 s_{34} s_{45}}",
+          "plusRootTeX": "\\frac{\\sqrt{(s_{12} s_{15}-s_{12} s_{23}-s_{15} s_{45}+s_{23} s_{34}+s_{34} s_{45})^2-4 s_{34} s_{45} (-s_{12} s_{23}-s_{15} s_{23}+s_{23} s_{34})}-s_{12} s_{15}+s_{12} s_{23}+s_{15} s_{45}-s_{23} s_{34}-s_{34} s_{45}}{2 s_{34} s_{45}}"
+        }
+      ]
+    }
+  ]
+}

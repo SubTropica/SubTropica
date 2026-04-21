@@ -1,0 +1,122 @@
+{
+  "CNickelIndex": "123|45|e4|e6|e|e6|e|:110|10|00|10|0|11|1|",
+  "MassScales": 6,
+  "FunctionClass": "unknown",
+  "EpsilonOrder": "-4,-3,-2,-1,0,1,2,3,4",
+  "References": [
+    "arXiv:2305.19768",
+    "arXiv:2302.08955"
+  ],
+  "Records": [
+    {
+      "dimScheme": "d=6-2*eps",
+      "recordId": "bf_82fe66793840",
+      "familyName": "pentabox_offshell",
+      "verified": false,
+      "verifiedAt": "",
+      "authors": [
+        {
+          "full_name": "Heinrich, G.",
+          "inspire_id": 1006298
+        },
+        {
+          "full_name": "Jones, S.P.",
+          "inspire_id": 1357945
+        },
+        {
+          "full_name": "Kerner, M.",
+          "inspire_id": 1234959
+        },
+        {
+          "full_name": "Magerya, V.",
+          "inspire_id": 1909862
+        },
+        {
+          "full_name": "Olsson, A.",
+          "inspire_id": 2777138
+        },
+        {
+          "full_name": "Schlenk, J.",
+          "inspire_id": 1280161
+        }
+      ],
+      "computationLevel": "numerical",
+      "texkey": "",
+      "masterCount": 0,
+      "location": "Section 3.1.4, Figure 6, Eq. (5)",
+      "method": [],
+      "reference": "arXiv:2305.19768",
+      "ancillaryFiles": [],
+      "description": "Two-loop five-point offshell pentabox integral with one massless and four massive propagators (mass $m$), three massive external legs, evaluated in $6-2\\varepsilon$ dimensions (finite in $\\varepsilon$). Prefactor $\\Gamma(2+2\\varepsilon)$ divided out to match the configuration of Borinsky et al. (arXiv:2302.08955). Result given through $\\mathcal{O}(\\varepsilon^4)$ at $p_0^2=0$, $p_1^2=p_2^2=p_3^2=m^2=1/2$ with 7 independent scales.",
+      "epsOrders": "-4,-3,-2,-1,0,1,2,3,4",
+      "tools": [
+        "pySecDec"
+      ],
+      "doi": ""
+    },
+    {
+      "reference": "arXiv:2302.08955",
+      "authors": [
+        {
+          "full_name": "Borinsky, Michael",
+          "inspire_id": 1640938
+        },
+        {
+          "full_name": "Munch, Henrik J.",
+          "inspire_id": 2000628
+        },
+        {
+          "full_name": "Tellander, Felix",
+          "inspire_id": 1898337
+        }
+      ],
+      "description": "QCD-like two-loop five-point Feynman diagram in $D = 6 - 2\\varepsilon$ dimensions, with four gluon (massless) and four quark (mass $m$) internal propagators alternating around the graph. External legs $p_0$ massless, $p_1, p_2, p_3$ on-shell at $m^2$, and $p_4$ off-shell by momentum conservation. Evaluated up to $\\varepsilon^4$ with $N=1\\mathrm{e}8$ tropical samples, verified against pySecDec despite the exceptional kinematic configuration.",
+      "epsOrders": "4",
+      "familyName": "QCD-like two-loop five-point diagram (quark-gluon alternating propagators)",
+      "method": "tropical, direct_integration",
+      "tools": [
+        "pySecDec"
+      ],
+      "ancillaryFiles": false,
+      "doi": "",
+      "texkey": "",
+      "masterCount": 0,
+      "dimScheme": "",
+      "computationLevel": "full",
+      "location": "Section 5.4 (A QCD-like, 2-loop 5-point diagram), label sec:2L_5pt",
+      "recordId": "bx_708c8857f411",
+      "verified": false,
+      "verifiedAt": ""
+    }
+  ],
+  "Names": [
+    "Off-shell pentabox",
+    "pentabox_offshell",
+    "QCD-like two-loop five-point diagram (quark-gluon alternating propagators)"
+  ],
+  "Source": [
+    "arXiv"
+  ],
+  "Loops": 2,
+  "NumPropagators": 8,
+  "Results": [],
+  "edges": "{{{1, 2}, m}, {{1, 3}, m}, {{1, 4}, 0}, {{2, 5}, m}, {{2, 6}, 0}, {{3, 5}, 0}, {{4, 7}, 0}, {{6, 7}, m}}",
+  "nodes": "{{3, 0}, {4, m}, {7, m}, {6, m}, {5, 0}}",
+  "CanonicalName": "Box-pentagon, 4 massive propagators",
+  "MassConfig": {
+    "numEdges": 8,
+    "numMassiveEdges": 4,
+    "numMasslessEdges": 4,
+    "distinctInternalMasses": 1,
+    "internalMassLabels": [
+      "m"
+    ],
+    "edgeMassPattern": "11010001",
+    "numExtLegs": 5,
+    "numOnshellMassiveExtLegs": 3,
+    "numMasslessExtLegs": 2,
+    "extLegSignature": "0MMM0"
+  },
+  "Subsectors": [],
+  "ParentSectors": []
+}

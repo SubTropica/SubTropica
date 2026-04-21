@@ -1,0 +1,524 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Wolfram 14.3' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       154,          7]
+NotebookDataLength[     21623,        515]
+NotebookOptionsPosition[     18333,        462]
+NotebookOutlinePosition[     18773,        478]
+CellTagsIndexPosition[     18730,        475]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["HyperIntica", "ObjectName",ExpressionUUID->"5a208aec-16af-413f-91f8-ce8ac95398ed"],
+
+Cell[BoxData[GridBox[{
+   {Cell[TextData[{
+     StyleBox["HyperIntica", "TI"],
+     " \[LineSeparator]While HyperIntica is the main (analytic) integration \
+routine working under the hood of the STIntegrate function, it can also be \
+used as a standalone function."
+    }], "TableText",ExpressionUUID->"011d3cbd-00e4-446e-a72b-84e7585220ec"]}
+  },
+  GridBoxAlignment->{"Columns" -> {{Left}}},
+  GridBoxItemSize->{
+   "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}]], "Usage",
+ CellID->1,ExpressionUUID->"84bc1c2f-e4a2-457c-966d-eb66e953f86e"],
+
+Cell["\<\
+While HyperIntica is the main (analytic) integration routine working under \
+the hood of the STIntegrate function, it can also be used as a standalone \
+function. It evaluates iterated integrals \[Integral]_0^\[Infinity] \
+\[Ellipsis] \[Integral]_0^\[Infinity] f\\, dx_1 \[Ellipsis] dx_n in  for \
+expressions built from hyperlogarithms, polylogarithms, logarithms, and \
+rational functions, returning results in terms of multi-zeta values and \
+hyperlogarithms in the original integrand f parameters (if any). The syntax \
+is: (see example below)\
+\>", "Notes",ExpressionUUID->"4ccd8c98-9cea-472b-b1a8-1ec8a885e3ba"],
+
+Cell[BoxData[
+ RowBox[{"HyperIntica", "[", 
+  RowBox[{"integrand", ",", " ", "variables", ",", " ", 
+   RowBox[{"\"\<Monitor\>\"", " ", "->", " ", "False"}]}], "]"}]], "Input",Exp\
+ressionUUID->"0ce98b86-fe6e-40d6-b89f-fe220107b5c9"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Details", "Section",ExpressionUUID->"a86cccca-431f-4c95-9079-1b3ceeba5d1c"],
+
+Cell["Required arguments", "Subsection",ExpressionUUID->"4f8ca179-3624-4c3a-a428-66465963034f"],
+
+Cell["\<\
+The argument integrand accepts either a symbolic expression involving Hlog, \
+Mpl, PolyLog, logarithms and/or rational functions. The argument \
+variables\\,= {x_1, ..., x_n} is the ordered list of integration variables, \
+each x_i integrated, left to right, from 0 to \[Infinity] by default.\
+\>", "Text",ExpressionUUID->"99198af6-4e65-438c-8d42-e90964e8755b"],
+
+Cell["Optional arguments", "Subsection",ExpressionUUID->"e35c40ff-8dbe-4bf2-abce-1d6c1357935b"],
+
+Cell["\<\
+Integration bounds other than [0,\[Infinity]) can be specified in Mathematica \
+Integrate-style syntax: HyperIntica[f, {x, 0, 1}, {y, 0, \[Infinity]}], where \
+the allowed bounds are 0, 1, and \[Infinity]. The equivalent rule-based \
+syntax {x -> {0, 1}, y -> {0, \[Infinity]}} is also accepted. The option \
+\"Monitor\" -> False (default) prints progress to standard output as each \
+variable is processed when set to True, useful for tracking, e.g., long \
+multi-variable integrations.\
+\>", "Text",ExpressionUUID->"fb294e07-a2c6-44af-aaa2-489508d2344e"],
+
+Cell["Return value", "Subsection",ExpressionUUID->"5ee11a35-91f6-4a14-a4eb-f20c570b4795"],
+
+Cell["\<\
+The function returns a combination of multi-zeta values, transcendental \
+constants (such as log(2)), and hyperlogarithms in any remaining parameters. \
+Some simple examples of usage are: (see example below) If the output of \
+HyperIntica depends on zeroInfPeriod, one can try to simplify it in terms of \
+multi-zeta values by apply CleanZeroInf[] to the output.\
+\>", "Text",ExpressionUUID->"6eba30bf-44d9-4fa1-8d42-f61cc67e5a7d"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"(*", " ", 
+   RowBox[{"Univariate", " ", "integral"}], " ", "*)"}], "\n", "\t", 
+  RowBox[{
+   RowBox[{"HyperIntica", "[", 
+    RowBox[{
+     RowBox[{
+      RowBox[{"Log", "[", "z", "]"}], "/", 
+      RowBox[{"(", 
+       RowBox[{"1", " ", "-", " ", 
+        RowBox[{
+         RowBox[{"\\", "mathtt"}], 
+         RowBox[{
+          RowBox[{"{", "z", "}"}], "^", "2"}]}]}], ")"}]}], ",", " ", 
+     RowBox[{"{", "z", "}"}]}], "]"}], " ", 
+   RowBox[{"(*", " ", 
+    RowBox[{"Out", ":", " ", 
+     RowBox[{
+      RowBox[{"-", "3"}], " ", 
+      RowBox[{
+       RowBox[{"mzv", "[", "2", "]"}], "/", "2"}]}]}], " ", "*)"}], "\n", 
+   "\t", "\n", "\t", 
+   RowBox[{"(*", " ", 
+    RowBox[{"Two", "-", 
+     RowBox[{
+     "variable", " ", "integral", " ", "with", " ", "finite", " ", 
+      "bounds"}]}], " ", "*)"}], "\n", "\t", 
+   RowBox[{"HyperIntica", "[", 
+    RowBox[{
+     RowBox[{"1", "/", 
+      RowBox[{"(", 
+       RowBox[{
+        RowBox[{"(", 
+         RowBox[{"1", "+", "x"}], ")"}], 
+        RowBox[{"(", 
+         RowBox[{"1", "+", "y"}], ")"}]}], ")"}]}], ",", " ", 
+     RowBox[{"{", 
+      RowBox[{"x", ",", " ", "0", ",", " ", "1"}], "}"}], ",", " ", 
+     RowBox[{"{", 
+      RowBox[{"y", ",", " ", "0", ",", " ", "1"}], "}"}]}], "]"}], "  ", 
+   RowBox[{"(*", " ", 
+    RowBox[{"Out", ":", " ", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"Log", "[", "2", "]"}], "\\", "textcolor"}], 
+      RowBox[{"{", "gray", "}"}], 
+      RowBox[{"{", 
+       RowBox[{
+        RowBox[{"{", "}"}], "^", "2"}], "}"}]}]}], " ", "*)"}], "\n", "\t", 
+   "\n", "\t", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+    "Monitor", " ", "progress", " ", "for", " ", "a", " ", "less", " ", 
+     "trivial", " ", "example"}], " ", "*)"}], "\n", "\t", 
+   RowBox[{"HyperIntica", "[", 
+    RowBox[{
+     RowBox[{
+      RowBox[{"\\", "frac"}], 
+      RowBox[{"{", 
+       RowBox[{
+        RowBox[{"\\", "textcolor"}], 
+        RowBox[{"{", "Maroon", "}"}], 
+        RowBox[{
+         RowBox[{
+          RowBox[{
+           RowBox[{"{", 
+            RowBox[{
+             RowBox[{"\\", "mathtt"}], 
+             RowBox[{"{", "Log", "}"}]}], "}"}], "[", 
+           RowBox[{
+            RowBox[{"\\", "mathtt"}], 
+            RowBox[{
+             RowBox[{"{", "1", "}"}], " ", "\\", "mathtt"}], 
+            RowBox[{
+             RowBox[{"{", "+", "}"}], " ", "\\", "mathtt"}], 
+            RowBox[{
+             RowBox[{
+              RowBox[{"{", "x", "}"}], "/"}], "\\", "mathtt"}], 
+            RowBox[{"{", "y", "}"}]}], "]"}], "^", "2"}], " ", "\\", 
+         "textcolor"}], 
+        RowBox[{"{", "Maroon", "}"}], 
+        RowBox[{
+         RowBox[{
+          RowBox[{"{", 
+           RowBox[{
+            RowBox[{"\\", "mathtt"}], 
+            RowBox[{"{", "Log", "}"}]}], "}"}], "[", 
+          RowBox[{
+           RowBox[{"\\", "mathtt"}], 
+           RowBox[{
+            RowBox[{"{", "1", "}"}], " ", "\\", "mathtt"}], 
+           RowBox[{
+            RowBox[{"{", "+", "}"}], " ", "\\", "mathtt"}], 
+           RowBox[{
+            RowBox[{
+             RowBox[{"{", "1", "}"}], "/"}], "\\", "mathtt"}], 
+           RowBox[{"{", "x", "}"}]}], "]"}], " ", "\\", "textcolor"}], 
+        RowBox[{"{", "Maroon", "}"}], 
+        RowBox[{
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{"\\", "mathtt"}], 
+           RowBox[{"{", "Log", "}"}]}], "}"}], "[", 
+         RowBox[{
+          RowBox[{"\\", "mathtt"}], 
+          RowBox[{"{", "y", "}"}]}], "]"}]}], "}"}], 
+      RowBox[{"{", 
+       RowBox[{"(", "\n", "\t\t", 
+        RowBox[{
+         RowBox[{"\\", "mathtt"}], 
+         RowBox[{"{", "x", "}"}], " ", 
+         RowBox[{"(", 
+          RowBox[{
+           RowBox[{"\\", "mathtt"}], 
+           RowBox[{
+            RowBox[{"{", "1", "}"}], " ", "\\", "mathtt"}], 
+           RowBox[{
+            RowBox[{"{", "+", "}"}], " ", "\\", "mathtt"}], 
+           RowBox[{"{", "y", "}"}]}], ")"}], " ", 
+         RowBox[{"(", 
+          RowBox[{
+           RowBox[{"\\", "mathtt"}], 
+           RowBox[{
+            RowBox[{"{", "1", "}"}], " ", "\\", "mathtt"}], 
+           RowBox[{
+            RowBox[{"{", "+", "}"}], " ", "\\", "mathtt"}], 
+           RowBox[{
+            RowBox[{"{", "x", "}"}], " ", "\\", "mathtt"}], 
+           RowBox[{
+            RowBox[{"{", "+", "}"}], " ", "\\", "mathtt"}], 
+           RowBox[{"{", "y", "}"}]}], ")"}]}], ")"}], "}"}]}], ",", " ", 
+     RowBox[{"{", 
+      RowBox[{"x", ",", " ", "y"}], "}"}], ",", " ", 
+     RowBox[{"\"\<Monitor\>\"", " ", "->", " ", "True"}]}], "]"}], "\n", "\t", 
+   RowBox[{"(*", " ", 
+    RowBox[{"Out", ":", " ", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"(", 
+        RowBox[{
+         RowBox[{"24", "/", "5"}], "-", 
+         RowBox[{"Log", "[", "512", "]"}]}], ")"}], " ", 
+       RowBox[{
+        RowBox[{"mzv", "[", "2", "]"}], "\\", "textcolor"}], 
+       RowBox[{"{", "gray", "}"}], 
+       RowBox[{"{", 
+        RowBox[{
+         RowBox[{"{", "}"}], "^", "2"}], "}"}]}], "-", 
+      RowBox[{
+       RowBox[{"27", "/", "2"}], " ", 
+       RowBox[{"mzv", "[", "2", "]"}], " ", 
+       RowBox[{"mzv", "[", "3", "]"}]}], "+", 
+      RowBox[{
+       RowBox[{"(", 
+        RowBox[{"127", " ", 
+         RowBox[{"mzv", "[", "5", "]"}]}], ")"}], "/", "8"}]}]}], " ", 
+    "*)"}]}]}]], "Input",ExpressionUUID->"e5bb41bb-748f-4d8c-ad7e-\
+5f89cc05ba61"],
+
+Cell["Linear reducibility", "Subsection",ExpressionUUID->"dcbde8b5-351e-4423-9ac8-92465bbe921d"],
+
+Cell["\<\
+The order of variables (i.e., the order in which we integrate) matters a lot: \
+the algorithm requires each polynomial encountered during integration to \
+factor linearly the current variable. When calling HyperIntica directly, a \
+wrong order can silently return an incomplete (and thus incorrect) result. \
+The two global flags NoAlgebraicRootsContributions and HyperWarnZeroed \
+control the response to a non-linearly-factoring polynomial:   \[Bullet]  \
+NoAlgebraicRootsContributions = True (default): the non-linear factor is set \
+to zero. If HyperWarnZeroed = True (default), two messages fire: \
+LinearFactors::nonlinear identifies the offending polynomial and \
+LinearFactors::zeroed reminds the user to verify the ordering. Setting \
+HyperWarnZeroed = False suppresses both reminders. In either case the result \
+is 0, which is incorrect if the ordering is not linearly reducible.  \
+\[Bullet]  NoAlgebraicRootsContributions = False: HyperIntica returns Failed \
+immediately upon encountering the non-linear factor, with message \
+LinearFactorsE::nonlinear. This makes an incorrect ordering immediately \
+visible.  Note that using NoAlgebraicRootsContributions = True is safe when \
+HyperIntica is called from STIntegrate, which verifies a valid order exists \
+first, but it is in general advisable to verify a chosen order is linearly \
+reducible by setting $NoAlgebraicRootsContributions = False before calling \
+HyperIntica directly as a standalone function.\
+\>", "Text",ExpressionUUID->"961998e1-1273-4a50-9ad2-c80759c1b898"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"(*", 
+   RowBox[{
+   "Consider", " ", "the", " ", "following", " ", "function", " ", "to", " ", 
+    "be", " ", "integrated", " ", "over", " ", "x", " ", "and", " ", 
+    RowBox[{"y", ":"}]}], " ", "*)"}], "\n", "\t", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"f", " ", "=", " ", 
+     RowBox[{"1", "/", 
+      RowBox[{"(", 
+       RowBox[{"1", " ", "-", " ", "x", " ", "+", " ", 
+        RowBox[{"x", " ", 
+         RowBox[{"y", "^", "2"}]}]}], ")"}]}]}], ";"}], "\n", "\t", "\n", 
+   "\t", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+     RowBox[{"Good", " ", 
+      RowBox[{"order", ":", " ", 
+       RowBox[{"1", "-", "x", "+", 
+        RowBox[{"x", "*", 
+         RowBox[{"y", "^", "2"}], " ", "is", " ", "linear", " ", "in", " ", 
+         "x"}]}]}]}], ";", " ", 
+     RowBox[{
+      RowBox[{
+       RowBox[{
+       "after", " ", "integrating", " ", "x", " ", "the", " ", "resulting", " ",
+         "letter", " ", 
+        RowBox[{"y", "^", "2"}]}], "-", "1"}], " ", "=", " ", 
+      RowBox[{
+       RowBox[{"(", 
+        RowBox[{"y", "-", "1"}], ")"}], 
+       RowBox[{"(", 
+        RowBox[{"y", "+", "1"}], ")"}], " ", "factors", " ", "linearly", " ", 
+       "in", " ", "y"}]}]}], " ", "*)"}], "\n", "\t", 
+   RowBox[{"HyperIntica", "[", 
+    RowBox[{"f", ",", " ", 
+     RowBox[{"{", 
+      RowBox[{"x", ",", " ", "0", ",", " ", "1"}], "}"}], ",", " ", 
+     RowBox[{"{", 
+      RowBox[{"y", ",", " ", "0", ",", " ", "1"}], "}"}]}], "]"}], "   ", 
+   RowBox[{"(*", " ", 
+    RowBox[{"Out", ":", " ", 
+     RowBox[{"3", " ", 
+      RowBox[{
+       RowBox[{"mzv", "[", "2", "]"}], "/", "2"}]}]}], " ", "*)"}], "\n", 
+   "\t", "\n", "\t", 
+   RowBox[{"(*", " ", 
+    RowBox[{"Bad", " ", 
+     RowBox[{"order", ":", " ", 
+      RowBox[{
+       RowBox[{"x", "*", 
+        RowBox[{"y", "^", "2"}]}], "+", 
+       RowBox[{
+        RowBox[{"(", 
+         RowBox[{"1", "-", "x"}], ")"}], " ", "does", " ", "not", " ", 
+        "factor", " ", "linearly", " ", "in", " ", "y"}]}]}]}], " ", "*)"}], 
+   "\n", "\t", "\n", "\t", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+     RowBox[{
+      RowBox[{"With", " ", "NoAlgebraicRootsContributions"}], " ", "=", " ", 
+      "True"}], ",", "\n", "\t ", 
+     RowBox[{"HyperWarnZeroed", " ", "=", " ", 
+      RowBox[{
+       RowBox[{"True", " ", 
+        RowBox[{"(", "defaults", ")"}]}], ":"}]}]}], " ", "*)"}], "\n", "\t", 
+   
+   RowBox[{"HyperIntica", "[", 
+    RowBox[{"f", ",", " ", 
+     RowBox[{"{", 
+      RowBox[{"y", ",", " ", "0", ",", " ", "1"}], "}"}], ",", " ", 
+     RowBox[{"{", 
+      RowBox[{"x", ",", " ", "0", ",", " ", "1"}], "}"}]}], "]"}], "\n", "\t", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+     RowBox[{"LinearFactors", "::", "nonlinear"}], " ", "and", " ", 
+     RowBox[{"LinearFactors", "::", "zeroed"}], " ", "warnings", " ", "fire", 
+     "\n", "\t", 
+     RowBox[{"Out", ":", " ", 
+      RowBox[{"0", " ", 
+       RowBox[{"(", 
+        RowBox[{"incorrect", "!"}], ")"}]}]}]}], " ", "*)"}], "\n", "\t", 
+   "\n", "\t", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+     RowBox[{"With", " ", "NoAlgebraicRootsContributions"}], " ", "=", " ", 
+     RowBox[{"False", ":"}]}], " ", "*)"}], "\n", "\t", 
+   RowBox[{"HyperIntica", "[", 
+    RowBox[{"f", ",", " ", 
+     RowBox[{"{", 
+      RowBox[{"y", ",", " ", "0", ",", " ", "1"}], "}"}], ",", " ", 
+     RowBox[{"{", 
+      RowBox[{"x", ",", " ", "0", ",", " ", "1"}], "}"}]}], "]"}], "\n", "\t", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+     RowBox[{"LinearFactorsE", "::", "nonlinear"}], " ", "fires", "\n", "\t", 
+     
+     RowBox[{"Out", ":", " ", "Failed"}]}], " ", "*)"}], "\n", "\t", "\n", 
+   "\t", 
+   RowBox[{"(*", " ", 
+    RowBox[{"Cross", "-", "check"}], " ", "*)"}], "\n", "\t", 
+   RowBox[{"Integrate", "[", 
+    RowBox[{"f", ",", " ", 
+     RowBox[{"{", 
+      RowBox[{"x", ",", " ", "0", ",", " ", "1"}], "}"}], ",", " ", 
+     RowBox[{"{", 
+      RowBox[{"y", ",", " ", "0", ",", " ", "1"}], "}"}]}], "]"}], "    ", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+     RowBox[{"Out", ":", " ", 
+      RowBox[{
+       RowBox[{"Pi", "^", "2"}], "/", "4"}]}], " ", "=", " ", 
+     RowBox[{"3", " ", 
+      RowBox[{
+       RowBox[{"mzv", "[", "2", "]"}], "/", "2"}]}]}], " ", 
+    "*)"}]}]}]], "Input",ExpressionUUID->"7d55c6a1-5f05-46b9-9693-\
+0edb4bf9430b"],
+
+Cell["Divergence checking", "Subsection",ExpressionUUID->"2aea361a-7de2-4d50-ad8a-676a0754166e"],
+
+Cell["\<\
+The global flag HyperInticaCheckDivergences controls whether HyperIntica \
+computes and verifies boundary expansions at each integration step. In \
+HyperIntica.wl the default is True: after finding the primitive in each \
+variable, the code expands the result at z=0 and z=\[Infinity], collects all \
+pole terms, and checks that they cancel. If a divergence is detected and \
+HyperInticaAbortOnDivergence = True (default), the computation aborts with \
+Failed. Setting HyperInticaAbortOnDivergence = False instead stores the \
+divergence (if any) in the association HyperInticaDivergences and continues. \
+When the flag is set to False, the boundary expansions themselves are skipped \
+entirely, not just the final cancellation check, so a speedup generally comes \
+from avoiding the computation of the expansions altogether. When HyperIntica \
+is called from within STIntegrate, the flag is automatically set to False, \
+since the tropical subtraction algorithm guarantees that every counter-term \
+integrand passed to HyperIntica is locally finite. When using HyperIntica as \
+a standalone function on an integral whose finiteness is not known a priori, \
+the user should keep HyperInticaCheckDivergences = True and \
+$HyperInticaAbortOnDivergence = True (the default in standalone mode).\
+\>", "Text",ExpressionUUID->"3484ebbb-9043-47d3-a85b-c973c8a633e1"],
+
+Cell["Memoization and cache management", "Subsection",ExpressionUUID->"1051f411-999f-45fd-911e-76004f616d48"],
+
+Cell["\<\
+During integration, {HyperIntica} accumulates several internal memoization \
+caches. These persist for the duration of the session, which is beneficial \
+when evaluating many related integrals, and can be cleared at any time by \
+calling ForgetAllMemo in the notebook where calculations are done.\
+\>", "Text",ExpressionUUID->"d94d0e46-9d55-4c64-8940-a9e9c5fba484"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Metadata", "MetadataSection",ExpressionUUID->"ddb73184-fe5d-4b36-907a-6424f902efa3"],
+
+Cell[CellGroupData[{
+
+Cell["Categorization", "CategorizationSection",ExpressionUUID->"642f2c82-7ced-46d2-8046-197d12f27acf"],
+
+Cell["Symbol", "Categorization",
+ CellLabel->
+  "Entity Type",ExpressionUUID->"d4d3cdd6-1680-41cc-a466-e2b0d1fd92c7"],
+
+Cell["SubTropica", "Categorization",
+ CellLabel->
+  "Paclet Name",ExpressionUUID->"8a30a735-fef9-4716-a359-974e28db745f"],
+
+Cell["SubTropica`", "Categorization",
+ CellLabel->"Context",ExpressionUUID->"3c0a7d53-1314-4229-9b12-28736e7157ee"],
+
+Cell["SubTropica/ref/HyperIntica", "Categorization",
+ CellLabel->"URI",ExpressionUUID->"a52609c8-900b-4cc4-8169-c4605be1e00c"]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Keywords", "KeywordsSection",ExpressionUUID->"8339d109-314c-45d9-8796-f265b91166b6"],
+
+Cell["Feynman integral", "Keywords",ExpressionUUID->"0ab5bbe1-f842-4411-9772-33e2fca09776"],
+
+Cell["tropical geometry", "Keywords",ExpressionUUID->"5599c3ab-8577-4e7c-b0ee-abc50c182916"],
+
+Cell["dimensional regularization", "Keywords",ExpressionUUID->"42e64523-1f2c-433c-8ba9-88127bf476d2"]
+}, Closed]]
+}, Open  ]]
+},
+TaggingRules-><|"Paclet" -> "SubTropica"|>,
+FrontEndVersion->"14.3 for Mac OS X ARM (64-bit) (July 8, 2025)",
+StyleDefinitions->FrontEnd`FileName[{"Wolfram"}, "FunctionPageStylesExt.nb", 
+  CharacterEncoding -> "UTF-8"],
+ExpressionUUID->"48b88533-191e-4ca6-b7fe-983f59d11475"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[576, 22, 88, 0, 70, "ObjectName",ExpressionUUID->"5a208aec-16af-413f-91f8-ce8ac95398ed"],
+Cell[667, 24, 548, 11, 70, "Usage",ExpressionUUID->"84bc1c2f-e4a2-457c-966d-eb66e953f86e",
+ CellID->1],
+Cell[1218, 37, 627, 9, 70, "Notes",ExpressionUUID->"4ccd8c98-9cea-472b-b1a8-1ec8a885e3ba"],
+Cell[1848, 48, 233, 4, 70, "Input",ExpressionUUID->"0ce98b86-fe6e-40d6-b89f-fe220107b5c9"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[2118, 57, 81, 0, 70, "Section",ExpressionUUID->"a86cccca-431f-4c95-9079-1b3ceeba5d1c"],
+Cell[2202, 59, 95, 0, 70, "Subsection",ExpressionUUID->"4f8ca179-3624-4c3a-a428-66465963034f"],
+Cell[2300, 61, 371, 5, 70, "Text",ExpressionUUID->"99198af6-4e65-438c-8d42-e90964e8755b"],
+Cell[2674, 68, 95, 0, 70, "Subsection",ExpressionUUID->"e35c40ff-8dbe-4bf2-abce-1d6c1357935b"],
+Cell[2772, 70, 566, 8, 70, "Text",ExpressionUUID->"fb294e07-a2c6-44af-aaa2-489508d2344e"],
+Cell[3341, 80, 89, 0, 70, "Subsection",ExpressionUUID->"5ee11a35-91f6-4a14-a4eb-f20c570b4795"],
+Cell[3433, 82, 441, 6, 70, "Text",ExpressionUUID->"6eba30bf-44d9-4fa1-8d42-f61cc67e5a7d"],
+Cell[3877, 90, 5366, 158, 70, "Input",ExpressionUUID->"e5bb41bb-748f-4d8c-ad7e-5f89cc05ba61"],
+Cell[9246, 250, 96, 0, 70, "Subsection",ExpressionUUID->"dcbde8b5-351e-4423-9ac8-92465bbe921d"],
+Cell[9345, 252, 1550, 21, 70, "Text",ExpressionUUID->"961998e1-1273-4a50-9ad2-c80759c1b898"],
+Cell[10898, 275, 4281, 118, 70, "Input",ExpressionUUID->"7d55c6a1-5f05-46b9-9693-0edb4bf9430b"],
+Cell[15182, 395, 96, 0, 70, "Subsection",ExpressionUUID->"2aea361a-7de2-4d50-ad8a-676a0754166e"],
+Cell[15281, 397, 1369, 18, 70, "Text",ExpressionUUID->"3484ebbb-9043-47d3-a85b-c973c8a633e1"],
+Cell[16653, 417, 109, 0, 70, "Subsection",ExpressionUUID->"1051f411-999f-45fd-911e-76004f616d48"],
+Cell[16765, 419, 375, 5, 70, "Text",ExpressionUUID->"d94d0e46-9d55-4c64-8940-a9e9c5fba484"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[17177, 429, 90, 0, 70, "MetadataSection",ExpressionUUID->"ddb73184-fe5d-4b36-907a-6424f902efa3"],
+Cell[CellGroupData[{
+Cell[17292, 433, 102, 0, 70, "CategorizationSection",ExpressionUUID->"642f2c82-7ced-46d2-8046-197d12f27acf"],
+Cell[17397, 435, 117, 2, 70, "Categorization",ExpressionUUID->"d4d3cdd6-1680-41cc-a466-e2b0d1fd92c7"],
+Cell[17517, 439, 121, 2, 70, "Categorization",ExpressionUUID->"8a30a735-fef9-4716-a359-974e28db745f"],
+Cell[17641, 443, 115, 1, 70, "Categorization",ExpressionUUID->"3c0a7d53-1314-4229-9b12-28736e7157ee"],
+Cell[17759, 446, 126, 1, 70, "Categorization",ExpressionUUID->"a52609c8-900b-4cc4-8169-c4605be1e00c"]
+}, Closed]],
+Cell[CellGroupData[{
+Cell[17922, 452, 90, 0, 70, "KeywordsSection",ExpressionUUID->"8339d109-314c-45d9-8796-f265b91166b6"],
+Cell[18015, 454, 91, 0, 70, "Keywords",ExpressionUUID->"0ab5bbe1-f842-4411-9772-33e2fca09776"],
+Cell[18109, 456, 92, 0, 70, "Keywords",ExpressionUUID->"5599c3ab-8577-4e7c-b0ee-abc50c182916"],
+Cell[18204, 458, 101, 0, 70, "Keywords",ExpressionUUID->"42e64523-1f2c-433c-8ba9-88127bf476d2"]
+}, Closed]]
+}, Open  ]]
+}
+]
+*)
+
+(* End of internal cache information *)

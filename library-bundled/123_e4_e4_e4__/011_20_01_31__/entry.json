@@ -1,0 +1,58 @@
+{
+  "CNickelIndex": "123|e4|e4|e4||:011|20|01|31||",
+  "Loops": 2,
+  "NumPropagators": 7,
+  "CanonicalName": "Non-planar double box, 4 massive propagators (f)",
+  "Names": [],
+  "References": [
+    "arXiv:1610.08397 (Nucl.Phys.B 916 (94), 2017)"
+  ],
+  "Records": [
+    {
+      "reference": "arXiv:1610.08397 (Nucl.Phys.B 916 (94), 2017)",
+      "authors": "Primo, Amedeo, Tancredi, Lorenzo",
+      "description": "Two-loop non-planar three-point function with one massless and two off-shell external legs ($p_1^2=0, p_2^2 \\neq 0, q^2 = s \\neq 0$) and four massive internal propagators of equal mass $m$, relevant for non-planar corrections to $H$+jet production through a massive fermion loop. The family has two master integrals which satisfy a coupled second-order homogeneous differential equation in $d=4$ in the variables $x = -s/m^2, y = -p_2^2/m^2$ (Eqs. 4.5, 4.6). The maximal cut is computed by first cutting the inner one-loop box and then localizing the remaining two delta-functions, yielding a homogeneous solution $F_1 \\sim (x-y)/\\sqrt{x^2 - 2x(y+8) + y^2} \\cdot \\operatorname{EllipticK}((x-y)^2/(x^2-2(y+8)x+y^2))$ (Eq. 4.18). A second independent solution $F_2$ is obtained from $\\operatorname{EllipticK}(1-w)$. The single off-shell limit $p_2^2 \\to 0$ reproduces the homogeneous solution of the corresponding non-planar two-loop triangle with one off-shell leg.",
+      "epsOrders": "",
+      "familyName": "two-loop non-planar triangle with two off-shell legs and four massive propagators",
+      "method": "IBP, DE",
+      "tools": [],
+      "ancillaryFiles": false,
+      "doi": "10.1016/j.nuclphysb.2016.12.021",
+      "texkey": "Primo:2016ebd",
+      "masterCount": 2,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "maximal_cut",
+      "location": "Section 4.1, Eqs. (4.1)-(4.20)",
+      "recordId": "bx_e01099883d29",
+      "verified": false,
+      "verifiedAt": ""
+    }
+  ],
+  "Results": [],
+  "edges": "{{{1, 2}, 0}, {{1, 3}, m}, {{2, 4}, 0}, {{4, 5}, m}, {{1, 5}, m}, {{3, 4}, m}}",
+  "nodes": "{{2, q}, {3, 0}, {5, P}}",
+  "MassScales": 1,
+  "MassConfig": {
+    "numEdges": 6,
+    "numMassiveEdges": 4,
+    "numMasslessEdges": 2,
+    "distinctInternalMasses": 1,
+    "internalMassLabels": [
+      "m"
+    ],
+    "edgeMassPattern": "010111",
+    "numExtLegs": 3,
+    "numOnshellMassiveExtLegs": 2,
+    "numMasslessExtLegs": 1,
+    "extLegSignature": "M0M"
+  },
+  "FunctionClass": "elliptic",
+  "EpsilonOrder": "",
+  "Source": [
+    "arXiv"
+  ],
+  "Subsectors": [],
+  "ParentSectors": [
+    "123|e4|e4|e5|5|e|:110|01|21|00|0|0|"
+  ]
+}

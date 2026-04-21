@@ -1,0 +1,73 @@
+{
+  "CNickelIndex": "123|23|e|e|:111|11|2|2|",
+  "MassScales": 1,
+  "FunctionClass": "elliptic",
+  "EpsilonOrder": "-2,-1,0,1,2",
+  "References": [
+    "arXiv:2011.13337 (Nucl.Phys.B 963 (), 2021)"
+  ],
+  "Records": [
+    {
+      "ancillaryPaths": [
+        "anc/Data/kite3-A+Bep",
+        "anc/Data/kite3-masters-results-J-integrals",
+        "anc/kites-results.nb"
+      ],
+      "dimScheme": "d=4-2*eps",
+      "recordId": "bf_009f24bb3373",
+      "familyName": "kite (fully massive)",
+      "verified": false,
+      "verifiedAt": "",
+      "authors": "Bezuglov, M.A., Onishchenko, A.I., Veretin, O.L.",
+      "texkey": "Bezuglov:2020ywm",
+      "computationLevel": "full",
+      "masterCount": 8,
+      "location": "Section 3.3, Eq. (3.12)-(3.14)",
+      "method": [],
+      "reference": "arXiv:2011.13337, Nucl.Phys.B 963, 2021",
+      "ancillaryFiles": [],
+      "description": "Fully massive two-loop kite diagram with all five propagators carrying equal mass $m=1$. New analytic result requiring hyperelliptic polylogarithms. Additional alphabet letter $s-3$ compared to one-massless kite. DE for 8 masters in $A+B\\varepsilon$ form.",
+      "epsOrders": "-2,-1,0,1,2",
+      "tools": [
+        "LiteRed",
+        "Libra",
+        "FIESTA"
+      ],
+      "doi": "10.1016/j.nuclphysb.2020.115302"
+    }
+  ],
+  "Names": [
+    "kite (fully massive)"
+  ],
+  "Source": [
+    "arXiv"
+  ],
+  "Loops": 2,
+  "NumPropagators": 5,
+  "Results": [],
+  "edges": "{{{1, 2}, m}, {{1, 3}, m}, {{1, 4}, m}, {{2, 3}, m}, {{2, 4}, m}}",
+  "nodes": "{{3, M}, {4, M}}",
+  "CanonicalName": "Equal-mass kite",
+  "MassConfig": {
+    "numEdges": 5,
+    "numMassiveEdges": 5,
+    "numMasslessEdges": 0,
+    "distinctInternalMasses": 1,
+    "internalMassLabels": [
+      "m"
+    ],
+    "edgeMassPattern": "11111",
+    "numExtLegs": 2,
+    "numOnshellMassiveExtLegs": 2,
+    "numMasslessExtLegs": 0,
+    "extLegSignature": "MM"
+  },
+  "commonNames": [
+    "M"
+  ],
+  "Subsectors": [
+    "1122|e|e|:1111|2|2|",
+    "112|e2|e|:111|21|2|"
+  ],
+  "ParentSectors": []
+}

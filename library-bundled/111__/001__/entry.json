@@ -1,0 +1,93 @@
+{
+  "CNickelIndex": "111||:001||",
+  "MassScales": 1,
+  "FunctionClass": "MPL",
+  "EpsilonOrder": "all_orders",
+  "References": [
+    "arXiv:2201.11637 (Phys.Rev.Lett. 129 (), 2022)"
+  ],
+  "Records": [
+    {
+      "reference": "arXiv:2201.11637 (Phys.Rev.Lett. 129 (), 2022)",
+      "authors": "Liu, Zhi-Feng, Ma, Yan-Qing",
+      "description": "Two-loop single-mass vacuum bubble with 3 propagators: $k_1^2-1$ (massive), $k_2^2$, $(k_1+k_2)^2$ (massless). Simplest example of AMFlow method. Reduced to 1-loop p-integral via factorization relation.",
+      "epsOrders": "all_orders",
+      "familyName": "I_(1,1,1)",
+      "method": "DE, IBP",
+      "tools": [
+        "AMFlow"
+      ],
+      "ancillaryFiles": false,
+      "doi": "10.1103/PhysRevLett.129.222001",
+      "texkey": "Liu:2022mfb",
+      "masterCount": 0,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "full",
+      "location": "Examples section, Fig.1(b)",
+      "recordId": "bx_a8573a7e4e68",
+      "verified": false,
+      "verifiedAt": ""
+    }
+  ],
+  "Names": [
+    "I_(1,1,1)"
+  ],
+  "Source": [
+    "arXiv"
+  ],
+  "Loops": 2,
+  "NumPropagators": 3,
+  "Results": [
+    {
+      "resultCompressed": "1:eJyFT1sOwiAQRGuJ8d8DeBc/+9FUL4AJmE2KmC5q4qG9gY9diLEgRj6GzO4MM6x2rjNSCIELgo0eQONaeYUVUX1EoEsYJjgjaAC9mTKrCbZgNUY6J+iUB3dQPUyIQBgzWBsl7G/7E/73V7m/ShzwpPNecVYo27h9Wf6roBwF1OOCsOQ/py1Dnc+sdRc9BHML2SrKb1Sx2C3Tye9nS7Zixj3JsNdzUMGDxvGHDC8QyGMC",
+      "resultTeX": "\\frac{m^2}{2 \\varepsilon^2}+\\frac{\\frac{3 m^2}{2}-m^2 \\log (m^2)}{\\varepsilon}+\\frac{1}{6} m^2 \\left(6 \\log ^2(m^2)-18 \\log (m^2)-3 \\zeta(2)+2 \\pi ^2+21\\right)+O\\left(\\varepsilon^1\\right)",
+      "dimension": "4 - 2*eps",
+      "epsOrder": 0,
+      "propExponents": [
+        1,
+        1,
+        1
+      ],
+      "propagators": [],
+      "numerators": [],
+      "internalMasses": [],
+      "externalMasses": [],
+      "substitutions": "{}",
+      "normalization": "Automatic",
+      "stVersion": "SubTropica v1.0.303",
+      "stCommand": "",
+      "contributor": "Sebastian Mizera",
+      "timestamp": "2026-04-17T21:57:22",
+      "byteCount": 1432,
+      "symbolTeX": "\\begin{aligned}\\varepsilon^{-1}&\\colon\\;-m^2\\,(m^2) \\\\ \\varepsilon^{0}&\\colon\\;-3 m^2\\,(m^2) + 2 m^2\\,(m^2 \\otimes m^2)\\end{aligned}",
+      "alphabet": [
+        "m^2"
+      ],
+      "symbolWeight": 2,
+      "symbolTerms": 3,
+      "legOrder": []
+    }
+  ],
+  "edges": "{{{1, 2}, 0}, {{1, 2}, 0}, {{1, 2}, m}}",
+  "nodes": "{}",
+  "CanonicalName": "Theta, 1 massive propagator",
+  "MassConfig": {
+    "numEdges": 3,
+    "numMassiveEdges": 1,
+    "numMasslessEdges": 2,
+    "distinctInternalMasses": 1,
+    "internalMassLabels": [
+      "m"
+    ],
+    "edgeMassPattern": "001",
+    "numExtLegs": 0,
+    "numOnshellMassiveExtLegs": 0,
+    "numMasslessExtLegs": 0,
+    "extLegSignature": ""
+  },
+  "Subsectors": [],
+  "ParentSectors": [
+    "112|22||:001|11||",
+    "112|e2|e|:010|20|2|"
+  ]
+}

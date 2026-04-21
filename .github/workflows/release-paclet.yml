@@ -1,0 +1,134 @@
+# .github/workflows/release-paclet.yml
+#
+# On tag push (v*), builds a .paclet file and creates a GitHub Release
+# with the paclet attached. Users install via:
+#
+#   PacletInstall["https://github.com/SubTropica/SubTropica/releases/download/vX.Y.Z/SubTropica-X.Y.Z.paclet"]
+#
+# The paclet is built in pure Python (zip with specific structure) —
+# no Mathematica/wolframscript needed on the runner.
+
+name: Release Paclet
+
+on:
+  push:
+    tags:
+      - "v*"
+
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Extract version from tag
+        id: version
+        run: |
+          TAG="${GITHUB_REF#refs/tags/v}"
+          echo "version=$TAG" >> "$GITHUB_OUTPUT"
+          echo "tag=v$TAG" >> "$GITHUB_OUTPUT"
+          echo "Version: $TAG"
+
+      - name: Build .paclet file
+        shell: python3 {0}
+        run: |
+          import zipfile, os, re, json
+
+          version = os.environ["VERSION"]
+          paclet_name = f"SubTropica-{version}.paclet"
+
+          # Files and directories to include in the paclet
+          include = [
+              "PacletInfo.wl",
+              "SubTropica.wl",
+              "HyperIntica.wl",
+              "mzv.wl",
+              "PolynomialQuotientFF.wl",
+              "Kernel/init.m",
+              "LICENSE",
+              "LICENSE-DATA",
+          ]
+          include_dirs = [
+              "library-bundled",
+              "ui",
+          ]
+          # Exclude patterns
+          exclude = {".DS_Store", "manifest.json", "__pycache__", "_stats.json"}
+
+          # Zip prefix must be Name-Version/ (Wolfram paclet convention)
+          prefix = f"SubTropica-{version}"
+
+          # Update version in PacletInfo.wl to match the tag
+          with open("PacletInfo.wl") as f:
+              paclet_info = f.read()
+          paclet_info = re.sub(
+              r'"Version"\s*->\s*"[^"]*"',
+              f'"Version" -> "{version}"',
+              paclet_info
+          )
+
+          # Build the zip
+          with zipfile.ZipFile(paclet_name, "w", zipfile.ZIP_DEFLATED) as zf:
+              # PacletInfo.wl with updated version
+              zf.writestr(f"{prefix}/PacletInfo.wl", paclet_info)
+
+              # Add individual files
+              for fpath in include:
+                  if fpath == "PacletInfo.wl":
+                      continue
+                  if os.path.isfile(fpath):
+                      zf.write(fpath, f"{prefix}/{fpath}")
+
+              # Add directories recursively
+              for dirpath in include_dirs:
+                  if not os.path.isdir(dirpath):
+                      continue
+                  for root, dirs, files in os.walk(dirpath):
+                      for fname in sorted(files):
+                          if fname in exclude:
+                              continue
+                          full = os.path.join(root, fname)
+                          zf.write(full, f"{prefix}/{full}")
+
+          size_mb = os.path.getsize(paclet_name) / (1024 * 1024)
+          print(f"\nBuilt {paclet_name} ({size_mb:.1f} MB)")
+
+          # Also write a stable-alias copy so the URL
+          # https://github.com/SubTropica/SubTropica/releases/latest/download/SubTropica.paclet
+          # resolves to the highest-tagged release's paclet regardless of
+          # version.  This is what subtropi.ca/SubTropica.paclet redirects to.
+          import shutil
+          shutil.copy(paclet_name, "SubTropica.paclet")
+          print("Built SubTropica.paclet (stable-alias copy)")
+        env:
+          VERSION: ${{ steps.version.outputs.version }}
+
+      - name: Create GitHub Release
+        run: |
+          gh release create "$TAG" \
+            "SubTropica-${VERSION}.paclet" \
+            "SubTropica.paclet" \
+            --title "SubTropica v${VERSION}" \
+            --notes "## Installation
+
+          Quick (always latest):
+          \`\`\`mathematica
+          PacletInstall[\"https://subtropi.ca/SubTropica.paclet\"]
+          Needs[\"SubTropica\`\"]
+          \`\`\`
+
+          Version-pinned:
+          \`\`\`mathematica
+          PacletInstall[\"https://github.com/SubTropica/SubTropica/releases/download/${TAG}/SubTropica-${VERSION}.paclet\"]
+          \`\`\`
+
+          See [README](https://github.com/SubTropica/SubTropica#readme) for documentation."
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAG: ${{ steps.version.outputs.tag }}
+          VERSION: ${{ steps.version.outputs.version }}

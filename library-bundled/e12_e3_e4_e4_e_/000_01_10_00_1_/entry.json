@@ -1,0 +1,66 @@
+{
+  "CNickelIndex": "e12|e3|e4|e4|e|:000|01|10|00|1|",
+  "MassScales": 6,
+  "FunctionClass": "hypergeometric",
+  "EpsilonOrder": "",
+  "References": [
+    "arXiv:2405.18755"
+  ],
+  "Records": [
+    {
+      "reference": "arXiv:2405.18755",
+      "authors": [
+        {
+          "full_name": "Passarino, Giampiero",
+          "inspire_id": 994109
+        }
+      ],
+      "description": "One-loop pentagon with four massless propagators and one massive propagator $m^2$, two massless initial legs and one massless plus two massive final legs with $p_2^2=p_3^2=-m^2$. The kinematic matrix is given explicitly in terms of Mandelstam invariants and the result is written as a Mellin-Barnes/Fox function combination.",
+      "epsOrders": "",
+      "familyName": "2-mass 1-loop pentagon (5 propagators)",
+      "method": "direct_integration, Mellin-Barnes",
+      "tools": [],
+      "ancillaryFiles": false,
+      "doi": "",
+      "texkey": "",
+      "masterCount": 0,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "full",
+      "location": "Section 5.8",
+      "recordId": "bx_4c84f26a9331",
+      "verified": false,
+      "verifiedAt": ""
+    }
+  ],
+  "Names": [
+    "2-mass 1-loop pentagon (5 propagators)"
+  ],
+  "Source": [
+    "arXiv"
+  ],
+  "Loops": 1,
+  "NumPropagators": 5,
+  "Results": [],
+  "edges": "{{{1, 2}, 0}, {{1, 3}, 0}, {{2, 4}, m}, {{3, 5}, 0}, {{4, 5}, 0}}",
+  "nodes": "{{1, 0}, {2, 0}, {4, 0}, {5, m}, {3, m}}",
+  "CanonicalName": "Pentagon, 1 massive propagator (b)",
+  "MassConfig": {
+    "numEdges": 5,
+    "numMassiveEdges": 1,
+    "numMasslessEdges": 4,
+    "distinctInternalMasses": 1,
+    "internalMassLabels": [
+      "m"
+    ],
+    "edgeMassPattern": "00100",
+    "numExtLegs": 5,
+    "numOnshellMassiveExtLegs": 2,
+    "numMasslessExtLegs": 3,
+    "extLegSignature": "000MM"
+  },
+  "commonNames": [
+    "E₀(1×m)"
+  ],
+  "Subsectors": [],
+  "ParentSectors": []
+}

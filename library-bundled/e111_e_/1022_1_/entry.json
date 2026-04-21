@@ -1,0 +1,261 @@
+{
+  "CNickelIndex": "e111|e|:1022|1|",
+  "MassScales": 1,
+  "FunctionClass": "MPL",
+  "EpsilonOrder": "",
+  "References": [
+    "arXiv:2008.04823 (JHEP 03 (027), 2021)",
+    "arXiv:1907.08227 (Phys.Rev.D 100 (), 2019)",
+    "arXiv:2602.04371",
+    "arXiv:2110.07968 (JHEP 03 (079), 2022)",
+    "arXiv:1912.06561"
+  ],
+  "Records": [
+    {
+      "reference": "arXiv:2008.04823 (JHEP 03 (027), 2021)",
+      "authors": "Frellesvig, Hjalte, Gasparotto, Federico, Laporta, Stefano, Mandal, Manoj K., Mastrolia, Pierpaolo, Mattiazzi, Luca et al.",
+      "description": "Two-loop sunrise with two massive and one massless line. DE derived via bottom-up multivariate intersection numbers. 4 master integrals.",
+      "epsOrders": "",
+      "familyName": "two-loop QED sunrise",
+      "method": "intersection, IBP",
+      "tools": [
+        "LiteRed"
+      ],
+      "ancillaryFiles": false,
+      "doi": "10.1007/JHEP03(2021)027",
+      "texkey": "Frellesvig:2020qot",
+      "masterCount": 4,
+      "dimScheme": "d=D",
+      "computationLevel": "DE_only",
+      "location": "Section 5.3",
+      "recordId": "bx_f3b637cd2c02",
+      "verified": false,
+      "verifiedAt": ""
+    },
+    {
+      "reference": "arXiv:2602.04371",
+      "authors": "Duhr, Claude, Maggio, Sara, Nega, Christoph, Benjamin Sauer, Tancredi, Lorenzo, Wagner, Fabian J.",
+      "description": "Two-loop sunrise with propagator masses $(m,0,m)$ in $d=2-2\\varepsilon$. Setting $M^2=0$ degenerates the elliptic curve to a Riemann sphere. 2 master integrals. Canonical DE has dlog form. Proceedings example for the canonical DE algorithm beyond polylogs.",
+      "epsOrders": "",
+      "familyName": "2-loop sunrise (2 equal masses, polylogarithmic)",
+      "method": "IBP, DE",
+      "tools": [],
+      "ancillaryFiles": false,
+      "doi": "",
+      "texkey": "Duhr:2026apb",
+      "masterCount": 2,
+      "dimScheme": "d=2-2*eps",
+      "computationLevel": "DE_only",
+      "location": "Section 3, Eq. (6), (14)-(20)",
+      "recordId": "bx_8c35a9208538",
+      "verified": false,
+      "verifiedAt": ""
+    },
+    {
+      "authors": "Gerlach, Marvin, Mishima, Go, Steinhauser, Matthias",
+      "texkey": "Gerlach:2019kfo",
+      "verified": false,
+      "verifiedAt": "",
+      "ancillaryPaths": [
+        "https://www.ttp.kit.edu/preprints/2019/ttp19-024/"
+      ],
+      "reference": "arXiv:1907.08227, Phys.Rev.D 100, 2019",
+      "ancillaryFiles": [],
+      "recordId": "bf_a5e7e56b585a",
+      "masterCount": 1,
+      "transcendentalWeight": 3,
+      "computationLevel": "full",
+      "doi": "10.1103/PhysRevD.100.054016",
+      "tools": [
+        "FIRE",
+        "LiteRed",
+        "FIESTA"
+      ],
+      "description": "Two-loop sunrise (banana) integral with one massless and two massive propagators, external momentum $2p$ (where $p^2=m^2$, so the invariant is $4m^2$). Result expanded through $\\mathcal{O}(\\varepsilon^1)$, containing $\\zeta_3$, $\\pi^2$, and $\\pi^2 \\log(2)$. Needed for the scattering channel of the NRQCD matching.",
+      "epsOrders": "-2,-1,0,1",
+      "method": [],
+      "dimScheme": "d=4-2*eps",
+      "location": "Appendix B, Eq. (B.1), Fig. 3",
+      "familyName": "I_2^c"
+    },
+    {
+      "reference": "arXiv:2110.07968 (JHEP 03 (079), 2022)",
+      "authors": "Frellesvig, Hjalte",
+      "description": "Two-mass non-elliptic sunrise with $m_1=m_2=m$, $m_3=0$. Used as motivating example for the period-matrix diagonalization algorithm in the non-elliptic case.",
+      "epsOrders": "",
+      "familyName": "two-mass non-elliptic sunrise",
+      "method": "",
+      "tools": [],
+      "ancillaryFiles": true,
+      "doi": "10.1007/JHEP03(2022)079",
+      "texkey": "Frellesvig:2021hkr",
+      "masterCount": 0,
+      "dimScheme": "d=2-2*eps",
+      "computationLevel": "full",
+      "location": "sec. 2.2",
+      "recordId": "bx_0f9d480d0519",
+      "verified": false,
+      "verifiedAt": ""
+    },
+    {
+      "reference": "arXiv:1912.06561",
+      "authors": [
+        {
+          "full_name": "Abreu, Samuel",
+          "inspire_id": 1287226
+        },
+        {
+          "full_name": "Britto, Ruth",
+          "inspire_id": 1015279
+        },
+        {
+          "full_name": "Duhr, Claude",
+          "inspire_id": 1040449
+        },
+        {
+          "full_name": "Gardi, Einan",
+          "inspire_id": 1019159
+        },
+        {
+          "full_name": "Matthew, James",
+          "inspire_id": 1946788
+        }
+      ],
+      "description": "Two-loop sunset graph with three edges between two vertices, two of which carry a common internal mass $m$, with a single external momentum $p$. The diagrammatic coaction has the same form as the one-mass case with the addition of one-loop-style deformation terms; a two-master basis is used and the ${}_2F_1$ evaluation machinery of the one-mass case carries over.",
+      "epsOrders": "",
+      "familyName": "Two-loop sunset with two internal masses",
+      "method": "direct_integration",
+      "tools": [],
+      "ancillaryFiles": false,
+      "doi": "",
+      "texkey": "",
+      "masterCount": 2,
+      "dimScheme": "d=2-2*eps",
+      "computationLevel": "basis",
+      "location": "Section 4, displayed coaction following 'For the sunset graph with two masses, we find a similar structure as the one-mass case, but with the addition of deformation terms'",
+      "recordId": "bx_00bcb0b74316",
+      "verified": false,
+      "verifiedAt": ""
+    }
+  ],
+  "Names": [
+    "two-loop QED sunrise",
+    "I_2^c",
+    "2-loop sunrise (2 equal masses, polylogarithmic)"
+  ],
+  "Source": [
+    "arXiv"
+  ],
+  "Loops": 2,
+  "NumPropagators": 3,
+  "edges": "{{{1, 2}, 0}, {{1, 2}, m}, {{1, 2}, m}}",
+  "nodes": "{{1, M}, {2, M}}",
+  "CanonicalName": "Sunrise, 2 massive propagators",
+  "MassConfig": {
+    "numEdges": 3,
+    "numMassiveEdges": 2,
+    "numMasslessEdges": 1,
+    "distinctInternalMasses": 1,
+    "internalMassLabels": [
+      "m"
+    ],
+    "edgeMassPattern": "011",
+    "numExtLegs": 2,
+    "numOnshellMassiveExtLegs": 2,
+    "numMasslessExtLegs": 0,
+    "extLegSignature": "MM"
+  },
+  "commonNames": [
+    "S",
+    "B2",
+    "sunset"
+  ],
+  "Subsectors": [],
+  "ParentSectors": [],
+  "Results": [
+    {
+      "resultCompressed": "1:eJzVVsFOwzAM7UbHJj6AO//CcZWqgcS5SCmytFBrLkPab++2w8BJF1LadMkoK6MHt44d5/n5qe3dc7HIr6Moohs2D2IFgu6zMqMrdgUS8C3KlUMxmzlQSWN+kNIupss3ytUiTdg8ghQEOnhI/B6q3BmbRVZC8Zot4YMviM2OJKlK22J7jptiIxVS8XnxYtZujyGZ1pA46tr0tHgXq0MmqJsrlCQarb+nrepp1tmTY4fqzM2bPT6FClmjkZ2HoLCzxzW0/io2vQXVtduFu0sKgZWbk9aDGZm9T9J2lcfBBPTVQy+YQ9KD/4Me7KRHZ7ZULzfrwJ6+uPzFnuoT1UmTc6M4WWlhuM/OXguWl6m+GjydqdZCOCuu9+iPxqNd821zwxpoYp26wQvVO3r0jn+jd7w8vWNTWDiA3t3jOar32sT0z1vlKvMJcRJ3Mw==",
+      "resultTeX": "\\frac{m^2}{\\varepsilon^2}+\\frac{-\\frac{M^2}{4}+3 m^2-2 m^2 \\log (m^2)}{\\varepsilon}+\\left(-\\frac{1}{2} m^2^2 M^{-2} W_1^--\\frac{1}{2} m^2^2 M^{-2} W_1^-^{-1}+\\frac{1}{2} m^2^2 M^{-2} \\log ^2\\left(-W_1^-\\right)+\\frac{1}{2} m^2^2 M^{-2} W_1^- \\log \\left(-W_1^-\\right)-\\frac{1}{2} m^2^2 M^{-2} W_1^-^{-1} \\log \\left(-W_1^-\\right)-\\frac{M^2 \\log \\left(-W_1^-\\right)}{2 \\left(W_1^-+1\\right)}-\\frac{1}{2} m^2 \\log ^2\\left(-W_1^-\\right)-\\frac{1}{2} m^2^2 M^{-2} W_1^+-\\frac{1}{2} m^2^2 M^{-2} W_1^+^{-1}+\\frac{1}{2} m^2^2 M^{-2} \\log ^2\\left(-W_1^+\\right)+\\frac{1}{2} m^2^2 M^{-2} W_1^+ \\log \\left(-W_1^+\\right)-\\frac{1}{2} m^2^2 M^{-2} W_1^+^{-1} \\log \\left(-W_1^+\\right)-\\frac{M^2 \\log \\left(-W_1^+\\right)}{2 \\left(W_1^++1\\right)}-\\frac{1}{2} m^2 \\log ^2\\left(-W_1^+\\right)-2 m^2^2 M^{-2}+\\frac{1}{2} M^2 \\log (m^2)-\\frac{13 M^2}{8}-m^2 \\zeta(2)+\\frac{\\pi ^2 m^2}{3}+7 m^2+2 m^2 \\log ^2(m^2)-6 m^2 \\log (m^2)\\right)+O\\left(\\varepsilon^1\\right)",
+      "dimension": "4 - 2*eps",
+      "epsOrder": "0",
+      "epsOrders": "0",
+      "propExponents": [
+        1,
+        1,
+        1
+      ],
+      "propagators": [],
+      "numerators": [],
+      "internalMasses": [],
+      "externalMasses": [],
+      "substitutions": "",
+      "rootSubstitutions": "{Wm[1] -> (-2*mm + MM - Sqrt[-((4*mm - MM)*MM)])/(2*mm), Wp[1] -> (-2*mm + MM + Sqrt[-((4*mm - MM)*MM)])/(2*mm)}",
+      "normalization": "Automatic",
+      "stVersion": "SubTropica v1.0.395",
+      "stCommand": "",
+      "contributor": "Sebastian Mizera",
+      "timestamp": "2026-04-19T22:16:53",
+      "verifiedAt": "2026-04-19T22:16:53",
+      "verified": true,
+      "method": "direct_integration",
+      "tools": [
+        "SubTropica"
+      ],
+      "methodLR": "Lungo",
+      "findRoots": true,
+      "byteCount": 8640,
+      "algebraicLetters": [
+        {
+          "index": 1,
+          "variable": "x3",
+          "polynomial": "mm + 2*mm*x3 - MM*x3 + mm*x3^2",
+          "LC": "mm",
+          "sum": "(-2*mm + MM)/mm",
+          "product": "1",
+          "discriminant": "-4*mm^2 + (2*mm - MM)^2",
+          "minusRoot": "(-2*mm + MM - Sqrt[-((4*mm - MM)*MM)])/(2*mm)",
+          "plusRoot": "(-2*mm + MM + Sqrt[-((4*mm - MM)*MM)])/(2*mm)",
+          "polynomialTeX": "x_{3}^2 m^2+2 x_{3} m^2+m^2-x_{3} M^2",
+          "discriminantTeX": "\\left(2 m^2-M^2\\right)^2-4 m^4",
+          "minusRootTeX": "\\frac{1}{2} m^{-2} \\left(-\\sqrt{-\\left(M^2 \\left(4 m^2-M^2\\right)\\right)}-2 m^2+M^2\\right)",
+          "plusRootTeX": "\\frac{1}{2} m^{-2} \\left(\\sqrt{-\\left(M^2 \\left(4 m^2-M^2\\right)\\right)}-2 m^2+M^2\\right)"
+        }
+      ],
+      "symbolTeX": "\\begin{aligned}\\varepsilon^{-1}&\\colon\\;-2 m^2\\,(m^2) \\\\ \\varepsilon^{0}&\\colon\\;\\frac{1}{2} \\left(M^2-12 m^2\\right)\\,(m^2) + 4 m^2\\,(m^2 \\otimes m^2) + m^2 M^{-2} \\left(m^2-M^2\\right)\\,(W_1^- \\otimes W_1^-) + m^2 M^{-2} \\left(m^2-M^2\\right)\\,(W_1^+ \\otimes W_1^+) + \\frac{M^{-2} W_1^-^{-1} \\left(m^4 \\left(-W_1^-\\right)+m^4 W_1^-^2+m^4 W_1^-^3-M^4 W_1^--m^4\\right)}{2 \\left(W_1^-+1\\right)}\\,(W_1^-) + \\frac{M^{-2} W_1^+^{-1} \\left(m^4 \\left(-W_1^+\\right)+m^4 W_1^+^2+m^4 W_1^+^3-M^4 W_1^+-m^4\\right)}{2 \\left(W_1^++1\\right)}\\,(W_1^+)\\end{aligned}",
+      "alphabet": [
+        "m^2",
+        "W_1^-",
+        "W_1^+"
+      ],
+      "symbolWeight": 2,
+      "symbolTerms": 7,
+      "normalizedSymbolTeX": "\\varepsilon^{0}&\\colon\\;\\frac{M^{-2} W_1^-^{-1} W_1^+^{-1}}{2 \\left(W_1^-+1\\right) \\left(W_1^++1\\right)}\\!\\left[2 m^2 W_1^- \\left(W_1^-+1\\right) W_1^+ \\left(W_1^++1\\right) \\left(m^2-M^2\\right)\\,(W^-_1 \\otimes W^-_1) + 2 m^2 W_1^- \\left(W_1^-+1\\right) W_1^+ \\left(W_1^++1\\right) \\left(m^2-M^2\\right)\\,(W^+_1 \\otimes W^+_1) - W_1^+ \\left(W_1^++1\\right) \\left(m^4 W_1^--m^4 W_1^-^2-m^4 W_1^-^3+M^4 W_1^-+m^4\\right)\\,(W^-_1) - W_1^- \\left(W_1^-+1\\right) \\left(m^4 W_1^+-m^4 W_1^+^2-m^4 W_1^+^3+M^4 W_1^++m^4\\right)\\,(W^+_1)\\right]",
+      "wDefinitions": [
+        {
+          "label": "W^-_1",
+          "kind": "algebraic",
+          "pairIndex": 1,
+          "definition": "\\frac{1}{2} m^{-2} \\left(-\\sqrt{-\\left(M^2 \\left(4 m^2-M^2\\right)\\right)}-2 m^2+M^2\\right)",
+          "originalLetter": "W_1^-",
+          "polynomialTeX": "x_{3}^2 m^2+2 x_{3} m^2+m^2-x_{3} M^2",
+          "discriminantTeX": "\\left(2 m^2-M^2\\right)^2-4 m^4"
+        },
+        {
+          "label": "W^+_1",
+          "kind": "algebraic",
+          "pairIndex": 1,
+          "definition": "\\frac{1}{2} m^{-2} \\left(\\sqrt{-\\left(M^2 \\left(4 m^2-M^2\\right)\\right)}-2 m^2+M^2\\right)",
+          "originalLetter": "W_1^+",
+          "polynomialTeX": "x_{3}^2 m^2+2 x_{3} m^2+m^2-x_{3} M^2",
+          "discriminantTeX": "\\left(2 m^2-M^2\\right)^2-4 m^4"
+        }
+      ],
+      "normalizedAlphabet": [
+        "W^-_1",
+        "W^+_1"
+      ],
+      "symbolScale": "m^2",
+      "normalizedSymbolTerms": 4
+    }
+  ]
+}

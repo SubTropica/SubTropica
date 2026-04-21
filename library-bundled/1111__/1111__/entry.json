@@ -1,0 +1,67 @@
+{
+  "CNickelIndex": "1111||:1111||",
+  "MassScales": 1,
+  "FunctionClass": "MPL",
+  "EpsilonOrder": "4",
+  "References": [
+    "arXiv:1705.05136 (JHEP 08 (024), 2017)",
+    "arXiv:1804.10570 (Nucl.Phys.B 938 (416), 2019)"
+  ],
+  "Records": [
+    {
+      "reference": "arXiv:1705.05136 (JHEP 08 (024), 2017)",
+      "authors": "Kniehl, B.A., Pikelner, A.F., Veretin, O.L.",
+      "description": "Three-loop vacuum banana/watermelon topology (4 parallel propagators between 2 vertices). BN (all massive, QED-type) in Re HPL basis; BN1 (3 massive) in Im HPL basis. BN2 and BN3 are Gamma functions.",
+      "epsOrders": "4",
+      "familyName": "B-type banana vacuum",
+      "method": "DE, IBP, series_expansion",
+      "tools": [
+        "FORM"
+      ],
+      "ancillaryFiles": true,
+      "doi": "10.1007/JHEP08(2017)024",
+      "texkey": "Kniehl:2017ikj",
+      "masterCount": 4,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "full",
+      "location": "Eq. (2.4), Secs. 4.3-4.4, App. A",
+      "recordId": "bx_07731c5ec955",
+      "verified": false,
+      "verifiedAt": ""
+    }
+  ],
+  "Names": [
+    "B-type banana vacuum",
+    "3-loop sunrise vacuum (E)"
+  ],
+  "Source": [
+    "arXiv"
+  ],
+  "Loops": 3,
+  "NumPropagators": 4,
+  "Results": [],
+  "edges": "{{{1, 2}, m}, {{1, 2}, m}, {{1, 2}, m}, {{1, 2}, m}}",
+  "nodes": "{}",
+  "CanonicalName": "Equal-mass triple bubble",
+  "MassConfig": {
+    "numEdges": 4,
+    "numMassiveEdges": 4,
+    "numMasslessEdges": 0,
+    "distinctInternalMasses": 1,
+    "internalMassLabels": [
+      "m"
+    ],
+    "edgeMassPattern": "1111",
+    "numExtLegs": 0,
+    "numOnshellMassiveExtLegs": 0,
+    "numMasslessExtLegs": 0,
+    "extLegSignature": ""
+  },
+  "Subsectors": [],
+  "ParentSectors": [
+    "1112|e2|e|:1111|21|2|",
+    "1122|22||:0011|12||",
+    "1122|22||:1112|12||",
+    "1122|22||:1112|22||"
+  ]
+}

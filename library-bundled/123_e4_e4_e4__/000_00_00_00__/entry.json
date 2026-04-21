@@ -1,0 +1,245 @@
+{
+  "CNickelIndex": "123|e4|e4|e4||:000|00|00|00||",
+  "MassScales": 0,
+  "FunctionClass": "MPL",
+  "EpsilonOrder": "",
+  "References": [
+    "arXiv:1709.06055 (Phys.Rev.D 96 (), 2017)",
+    "arXiv:hep-ph/9307327",
+    "arXiv:2310.10145",
+    "arXiv:1901.07808 (Comput.Phys.Commun. 247  (), 2020)",
+    "arXiv:1412.2296 (J.Phys.A 48 (), 2015)",
+    "arXiv:2311.02370"
+  ],
+  "Records": [
+    {
+      "dimScheme": "d=4-2*eps",
+      "recordId": "bf_777d7e9430db",
+      "verified": false,
+      "verifiedAt": "",
+      "authors": "Bern, Zvi, Enciso, Michael, Ita, Harald, Zeng, Mao",
+      "texkey": "Bern:2017gdk",
+      "computationLevel": "IBP_only",
+      "masterCount": 0,
+      "reference": "arXiv:1709.06055, Phys.Rev.D 96, 2017",
+      "ancillaryFiles": [],
+      "description": "Two-loop nonplanar crossed triangle-box with 6 propagators and one ISP. Nonplanar dual conformal symmetry constructed. No integral evaluation.",
+      "familyName": "crossed triangle-box",
+      "location": "Section 6.1, Eqs. (6.1)-(6.14), Figs. 9-10",
+      "method": [],
+      "epsOrders": "",
+      "tools": [],
+      "doi": "10.1103/PhysRevD.96.096017"
+    },
+    {
+      "reference": "arXiv:hep-ph/9307327",
+      "authors": [
+        {
+          "full_name": "Usyukina, N.I.",
+          "inspire_id": 2192017
+        },
+        {
+          "full_name": "Davydychev, Andrei I.",
+          "inspire_id": 1012291
+        }
+      ],
+      "description": "Two-loop non-planar crossed three-point function $\\tilde{C}^{(2)}(p_1^2,p_2^2,p_3^2)$ with massless internal lines and three off-shell external momenta. Called $\\tilde{C}^{(2)}$ in the paper. Factorizes in coordinate space as $\\tilde{C}^{(2)} = (C^{(1)})^2 = (i\\pi^2/p_3^2)^2 \\cdot (\\Phi^{(1)}(x,y))^2$. Weight 4.",
+      "epsOrders": "",
+      "familyName": "two-loop massless non-planar crossed triangle with off-shell external legs",
+      "method": "direct_integration",
+      "tools": [],
+      "ancillaryFiles": false,
+      "doi": "",
+      "texkey": "",
+      "masterCount": 1,
+      "dimScheme": "d=4",
+      "computationLevel": "full",
+      "location": "Section 4, Fig. 5, Eqs. (27)-(28)",
+      "recordId": "bx_187a36177d9b",
+      "verified": false,
+      "verifiedAt": ""
+    },
+    {
+      "reference": "arXiv:2310.10145",
+      "authors": [
+        {
+          "full_name": "Henn, Johannes M.",
+          "inspire_id": 1040053
+        },
+        {
+          "full_name": "Milloy, Calum",
+          "inspire_id": 1753839
+        },
+        {
+          "full_name": "Yan, Kai",
+          "inspire_id": 1784333
+        }
+      ],
+      "description": "Two-loop HQET integral family for the three-Wilson-line three-gluon-vertex web contributing to the tripole soft anomalous dimension. 6 denominators (3 gluon + 3 eikonal, with IR regulator $\\delta=1$ on $v_3$) plus 3 ISPs. Kira yields 16 masters with 4 in the top sector. Canonical DE via CANONICA/DlogBasis/INITIAL; UT basis through weight 4. 13-letter alphabet. Single pole $w^{(2,-1)}$ reproduces the known two-loop tripole anomalous dimension. Called `[3gv]` in the paper.",
+      "epsOrders": "4",
+      "familyName": "2-loop 3-point HQET web with 3-gluon vertex (one-leg IR regulator)",
+      "method": "IBP, DE",
+      "tools": [
+        "Kira",
+        "Canonica",
+        "INITIAL"
+      ],
+      "ancillaryFiles": false,
+      "doi": "",
+      "texkey": "",
+      "masterCount": 16,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "full",
+      "location": "Section 3.2, Eqs. (3.11)-(3.20); Fig. 3gv",
+      "recordId": "bx_ac6c70e58e4d",
+      "verified": false,
+      "verifiedAt": ""
+    },
+    {
+      "reference": "arXiv:1901.07808 (Comput.Phys.Commun. 247  (), 2020)",
+      "authors": "Smirnov, A.V., Chukharev, F.S.",
+      "description": "Two-loop massless on-shell vertex (form-factor) family with internal loop momenta $l, r$ and external momenta $p, q$ satisfying $p^2 = q^2 = 0$ and $2 p \\cdot q = -1$ (i.e. $(p+q)^2 = -1$, fixed normalization). Used in the FIRE6 manual to illustrate the LiteRed-rules workflow: CreateNewBasis[v2], GenerateIBP, AnalyzeSectors[v2,{0,__}] (the first listed entry $(l-r)^2$ is treated as an ISP via non-positive first index), FindSymmetries with EMs->True, and DiskSave. Only IBP reduction information (sectors, symmetries, boundary conditions) is generated; no master integrals are evaluated in the paper.",
+      "epsOrders": "",
+      "familyName": "v2",
+      "method": "IBP",
+      "tools": [
+        "FIRE",
+        "LiteRed"
+      ],
+      "ancillaryFiles": false,
+      "doi": "10.1016/j.cpc.2019.106877",
+      "texkey": "Smirnov:2019qkx",
+      "masterCount": 0,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "IBP_only",
+      "location": "Section 4.5 (Using LiteRed rules in Mathematica), code block around lines 604-637; Fig. 'vertex2' (Fig. 1, line 598)",
+      "recordId": "bx_55f0d234bade",
+      "verified": false,
+      "verifiedAt": ""
+    },
+    {
+      "reference": "arXiv:1412.2296 (J.Phys.A 48 (), 2015)",
+      "authors": "Henn, Johannes M.",
+      "description": "Two-loop massless non-planar form factor (crossed ladder) family with three external legs $q_1+q_2+q_3=0$ and $q_3^2=0$. An auxiliary scale $q_2^2 \\neq 0$ is introduced so that the single-scale on-shell integral ($q_2^2=q_3^2=0$) is reached as a boundary limit; integrals depend on $x=q_2^2/q_1^2$. Seven UT basis integrals $f_1..f_7$ are constructed (three bubble products, three triangles, and the crossed-ladder $f_7$), satisfying a canonical DE in $x$ with alphabet $\\{x,1-x\\}$ (Fuchsian singularities at $x=0,1,\\infty$). Boundary conditions follow from regularity of $f_4..f_7$ at $x=1$. Solution given as harmonic polylogarithms through $\\mathcal{O}(\\varepsilon^2)$ in Eq. (6.16); the on-shell crossed ladder $f_7(0,\\varepsilon)$ is computed through $\\mathcal{O}(\\varepsilon^6)$ (Eq. (6.18)) in agreement with literature, the boundary at $x \\to 0$ being extracted via the Drinfeld-associator/matching procedure of Section 6.3.",
+      "epsOrders": "6",
+      "familyName": "two-loop non-planar massless form factor (crossed ladder) family",
+      "method": "IBP, DE",
+      "tools": [],
+      "ancillaryFiles": false,
+      "doi": "10.1088/1751-8113/48/15/153001",
+      "texkey": "Henn:2014qga",
+      "masterCount": 7,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "full",
+      "location": "Section 6, Eqs. (6.3)-(6.18); Figs. 4-5",
+      "recordId": "bx_a2f14671326e",
+      "verified": false,
+      "verifiedAt": ""
+    },
+    {
+      "reference": "arXiv:2311.02370",
+      "authors": [
+        {
+          "full_name": "Smirnov, Alexander V.",
+          "inspire_id": 1024152
+        },
+        {
+          "full_name": "Zeng, Mao",
+          "inspire_id": 1310565
+        }
+      ],
+      "description": "Two-loop nonplanar vertex diagram with massless external legs, used as FIRE 6.5 benchmark. Kinematics fixed numerically (no free variables besides $d$). Reduction tested with rank-1 and rank-20 ISP numerators using LiteRed rules.",
+      "epsOrders": "",
+      "familyName": "nonplanar_vertex_2L",
+      "method": "IBP",
+      "tools": [
+        "FIRE",
+        "LiteRed"
+      ],
+      "ancillaryFiles": true,
+      "doi": "",
+      "texkey": "",
+      "masterCount": 0,
+      "dimScheme": "",
+      "computationLevel": "IBP_only",
+      "location": "Section 3.1, Fig. 1",
+      "recordId": "bx_f7b88096b1bc",
+      "verified": false,
+      "verifiedAt": ""
+    }
+  ],
+  "Names": [
+    "crossed triangle-box",
+    "two-loop massless non-planar crossed triangle with off-shell external legs",
+    "2-loop 3-point HQET web with 3-gluon vertex (one-leg IR regulator)",
+    "v2",
+    "two-loop non-planar massless form factor (crossed ladder) family"
+  ],
+  "Source": [
+    "arXiv"
+  ],
+  "Loops": 2,
+  "NumPropagators": 6,
+  "Results": [
+    {
+      "resultCompressed": "1:eJxTTMoPSmNjYGAo5gISwalFmanFLoklicXMQG5qQXEmkGJIAxHFLEDCJ7O4JJMRyEAQAM7WC/E=",
+      "resultTeX": "O\\left(\\varepsilon^1\\right)",
+      "dimension": "4 - 2*eps",
+      "epsOrder": "0",
+      "epsOrders": "0",
+      "propExponents": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "propagators": [],
+      "numerators": [],
+      "internalMasses": [],
+      "externalMasses": [],
+      "substitutions": "",
+      "rootSubstitutions": "{}",
+      "normalization": "Automatic",
+      "stVersion": "SubTropica v1.0.290",
+      "stCommand": "",
+      "contributor": "Sebastian Mizera",
+      "timestamp": "2026-04-15T02:32:44",
+      "verifiedAt": "2026-04-15T02:32:44",
+      "verified": true,
+      "method": "direct_integration",
+      "tools": [
+        "SubTropica"
+      ],
+      "methodLR": "Lungo",
+      "byteCount": 192,
+      "symbolTeX": "",
+      "alphabet": [],
+      "symbolWeight": 0,
+      "symbolTerms": 0,
+      "legOrder": []
+    }
+  ],
+  "edges": "{{{1, 2}, 0}, {{1, 3}, 0}, {{1, 4}, 0}, {{2, 5}, 0}, {{3, 5}, 0}, {{4, 5}, 0}}",
+  "nodes": "{{2, 0}, {3, 0}, {4, 0}}",
+  "numericallyVerified": true,
+  "numericallyVerifiedAt": "2026-04-12",
+  "CanonicalName": "Massless non-planar double box",
+  "MassConfig": {
+    "numEdges": 6,
+    "numMassiveEdges": 0,
+    "numMasslessEdges": 6,
+    "distinctInternalMasses": 0,
+    "internalMassLabels": [],
+    "edgeMassPattern": "000000",
+    "numExtLegs": 3,
+    "numOnshellMassiveExtLegs": 0,
+    "numMasslessExtLegs": 3,
+    "extLegSignature": "000"
+  },
+  "Subsectors": [
+    "123|e23|e|e|:000|000|0|0|"
+  ],
+  "ParentSectors": []
+}

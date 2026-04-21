@@ -1,0 +1,64 @@
+{
+  "CNickelIndex": "123|45|e4|e6|e|e6|e|:000|11|00|00|0|00|0|",
+  "MassScales": 6,
+  "FunctionClass": "elliptic",
+  "EpsilonOrder": "4",
+  "References": [
+    "arXiv:2404.12325 (JHEP 07 (073), 2024)"
+  ],
+  "Records": [
+    {
+      "reference": "arXiv:2404.12325 (JHEP 07 (073), 2024)",
+      "authors": "Badger, Simon, Becchetti, Matteo, Giraudo, Nicolò, Zoia, Simone",
+      "description": "Two-loop pentagon-box topology B for $pp \\to tt+\\text{jet}$ in leading colour QCD. Contains an elliptic sector (321B) and a sector with nested square root (421B). Differential equations are polynomial in $\\varepsilon$ up to order 2, with 63 non-logarithmic one-forms. 121 master integrals.",
+      "epsOrders": "4",
+      "familyName": "PB_B",
+      "method": "",
+      "tools": [
+        "LiteRed",
+        "NeatIBP",
+        "FiniteFlow",
+        "DiffExp",
+        "AMFlow"
+      ],
+      "ancillaryFiles": true,
+      "doi": "10.1007/JHEP07(2024)073",
+      "texkey": "Badger:2024fgb",
+      "masterCount": 121,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "basis",
+      "location": "sec. 2, table 1; sec. 3.1-3.5",
+      "recordId": "bx_9e26a8837d03",
+      "verified": false,
+      "verifiedAt": ""
+    }
+  ],
+  "Names": [
+    "PB_B"
+  ],
+  "Source": [
+    "arXiv"
+  ],
+  "Loops": 2,
+  "NumPropagators": 8,
+  "Results": [],
+  "edges": "{{{1, 2}, 0}, {{1, 3}, 0}, {{1, 4}, 0}, {{2, 5}, m}, {{2, 6}, m}, {{3, 5}, 0}, {{4, 7}, 0}, {{6, 7}, 0}}",
+  "nodes": "{{3, 0}, {4, 0}, {7, 0}, {6, 0}, {5, 0}}",
+  "CanonicalName": "Box-pentagon, 2 massive propagators (b)",
+  "MassConfig": {
+    "numEdges": 8,
+    "numMassiveEdges": 2,
+    "numMasslessEdges": 6,
+    "distinctInternalMasses": 1,
+    "internalMassLabels": [
+      "m"
+    ],
+    "edgeMassPattern": "00011000",
+    "numExtLegs": 5,
+    "numOnshellMassiveExtLegs": 0,
+    "numMasslessExtLegs": 5,
+    "extLegSignature": "00000"
+  },
+  "Subsectors": [],
+  "ParentSectors": []
+}

@@ -1,0 +1,115 @@
+{
+  "CNickelIndex": "e12|e2|e|:011|01|1|",
+  "MassScales": 1,
+  "FunctionClass": "MPL",
+  "EpsilonOrder": "4",
+  "References": [
+    "arXiv:2603.05444"
+  ],
+  "Records": [
+    {
+      "reference": "arXiv:2603.05444",
+      "authors": "Jones, Stephen P., Olsson, Anton, Stone, Thomas",
+      "description": "One-loop triangle with all three propagators carrying equal mass $m$. Two external legs massless, one off-shell with $p^2 > 4 m^2$ (above threshold). Used to demonstrate GCAD-based resolution for massive integrals.",
+      "epsOrders": "4",
+      "familyName": "all-massive 1-loop triangle",
+      "method": "sector_decomposition",
+      "tools": [
+        "pySecDec"
+      ],
+      "ancillaryFiles": false,
+      "doi": "",
+      "texkey": "Jones:2026dxy",
+      "masterCount": 0,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "numerical",
+      "location": "Eq. (3.5), Section 3.2, Figure 2",
+      "recordId": "bx_2c17afc3e85b",
+      "verified": false,
+      "verifiedAt": ""
+    }
+  ],
+  "Names": [
+    "all-massive 1-loop triangle"
+  ],
+  "Source": [
+    "arXiv"
+  ],
+  "Loops": 1,
+  "NumPropagators": 3,
+  "Results": [
+    {
+      "resultCompressed": "1:eJxtjUsKgDAMROsXcekNvItLF6JeoEIKA9aKKXh8TYTuzOINw0yYfguzq40x3AoWukA82Gi5EEsnQ8S4TAulYARHpxFXghWe2OVqG8FsI8Jhdzxy6PQxT9Up3HSxWu+//C+aAJVvE1nCCxTHJPg=",
+      "resultTeX": "-\\frac{\\pi ^2}{18 m^2}+O\\left(\\varepsilon^1\\right)",
+      "dimension": "4 - 2*eps",
+      "epsOrder": 0,
+      "propExponents": [
+        1,
+        1,
+        1
+      ],
+      "propagators": [],
+      "numerators": [],
+      "internalMasses": [],
+      "externalMasses": [],
+      "substitutions": "{x2 -> (4*y^2)/(1 - 3*y^2)}",
+      "rationalization": {
+        "kinematic": "{}",
+        "schwinger": "{x2 -> (4*y^2)/(1 - 3*y^2)}",
+        "domain": "{{y, 0, 1/Sqrt[3]}}",
+        "gauge": "{x1 -> 1}"
+      },
+      "normalization": "Automatic",
+      "stVersion": "SubTropica v1.0.310",
+      "stCommand": "ANIntegrateDirect[ANTransformTuple[STGenerateIntegrand[{{{{1, 2}, m}, {{1, 3}, m}, {{2, 3}, m}}, {{1, 0}, {2, 0}, {3, m}}}, \"Gauge\"->{x1->1}], {x2 -> (4*y^2)/(1 - 3*y^2)}], \"Order\"->0, \"Domain\"->{{y,0,1/Sqrt[3]}}]",
+      "contributor": "Sebastian Mizera",
+      "timestamp": "2026-04-18T09:24:15",
+      "byteCount": 464,
+      "method": "path_s",
+      "tools": [
+        "SubTropica",
+        "AnTropica"
+      ],
+      "symbolTeX": "",
+      "alphabet": [],
+      "symbolWeight": 0,
+      "symbolTerms": 0,
+      "legOrder": [],
+      "verification": {
+        "method": "pySecDec",
+        "kinematicPoint": {
+          "mm": 1
+        },
+        "epsOrder": 0,
+        "symbolic": -0.548311355616075,
+        "numeric": -0.548311355615852,
+        "numericError": 1.2397e-12,
+        "relError": 4.1e-13,
+        "agreementDigits": 12,
+        "verifiedAt": "2026-04-18T09:24:15"
+      }
+    }
+  ],
+  "edges": "{{{1, 2}, m}, {{1, 3}, m}, {{2, 3}, m}}",
+  "nodes": "{{1, 0}, {2, 0}, {3, m}}",
+  "CanonicalName": "Equal-mass triangle (b)",
+  "MassConfig": {
+    "numEdges": 3,
+    "numMassiveEdges": 3,
+    "numMasslessEdges": 0,
+    "distinctInternalMasses": 1,
+    "internalMassLabels": [
+      "m"
+    ],
+    "edgeMassPattern": "111",
+    "numExtLegs": 3,
+    "numOnshellMassiveExtLegs": 1,
+    "numMasslessExtLegs": 2,
+    "extLegSignature": "00M"
+  },
+  "commonNames": [
+    "C₀(m)"
+  ],
+  "Subsectors": [],
+  "ParentSectors": []
+}

@@ -1,0 +1,90 @@
+{
+  "CNickelIndex": "123|e4|e4|e5|5|e|:111|01|01|01|1|0|",
+  "MassScales": 3,
+  "FunctionClass": "Calabi-Yau",
+  "EpsilonOrder": "",
+  "References": [
+    "arXiv:2307.11497 (Phys.Rev.D 109 (), 2024)",
+    "arXiv:2407.17175 (JHEP 03 (019), 2025)"
+  ],
+  "Records": [
+    {
+      "ancillaryPaths": [
+        "ancillary_files/hyperelliptic_genus_drop.nb",
+        "ancillary_files/AlgebraicCurves/AlgebraicCurves.wl"
+      ],
+      "dimScheme": "d=4",
+      "recordId": "bf_e6113a283a57",
+      "familyName": "nonplanar crossed box (equal mass)",
+      "verified": false,
+      "verifiedAt": "",
+      "authors": "Marzucca, Robin, McLeod, Andrew J., Page, Ben, Pögel, Sebastian, Weinzierl, Stefan",
+      "texkey": "Marzucca:2023gto",
+      "computationLevel": "maximal_cut",
+      "masterCount": 0,
+      "location": "Eq. (2), Figure 1",
+      "method": [],
+      "reference": "arXiv:2307.11497, Phys.Rev.D 109, 2024",
+      "ancillaryFiles": [],
+      "description": "Two-loop nonplanar crossed box with 7 equal-mass internal propagators and 4 massless external legs. Maximal cut in $d=4$ defines a genus 3 hyperelliptic curve that drops to genus 2 via an extra involution symmetry.",
+      "epsOrders": "",
+      "tools": [
+        "Singular"
+      ],
+      "doi": "10.1103/PhysRevD.109.L031901"
+    },
+    {
+      "reference": "arXiv:2407.17175 (JHEP 03 (019), 2025)",
+      "authors": "Duhr, Claude, Porkert, Franziska, Semper, Cathrin, Stawinski, Sven F.",
+      "description": "Two-loop non-planar crossed box integral in $D=4-2\\varepsilon$ dimensions with seven propagators all carrying equal mass $m$ (set to $m^2=1$ without loss of generality) and four massless external legs. Depends on two Mandelstam variables $s=(p_1+p_2)^2$, $t=(p_2+p_3)^2$. Previously studied in refs. [1308.6676, 1504.08258, 2306.05460] and connected to a genus-two hyperelliptic curve. Using the loop-by-loop Baikov approach, the maximal cut twist is $\\Phi_{npcb} = [(z-\\lambda_1)(z-\\lambda_2)]^{-1/2} \\cdot [(z-\\lambda_3)(z-\\lambda_4)(z-\\lambda_5)(z-\\lambda_6)]^{-1/2-\\varepsilon}$, where the six roots $\\lambda_i$ are algebraic functions of $s,t$. The first factor has NO $\\varepsilon$-dependence in the exponent. At $\\varepsilon=0$, the twist defines a hyperelliptic curve of genus two. The twisted cohomology group is 5-dimensional; the basis consists of differentials of the first kind ($i=1,2$), second kind ($i=3,4$), and third kind ($i=5$) on the hyperelliptic curve. The TRBRs at leading order in $\\varepsilon$ yield generalized Legendre relations (Riemann bilinear relations on the genus-2 curve) relating a- and b-periods and quasi-periods.",
+      "epsOrders": "all_orders",
+      "familyName": "non-planar crossed box (equal mass)",
+      "method": "intersection, DE",
+      "tools": [],
+      "ancillaryFiles": true,
+      "doi": "10.1007/JHEP03(2025)019",
+      "texkey": "Duhr:2024rxe",
+      "masterCount": 5,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "maximal_cut",
+      "location": "section 5.2, figure 6, eqs. in sec_npBox.tex",
+      "recordId": "bx_f1526bd38f8e",
+      "verified": false,
+      "verifiedAt": ""
+    }
+  ],
+  "Names": [
+    "nonplanar crossed box (equal mass)",
+    "non-planar crossed box (equal mass)"
+  ],
+  "Source": [
+    "arXiv"
+  ],
+  "Loops": 2,
+  "NumPropagators": 7,
+  "Results": [],
+  "edges": "{{{1, 2}, m}, {{1, 3}, m}, {{1, 4}, m}, {{2, 5}, m}, {{3, 5}, m}, {{4, 6}, m}, {{5, 6}, m}}",
+  "nodes": "{{2, 0}, {3, 0}, {4, 0}, {6, 0}}",
+  "CanonicalName": "Equal-mass non-planar box-pentagon",
+  "MassConfig": {
+    "numEdges": 7,
+    "numMassiveEdges": 7,
+    "numMasslessEdges": 0,
+    "distinctInternalMasses": 1,
+    "internalMassLabels": [
+      "m"
+    ],
+    "edgeMassPattern": "1111111",
+    "numExtLegs": 4,
+    "numOnshellMassiveExtLegs": 0,
+    "numMasslessExtLegs": 4,
+    "extLegSignature": "0000"
+  },
+  "commonNames": [
+    "L2"
+  ],
+  "Subsectors": [
+    "123|e24|e|e4|e|:111|011|0|01|0|"
+  ],
+  "ParentSectors": []
+}

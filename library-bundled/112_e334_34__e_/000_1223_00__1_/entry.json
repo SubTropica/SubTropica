@@ -1,0 +1,111 @@
+{
+  "CNickelIndex": "112|e334|34||e|:000|1223|00||1|",
+  "MassScales": 2,
+  "FunctionClass": "unknown",
+  "EpsilonOrder": "",
+  "References": [
+    "arXiv:2111.01045",
+    "arXiv:2407.01395"
+  ],
+  "Records": [
+    {
+      "reference": "arXiv:2111.01045",
+      "authors": [
+        {
+          "full_name": "Lange, Fabian",
+          "inspire_id": 1717662
+        },
+        {
+          "full_name": "Maierhöfer, Philipp",
+          "inspire_id": 1034255
+        },
+        {
+          "full_name": "Usovitsch, Johann",
+          "inspire_id": 1510205
+        }
+      ],
+      "description": "Four-loop two-point topology d4L408 from Fael et al. (2021) for heavy-quark mass relation. Kira benchmark example. Called d4L408 in the paper.",
+      "epsOrders": "",
+      "familyName": "two-mass 4-loop 2-point (8 propagators)",
+      "method": "IBP",
+      "tools": [
+        "Kira"
+      ],
+      "ancillaryFiles": false,
+      "doi": "",
+      "texkey": "",
+      "masterCount": 0,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "IBP_only",
+      "location": "Sect. 3.2, Fig. 1",
+      "recordId": "bx_8e1ca1727bae",
+      "verified": false,
+      "verifiedAt": ""
+    },
+    {
+      "reference": "arXiv:2407.01395",
+      "authors": [
+        {
+          "full_name": "Lange, Fabian",
+          "inspire_id": 1717662
+        },
+        {
+          "full_name": "Usovitsch, Johann",
+          "inspire_id": 1510205
+        },
+        {
+          "full_name": "Wu, Zihao",
+          "inspire_id": 1818783
+        }
+      ],
+      "description": "Four-loop propagator topology with two internal mass scales $m_1$, $m_2$ arising in the quark self-energy for the MSbar-on-shell quark mass relation. 8 propagators (6 massive) + 6 ISPs. Benchmark for two propagator orderings in Kira 2.3 (naive vs. recommended). IBP reduction only.",
+      "epsOrders": "",
+      "familyName": "2-mass 4-loop propagator (8 propagators)",
+      "method": "IBP",
+      "tools": [
+        "Kira",
+        "FireFly"
+      ],
+      "ancillaryFiles": false,
+      "doi": "",
+      "texkey": "",
+      "masterCount": 0,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "IBP_only",
+      "location": "Section 3.1, Fig. 1, Eqs. (2.6)-(2.7)",
+      "recordId": "bx_b28fc7cf3eb7",
+      "verified": false,
+      "verifiedAt": ""
+    }
+  ],
+  "Names": [
+    "two-mass 4-loop 2-point (8 propagators)",
+    "2-mass 4-loop propagator (8 propagators)"
+  ],
+  "Source": [
+    "arXiv"
+  ],
+  "Loops": 4,
+  "NumPropagators": 8,
+  "Results": [],
+  "edges": "{{{1, 2}, 0}, {{1, 2}, 0}, {{1, 3}, 0}, {{2, 4}, m[1]}, {{2, 4}, m[1]}, {{2, 5}, m[2]}, {{3, 4}, 0}, {{3, 5}, 0}}",
+  "nodes": "{{2, M}, {5, M}}",
+  "CanonicalName": "2-mass non-planar bubble-box-box-bubble (b), 3 massive propagators",
+  "MassConfig": {
+    "numEdges": 8,
+    "numMassiveEdges": 3,
+    "numMasslessEdges": 5,
+    "distinctInternalMasses": 2,
+    "internalMassLabels": [
+      "m[1]",
+      "m[2]"
+    ],
+    "edgeMassPattern": "00011200",
+    "numExtLegs": 2,
+    "numOnshellMassiveExtLegs": 2,
+    "numMasslessExtLegs": 0,
+    "extLegSignature": "MM"
+  },
+  "Subsectors": [],
+  "ParentSectors": []
+}

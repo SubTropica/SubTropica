@@ -1,0 +1,69 @@
+{
+  "CNickelIndex": "126|59|e3|e4|e5|e|e7|e8|e9|e|:000|00|00|00|00|0|00|00|00|0|",
+  "MassScales": 20,
+  "FunctionClass": "unknown",
+  "EpsilonOrder": "",
+  "References": [
+    "arXiv:2408.06325"
+  ],
+  "Records": [
+    {
+      "reference": "arXiv:2408.06325",
+      "authors": [
+        {
+          "full_name": "Bargiela, Piotr",
+          "inspire_id": 1986599
+        },
+        {
+          "full_name": "Yang, Tong-Zhi",
+          "inspire_id": 1663895
+        }
+      ],
+      "description": "Planar two-loop eight-point topology used as a numerical probe for IBP reduction in the 't Hooft-Veltman scheme. Two cubic internal vertices connected by three rails: middle rail $k_1-k_2$ carries no external legs; four external legs attach to the upper ($k_1$) rail and four to the lower ($k_2$) rail. 11 tHV propagators plus 6 CDR ISPs. IBP reductions with FIRE6 + LiteRed sector symmetries at a rational finite-field point. In tHV the top sector closes with 2368 masters; CDR reduction does not close at this integrand complexity. No analytic evaluation is performed in this paper.",
+      "epsOrders": "",
+      "familyName": "massless planar 2-loop 8-point double box with 4-4 rail split (11 propagators)",
+      "method": "IBP",
+      "tools": [
+        "FIRE",
+        "LiteRed",
+        "Kira"
+      ],
+      "ancillaryFiles": false,
+      "doi": "",
+      "texkey": "",
+      "masterCount": 2368,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "IBP_only",
+      "location": "Section 5, Eq. (5.2); IBP results in Table II. Called the planar `4-0-4' two-loop eight-point topology in the paper.",
+      "recordId": "bx_09e372d5e785",
+      "verified": false,
+      "verifiedAt": ""
+    }
+  ],
+  "Names": [
+    "massless planar 2-loop 8-point double box with 4-4 rail split (11 propagators)"
+  ],
+  "Source": [
+    "arXiv"
+  ],
+  "Loops": 2,
+  "NumPropagators": 11,
+  "Results": [],
+  "edges": "{{{1, 2}, 0}, {{1, 3}, 0}, {{1, 7}, 0}, {{2, 6}, 0}, {{2, 10}, 0}, {{3, 4}, 0}, {{4, 5}, 0}, {{5, 6}, 0}, {{7, 8}, 0}, {{8, 9}, 0}, {{9, 10}, 0}}",
+  "nodes": "{{3, 0}, {7, 0}, {8, 0}, {9, 0}, {10, 0}, {6, 0}, {5, 0}, {4, 0}}",
+  "CanonicalName": "Massless double hexagon",
+  "MassConfig": {
+    "numEdges": 11,
+    "numMassiveEdges": 0,
+    "numMasslessEdges": 11,
+    "distinctInternalMasses": 0,
+    "internalMassLabels": [],
+    "edgeMassPattern": "00000000000",
+    "numExtLegs": 8,
+    "numOnshellMassiveExtLegs": 0,
+    "numMasslessExtLegs": 8,
+    "extLegSignature": "00000000"
+  },
+  "Subsectors": [],
+  "ParentSectors": []
+}

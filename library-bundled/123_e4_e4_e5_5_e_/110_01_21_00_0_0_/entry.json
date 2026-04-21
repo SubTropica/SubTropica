@@ -1,0 +1,105 @@
+{
+  "CNickelIndex": "123|e4|e4|e5|5|e|:110|01|21|00|0|0|",
+  "MassScales": 4,
+  "FunctionClass": "elliptic",
+  "EpsilonOrder": "-4,-3,-2,-1,0,1,2,3,4",
+  "References": [
+    "arXiv:1907.13156"
+  ],
+  "Records": [
+    {
+      "authors": [
+        {
+          "full_name": "Bonciani, R.",
+          "inspire_id": 1025883
+        },
+        {
+          "full_name": "Del Duca, V.",
+          "inspire_id": 1011316
+        },
+        {
+          "full_name": "Frellesvig, H.",
+          "inspire_id": 1945711
+        },
+        {
+          "full_name": "Henn, J.M.",
+          "inspire_id": 1040053
+        },
+        {
+          "full_name": "Hidding, M.",
+          "inspire_id": 1826965
+        },
+        {
+          "full_name": "Maestri, L.",
+          "inspire_id": 1812060
+        },
+        {
+          "full_name": "Moriello, F.",
+          "inspire_id": 1799374
+        },
+        {
+          "full_name": "Salvatori, G.",
+          "inspire_id": 2098300
+        },
+        {
+          "full_name": "Smirnov, V.A.",
+          "inspire_id": 2068002
+        }
+      ],
+      "texkey": "",
+      "verified": false,
+      "verifiedAt": "",
+      "reference": "arXiv:1907.13156, JHEP 01 (132), 2020",
+      "ancillaryFiles": [],
+      "recordId": "bf_014a844a5668",
+      "masterCount": 73,
+      "transcendentalWeight": 4,
+      "computationLevel": "full",
+      "doi": "10.1007/JHEP01(2020)132",
+      "tools": [
+        "FIRE",
+        "Kira",
+        "FIESTA"
+      ],
+      "description": "Non-planar two-loop family F for Higgs+jet ($gg \\to gH$) with full heavy-quark mass. 7 propagators (3 massless, 4 massive), 2 ISPs, 73 MIs: 65 polylogarithmic + 8 elliptic in sectors 126/127. Canonical DE for polylog sectors, generalized series for elliptic.",
+      "epsOrders": "-4,-3,-2,-1,0,1,2,3,4",
+      "method": [],
+      "dimScheme": "d=4-2*eps",
+      "location": "Eq. (2.2)-(2.3), Fig. 2",
+      "familyName": "F"
+    }
+  ],
+  "Names": [
+    "F"
+  ],
+  "Source": [
+    "arXiv"
+  ],
+  "Loops": 2,
+  "NumPropagators": 7,
+  "Results": [],
+  "edges": "{{{1, 2}, m}, {{1, 3}, m}, {{1, 4}, 0}, {{2, 5}, m}, {{3, 5}, m}, {{4, 6}, 0}, {{5, 6}, 0}}",
+  "nodes": "{{2, 0}, {3, M}, {4, 0}, {6, 0}}",
+  "CanonicalName": "Non-planar box-pentagon, 4 massive propagators (c)",
+  "MassConfig": {
+    "numEdges": 7,
+    "numMassiveEdges": 4,
+    "numMasslessEdges": 3,
+    "distinctInternalMasses": 1,
+    "internalMassLabels": [
+      "m"
+    ],
+    "edgeMassPattern": "1101100",
+    "numExtLegs": 4,
+    "numOnshellMassiveExtLegs": 1,
+    "numMasslessExtLegs": 3,
+    "extLegSignature": "0M00"
+  },
+  "commonNames": [
+    "L2"
+  ],
+  "Subsectors": [
+    "123|e4|e4|e4||:011|20|01|31||"
+  ],
+  "ParentSectors": []
+}

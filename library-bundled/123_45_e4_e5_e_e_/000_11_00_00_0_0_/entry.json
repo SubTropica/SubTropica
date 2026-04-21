@@ -1,0 +1,65 @@
+{
+  "CNickelIndex": "123|45|e4|e5|e|e|:000|11|00|00|0|0|",
+  "MassScales": 3,
+  "FunctionClass": "MPL",
+  "EpsilonOrder": "4",
+  "References": [
+    "arXiv:1709.07435"
+  ],
+  "Records": [
+    {
+      "reference": "arXiv:1709.07435",
+      "authors": "Mastrolia, Pierpaolo, Passera, Massimo, Primo, Amedeo, Schubert, Ulrich",
+      "description": "First two-loop planar family for mu-e scattering. 7 propagators (2 massive) + 2 ISPs. 34 MIs as GPLs through weight 4. Covers topologies $T_1,T_2,T_3,T_7,T_8$.",
+      "epsOrders": "4",
+      "familyName": "mue_2L_planar1",
+      "method": "DE, IBP",
+      "tools": [
+        "Reduze",
+        "GiNaC",
+        "SecDec"
+      ],
+      "ancillaryFiles": false,
+      "doi": "",
+      "texkey": "",
+      "masterCount": 34,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "full",
+      "location": "Eq. (3.4), Section 6.1",
+      "recordId": "bx_e187ce380348",
+      "verified": false,
+      "verifiedAt": ""
+    }
+  ],
+  "Names": [
+    "mue_2L_planar1"
+  ],
+  "Source": [
+    "arXiv"
+  ],
+  "Loops": 2,
+  "NumPropagators": 7,
+  "Results": [],
+  "edges": "{{{1, 2}, 0}, {{1, 3}, 0}, {{1, 4}, 0}, {{2, 5}, m}, {{2, 6}, m}, {{3, 5}, 0}, {{4, 6}, 0}}",
+  "nodes": "{{3, 0}, {4, 0}, {6, 0}, {5, 0}}",
+  "CanonicalName": "Double box, 2 massive propagators (d)",
+  "MassConfig": {
+    "numEdges": 7,
+    "numMassiveEdges": 2,
+    "numMasslessEdges": 5,
+    "distinctInternalMasses": 1,
+    "internalMassLabels": [
+      "m"
+    ],
+    "edgeMassPattern": "0001100",
+    "numExtLegs": 4,
+    "numOnshellMassiveExtLegs": 0,
+    "numMasslessExtLegs": 4,
+    "extLegSignature": "0000"
+  },
+  "commonNames": [
+    "L2"
+  ],
+  "Subsectors": [],
+  "ParentSectors": []
+}

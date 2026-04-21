@@ -1,0 +1,90 @@
+{
+	"CNickelIndex":"123|e4|e4|e4||:000|00|00|10||",
+	"MassScales":1,
+	"FunctionClass":"unknown",
+	"EpsilonOrder":"-4,-3,-2,-1,0,1,2,3",
+	"References":[
+		"arXiv:1004.3653"
+	],
+	"Records":[
+		{
+			"epsOrders":"-4,-3,-2,-1,0,1,2,3",
+			"reference":"arXiv:1004.3653",
+			"authors":"T. Gehrmann, E.W.N. Glover, T. Huber, N. Ikizlerli, C. Studerus",
+			"description":"The authors give all master integrals used in the computation of quark and gluon form factors to three loops in QCD. These integrals are available in the annex A and have all a prefactor given by equation A.1.",
+			"recordId":"1499084266.nWE3",
+			"verified":false,
+			"verifiedAt":""
+		}
+	],
+	"Source":[
+		"arXiv",
+		"Loopedia"
+	],
+	"Results":[
+		{
+			"resultCompressed":"1:eJx9UEEKwjAQTG2r4gu8+g6PeuihhVL9QIS0DKSmuFHEd3uPm5RaEetllsnMzg7ZnExVz4UQtGI4qAsU7aWVFDNVHYGHqGfekDDkINuzJUMlLcxZakRMkLydKcMRraIp69pb0yG01FfCdmp7wbAzbafVPZTB0zlHXirxtRCksWymTRPu1fFn\/z4lGuBnhhfCF+SmCbeK4r+vfdzgJ\/jVjeEvYINOdw==",
+			"resultTeX":"\\frac{1}{4 \\varepsilon}+\\frac{1}{24} \\left(-12 H(0,1,1\\,;1)-12 \\log \\left(M^2\\right)-12 \\zeta(3)-12 i \\pi +59\\right)+O\\left(\\varepsilon^1\\right)",
+			"dimension":"6 - 2*eps",
+			"epsOrder":0,
+			"propExponents":[
+				1,
+				1,
+				1,
+				1,
+				1,
+				1
+			],
+			"propagators":[],
+			"numerators":[],
+			"internalMasses":[],
+			"externalMasses":[],
+			"substitutions":"{}",
+			"normalization":"Automatic",
+			"stVersion":"SubTropica v1.0.379",
+			"stCommand":"STIntegrate[{{{{1, 4}, 0}, {{1, 5}, 0}, {{2, 5}, 0}, {{2, 4}, 0}, {{3, 4}, 0}, {{3, 5}, 0}}, {{1, M}, {2, 0}, {3, 0}}}, Dimension -> \"6 - 2*eps\", Order -> 0]",
+			"contributor":"SM",
+			"timestamp":"2026-04-19T19:01:04",
+			"byteCount":1096,
+			"symbolTeX":"\\varepsilon^{0}\\colon\\;-\\frac{1}{2}\\,(M^2)",
+			"alphabet":[
+				"M^2"
+			],
+			"symbolWeight":1,
+			"symbolTerms":1,
+			"legOrder":[
+				2,
+				3,
+				1
+			]
+		}
+	],
+	"Names":[
+		"1-mass non-planar vertex",
+		"one-mass non-planar vertex",
+		"Non-planar vertex",
+		"Non-planar triangle"
+	],
+	"edges":"{{{1, 2}, 0}, {{1, 3}, 0}, {{1, 4}, 0}, {{2, 5}, 0}, {{3, 5}, 0}, {{4, 5}, 0}}",
+	"nodes":"{{2, 0}, {3, 0}, {4, M}}",
+	"CanonicalName":"1-mass non-planar double box",
+	"MassConfig":{
+		"numEdges":6,
+		"numMassiveEdges":0,
+		"numMasslessEdges":6,
+		"distinctInternalMasses":0,
+		"internalMassLabels":[],
+		"edgeMassPattern":"000000",
+		"numExtLegs":3,
+		"numOnshellMassiveExtLegs":1,
+		"numMasslessExtLegs":2,
+		"extLegSignature":"00M"
+	},
+	"Subsectors":[],
+	"ParentSectors":[
+		"1123|e|45|45|e|e|:0000|1|00|00|0|0|",
+		"123|e4|e4|e5|5|e|:000|00|00|00|0|0|",
+		"123|e4|e4|e5|5|e|:000|00|00|10|0|1|",
+		"123|e4|e4|e5|5|e|:000|00|00|11|0|1|"
+	]
+}

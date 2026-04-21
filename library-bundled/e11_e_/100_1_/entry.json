@@ -1,0 +1,260 @@
+{
+  "CNickelIndex": "e11|e|:100|1|",
+  "MassScales": 0,
+  "FunctionClass": "hypergeometric",
+  "EpsilonOrder": "all_orders",
+  "References": [
+    "arXiv:2309.12772 (JHEP 02 (179), 2024)",
+    "arXiv:2210.05347 (JHEP 05 (168), 2023)",
+    "arXiv:1907.00507",
+    "arXiv:1907.08227 (Phys.Rev.D 100 (), 2019)",
+    "arXiv:2201.11669 (Comput.Phys.Commun. 283 (), 2023)",
+    "arXiv:2201.03593 (doi: 10.1007/978-3-030-99558-4)",
+    "arXiv:1709.07802 (J.Phys.Conf.Ser. 912 (), 2017)",
+    "arXiv:2201.11637 (Phys.Rev.Lett. 129 (), 2022)"
+  ],
+  "Records": [
+    {
+      "reference": "arXiv:2309.12772 (JHEP 02 (179), 2024)",
+      "authors": "Duhr, Claude, Porkert, Franziska",
+      "description": "One-loop massless bubble in $d=2$ with generic propagator powers. Result: sv Beta function (Gamma ratios). Exact in $d=2$.",
+      "epsOrders": "all_orders",
+      "familyName": "Ban_1 (1-loop bubble d=2)",
+      "method": "direct_integration",
+      "tools": [],
+      "ancillaryFiles": false,
+      "doi": "10.1007/JHEP02(2024)179",
+      "texkey": "Duhr:2023bku",
+      "masterCount": 1,
+      "dimScheme": "d=2",
+      "computationLevel": "full",
+      "location": "Section 4.1",
+      "recordId": "bx_e287bbd394b9",
+      "verified": false,
+      "verifiedAt": ""
+    },
+    {
+      "reference": "arXiv:2210.05347 (JHEP 05 (168), 2023)",
+      "authors": "Barakat, Mohamed, Brüser, Robin, Fieker, Claus, Huber, Tobias, Piclum, Jan",
+      "description": "Massless one-loop bubble (self-energy) integral. IBP reduction via Groebner basis yields single master integral $I(1,1)$. $C_2$ symmetry $I(z_1,z_2)=I(z_2,z_1)$.",
+      "epsOrders": "",
+      "familyName": "one-loop bubble",
+      "method": "IBP",
+      "tools": [
+        "FORM"
+      ],
+      "ancillaryFiles": true,
+      "doi": "10.1007/JHEP05(2023)168",
+      "texkey": "Barakat:2022qlc",
+      "masterCount": 1,
+      "dimScheme": "d=D",
+      "computationLevel": "IBP_only",
+      "location": "Section 5, Example after Example 3.1",
+      "recordId": "bx_ee54c444a383",
+      "verified": false,
+      "verifiedAt": ""
+    },
+    {
+      "reference": "arXiv:1907.00507",
+      "authors": [
+        {
+          "full_name": "de la Cruz, Leonardo",
+          "inspire_id": 1444916
+        }
+      ],
+      "description": "One-loop massless bubble evaluated via GKZ/A-hypergeometric canonical series. Result in Gamma functions times power of $s$.",
+      "epsOrders": "all_orders",
+      "familyName": "massless_bubble",
+      "method": "direct_integration",
+      "tools": [],
+      "ancillaryFiles": false,
+      "doi": "",
+      "texkey": "",
+      "masterCount": 0,
+      "dimScheme": "d=D",
+      "computationLevel": "full",
+      "location": "Section 3.4.1",
+      "recordId": "bx_6f01095848f1",
+      "verified": false,
+      "verifiedAt": ""
+    },
+    {
+      "reference": "arXiv:1907.08227 (Phys.Rev.D 100 (), 2019)",
+      "authors": "Gerlach, Marvin, Mishima, Go, Steinhauser, Matthias",
+      "description": "One-loop massless bubble (self-energy) integral with external momentum $2p$ (where $p^2=m^2$, so the invariant is $4m^2$). Appears in the annihilation channel of the NRQCD matching calculation. Result is exact in epsilon, given in terms of Gamma functions. Needed for the annihilation contribution.",
+      "epsOrders": "all_orders",
+      "familyName": "I_1^b",
+      "method": "direct_integration",
+      "tools": [
+        "FIRE",
+        "LiteRed",
+        "FIESTA"
+      ],
+      "ancillaryFiles": true,
+      "doi": "10.1103/PhysRevD.100.054016",
+      "texkey": "Gerlach:2019kfo",
+      "masterCount": 1,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "full",
+      "location": "Appendix B, Eq. (B.1), Fig. 3",
+      "recordId": "bx_87e35a574d57",
+      "verified": false,
+      "verifiedAt": ""
+    },
+    {
+      "reference": "arXiv:2201.11669 (Comput.Phys.Commun. 283 (), 2023)",
+      "authors": "Liu, Xiao, Ma, Yan-Qing",
+      "description": "Pedagogical massless one-loop two-point (bubble) family with off-shell external momentum $p_1^2=1$, used to illustrate the auxiliary mass flow procedure step-by-step. One master integral $I(1,1,\\varepsilon)$ is reproduced numerically through $\\mathcal{O}(\\varepsilon^0)$ by introducing the auxiliary mass $\\eta$ in both propagators, deriving the 2x2 differential equation in $\\eta$ (Eq. 2.11), expanding around $\\eta=\\infty$, propagating through regular points $\\eta_0=-i/2$, $\\eta_1=-i/4$, $\\eta_2=-i/8$, and matching to the asymptotic expansion at $\\eta=0$. The numerical result $1/\\varepsilon + 1.42278 + 3.14159 i$ agrees with the analytic answer $(-1-i0)^{-\\varepsilon} \\Gamma(\\varepsilon) \\Gamma(1-\\varepsilon)^2 / \\Gamma(2-\\varepsilon)$.",
+      "epsOrders": "0",
+      "familyName": "bubble",
+      "method": "DE, series_expansion",
+      "tools": [
+        "AMFlow"
+      ],
+      "ancillaryFiles": false,
+      "doi": "10.1016/j.cpc.2022.108565",
+      "texkey": "Liu:2022chg",
+      "masterCount": 1,
+      "dimScheme": "d=D",
+      "computationLevel": "numerical",
+      "location": "Section 2.1, Eqs. (2.6)-(2.20)",
+      "recordId": "bx_76b10353fd9a",
+      "verified": false,
+      "verifiedAt": ""
+    },
+    {
+      "reference": "arXiv:2201.03593 (doi: 10.1007/978-3-030-99558-4)",
+      "authors": "Weinzierl, Stefan",
+      "description": "Massless one-loop two-point function with $q_1=k-p_1$, $q_2=k$ computed via Feynman parameters and beta-function. Closed-form Gamma result for general $\\nu_1,\\nu_2,D$. The 4D specialization $I_{11} = 1/\\varepsilon + 2 - \\ln(-p_1^2/\\mu^2) + \\mathcal{O}(\\varepsilon)$ appears as the canonical massless bubble used throughout the book.",
+      "epsOrders": "0",
+      "familyName": "massless one-loop bubble I_{nu1 nu2}",
+      "method": "direct_integration",
+      "tools": [],
+      "ancillaryFiles": false,
+      "doi": "10.1007/978-3-030-99558-4",
+      "texkey": "Weinzierl:2022eaz",
+      "masterCount": 1,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "full",
+      "location": "Chapter 'Basics', Sec. 'Feynman parameter representation', Eq. (chapter_basics:result_bubble, line ~2380); 4D specialization Eq. result_bubble_B11_4D",
+      "recordId": "bx_08b0dc61f06a",
+      "verified": false,
+      "verifiedAt": ""
+    },
+    {
+      "reference": "arXiv:1709.07802 (J.Phys.Conf.Ser. 912 (), 2017)",
+      "authors": "Selomit Ramírez-Uribe, N., Hernández-Pinto, Roger J., Rodrigo, Germán",
+      "description": "Massless one-loop bubble underlying photon/electron/quark/gluon/ghost self-energy corrections in QED and QCD, computed via Loop-Tree Duality with single-cut dual integrals parametrized by loop energy and polar angle.",
+      "epsOrders": "0",
+      "familyName": "Massless one-loop 2-point bubble (self-energy)",
+      "method": "direct_integration",
+      "tools": [],
+      "ancillaryFiles": false,
+      "doi": "10.1088/1742-6596/912/1/012013",
+      "texkey": "SelomitRamirez-Uribe:2017vtx",
+      "masterCount": 1,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "full",
+      "location": "Sections 3-4",
+      "recordId": "bx_7336aff57999",
+      "verified": false,
+      "verifiedAt": ""
+    },
+    {
+      "reference": "arXiv:2201.11637 (Phys.Rev.Lett. 129 (), 2022)",
+      "authors": "Liu, Zhi-Feng, Ma, Yan-Qing",
+      "description": "One-loop massless propagator integral with $p_1^2=-1$. Arises from factorization of $I_{(1,1,1)}$ vacuum bubble. Computed by AMFlow with auxiliary mass $\\eta$.",
+      "epsOrders": "all_orders",
+      "familyName": "hatI_(1,1)",
+      "method": "DE, IBP",
+      "tools": [
+        "AMFlow"
+      ],
+      "ancillaryFiles": false,
+      "doi": "10.1103/PhysRevLett.129.222001",
+      "texkey": "Liu:2022mfb",
+      "masterCount": 0,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "full",
+      "location": "Examples section",
+      "recordId": "bx_3553a847568e",
+      "verified": false,
+      "verifiedAt": ""
+    }
+  ],
+  "Names": [
+    "Ban_1 (1-loop bubble d=2)",
+    "one-loop bubble"
+  ],
+  "Source": [
+    "arXiv"
+  ],
+  "Loops": 1,
+  "NumPropagators": 2,
+  "Results": [
+    {
+      "resultCompressed": "1:eJxdjUsKgDAMRKv1A97Cs+hSQdQLVEglUKkYBW+vaUQXZvHCZCZJOfneZkopKhgDbAhUm92QZgkrITdl4xBIGA3SjlEY6XfUuYMw/lIpY8QF6JE5o/LL6uCUU3hxUbA6/C2IZcNxed74WXJtK4Z8FdxmiSo0",
+      "resultTeX": "\\frac{1}{\\varepsilon}+\\left(-\\log \\left(M^2\\right)-i \\pi +2\\right)+O\\left(\\varepsilon^1\\right)",
+      "dimension": "4 - 2*eps",
+      "epsOrder": "0",
+      "epsOrders": "0",
+      "propExponents": [
+        1,
+        1
+      ],
+      "propagators": [],
+      "numerators": [],
+      "internalMasses": [],
+      "externalMasses": [],
+      "substitutions": "",
+      "rootSubstitutions": "{}",
+      "normalization": "Automatic",
+      "stVersion": "SubTropica v1.0.277",
+      "stCommand": "",
+      "contributor": "Sebastian Mizera",
+      "timestamp": "2026-04-14T02:02:56",
+      "verifiedAt": "2026-04-14T02:02:56",
+      "verified": true,
+      "method": "direct_integration",
+      "tools": [
+        "SubTropica"
+      ],
+      "methodLR": "Lungo",
+      "byteCount": 536,
+      "symbolTeX": "\\varepsilon^{0}\\colon\\;-(M^2)",
+      "alphabet": [
+        "M^2"
+      ],
+      "symbolWeight": 1,
+      "symbolTerms": 1,
+      "legOrder": []
+    }
+  ],
+  "edges": "{{{1, 2}, 0}, {{1, 2}, 0}}",
+  "nodes": "{{1, M}, {2, M}}",
+  "CanonicalName": "Massless bubble",
+  "MassConfig": {
+    "numEdges": 2,
+    "numMassiveEdges": 0,
+    "numMasslessEdges": 2,
+    "distinctInternalMasses": 0,
+    "internalMassLabels": [],
+    "edgeMassPattern": "00",
+    "numExtLegs": 2,
+    "numOnshellMassiveExtLegs": 2,
+    "numMasslessExtLegs": 0,
+    "extLegSignature": "MM"
+  },
+  "commonNames": [
+    "B₀",
+    "B"
+  ],
+  "Subsectors": [],
+  "ParentSectors": [
+    "11122|e|e|:00000|1|1|",
+    "1122|e|e|:0000|1|1|",
+    "1122|e|e|:0011|2|2|",
+    "112|e2|e|:000|10|1|",
+    "112|e2|e|:010|20|2|"
+  ]
+}

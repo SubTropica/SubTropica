@@ -1,0 +1,266 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Wolfram 14.3' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       154,          7]
+NotebookDataLength[      9744,        257]
+NotebookOptionsPosition[      7511,        215]
+NotebookOutlinePosition[      7951,        231]
+CellTagsIndexPosition[      7908,        228]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["HyperSeries", "ObjectName",ExpressionUUID->"972544a1-4656-4d7a-acd2-b3aeaf9de88b"],
+
+Cell[BoxData[GridBox[{
+   {Cell[TextData[{
+     StyleBox["HyperSeries", "TI"],
+     " \[LineSeparator]While HyperIntica is the main (analytic) integration \
+routine working under the hood of the STIntegrate function, it can also be \
+used as a standalone function."
+    }], "TableText",ExpressionUUID->"42ff6e54-5050-4429-a6d0-4774397a4951"]}
+  },
+  GridBoxAlignment->{"Columns" -> {{Left}}},
+  GridBoxItemSize->{
+   "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}]], "Usage",
+ CellID->1,ExpressionUUID->"a735a900-978d-437f-a095-44fb2c5b5b78"],
+
+Cell["\<\
+While HyperIntica is the main (analytic) integration routine working under \
+the hood of the STIntegrate function, it can also be used as a standalone \
+function. It evaluates iterated integrals \[Integral]_0^\[Infinity] \
+\[Ellipsis] \[Integral]_0^\[Infinity] f\\, dx_1 \[Ellipsis] dx_n in  for \
+expressions built from hyperlogarithms, polylogarithms, logarithms, and \
+rational functions, returning results in terms of multi-zeta values and \
+hyperlogarithms in the original integrand f parameters (if any). The syntax \
+is: (see example below)\
+\>", "Notes",ExpressionUUID->"1eb1ce56-ac50-4556-93e7-73155f5a7c77"],
+
+Cell[BoxData[
+ RowBox[{"HyperIntica", "[", 
+  RowBox[{"integrand", ",", " ", "variables", ",", " ", 
+   RowBox[{"\"\<Monitor\>\"", " ", "->", " ", "False"}]}], "]"}]], "Input",Exp\
+ressionUUID->"e57b5a7b-d47f-4760-b415-592970404532"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Details", "Section",ExpressionUUID->"93947823-4bee-4518-959c-b5437bd384c4"],
+
+Cell["Series", "Subsection",ExpressionUUID->"b96fc0cf-2815-442a-865c-5d413ad5a4ef"],
+
+Cell["\<\
+HyperSeries[expr, {var, point, order}] expands expr around var = point \
+through O((var-point)^{order}), handling Hlog and Mpl when their arguments \
+depend on the expansion variable (unlike the built-in Series). Some examples \
+are: (see example below)\
+\>", "Text",ExpressionUUID->"16127b26-cd06-44d9-bbc0-4ca51fe49e9d"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"(*", " ", 
+   RowBox[{
+    RowBox[{"Expand", " ", 
+     RowBox[{"Li", "\\", "textcolor"}], 
+     RowBox[{"{", "gray", "}"}], 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"{", "}"}], "_", "2"}], "}"}], 
+     RowBox[{"(", "z", ")"}], " ", "around", " ", "z"}], " ", "=", " ", "0"}],
+    " ", "*)"}], "\n", "\t", 
+  RowBox[{
+   RowBox[{"HyperSeries", "[", 
+    RowBox[{
+     RowBox[{"Mpl", "[", 
+      RowBox[{
+       RowBox[{"{", "2", "}"}], ",", " ", 
+       RowBox[{"{", "z", "}"}]}], "]"}], ",", " ", 
+     RowBox[{"{", 
+      RowBox[{"z", ",", " ", "0", ",", " ", "5"}], "}"}]}], "]"}], "\n", "\t", 
+   RowBox[{"(*", " ", 
+    RowBox[{"Out", ":", " ", 
+     RowBox[{"z", " ", "+", " ", 
+      RowBox[{
+       RowBox[{"z", "^", "2"}], "/", "4"}], " ", "+", " ", 
+      RowBox[{
+       RowBox[{"z", "^", "3"}], "/", "9"}], " ", "+", " ", 
+      RowBox[{
+       RowBox[{"z", "^", "4"}], "/", "16"}], " ", "+", " ", 
+      RowBox[{
+       RowBox[{"z", "^", "5"}], "/", "25"}]}]}], " ", "*)"}], "\n", "\t", 
+   "\n", "\t", 
+   RowBox[{"(*", " ", 
+    RowBox[{"Expand", " ", "with", " ", "parametric", " ", "dependence"}], 
+    " ", "*)"}], "\n", "\t", 
+   RowBox[{"HyperSeries", "[", 
+    RowBox[{
+     RowBox[{"Mpl", "[", 
+      RowBox[{
+       RowBox[{"{", "2", "}"}], ",", " ", 
+       RowBox[{"{", 
+        RowBox[{"1", " ", "-", " ", 
+         RowBox[{"x", "/", "u"}]}], "}"}]}], "]"}], ",", " ", 
+     RowBox[{"{", 
+      RowBox[{"x", ",", " ", "0", ",", " ", "3"}], "}"}]}], "]"}], "\n", "\t", 
+   RowBox[{"(*", " ", 
+    RowBox[{"Out", ":", " ", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"Pi", "^", "2"}], "/", "6"}], " ", "+", " ", 
+      RowBox[{
+       RowBox[{"(", 
+        RowBox[{"x", "*", 
+         RowBox[{"(", 
+          RowBox[{
+           RowBox[{"-", "1"}], " ", "+", " ", 
+           RowBox[{"Log", "[", 
+            RowBox[{"x", "/", "u"}], "]"}]}], ")"}]}], ")"}], "/", "u"}], " ",
+       "+", " ", 
+      RowBox[{
+       RowBox[{"(", 
+        RowBox[{
+         RowBox[{"x", "^", "2"}], "*", 
+         RowBox[{"(", 
+          RowBox[{
+           RowBox[{"-", "1"}], " ", "+", " ", 
+           RowBox[{"2", "*", 
+            RowBox[{"Log", "[", 
+             RowBox[{"x", "/", "u"}], "]"}]}]}], ")"}]}], ")"}], "/", 
+       RowBox[{"(", 
+        RowBox[{"4", "*", 
+         RowBox[{"u", "^", "2"}]}], ")"}]}], " ", "+", " ", 
+      RowBox[{
+       RowBox[{"(", 
+        RowBox[{
+         RowBox[{"x", "^", "3"}], "*", 
+         RowBox[{"(", 
+          RowBox[{
+           RowBox[{"-", "1"}], " ", "+", " ", 
+           RowBox[{"3", "*", 
+            RowBox[{"Log", "[", 
+             RowBox[{"x", "/", "u"}], "]"}]}]}], ")"}]}], ")"}], "/", 
+       RowBox[{"(", 
+        RowBox[{"9", "*", 
+         RowBox[{"u", "^", "3"}]}], ")"}]}]}]}], " ", "*)"}], "\n", "\t", 
+   "\n", "\t", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+    "Expand", " ", "Hlog", " ", "with", " ", "argument", " ", "approaching", " ",
+      "0"}], " ", "*)"}], "\n", "\t", 
+   RowBox[{"HyperSeries", "[", 
+    RowBox[{
+     RowBox[{
+      RowBox[{"Hlog", "[", 
+       RowBox[{"z", ",", " ", 
+        RowBox[{"{", 
+         RowBox[{"0", ",", " ", "1"}], "}"}]}], "]"}], "/", "z"}], ",", " ", 
+     RowBox[{"{", 
+      RowBox[{"z", ",", " ", "0", ",", " ", "4"}], "}"}]}], "]"}], "\n", "\t", 
+   RowBox[{"(*", " ", 
+    RowBox[{"Out", ":", " ", 
+     RowBox[{
+      RowBox[{"-", "1"}], " ", "-", " ", 
+      RowBox[{"z", "/", "4"}], " ", "-", " ", 
+      RowBox[{
+       RowBox[{"z", "^", "2"}], "/", "9"}], " ", "-", " ", 
+      RowBox[{
+       RowBox[{"z", "^", "3"}], "/", "16"}]}]}], " ", "*)"}]}]}]], "Input",Exp\
+ressionUUID->"0ecf85c9-68f5-4d3d-b314-d6914c45703c"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Metadata", "MetadataSection",ExpressionUUID->"aa18f53b-6577-4861-8bcb-1e1fc0d23577"],
+
+Cell[CellGroupData[{
+
+Cell["Categorization", "CategorizationSection",ExpressionUUID->"1754b7be-2dce-4fdb-be17-80b886c7e1c8"],
+
+Cell["Symbol", "Categorization",
+ CellLabel->
+  "Entity Type",ExpressionUUID->"d02d9dbd-5411-4b52-8aa6-67ae513a8d1f"],
+
+Cell["SubTropica", "Categorization",
+ CellLabel->
+  "Paclet Name",ExpressionUUID->"a5cca674-612f-43ea-ab10-41f4d039718b"],
+
+Cell["SubTropica`", "Categorization",
+ CellLabel->"Context",ExpressionUUID->"4ee73316-28a9-4148-85fb-6f5ef2dfe6aa"],
+
+Cell["SubTropica/ref/HyperSeries", "Categorization",
+ CellLabel->"URI",ExpressionUUID->"443fff86-72c5-4d24-9b5f-16c3a34e220d"]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Keywords", "KeywordsSection",ExpressionUUID->"256714e0-7c89-4a9a-8e86-2e68d6c78b0a"],
+
+Cell["Feynman integral", "Keywords",ExpressionUUID->"e406a109-a440-4c14-8470-9d59126a3fdb"],
+
+Cell["tropical geometry", "Keywords",ExpressionUUID->"1108a945-68b3-4b51-9800-498ff510448b"],
+
+Cell["dimensional regularization", "Keywords",ExpressionUUID->"ecedd853-53e1-44c3-a723-3b7afc748810"]
+}, Closed]]
+}, Open  ]]
+},
+TaggingRules-><|"Paclet" -> "SubTropica"|>,
+FrontEndVersion->"14.3 for Mac OS X ARM (64-bit) (July 8, 2025)",
+StyleDefinitions->FrontEnd`FileName[{"Wolfram"}, "FunctionPageStylesExt.nb", 
+  CharacterEncoding -> "UTF-8"],
+ExpressionUUID->"48b88533-191e-4ca6-b7fe-983f59d11475"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[576, 22, 88, 0, 70, "ObjectName",ExpressionUUID->"972544a1-4656-4d7a-acd2-b3aeaf9de88b"],
+Cell[667, 24, 548, 11, 70, "Usage",ExpressionUUID->"a735a900-978d-437f-a095-44fb2c5b5b78",
+ CellID->1],
+Cell[1218, 37, 627, 9, 70, "Notes",ExpressionUUID->"1eb1ce56-ac50-4556-93e7-73155f5a7c77"],
+Cell[1848, 48, 233, 4, 70, "Input",ExpressionUUID->"e57b5a7b-d47f-4760-b415-592970404532"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[2118, 57, 81, 0, 70, "Section",ExpressionUUID->"93947823-4bee-4518-959c-b5437bd384c4"],
+Cell[2202, 59, 83, 0, 70, "Subsection",ExpressionUUID->"b96fc0cf-2815-442a-865c-5d413ad5a4ef"],
+Cell[2288, 61, 332, 5, 70, "Text",ExpressionUUID->"16127b26-cd06-44d9-bbc0-4ca51fe49e9d"],
+Cell[2623, 68, 3695, 109, 70, "Input",ExpressionUUID->"0ecf85c9-68f5-4d3d-b314-d6914c45703c"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[6355, 182, 90, 0, 70, "MetadataSection",ExpressionUUID->"aa18f53b-6577-4861-8bcb-1e1fc0d23577"],
+Cell[CellGroupData[{
+Cell[6470, 186, 102, 0, 70, "CategorizationSection",ExpressionUUID->"1754b7be-2dce-4fdb-be17-80b886c7e1c8"],
+Cell[6575, 188, 117, 2, 70, "Categorization",ExpressionUUID->"d02d9dbd-5411-4b52-8aa6-67ae513a8d1f"],
+Cell[6695, 192, 121, 2, 70, "Categorization",ExpressionUUID->"a5cca674-612f-43ea-ab10-41f4d039718b"],
+Cell[6819, 196, 115, 1, 70, "Categorization",ExpressionUUID->"4ee73316-28a9-4148-85fb-6f5ef2dfe6aa"],
+Cell[6937, 199, 126, 1, 70, "Categorization",ExpressionUUID->"443fff86-72c5-4d24-9b5f-16c3a34e220d"]
+}, Closed]],
+Cell[CellGroupData[{
+Cell[7100, 205, 90, 0, 70, "KeywordsSection",ExpressionUUID->"256714e0-7c89-4a9a-8e86-2e68d6c78b0a"],
+Cell[7193, 207, 91, 0, 70, "Keywords",ExpressionUUID->"e406a109-a440-4c14-8470-9d59126a3fdb"],
+Cell[7287, 209, 92, 0, 70, "Keywords",ExpressionUUID->"1108a945-68b3-4b51-9800-498ff510448b"],
+Cell[7382, 211, 101, 0, 70, "Keywords",ExpressionUUID->"ecedd853-53e1-44c3-a723-3b7afc748810"]
+}, Closed]]
+}, Open  ]]
+}
+]
+*)
+
+(* End of internal cache information *)

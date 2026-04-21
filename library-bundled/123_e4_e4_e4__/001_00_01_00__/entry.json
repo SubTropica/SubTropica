@@ -1,0 +1,111 @@
+{
+  "CNickelIndex": "123|e4|e4|e4||:001|00|01|00||",
+  "MassScales": 1,
+  "FunctionClass": "elliptic",
+  "EpsilonOrder": "",
+  "References": [
+    "arXiv:2305.14090"
+  ],
+  "Records": [
+    {
+      "reference": "arXiv:2305.14090",
+      "authors": [
+        {
+          "full_name": "Görges, Lennard",
+          "inspire_id": 2661968
+        },
+        {
+          "full_name": "Nega, Christoph",
+          "inspire_id": 1969299
+        },
+        {
+          "full_name": "Tancredi, Lorenzo",
+          "inspire_id": 1284289
+        },
+        {
+          "full_name": "Wagner, Fabian J.",
+          "inspire_id": 2606401
+        }
+      ],
+      "description": "Two-loop non-planar triangle (electroweak form factor topology) with two massive and four massless propagators. Single variable $z=s/m^2$. Elliptic top sector with 3 masters (2 elliptic + 1 decoupled), 15 polylogarithmic subsector masters. Despite the third master integral in the top sector, no extra function $G$ is needed. The elliptic integral of the third kind degenerates on the relevant cycle.",
+      "epsOrders": "",
+      "familyName": "non-planar triangle 2 (single-scale, electroweak form factor)",
+      "method": "DE",
+      "tools": [],
+      "ancillaryFiles": true,
+      "doi": "",
+      "texkey": "",
+      "masterCount": 18,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "DE_only",
+      "location": "Section 3.2 (Sec3_Applications.tex), eq. (3.13)-(3.25)",
+      "recordId": "bx_8afe00644a3d",
+      "verified": false,
+      "verifiedAt": ""
+    }
+  ],
+  "Names": [
+    "non-planar triangle 2 (single-scale, electroweak form factor)"
+  ],
+  "Source": [
+    "arXiv"
+  ],
+  "Loops": 2,
+  "NumPropagators": 6,
+  "Results": [
+    {
+      "resultCompressed": "1:eJylkFEOwiAQRLG1jfEW3sXPfpDqBTABs0kR08WaeGhvoLiAtmlDo4k/QwaG4S2bg6lVyRjDNclOtiBxK6zAnKw8I9DClDe4JKkArcq8K0j2oCVGuyKphQVzEg0syIDfHqLcXGWL3moNT+dc7Py7JfuQ8eaCkI/SoTjGfFcYqTLH9/0fAcovAMUI4NEzDQBzI3CYHMX4fY53kkuApa4l3wj/1If1rQupMFCc2ssLsml3/Q==",
+      "resultTeX": "\\frac{1}{2 \\varepsilon^2 m^2^2}+\\frac{3-2 \\log (m^2)}{2 \\varepsilon m^2^2}+\\frac{6 \\log ^2(m^2)-18 \\log (m^2)+3 \\zeta(2)+2 \\pi ^2-3}{6 m^2^2}+O\\left(\\varepsilon^1\\right)",
+      "dimension": "4 - 2*eps",
+      "epsOrder": "0",
+      "epsOrders": "0",
+      "propExponents": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "propagators": [],
+      "numerators": [],
+      "internalMasses": [],
+      "externalMasses": [],
+      "substitutions": "",
+      "rootSubstitutions": "{}",
+      "normalization": "Automatic",
+      "stVersion": "SubTropica v1.0.293",
+      "stCommand": "",
+      "contributor": "Sebastian Mizera",
+      "timestamp": "2026-04-15T17:00:20",
+      "verifiedAt": "2026-04-15T17:00:20",
+      "verified": true,
+      "method": "direct_integration",
+      "tools": [
+        "SubTropica"
+      ],
+      "methodLR": "Lungo",
+      "findRoots": false,
+      "byteCount": 1664
+    }
+  ],
+  "edges": "{{{1, 2}, 0}, {{1, 3}, 0}, {{1, 4}, m}, {{2, 5}, 0}, {{3, 5}, m}, {{4, 5}, 0}}",
+  "nodes": "{{2, 0}, {3, 0}, {4, 0}}",
+  "CanonicalName": "Non-planar double box, 2 massive propagators",
+  "MassConfig": {
+    "numEdges": 6,
+    "numMassiveEdges": 2,
+    "numMasslessEdges": 4,
+    "distinctInternalMasses": 1,
+    "internalMassLabels": [
+      "m"
+    ],
+    "edgeMassPattern": "001010",
+    "numExtLegs": 3,
+    "numOnshellMassiveExtLegs": 0,
+    "numMasslessExtLegs": 3,
+    "extLegSignature": "000"
+  },
+  "Subsectors": [],
+  "ParentSectors": []
+}

@@ -1,0 +1,76 @@
+{
+  "CNickelIndex": "123|45|e4|e5|e|e|:000|01|00|00|0|0|",
+  "MassScales": 3,
+  "FunctionClass": "unknown",
+  "EpsilonOrder": "",
+  "References": [
+    "arXiv:1705.05610 (Comput.Phys.Commun. 230 (99), 2018)",
+    "arXiv:2106.12093",
+    "arXiv:2412.07522"
+  ],
+  "Records": [
+    {
+      "reference": "arXiv:2412.07522",
+      "authors": [
+        {
+          "full_name": "Schwanemann, Niklas",
+          "inspire_id": 1887879
+        },
+        {
+          "full_name": "Weinzierl, Stefan",
+          "inspire_id": 983857
+        }
+      ],
+      "description": "Planar 2-loop double-box with single heavy gauge boson on rung; 19 masters; no square roots. Called topology C in the paper.",
+      "epsOrders": "all_orders",
+      "familyName": "Planar 2-loop double-box with single heavy boson on rung (Moller, topology C)",
+      "method": "IBP, DE",
+      "tools": [
+        "Kira"
+      ],
+      "ancillaryFiles": true,
+      "doi": "",
+      "texkey": "",
+      "masterCount": 19,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "full",
+      "location": "Sec. 2.2, Table 1",
+      "recordId": "bx_0a991854570d",
+      "verified": false,
+      "verifiedAt": ""
+    }
+  ],
+  "Names": [
+    "topo7",
+    "Planar two-loop double box for gb -> tW with one massive (top-quark) propagator",
+    "Planar 2-loop double-box with single heavy boson on rung (Moller, topology C)"
+  ],
+  "Source": [
+    "arXiv"
+  ],
+  "Loops": 2,
+  "NumPropagators": 7,
+  "Results": [],
+  "edges": "{{{1, 2}, 0}, {{1, 3}, 0}, {{1, 4}, 0}, {{2, 5}, 0}, {{2, 6}, m}, {{3, 5}, 0}, {{4, 6}, 0}}",
+  "nodes": "{{3, 0}, {4, 0}, {6, 0}, {5, 0}}",
+  "CanonicalName": "Double box, 1 massive propagator (d)",
+  "MassConfig": {
+    "numEdges": 7,
+    "numMassiveEdges": 1,
+    "numMasslessEdges": 6,
+    "distinctInternalMasses": 1,
+    "internalMassLabels": [
+      "m"
+    ],
+    "edgeMassPattern": "0000100",
+    "numExtLegs": 4,
+    "numOnshellMassiveExtLegs": 0,
+    "numMasslessExtLegs": 4,
+    "extLegSignature": "0000"
+  },
+  "commonNames": [
+    "L2"
+  ],
+  "Subsectors": [],
+  "ParentSectors": []
+}

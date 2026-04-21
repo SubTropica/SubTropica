@@ -1,0 +1,110 @@
+{
+  "CNickelIndex": "112|e|33|e|:000|1|00|1|",
+  "MassScales": 2,
+  "FunctionClass": "MPL",
+  "EpsilonOrder": "0",
+  "References": [
+    "arXiv:1401.6766"
+  ],
+  "Records": [
+    {
+      "reference": "arXiv:1401.6766",
+      "authors": [
+        {
+          "full_name": "Feng, Bo",
+          "inspire_id": 1010183
+        },
+        {
+          "full_name": "Zhen, Jun",
+          "inspire_id": 2270526
+        },
+        {
+          "full_name": "Huang, Rijun",
+          "inspire_id": 1069552
+        },
+        {
+          "full_name": "Zhou, Kang",
+          "inspire_id": 1770938
+        }
+      ],
+      "description": "2-loop double-triangle topology with pair-merged legs ($K_{12},K_{34}$). 1 scalar basis in pure 4D; 20 dimensional-shifted integral bases for renormalizable theories. Called $A_{212}$ in the paper.",
+      "epsOrders": "0",
+      "familyName": "two-loop four-point double-triangle",
+      "method": "unitarity, direct_integration",
+      "tools": [],
+      "ancillaryFiles": false,
+      "doi": "",
+      "texkey": "",
+      "masterCount": 1,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "basis",
+      "location": "Sec. 4",
+      "recordId": "bx_19facd46c336",
+      "verified": false,
+      "verifiedAt": ""
+    }
+  ],
+  "Names": [
+    "two-loop four-point double-triangle"
+  ],
+  "Source": [
+    "arXiv"
+  ],
+  "Loops": 2,
+  "NumPropagators": 5,
+  "Results": [
+    {
+      "resultCompressed": "1:eJyNUFsKwjAQjFotiJfwCHoF/exHUS9QIZGFhpRufeDJ+6XubhFrSTT5mLDJ7OzsLI9uZ2ZKKZwT7HUNGrdFU+CESl0h0KUMF5gQZICNGXM1JcjdVdfCxNUannQ6Jv8dwGrsqCnBxtmq1DeRgwcz/6rwvLw8h0TklSGHj9avqaI84i+Wz9zpPdPbHnCW9p3BgsOJGt5Ss9+tN42OKTsO6W1wjajsk15sEWEMLIg7b5/X63fk9n4RlmwM/CzwAhRSlLY=",
+      "resultTeX": "\\frac{1}{\\varepsilon^2 s_{12}}-\\frac{2 i (-i \\log (s_{12})+\\pi +2 i)}{\\varepsilon s_{12}}+\\frac{-\\zeta(2)+2 \\log ^2(s_{12})+4 i \\pi  \\log (s_{12})-8 \\log (s_{12})-2 \\pi ^2-8 i \\pi +12}{s_{12}}+O\\left(\\varepsilon^1\\right)",
+      "dimension": "4 - 2*eps",
+      "epsOrder": "0",
+      "epsOrders": "0",
+      "propExponents": [
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "propagators": [],
+      "numerators": [],
+      "internalMasses": [],
+      "externalMasses": [],
+      "substitutions": "",
+      "rootSubstitutions": "{}",
+      "normalization": "Automatic",
+      "stVersion": "SubTropica v1.0.293",
+      "stCommand": "",
+      "contributor": "Sebastian Mizera",
+      "timestamp": "2026-04-15T17:25:49",
+      "verifiedAt": "2026-04-15T17:25:49",
+      "verified": true,
+      "method": "direct_integration",
+      "tools": [
+        "SubTropica"
+      ],
+      "methodLR": "Lungo",
+      "findRoots": false,
+      "byteCount": 1872
+    }
+  ],
+  "edges": "{{{1, 2}, 0}, {{1, 2}, 0}, {{1, 3}, 0}, {{3, 4}, 0}, {{3, 4}, 0}}",
+  "nodes": "{{2, M}, {4, M}}",
+  "CanonicalName": "Massless dumbbell",
+  "MassConfig": {
+    "numEdges": 5,
+    "numMassiveEdges": 0,
+    "numMasslessEdges": 5,
+    "distinctInternalMasses": 0,
+    "internalMassLabels": [],
+    "edgeMassPattern": "00000",
+    "numExtLegs": 2,
+    "numOnshellMassiveExtLegs": 2,
+    "numMasslessExtLegs": 0,
+    "extLegSignature": "MM"
+  },
+  "Subsectors": [
+    "1122|e|e|:0000|1|1|"
+  ],
+  "ParentSectors": []
+}

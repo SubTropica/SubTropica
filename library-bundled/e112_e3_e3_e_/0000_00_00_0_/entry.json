@@ -1,0 +1,148 @@
+{
+  "CNickelIndex": "e112|e3|e3|e|:0000|00|00|0|",
+  "MassScales": 2,
+  "FunctionClass": "hypergeometric",
+  "EpsilonOrder": "all orders",
+  "References": [
+    "arXiv:hep-ph/9912329 (Nucl.Phys.B 580 (485), 2000)",
+    "arXiv:2507.17815 (Missing[\"KeyAbsent\", \"journal\"] Missing[\"KeyAbsent\", \"volume\"] (Missing[\"KeyAbsent\", \"pages\"]), Missing[\"KeyAbsent\", \"year\"])"
+  ],
+  "Records": [
+    {
+      "dimScheme": "d=D",
+      "recordId": "bf_4f624ba4bb67",
+      "familyName": "2L-box-bubble-a / 2L-box-bubble-b",
+      "verified": false,
+      "verifiedAt": "",
+      "authors": "Gehrmann, T., Remiddi, E.",
+      "texkey": "Gehrmann:1999as",
+      "computationLevel": "full",
+      "masterCount": 1,
+      "location": "Eq. (4.11), Section 4.3",
+      "method": [],
+      "reference": "arXiv:hep-ph/9912329, Nucl.Phys.B 580 (485), 2000",
+      "ancillaryFiles": [],
+      "description": "Two-loop four-point master integral with $t=5$ propagators formed by a one-loop bubble insertion on a propagator of the one-loop box. The result involves Gauss 2F1 and Appell F1 hypergeometric functions for arbitrary $d$.",
+      "epsOrders": "all orders",
+      "tools": [
+        "FORM"
+      ],
+      "doi": "10.1016/S0550-3213(00)00223-6"
+    },
+    {
+      "reference": "arXiv:2507.17815 (JHEP 01 (014), 2026)",
+      "authors": [
+        {
+          "full_name": "Barrera, Oscar",
+          "inspire_id": 2957072
+        },
+        {
+          "full_name": "Dersy, Aurélien",
+          "inspire_id": 2083042
+        },
+        {
+          "full_name": "Husain, Rabia",
+          "inspire_id": 1925286
+        },
+        {
+          "full_name": "Schwartz, Matthew D.",
+          "inspire_id": 1019662
+        },
+        {
+          "full_name": "Zhang, Xiaoyuan",
+          "inspire_id": 1806305
+        }
+      ],
+      "description": "Called $I_3(x,z)$ in the paper. 2-loop 4-point master integral for $q\\bar{q} \\to VV$ planar topologies from Gehrmann, Tancredi, Weihs (1306.6344). 5 massless propagators forming box with bubble on one edge (oval in diagram). Two massless on-shell legs $(p_1,p_2)$ and two off-shell legs $(q_1,q_2)$. Depends on $(x,z)$. Prefactor $P_3(x,z)=1/(m^2(1-z))$. Fitted at $\\varepsilon^{-2}/\\varepsilon^{-1}/\\varepsilon^0$. AMFlow: 21.2 CPU-min/point, 99 points, 28 digits.",
+      "epsOrders": "0",
+      "familyName": "2-loop box with bubble insertion",
+      "method": "DE, IBP",
+      "tools": [
+        "AMFlow",
+        "SOFIA",
+        "BLADE",
+        "GiNaC"
+      ],
+      "ancillaryFiles": false,
+      "doi": "10.1007/JHEP01(2026)014",
+      "texkey": "Barrera:2025uin",
+      "masterCount": 0,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "full",
+      "location": "Eq. (19), Section 4.2, third diagram",
+      "recordId": "bx_265dfd42a2f5",
+      "verified": false,
+      "verifiedAt": ""
+    }
+  ],
+  "Names": [
+    "Double triangle",
+    "Penta-bubble",
+    "2L-box-bubble-b",
+    "2L-box-bubble-a",
+    "2-loop box with bubble insertion"
+  ],
+  "Source": [
+    "arXiv",
+    "Loopedia"
+  ],
+  "Loops": 2,
+  "NumPropagators": 5,
+  "Results": [
+    {
+      "resultCompressed": "1:eJzFV71OwzAQTgmUUjF1qtgY2KE8AkgwdKgKE1uQkspSQqqm/D4Zj8ED8AAdEaoEVKLFdsiP7XNtt0nawVUc33d33/34cngb9r26ZVlREy9X7gi50bkzdiIbP7rDCOE/y9smB8jSRdHY2yJPO3jphY/uiJ6MTjpogX+enby7RoEbxUd38XIWBkPffaJw8cllKKm+nn8vAyG7GQhVR/cisvQQ90oCMifaauQV0d8NB4kdeuILXpzzX+3pVt7T5FX83zkF2Wzgpe+MUXjn+IjoRnWGCUBJM68EtUXiJO5NsTBMJ/oEHItPgoGZSnnWSph2Lq4a0UL7IiOgnJ6tRkGKdRuIl5g+nGNfIlqJ2kFuZwy3wctDfKqgPD9i8vy4iDz/MMpzCX4TMPwfxAZIygwnvlz64YD6n22RLkw95kLEJz8rbjPi1DBLJJ9CinWVYxuHFlLb0ldbSxYeo66NsarVoNqJojBoqKFM5XJATA+xD6hMrqZfcm4cGLhRTM/VcmMC1aVhN/9WxDYVtoHwyvKRrcS1qkjVgCUgit4LFei74b1mGN8VbgPxqixzfDIr1lIteWMk1B2+OsvY4XBpK6zOqKlqcNFIverGrNkGxiwOsiV4rOnBRobCn2oJgxr9b1WtWJa83FVYGLfzyrRDkyw7xkjGfdkHl4R8JVzbMPlXsK/Y/rE2QYXqXnpHk1NQoBvp3h61wn++cILAiW8LaOR+TV0ipt24Y4fi0kLMvg/+AAvwPFo=",
+      "resultTeX": "\\frac{1}{\\varepsilon^3 s_{12}}-\\frac{i \\left(-i \\log \\left(-\\frac{s_{12}+s_{23}}{s_{12}}\\right)-2 i \\log (s_{12})+2 \\pi +2 i\\right)}{\\varepsilon^2 s_{12}}+\\frac{-6 \\zeta(2)-9 \\log ^2\\left(-\\frac{s_{12}+s_{23}}{s_{12}}\\right)-12 \\log (s_{12}+s_{23})+12 \\log (s_{12}+s_{23}) \\log \\left(-\\frac{s_{12}+s_{23}}{s_{12}}\\right)+12 \\log ^2(s_{12})+24 i \\pi  \\log (s_{12})-12 \\log (s_{12})-14 \\pi ^2-12 i \\pi +24}{6 \\varepsilon s_{12}}+(\\text{more terms})+O\\left(\\varepsilon^1\\right)",
+      "dimension": "4 - 2*eps",
+      "epsOrder": "0",
+      "epsOrders": "0",
+      "propExponents": [
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "propagators": [],
+      "numerators": [],
+      "internalMasses": [],
+      "externalMasses": [],
+      "substitutions": "",
+      "normalization": "Automatic",
+      "stVersion": "SubTropica v1.0.296",
+      "stCommand": "",
+      "contributor": "Sebastian Mizera",
+      "timestamp": "2026-04-16T09:45:14",
+      "verifiedAt": "2026-04-16T09:45:14",
+      "verified": true,
+      "method": "direct_integration",
+      "tools": [
+        "SubTropica"
+      ],
+      "methodLR": "Lungo",
+      "byteCount": 14736
+    }
+  ],
+  "edges": "{{{1, 2}, 0}, {{1, 2}, 0}, {{1, 3}, 0}, {{2, 4}, 0}, {{3, 4}, 0}}",
+  "nodes": "{{1, 0}, {2, 0}, {3, 0}, {4, 0}}",
+  "quadruple": "{E^(2*eps*EulerGamma)*Gamma[1 + 2*eps], (x1*x2 + x1*x3 + x2*x3 + x1*x4 + x2*x4 + x1*x5 + x2*x5)^(-1 + 3*eps)*(s12*x1*x3*x4 + s12*x2*x3*x4 - s12*x1*x2*x5 - s23*x1*x2*x5)^(-1 - 2*eps), {x1, x2, x3, x4, x5}, {s12, s23}}",
+  "CanonicalName": "Massless bubble-box",
+  "MassConfig": {
+    "numEdges": 5,
+    "numMassiveEdges": 0,
+    "numMasslessEdges": 5,
+    "distinctInternalMasses": 0,
+    "internalMassLabels": [],
+    "edgeMassPattern": "00000",
+    "numExtLegs": 4,
+    "numOnshellMassiveExtLegs": 0,
+    "numMasslessExtLegs": 4,
+    "extLegSignature": "0000"
+  },
+  "Subsectors": [
+    "e12|e2|e|:000|00|1|"
+  ],
+  "ParentSectors": [
+    "112|e3|e4|e4|e|:000|00|00|00|0|",
+    "112|e3|e4|e4|e|:001|00|00|00|0|"
+  ]
+}

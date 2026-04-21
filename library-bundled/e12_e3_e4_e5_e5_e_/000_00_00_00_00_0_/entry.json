@@ -1,0 +1,373 @@
+{
+  "CNickelIndex": "e12|e3|e4|e5|e5|e|:000|00|00|00|00|0|",
+  "MassScales": 9,
+  "FunctionClass": "MPL",
+  "EpsilonOrder": "",
+  "References": [
+    "arXiv:1104.2787 (JHEP 06 (100), 2011)",
+    "arXiv:1104.2781",
+    "arXiv:1105.1333",
+    "arXiv:1909.04777 (JHEP 02 (099), 2020)",
+    "arXiv:2303.11657 (Phys.Rev.D 108 (7), 2023)",
+    "arXiv:2405.18178 (JHEP 09 (018), 2024)",
+    "arXiv:2007.08360, Phys.Rev.D 102, 2020",
+    "arXiv:2502.12127 (JHEP 09 (118), 2025)",
+    "arXiv:hep-ph/0106243",
+    "arXiv:2412.21054",
+    "arXiv:2204.12983",
+    "arXiv:2309.16441 (JHEP 12 (140), 2023)",
+    "hep-ph/0106243"
+  ],
+  "Records": [
+    {
+      "authors": "Dixon, Lance J., Drummond, James M., Henn, Johannes M.",
+      "texkey": "Dixon:2011ng",
+      "verified": false,
+      "verifiedAt": "",
+      "reference": "arXiv:1104.2787, JHEP 06 (100), 2011",
+      "ancillaryFiles": [],
+      "recordId": "bf_4cbc5b64532f",
+      "masterCount": 1,
+      "transcendentalWeight": 3,
+      "computationLevel": "full",
+      "doi": "10.1007/JHEP06(2011)100",
+      "tools": [],
+      "description": "One-loop scalar hexagon integral in $D=6$ dimensions with all massless external legs. Result in terms of classical polylogarithms up to weight 3.",
+      "epsOrders": "all orders",
+      "method": [],
+      "dimScheme": "d=2m-2*eps",
+      "location": "Eq.(2), Eq.(4)",
+      "familyName": "Phi6 / Omega1"
+    },
+    {
+      "reference": "arXiv:1104.2781",
+      "authors": [
+        {
+          "full_name": "Del Duca, Vittorio",
+          "inspire_id": 1011316
+        },
+        {
+          "full_name": "Duhr, Claude",
+          "inspire_id": 1040449
+        },
+        {
+          "full_name": "Smirnov, Vladimir A.",
+          "inspire_id": 988366
+        }
+      ],
+      "description": "Scalar one-loop massless hexagon integral in strictly $D=6$ dimensions with six lightlike external momenta ($p_i^2=0$). The integral is UV/IR finite, so no dimensional regularization is needed, although the authors derive a Mellin-Barnes representation in $D=6-2\\varepsilon$ (via AMBRE) and resolve spurious singularities using MB and MBresolve before setting $\\varepsilon=0$. The integral is dual conformally invariant and can be written as $(x_{14}^2 x_{25}^2 x_{36}^2)^{-1} I_6(u_1,u_2,u_3)$ where $u_i$ are the three dual conformal cross ratios. The threefold MB integral is converted into a three-fold Euler-type parametric integral and evaluated in terms of multiple polylogarithms, then simplified using the symbol map (Goncharov-Spradlin-Vergu-Volovich reparametrization of the $u_i$ in terms of six $\\mathbb{CP}^1$ points). The final closed-form answer is of uniform transcendental weight three, expressed through classical polylogarithms $\\operatorname{Li}_n$ with arguments $x_i^\\pm$ built from $\\sqrt{\\Delta}$, $\\Delta = (u_1+u_2+u_3-1)^2 - 4 u_1 u_2 u_3$.",
+      "epsOrders": "",
+      "familyName": "massless 1-loop hexagon (6-point, D=6)",
+      "method": "Mellin-Barnes, direct_integration",
+      "tools": [],
+      "ancillaryFiles": false,
+      "doi": "",
+      "texkey": "",
+      "masterCount": 1,
+      "dimScheme": "d=D",
+      "computationLevel": "full",
+      "location": "Eq. (1) [eq:massless_hexagon]; result in Eq. [eq:result]",
+      "recordId": "bx_6b5968b67e2f",
+      "verified": false,
+      "verifiedAt": ""
+    },
+    {
+      "dimScheme": "d=6",
+      "recordId": "bf_afa8ce1b9525",
+      "familyName": "massless hexagon in D=6",
+      "verified": false,
+      "verifiedAt": "",
+      "authors": "Herrmann, Enrico, Parra-Martinez, Julio",
+      "texkey": "Herrmann:2019upk",
+      "computationLevel": "DE_only",
+      "masterCount": 0,
+      "location": "Section 4, Eq. (3.12)-(3.18)",
+      "transcendentalWeight": 3,
+      "method": [],
+      "reference": "arXiv:1909.04777, JHEP 02 (099), 2020",
+      "ancillaryFiles": [],
+      "description": "One-loop massless hexagon in $D=6$. Dual conformally invariant. DE relates to fifteen $D=4$ box integrals, reduced to 3 letters $y_u,y_v,y_w$.",
+      "epsOrders": "",
+      "tools": [],
+      "doi": "10.1007/JHEP02(2020)099"
+    },
+    {
+      "ancillaryPaths": [
+        "code/hexagon_letter_example.m"
+      ],
+      "dimScheme": "d=4-2*eps",
+      "recordId": "bf_ec2fc1209802",
+      "familyName": "massless hexagon",
+      "verified": false,
+      "verifiedAt": "",
+      "authors": "Jiang, Xuhang, Yang, Li Lin",
+      "texkey": "Jiang:2023qnl",
+      "computationLevel": "basis",
+      "masterCount": 0,
+      "location": "Section III D, Fig. 7; Supplemental Material hexagon_letter_example.m",
+      "method": [],
+      "reference": "arXiv:2303.11657, Phys.Rev.D 108 (7), 2023",
+      "ancillaryFiles": [],
+      "description": "One-loop massless hexagon integral family with six massless external legs and six massless internal propagators. Symbol letters arising from the dependence of the hexagon on pentagon and box subsectors are derived using the recursive Baikov structure. Of the naively 21 letters (6 pentagons + 15 boxes), only 9 are independent: 6 pentagon letters involving distinct square roots $\\sqrt{R_2 \\, S_X}$, and 3 independent box letters ($W_{12}, W_{23}, W_{34}$) involving a single square root $\\sqrt{R_2}$. Relations among letters follow from the condition $Q_{Z,Z}=0$ associated with massless external legs.",
+      "epsOrders": "",
+      "tools": [],
+      "doi": "10.1103/PhysRevD.108.076004"
+    },
+    {
+      "dimScheme": "d",
+      "recordId": "bf_84342093eeb7",
+      "verified": false,
+      "verifiedAt": "",
+      "authors": "Crisanti, Giulio, Smith, Sid",
+      "texkey": "Crisanti:2024onv",
+      "computationLevel": "C-matrix",
+      "masterCount": 0,
+      "reference": "arXiv:2405.18178, JHEP 09 (018), 2024",
+      "ancillaryFiles": [],
+      "description": "One-loop massless hexagon with six massless external legs and six massless internal propagators, with $d$-dimensional external momenta (so the hexagon appears in the basis unlike the 4d case). The spanning set of cuts up to symmetry is $\\{\\{z_5,z_6\\}, \\{z_4,z_6\\}, \\{z_3,z_6\\}\\}$. Diagonal bases are given for each cut. Some cuts require modifications to the standard diagonal basis prescription for massless kinematics, including the appearance of factors like $1/(b \\, z_2)$ in the basis elements.",
+      "familyName": "one-loop massless hexagon",
+      "location": "Section 6.7, Eqs. (6.27)-(6.36)",
+      "method": [],
+      "epsOrders": "",
+      "tools": [
+        "Mathematica",
+        "LiteRed",
+        "FiniteFlow"
+      ],
+      "doi": "10.1007/JHEP09(2024)018"
+    },
+    {
+      "reference": "arXiv:2007.08360, Phys.Rev.D 102, 2020",
+      "authors": "Ananthanarayan, B., Banik, Sumit, Friot, Samuel, Ghosh, Shayan",
+      "description": "Off-shell massless six-point hexagon conformal Feynman integral with generic propagator powers $a,b,c,d,e,f$ in $D$ dimensions. Star graph topology. Result: 26-term linear combination of generalized Horn-type multiple hypergeometric series from 9-fold MB representation.",
+      "epsOrders": "all orders",
+      "familyName": "I_6 (hexagon)",
+      "method": "Mellin-Barnes + series_expansion",
+      "tools": [],
+      "ancillaryFiles": false,
+      "doi": "10.1103/PhysRevD.102.091901",
+      "texkey": "Ananthanarayan:2020ncn",
+      "dimScheme": "d=D",
+      "computationLevel": "full",
+      "location": "Eq.(12), Appendix B",
+      "recordId": "bf_bf768cd745ad",
+      "verified": false,
+      "verifiedAt": ""
+    },
+    {
+      "reference": "arXiv:2502.12127 (JHEP 09 (118), 2025)",
+      "authors": "Alkalaev, Konstantin, Mandrygin, Semyon",
+      "description": "Parametric one-loop six-point conformal integral in $D$ dimensions with arbitrary propagator powers $a_1,...,a_6$ summing to $D$. The bipartite Mellin-Barnes first part is expanded as Lauricella $F_D^{(3)}$ type series in nine cross-ratios (Eq. 8.1). Three master functions identified by analytic continuation generate 18 basis functions under the cyclic group $\\mathbb{Z}_6$. The paper shows that these 18 functions reproduce only 9 of the 10 pentagon basis functions under the reduction $a_l=0$, establishing that the $\\mathbb{Z}_6$-orbit of the naive master set is incomplete: additional master functions are required and are the subject of the forthcoming Part II. Thus the hexagon family is presented as a not-yet-fully-reconstructed family.",
+      "epsOrders": "",
+      "familyName": "parametric 1-loop 6-point conformal integral (hexagon, generic propagator powers)",
+      "method": "Mellin-Barnes, direct_integration",
+      "tools": [],
+      "ancillaryFiles": false,
+      "doi": "10.1007/JHEP09(2025)118",
+      "texkey": "Alkalaev:2025fgn",
+      "masterCount": 0,
+      "dimScheme": "d=D",
+      "computationLevel": "partial_cut",
+      "location": "Section 8 (sec:hex), Eqs. (8.1)-(8.9)",
+      "recordId": "bx_c646a87929f7",
+      "verified": false,
+      "verifiedAt": ""
+    },
+    {
+      "reference": "arXiv:hep-ph/0106243",
+      "authors": [
+        {
+          "full_name": "Binoth, T.",
+          "inspire_id": 1016306
+        },
+        {
+          "full_name": "Guillet, J.P.",
+          "inspire_id": 1007287
+        },
+        {
+          "full_name": "Heinrich, G.",
+          "inspire_id": 1006298
+        },
+        {
+          "full_name": "Schubert, C.",
+          "inspire_id": 989669
+        }
+      ],
+      "description": "Massless one-loop scalar hexagon $I_6^n$ with six light-like external momenta, appearing in the one-loop six-scalar amplitude in the Yukawa model. Reduced to a sum of six pentagons via Eq. (hexa_red) using $\\det(G)=0$ for six external legs in four dimensions. The amplitude is IR finite; after reduction to boxes and triangles it is expressed via logs and dilogarithms.",
+      "epsOrders": "0",
+      "familyName": "massless 1-loop hexagon (6 propagators)",
+      "method": "direct_integration",
+      "tools": [],
+      "ancillaryFiles": false,
+      "doi": "",
+      "texkey": "",
+      "masterCount": 0,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "full",
+      "location": "Eq. (amp_graph) Section 3; reduction Eq. (hexa_red)",
+      "recordId": "bx_2a2fb7f81918",
+      "verified": false,
+      "verifiedAt": ""
+    },
+    {
+      "reference": "arXiv:2412.21054",
+      "authors": [
+        {
+          "full_name": "Huang, Rui-Jun",
+          "inspire_id": 1066027
+        },
+        {
+          "full_name": "Jian, Dong-Shan",
+          "inspire_id": 2864703
+        },
+        {
+          "full_name": "Ma, Yan-Qing",
+          "inspire_id": 1056966
+        },
+        {
+          "full_name": "Mu, Dao-Ming",
+          "inspire_id": 2863956
+        },
+        {
+          "full_name": "Wu, Wen-Hao",
+          "inspire_id": 1873282
+        }
+      ],
+      "description": "One-loop massless hexagon with all six internal propagators and all six external legs massless, depending on nine independent Mandelstam invariants $\\{s_{12},s_{23},s_{34},s_{45},s_{56},s_{61},s_{123},s_{234},s_{345}\\}$. Evaluated numerically at the point $s_0=\\{-1,-1,-1,-1,-1,-1,-1/2,-5/8,-17/14\\}$, which corresponds to a vanishing Gram determinant. The family has 51 master integrals, expanded up to $\\mathcal{O}(\\varepsilon^{10})$ in $D=4-2\\varepsilon$ using 1000-digit boost::mpc arithmetic in 107 seconds with the dimension-changing transformation. Validated against AMFlow in the top sector (Tab. II). Same topology as studied in Henn:2022ydo.",
+      "epsOrders": "10",
+      "familyName": "massless 1-loop 6-point hexagon",
+      "method": "DE, series_expansion",
+      "tools": [
+        "AMFlow"
+      ],
+      "ancillaryFiles": false,
+      "doi": "",
+      "texkey": "",
+      "masterCount": 51,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "numerical",
+      "location": "Section IV (Examples), Fig. 4 (hexagon.png), Tab. II",
+      "recordId": "bx_88dcad7b529a",
+      "verified": false,
+      "verifiedAt": ""
+    },
+    {
+      "reference": "arXiv:2204.12983",
+      "authors": [
+        {
+          "full_name": "Chestnov, Vsevolod",
+          "inspire_id": 1760381
+        },
+        {
+          "full_name": "Gasparotto, Federico",
+          "inspire_id": 1945756
+        },
+        {
+          "full_name": "Mandal, Manoj K.",
+          "inspire_id": 1247611
+        },
+        {
+          "full_name": "Mastrolia, Pierpaolo",
+          "inspire_id": 1025886
+        },
+        {
+          "full_name": "Matsubara-Heo, Saiei J.",
+          "inspire_id": 2016791
+        },
+        {
+          "full_name": "Munch, Henrik J.",
+          "inspire_id": 2000628
+        },
+        {
+          "full_name": "Takayama, Nobuki",
+          "inspire_id": 2072902
+        }
+      ],
+      "description": "One-loop massless hexagon. $A_6$ matrix is $7\\times 15$ with GKZ rank 33. LP polynomial has $C(6,2)=15$ terms. After homogeneity reduction 8 independent GKZ variables remain. Macaulay matrix $M_{ext}$ is $945\\times 958$ (rank 534). Pfaffian matrix computed numerically in 0.66 sec; full functional reconstruction left to future work.",
+      "epsOrders": "",
+      "familyName": "one-loop massless hexagon",
+      "method": "Macaulay-matrix, Pfaffian-system",
+      "tools": [
+        "Risa/Asir",
+        "FiniteFlow"
+      ],
+      "ancillaryFiles": true,
+      "doi": "",
+      "texkey": "",
+      "masterCount": 33,
+      "dimScheme": "",
+      "computationLevel": "numerical",
+      "location": "Example 4.18 (A_6 matrix), Section 5.3 (final paragraph)",
+      "recordId": "bx_50e1fdb9e32b",
+      "verified": false,
+      "verifiedAt": ""
+    },
+    {
+      "reference": "arXiv:2309.16441 (JHEP 12 (140), 2023)",
+      "authors": "He, Song, Jiang, Xuhang, Liu, Jiahao, Yang, Qinglin",
+      "description": "One-loop massless hexagon integral in $D=6-2\\varepsilon$ dimensions with no internal or external masses. The 10 genuine 6-point letters are produced from the total differential of the hexagon via Schubert analysis, matching the results of Henn et al. The remaining 93 letters come from pentagon sub-topologies.",
+      "epsOrders": "",
+      "familyName": "one-loop massless hexagon in D=6-2eps",
+      "method": "DE",
+      "tools": [],
+      "ancillaryFiles": true,
+      "doi": "10.1007/JHEP12(2023)140",
+      "texkey": "He:2023umf",
+      "masterCount": 0,
+      "dimScheme": "",
+      "computationLevel": "full",
+      "location": "Section 2.2 (paragraph '6d massless hexagon'), Eq. (2.31)",
+      "recordId": "bx_3a23a9c6cf96",
+      "verified": false,
+      "verifiedAt": ""
+    },
+    {
+      "reference": "hep-ph/0106243",
+      "authors": "T. Binoth, J. P. Guillet, G. Heinrich, C. Schubert",
+      "description": "A compact result for the massless one-loop on-shell hexagon integral in $D=4-2\\varepsilon$ is given in terms of known lower point functions.",
+      "recordId": "1515694949.BFdb",
+      "verified": false,
+      "verifiedAt": ""
+    }
+  ],
+  "Source": [
+    "arXiv",
+    "Loopedia"
+  ],
+  "Results": [],
+  "Names": [
+    "Omega1",
+    "massless hexagon in D=6",
+    "one-loop massless hexagon",
+    "one-loop massive hexagon",
+    "Phi6",
+    "massless 1-loop hexagon (6-point, D=6)",
+    "massless 1-loop hexagon (6 propagators)",
+    "massless 1-loop 6-point hexagon",
+    "one-loop massless hexagon in D=6-2eps"
+  ],
+  "edges": "{{{1, 2}, 0}, {{1, 3}, 0}, {{2, 4}, 0}, {{3, 5}, 0}, {{4, 6}, 0}, {{5, 6}, 0}}",
+  "nodes": "{{1, 0}, {2, 0}, {4, 0}, {6, 0}, {5, 0}, {3, 0}}",
+  "Loops": 1,
+  "NumPropagators": 6,
+  "CanonicalName": "Massless hexagon",
+  "MassConfig": {
+    "numEdges": 6,
+    "numMassiveEdges": 0,
+    "numMasslessEdges": 6,
+    "distinctInternalMasses": 0,
+    "internalMassLabels": [],
+    "edgeMassPattern": "000000",
+    "numExtLegs": 6,
+    "numOnshellMassiveExtLegs": 0,
+    "numMasslessExtLegs": 6,
+    "extLegSignature": "000000"
+  },
+  "commonNames": [
+    "F₀"
+  ],
+  "Subsectors": [
+    "e12|e3|e4|e4|e|:000|00|00|00|1|"
+  ],
+  "ParentSectors": []
+}

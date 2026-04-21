@@ -1,0 +1,72 @@
+{
+  "CNickelIndex": "123|e4|e4|e4||:000|10|20|30||",
+  "MassScales": 3,
+  "FunctionClass": "MPL",
+  "EpsilonOrder": "0,1,2,3,4; 0",
+  "References": [
+    "arXiv:1404.5590",
+    "arXiv:1404.4853",
+    "hep-ph/9307327, hep-ph/9402223"
+  ],
+  "Records": [
+    {
+      "epsOrders": "0,1,2,3,4",
+      "reference": "arXiv:1404.5590",
+      "authors": "Fabrizio Caola, Johannes M. Henn, Kirill Melnikov, Vladimir A. Smirnov",
+      "description": "The authors compute all two-loop non-planar master integrals needed for the computation of the production of off-shell vector bosons in hadron collisions. The arXiv contains files with all these integrals, while the definitions and prefactors are given in the paper in Sect. 5. The $\\varepsilon$ expansion is given in terms of multiple polylogarithms of uniform weight through to weight four.",
+      "masterCount": 1,
+      "recordId": "1499262057.RJcW",
+      "verified": false,
+      "verifiedAt": ""
+    },
+    {
+      "epsOrders": "0,1,2,3,4",
+      "reference": "arXiv:1404.4853",
+      "authors": "Thomas Gehrmann, Andreas von Manteuffel, Lorenzo Tancredi, Erich Weihs",
+      "description": "The authors compute the full set of massless two-loop four-point functions with two off-shell legs with the same invariant mass relevant for diboson production at hadron colliders ($q\\bar{q} \\to VV$ and $gg \\to VV$). The $\\varepsilon$ expansion is given in terms of multiple polylogarithms of uniform weight through to weight four. Results for physical scattering kinematics are optimized for numerical evaluations using $\\operatorname{Li}_{2,2}$, $\\operatorname{Li}_n$ and $\\log$ functions. In addition, expansions are provided at the production threshold and in the small mass limit.",
+      "masterCount": 1,
+      "recordId": "1503427764.M9jF",
+      "verified": false,
+      "verifiedAt": ""
+    },
+    {
+      "epsOrders": "0",
+      "reference": "hep-ph/9307327, hep-ph/9402223",
+      "authors": "Natalia I. Ussyukina and Andrei I. Davydychev",
+      "description": "The result for the scalar off-shell non-planar two-loop three-point diagram is expressed in terms of the square of a dilogarithmic function. It is valid in four dimensions, for general non-singular values of the three external momenta squared. \"Non-singular\" means that the momenta squared are non-zero, and there are no collinear and other infrared singularities.",
+      "recordId": "1503520256.yooj",
+      "verified": false,
+      "verifiedAt": ""
+    }
+  ],
+  "Source": [
+    "arXiv",
+    "Loopedia"
+  ],
+  "Results": [],
+  "Names": [
+    "All-mass non-planar vertex",
+    "3-mass non-planar vertex",
+    "Non-planar vertex",
+    "Non-planar triangle"
+  ],
+  "edges": "{{{1, 2}, 0}, {{1, 3}, 0}, {{1, 4}, 0}, {{2, 5}, 0}, {{3, 5}, 0}, {{4, 5}, 0}}",
+  "nodes": "{{2, M[1]}, {3, M[2]}, {4, M[3]}}",
+  "CanonicalName": "3-mass non-planar double box (b)",
+  "MassConfig": {
+    "numEdges": 6,
+    "numMassiveEdges": 0,
+    "numMasslessEdges": 6,
+    "distinctInternalMasses": 0,
+    "internalMassLabels": [],
+    "edgeMassPattern": "000000",
+    "numExtLegs": 3,
+    "numOnshellMassiveExtLegs": 3,
+    "numMasslessExtLegs": 0,
+    "extLegSignature": "MMM"
+  },
+  "Subsectors": [
+    "123|e23|e|e|:000|100|2|3|"
+  ],
+  "ParentSectors": []
+}

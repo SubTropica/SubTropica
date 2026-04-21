@@ -1,0 +1,81 @@
+{
+  "CNickelIndex": "1234|e5|e5|e6|e6|e|e|:0000|00|00|00|00|0|0|",
+  "MassScales": 9,
+  "FunctionClass": "MPL",
+  "EpsilonOrder": "0",
+  "References": [
+    "arXiv:2602.02783"
+  ],
+  "Records": [
+    {
+      "reference": "arXiv:2602.02783",
+      "authors": [
+        {
+          "full_name": "Carrôlo, Sérgio",
+          "inspire_id": 2107182
+        },
+        {
+          "full_name": "Chicherin, Dmitry",
+          "inspire_id": 1259630
+        },
+        {
+          "full_name": "Henn, Johannes",
+          "inspire_id": 1040053
+        },
+        {
+          "full_name": "Yang, Qinglin",
+          "inspire_id": 1849879
+        },
+        {
+          "full_name": "Zhang, Yang",
+          "inspire_id": 1062340
+        }
+      ],
+      "description": "Prescriptive-unitarity kissing-box integral for two-loop six-gluon planar massless QCD amplitudes, constructed as two one-loop boxes joined at a single cubic vertex, with a numerator of the form $n_{kb}=[[m,b,c,j]][[k,f,g,l]]$ (Eq. (eq:Ikb)). It provides the two-loop leading singularity prefactor $R_{kb}$ for the IR-finite part of the hard function. Called $I_{n,jklm}^{kb}$ in the paper (with $n=6$ the number of legs). Eight massless propagators (two boxes, one shared vertex), six massless external gluons, all distinct helicity sectors --++++, -+-+++, -++-++ computed through weight four via IBP reduction to the Henn:2025xrc planar two-loop six-point UT basis with FIRE7, KIRA3 and FiniteFlow. Contributes only to pure-YM ($N_f^0$) hard functions.",
+      "epsOrders": "0",
+      "familyName": "massless 2-loop 6-point kissing-box",
+      "method": "unitarity, IBP, DE",
+      "tools": [
+        "FIRE",
+        "Kira",
+        "FiniteFlow"
+      ],
+      "ancillaryFiles": true,
+      "doi": "",
+      "texkey": "",
+      "masterCount": 0,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "full",
+      "location": "Section 5, Eq. (eq:Ikb); Fig. fig:six-points; IBP reduction in Appendix sec: IBP reduction",
+      "recordId": "bx_cd183da0ddd7",
+      "verified": false,
+      "verifiedAt": ""
+    }
+  ],
+  "Names": [
+    "massless 2-loop 6-point kissing-box"
+  ],
+  "Source": [
+    "arXiv"
+  ],
+  "Loops": 2,
+  "NumPropagators": 8,
+  "Results": [],
+  "edges": "{{{1, 2}, 0}, {{1, 3}, 0}, {{1, 4}, 0}, {{1, 5}, 0}, {{2, 6}, 0}, {{3, 6}, 0}, {{4, 7}, 0}, {{5, 7}, 0}}",
+  "nodes": "{{2, 0}, {3, 0}, {4, 0}, {5, 0}, {6, 0}, {7, 0}}",
+  "CanonicalName": "Massless extended core",
+  "MassConfig": {
+    "numEdges": 8,
+    "numMassiveEdges": 0,
+    "numMasslessEdges": 8,
+    "distinctInternalMasses": 0,
+    "internalMassLabels": [],
+    "edgeMassPattern": "00000000",
+    "numExtLegs": 6,
+    "numOnshellMassiveExtLegs": 0,
+    "numMasslessExtLegs": 6,
+    "extLegSignature": "000000"
+  },
+  "Subsectors": [],
+  "ParentSectors": []
+}

@@ -1,0 +1,99 @@
+{
+  "CNickelIndex": "e1112|e2|e|:01111|01|0|",
+  "MassScales": 1,
+  "FunctionClass": "Calabi-Yau",
+  "EpsilonOrder": "-6,-5,-4,-3,-2,-1,0",
+  "References": [
+    "arXiv:2212.09550 (JHEP 02 (228), 2023)",
+    "arXiv:2305.14090"
+  ],
+  "Records": [
+    {
+      "dimScheme": "d=2-2*eps",
+      "recordId": "bf_fda10d4e422f",
+      "familyName": "3L-ice-cone-equal-mass",
+      "verified": false,
+      "verifiedAt": "",
+      "authors": "Duhr, Claude, Klemm, Albrecht, Nega, Christoph, Tancredi, Lorenzo",
+      "texkey": "Duhr:2022dxb",
+      "computationLevel": "full",
+      "masterCount": 8,
+      "location": "Eq. (2.1), (2.14), Sections 2-4",
+      "method": [],
+      "reference": "arXiv:2212.09550, JHEP 02 (228), 2023",
+      "ancillaryFiles": [],
+      "description": "3-loop equal-mass ice cone: (2)-loop banana inserted into 1-loop triangle. 5 massive propagators in $D=2-2\\varepsilon$. 8 master integrals. Maximal cuts factorize into banana periods. CY 1-fold geometry.",
+      "epsOrders": "-6,-5,-4,-3,-2,-1,0",
+      "tools": [
+        "Reduze",
+        "Kira"
+      ],
+      "doi": "10.1007/JHEP02(2023)228"
+    },
+    {
+      "reference": "arXiv:2305.14090",
+      "authors": [
+        {
+          "full_name": "Görges, Lennard",
+          "inspire_id": 2661968
+        },
+        {
+          "full_name": "Nega, Christoph",
+          "inspire_id": 1969299
+        },
+        {
+          "full_name": "Tancredi, Lorenzo",
+          "inspire_id": 1284289
+        },
+        {
+          "full_name": "Wagner, Fabian J.",
+          "inspire_id": 2606401
+        }
+      ],
+      "description": "Three-loop ice cone graph with equal internal masses. The geometry involves two distinct elliptic curves, both related to the equal-mass two-loop sunrise curve evaluated at $z$ and $1/z$. Reparametrized via Landau variable $s=-(1-z)^2/z$. 8 master integrals. A new function $G$ coupling the two elliptic sectors is introduced. The maximal cut system factorizes into two $2 \\times 2$ sunrise-type blocks. The epsilon-factorised GM connection involves the holomorphic periods of both elliptic curves and the coupling function $G$.",
+      "epsOrders": "",
+      "familyName": "three-loop ice cone (equal mass)",
+      "method": "",
+      "tools": [],
+      "ancillaryFiles": true,
+      "doi": "",
+      "texkey": "",
+      "masterCount": 8,
+      "dimScheme": "d=2-2*eps",
+      "computationLevel": "DE_only",
+      "location": "Section 4.1 (Sec4_BeyondEll.tex), eq. (4.1)-(4.12)",
+      "recordId": "bx_e20ec8a07aad",
+      "verified": false,
+      "verifiedAt": ""
+    }
+  ],
+  "Names": [
+    "3L-ice-cone-equal-mass",
+    "three-loop ice cone (equal mass)"
+  ],
+  "Source": [
+    "arXiv"
+  ],
+  "Loops": 3,
+  "NumPropagators": 5,
+  "Results": [],
+  "edges": "{{{1, 2}, m}, {{1, 2}, m}, {{1, 2}, m}, {{1, 3}, m}, {{2, 3}, m}}",
+  "nodes": "{{1, 0}, {2, 0}, {3, 0}}",
+  "CanonicalName": "Equal-mass bubble-bubble-triangle",
+  "MassConfig": {
+    "numEdges": 5,
+    "numMassiveEdges": 5,
+    "numMasslessEdges": 0,
+    "distinctInternalMasses": 1,
+    "internalMassLabels": [
+      "m"
+    ],
+    "edgeMassPattern": "11111",
+    "numExtLegs": 3,
+    "numOnshellMassiveExtLegs": 0,
+    "numMasslessExtLegs": 3,
+    "extLegSignature": "000"
+  },
+  "Subsectors": [],
+  "ParentSectors": []
+}

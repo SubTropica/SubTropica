@@ -1,0 +1,70 @@
+{
+  "CNickelIndex": "e12|e3|e3|e|:012|03|04|0|",
+  "MassScales": 6,
+  "FunctionClass": "MPL",
+  "EpsilonOrder": "-1,0",
+  "References": [
+    "arXiv:1005.2076",
+    "arXiv:2309.16441 (JHEP 12 (140), 2023)"
+  ],
+  "Records": [
+    {
+      "reference": "arXiv:2309.16441 (JHEP 12 (140), 2023)",
+      "authors": "He, Song, Jiang, Xuhang, Liu, Jiahao, Yang, Qinglin",
+      "description": "One-loop box integral with four massive internal propagators and massless external legs near $D=5-2\\varepsilon$ (odd-dimensional case). UT basis consists of 1 box in $D=5-2\\varepsilon$, 4 one-mass triangles and 2 bubbles in $D=3-2\\varepsilon$, and 4 tadpoles in $D=1-2\\varepsilon$. Canonical differential equations derived via odd-dimensional Schubert analysis, contrasted with the $D=4-2\\varepsilon$ result.",
+      "epsOrders": "",
+      "familyName": "one-loop four-mass box with massless external legs in D=5-2eps / one-loop four-mass box with massless external legs in D=4-2eps",
+      "method": "DE",
+      "tools": [],
+      "ancillaryFiles": true,
+      "doi": "10.1007/JHEP12(2023)140",
+      "texkey": "He:2023umf",
+      "masterCount": 11,
+      "dimScheme": "",
+      "computationLevel": "full",
+      "location": "Section 2.3, Eq. (2.36)-(2.39)",
+      "recordId": "bx_4b9008042506",
+      "verified": false,
+      "verifiedAt": ""
+    }
+  ],
+  "Names": [
+    "Box (general massive)",
+    "Box",
+    "D0",
+    "one-loop four-mass box with massless external legs in D=4-2eps",
+    "one-loop four-mass box with massless external legs in D=5-2eps"
+  ],
+  "Source": [
+    "arXiv",
+    "Loopedia"
+  ],
+  "Loops": 1,
+  "NumPropagators": 4,
+  "Results": [],
+  "edges": "{{{1, 2}, m[1]}, {{1, 3}, m[2]}, {{2, 4}, m[3]}, {{3, 4}, m[4]}}",
+  "nodes": "{{1, 0}, {2, 0}, {4, 0}, {3, 0}}",
+  "CanonicalName": "4-mass box (a)",
+  "MassConfig": {
+    "numEdges": 4,
+    "numMassiveEdges": 4,
+    "numMasslessEdges": 0,
+    "distinctInternalMasses": 4,
+    "internalMassLabels": [
+      "m[1]",
+      "m[2]",
+      "m[3]",
+      "m[4]"
+    ],
+    "edgeMassPattern": "1234",
+    "numExtLegs": 4,
+    "numOnshellMassiveExtLegs": 0,
+    "numMasslessExtLegs": 4,
+    "extLegSignature": "0000"
+  },
+  "commonNames": [
+    "D₀(4 masses)"
+  ],
+  "Subsectors": [],
+  "ParentSectors": []
+}

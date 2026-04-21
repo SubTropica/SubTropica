@@ -1,0 +1,58 @@
+{
+  "CNickelIndex": "123|45|e4|e6|e|e6|e|:000|11|00|00|0|10|1|",
+  "MassScales": 6,
+  "FunctionClass": "elliptic",
+  "EpsilonOrder": "",
+  "References": [
+    "arXiv:2503.03603 (Phys.Rev.D 112 (), 2025)"
+  ],
+  "Records": [
+    {
+      "authors": "Becchetti, Matteo, Dlapa, Christoph, Zoia, Simone",
+      "ancillaryFiles": [],
+      "recordId": "bf_8d92ec219988",
+      "epsOrders": "",
+      "location": "Eq. (2), Section 'Setting the stage'; propagators in Table 1 of arXiv:2404.12325 (family PB_B)",
+      "texkey": "Becchetti:2025oyb",
+      "verified": false,
+      "verifiedAt": "",
+      "reference": "arXiv:2503.03603, Phys.Rev.D 112, 2025",
+      "masterCount": 121,
+      "computationLevel": "canonical_DE",
+      "doi": "10.1103/zt4w-c1jk",
+      "tools": [],
+      "description": "Pentagon-box two-loop five-point integral family ($PB_B$) contributing to the leading-color two-loop QCD amplitude for $t\\bar{t} + \\text{jet}$ production at hadron colliders. Two external legs are massive (top quarks, $p_1^2=p_2^2=m_t^2$) and three are massless. The family has 8 propagators and 3 irreducible numerators, with 121 master integrals. Canonical differential equations are constructed for the first time for this family, which involves elliptic functions (from an elliptic curve associated with a sunrise-type subsector), nested square roots $\\sqrt{n_\\pm}$, and six simple square roots. The canonical DE connection matrix decomposes into 112 linearly independent one-forms: 83 dlog forms (including 13 new ones with nested square roots) and 29 elliptic one-forms. The elliptic functions $G_i$ are expressed as complete elliptic integrals of the third kind. A 'duplet' structure generalizing even/odd parity of square roots to nested square roots ($\\mathbb{Z}_2 \\times \\mathbb{Z}_2$ Galois symmetry) is identified.",
+      "method": [],
+      "dimScheme": "d=4-2eps",
+      "familyName": "PB_B"
+    }
+  ],
+  "Names": [
+    "PB_B"
+  ],
+  "Source": [
+    "arXiv"
+  ],
+  "Loops": 2,
+  "NumPropagators": 8,
+  "Results": [],
+  "edges": "{{{1, 2}, 0}, {{1, 3}, 0}, {{1, 4}, 0}, {{2, 5}, m}, {{2, 6}, m}, {{3, 5}, 0}, {{4, 7}, 0}, {{6, 7}, 0}}",
+  "nodes": "{{3, 0}, {4, 0}, {7, m}, {6, m}, {5, 0}}",
+  "CanonicalName": "Box-pentagon, 2 massive propagators (c)",
+  "MassConfig": {
+    "numEdges": 8,
+    "numMassiveEdges": 2,
+    "numMasslessEdges": 6,
+    "distinctInternalMasses": 1,
+    "internalMassLabels": [
+      "m"
+    ],
+    "edgeMassPattern": "00011000",
+    "numExtLegs": 5,
+    "numOnshellMassiveExtLegs": 2,
+    "numMasslessExtLegs": 3,
+    "extLegSignature": "00MM0"
+  },
+  "Subsectors": [],
+  "ParentSectors": []
+}

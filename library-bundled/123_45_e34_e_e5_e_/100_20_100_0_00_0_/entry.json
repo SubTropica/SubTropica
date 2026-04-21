@@ -1,0 +1,93 @@
+{
+  "CNickelIndex": "123|45|e34|e|e5|e|:100|20|100|0|00|0|",
+  "MassScales": 4,
+  "FunctionClass": "MPL",
+  "EpsilonOrder": "4",
+  "References": [
+    "arXiv:2111.14130"
+  ],
+  "Records": [
+    {
+      "reference": "arXiv:2111.14130",
+      "authors": [
+        {
+          "full_name": "Long, Ming-Ming",
+          "inspire_id": 2646439
+        },
+        {
+          "full_name": "Zhang, Ren-You",
+          "inspire_id": 1029685
+        },
+        {
+          "full_name": "Ma, Wen-Gan",
+          "inspire_id": 1029684
+        },
+        {
+          "full_name": "Jiang, Yi",
+          "inspire_id": 1070526
+        },
+        {
+          "full_name": "Han, Liang",
+          "inspire_id": 1029683
+        },
+        {
+          "full_name": "Li, Zhe",
+          "inspire_id": 3093806
+        },
+        {
+          "full_name": "Wang, Shuai-Shuai",
+          "inspire_id": 1072115
+        }
+      ],
+      "description": "Non-factorizable mixed QCD-QED two-loop virtual box family for $q\\bar{q}' \\to \\ell\\nu$ with massive charged lepton ($p_3^2=m_\\ell^2$) and W-boson propagator. 46 master integrals via Kira IBP brought to canonical form with a 15-letter dlog alphabet; solved through weight 4 in GPLs of $x,y,z$. Boundary constants fixed via regularity and auxiliary vertex integrals. Cross-checked with FIESTA and HyperInt/PolyLogTools/GiNaC. Called `F` in the paper.",
+      "epsOrders": "4",
+      "familyName": "2-mass 2-loop 4-point non-factorizable box family for charged-current Drell-Yan (9 propagators) / 2-mass 2-loop 4-point non-factorizable box family crossed (p1<->p2, 9 propagators)",
+      "method": "IBP, DE, direct_integration",
+      "tools": [
+        "Kira",
+        "LiteRed",
+        "PolyLogTools",
+        "GiNaC",
+        "HyperInt",
+        "FIESTA"
+      ],
+      "ancillaryFiles": true,
+      "doi": "",
+      "texkey": "",
+      "masterCount": 46,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "full",
+      "location": "Section 2, Fig. 1; MIs in Section 3 and Fig. 2; canonical basis Eq. (3.8); alphabet Eqs. (3.4)-(3.5). Called `F` in the paper.",
+      "recordId": "bx_19aace746328",
+      "verified": false,
+      "verifiedAt": ""
+    }
+  ],
+  "Names": [],
+  "Source": [
+    "arXiv"
+  ],
+  "Loops": 3,
+  "NumPropagators": 8,
+  "Results": [],
+  "edges": "{{{1, 2}, m[1]}, {{1, 3}, 0}, {{1, 4}, 0}, {{2, 5}, m[2]}, {{2, 6}, 0}, {{3, 4}, 0}, {{3, 5}, 0}, {{5, 6}, 0}}",
+  "nodes": "{{3, m[1]}, {5, 0}, {6, 0}, {4, 0}}",
+  "CanonicalName": "2-mass triangle-box-triangle, 2 massive propagators",
+  "MassConfig": {
+    "numEdges": 8,
+    "numMassiveEdges": 2,
+    "numMasslessEdges": 6,
+    "distinctInternalMasses": 2,
+    "internalMassLabels": [
+      "m[1]",
+      "m[2]"
+    ],
+    "edgeMassPattern": "10020000",
+    "numExtLegs": 4,
+    "numOnshellMassiveExtLegs": 1,
+    "numMasslessExtLegs": 3,
+    "extLegSignature": "M000"
+  },
+  "Subsectors": [],
+  "ParentSectors": []
+}

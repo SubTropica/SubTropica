@@ -1,0 +1,58 @@
+{
+  "CNickelIndex": "123|245|e|e4|67|e6|7|e|:011|000|1|10|00|11|1|1|",
+  "MassScales": 3,
+  "FunctionClass": "Calabi-Yau",
+  "EpsilonOrder": "",
+  "References": [
+    "arXiv:2503.16601 (Comput.Phys.Commun. 320 (), 2026)"
+  ],
+  "Records": [
+    {
+      "authors": "Correia, Miguel, Giroux, Mathieu, Mizera, Sebastian",
+      "ancillaryFiles": [],
+      "recordId": "bf_1343bfbe07b2",
+      "epsOrders": "",
+      "location": "Section 5.3",
+      "texkey": "Correia:2025wtb",
+      "verified": false,
+      "verifiedAt": "",
+      "reference": "arXiv:2503.16601, Comput.Phys.Commun. 320, 2026",
+      "masterCount": 0,
+      "computationLevel": "maximal_cut",
+      "doi": "10.1016/j.cpc.2025.109970",
+      "tools": [],
+      "description": "Four-loop graviton exchange diagram. 11 propagators (7 massless graviton, 4 massive). Eikonal limit reveals CY3 geometry.",
+      "method": [],
+      "dimScheme": "d=4",
+      "familyName": "4L graviton exchange"
+    }
+  ],
+  "Names": [
+    "4L graviton exchange"
+  ],
+  "Source": [
+    "arXiv"
+  ],
+  "Loops": 4,
+  "NumPropagators": 11,
+  "Results": [],
+  "edges": "{{{1, 2}, 0}, {{1, 3}, m}, {{1, 4}, m}, {{2, 3}, 0}, {{2, 5}, 0}, {{2, 6}, 0}, {{4, 5}, 0}, {{5, 7}, 0}, {{5, 8}, 0}, {{6, 7}, m}, {{7, 8}, m}}",
+  "nodes": "{{3, m}, {4, m}, {8, m}, {6, m}}",
+  "CanonicalName": "Non-planar triangle-pentagon-pentagon-triangle, 4 massive propagators",
+  "MassConfig": {
+    "numEdges": 11,
+    "numMassiveEdges": 4,
+    "numMasslessEdges": 7,
+    "distinctInternalMasses": 1,
+    "internalMassLabels": [
+      "m"
+    ],
+    "edgeMassPattern": "01100000011",
+    "numExtLegs": 4,
+    "numOnshellMassiveExtLegs": 4,
+    "numMasslessExtLegs": 0,
+    "extLegSignature": "MMMM"
+  },
+  "Subsectors": [],
+  "ParentSectors": []
+}

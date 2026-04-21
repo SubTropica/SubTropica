@@ -1,0 +1,66 @@
+{
+  "CNickelIndex": "123|45|e4|e5|e|e|:000|01|00|00|0|1|",
+  "MassScales": 3,
+  "FunctionClass": "MPL",
+  "EpsilonOrder": "-2,-1,0; 0,1,2,3,4",
+  "References": [
+    "arXiv:1306.6344",
+    "arXiv:1404.4853"
+  ],
+  "Records": [
+    {
+      "epsOrders": "-2,-1,0",
+      "reference": "arXiv:1306.6344",
+      "authors": "Thomas Gehrmann, Lorenzo Tancredi, Erich Weihs",
+      "description": "The authors give the two-loop four-point master integrals with two massive external legs, with the same mass (in the appendix). All results are given in terms of generalized harmonic polylogarithms and all integrals have a common prefactor given in Eq. A.1. This integral can have a numerator (the epsilon order is the same; see the paper for more details).",
+      "recordId": "1499420176.B7jp",
+      "verified": false,
+      "verifiedAt": ""
+    },
+    {
+      "epsOrders": "0,1,2,3,4",
+      "reference": "arXiv:1404.4853",
+      "authors": "Thomas Gehrmann, Andreas von Manteuffel, Lorenzo Tancredi, Erich Weihs",
+      "description": "The authors compute the full set of massless two-loop four-point functions with two off-shell legs with the same invariant mass relevant for diboson production at hadron colliders ($q\\bar{q}\\to VV$ and $gg\\to VV$). The $\\varepsilon$ expansion is given in terms of multiple polylogarithms of uniform weight through to weight four. Results for physical scattering kinematics are optimized for numerical evaluations using $\\operatorname{Li}_{2,2}$, $\\operatorname{Li}_n$ and $\\log$ functions. In addition, expansions are provided at the production threshold and in the small mass limit.",
+      "masterCount": 2,
+      "recordId": "1503427764.zdeG",
+      "verified": false,
+      "verifiedAt": ""
+    }
+  ],
+  "Source": [
+    "arXiv",
+    "Loopedia"
+  ],
+  "Results": [],
+  "Names": [
+    "2-mass planar double box",
+    "two-mass planar double box",
+    "Planar double box",
+    "2-loop ladder"
+  ],
+  "edges": "{{{1, 2}, 0}, {{1, 3}, 0}, {{1, 4}, 0}, {{2, 5}, 0}, {{2, 6}, m}, {{3, 5}, 0}, {{4, 6}, 0}}",
+  "nodes": "{{3, 0}, {4, 0}, {6, m}, {5, 0}}",
+  "CanonicalName": "Double box, 1 massive propagator (e)",
+  "MassConfig": {
+    "numEdges": 7,
+    "numMassiveEdges": 1,
+    "numMasslessEdges": 6,
+    "distinctInternalMasses": 1,
+    "internalMassLabels": [
+      "m"
+    ],
+    "edgeMassPattern": "0000100",
+    "numExtLegs": 4,
+    "numOnshellMassiveExtLegs": 1,
+    "numMasslessExtLegs": 3,
+    "extLegSignature": "00M0"
+  },
+  "commonNames": [
+    "L2"
+  ],
+  "Subsectors": [
+    "123|e24|e|e4|e|:000|100|0|00|0|"
+  ],
+  "ParentSectors": []
+}

@@ -1,0 +1,184 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Wolfram 14.3' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       154,          7]
+NotebookDataLength[      7425,        175]
+NotebookOptionsPosition[      5102,        132]
+NotebookOutlinePosition[      5542,        148]
+CellTagsIndexPosition[      5499,        145]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["MplAsHlog", "ObjectName",ExpressionUUID->"06e9d23e-ec8e-4cc2-bea8-2bb2bbba64af"],
+
+Cell[BoxData[GridBox[{
+   {Cell[TextData[{
+     StyleBox["MplAsHlog", "TI"],
+     " \[LineSeparator]While HyperIntica is the main (analytic) integration \
+routine working under the hood of the STIntegrate function, it can also be \
+used as a standalone function."
+    }], "TableText",ExpressionUUID->"87570ddc-d602-49b2-a470-038b7543014e"]}
+  },
+  GridBoxAlignment->{"Columns" -> {{Left}}},
+  GridBoxItemSize->{
+   "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}]], "Usage",
+ CellID->1,ExpressionUUID->"d6c1f5dd-1dc5-4af9-9b80-50810b339ff8"],
+
+Cell["\<\
+While HyperIntica is the main (analytic) integration routine working under \
+the hood of the STIntegrate function, it can also be used as a standalone \
+function. It evaluates iterated integrals \[Integral]_0^\[Infinity] \
+\[Ellipsis] \[Integral]_0^\[Infinity] f\\, dx_1 \[Ellipsis] dx_n in  for \
+expressions built from hyperlogarithms, polylogarithms, logarithms, and \
+rational functions, returning results in terms of multi-zeta values and \
+hyperlogarithms in the original integrand f parameters (if any). The syntax \
+is: (see example below)\
+\>", "Notes",ExpressionUUID->"0e88ba73-7769-4ec9-8f30-56491277f918"],
+
+Cell[BoxData[
+ RowBox[{"HyperIntica", "[", 
+  RowBox[{"integrand", ",", " ", "variables", ",", " ", 
+   RowBox[{"\"\<Monitor\>\"", " ", "->", " ", "False"}]}], "]"}]], "Input",Exp\
+ressionUUID->"63cc2eb5-2593-45e7-9cbd-70dcd93f7738"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Details", "Section",ExpressionUUID->"945b27a2-803f-4bb1-9ea0-8f70d07dfd51"],
+
+Cell["Notation conversions", "Subsection",ExpressionUUID->"8336bc02-979f-46ec-818c-cd82e2008bf6"],
+
+Cell["\<\
+HyperIntica uses two internal representations for iterated integrals: Hlog[x, \
+{letters}] (hyperlogarithms with explicit upper limit) and Mpl[{weights}, \
+{args}] (multiple polylogarithms in the Li_{n_1,\[Ellipsis]}(z_1,\[Ellipsis]) \
+convention). The following replacement rules convert between them: (see \
+example below) These are used, for instance, when comparing results expressed \
+in different bases or when interfacing with external tools that expect a \
+specific notation. When integrating over [0,\[Infinity]), boundary \
+contributions at 0 and \[Infinity] may arise as formal ZeroInfPeriod objects. \
+The replacement rule (see example below) expresses these boundary periods in \
+terms of Mpl values (typically multiple zeta values), allowing the full \
+result to be written in a uniform notation.\
+\>", "Text",ExpressionUUID->"cc7b8e74-8cfe-4204-9b68-f2d257a3b59f"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"expr", " ", "/.", " ", 
+   RowBox[{"Hlog", " ", "->", " ", "HlogAsMpl"}]}], "   ", 
+  RowBox[{"(*", " ", 
+   RowBox[{
+    RowBox[{"Hlog", " ", "\\", "to"}], " ", "Mpl", " ", "notation"}], " ", 
+   "*)"}]}], "\n", 
+ RowBox[{"expr", " ", "/.", " ", 
+  RowBox[{"Mpl", " ", "->", " ", "MplAsHlog", "    ", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+     RowBox[{"Mpl", " ", "\\", "to"}], " ", "Hlog", " ", "notation"}], " ", 
+    "*)"}]}]}]}], "Input",ExpressionUUID->"223d40dc-e399-43a0-939b-\
+b3ed32296e19"],
+
+Cell[BoxData[
+ RowBox[{"expr", " ", "/.", " ", 
+  RowBox[{"ZeroInfPeriod", " ", "->", " ", "ZeroInfPeriodAsMpl"}]}]], "Input",\
+ExpressionUUID->"b36f07ae-ab2e-4315-906c-58e3c46ec6cc"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Metadata", "MetadataSection",ExpressionUUID->"b28ad34a-4b7b-4c52-bc76-9292ac45d341"],
+
+Cell[CellGroupData[{
+
+Cell["Categorization", "CategorizationSection",ExpressionUUID->"408a4991-bcda-4a62-912b-fe0e2e71b064"],
+
+Cell["Symbol", "Categorization",
+ CellLabel->
+  "Entity Type",ExpressionUUID->"bd5ae52b-4720-414e-a8f9-0ec864ae52b2"],
+
+Cell["SubTropica", "Categorization",
+ CellLabel->
+  "Paclet Name",ExpressionUUID->"bf333520-82a3-4e45-b0e7-361cf65ffffa"],
+
+Cell["SubTropica`", "Categorization",
+ CellLabel->"Context",ExpressionUUID->"7c7801b1-b2ce-4734-81e8-c2a2aa14dcba"],
+
+Cell["SubTropica/ref/MplAsHlog", "Categorization",
+ CellLabel->"URI",ExpressionUUID->"a82926ef-a690-4d05-8cee-7ded6b71f19a"]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Keywords", "KeywordsSection",ExpressionUUID->"9c58640a-7b4a-4273-bf6f-d2575e0cc98a"],
+
+Cell["Feynman integral", "Keywords",ExpressionUUID->"800221a6-5856-4dd0-b977-02bb63069b42"],
+
+Cell["tropical geometry", "Keywords",ExpressionUUID->"4e63a20a-2a40-4a87-813c-e84f36ecab99"],
+
+Cell["dimensional regularization", "Keywords",ExpressionUUID->"fa4da43d-063b-432e-ab4d-8d42df3fc9e8"]
+}, Closed]]
+}, Open  ]]
+},
+TaggingRules-><|"Paclet" -> "SubTropica"|>,
+FrontEndVersion->"14.3 for Mac OS X ARM (64-bit) (July 8, 2025)",
+StyleDefinitions->FrontEnd`FileName[{"Wolfram"}, "FunctionPageStylesExt.nb", 
+  CharacterEncoding -> "UTF-8"],
+ExpressionUUID->"48b88533-191e-4ca6-b7fe-983f59d11475"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[576, 22, 86, 0, 70, "ObjectName",ExpressionUUID->"06e9d23e-ec8e-4cc2-bea8-2bb2bbba64af"],
+Cell[665, 24, 546, 11, 70, "Usage",ExpressionUUID->"d6c1f5dd-1dc5-4af9-9b80-50810b339ff8",
+ CellID->1],
+Cell[1214, 37, 627, 9, 70, "Notes",ExpressionUUID->"0e88ba73-7769-4ec9-8f30-56491277f918"],
+Cell[1844, 48, 233, 4, 70, "Input",ExpressionUUID->"63cc2eb5-2593-45e7-9cbd-70dcd93f7738"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[2114, 57, 81, 0, 70, "Section",ExpressionUUID->"945b27a2-803f-4bb1-9ea0-8f70d07dfd51"],
+Cell[2198, 59, 97, 0, 70, "Subsection",ExpressionUUID->"8336bc02-979f-46ec-818c-cd82e2008bf6"],
+Cell[2298, 61, 889, 12, 70, "Text",ExpressionUUID->"cc7b8e74-8cfe-4204-9b68-f2d257a3b59f"],
+Cell[3190, 75, 535, 14, 70, "Input",ExpressionUUID->"223d40dc-e399-43a0-939b-b3ed32296e19"],
+Cell[3728, 91, 183, 3, 70, "Input",ExpressionUUID->"b36f07ae-ab2e-4315-906c-58e3c46ec6cc"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[3948, 99, 90, 0, 70, "MetadataSection",ExpressionUUID->"b28ad34a-4b7b-4c52-bc76-9292ac45d341"],
+Cell[CellGroupData[{
+Cell[4063, 103, 102, 0, 70, "CategorizationSection",ExpressionUUID->"408a4991-bcda-4a62-912b-fe0e2e71b064"],
+Cell[4168, 105, 117, 2, 70, "Categorization",ExpressionUUID->"bd5ae52b-4720-414e-a8f9-0ec864ae52b2"],
+Cell[4288, 109, 121, 2, 70, "Categorization",ExpressionUUID->"bf333520-82a3-4e45-b0e7-361cf65ffffa"],
+Cell[4412, 113, 115, 1, 70, "Categorization",ExpressionUUID->"7c7801b1-b2ce-4734-81e8-c2a2aa14dcba"],
+Cell[4530, 116, 124, 1, 70, "Categorization",ExpressionUUID->"a82926ef-a690-4d05-8cee-7ded6b71f19a"]
+}, Closed]],
+Cell[CellGroupData[{
+Cell[4691, 122, 90, 0, 70, "KeywordsSection",ExpressionUUID->"9c58640a-7b4a-4273-bf6f-d2575e0cc98a"],
+Cell[4784, 124, 91, 0, 70, "Keywords",ExpressionUUID->"800221a6-5856-4dd0-b977-02bb63069b42"],
+Cell[4878, 126, 92, 0, 70, "Keywords",ExpressionUUID->"4e63a20a-2a40-4a87-813c-e84f36ecab99"],
+Cell[4973, 128, 101, 0, 70, "Keywords",ExpressionUUID->"fa4da43d-063b-432e-ab4d-8d42df3fc9e8"]
+}, Closed]]
+}, Open  ]]
+}
+]
+*)
+
+(* End of internal cache information *)

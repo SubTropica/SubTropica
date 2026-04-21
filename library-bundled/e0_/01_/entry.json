@@ -1,0 +1,91 @@
+{
+  "CNickelIndex": "e0|:01|",
+  "MassScales": 1,
+  "FunctionClass": "hypergeometric",
+  "EpsilonOrder": "-1,0",
+  "References": [
+    "arXiv:0712.1851, JHEP 02 (002), 2008",
+    "arXiv:1907.08227, Phys.Rev.D 100, 2019"
+  ],
+  "Records": [
+    {
+      "authors": "Ellis, R.Keith, Zanderighi, Giulia",
+      "texkey": "Ellis:2007qk",
+      "verified": true,
+      "verifiedAt": "2026-04-08",
+      "reference": "arXiv:0712.1851, JHEP 02 (002), 2008",
+      "ancillaryFiles": [],
+      "recordId": "bf_df78f865d80d",
+      "masterCount": 1,
+      "computationLevel": "full",
+      "doi": "10.1088/1126-6708/2008/02/002",
+      "tools": [],
+      "description": "General one-loop tadpole integral $I_1^D(m^2)$ with a single massive propagator. UV-divergent with a simple $1/\\varepsilon$ pole. Analytic result given to $\\mathcal{O}(\\varepsilon^0)$.",
+      "epsOrders": "-1,0",
+      "method": [],
+      "dimScheme": "d=4-2*eps",
+      "location": "Sec. 2.1, Sec. 4.1",
+      "familyName": "Tadpole"
+    },
+    {
+      "authors": "Gerlach, Marvin, Mishima, Go, Steinhauser, Matthias",
+      "texkey": "Gerlach:2019kfo",
+      "verified": false,
+      "verifiedAt": "",
+      "ancillaryPaths": [
+        "https://www.ttp.kit.edu/preprints/2019/ttp19-024/"
+      ],
+      "reference": "arXiv:1907.08227, Phys.Rev.D 100, 2019",
+      "ancillaryFiles": [],
+      "recordId": "bf_128dcef7e5ea",
+      "masterCount": 1,
+      "computationLevel": "full",
+      "doi": "10.1103/PhysRevD.100.054016",
+      "tools": [
+        "FIRE",
+        "LiteRed",
+        "FIESTA"
+      ],
+      "description": "One-loop massive tadpole integral appearing as a master integral in the two-loop NRQCD matching calculation. Result is exact in epsilon, given in terms of a single Gamma function: $\\Gamma(\\varepsilon-1)$. Used in the coupling constant decoupling relation and throughout the matching calculation.",
+      "epsOrders": "all orders",
+      "method": [],
+      "dimScheme": "d=4-2*eps",
+      "location": "Appendix B, Eq. (B.1), Fig. 3",
+      "familyName": "I_1^a"
+    }
+  ],
+  "Names": [
+    "Tadpole",
+    "I_1^a"
+  ],
+  "Source": [
+    "arXiv"
+  ],
+  "Loops": 1,
+  "NumPropagators": 1,
+  "Results": [],
+  "edges": "{{{1, 1}, m}}",
+  "nodes": "{{1, 0}}",
+  "CanonicalName": "Equal-mass tadpole",
+  "MassConfig": {
+    "numEdges": 1,
+    "numMassiveEdges": 1,
+    "numMasslessEdges": 0,
+    "distinctInternalMasses": 1,
+    "internalMassLabels": [
+      "m"
+    ],
+    "edgeMassPattern": "1",
+    "numExtLegs": 1,
+    "numOnshellMassiveExtLegs": 0,
+    "numMasslessExtLegs": 1,
+    "extLegSignature": "0"
+  },
+  "ValenceVerifiedLegit": true,
+  "commonNames": [
+    "A₀(m)",
+    "A"
+  ],
+  "Subsectors": [],
+  "ParentSectors": []
+}

@@ -1,0 +1,74 @@
+{
+  "CNickelIndex": "123|24|e|e5|e5|e|:010|10|1|00|00|0|",
+  "MassScales": 3,
+  "FunctionClass": "MPL",
+  "EpsilonOrder": "4",
+  "References": [
+    "arXiv:1810.05138 (JHEP 12 (019), 2018)",
+    "arXiv:2112.07578 (JHEP 04 (139), 2022)",
+    "arXiv:2007.09813 (JHEP 11 (045), 2020)"
+  ],
+  "Records": [
+    {
+      "reference": "arXiv:2007.09813 (JHEP 11 (045), 2020)",
+      "authors": "Bonetti, Marco, Panzer, Erik, Smirnov, Vladimir A., Tancredi, Lorenzo",
+      "description": "Planar integral family PL for two-loop mixed QCD-EW corrections to $gg \\to Hg$. Quark box (massless propagators $D_1,D_3,D_4,D_5,D_6$) with two massive vector-boson propagators ($D_2,D_7$) coupling to the Higgs. 9 denominators (7 propagators + 2 ISPs: $D_8=(l-p_1)^2$, $D_9=(l-p_1-p_2)^2$). 45 planar master integrals. Kinematics: $s=(p_1+p_2)^2$, $t=(p_1+p_3)^2$, $u=(p_2+p_3)^2$, $s+t+u=m_h^2$; $p_1^2=p_2^2=p_3^2=0$, $p_4^2=m_h^2$. Paper label: PL. Defined in Table 1 and eq. (2.4).",
+      "epsOrders": "",
+      "familyName": "2-loop 4-point planar with 2 massive vector-boson propagators (gg->Hg QCD-EW)",
+      "method": "DE",
+      "tools": [
+        "QGRAF",
+        "FORM",
+        "Reduze2",
+        "KIRA",
+        "FIRE5",
+        "FiniteFlow",
+        "HyperInt",
+        "GiNaC",
+        "PolyLogTools",
+        "PySecDec",
+        "FIESTA"
+      ],
+      "ancillaryFiles": true,
+      "doi": "10.1007/JHEP11(2020)045",
+      "texkey": "Bonetti:2020hqh",
+      "masterCount": 45,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "full",
+      "location": "Table 1, eq.(2.7)",
+      "recordId": "bx_21238f2a7c1b",
+      "verified": false,
+      "verifiedAt": ""
+    }
+  ],
+  "Names": [
+    "Planar 7-denominator topology",
+    "P (Planar)",
+    "2-loop 4-point planar with 2 massive vector-boson propagators (gg->Hg QCD-EW)"
+  ],
+  "Source": [
+    "arXiv"
+  ],
+  "Loops": 2,
+  "NumPropagators": 7,
+  "Results": [],
+  "edges": "{{{1, 2}, 0}, {{1, 3}, m}, {{1, 4}, 0}, {{2, 3}, m}, {{2, 5}, 0}, {{4, 6}, 0}, {{5, 6}, 0}}",
+  "nodes": "{{3, m}, {4, 0}, {6, 0}, {5, 0}}",
+  "CanonicalName": "Triangle-pentagon, 2 massive propagators (a)",
+  "MassConfig": {
+    "numEdges": 7,
+    "numMassiveEdges": 2,
+    "numMasslessEdges": 5,
+    "distinctInternalMasses": 1,
+    "internalMassLabels": [
+      "m"
+    ],
+    "edgeMassPattern": "0101000",
+    "numExtLegs": 4,
+    "numOnshellMassiveExtLegs": 1,
+    "numMasslessExtLegs": 3,
+    "extLegSignature": "M000"
+  },
+  "Subsectors": [],
+  "ParentSectors": []
+}

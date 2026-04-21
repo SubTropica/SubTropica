@@ -1,0 +1,85 @@
+{
+  "CNickelIndex": "123|24|e|45|6|e6|e|:000|00|1|00|0|10|1|",
+  "MassScales": 1,
+  "FunctionClass": "MPL",
+  "EpsilonOrder": "0",
+  "References": [
+    "arXiv:2507.17815"
+  ],
+  "Records": [
+    {
+      "reference": "arXiv:2507.17815",
+      "authors": [
+        {
+          "full_name": "Barrera, Oscar",
+          "inspire_id": 2957072
+        },
+        {
+          "full_name": "Dersy, Aurélien",
+          "inspire_id": 2083042
+        },
+        {
+          "full_name": "Husain, Rabia",
+          "inspire_id": 1925286
+        },
+        {
+          "full_name": "Schwartz, Matthew D.",
+          "inspire_id": 1019662
+        },
+        {
+          "full_name": "Zhang, Xiaoyuan",
+          "inspire_id": 1806305
+        }
+      ],
+      "description": "Called T3 in the paper. 3-loop triangle ladder with three off-shell external legs and all massless internal lines. 9 propagators, 7 vertices. Finite in $d=4$, uniform transcendental weight 6. Uses simplified 4-letter alphabet $A_3^*$. Result in terms of $\\operatorname{Li}_6$ through $\\operatorname{Li}_3$ with prefactor $1/((1-z)^2(1-\\bar{z})^2(z-\\bar{z}))$. AMFlow: 5.7 CPU-h/point, 200 points, 20 digits, uniform basis 806 functions, reduction 1.1 h.",
+      "epsOrders": "0",
+      "familyName": "3-loop massless three-mass triangle ladder",
+      "method": "DE, IBP",
+      "tools": [
+        "AMFlow",
+        "SOFIA",
+        "Kira",
+        "FireFly",
+        "GiNaC",
+        "Fplll",
+        "PolyLogTools"
+      ],
+      "ancillaryFiles": false,
+      "doi": "",
+      "texkey": "",
+      "masterCount": 0,
+      "dimScheme": "d=4",
+      "computationLevel": "full",
+      "location": "Eq. (30), Section 4.3, third diagram",
+      "recordId": "bx_186b944535b3",
+      "verified": false,
+      "verifiedAt": ""
+    }
+  ],
+  "Names": [
+    "3-loop massless three-mass triangle ladder"
+  ],
+  "Source": [
+    "arXiv"
+  ],
+  "Loops": 3,
+  "NumPropagators": 9,
+  "Results": [],
+  "edges": "{{{1, 2}, 0}, {{1, 3}, 0}, {{1, 4}, 0}, {{2, 3}, 0}, {{2, 5}, 0}, {{4, 5}, 0}, {{4, 6}, 0}, {{5, 7}, 0}, {{6, 7}, 0}}",
+  "nodes": "{{3, M}, {6, M}, {7, M}}",
+  "CanonicalName": "3-mass non-planar triangle-pentagon-box",
+  "MassConfig": {
+    "numEdges": 9,
+    "numMassiveEdges": 0,
+    "numMasslessEdges": 9,
+    "distinctInternalMasses": 0,
+    "internalMassLabels": [],
+    "edgeMassPattern": "000000000",
+    "numExtLegs": 3,
+    "numOnshellMassiveExtLegs": 3,
+    "numMasslessExtLegs": 0,
+    "extLegSignature": "MMM"
+  },
+  "Subsectors": [],
+  "ParentSectors": []
+}

@@ -1,0 +1,100 @@
+{
+  "CNickelIndex": "123|23|e|e|:011|22|3|3|",
+  "MassScales": 3,
+  "FunctionClass": "MPL",
+  "EpsilonOrder": "-2,-1,0,1",
+  "References": [
+    "arXiv:2009.02229",
+    "arXiv:2107.08003"
+  ],
+  "Records": [
+    {
+      "reference": "arXiv:2009.02229, JHEP 12 (201), 2020",
+      "authors": "Dittmaier, Stefan, Schmidt, Timo, Schwarz, Jan",
+      "description": "Two-loop sunset/self-energy family with 5 propagators and two independent internal masses for mixed $\\mathrm{QCD} \\times \\mathrm{EW}$ corrections to Drell-Yan. 9 MIs computed through $\\mathcal{O}(\\varepsilon^1)$ in GPLs up to weight 3.",
+      "epsOrders": "-2,-1,0,1",
+      "familyName": "S_{abcde}",
+      "method": "IBP + DE",
+      "tools": [
+        "Kira",
+        "FORM",
+        "GiNaC"
+      ],
+      "ancillaryFiles": true,
+      "doi": "10.1007/JHEP12(2020)201",
+      "texkey": "Dittmaier:2020vra",
+      "ancillaryPaths": [
+        "math-files/masters.m1.ne.m2.m",
+        "math-files/masters.m1.eq.m2.m",
+        "math-files/masters.m1.eq.0.m"
+      ],
+      "masterCount": 9,
+      "transcendentalWeight": 3,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "full",
+      "location": "Eq. (2.6), Section 2.2, Appendix A",
+      "recordId": "bf_85556062f180",
+      "verified": false,
+      "verifiedAt": ""
+    },
+    {
+      "reference": "arXiv:2107.08003",
+      "authors": [
+        {
+          "full_name": "Kotikov, Anatoly V.",
+          "inspire_id": 1002077
+        }
+      ],
+      "description": "Two-loop on-shell self-energy with two mass scales $M$ (heavy) and $m$ (light) for Higgs pole-to-MSbar mass relation. Result involves $\\operatorname{Li}_2$ with arguments in conformal variables.",
+      "epsOrders": "-2",
+      "familyName": "2-mass 2-loop 2-point on-shell sunset for Higgs mass relation (5 propagators)",
+      "method": "DE, IBP",
+      "tools": [],
+      "ancillaryFiles": false,
+      "doi": "",
+      "texkey": "",
+      "masterCount": 0,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "full",
+      "location": "Section 5, Eqs. (48)-(74)",
+      "recordId": "bx_2637761b6e91",
+      "verified": false,
+      "verifiedAt": ""
+    }
+  ],
+  "Names": [
+    "S_{abcde}",
+    "S_abcde"
+  ],
+  "Source": [
+    "arXiv"
+  ],
+  "Loops": 2,
+  "NumPropagators": 5,
+  "Results": [],
+  "edges": "{{{1, 2}, 0}, {{1, 3}, m[1]}, {{1, 4}, m[1]}, {{2, 3}, m[2]}, {{2, 4}, m[2]}}",
+  "nodes": "{{3, M}, {4, M}}",
+  "CanonicalName": "2-mass kite, 4 massive propagators (a)",
+  "MassConfig": {
+    "numEdges": 5,
+    "numMassiveEdges": 4,
+    "numMasslessEdges": 1,
+    "distinctInternalMasses": 2,
+    "internalMassLabels": [
+      "m[1]",
+      "m[2]"
+    ],
+    "edgeMassPattern": "01122",
+    "numExtLegs": 2,
+    "numOnshellMassiveExtLegs": 2,
+    "numMasslessExtLegs": 0,
+    "extLegSignature": "MM"
+  },
+  "commonNames": [
+    "M"
+  ],
+  "Subsectors": [
+    "1122|e|e|:1111|2|2|"
+  ],
+  "ParentSectors": []
+}

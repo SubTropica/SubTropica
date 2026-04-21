@@ -1,0 +1,73 @@
+{
+  "CNickelIndex": "123|45|e4|e5|e|e|:000|00|11|12|1|1|",
+  "MassScales": 4,
+  "FunctionClass": "MPL",
+  "EpsilonOrder": "4",
+  "References": [
+    "arXiv:2110.15654"
+  ],
+  "Records": [
+    {
+      "reference": "arXiv:2110.15654",
+      "authors": [
+        {
+          "full_name": "Kreer, Philipp Alexander",
+          "inspire_id": 1891203
+        },
+        {
+          "full_name": "Runkel, Robert",
+          "inspire_id": 1955825
+        },
+        {
+          "full_name": "Weinzierl, Stefan",
+          "inspire_id": 983857
+        }
+      ],
+      "description": "Two-loop H-graph (planar double box) with 2 massive matter (black-hole worldline) propagators of masses $m_1$ and $m_2$ and 5 massless graviton propagators, 4 massive external legs with two mass scales $m_1, m_2$ for 3PM binary black hole scattering. 40 master integrals. 6 square roots ($r_1,...,r_6$); the 6th root $r_6$ appears up to weight 4 only in a single MI computable in Feynman-parameter form. The remaining 39 MIs each involve up to weight 4 no more than 3 distinct roots from $\\{r_1,...,r_5\\}$, with piecewise (iterated-integral-by-iterated-integral) rationalization using different integration paths glued via Chen-Massey subtraction terms.",
+      "epsOrders": "4",
+      "familyName": "2-loop 4-point H-graph double box with two massive matter propagators (unequal mass m_1, m_2) for 3PM gravitational scattering (7 propagators)",
+      "method": "DE, IBP",
+      "tools": [],
+      "ancillaryFiles": false,
+      "doi": "",
+      "texkey": "",
+      "masterCount": 40,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "full",
+      "location": "Section 1-2, Table 1",
+      "recordId": "bx_2647cf22cbaf",
+      "verified": false,
+      "verifiedAt": ""
+    }
+  ],
+  "Names": [],
+  "Source": [
+    "arXiv"
+  ],
+  "Loops": 2,
+  "NumPropagators": 7,
+  "Results": [],
+  "edges": "{{{1, 2}, 0}, {{1, 3}, 0}, {{1, 4}, 0}, {{2, 5}, 0}, {{2, 6}, 0}, {{3, 5}, m[1]}, {{4, 6}, m[2]}}",
+  "nodes": "{{3, m[1]}, {4, m[1]}, {5, m[1]}, {6, m[1]}}",
+  "CanonicalName": "2-mass double box, 2 massive propagators (a)",
+  "MassConfig": {
+    "numEdges": 7,
+    "numMassiveEdges": 2,
+    "numMasslessEdges": 5,
+    "distinctInternalMasses": 2,
+    "internalMassLabels": [
+      "m[1]",
+      "m[2]"
+    ],
+    "edgeMassPattern": "0000012",
+    "numExtLegs": 4,
+    "numOnshellMassiveExtLegs": 4,
+    "numMasslessExtLegs": 0,
+    "extLegSignature": "MMMM"
+  },
+  "commonNames": [
+    "L2"
+  ],
+  "Subsectors": [],
+  "ParentSectors": []
+}

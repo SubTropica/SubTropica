@@ -1,0 +1,91 @@
+{
+  "CNickelIndex": "e11111|e|:123456|1|",
+  "MassScales": 5,
+  "FunctionClass": "Calabi-Yau",
+  "EpsilonOrder": "",
+  "References": [
+    "arXiv:2209.10962 (Lett.Math.Phys. 113 (37), 2023)",
+    "arXiv:2508.04309"
+  ],
+  "Records": [
+    {
+      "reference": "arXiv:2209.10962 (Lett.Math.Phys. 113 (37), 2023)",
+      "authors": "Lairez, Pierre, Vanhove, Pierre",
+      "description": "Four-loop sunset in $D=2$ with 5 generic masses. Picard-Fuchs operator is order 12 for generic masses, associated to Calabi-Yau threefold. Order decreases for mass specializations: 10,8,8,6,6,4 for $[1^42],[1^23],[12^2],[14],[23],[5]$.",
+      "epsOrders": "",
+      "familyName": "four-loop sunset",
+      "method": "DE",
+      "tools": [],
+      "ancillaryFiles": true,
+      "doi": "10.1007/s11005-023-01661-3",
+      "texkey": "Lairez:2022zkj",
+      "masterCount": 0,
+      "dimScheme": "d=2",
+      "computationLevel": "DE_only",
+      "location": "Section 3.4",
+      "recordId": "bx_2e51e19240c2",
+      "verified": false,
+      "verifiedAt": ""
+    },
+    {
+      "reference": "arXiv:2508.04309",
+      "authors": [
+        {
+          "full_name": "Flieger, Wojciech",
+          "inspire_id": 1955301
+        }
+      ],
+      "description": "4-loop banana integral with 5 generic masses. Holonomic rank $r=31=2^5-1$. The underlying geometry involves a Calabi-Yau 3-fold.",
+      "epsOrders": "",
+      "familyName": "4-loop banana (generic masses)",
+      "method": "Griffiths-Dwork, Macaulay_matrix, D-module",
+      "tools": [],
+      "ancillaryFiles": false,
+      "doi": "",
+      "texkey": "",
+      "masterCount": 31,
+      "dimScheme": "",
+      "computationLevel": "annihilating_ideal",
+      "location": "eq. (3.1), Section 3.3 (unnumbered table)",
+      "recordId": "bx_37843e135195",
+      "verified": false,
+      "verifiedAt": ""
+    }
+  ],
+  "Names": [
+    "four-loop sunset",
+    "4-loop banana (generic masses)"
+  ],
+  "Source": [
+    "arXiv"
+  ],
+  "Loops": 4,
+  "NumPropagators": 5,
+  "Results": [],
+  "edges": "{{{1, 2}, m[1]}, {{1, 2}, m[2]}, {{1, 2}, m[3]}, {{1, 2}, m[4]}, {{1, 2}, m[5]}}",
+  "nodes": "{{1, M}, {2, M}}",
+  "CanonicalName": "5-mass banana",
+  "MassConfig": {
+    "numEdges": 5,
+    "numMassiveEdges": 5,
+    "numMasslessEdges": 0,
+    "distinctInternalMasses": 5,
+    "internalMassLabels": [
+      "m[1]",
+      "m[2]",
+      "m[3]",
+      "m[4]",
+      "m[5]"
+    ],
+    "edgeMassPattern": "12345",
+    "numExtLegs": 2,
+    "numOnshellMassiveExtLegs": 2,
+    "numMasslessExtLegs": 0,
+    "extLegSignature": "MM"
+  },
+  "commonNames": [
+    "B4"
+  ],
+  "Subsectors": [],
+  "ParentSectors": []
+}

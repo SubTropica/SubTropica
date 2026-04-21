@@ -1,0 +1,65 @@
+{
+  "CNickelIndex": "123|45|e4|e5|e|e|:001|11|11|10|1|1|",
+  "MassScales": 3,
+  "FunctionClass": "unknown",
+  "EpsilonOrder": "-2",
+  "References": [
+    "arXiv:1511.01323 (Acta Phys.Polon.B 46 (2117), 2015)"
+  ],
+  "Records": [
+    {
+      "reference": "arXiv:1511.01323 (Acta Phys.Polon.B 46 (2117), 2015)",
+      "authors": "Ochman, Michal, Riemann, Tord",
+      "description": "Massive on-shell planar double box diagram with 7 propagators; $p_i^2 = m^2$, MB-representation expanded to order $\\varepsilon^{-2}$. Analytic result involves ArcSin.",
+      "epsOrders": "-2",
+      "familyName": "massive on-shell planar double box",
+      "method": "Mellin-Barnes",
+      "tools": [
+        "AMBRE",
+        "MB",
+        "MBsums"
+      ],
+      "ancillaryFiles": true,
+      "doi": "10.5506/APhysPolB.46.2117",
+      "texkey": "Ochman:2015fho",
+      "masterCount": 0,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "",
+      "location": "Section 5.2, Eq. (I2l)",
+      "recordId": "bx_4af092bf2780",
+      "verified": false,
+      "verifiedAt": ""
+    }
+  ],
+  "Names": [
+    "massive on-shell planar double box"
+  ],
+  "Source": [
+    "arXiv"
+  ],
+  "Loops": 2,
+  "NumPropagators": 7,
+  "Results": [],
+  "edges": "{{{1, 2}, 0}, {{1, 3}, 0}, {{1, 4}, m}, {{2, 5}, m}, {{2, 6}, m}, {{3, 5}, m}, {{4, 6}, 0}}",
+  "nodes": "{{3, m}, {4, m}, {6, m}, {5, m}}",
+  "CanonicalName": "Double box, 4 massive propagators (c)",
+  "MassConfig": {
+    "numEdges": 7,
+    "numMassiveEdges": 4,
+    "numMasslessEdges": 3,
+    "distinctInternalMasses": 1,
+    "internalMassLabels": [
+      "m"
+    ],
+    "edgeMassPattern": "0011110",
+    "numExtLegs": 4,
+    "numOnshellMassiveExtLegs": 4,
+    "numMasslessExtLegs": 0,
+    "extLegSignature": "MMMM"
+  },
+  "commonNames": [
+    "L2"
+  ],
+  "Subsectors": [],
+  "ParentSectors": []
+}

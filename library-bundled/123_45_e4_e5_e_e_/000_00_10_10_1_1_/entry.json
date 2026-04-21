@@ -1,0 +1,123 @@
+{
+  "CNickelIndex": "123|45|e4|e5|e|e|:000|00|10|10|1|1|",
+  "MassScales": 3,
+  "FunctionClass": "MPL",
+  "EpsilonOrder": "",
+  "References": [
+    "arXiv:1909.04777 (JHEP 02 (099), 2020)",
+    "arXiv:2407.20120 (Missing[\"KeyAbsent\", \"journal\"] Missing[\"KeyAbsent\", \"volume\"] (Missing[\"KeyAbsent\", \"pages\"]), Missing[\"KeyAbsent\", \"year\"])",
+    "arXiv:2110.15654"
+  ],
+  "Records": [
+    {
+      "dimScheme": "d=4",
+      "recordId": "bf_8b1aff3a3b24",
+      "familyName": "two-loop off-shell ladder",
+      "verified": false,
+      "verifiedAt": "",
+      "authors": "Herrmann, Enrico, Parra-Martinez, Julio",
+      "texkey": "Herrmann:2019upk",
+      "computationLevel": "DE_only",
+      "masterCount": 0,
+      "location": "Section 5.2, Eq. (4.2)",
+      "transcendentalWeight": 4,
+      "method": [],
+      "reference": "arXiv:1909.04777, JHEP 02 (099), 2020",
+      "ancillaryFiles": [],
+      "description": "Two-loop off-shell planar ladder (double-box) in $D=4$ with all 4 external legs off-shell. Dual conformally invariant, weight 4, 2 cross ratios.",
+      "epsOrders": "",
+      "tools": [],
+      "doi": "10.1007/JHEP02(2020)099"
+    },
+    {
+      "reference": "arXiv:2407.20120 (PoS LL2024 (039), 2024)",
+      "authors": [
+        {
+          "full_name": "Banik, Sumit",
+          "inspire_id": 1810309
+        },
+        {
+          "full_name": "Friot, Samuel",
+          "inspire_id": 1052285
+        }
+      ],
+      "description": "Off-shell massless two-loop conformal planar double-box four-point Feynman integral (7 propagators) with generic propagator powers satisfying the conformal constraint. Re-evaluated using the triangulation method via the MBConicHulls.wl package, yielding a new series representation as a sum of 25 hypergeometric series from its 9-fold Mellin-Barnes representation (total of 243186 solutions found). Results are closed-form hypergeometric series valid in various regions of the kinematic space, originally computed via conic hulls in arXiv:2005.07170. Propagator list reconstructed from the standard double-box topology shown in Fig. 1(b); the paper does not print explicit momentum-space propagators.",
+      "epsOrders": "all_orders",
+      "familyName": "conformal off-shell massless two-loop planar double box (4-point)",
+      "method": "Mellin-Barnes",
+      "tools": [],
+      "ancillaryFiles": false,
+      "doi": "10.22323/1.467.0039",
+      "texkey": "Banik:2024ann",
+      "masterCount": 0,
+      "dimScheme": "d=D",
+      "computationLevel": "full",
+      "location": "Section 3, Fig. 1(b), Table 1",
+      "recordId": "bx_a850d0033c1c",
+      "verified": false,
+      "verifiedAt": ""
+    },
+    {
+      "reference": "arXiv:2110.15654",
+      "authors": [
+        {
+          "full_name": "Kreer, Philipp Alexander",
+          "inspire_id": 1891203
+        },
+        {
+          "full_name": "Runkel, Robert",
+          "inspire_id": 1955825
+        },
+        {
+          "full_name": "Weinzierl, Stefan",
+          "inspire_id": 983857
+        }
+      ],
+      "description": "Two-loop H-graph (planar double box) with 7 massless graviton propagators and 4 massive external legs of equal mass $m$ for 3PM binary black hole scattering. 25 MIs in MPLs after rationalization of 3 square roots.",
+      "epsOrders": "4",
+      "familyName": "massless 2-loop 4-point H-graph double box for equal-mass 3PM gravitational scattering (7 propagators) / massless 2-loop 4-point H-graph double box for unequal-mass 3PM gravitational scattering (7 propagators)",
+      "method": "DE, IBP",
+      "tools": [],
+      "ancillaryFiles": false,
+      "doi": "",
+      "texkey": "",
+      "masterCount": 25,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "full",
+      "location": "Section 1, Table 1",
+      "recordId": "bx_26c427c237fb",
+      "verified": false,
+      "verifiedAt": ""
+    }
+  ],
+  "Names": [
+    "two-loop off-shell ladder",
+    "conformal off-shell massless two-loop planar double box (4-point)"
+  ],
+  "Source": [
+    "arXiv"
+  ],
+  "Loops": 2,
+  "NumPropagators": 7,
+  "Results": [],
+  "edges": "{{{1, 2}, 0}, {{1, 3}, 0}, {{1, 4}, 0}, {{2, 5}, 0}, {{2, 6}, 0}, {{3, 5}, 0}, {{4, 6}, 0}}",
+  "nodes": "{{3, M}, {4, M}, {5, M}, {6, M}}",
+  "CanonicalName": "4-mass double box (a)",
+  "MassConfig": {
+    "numEdges": 7,
+    "numMassiveEdges": 0,
+    "numMasslessEdges": 7,
+    "distinctInternalMasses": 0,
+    "internalMassLabels": [],
+    "edgeMassPattern": "0000000",
+    "numExtLegs": 4,
+    "numOnshellMassiveExtLegs": 4,
+    "numMasslessExtLegs": 0,
+    "extLegSignature": "MMMM"
+  },
+  "commonNames": [
+    "L2"
+  ],
+  "Subsectors": [],
+  "ParentSectors": []
+}

@@ -1,0 +1,66 @@
+{
+  "CNickelIndex": "123|24|5|45|e|e|:111|01|1|01|2|2|",
+  "MassScales": 2,
+  "FunctionClass": "unknown",
+  "EpsilonOrder": "-3,-2,-1,0",
+  "References": [
+    "arXiv:2201.02576"
+  ],
+  "Records": [
+    {
+      "authors": "Dubovyk, Ievgen, Freitas, Ayres, Gluza, Janusz, Grzanka, Krzysztof, Hidding, Martijn, Usovitsch, Johann",
+      "texkey": "Dubovyk:2022frj",
+      "verified": false,
+      "verifiedAt": "",
+      "ancillaryPaths": [
+        "anc/master_taNp1_minkowski.m"
+      ],
+      "reference": "arXiv:2201.02576, Phys.Rev.D 106, 2022",
+      "ancillaryFiles": [],
+      "recordId": "bf_a3a73e97d13c",
+      "masterCount": 0,
+      "computationLevel": "numerical",
+      "doi": "10.1103/PhysRevD.106.L111301",
+      "tools": [
+        "Kira",
+        "Reduze",
+        "pySecDec",
+        "DiffExp"
+      ],
+      "description": "Three-loop non-planar self-energy integral family with eight propagators and two ISPs ($q_1^2$ and $(q_2+p)^2$), arising from diagrams with top quarks and a photon. Six of the eight propagators carry top-quark mass $m_t$. Evaluated at $p^2=M_Z^2$ using DE transport with Euclidean boundary terms, achieving 10+ digit accuracy. The tenth propagator $(q_2+p)^2$ is linearly dependent and included as an auxiliary propagator for readability of tensor-rank results.",
+      "epsOrders": "-3,-2,-1,0",
+      "method": [],
+      "dimScheme": "d=4-2*eps",
+      "location": "Eq. (S6) in Supplemental Material, Section S.3",
+      "familyName": "taNp1"
+    }
+  ],
+  "Names": [
+    "taNp1"
+  ],
+  "Source": [
+    "arXiv"
+  ],
+  "Loops": 3,
+  "NumPropagators": 8,
+  "Results": [],
+  "edges": "{{{1, 2}, m}, {{1, 3}, m}, {{1, 4}, m}, {{2, 3}, 0}, {{2, 5}, m}, {{3, 6}, m}, {{4, 5}, 0}, {{4, 6}, m}}",
+  "nodes": "{{5, M}, {6, M}}",
+  "CanonicalName": "Pentagonal core, 6 massive propagators",
+  "MassConfig": {
+    "numEdges": 8,
+    "numMassiveEdges": 6,
+    "numMasslessEdges": 2,
+    "distinctInternalMasses": 1,
+    "internalMassLabels": [
+      "m"
+    ],
+    "edgeMassPattern": "11101101",
+    "numExtLegs": 2,
+    "numOnshellMassiveExtLegs": 2,
+    "numMasslessExtLegs": 0,
+    "extLegSignature": "MM"
+  },
+  "Subsectors": [],
+  "ParentSectors": []
+}

@@ -1,0 +1,90 @@
+{
+  "CNickelIndex": "e11111|e|:100222|1|",
+  "MassScales": 1,
+  "FunctionClass": "MPL",
+  "EpsilonOrder": "1",
+  "References": [
+    "arXiv:1805.00227 (JHEP 07 (102), 2018)",
+    "arXiv:1709.07525"
+  ],
+  "Records": [
+    {
+      "reference": "arXiv:1805.00227 (JHEP 07 (102), 2018)",
+      "authors": "Lee, Roman N., Smirnov, Alexander V., Smirnov, Vladimir A.",
+      "description": "Four-loop generalized sunset (banana) self-energy with two massless and three equal-mass propagators. Master integrals evaluated analytically at threshold $p^2=9m^2$ via differential equations solved by series expansions near singular points, with PSLQ reconstruction using multiple polylogarithm values at sixth roots of unity.",
+      "epsOrders": "1",
+      "familyName": "four-loop generalized sunset (ss10101)",
+      "method": "DE",
+      "tools": [
+        "FIRE",
+        "LiteRed",
+        "DESS",
+        "PSLQ"
+      ],
+      "ancillaryFiles": true,
+      "doi": "10.1007/JHEP07(2018)102",
+      "texkey": "Lee:2018ojn",
+      "masterCount": 4,
+      "dimScheme": "d=D",
+      "computationLevel": "full",
+      "location": "Eq. (2), Section 3",
+      "recordId": "bx_94dc6a58b0d4",
+      "verified": false,
+      "verifiedAt": ""
+    },
+    {
+      "authors": "Lee, Roman N., Smirnov, Alexander V., Smirnov, Vladimir A.",
+      "ancillaryFiles": [],
+      "recordId": "bf_3d5341576f36",
+      "epsOrders": "-4,-3,-2,-1,0,1,2,3",
+      "location": "Section 4, Eq. (12)",
+      "texkey": "",
+      "verified": false,
+      "verifiedAt": "",
+      "reference": "arXiv:1709.07525",
+      "masterCount": 4,
+      "computationLevel": "full",
+      "doi": "",
+      "tools": [
+        "LiteRed",
+        "FIRE",
+        "FIESTA"
+      ],
+      "description": "Four-loop generalized sunset (banana) with 2 massless and 3 equal-mass internal lines. 4 master integrals solved by generalized power series expansions near singular points $x=0,1,9,\\infty$ with numerical matching. Elliptic function class.",
+      "method": [],
+      "dimScheme": "d=4-2*eps",
+      "familyName": "four-loop generalized sunset"
+    }
+  ],
+  "Names": [
+    "four-loop generalized sunset (ss10101)"
+  ],
+  "Source": [
+    "arXiv"
+  ],
+  "Loops": 4,
+  "NumPropagators": 5,
+  "Results": [],
+  "edges": "{{{1, 2}, 0}, {{1, 2}, 0}, {{1, 2}, m}, {{1, 2}, m}, {{1, 2}, m}}",
+  "nodes": "{{1, M}, {2, M}}",
+  "CanonicalName": "Banana, 3 massive propagators",
+  "MassConfig": {
+    "numEdges": 5,
+    "numMassiveEdges": 3,
+    "numMasslessEdges": 2,
+    "distinctInternalMasses": 1,
+    "internalMassLabels": [
+      "m"
+    ],
+    "edgeMassPattern": "00111",
+    "numExtLegs": 2,
+    "numOnshellMassiveExtLegs": 2,
+    "numMasslessExtLegs": 0,
+    "extLegSignature": "MM"
+  },
+  "commonNames": [
+    "B4"
+  ],
+  "Subsectors": [],
+  "ParentSectors": []
+}

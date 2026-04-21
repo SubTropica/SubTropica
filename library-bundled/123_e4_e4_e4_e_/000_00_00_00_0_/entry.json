@@ -1,0 +1,100 @@
+{
+  "CNickelIndex": "123|e4|e4|e4|e|:000|00|00|00|0|",
+  "MassScales": 2,
+  "FunctionClass": "MPL",
+  "EpsilonOrder": "-4,-3,-2,-1,0",
+  "References": [
+    "arXiv:hep-ph/9909506 (Phys.Lett.B 469 (225), 1999)",
+    "arXiv:2603.05444",
+    "hep-ph/9909506"
+  ],
+  "Records": [
+    {
+      "dimScheme": "d=4-2*eps",
+      "recordId": "bf_a6ace67b0e28",
+      "familyName": "B6NP",
+      "verified": false,
+      "verifiedAt": "",
+      "authors": "Tausk, J.B.",
+      "texkey": "Tausk:1999vh",
+      "computationLevel": "full",
+      "masterCount": 0,
+      "location": "Eq. (16), Section 6",
+      "transcendentalWeight": 3,
+      "method": [],
+      "reference": "arXiv:hep-ph/9909506, Phys.Lett.B 469 (225), 1999",
+      "ancillaryFiles": [],
+      "description": "Non-planar 6-propagator massless diagram with 4 on-shell legs. Obtained from B7NP by pinching one propagator. Weight-3 MPLs. Symmetric under permutations of external momenta.",
+      "epsOrders": "-4,-3,-2,-1,0",
+      "tools": [],
+      "doi": "10.1016/S0370-2693(99)01277-0"
+    },
+    {
+      "reference": "arXiv:2603.05444",
+      "authors": "Jones, Stephen P., Olsson, Anton, Stone, Thomas",
+      "description": "Called BNP6 in the paper. Non-planar two-loop box with six massless propagators and four massless external legs. Used to demonstrate avoidance of contour deformation in the Minkowski regime.",
+      "epsOrders": "0",
+      "familyName": "massless 2-loop 4-point non-planar box (6 propagators)",
+      "method": "sector_decomposition",
+      "tools": [
+        "pySecDec"
+      ],
+      "ancillaryFiles": false,
+      "doi": "",
+      "texkey": "Jones:2026dxy",
+      "masterCount": 0,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "numerical",
+      "location": "Eq. (3.2), Section 3.1, Figure 2",
+      "recordId": "bx_8a6b39b50deb",
+      "verified": false,
+      "verifiedAt": ""
+    },
+    {
+      "epsOrders": "-2,-1,0",
+      "reference": "hep-ph/9909506",
+      "authors": "J.B. Tausk",
+      "description": "The author computes the six propagator non-planar on-shell massless double box, using a rescaling and a differentiation with respect to the rescaling parameter which allows to rewrite this integral in terms of planar double boxes with one squared propagator.",
+      "recordId": "1498753454.SCSo",
+      "verified": false,
+      "verifiedAt": ""
+    }
+  ],
+  "Names": [
+    "Massless non-planar crossed box",
+    "Non-planar crossed box",
+    "B6NP",
+    "Massless non-planar penta-triangle",
+    "Non-planar penta-triangle",
+    "Crossed penta-triangle",
+    "massless 2-loop 4-point non-planar box (6 propagators)"
+  ],
+  "Source": [
+    "arXiv",
+    "Loopedia"
+  ],
+  "Loops": 2,
+  "NumPropagators": 6,
+  "Results": [],
+  "edges": "{{{1, 2}, 0}, {{1, 3}, 0}, {{1, 4}, 0}, {{2, 5}, 0}, {{3, 5}, 0}, {{4, 5}, 0}}",
+  "nodes": "{{2, 0}, {3, 0}, {4, 0}, {5, 0}}",
+  "CanonicalName": "Massless non-planar double box",
+  "MassConfig": {
+    "numEdges": 6,
+    "numMassiveEdges": 0,
+    "numMasslessEdges": 6,
+    "distinctInternalMasses": 0,
+    "internalMassLabels": [],
+    "edgeMassPattern": "000000",
+    "numExtLegs": 4,
+    "numOnshellMassiveExtLegs": 0,
+    "numMasslessExtLegs": 4,
+    "extLegSignature": "0000"
+  },
+  "Subsectors": [
+    "e123|e23|e|e|:0000|000|0|0|"
+  ],
+  "ParentSectors": [
+    "123|e4|e4|e5|5|e|:000|00|00|00|0|0|"
+  ]
+}

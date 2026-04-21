@@ -1,0 +1,62 @@
+{
+  "CNickelIndex": "123|e24|e|e5|e5|e|:001|001|0|01|01|0|",
+  "MassScales": 6,
+  "FunctionClass": "unknown",
+  "EpsilonOrder": "",
+  "References": [
+    "arXiv:2512.05869"
+  ],
+  "Records": [
+    {
+      "reference": "arXiv:2512.05869",
+      "authors": "Coro, Federico, Novichkov, Pavel P., Page, Ben, Song, Qian",
+      "description": "Called $\\Gamma_3$ in the paper. Pentagon (4 massive top propagators) connected to triangle (2 massless propagators). Obtained from pentabox by pinching.",
+      "epsOrders": "",
+      "familyName": "massive 2-loop 5-point planar pentatriangle for ttH",
+      "method": "IBP",
+      "tools": [
+        "Singular"
+      ],
+      "ancillaryFiles": true,
+      "doi": "",
+      "texkey": "Coro:2025kha",
+      "masterCount": 0,
+      "dimScheme": "d=D",
+      "computationLevel": "IBP_only",
+      "location": "Fig. 3b, App. B",
+      "recordId": "bx_3d1f1098b1b6",
+      "verified": false,
+      "verifiedAt": ""
+    }
+  ],
+  "Names": [
+    "massive 2-loop 5-point planar pentatriangle for ttH"
+  ],
+  "Source": [
+    "arXiv"
+  ],
+  "Loops": 2,
+  "NumPropagators": 7,
+  "Results": [],
+  "edges": "{{{1, 2}, 0}, {{1, 3}, 0}, {{1, 4}, m}, {{2, 3}, 0}, {{2, 5}, m}, {{4, 6}, m}, {{5, 6}, m}}",
+  "nodes": "{{2, 0}, {3, 0}, {4, 0}, {6, 0}, {5, 0}}",
+  "CanonicalName": "Triangle-pentagon, 4 massive propagators",
+  "MassConfig": {
+    "numEdges": 7,
+    "numMassiveEdges": 4,
+    "numMasslessEdges": 3,
+    "distinctInternalMasses": 1,
+    "internalMassLabels": [
+      "m"
+    ],
+    "edgeMassPattern": "0010111",
+    "numExtLegs": 5,
+    "numOnshellMassiveExtLegs": 0,
+    "numMasslessExtLegs": 5,
+    "extLegSignature": "00000"
+  },
+  "Subsectors": [
+    "e112|e3|e4|e4|e|:0001|01|01|01|0|"
+  ],
+  "ParentSectors": []
+}

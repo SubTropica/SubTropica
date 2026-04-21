@@ -1,0 +1,84 @@
+{
+  "CNickelIndex": "e12|e3|e4|e4|e|:011|01|11|11|1|",
+  "MassScales": 6,
+  "FunctionClass": "unknown",
+  "EpsilonOrder": "10",
+  "References": [
+    "arXiv:2412.21054"
+  ],
+  "Records": [
+    {
+      "reference": "arXiv:2412.21054",
+      "authors": [
+        {
+          "full_name": "Huang, Rui-Jun",
+          "inspire_id": 1066027
+        },
+        {
+          "full_name": "Jian, Dong-Shan",
+          "inspire_id": 2864703
+        },
+        {
+          "full_name": "Ma, Yan-Qing",
+          "inspire_id": 1056966
+        },
+        {
+          "full_name": "Mu, Dao-Ming",
+          "inspire_id": 2863956
+        },
+        {
+          "full_name": "Wu, Wen-Hao",
+          "inspire_id": 1873282
+        }
+      ],
+      "description": "One-loop five-point pentagon relevant for $gg \\to t\\bar{t}H$ production, with all five internal top-quark propagators of mass $m_t$ and external on-shell conditions $p_1^2=p_2^2=0$, $p_3^2=p_4^2=m_t^2$, $p_5^2=m_H^2$. Identified as Topology C of Ref. Buccioni:2023okz. The family has 29 master integrals, evaluated numerically at the phase-space point $s_0=\\{1, 1823191/3567300, 751/23, -155/11, 85/12, 12271/759, -59689/3300\\}$ to $\\mathcal{O}(\\varepsilon^{10})$ via the dimension-changing transformation applied to auxiliary-mass differential equations solved with 18 regular and 2 singular series-expansion points. Validated against AMFlow; precision of the top-sector integral reported in Tab. I.",
+      "epsOrders": "10",
+      "familyName": "2-mass 1-loop 5-point pentagon (gg to ttH, topology C)",
+      "method": "DE, series_expansion",
+      "tools": [
+        "AMFlow"
+      ],
+      "ancillaryFiles": false,
+      "doi": "",
+      "texkey": "",
+      "masterCount": 29,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "numerical",
+      "location": "Section IV (Examples), Fig. 2 (5pt.pdf), Tab. I",
+      "recordId": "bx_340dd5b4b02a",
+      "verified": false,
+      "verifiedAt": ""
+    }
+  ],
+  "Names": [
+    "2-mass 1-loop 5-point pentagon (gg to ttH, topology C)"
+  ],
+  "Source": [
+    "arXiv"
+  ],
+  "Loops": 1,
+  "NumPropagators": 5,
+  "Results": [],
+  "edges": "{{{1, 2}, m}, {{1, 3}, m}, {{2, 4}, m}, {{3, 5}, m}, {{4, 5}, m}}",
+  "nodes": "{{1, 0}, {2, 0}, {4, m}, {5, m}, {3, m}}",
+  "CanonicalName": "Equal-mass pentagon (a)",
+  "MassConfig": {
+    "numEdges": 5,
+    "numMassiveEdges": 5,
+    "numMasslessEdges": 0,
+    "distinctInternalMasses": 1,
+    "internalMassLabels": [
+      "m"
+    ],
+    "edgeMassPattern": "11111",
+    "numExtLegs": 5,
+    "numOnshellMassiveExtLegs": 3,
+    "numMasslessExtLegs": 2,
+    "extLegSignature": "00MMM"
+  },
+  "commonNames": [
+    "E₀(m)"
+  ],
+  "Subsectors": [],
+  "ParentSectors": []
+}

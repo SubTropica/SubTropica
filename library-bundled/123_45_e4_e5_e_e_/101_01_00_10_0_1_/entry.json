@@ -1,0 +1,107 @@
+{
+  "CNickelIndex": "123|45|e4|e5|e|e|:101|01|00|10|0|1|",
+  "MassScales": 3,
+  "FunctionClass": "MPL",
+  "EpsilonOrder": "4",
+  "References": [
+    "arXiv:2409.08879"
+  ],
+  "Records": [
+    {
+      "reference": "arXiv:2409.08879",
+      "authors": [
+        {
+          "full_name": "He, Wen-Jie",
+          "inspire_id": 3069115
+        },
+        {
+          "full_name": "Zhang, Ren-You",
+          "inspire_id": 1029685
+        },
+        {
+          "full_name": "Han, Liang",
+          "inspire_id": 1029683
+        },
+        {
+          "full_name": "Jiang, Yi",
+          "inspire_id": 1070526
+        },
+        {
+          "full_name": "Li, Zhe",
+          "inspire_id": 3093806
+        },
+        {
+          "full_name": "Wang, Xiao-Feng",
+          "inspire_id": 2027951
+        },
+        {
+          "full_name": "Li, Shu-Xiang",
+          "inspire_id": 1407420
+        },
+        {
+          "full_name": "Li, Pan-Feng",
+          "inspire_id": 2741310
+        },
+        {
+          "full_name": "Wang, Qing-hai",
+          "inspire_id": 1029064
+        }
+      ],
+      "description": "Top-branch T2F of Family B for NNLO QCD corrections to $qq \\to W^+W^-$. Planar double-box with three massive internal propagators ($m_t$) forming a closed top-quark sub-loop. Called $T_{2,\\text{digamma}}$ in the paper. 35 symbol letters with four square roots. Only 3 of 4 roots simultaneously rationalizable. MIs expressed as GPLs or one-fold integrals over GPLs.",
+      "epsOrders": "4",
+      "familyName": "W-pair production planar double-box with massive top-quark loop",
+      "method": "DE, IBP",
+      "tools": [
+        "Kira",
+        "LiteRed",
+        "RationalizeRoots",
+        "PolyLogTools",
+        "AMFlow",
+        "FIESTA"
+      ],
+      "ancillaryFiles": true,
+      "doi": "",
+      "texkey": "",
+      "masterCount": 45,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "full",
+      "location": "Section 2 eq.(2.8), Section 3.2",
+      "recordId": "bx_a574c4c70d29",
+      "verified": false,
+      "verifiedAt": ""
+    }
+  ],
+  "Names": [
+    "W-pair production planar double-box with massive top-quark loop"
+  ],
+  "Source": [
+    "arXiv"
+  ],
+  "Loops": 2,
+  "NumPropagators": 7,
+  "Results": [],
+  "edges": "{{{1, 2}, m}, {{1, 3}, 0}, {{1, 4}, m}, {{2, 5}, 0}, {{2, 6}, m}, {{3, 5}, 0}, {{4, 6}, 0}}",
+  "nodes": "{{3, 0}, {4, m}, {6, m}, {5, 0}}",
+  "CanonicalName": "Double box, 3 massive propagators (b)",
+  "MassConfig": {
+    "numEdges": 7,
+    "numMassiveEdges": 3,
+    "numMasslessEdges": 4,
+    "distinctInternalMasses": 1,
+    "internalMassLabels": [
+      "m"
+    ],
+    "edgeMassPattern": "1010100",
+    "numExtLegs": 4,
+    "numOnshellMassiveExtLegs": 2,
+    "numMasslessExtLegs": 2,
+    "extLegSignature": "0MM0"
+  },
+  "commonNames": [
+    "L2"
+  ],
+  "Subsectors": [
+    "123|24|e|e4|e|:110|10|2|00|0|"
+  ],
+  "ParentSectors": []
+}

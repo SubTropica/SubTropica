@@ -1,0 +1,175 @@
+{
+  "CNickelIndex": "123|24|e|e4|e|:000|00|1|00|0|",
+  "MassScales": 1,
+  "FunctionClass": "MPL",
+  "EpsilonOrder": "0",
+  "References": [
+    "arXiv:2603.18691"
+  ],
+  "Records": [
+    {
+      "reference": "arXiv:2603.18691",
+      "authors": [
+        {
+          "full_name": "Dhani, Prasanna K.",
+          "inspire_id": 1607975
+        },
+        {
+          "full_name": "Pyretzidis, Konstantinos",
+          "inspire_id": 2938780
+        },
+        {
+          "full_name": "Ramírez-Uribe, Selomit",
+          "inspire_id": 1730297
+        },
+        {
+          "full_name": "Ríos-Sánchez, José",
+          "inspire_id": 2760441
+        },
+        {
+          "full_name": "Sborlini, German F.R.",
+          "inspire_id": 1074173
+        },
+        {
+          "full_name": "Tiwari, Surabhi",
+          "inspire_id": 1935452
+        },
+        {
+          "full_name": "Rodrigo, Germán",
+          "inspire_id": 991497
+        }
+      ],
+      "description": "Two-loop massless 3-point with 6 propagators. IR-finite integrand via LTD.",
+      "epsOrders": "0",
+      "familyName": "Massless 2-loop 3-point topology A (6 propagators, 2 massless legs)",
+      "method": "direct_integration",
+      "tools": [],
+      "ancillaryFiles": false,
+      "doi": "",
+      "texkey": "",
+      "masterCount": 0,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "numerical",
+      "location": "Section 5, Table I",
+      "recordId": "bx_0e5a04514e83",
+      "verified": false,
+      "verifiedAt": ""
+    }
+  ],
+  "Names": [
+    "Massless 2-loop 3-point topology A (6 propagators, 2 massless legs)"
+  ],
+  "Source": [
+    "arXiv"
+  ],
+  "Loops": 2,
+  "NumPropagators": 6,
+  "Results": [
+    {
+      "resultCompressed": "1:eJy1VktOwzAQTZNQaNUd4gDs2HAKkGDRSlHhAA0iqUZKSFWXUlizQhyAA3AAjsJBECsWSNCmtkN+9rh2KrFx63Tm+b2Z50kPr5Jh2LYsi3TpchFMISCn/swnDt0GEwL0wwp3WIBLlz6QWWizHXt0CXFAsu0eXYb+DJIbP4IW3QALL0O95C6YErYdDGCVpmno6FBoUAq2BsXOmXnRLUGZ7dLlJIknUbDgYjg7juFByL8zJv1k/IerJ8bl9TTE3A3E4KegXk/2IBOMUZB09DQ6hDPbMmEsTah4ltthz4rg+GGuptm8Ut1qpeC7VppN+lXWoEV0EA0HxTN21nmUjDm9TETu7dIhlR9LjK76SLtWIo2dJC1fVHXeyy179Ct7Cs11jA32WSGlaz4PRvXLmQLxY8lcWPvKcdLh8qL7Mz+OfY5o6EY+UBYaN+5X3WhmxBHWvIz1Un3RXURku4N7tBgmpUcFowpA77YxUKuGJgLNGwIpGY1U/jCy4pGia/ld1wPDtRoCmSTqa2fE963ZfcYM/2F4n12ZFLy2tph1//4qhWdNC+RR4ZqweFkhc2rjBBJ49Q1LrSBp5IhHBylVMewEQixYLwVzzdOyes1YFOIPBUWv0s0Gk5bnqf+BKED4+6p03xpCchTp",
+      "resultTeX": "\\frac{M^{-4}}{4 \\varepsilon^4}-\\frac{M^{-4} \\left(\\log \\left(M^2\\right)+i \\pi \\right)}{2 \\varepsilon^3}+\\frac{M^{-4} \\left(6 \\log ^2\\left(M^2\\right)+12 i \\pi  \\log \\left(M^2\\right)+9 \\zeta(2)-5 \\pi ^2\\right)}{12 \\varepsilon^2}+(\\text{more terms})+O\\left(\\varepsilon^1\\right)",
+      "dimension": "4 - 2*eps",
+      "epsOrder": 0,
+      "propExponents": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "propagators": [],
+      "numerators": [],
+      "internalMasses": [],
+      "externalMasses": [],
+      "substitutions": "{}",
+      "normalization": "Automatic",
+      "stVersion": "SubTropica v1.0.326",
+      "stCommand": "STIntegrate[{edges, nodes}, Order -> 0]",
+      "contributor": "Sebastian Mizera",
+      "timestamp": "2026-04-18T15:27:10",
+      "byteCount": 8480,
+      "method": "direct_integration",
+      "tools": [
+        "SubTropica",
+        "AnTropica"
+      ],
+      "verification": {
+        "method": "pySecDec",
+        "kinematicPoint": {
+          "Msq": "-73/61"
+        },
+        "tolerance": 0.0001,
+        "maxRelError": 4.1465711785763803e-05,
+        "verifiedAt": "2026-04-18T15:27:10"
+      },
+      "legOrder": [],
+      "symbolTeX": "\\begin{aligned}\\varepsilon^{-3}&\\colon\\;-\\frac{M^{-4}}{2}\\,(M^2) \\\\ \\varepsilon^{-2}&\\colon\\;M^{-4}\\,(M^2 \\otimes M^2) \\\\ \\varepsilon^{-1}&\\colon\\;-2 M^{-4}\\,(M^2 \\otimes M^2 \\otimes M^2) \\\\ \\varepsilon^{0}&\\colon\\;-\\frac{2}{3} (\\psi ^{(2)}(2)-2) M^{-4}\\,(M^2) + 4 M^{-4}\\,(M^2 \\otimes M^2 \\otimes M^2 \\otimes M^2)\\end{aligned}",
+      "alphabet": [
+        "M^2"
+      ],
+      "symbolWeight": 4,
+      "symbolTerms": 5
+    },
+    {
+      "resultCompressed": "1:eJyNkU0KwjAQhWP9RRA8gp5Fly2U6gUqJDLYmtKpP3jGHseFC7HOpFpoabSbF97MvORjstzpQI2EEDgl2cgUJK7DLMQ+WZkg0CEUGxyQuICZcthNSIIwA30MI+iRAa6UvSHJFmKJttF57VI/OiHMbOkxyUrHSSSvBgaeRVEgt3xoBExL8QsG39V7M+d5HbEWzDCqYR06Y+V2rAdjVTVfX2T6mQTHdn9FkNfCvwh4q1+C/0to/Jehaou1IcK9tuj4djZT8KJyuUqWN+ozgww=",
+      "resultTeX": "\\frac{1}{8 \\varepsilon^2}+\\frac{-4 \\log \\left(M^2\\right)-4 i \\pi +13}{16 \\varepsilon}+\\frac{1}{32} \\left(8 \\log ^2\\left(M^2\\right)+(-52+16 i \\pi ) \\log \\left(M^2\\right)-12 \\zeta(2)-8 \\pi ^2-52 i \\pi +107\\right)+O\\left(\\varepsilon^1\\right)",
+      "dimension": "6 - 2*eps",
+      "epsOrder": 0,
+      "propExponents": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "propagators": [],
+      "numerators": [],
+      "internalMasses": [],
+      "externalMasses": [],
+      "substitutions": "{}",
+      "normalization": "Automatic",
+      "stVersion": "SubTropica v1.0.379",
+      "stCommand": "STIntegrate[{{{{1, 4}, 0}, {{1, 5}, 0}, {{2, 5}, 0}, {{2, 3}, 0}, {{3, 4}, 0}, {{4, 5}, 0}}, {{1, M}, {2, 0}, {3, 0}}}, Dimension -> \"6 - 2*eps\", Order -> 0]",
+      "contributor": "SM",
+      "timestamp": "2026-04-19T19:00:53",
+      "byteCount": 1784,
+      "symbolTeX": "\\begin{aligned}\\varepsilon^{-1}&\\colon\\;-\\frac{1}{4}\\,(M^2) \\\\ \\varepsilon^{0}&\\colon\\;-\\frac{13}{8}\\,(M^2) + \\frac{1}{2}\\,(M^2 \\otimes M^2)\\end{aligned}",
+      "alphabet": [
+        "M^2"
+      ],
+      "symbolWeight": 2,
+      "symbolTerms": 3,
+      "legOrder": [
+        1,
+        2,
+        3
+      ]
+    }
+  ],
+  "edges": "{{{1, 2}, 0}, {{1, 3}, 0}, {{1, 4}, 0}, {{2, 3}, 0}, {{2, 5}, 0}, {{4, 5}, 0}}",
+  "nodes": "{{3, M}, {4, 0}, {5, 0}}",
+  "CanonicalName": "1-mass triangle-box (b)",
+  "MassConfig": {
+    "numEdges": 6,
+    "numMassiveEdges": 0,
+    "numMasslessEdges": 6,
+    "distinctInternalMasses": 0,
+    "internalMassLabels": [],
+    "edgeMassPattern": "000000",
+    "numExtLegs": 3,
+    "numOnshellMassiveExtLegs": 1,
+    "numMasslessExtLegs": 2,
+    "extLegSignature": "M00"
+  },
+  "Subsectors": [],
+  "ParentSectors": [
+    "123|45|e4|e5|e|e|:000|00|00|00|0|0|",
+    "123|45|e4|e5|e|e|:000|00|00|00|0|1|",
+    "123|45|e4|e5|e|e|:000|00|00|01|0|0|",
+    "123|45|e4|e5|e|e|:000|00|00|10|0|1|",
+    "123|45|e4|e5|e|e|:000|00|00|10|0|2|",
+    "123|45|e4|e5|e|e|:000|00|00|11|0|1|"
+  ]
+}

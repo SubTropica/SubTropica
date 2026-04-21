@@ -1,0 +1,85 @@
+{
+  "CNickelIndex": "e12|23|4|45|6|67|8|e8|e|:011|01|1|01|1|01|1|00|0|",
+  "MassScales": 1,
+  "FunctionClass": "unknown",
+  "EpsilonOrder": "0",
+  "References": [
+    "arXiv:2305.19768"
+  ],
+  "Records": [
+    {
+      "authors": [
+        {
+          "full_name": "Heinrich, G.",
+          "inspire_id": 1006298
+        },
+        {
+          "full_name": "Jones, S.P.",
+          "inspire_id": 1357945
+        },
+        {
+          "full_name": "Kerner, M.",
+          "inspire_id": 1234959
+        },
+        {
+          "full_name": "Magerya, V.",
+          "inspire_id": 1909862
+        },
+        {
+          "full_name": "Olsson, A.",
+          "inspire_id": 2777138
+        },
+        {
+          "full_name": "Schlenk, J.",
+          "inspire_id": 1280161
+        }
+      ],
+      "texkey": "",
+      "verified": false,
+      "verifiedAt": "",
+      "reference": "arXiv:2305.19768",
+      "ancillaryFiles": [],
+      "recordId": "bf_2993bdf52186",
+      "masterCount": 0,
+      "computationLevel": "numerical",
+      "doi": "",
+      "tools": [
+        "pySecDec"
+      ],
+      "description": "Four-loop ladder diagram contributing to the electron or muon anomalous magnetic moment ($g-2$). The graph has a ladder topology with 8 massive fermion propagators (red) and 4 massless photon rungs. External kinematics: $q^2=0$ with $q \\to 0$ limit, $q \\cdot p=0$, $p^2=m^2$, making it a single-scale integral depending only on $m^2$. Result given from $\\varepsilon^{-4}$ through $\\varepsilon^0$.",
+      "epsOrders": "-8,-7,-6,-5,-4,-3,-2,-1,0",
+      "method": [],
+      "dimScheme": "d=4-2*eps",
+      "location": "Section 3.1.5, Figure 8, Eq. (6)",
+      "familyName": "gminus2_4L"
+    }
+  ],
+  "Names": [
+    "gminus2_4L"
+  ],
+  "Source": [
+    "arXiv"
+  ],
+  "Loops": 4,
+  "NumPropagators": 12,
+  "Results": [],
+  "edges": "{{{1, 2}, m}, {{1, 3}, m}, {{2, 3}, 0}, {{2, 4}, m}, {{3, 5}, m}, {{4, 5}, 0}, {{4, 6}, m}, {{5, 7}, m}, {{6, 7}, 0}, {{6, 8}, m}, {{7, 9}, m}, {{8, 9}, 0}}",
+  "nodes": "{{1, 0}, {9, 0}, {8, 0}}",
+  "CanonicalName": "Non-planar triangle-pentagon-hexagon-box (b), 8 massive propagators",
+  "MassConfig": {
+    "numEdges": 12,
+    "numMassiveEdges": 8,
+    "numMasslessEdges": 4,
+    "distinctInternalMasses": 1,
+    "internalMassLabels": [
+      "m"
+    ],
+    "edgeMassPattern": "110110110110",
+    "numExtLegs": 3,
+    "numOnshellMassiveExtLegs": 0,
+    "numMasslessExtLegs": 3,
+    "extLegSignature": "000"
+  },
+  "Subsectors": [],
+  "ParentSectors": []
+}

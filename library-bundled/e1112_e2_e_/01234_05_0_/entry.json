@@ -1,0 +1,62 @@
+{
+  "CNickelIndex": "e1112|e2|e|:01234|05|0|",
+  "MassScales": 5,
+  "FunctionClass": "elliptic",
+  "EpsilonOrder": "",
+  "References": [
+    "arXiv:2209.10962 (Lett.Math.Phys. 113 (37), 2023)"
+  ],
+  "Records": [
+    {
+      "reference": "arXiv:2209.10962 (Lett.Math.Phys. 113 (37), 2023)",
+      "authors": "Lairez, Pierre, Vanhove, Pierre",
+      "description": "Three-loop ice-cream cone in $D=2$ with generic masses. Picard-Fuchs operator is irreducible order 4 for any mass configuration. Indicial equation $(\\rho-2)^2(\\rho-3)^2=0$ near $z=0$. Determined by copies of the sunset PF operator.",
+      "epsOrders": "",
+      "familyName": "two-scoop ice-cream cone",
+      "method": "DE",
+      "tools": [],
+      "ancillaryFiles": true,
+      "doi": "10.1007/s11005-023-01661-3",
+      "texkey": "Lairez:2022zkj",
+      "masterCount": 0,
+      "dimScheme": "d=2",
+      "computationLevel": "DE_only",
+      "location": "Section 4.3",
+      "recordId": "bx_e334cfb867ed",
+      "verified": false,
+      "verifiedAt": ""
+    }
+  ],
+  "Names": [
+    "two-scoop ice-cream cone"
+  ],
+  "Source": [
+    "arXiv"
+  ],
+  "Loops": 3,
+  "NumPropagators": 5,
+  "Results": [],
+  "edges": "{{{1, 2}, m[1]}, {{1, 2}, m[2]}, {{1, 2}, m[3]}, {{1, 3}, m[4]}, {{2, 3}, m[5]}}",
+  "nodes": "{{1, 0}, {2, 0}, {3, 0}}",
+  "CanonicalName": "5-mass bubble-bubble-triangle",
+  "MassConfig": {
+    "numEdges": 5,
+    "numMassiveEdges": 5,
+    "numMasslessEdges": 0,
+    "distinctInternalMasses": 5,
+    "internalMassLabels": [
+      "m[1]",
+      "m[2]",
+      "m[3]",
+      "m[4]",
+      "m[5]"
+    ],
+    "edgeMassPattern": "12345",
+    "numExtLegs": 3,
+    "numOnshellMassiveExtLegs": 0,
+    "numMasslessExtLegs": 3,
+    "extLegSignature": "000"
+  },
+  "Subsectors": [],
+  "ParentSectors": []
+}

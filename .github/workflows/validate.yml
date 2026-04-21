@@ -1,0 +1,170 @@
+# .github/workflows/validate.yml
+#
+# Runs on PRs that touch library files.
+# Validates structural integrity, review-toolkit schema, and Nickel
+# index consistency of all JSON entries.
+
+name: Validate Library
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "library-bundled/**"
+
+  # Also run on push to main for post-merge validation
+  push:
+    branches: [main]
+    paths:
+      - "library-bundled/**"
+      - "!library-bundled/manifest.json"
+
+  workflow_dispatch:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Validate library JSON files
+        shell: python3 {0}
+        run: |
+          import json, os, sys, hashlib
+          from collections import defaultdict
+
+          errors = []
+          warnings = []
+
+          topo_count = 0
+          entry_count = 0
+          record_count = 0
+          missing_record_id = 0
+          missing_verified = 0
+          orphan_ref_entries = 0
+
+          for root, dirs, files in os.walk("library-bundled"):
+              for f in files:
+                  path = os.path.join(root, f)
+
+                  # Size check
+                  size_mb = os.path.getsize(path) / (1024 * 1024)
+                  if size_mb > 5:
+                      errors.append(f"{path}: file too large ({size_mb:.1f} MB, max 5 MB)")
+
+                  if f == "topology.json":
+                      topo_count += 1
+                      try:
+                          with open(path) as fh:
+                              topo = json.load(fh)
+                      except json.JSONDecodeError as e:
+                          errors.append(f"{path}: invalid JSON: {e}")
+                          continue
+                      if not isinstance(topo, dict):
+                          errors.append(f"{path}: top-level value must be an object")
+                          continue
+                      if "NickelIndex" not in topo:
+                          errors.append(f"{path}: missing NickelIndex field")
+                      for field in ["Loops", "Legs", "Propagators"]:
+                          if field not in topo:
+                              warnings.append(f"{path}: missing {field} field")
+
+                  elif f == "entry.json":
+                      entry_count += 1
+                      try:
+                          with open(path) as fh:
+                              entry = json.load(fh)
+                      except json.JSONDecodeError as e:
+                          errors.append(f"{path}: invalid JSON: {e}")
+                          continue
+                      if not isinstance(entry, dict):
+                          errors.append(f"{path}: top-level value must be an object")
+                          continue
+
+                      # Required fields
+                      if "CNickelIndex" not in entry:
+                          errors.append(f"{path}: missing CNickelIndex field")
+                      if "Results" not in entry:
+                          errors.append(f"{path}: missing Results field")
+                      elif not isinstance(entry["Results"], list):
+                          errors.append(f"{path}: Results must be an array")
+
+                      # Directory consistency: CNickelIndex ↔ folder names
+                      parts = path.replace("\\", "/").split("/")
+                      if len(parts) >= 4:
+                          config_folder = parts[-2]
+                          topo_folder = parts[-3]
+                          cni = entry.get("CNickelIndex", "")
+                          if cni:
+                              cni_parts = cni.split(":", 1)
+                              topo_part = cni_parts[0]
+                              expected_topo = topo_part.replace("|", "_")
+                              if topo_folder != expected_topo:
+                                  errors.append(
+                                      f"{path}: topo folder '{topo_folder}' "
+                                      f"!= expected '{expected_topo}' from CNickelIndex"
+                                  )
+                              if len(cni_parts) > 1:
+                                  mass_part = cni_parts[1]
+                                  expected_mass = mass_part.replace("|", "_")
+                                  if config_folder != expected_mass:
+                                      errors.append(
+                                          f"{path}: config folder '{config_folder}' "
+                                          f"!= expected '{expected_mass}' from CNickelIndex"
+                                      )
+
+                      # Review-toolkit schema checks
+                      records = entry.get("Records", [])
+                      references = entry.get("References", [])
+                      if references and not records:
+                          orphan_ref_entries += 1
+                          warnings.append(f"{path}: References without Records (orphan)")
+
+                      ids_in_entry = []
+                      for i, rec in enumerate(records):
+                          record_count += 1
+                          rid = rec.get("recordId")
+                          if not rid:
+                              missing_record_id += 1
+                              errors.append(f"{path}[Records[{i}]]: missing recordId")
+                          else:
+                              ids_in_entry.append(rid)
+                          if "verified" not in rec:
+                              missing_verified += 1
+                              errors.append(f"{path}[Records[{i}]]: missing verified field")
+                          if "verifiedAt" not in rec:
+                              warnings.append(f"{path}[Records[{i}]]: missing verifiedAt field")
+
+                      # recordId uniqueness within entry
+                      seen = defaultdict(int)
+                      for rid in ids_in_entry:
+                          seen[rid] += 1
+                      for rid, n in seen.items():
+                          if n > 1:
+                              errors.append(f"{path}: duplicate recordId '{rid}' (x{n})")
+
+          # Summary
+          print(f"Scanned: {topo_count} topologies, {entry_count} entries, {record_count} records")
+          if missing_record_id:
+              print(f"  Missing recordId: {missing_record_id}")
+          if missing_verified:
+              print(f"  Missing verified: {missing_verified}")
+          if orphan_ref_entries:
+              print(f"  Orphan-reference entries: {orphan_ref_entries}")
+
+          if warnings:
+              print(f"\n{len(warnings)} warnings:")
+              for w in warnings[:20]:
+                  print(f"  Warning: {w}")
+              if len(warnings) > 20:
+                  print(f"  ... ({len(warnings) - 20} more)")
+
+          if errors:
+              print(f"\nValidation FAILED ({len(errors)} errors):")
+              for e in errors[:30]:
+                  print(f"  FAIL: {e}")
+              if len(errors) > 30:
+                  print(f"  ... ({len(errors) - 30} more)")
+              sys.exit(1)
+          else:
+              print("\nAll validation checks passed.")

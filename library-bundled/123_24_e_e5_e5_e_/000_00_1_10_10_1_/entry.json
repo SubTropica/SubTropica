@@ -1,0 +1,58 @@
+{
+  "CNickelIndex": "123|24|e|e5|e5|e|:000|00|1|10|10|1|",
+  "MassScales": 3,
+  "FunctionClass": "unknown",
+  "EpsilonOrder": "2",
+  "References": [
+    "arXiv:1502.06595 (Comput.Phys.Commun. 196 (470), 2015)"
+  ],
+  "Records": [
+    {
+      "reference": "arXiv:1502.06595 (Comput.Phys.Commun. 196 (470), 2015)",
+      "authors": "Borowka, S., Heinrich, G., Jones, S.P., Kerner, M., Schlenk, J., Zirke, T.",
+      "description": "Two-loop massless planar double box with four massive on-shell external legs ($p_i^2=m^2$). Computed up to order $\\varepsilon^2$ using the geometric decomposition strategy G2 (strategy X enters infinite recursion). Total runtime 41 s; requires Normaliz. Numerical Euclidean results first given in Binoth-Heinrich; analytical results in Heinrich:2004iq.",
+      "epsOrders": "2",
+      "familyName": "6_geostrategy_2L (QED)",
+      "method": "sector_decomposition",
+      "tools": [
+        "SecDec"
+      ],
+      "ancillaryFiles": false,
+      "doi": "10.1016/j.cpc.2015.05.022",
+      "texkey": "Borowka:2015mxa",
+      "masterCount": 0,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "numerical",
+      "location": "Section 5.6, Fig. 12",
+      "recordId": "bx_2a90f86d23d0",
+      "verified": false,
+      "verifiedAt": ""
+    }
+  ],
+  "Names": [
+    "6_geostrategy_2L (QED)"
+  ],
+  "Source": [
+    "arXiv"
+  ],
+  "Loops": 2,
+  "NumPropagators": 7,
+  "Results": [],
+  "edges": "{{{1, 2}, 0}, {{1, 3}, 0}, {{1, 4}, 0}, {{2, 3}, 0}, {{2, 5}, 0}, {{4, 6}, 0}, {{5, 6}, 0}}",
+  "nodes": "{{3, M}, {4, M}, {6, M}, {5, M}}",
+  "CanonicalName": "4-mass triangle-pentagon",
+  "MassConfig": {
+    "numEdges": 7,
+    "numMassiveEdges": 0,
+    "numMasslessEdges": 7,
+    "distinctInternalMasses": 0,
+    "internalMassLabels": [],
+    "edgeMassPattern": "0000000",
+    "numExtLegs": 4,
+    "numOnshellMassiveExtLegs": 4,
+    "numMasslessExtLegs": 0,
+    "extLegSignature": "MMMM"
+  },
+  "Subsectors": [],
+  "ParentSectors": []
+}

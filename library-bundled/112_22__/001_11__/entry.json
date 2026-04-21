@@ -1,0 +1,63 @@
+{
+  "CNickelIndex": "112|22||:001|11||",
+  "MassScales": 1,
+  "FunctionClass": "MPL",
+  "EpsilonOrder": "3",
+  "References": [
+    "arXiv:1705.05136 (JHEP 08 (024), 2017)"
+  ],
+  "Records": [
+    {
+      "reference": "arXiv:1705.05136 (JHEP 08 (024), 2017)",
+      "authors": "Kniehl, B.A., Pikelner, A.F., Veretin, O.L.",
+      "description": "Three-loop vacuum integrals with 5 propagators ($K_4$ minus one edge). E3 (3 massive) in $\\operatorname{Im}\\operatorname{HPL}(\\exp(i\\pi/3))$ basis; E1 (1 massive) is closed-form $\\Gamma$ functions.",
+      "epsOrders": "3",
+      "familyName": "E-type 5-line vacuum",
+      "method": "DE, IBP, series_expansion",
+      "tools": [
+        "FORM"
+      ],
+      "ancillaryFiles": true,
+      "doi": "10.1007/JHEP08(2017)024",
+      "texkey": "Kniehl:2017ikj",
+      "masterCount": 2,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "full",
+      "location": "Eq. (2.3), Sec. 4.5, App. A",
+      "recordId": "bx_05bef7c11955",
+      "verified": false,
+      "verifiedAt": ""
+    }
+  ],
+  "Names": [
+    "E-type 5-line vacuum"
+  ],
+  "Source": [
+    "arXiv"
+  ],
+  "Loops": 3,
+  "NumPropagators": 5,
+  "Results": [],
+  "edges": "{{{1, 2}, 0}, {{1, 2}, 0}, {{1, 3}, m}, {{2, 3}, m}, {{2, 3}, m}}",
+  "nodes": "{}",
+  "CanonicalName": "Bubble-triangle-bubble, 3 massive propagators",
+  "MassConfig": {
+    "numEdges": 5,
+    "numMassiveEdges": 3,
+    "numMasslessEdges": 2,
+    "distinctInternalMasses": 1,
+    "internalMassLabels": [
+      "m"
+    ],
+    "edgeMassPattern": "00111",
+    "numExtLegs": 0,
+    "numOnshellMassiveExtLegs": 0,
+    "numMasslessExtLegs": 0,
+    "extLegSignature": ""
+  },
+  "Subsectors": [
+    "111||:001||",
+    "111||:111||"
+  ],
+  "ParentSectors": []
+}

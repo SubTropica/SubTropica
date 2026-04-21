@@ -1,0 +1,49 @@
+{
+  "CNickelIndex": "e123|e23|e|e|:0000|102|3|0|",
+  "MassScales": 5,
+  "FunctionClass": "MPL",
+  "EpsilonOrder": "-1,0,1,2",
+  "References": [
+    "arXiv:1401.4361, JHEP 2014:71 (doi: 10.1007/JHEP03(2014)071)"
+  ],
+  "Records": [
+    {
+      "epsOrders": "-1,0,1,2",
+      "reference": "arXiv:1401.4361, JHEP 2014:71 (doi: 10.1007/JHEP03(2014)071)",
+      "authors": "Erik Panzer",
+      "description": "This integral is computed in Sect. 3.4.4 and given in terms of multiple polylogarithms in the paper (only divergent parts) and the text file supplementing the article (available both on arXiv and JHEP).",
+      "recordId": "1505936221.ZnFD",
+      "verified": false,
+      "verifiedAt": ""
+    }
+  ],
+  "Source": [
+    "arXiv",
+    "Loopedia"
+  ],
+  "Results": [],
+  "Names": [
+    "Crossed triangle (equal masses)",
+    "Crossed triangle",
+    "Non-planar double triangle"
+  ],
+  "edges": "{{{1, 2}, 0}, {{1, 3}, 0}, {{1, 4}, 0}, {{2, 3}, 0}, {{2, 4}, m}}",
+  "nodes": "{{1, 0}, {4, 0}, {2, M[3]}, {3, M[4]}}",
+  "CanonicalName": "Double triangle, 1 massive propagator (a-b)",
+  "MassConfig": {
+    "numEdges": 5,
+    "numMassiveEdges": 1,
+    "numMasslessEdges": 4,
+    "distinctInternalMasses": 1,
+    "internalMassLabels": [
+      "m"
+    ],
+    "edgeMassPattern": "00001",
+    "numExtLegs": 4,
+    "numOnshellMassiveExtLegs": 2,
+    "numMasslessExtLegs": 2,
+    "extLegSignature": "00MM"
+  },
+  "Subsectors": [],
+  "ParentSectors": []
+}

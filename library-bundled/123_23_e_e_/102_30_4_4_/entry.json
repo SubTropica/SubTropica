@@ -1,0 +1,65 @@
+{
+  "CNickelIndex": "123|23|e|e|:102|30|4|4|",
+  "MassScales": 3,
+  "FunctionClass": "elliptic",
+  "EpsilonOrder": "0",
+  "References": [
+    "arXiv:1902.09971"
+  ],
+  "Records": [
+    {
+      "reference": "arXiv:1902.09971",
+      "authors": "Broedel, Johannes, Duhr, Claude, Dulat, Falko, Penante, Brenda, Tancredi, Lorenzo",
+      "description": "Two-loop kite with 3 distinct masses and 2 massless propagators in $d=2-2\\varepsilon$. Weight-3 pure eMPLs + MPLs. Generalizes equal-mass kite.",
+      "epsOrders": "0",
+      "familyName": "kite (three distinct masses)",
+      "method": "direct_integration",
+      "tools": [],
+      "ancillaryFiles": true,
+      "doi": "",
+      "texkey": "",
+      "masterCount": 1,
+      "dimScheme": "d=2-2*eps",
+      "computationLevel": "full",
+      "location": "Section 6, Eq. (6.1)",
+      "recordId": "bx_572c76ebd5d0",
+      "verified": false,
+      "verifiedAt": ""
+    }
+  ],
+  "Names": [
+    "kite (three distinct masses)"
+  ],
+  "Source": [
+    "arXiv"
+  ],
+  "Loops": 2,
+  "NumPropagators": 5,
+  "Results": [],
+  "edges": "{{{1, 2}, m[1]}, {{1, 3}, 0}, {{1, 4}, m[2]}, {{2, 3}, m[3]}, {{2, 4}, 0}}",
+  "nodes": "{{3, M}, {4, M}}",
+  "CanonicalName": "3-mass kite, 3 massive propagators",
+  "MassConfig": {
+    "numEdges": 5,
+    "numMassiveEdges": 3,
+    "numMasslessEdges": 2,
+    "distinctInternalMasses": 3,
+    "internalMassLabels": [
+      "m[1]",
+      "m[2]",
+      "m[3]"
+    ],
+    "edgeMassPattern": "10230",
+    "numExtLegs": 2,
+    "numOnshellMassiveExtLegs": 2,
+    "numMasslessExtLegs": 0,
+    "extLegSignature": "MM"
+  },
+  "commonNames": [
+    "M"
+  ],
+  "Subsectors": [
+    "112|e2|e|:012|30|3|"
+  ],
+  "ParentSectors": []
+}

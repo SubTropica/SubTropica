@@ -1,0 +1,512 @@
+{
+  "CNickelIndex": "123|45|e4|e6|e|e6|e|:000|00|00|00|0|00|0|",
+  "MassScales": 5,
+  "FunctionClass": "elliptic",
+  "EpsilonOrder": "-4,-3,-2,-1,0,1,2,3,4",
+  "References": [
+    "arXiv:1807.09812 (JHEP 10 (103), 2018)",
+    "arXiv:1912.09294 (Missing[\"KeyAbsent\", \"journal\"] Missing[\"KeyAbsent\", \"volume\"] (Missing[\"KeyAbsent\", \"pages\"]), Missing[\"KeyAbsent\", \"year\"])",
+    "arXiv:2305.19768 (Missing[\"KeyAbsent\", \"journal\"] Missing[\"KeyAbsent\", \"volume\"] (Missing[\"KeyAbsent\", \"pages\"]), Missing[\"KeyAbsent\", \"year\"])",
+    "arXiv:2102.01820 (Missing[\"KeyAbsent\", \"journal\"] Missing[\"KeyAbsent\", \"volume\"] (Missing[\"KeyAbsent\", \"pages\"]), Missing[\"KeyAbsent\", \"year\"])",
+    "arXiv:1901.05932 (Missing[\"KeyAbsent\", \"journal\"] Missing[\"KeyAbsent\", \"volume\"] (Missing[\"KeyAbsent\", \"pages\"]), Missing[\"KeyAbsent\", \"year\"])",
+    "arXiv:2003.03120 (JHEP 10 (188), 2020)",
+    "arXiv:2503.03603",
+    "arXiv:1811.11699 (Missing[\"KeyAbsent\", \"journal\"] Missing[\"KeyAbsent\", \"volume\"] (Missing[\"KeyAbsent\", \"pages\"]), Missing[\"KeyAbsent\", \"year\"])",
+    "arXiv:2209.06816 (Missing[\"KeyAbsent\", \"journal\"] Missing[\"KeyAbsent\", \"volume\"] (Missing[\"KeyAbsent\", \"pages\"]), Missing[\"KeyAbsent\", \"year\"])",
+    "arXiv:2512.05923",
+    "arXiv:1502.06595 (Comput.Phys.Commun. 196 (470), 2015)",
+    "arXiv:1511.09404 (JHEP 04 (078), 2016)",
+    "arXiv:2305.08783"
+  ],
+  "Records": [
+    {
+      "ancillaryPaths": [
+        "anc/pentabox_basis2.txt",
+        "anc/Atilde_W.txt",
+        "anc/masters-Walphabet_f.txt",
+        "anc/evaluate_pentagon/"
+      ],
+      "dimScheme": "d=4-2*eps",
+      "recordId": "bf_4de2bb63e6a8",
+      "familyName": "pentabox",
+      "verified": false,
+      "verifiedAt": "",
+      "authors": "Gehrmann, T., Henn, J.M., Lo Presti, N.A.",
+      "texkey": "Gehrmann:2018yef",
+      "computationLevel": "full",
+      "masterCount": 61,
+      "transcendentalWeight": 4,
+      "location": "Eq. (3.1), Section 3, Figure 1",
+      "method": [],
+      "reference": "arXiv:1807.09812, JHEP 10 (103), 2018",
+      "ancillaryFiles": [],
+      "description": "Two-loop massless planar five-point penta-box family with 8 propagators and 3 ISPs. 61 master integrals computed in UT basis through $\\mathcal{O}(\\varepsilon^4)$ via canonical DEs. Results expressed in 18 irreducible pentagon functions (weight-4 MPLs) with 26-letter planar pentagon alphabet. One-fold integral representations for numerical evaluation in all physical channels.",
+      "epsOrders": "-4,-3,-2,-1,0,1,2,3,4",
+      "tools": [
+        "FIRE",
+        "Reduze",
+        "FIESTA",
+        "SecDec",
+        "GiNaC"
+      ],
+      "doi": "10.1007/JHEP10(2018)103"
+    },
+    {
+      "reference": "arXiv:1912.09294",
+      "authors": [
+        {
+          "full_name": "Guan, Xin",
+          "inspire_id": 2162418
+        },
+        {
+          "full_name": "Liu, Xiao",
+          "inspire_id": 1708819
+        },
+        {
+          "full_name": "Ma, Yan-Qing",
+          "inspire_id": 1056966
+        }
+      ],
+      "description": "Called 'pb' in the paper (topology (c) in Fig. 1). Penta-box (planar) family for massless two-loop five-light-parton scattering. 8 propagators and 3 irreducible scalar products. Complete IBP reduction of 3458 integrals (up to numerator degree 5) to 61 master integrals via block-triangular relations. Relations are 31 MB, solvable numerically in 0.075 s per phase-space point. Validated against FIRE6.",
+      "epsOrders": "",
+      "familyName": "two-loop five-point massless penta-box / pb",
+      "method": "IBP, series_expansion",
+      "tools": [
+        "FiniteFlow",
+        "LiteRed",
+        "FIRE"
+      ],
+      "ancillaryFiles": true,
+      "doi": "",
+      "texkey": "",
+      "masterCount": 61,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "IBP_only",
+      "location": "Eq.(3) of readme.pdf; Fig.1(c) of main text; Table I",
+      "recordId": "bx_04fa6084a588",
+      "verified": false,
+      "verifiedAt": ""
+    },
+    {
+      "dimScheme": "d=4-2*eps",
+      "recordId": "bf_c4b5b0fbb5ed",
+      "familyName": "pentabox_fin",
+      "verified": false,
+      "verifiedAt": "",
+      "authors": [
+        {
+          "full_name": "Heinrich, G.",
+          "inspire_id": 1006298
+        },
+        {
+          "full_name": "Jones, S.P.",
+          "inspire_id": 1357945
+        },
+        {
+          "full_name": "Kerner, M.",
+          "inspire_id": 1234959
+        },
+        {
+          "full_name": "Magerya, V.",
+          "inspire_id": 1909862
+        },
+        {
+          "full_name": "Olsson, A.",
+          "inspire_id": 2777138
+        },
+        {
+          "full_name": "Schlenk, J.",
+          "inspire_id": 1280161
+        }
+      ],
+      "computationLevel": "numerical",
+      "texkey": "Heinrich:2023til",
+      "masterCount": 0,
+      "location": "Section 3.2, Figure 10(b), Table 3",
+      "method": [],
+      "reference": "arXiv:2305.19768 (Comput.Phys.Commun. 295 (108956), 2024)",
+      "ancillaryFiles": [],
+      "description": "Massless two-loop five-point pentabox integral with 8 internal edges, all massless, and 5 massless external legs. Previously existing pySecDec example used for benchmarking. The pentabox topology consists of a box subgraph sharing an edge with a pentagon subgraph.",
+      "epsOrders": "",
+      "tools": [
+        "pySecDec"
+      ],
+      "doi": "10.1016/j.cpc.2023.108956"
+    },
+    {
+      "ancillaryPaths": [
+        "anc/qqb_W00.m",
+        "anc/qqb_W01_CA.m",
+        "anc/qqb_W01_CF.m",
+        "anc/qqb_W01_nf.m",
+        "anc/qqb_W01_nfaa.m",
+        "anc/qqb_W02_LC.m",
+        "anc/qqb_W02_nfCA.m",
+        "anc/qqb_W02_nfCF.m",
+        "anc/qqb_W02_nfnf.m",
+        "anc/qqb_W02_nfnfaa.m",
+        "anc/qg_W00.m",
+        "anc/qg_W01_CA.m",
+        "anc/qg_W01_CF.m",
+        "anc/qg_W01_nf.m",
+        "anc/qg_W01_nfaa.m",
+        "anc/qg_W02_LC.m",
+        "anc/qg_W02_nfCA.m",
+        "anc/qg_W02_nfCF.m",
+        "anc/qg_W02_nfnf.m",
+        "anc/qg_W02_nfnfaa.m",
+        "anc/q_definitions.m",
+        "anc/W02_evaluator.m"
+      ],
+      "dimScheme": "d=4-2*eps",
+      "recordId": "bf_ee658f0ddba5",
+      "familyName": "Family A",
+      "verified": false,
+      "verifiedAt": "",
+      "authors": [
+        {
+          "full_name": "Agarwal, Bakul",
+          "inspire_id": 1834594
+        },
+        {
+          "full_name": "Buccioni, Federico",
+          "inspire_id": 1497172
+        },
+        {
+          "full_name": "von Manteuffel, Andreas",
+          "inspire_id": 1020667
+        },
+        {
+          "full_name": "Tancredi, Lorenzo",
+          "inspire_id": 1284289
+        }
+      ],
+      "computationLevel": "full",
+      "texkey": "Agarwal:2021grm",
+      "masterCount": 0,
+      "location": "Table 1 (tab:topos), Eq. (4.1), Section 4",
+      "transcendentalWeight": 4,
+      "method": [],
+      "reference": "arXiv:2102.01820 (JHEP 04 (201), 2021)",
+      "ancillaryFiles": [],
+      "description": "Planar two-loop five-point integral family for the leading-colour QCD corrections to $q\\bar{q} \\to g \\gamma\\gamma$ and $qg \\to q \\gamma\\gamma$. Family A is the planar pentagon-box topology with 8 propagators ($D_1$-$D_8$) and 3 irreducible scalar products ($D_9$-$D_{11}$). The first 8 propagators define a pentagon-box graph: $D_1$-$D_4$ trace the $k_1$ loop through vertices where $p_1, p_2, p_3$ enter; $D_5$-$D_7$ trace the $k_2$ loop through vertices where $p_4, p_5$ enter; $D_8$ is the rung connecting the two loops. All external particles are massless. IBP reduction performed with Kira and Finred (finite field, syzygy techniques). Results expressed in terms of pentagon functions of Chicherin-Sotnikov through transcendental weight 4. Multivariate partial fraction decomposition via MultivariateApart applied to simplify rational coefficients, with 25 irreducible denominator factors. Complete analytic results for tree-level, one-loop, and two-loop interference terms provided in ancillary Mathematica files, organized by colour factor.",
+      "epsOrders": "-4,-3,-2,-1,0",
+      "tools": [
+        "Kira",
+        "Reduze",
+        "FORM",
+        "QGRAF"
+      ],
+      "doi": "10.1007/JHEP04(2021)201"
+    },
+    {
+      "ancillaryPaths": [
+        "anc/assemble_hard_function.wl",
+        "anc/seed_even.txt",
+        "anc/seed_odd.txt",
+        "anc/rational_basis.txt",
+        "anc/seed_rational_permutations.txt"
+      ],
+      "dimScheme": "d=4-2*eps",
+      "recordId": "bf_90747c7bfd3d",
+      "familyName": "pentabox (a)",
+      "verified": false,
+      "verifiedAt": "",
+      "authors": [
+        {
+          "full_name": "Chicherin, Dmitry",
+          "inspire_id": 1259630
+        },
+        {
+          "full_name": "Gehrmann, Thomas",
+          "inspire_id": 1008686
+        },
+        {
+          "full_name": "Henn, Johannes M.",
+          "inspire_id": 1040053
+        },
+        {
+          "full_name": "Wasser, Pascal",
+          "inspire_id": 1694405
+        },
+        {
+          "full_name": "Zhang, Yang",
+          "inspire_id": 1062340
+        },
+        {
+          "full_name": "Zoia, Simone",
+          "inspire_id": 1783520
+        }
+      ],
+      "computationLevel": "full",
+      "texkey": "Chicherin:2019xeg",
+      "masterCount": 61,
+      "location": "Fig. 1 (first row, left), Eq. (5.2)-(5.3), Section 5.2-5.3; propagators defined in arXiv:1807.09812 Eq. (3.1)",
+      "transcendentalWeight": 4,
+      "method": [],
+      "reference": "arXiv:1901.05932 (JHEP 03 (115), 2019)",
+      "ancillaryFiles": [],
+      "description": "Planar pentabox (family (a)) in the two-loop five-graviton $\\mathcal{N}=8$ supergravity amplitude. 8 propagators + 3 ISPs, 61 master integrals. The amplitude is computed at symbol level by IBP reducing the Carrasco-Johansson integrand (from color-kinematics duality) to uniform transcendental weight master integrals, then summing over $S_5$ permutations. The result has uniform weight 4 and is expressed in the 31-letter pentagon alphabet. The IR-subtracted hard function is provided as a compact seed representation: $H_5^{(2)} = \\sum_{S_5} r_{\\text{seed}} \\cdot h_5^{(2)}$, where $r_{\\text{seed}} = s_{12} s_{23} s_{34} s_{45} \\operatorname{PT}(12345) \\operatorname{PT}(21435)$. Families (d)-(f) are sub-topologies obtained by pinching one internal line from (a)-(c). External states are 4-dimensional, loop momenta $D=4-2\\varepsilon$ dimensional.",
+      "epsOrders": "-4,-3,-2,-1,0",
+      "tools": [
+        "FIRE",
+        "Reduze"
+      ],
+      "doi": "10.1007/JHEP03(2019)115"
+    },
+    {
+      "ancillaryPaths": [
+        "anc/H1.txt",
+        "anc/H2_upper.txt"
+      ],
+      "dimScheme": "d=4-2*eps",
+      "recordId": "bf_0da709125146",
+      "familyName": "pentabox (a)",
+      "verified": false,
+      "verifiedAt": "",
+      "authors": "Caron-Huot, Simon, Chicherin, Dmitry, Henn, Johannes, Zhang, Yang, Zoia, Simone",
+      "texkey": "Caron-Huot:2020vlo",
+      "computationLevel": "full",
+      "masterCount": 61,
+      "transcendentalWeight": 4,
+      "location": "Fig. 1(a), Eqs. (3.4)-(3.5), Section 3.2",
+      "method": [],
+      "reference": "arXiv:2003.03120, JHEP 10 (188), 2020",
+      "ancillaryFiles": [],
+      "description": "Planar pentagon-box family for massless two-loop five-point scattering. 8 propagators, 61 MIs in pure basis with 31-letter pentagon alphabet. Used to compute multi-Regge limit of $\\mathcal{N}=4$ SYM and $\\mathcal{N}=8$ SUGRA amplitudes.",
+      "epsOrders": "-4,-3,-2,-1,0",
+      "tools": [
+        "FIRE",
+        "Kira",
+        "Reduze",
+        "GiNaC"
+      ],
+      "doi": "10.1007/JHEP10(2020)188"
+    },
+    {
+      "reference": "arXiv:1811.11699 (JHEP 01 (186), 2019)",
+      "authors": [
+        {
+          "full_name": "Badger, Simon",
+          "inspire_id": 1040351
+        },
+        {
+          "full_name": "Brønnum-Hansen, Christian",
+          "inspire_id": 1643532
+        },
+        {
+          "full_name": "Hartanto, Heribertus Bayu",
+          "inspire_id": 1126054
+        },
+        {
+          "full_name": "Peraro, Tiziano",
+          "inspire_id": 1273415
+        }
+      ],
+      "description": "Two-loop planar five-gluon integral family with 8 massless propagators and 3 ISPs. Three master topologies (pentabox, hexatriangle, heptabubble) are sectors of this family. 5 cyclic permutations give 155 total MIs. Results expressed in pentagon function basis.",
+      "epsOrders": "0",
+      "familyName": "G (pentabox family)",
+      "method": "unitarity, IBP",
+      "tools": [
+        "LiteRed"
+      ],
+      "ancillaryFiles": true,
+      "doi": "10.1007/JHEP01(2019)186",
+      "texkey": "Badger:2018enw",
+      "masterCount": 31,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "full",
+      "location": "Eq. (3.1), Section 3.1",
+      "recordId": "bx_d21f505d0162",
+      "verified": false,
+      "verifiedAt": ""
+    },
+    {
+      "reference": "arXiv:2209.06816 (Commun.Theor.Phys. 77 (055203), 2025)",
+      "authors": [
+        {
+          "full_name": "Guo, Yuanhong",
+          "inspire_id": 1940683
+        },
+        {
+          "full_name": "Wang, Lei",
+          "inspire_id": 2133972
+        },
+        {
+          "full_name": "Yang, Gang",
+          "inspire_id": 1040510
+        }
+      ],
+      "description": "Planar two-loop five-point penta-box family (topology 1 in the paper; 61 UT masters). Used in the master-integral bootstrap of the two-loop four-point lightlike form factor of the stress-tensor supermultiplet in planar $\\mathcal{N}=4$ SYM. The fifth leg is the lightlike operator momentum $q=p_1+p_2+p_3+p_4$, $q^2=0$. UT basis from Abreu-Page-Zeng (1807.11522).",
+      "epsOrders": "0",
+      "familyName": "massless planar two-loop five-point penta-box",
+      "method": "unitarity, IBP, DE",
+      "tools": [],
+      "ancillaryFiles": true,
+      "doi": "10.1088/1572-9494/ada916",
+      "texkey": "Guo:2022qgv",
+      "masterCount": 61,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "basis",
+      "location": "Figure 1; ancillary anc/2_UT_Masters_Defination.m (topology 1)",
+      "recordId": "bx_336e163f732f",
+      "verified": false,
+      "verifiedAt": ""
+    },
+    {
+      "reference": "arXiv:2512.05923",
+      "authors": "Liu, Junhan W., Mitov, Alexander",
+      "description": "Two-loop planar C1 topology appearing in three-jet production at NNLO with 5 massless external legs and 8 internal propagators. Used as a benchmark for the triangular IBP algorithm. Called C1 in the paper. Propagator definitions deferred to arXiv:1805.09182.",
+      "epsOrders": "",
+      "familyName": "massless 2-loop 5-point planar three-jet topology",
+      "method": "IBP",
+      "tools": [
+        "Kira",
+        "NeatIBP",
+        "Fermat"
+      ],
+      "ancillaryFiles": false,
+      "doi": "",
+      "texkey": "Liu:2025udl",
+      "masterCount": 0,
+      "dimScheme": "d=D",
+      "computationLevel": "IBP_only",
+      "location": "Fig. 3 (center), Section 5",
+      "recordId": "bx_a68869bde11d",
+      "verified": false,
+      "verifiedAt": ""
+    },
+    {
+      "reference": "arXiv:1502.06595 (Comput.Phys.Commun. 196 (470), 2015)",
+      "authors": "Borowka, S., Heinrich, G., Jones, S.P., Kerner, M., Schlenk, J., Zirke, T.",
+      "description": "Massless two-loop five-point integral with eight propagators, with external momentum $p_i$ attached at vertex $i$. Demonstrates SecDec-3.0 applicability beyond four-point kinematics; basis of invariants $\\{s_{12},s_{23},s_{34},s_{45},s_{51}\\}$. Total runtime 9 minutes 43 seconds.",
+      "epsOrders": "0",
+      "familyName": "5_pentagon_2L",
+      "method": "sector_decomposition",
+      "tools": [
+        "SecDec"
+      ],
+      "ancillaryFiles": false,
+      "doi": "10.1016/j.cpc.2015.05.022",
+      "texkey": "Borowka:2015mxa",
+      "masterCount": 0,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "numerical",
+      "location": "Section 5.5, Fig. 11",
+      "recordId": "bx_070772e41710",
+      "verified": false,
+      "verifiedAt": ""
+    },
+    {
+      "reference": "arXiv:1511.09404 (JHEP 04 (078), 2016)",
+      "authors": "Papadopoulos, Costas G., Tommasini, Damiano, Wever, Christopher",
+      "description": "Planar pentabox family P1 (called '$P_1$' in the paper) for massless five-point amplitudes; computed both with one off-shell leg ($q_3^2=M_3^2$) via SDE $x$-parametrization and in the all-massless on-shell limit obtained at $x=1$. 74 master integrals expressed in Goncharov polylogarithms.",
+      "epsOrders": "2",
+      "familyName": "massless 5-point 2-loop planar pentabox (8 propagators)",
+      "method": "DE, IBP, series_expansion",
+      "tools": [
+        "FIRE",
+        "GiNaC",
+        "SecDec",
+        "HyperInt"
+      ],
+      "ancillaryFiles": false,
+      "doi": "10.1007/JHEP04(2016)078",
+      "texkey": "Papadopoulos:2015jft",
+      "masterCount": 74,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "full",
+      "location": "Eq.(8) [eq:P1x], Section 2",
+      "recordId": "bx_f50f0efcc32a",
+      "verified": false,
+      "verifiedAt": ""
+    },
+    {
+      "reference": "arXiv:2305.08783",
+      "authors": [
+        {
+          "full_name": "Wu, Zihao",
+          "inspire_id": 1818783
+        },
+        {
+          "full_name": "Boehm, Janko",
+          "inspire_id": 1684314
+        },
+        {
+          "full_name": "Ma, Rourou",
+          "inspire_id": 1975205
+        },
+        {
+          "full_name": "Xu, Hefeng",
+          "inspire_id": 2678706
+        },
+        {
+          "full_name": "Zhang, Yang",
+          "inspire_id": 1062340
+        }
+      ],
+      "description": "Two-loop five-point massless planar pentagon-box diagram. Used as the primary benchmark example for NeatIBP. All five external legs are massless. The top sector is $\\{1,2,3,4,5,6,7,8\\}$; the last three propagators $D_9, D_{10}, D_{11}$ are irreducible scalar products (ISPs).",
+      "epsOrders": "",
+      "familyName": "PentaBox",
+      "method": "IBP",
+      "tools": [
+        "NeatIBP",
+        "Singular",
+        "SpaSM",
+        "Mathematica",
+        "FIRE6"
+      ],
+      "ancillaryFiles": true,
+      "doi": "",
+      "texkey": "",
+      "masterCount": 61,
+      "dimScheme": "",
+      "computationLevel": "IBP_only",
+      "location": "Section 4.1 (Examples), Figure 3",
+      "recordId": "bx_8ff2087a7b4e",
+      "verified": false,
+      "verifiedAt": ""
+    }
+  ],
+  "Names": [
+    "Massless pentabox",
+    "Pentabox",
+    "PB_B",
+    "G (pentabox family)",
+    "pb",
+    "pentabox_fin",
+    "Family A",
+    "massless planar two-loop five-point penta-box",
+    "massless 2-loop 5-point planar three-jet topology",
+    "5_pentagon_2L",
+    "massless 5-point 2-loop planar pentabox (8 propagators)",
+    "two-loop five-point massless penta-box"
+  ],
+  "Source": [
+    "arXiv",
+    "Loopedia"
+  ],
+  "Loops": 2,
+  "NumPropagators": 8,
+  "Results": [],
+  "edges": "{{{1, 2}, 0}, {{1, 3}, 0}, {{1, 4}, 0}, {{2, 5}, 0}, {{2, 6}, 0}, {{3, 5}, 0}, {{4, 7}, 0}, {{6, 7}, 0}}",
+  "nodes": "{{3, 0}, {4, 0}, {5, 0}, {6, 0}, {7, 0}}",
+  "CanonicalName": "Massless box-pentagon",
+  "MassConfig": {
+    "numEdges": 8,
+    "numMassiveEdges": 0,
+    "numMasslessEdges": 8,
+    "distinctInternalMasses": 0,
+    "internalMassLabels": [],
+    "edgeMassPattern": "00000000",
+    "numExtLegs": 5,
+    "numOnshellMassiveExtLegs": 0,
+    "numMasslessExtLegs": 5,
+    "extLegSignature": "00000"
+  },
+  "Subsectors": [
+    "123|24|e|e5|e5|e|:000|00|1|00|00|0|",
+    "123|45|e4|e5|e|e|:000|00|00|00|0|1|"
+  ],
+  "ParentSectors": []
+}

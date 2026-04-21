@@ -1,0 +1,58 @@
+{
+  "CNickelIndex": "123|e4|e4|e4||:000|10|10|10||",
+  "MassScales": 1,
+  "FunctionClass": "MPL",
+  "EpsilonOrder": "",
+  "References": [
+    "arXiv:hep-ph/9402223 (Phys.Lett.B 332 (159), 1994)"
+  ],
+  "Records": [
+    {
+      "reference": "arXiv:hep-ph/9402223 (Phys.Lett.B 332 (159), 1994)",
+      "authors": "Usyukina, Natalia I., Davydychev, Andrei I.",
+      "description": "Two-loop non-planar (crossed) three-point diagram with massless propagators and all off-shell external momenta. Symmetric under all permutations of external legs. Factorizes as the square of the one-loop triangle $C^{(1)}$, yielding products of dilogarithms.",
+      "epsOrders": "",
+      "familyName": "non-planar crossed (fig.1b)",
+      "method": "Mellin-Barnes, direct_integration",
+      "tools": [],
+      "ancillaryFiles": true,
+      "doi": "10.1016/0370-2693(94)90874-5",
+      "texkey": "Usyukina:1994iw",
+      "masterCount": 0,
+      "dimScheme": "d=4",
+      "computationLevel": "full",
+      "location": "eq.(19), sec.4",
+      "recordId": "bx_c7c8916f3ea1",
+      "verified": false,
+      "verifiedAt": ""
+    }
+  ],
+  "Names": [
+    "non-planar crossed (fig.1b)"
+  ],
+  "Source": [
+    "arXiv"
+  ],
+  "Loops": 2,
+  "NumPropagators": 6,
+  "Results": [],
+  "edges": "{{{1, 2}, 0}, {{1, 3}, 0}, {{1, 4}, 0}, {{2, 5}, 0}, {{3, 5}, 0}, {{4, 5}, 0}}",
+  "nodes": "{{2, M}, {3, M}, {4, M}}",
+  "CanonicalName": "3-mass non-planar double box (a)",
+  "MassConfig": {
+    "numEdges": 6,
+    "numMassiveEdges": 0,
+    "numMasslessEdges": 6,
+    "distinctInternalMasses": 0,
+    "internalMassLabels": [],
+    "edgeMassPattern": "000000",
+    "numExtLegs": 3,
+    "numOnshellMassiveExtLegs": 3,
+    "numMasslessExtLegs": 0,
+    "extLegSignature": "MMM"
+  },
+  "Subsectors": [
+    "123|e23|e|e|:000|100|1|1|"
+  ],
+  "ParentSectors": []
+}

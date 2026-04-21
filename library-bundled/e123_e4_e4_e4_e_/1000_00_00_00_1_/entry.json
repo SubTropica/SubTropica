@@ -1,0 +1,71 @@
+{
+  "CNickelIndex": "e123|e4|e4|e4|e|:1000|00|00|00|1|",
+  "MassScales": 6,
+  "FunctionClass": "unknown",
+  "EpsilonOrder": "",
+  "References": [
+    "arXiv:2412.21053"
+  ],
+  "Records": [
+    {
+      "reference": "arXiv:2412.21053",
+      "authors": [
+        {
+          "full_name": "Huang, Li-Hong",
+          "inspire_id": 3069105
+        },
+        {
+          "full_name": "Huang, Rui-Jun",
+          "inspire_id": 1066027
+        },
+        {
+          "full_name": "Ma, Yan-Qing",
+          "inspire_id": 1056966
+        }
+      ],
+      "description": "Two-loop non-planar 5-point integral with massless internal propagators, obtained from the sunrise graph by inserting external legs on the top arc, the bottom arc, and the middle horizontal line; the two horizontal outer legs are massive, the inserted legs are massless. Computed numerically to 6-digit precision via the FBI representation with DCT; 726 sample points, 0.76 ms/point. Cross-checked against AMFlow. Called graph $e_5$ in Table I of the paper.",
+      "epsOrders": "",
+      "familyName": "2-mass 2-loop 5-point sunrise-type (6 propagators)",
+      "method": "direct_integration, series_expansion",
+      "tools": [
+        "AMFlow"
+      ],
+      "ancillaryFiles": false,
+      "doi": "",
+      "texkey": "",
+      "masterCount": 0,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "numerical",
+      "location": "Table I (graph e5), Two-loop examples section",
+      "recordId": "bx_c4d00c5a229e",
+      "verified": false,
+      "verifiedAt": ""
+    }
+  ],
+  "Names": [
+    "2-mass 2-loop 5-point sunrise-type (6 propagators)"
+  ],
+  "Source": [
+    "arXiv"
+  ],
+  "Loops": 2,
+  "NumPropagators": 6,
+  "Results": [],
+  "edges": "{{{1, 2}, 0}, {{1, 3}, 0}, {{1, 4}, 0}, {{2, 5}, 0}, {{3, 5}, 0}, {{4, 5}, 0}}",
+  "nodes": "{{1, M}, {2, 0}, {3, 0}, {4, 0}, {5, M}}",
+  "CanonicalName": "2-mass non-planar double box",
+  "MassConfig": {
+    "numEdges": 6,
+    "numMassiveEdges": 0,
+    "numMasslessEdges": 6,
+    "distinctInternalMasses": 0,
+    "internalMassLabels": [],
+    "edgeMassPattern": "000000",
+    "numExtLegs": 5,
+    "numOnshellMassiveExtLegs": 2,
+    "numMasslessExtLegs": 3,
+    "extLegSignature": "M000M"
+  },
+  "Subsectors": [],
+  "ParentSectors": []
+}

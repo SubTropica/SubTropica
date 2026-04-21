@@ -1,0 +1,77 @@
+{
+  "CNickelIndex": "e12|e2|e|:011|20|3|",
+  "MassScales": 3,
+  "FunctionClass": "MPL",
+  "EpsilonOrder": "0",
+  "References": [
+    "arXiv:0712.1851"
+  ],
+  "Records": [],
+  "Source": [
+    "arXiv",
+    "QCDLoop"
+  ],
+  "Results": [
+    {
+      "resultCompressed": "1:eJxTTMoPSmNjYGAo5gISwalFmanFLoklicXMQG5qQXEmkGJIYwQpYAESPpnFJWlMMF5ATmlxGkhhMSuQCMnMTS3O/A8ECBUeOfnpmSDdCCGEEXBNqCYWg3i5uWhqIAaDHQKS8PXNZIYbC1IUkF+eWoTmNGTVTCiq8RiJ5AOEA0mzl5A1TPAwxW0vlf3DgkslSIlPfjqaURhxgMU5xMYTE9wReCzE4zeI1XQNLnCqB6dbMAEA7w204g==",
+      "resultTeX": "\\left(-\\frac{H\\left(\\frac{m^2-M_3^2}{M_2^2-M_3^2},\\frac{M_3^2}{M_3^2-M_2^2}\\,;1\\right)}{M_2^2-M_3^2}-\\frac{\\log \\left(M_2^2 M_3^{-2}\\right) \\log \\left(\\frac{m^2}{m^2-M_2^2}\\right)}{M_2^2-M_3^2}\\right)+O\\left(\\varepsilon^1\\right)",
+      "dimension": "4 - 2*eps",
+      "epsOrder": "0",
+      "epsOrders": "0",
+      "propExponents": [
+        1,
+        1,
+        1
+      ],
+      "propagators": [],
+      "numerators": [],
+      "internalMasses": [],
+      "externalMasses": [],
+      "substitutions": "",
+      "rootSubstitutions": "{}",
+      "normalization": "Automatic",
+      "stVersion": "SubTropica v1.0.293",
+      "stCommand": "",
+      "contributor": "Sebastian Mizera",
+      "timestamp": "2026-04-15T17:15:10",
+      "verifiedAt": "2026-04-15T17:15:10",
+      "verified": true,
+      "method": "direct_integration",
+      "tools": [
+        "SubTropica"
+      ],
+      "methodLR": "Lungo",
+      "findRoots": false,
+      "byteCount": 2904
+    }
+  ],
+  "Names": [
+    "Finite triangle (2 massive propagators)",
+    "Triangle",
+    "C0"
+  ],
+  "QCDLoopURL": "https://qcdloop.fnal.gov/trifin.pdf",
+  "edges": "{{{1, 2}, m}, {{1, 3}, m}, {{2, 3}, 0}}",
+  "nodes": "{{1, 0}, {2, M[2]}, {3, M[3]}}",
+  "quadruple": "{E^(eps*EulerGamma)*Gamma[1 + eps], (x1 + x2 + x3)^(-1 + 2*eps)*(-(mm*x1^2) - 2*mm*x1*x2 - mm*x2^2 - mm*x1*x3 - mm*x2*x3 + x1*x3*MM[2] + x2*x3*MM[3])^(-1 - eps), {x1, x2, x3}, {mm}}",
+  "CanonicalName": "Triangle, 2 massive propagators (d)",
+  "MassConfig": {
+    "numEdges": 3,
+    "numMassiveEdges": 2,
+    "numMasslessEdges": 1,
+    "distinctInternalMasses": 1,
+    "internalMassLabels": [
+      "m"
+    ],
+    "edgeMassPattern": "110",
+    "numExtLegs": 3,
+    "numOnshellMassiveExtLegs": 2,
+    "numMasslessExtLegs": 1,
+    "extLegSignature": "0MM"
+  },
+  "commonNames": [
+    "C₀(2×m)"
+  ],
+  "Subsectors": [],
+  "ParentSectors": []
+}

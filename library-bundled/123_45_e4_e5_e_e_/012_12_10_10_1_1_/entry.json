@@ -1,0 +1,66 @@
+{
+  "CNickelIndex": "123|45|e4|e5|e|e|:012|12|10|10|1|1|",
+  "MassScales": 4,
+  "FunctionClass": "MPL",
+  "EpsilonOrder": "0",
+  "References": [
+    "arXiv:2005.04236 (JHEP 11 (023), 2020)"
+  ],
+  "Records": [
+    {
+      "reference": "arXiv:2005.04236 (JHEP 11 (023), 2020)",
+      "authors": "Parra-Martinez, Julio, Ruf, Michael S., Zeng, Mao",
+      "description": "Two-loop planar double-box (III/RT) topology with two massive matter lines (masses $m_1, m_2$) and three graviton (massless) propagators connecting them, plus two extra propagators $(k_1-q)^2$ and $(k_2-q)^2$ used as ISPs. Scalar integral $I_{RT} = I_{1,1,1,1,1,1,1,0,0}$. After soft expansion (linearized matter propagators) the family has 10 master integrals (vs 23 for the equal-mass full integral) organized into a canonical pure basis $(f_{RT,1..10})$, with even/odd-$|q|$ sectors. Differential equations are in canonical dlog form with alphabet $\\{x, x-1, x+1\\}$. Boundary conditions taken from the static (potential-region) limit; results expanded through $\\mathcal{O}(\\varepsilon^0)$ for the small-$q$ expansion of the full double-box.",
+      "epsOrders": "0",
+      "familyName": "Double-box (RT, III)",
+      "method": "IBP, DE",
+      "tools": [
+        "FIRE",
+        "epsilon",
+        "Fuchsia"
+      ],
+      "ancillaryFiles": true,
+      "doi": "10.1007/JHEP11(2020)023",
+      "texkey": "Parra-Martinez:2020dzs",
+      "masterCount": 10,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "full",
+      "location": "Section 4.2.1, Eqs. (4.30)-(4.32) (eq:TwoLoopPropsFull), Fig. 7 (props_RT). Pure basis: Eqs. (4.39)-(4.48). Crossed version xRT.",
+      "recordId": "bx_5a4360e59c07",
+      "verified": false,
+      "verifiedAt": ""
+    }
+  ],
+  "Names": [
+    "Double-box (RT, III)"
+  ],
+  "Source": [
+    "arXiv"
+  ],
+  "Loops": 2,
+  "NumPropagators": 7,
+  "Results": [],
+  "edges": "{{{1, 2}, 0}, {{1, 3}, m[1]}, {{1, 4}, m[2]}, {{2, 5}, m[1]}, {{2, 6}, m[2]}, {{3, 5}, 0}, {{4, 6}, 0}}",
+  "nodes": "{{3, m[1]}, {4, m[1]}, {6, m[1]}, {5, m[1]}}",
+  "CanonicalName": "2-mass double box, 4 massive propagators (a)",
+  "MassConfig": {
+    "numEdges": 7,
+    "numMassiveEdges": 4,
+    "numMasslessEdges": 3,
+    "distinctInternalMasses": 2,
+    "internalMassLabels": [
+      "m[1]",
+      "m[2]"
+    ],
+    "edgeMassPattern": "0121200",
+    "numExtLegs": 4,
+    "numOnshellMassiveExtLegs": 4,
+    "numMasslessExtLegs": 0,
+    "extLegSignature": "MMMM"
+  },
+  "commonNames": [
+    "L2"
+  ],
+  "Subsectors": [],
+  "ParentSectors": []
+}

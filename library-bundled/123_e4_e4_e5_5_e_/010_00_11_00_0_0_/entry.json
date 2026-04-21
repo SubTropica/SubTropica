@@ -1,0 +1,78 @@
+{
+  "CNickelIndex": "123|e4|e4|e5|5|e|:010|00|11|00|0|0|",
+  "MassScales": 3,
+  "FunctionClass": "MPL",
+  "EpsilonOrder": "",
+  "References": [
+    "arXiv:2112.07578 (JHEP 04 (139), 2022)",
+    "arXiv:2007.09813 (JHEP 11 (045), 2020)",
+    "arXiv:1810.05138 (JHEP 12 (019), 2018)"
+  ],
+  "Records": [
+    {
+      "reference": "arXiv:2007.09813 (JHEP 11 (045), 2020)",
+      "authors": "Bonetti, Marco, Panzer, Erik, Smirnov, Vladimir A., Tancredi, Lorenzo",
+      "description": "Non-planar integral family NP for two-loop mixed QCD-EW corrections to $gg \\to Hg$. Non-planar topology with crossed massive vector-boson propagators ($D_4,D_6$) and massless propagators ($D_1,D_2,D_3,D_5,D_7$). 9 denominators (7 propagators + 2 ISPs: $D_8=(l-p_1)^2-m_V^2$, $D_9=(k-p_1-p_3)^2$). 18 non-planar master integrals. Kinematics: $s=(p_1+p_2)^2$, $t=(p_1+p_3)^2$, $u=(p_2+p_3)^2$, $s+t+u=m_h^2$; $p_1^2=p_2^2=p_3^2=0$, $p_4^2=m_h^2$. Paper label: NP. Defined in Table 1 and eq. (2.4).",
+      "epsOrders": "",
+      "familyName": "2-loop 4-point non-planar with 2 massive vector-boson propagators (gg->Hg QCD-EW)",
+      "method": "DE",
+      "tools": [
+        "QGRAF",
+        "FORM",
+        "Reduze2",
+        "KIRA",
+        "FIRE5",
+        "FiniteFlow",
+        "HyperInt",
+        "GiNaC",
+        "PolyLogTools",
+        "PySecDec",
+        "FIESTA"
+      ],
+      "ancillaryFiles": true,
+      "doi": "10.1007/JHEP11(2020)045",
+      "texkey": "Bonetti:2020hqh",
+      "masterCount": 21,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "full",
+      "location": "Table 1, eq.(2.7)",
+      "recordId": "bx_c8aa19e6671d",
+      "verified": false,
+      "verifiedAt": ""
+    }
+  ],
+  "Names": [
+    "NP (Non-Planar)",
+    "Planar 7-denominator topology"
+  ],
+  "Source": [
+    "arXiv"
+  ],
+  "Loops": 2,
+  "NumPropagators": 7,
+  "Results": [],
+  "edges": "{{{1, 2}, 0}, {{1, 3}, m}, {{1, 4}, 0}, {{2, 5}, 0}, {{3, 5}, m}, {{4, 6}, 0}, {{5, 6}, 0}}",
+  "nodes": "{{2, 0}, {3, m}, {4, 0}, {6, 0}}",
+  "CanonicalName": "Non-planar box-pentagon, 2 massive propagators (d)",
+  "MassConfig": {
+    "numEdges": 7,
+    "numMassiveEdges": 2,
+    "numMasslessEdges": 5,
+    "distinctInternalMasses": 1,
+    "internalMassLabels": [
+      "m"
+    ],
+    "edgeMassPattern": "0100100",
+    "numExtLegs": 4,
+    "numOnshellMassiveExtLegs": 1,
+    "numMasslessExtLegs": 3,
+    "extLegSignature": "0M00"
+  },
+  "commonNames": [
+    "L2"
+  ],
+  "Subsectors": [
+    "123|e24|e|e4|e|:100|100|0|00|0|"
+  ],
+  "ParentSectors": []
+}

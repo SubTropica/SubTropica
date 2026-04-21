@@ -1,0 +1,97 @@
+{
+  "CNickelIndex": "123|45|e4|e6|e|e6|e|:000|00|00|00|0|11|1|",
+  "MassScales": 6,
+  "FunctionClass": "MPL",
+  "EpsilonOrder": "",
+  "References": [
+    "arXiv:2310.09870",
+    "arXiv:2210.17477 (JHEP 01 (156), 2023)"
+  ],
+  "Records": [
+    {
+      "reference": "arXiv:2310.09870",
+      "authors": [
+        {
+          "full_name": "Becchetti, Matteo",
+          "inspire_id": 1647697
+        }
+      ],
+      "description": "Pentagon-box family (called T431 in the paper) for $pp \\to t\\bar{t} j$ at two loops in QCD leading-color planar limit. One internal propagator carries top mass $m_t$. 88 MIs, canonical DEs with 71-letter alphabet, semi-analytic solution via DiffExp. Proceedings contribution summarizing arXiv:2210.17477.",
+      "epsOrders": "",
+      "familyName": "Planar pentagon-box with one internal mass for top pair plus jet production",
+      "method": "IBP, DE, series_expansion",
+      "tools": [
+        "LiteRed",
+        "FiniteFlow",
+        "DiffExp",
+        "AMFlow"
+      ],
+      "ancillaryFiles": false,
+      "doi": "",
+      "texkey": "",
+      "masterCount": 88,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "DE_only",
+      "location": "Eq. (2.1)-(2.3), Fig. 1",
+      "recordId": "bx_5617eb5cd74e",
+      "verified": false,
+      "verifiedAt": ""
+    },
+    {
+      "reference": "arXiv:2210.17477 (JHEP 01 (156), 2023)",
+      "authors": "Badger, Simon, Becchetti, Matteo, Chaubey, Ekta, Marzucca, Robin",
+      "description": "Planar pentagon-box topology for $pp \\to t\\bar{t} j$ at 2 loops. 8 propagators + 3 ISPs. One massive internal edge (top mass). 88 MIs across 52 sectors. Canonical DEs with 71-letter alphabet involving 8 square roots. Solved via DiffExp series expansion with AMFlow boundary values.",
+      "epsOrders": "4",
+      "familyName": "PBttjA (pentagon-box 431)",
+      "method": "IBP, DE, series_expansion",
+      "tools": [
+        "LiteRed",
+        "FiniteFlow",
+        "DiffExp",
+        "AMFlow",
+        "PolyLogTools"
+      ],
+      "ancillaryFiles": true,
+      "doi": "10.1007/JHEP01(2023)156",
+      "texkey": "Badger:2022hno",
+      "masterCount": 88,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "full",
+      "location": "Section 2, Eq. (2.1)-(2.4)",
+      "recordId": "bx_5ed5917879d6",
+      "verified": false,
+      "verifiedAt": ""
+    }
+  ],
+  "Names": [
+    "Planar pentagon-box with one internal mass for top pair plus jet production",
+    "PBttjA (pentagon-box 431)"
+  ],
+  "Source": [
+    "arXiv"
+  ],
+  "Loops": 2,
+  "NumPropagators": 8,
+  "Results": [],
+  "edges": "{{{1, 2}, 0}, {{1, 3}, 0}, {{1, 4}, 0}, {{2, 5}, 0}, {{2, 6}, 0}, {{3, 5}, 0}, {{4, 7}, 0}, {{6, 7}, m}}",
+  "nodes": "{{3, 0}, {4, 0}, {7, m}, {6, m}, {5, 0}}",
+  "CanonicalName": "Box-pentagon, 1 massive propagator (b)",
+  "MassConfig": {
+    "numEdges": 8,
+    "numMassiveEdges": 1,
+    "numMasslessEdges": 7,
+    "distinctInternalMasses": 1,
+    "internalMassLabels": [
+      "m"
+    ],
+    "edgeMassPattern": "00000001",
+    "numExtLegs": 5,
+    "numOnshellMassiveExtLegs": 2,
+    "numMasslessExtLegs": 3,
+    "extLegSignature": "00MM0"
+  },
+  "Subsectors": [
+    "123|45|e4|e5|e|e|:000|00|00|00|0|1|"
+  ],
+  "ParentSectors": []
+}

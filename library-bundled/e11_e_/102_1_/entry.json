@@ -1,0 +1,137 @@
+{
+  "CNickelIndex": "e11|e|:102|1|",
+  "MassScales": 2,
+  "FunctionClass": "MPL",
+  "EpsilonOrder": "0",
+  "References": [
+    "arXiv:0712.1851",
+    "arXiv:2204.12983"
+  ],
+  "Records": [
+    {
+      "reference": "arXiv:2204.12983",
+      "authors": [
+        {
+          "full_name": "Chestnov, Vsevolod",
+          "inspire_id": 1760381
+        },
+        {
+          "full_name": "Gasparotto, Federico",
+          "inspire_id": 1945756
+        },
+        {
+          "full_name": "Mandal, Manoj K.",
+          "inspire_id": 1247611
+        },
+        {
+          "full_name": "Mastrolia, Pierpaolo",
+          "inspire_id": 1025886
+        },
+        {
+          "full_name": "Matsubara-Heo, Saiei J.",
+          "inspire_id": 2016791
+        },
+        {
+          "full_name": "Munch, Henrik J.",
+          "inspire_id": 2000628
+        },
+        {
+          "full_name": "Takayama, Nobuki",
+          "inspire_id": 2072902
+        }
+      ],
+      "description": "One-loop bubble with one massive propagator. Used to demonstrate IBP reduction via matrix factorial recurrence from Pfaffian system. Master integrals $I(4,1,1)$ and $I(4,2,0)$. Result for $I(4,1,2)$ decomposition verified against LiteRed.",
+      "epsOrders": "",
+      "familyName": "one-loop bubble (one mass)",
+      "method": "Macaulay-matrix, Pfaffian-system, matrix-factorial-recurrence",
+      "tools": [
+        "Risa/Asir",
+        "LiteRed"
+      ],
+      "ancillaryFiles": true,
+      "doi": "",
+      "texkey": "",
+      "masterCount": 2,
+      "dimScheme": "",
+      "computationLevel": "full",
+      "location": "Section 6.3, eq. (6.10)-(6.11)",
+      "recordId": "bx_3901b15b3b5a",
+      "verified": false,
+      "verifiedAt": ""
+    }
+  ],
+  "Source": [
+    "arXiv",
+    "QCDLoop"
+  ],
+  "Results": [
+    {
+      "resultCompressed": "1:eJxTTMoPSmNjYGAo5gISwalFmanFLoklicXMQG5qQXEmkGJIYwIpYAESPpnFJZmMICEWmFBATmlxJhNcFSuQCMnMTS3O/A8EaSC1YLN88tOLQQpyc1HE0DTBlMBFA/LLU4sQ9oMsw1CDsA4s5esLsZoFhzyG8Si66OM4CAGyC0wAAAKlYio=",
+      "resultTeX": "\\frac{1}{\\varepsilon}+\\left(\\log \\left(\\frac{m^2}{m^2-M^2}\\right)-m^2 M^{-2} \\log \\left(\\frac{m^2}{m^2-M^2}\\right)-\\log (m^2)+2\\right)+O\\left(\\varepsilon^1\\right)",
+      "dimension": "4 - 2*eps",
+      "epsOrder": "0",
+      "epsOrders": "0",
+      "propExponents": [
+        1,
+        1
+      ],
+      "propagators": [],
+      "numerators": [],
+      "internalMasses": [],
+      "externalMasses": [],
+      "substitutions": "",
+      "rootSubstitutions": "{}",
+      "normalization": "Automatic",
+      "stVersion": "SubTropica v1.0.293",
+      "stCommand": "",
+      "contributor": "Sebastian Mizera",
+      "timestamp": "2026-04-15T15:48:53",
+      "verifiedAt": "2026-04-15T15:48:53",
+      "verified": true,
+      "method": "direct_integration",
+      "tools": [
+        "SubTropica"
+      ],
+      "methodLR": "Lungo",
+      "findRoots": false,
+      "byteCount": 1200
+    }
+  ],
+  "Names": [
+    "Bubble (threshold)",
+    "Bubble",
+    "Self-energy",
+    "B0",
+    "1-loop propagator",
+    "1-mass bubble (4-point)",
+    "Bubble (4-point)"
+  ],
+  "QCDLoopURL": "https://qcdloop.fnal.gov/bub2.pdf",
+  "edges": "{{{1, 2}, 0}, {{1, 2}, m}}",
+  "nodes": "{{1, M}, {2, M}}",
+  "quadruple": "{E^(eps*EulerGamma)*Gamma[eps], (x1 + x2)^(2*(-1 + eps))/(-(x2*(mm*x1 - MM*x1 + mm*x2)))^eps, {x1, x2}, {mm, MM}}",
+  "CanonicalName": "Bubble, 1 massive propagator",
+  "MassConfig": {
+    "numEdges": 2,
+    "numMassiveEdges": 1,
+    "numMasslessEdges": 1,
+    "distinctInternalMasses": 1,
+    "internalMassLabels": [
+      "m"
+    ],
+    "edgeMassPattern": "01",
+    "numExtLegs": 2,
+    "numOnshellMassiveExtLegs": 2,
+    "numMasslessExtLegs": 0,
+    "extLegSignature": "MM"
+  },
+  "commonNames": [
+    "B₀(1×m)",
+    "B"
+  ],
+  "Subsectors": [],
+  "ParentSectors": [
+    "112|e2|e|:012|30|3|",
+    "112|e2|e|:123|40|4|"
+  ]
+}

@@ -1,0 +1,85 @@
+{
+  "CNickelIndex": "123|e24|e|e4|e|:011|011|0|01|0|",
+  "MassScales": 3,
+  "FunctionClass": "elliptic",
+  "EpsilonOrder": "0",
+  "References": [
+    "arXiv:1610.08397 (Nucl.Phys.B 916 (94), 2017)",
+    "arXiv:1701.07356 (JHEP 04 (083), 2017)"
+  ],
+  "Records": [
+    {
+      "reference": "arXiv:1610.08397 (Nucl.Phys.B 916 (94), 2017)",
+      "authors": "Primo, Amedeo, Tancredi, Lorenzo",
+      "description": "Planar double-box with five massive and one massless internal propagator, four external legs (three massless, one massive with $p_4^2=m_h^2$). Four master integrals; in $d=4$ one decouples and the remaining three reduce to a $2\\times 2$ coupled system (since $\\mathrm{Cut}(I_3)=0$). The second-order DE is solved by the maximal cut in terms of complete elliptic integrals $K(\\omega)$ where $\\omega = 16 m^2 \\sqrt{-s t u m_h^2} / [s(m_h^2-t)^2 - 4m^2(m_h^2(s-t)+t(s+t)-2 \\sqrt{-s t u m_h^2})]$.",
+      "epsOrders": "0",
+      "familyName": "elliptic planar double-box",
+      "method": "maximal_cut_homogeneous_DE",
+      "tools": [],
+      "ancillaryFiles": false,
+      "doi": "10.1016/j.nuclphysb.2016.12.021",
+      "texkey": "Primo:2016ebd",
+      "masterCount": 4,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "maximal_cut",
+      "location": "Section 4.2, Eqs. (4.16)-(4.18)",
+      "recordId": "bx_c8371eef451c",
+      "verified": false,
+      "verifiedAt": ""
+    },
+    {
+      "reference": "arXiv:1701.07356 (JHEP 04 (083), 2017)",
+      "authors": "Frellesvig, Hjalte, Papadopoulos, Costas G.",
+      "description": "Two-loop four-point box-triangle of Bonciani et al. (denoted $I^A_{66}$) with five massive propagators forming the box subgraph and one massless rung; one external leg $p_4$ is off-shell ($p_4^2 \\neq 0$), the other three are massless. The hexa-cut is computed in Baikov variables, reduces to a one-fold integral over the square root of a quartic, and evaluates to a complete elliptic integral of the first kind $K$, confirming that the cut is genuinely elliptic. Result valid in the physical region $m^2>0, s>0, p_4^2>0, t<0, u<0$.",
+      "epsOrders": "0",
+      "familyName": "elliptic box-triangle (I^A_66)",
+      "method": "direct_integration",
+      "tools": [],
+      "ancillaryFiles": true,
+      "doi": "10.1007/JHEP04(2017)083",
+      "texkey": "Frellesvig:2017aai",
+      "masterCount": 0,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "maximal_cut",
+      "location": "Appendix A.4 (subs:box-triangle), Eqs. (A.42)-(A.50)",
+      "recordId": "bx_849dfb7612fc",
+      "verified": false,
+      "verifiedAt": ""
+    }
+  ],
+  "Names": [
+    "elliptic planar double-box",
+    "elliptic box-triangle (I^A_66)"
+  ],
+  "Source": [
+    "arXiv"
+  ],
+  "Loops": 2,
+  "NumPropagators": 6,
+  "Results": [],
+  "edges": "{{{1, 2}, 0}, {{1, 3}, m}, {{1, 4}, m}, {{2, 3}, m}, {{2, 5}, m}, {{4, 5}, m}}",
+  "nodes": "{{2, 0}, {3, 0}, {4, 0}, {5, 0}}",
+  "CanonicalName": "Triangle-box, 5 massive propagators (a)",
+  "MassConfig": {
+    "numEdges": 6,
+    "numMassiveEdges": 5,
+    "numMasslessEdges": 1,
+    "distinctInternalMasses": 1,
+    "internalMassLabels": [
+      "m"
+    ],
+    "edgeMassPattern": "011111",
+    "numExtLegs": 4,
+    "numOnshellMassiveExtLegs": 0,
+    "numMasslessExtLegs": 4,
+    "extLegSignature": "0000"
+  },
+  "Subsectors": [
+    "123|e23|e|e|:011|011|0|2|"
+  ],
+  "ParentSectors": [
+    "123|45|e4|e5|e|e|:001|11|01|01|0|0|",
+    "123|45|e4|e5|e|e|:011|11|01|01|0|0|",
+    "123|e4|e4|e5|5|e|:011|00|01|01|1|0|"
+  ]
+}

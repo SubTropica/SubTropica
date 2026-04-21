@@ -1,0 +1,128 @@
+{
+  "CNickelIndex": "123|24|e|45|6|e6|e|:000|00|1|00|0|00|0|",
+  "MassScales": 1,
+  "FunctionClass": "MPL",
+  "EpsilonOrder": "0",
+  "References": [
+    "arXiv:2603.18691"
+  ],
+  "Records": [
+    {
+      "reference": "arXiv:2603.18691",
+      "authors": [
+        {
+          "full_name": "Dhani, Prasanna K.",
+          "inspire_id": 1607975
+        },
+        {
+          "full_name": "Pyretzidis, Konstantinos",
+          "inspire_id": 2938780
+        },
+        {
+          "full_name": "Ramírez-Uribe, Selomit",
+          "inspire_id": 1730297
+        },
+        {
+          "full_name": "Ríos-Sánchez, José",
+          "inspire_id": 2760441
+        },
+        {
+          "full_name": "Sborlini, German F.R.",
+          "inspire_id": 1074173
+        },
+        {
+          "full_name": "Tiwari, Surabhi",
+          "inspire_id": 1935452
+        },
+        {
+          "full_name": "Rodrigo, Germán",
+          "inspire_id": 991497
+        }
+      ],
+      "description": "Three-loop massless ladder triangle with 9 propagators. All-loop-order ladder family. IR-finite via LTD.",
+      "epsOrders": "0",
+      "familyName": "Massless 3-loop ladder triangle (9 propagators)",
+      "method": "direct_integration",
+      "tools": [],
+      "ancillaryFiles": false,
+      "doi": "",
+      "texkey": "",
+      "masterCount": 0,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "numerical",
+      "location": "Section 6, Fig. 3, Table I",
+      "recordId": "bx_3a32436f047b",
+      "verified": false,
+      "verifiedAt": ""
+    }
+  ],
+  "Names": [
+    "Massless 3-loop ladder triangle (9 propagators)"
+  ],
+  "Source": [
+    "arXiv"
+  ],
+  "Loops": 3,
+  "NumPropagators": 9,
+  "Results": [
+    {
+      "resultCompressed": "1:eJyVVb1OwzAQTpqEAmOFxAoSD8DMhEQlGFopKkxMuJJTneSQqg6/A+IZEA/Awnt0YkbiAeAJ2BAq0BTbwQHHTnE6XOXmu+++O3+XrveTXrTgOA5dZmEfjwDTNkoR9dgRDymwLyfyOYCHDtA0avDTIgs9lEJyjAjM2Ac2OVI8C1g4gBhTA9RlB1jjUE+ShuSEwoRRGLObLOwk8ZDgcyEGxK88hFBKEI8iXkHI7yQDget2LWWNeXqgyHrLbGVdVctaVSYTJmd49IPMFXsqvFXACxnNqtlqMpjemZTx/yTgVRm7kGZKy3XaTfGaqY5WFPn3z7ZTfGhVTvHJnz9FK/4tvV9J4ukkeS/FVeyRZCB6/PUuX4ic2ZWhzLE9kSVVDl/nmE80nloTuQpbmeglq0dUqYjfltFlqqMr7mLjfb5VS2vRzyqvznLv4eazhtutemi7Br/WWiMgjuZrY67Jn37wt/H48tT4QjnSK5gnVxCUyjw2yiiTmLsvNl0F5RtQt8UGLgkx5GIXxTESdY0mcz4kLac7xCkS1WHK/3QKa34D94hgKA==",
+      "resultTeX": "-\\frac{1}{48 \\varepsilon^3}+\\frac{2 \\log \\left(M^2\\right)+2 i \\pi -7}{32 \\varepsilon^2}+\\frac{-18 \\log ^2\\left(M^2\\right)+18 (7-2 i \\pi ) \\log \\left(M^2\\right)+23 \\pi ^2+126 i \\pi -267}{192 \\varepsilon}+(\\text{more terms})+O\\left(\\varepsilon^1\\right)",
+      "dimension": "6 - 2*eps",
+      "epsOrder": 0,
+      "propExponents": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "propagators": [],
+      "numerators": [],
+      "internalMasses": [],
+      "externalMasses": [],
+      "substitutions": "{}",
+      "normalization": "Automatic",
+      "stVersion": "SubTropica v1.0.389",
+      "stCommand": "STIntegrate[{{{{1, 4}, 0}, {{1, 5}, 0}, {{4, 6}, 0}, {{5, 7}, 0}, {{2, 6}, 0}, {{3, 7}, 0}, {{2, 3}, 0}, {{6, 7}, 0}, {{4, 5}, 0}}, {{1, M}, {2, 0}, {3, 0}}}, Dimension -> \"6 - 2*eps\", Order -> 0]",
+      "contributor": "SM",
+      "timestamp": "2026-04-20T18:12:44",
+      "byteCount": 5568,
+      "symbolTeX": "\\begin{aligned}\\varepsilon^{-2}&\\colon\\;\\frac{1}{16}\\,(M^2) \\\\ \\varepsilon^{-1}&\\colon\\;\\frac{21}{32}\\,(M^2) - \\frac{3}{16}\\,(M^2 \\otimes M^2) \\\\ \\varepsilon^{0}&\\colon\\;\\frac{267}{64}\\,(M^2) - \\frac{63}{32}\\,(M^2 \\otimes M^2) + \\frac{9}{16}\\,(M^2 \\otimes M^2 \\otimes M^2)\\end{aligned}",
+      "alphabet": [
+        "M^2"
+      ],
+      "symbolWeight": 3,
+      "symbolTerms": 6,
+      "legOrder": [
+        1,
+        2,
+        3
+      ]
+    }
+  ],
+  "edges": "{{{1, 2}, 0}, {{1, 3}, 0}, {{1, 4}, 0}, {{2, 3}, 0}, {{2, 5}, 0}, {{4, 5}, 0}, {{4, 6}, 0}, {{5, 7}, 0}, {{6, 7}, 0}}",
+  "nodes": "{{3, M}, {6, 0}, {7, 0}}",
+  "CanonicalName": "1-mass non-planar triangle-pentagon-box",
+  "MassConfig": {
+    "numEdges": 9,
+    "numMassiveEdges": 0,
+    "numMasslessEdges": 9,
+    "distinctInternalMasses": 0,
+    "internalMassLabels": [],
+    "edgeMassPattern": "000000000",
+    "numExtLegs": 3,
+    "numOnshellMassiveExtLegs": 1,
+    "numMasslessExtLegs": 2,
+    "extLegSignature": "M00"
+  },
+  "Subsectors": [],
+  "ParentSectors": [
+    "123|45|46|e5|7|e|e7|e|:000|00|00|00|0|0|00|0|",
+    "123|45|46|e5|7|e|e7|e|:000|00|00|00|0|0|00|1|"
+  ]
+}

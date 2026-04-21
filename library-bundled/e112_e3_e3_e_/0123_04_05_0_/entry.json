@@ -1,0 +1,81 @@
+{
+  "CNickelIndex": "e112|e3|e3|e|:0123|04|05|0|",
+  "MassScales": 7,
+  "FunctionClass": "elliptic",
+  "EpsilonOrder": "",
+  "References": [
+    "arXiv:2302.14840"
+  ],
+  "Records": [
+    {
+      "reference": "arXiv:2302.14840",
+      "authors": [
+        {
+          "full_name": "Doran, Charles F.",
+          "inspire_id": 1011530
+        },
+        {
+          "full_name": "Harder, Andrew",
+          "inspire_id": 2276840
+        },
+        {
+          "full_name": "Vanhove, Pierre",
+          "inspire_id": 984979
+        },
+        {
+          "full_name": "Pichon-Pharabod, Eric",
+          "inspire_id": 2637284
+        }
+      ],
+      "description": "The observatory graph $(3,1,1)$: 4 vertices, 5 edges, $L=2$, 4 external legs. Two trivalent vertices joined by a chain of 3 edges and by two single edges (a double edge). Graph polynomials in eq:UVF311. Proposition p:X: for $D \\geq 4$, $\\mathrm{Gr}^W_3 H^3(X_{(3,1,1);D};\\mathbb{Q}) = H^1(E)$ for an elliptic curve depending on kinematics; for $D \\leq 2$ the cohomology is mixed Tate. In $D=4$ the differential form lives on the complement of $U \\cup F$; $H^3$ of the reducible hypersurface also has an elliptic-curve contribution. The order-4 Picard-Fuchs operator factors as $L_2 L_1^a L_1^b$ with the order-2 factor elliptic.",
+      "epsOrders": "",
+      "familyName": "two-loop observatory graph (3,1,1)",
+      "method": "graph hypersurface, quadric fibration, blowup, mixed Hodge structure, Picard-Fuchs, Griffiths-Dwork",
+      "tools": [
+        "SageMath"
+      ],
+      "ancillaryFiles": true,
+      "doi": "",
+      "texkey": "",
+      "masterCount": 0,
+      "dimScheme": "d=4",
+      "computationLevel": "basis",
+      "location": "Section sec:Motive311 (Propositions p:X, p:Y, p:Z, p:observatory); Figure fig:observatory; eq. eq:UVF311",
+      "recordId": "bx_6456f39dbd55",
+      "verified": false,
+      "verifiedAt": ""
+    }
+  ],
+  "Names": [
+    "two-loop observatory graph (3,1,1)"
+  ],
+  "Source": [
+    "arXiv"
+  ],
+  "Loops": 2,
+  "NumPropagators": 5,
+  "Results": [],
+  "edges": "{{{1, 2}, m[1]}, {{1, 2}, m[2]}, {{1, 3}, m[3]}, {{2, 4}, m[4]}, {{3, 4}, m[5]}}",
+  "nodes": "{{1, 0}, {2, 0}, {4, 0}, {3, 0}}",
+  "CanonicalName": "5-mass bubble-box",
+  "MassConfig": {
+    "numEdges": 5,
+    "numMassiveEdges": 5,
+    "numMasslessEdges": 0,
+    "distinctInternalMasses": 5,
+    "internalMassLabels": [
+      "m[1]",
+      "m[2]",
+      "m[3]",
+      "m[4]",
+      "m[5]"
+    ],
+    "edgeMassPattern": "12345",
+    "numExtLegs": 4,
+    "numOnshellMassiveExtLegs": 0,
+    "numMasslessExtLegs": 4,
+    "extLegSignature": "0000"
+  },
+  "Subsectors": [],
+  "ParentSectors": []
+}

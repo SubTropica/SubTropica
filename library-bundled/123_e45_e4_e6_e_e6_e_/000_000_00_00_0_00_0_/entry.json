@@ -1,0 +1,88 @@
+{
+  "CNickelIndex": "123|e45|e4|e6|e|e6|e|:000|000|00|00|0|00|0|",
+  "MassScales": 9,
+  "FunctionClass": "MPL",
+  "EpsilonOrder": "0",
+  "References": [
+    "arXiv:2602.02783"
+  ],
+  "Records": [
+    {
+      "reference": "arXiv:2602.02783",
+      "authors": [
+        {
+          "full_name": "Carrôlo, Sérgio",
+          "inspire_id": 2107182
+        },
+        {
+          "full_name": "Chicherin, Dmitry",
+          "inspire_id": 1259630
+        },
+        {
+          "full_name": "Henn, Johannes",
+          "inspire_id": 1040053
+        },
+        {
+          "full_name": "Yang, Qinglin",
+          "inspire_id": 1849879
+        },
+        {
+          "full_name": "Zhang, Yang",
+          "inspire_id": 1062340
+        }
+      ],
+      "description": "Prescriptive-unitarity penta-box integral for two-loop six-gluon planar massless QCD amplitudes: a one-loop pentagon glued to a one-loop box along a shared internal edge, with numerator $n_{pb}=-[[j,b,c,l]][[k,f,g,a]]+1/2[[j,b,c,l,k,f,g,a]]$ (Eq. (eq:Ipb)). Called '$I_{n,jkl}^{pb}$' in the paper. Eight massless propagators, six massless external legs, one integral per $(j,k,l)$ label giving three independent penta-boxes up to dihedral symmetry. Provides the two-loop leading-singularity prefactor $R_{pb}=PT \\cdot R^{pb,(2)}$. The penta-box cut is one of the five two-loop contours used in prescriptive unitarity. Reduced via FIRE7/KIRA3 to the Henn:2025xrc double-pentagon UT basis; contributes to both pure-YM and $N_f$-dependent hard functions through weight four. Matches integral I.22 of Bourjaily:2019iqr.",
+      "epsOrders": "0",
+      "familyName": "massless 2-loop 6-point penta-box",
+      "method": "unitarity, IBP, DE",
+      "tools": [
+        "FIRE",
+        "Kira",
+        "FiniteFlow"
+      ],
+      "ancillaryFiles": false,
+      "doi": "",
+      "texkey": "",
+      "masterCount": 0,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "full",
+      "location": "Section 7, Eq. (eq:Ipb); Fig. fig:six-points; IBP reduction in Appendix sec: IBP reduction",
+      "recordId": "bx_37aab4f13825",
+      "verified": false,
+      "verifiedAt": ""
+    }
+  ],
+  "Names": [
+    "massless 2-loop 6-point penta-box"
+  ],
+  "Source": [
+    "arXiv"
+  ],
+  "Loops": 2,
+  "NumPropagators": 8,
+  "Results": [],
+  "edges": "{{{1, 2}, 0}, {{1, 3}, 0}, {{1, 4}, 0}, {{2, 5}, 0}, {{2, 6}, 0}, {{3, 5}, 0}, {{4, 7}, 0}, {{6, 7}, 0}}",
+  "nodes": "{{2, 0}, {5, 0}, {3, 0}, {4, 0}, {7, 0}, {6, 0}}",
+  "CanonicalName": "Massless box-pentagon",
+  "MassConfig": {
+    "numEdges": 8,
+    "numMassiveEdges": 0,
+    "numMasslessEdges": 8,
+    "distinctInternalMasses": 0,
+    "internalMassLabels": [],
+    "edgeMassPattern": "00000000",
+    "numExtLegs": 6,
+    "numOnshellMassiveExtLegs": 0,
+    "numMasslessExtLegs": 6,
+    "extLegSignature": "000000"
+  },
+  "Subsectors": [
+    "123|e45|e4|e5|e|e|:000|000|00|10|0|0|",
+    "123|e45|e4|e5|e|e|:000|100|00|00|0|0|",
+    "e123|e24|e|e5|e5|e|:0000|000|0|00|00|0|",
+    "e123|e45|e4|e5|e|e|:0000|000|00|00|0|0|"
+  ],
+  "ParentSectors": [
+    "123|45|e4|e6|e|e7|e7|e|:000|00|00|00|0|00|00|0|"
+  ]
+}

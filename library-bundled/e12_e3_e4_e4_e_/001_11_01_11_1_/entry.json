@@ -1,0 +1,63 @@
+{
+  "CNickelIndex": "e12|e3|e4|e4|e|:001|11|01|11|1|",
+  "MassScales": 6,
+  "FunctionClass": "MPL",
+  "EpsilonOrder": "-2,-1,0",
+  "References": [
+    "arXiv:2112.09145"
+  ],
+  "Records": [
+    {
+      "dimScheme": "d=4-2*eps",
+      "recordId": "bf_84b1074834e5",
+      "familyName": "pentagon1L",
+      "verified": false,
+      "verifiedAt": "",
+      "authors": "Winterhalder, R., Magerya, V., Villa, E., Jones, S.P., Kerner, M., Butter, A., Heinrich, G., Plehn, T.",
+      "computationLevel": "numerical",
+      "texkey": "",
+      "masterCount": 0,
+      "location": "Figure 1 (top left), Section 2",
+      "method": [],
+      "reference": "arXiv:2112.09145",
+      "ancillaryFiles": [],
+      "description": "One-loop massive pentagon integral occurring in $t\\bar{t}V$ or $t\\bar{t}H$ production. Five propagators: four massive (mass $m$, top quark) and one massless. Five external legs: $p_1, p_2$ massless; $p_3, p_4$ on-shell with mass $m$; $p_5$ off-shell with invariant mass $M$. Depends on four independent Mandelstam invariants plus $m^2$ and $M^2$. Has 4 independent Feynman parameters. Used as benchmark for neural network contour deformation optimization in pySecDec.",
+      "epsOrders": "-2,-1,0",
+      "tools": [
+        "pySecDec"
+      ],
+      "doi": ""
+    }
+  ],
+  "Names": [
+    "pentagon1L"
+  ],
+  "Source": [
+    "arXiv"
+  ],
+  "Loops": 1,
+  "NumPropagators": 5,
+  "Results": [],
+  "edges": "{{{1, 2}, 0}, {{1, 3}, m}, {{2, 4}, m}, {{3, 5}, m}, {{4, 5}, m}}",
+  "nodes": "{{1, 0}, {2, m}, {4, m}, {5, m}, {3, 0}}",
+  "CanonicalName": "Pentagon, 4 massive propagators (b)",
+  "MassConfig": {
+    "numEdges": 5,
+    "numMassiveEdges": 4,
+    "numMasslessEdges": 1,
+    "distinctInternalMasses": 1,
+    "internalMassLabels": [
+      "m"
+    ],
+    "edgeMassPattern": "01111",
+    "numExtLegs": 5,
+    "numOnshellMassiveExtLegs": 3,
+    "numMasslessExtLegs": 2,
+    "extLegSignature": "0MMM0"
+  },
+  "commonNames": [
+    "E₀(4×m)"
+  ],
+  "Subsectors": [],
+  "ParentSectors": []
+}

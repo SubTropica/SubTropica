@@ -1,0 +1,60 @@
+{
+  "CNickelIndex": "123|e24|e|e4|e|:011|011|2|01|0|",
+  "MassScales": 4,
+  "FunctionClass": "elliptic",
+  "EpsilonOrder": "-4,-3,-2,-1,0",
+  "References": [
+    "arXiv:2112.09145"
+  ],
+  "Records": [
+    {
+      "authors": "Winterhalder, R., Magerya, V., Villa, E., Jones, S.P., Kerner, M., Butter, A., Heinrich, G., Plehn, T.",
+      "texkey": "",
+      "verified": false,
+      "verifiedAt": "",
+      "reference": "arXiv:2112.09145",
+      "ancillaryFiles": [],
+      "recordId": "bf_de874609c565",
+      "masterCount": 0,
+      "computationLevel": "numerical",
+      "doi": "",
+      "tools": [
+        "pySecDec"
+      ],
+      "description": "Two-loop four-point function occurring in Higgs+jet production via gluon fusion at two loops, with an elliptic sub-sector. Six propagators: five massive (mass $m$, top quark) and one massless. Four external legs: $p_1, p_2, p_3$ massless (gluons/jet); $p_4$ off-shell (Higgs, $p_4^2=m_H^2$). Has 5 Feynman parameters and depends on four kinematic invariants ($s, t, m^2, p_4^2$). Analytic results contain elliptic functions. Matches pySecDec example elliptic2L_physical. Used as benchmark for neural network contour deformation optimization.",
+      "epsOrders": "-4,-3,-2,-1,0",
+      "method": [],
+      "dimScheme": "d=4-2*eps",
+      "location": "Figure 1 (bottom right), Section 2",
+      "familyName": "elliptic2L"
+    }
+  ],
+  "Names": [
+    "elliptic2L"
+  ],
+  "Source": [
+    "arXiv"
+  ],
+  "Loops": 2,
+  "NumPropagators": 6,
+  "Results": [],
+  "edges": "{{{1, 2}, 0}, {{1, 3}, m}, {{1, 4}, m}, {{2, 3}, m}, {{2, 5}, m}, {{4, 5}, m}}",
+  "nodes": "{{2, 0}, {3, M}, {4, 0}, {5, 0}}",
+  "CanonicalName": "Triangle-box, 5 massive propagators (c)",
+  "MassConfig": {
+    "numEdges": 6,
+    "numMassiveEdges": 5,
+    "numMasslessEdges": 1,
+    "distinctInternalMasses": 1,
+    "internalMassLabels": [
+      "m"
+    ],
+    "edgeMassPattern": "011111",
+    "numExtLegs": 4,
+    "numOnshellMassiveExtLegs": 1,
+    "numMasslessExtLegs": 3,
+    "extLegSignature": "0M00"
+  },
+  "Subsectors": [],
+  "ParentSectors": []
+}

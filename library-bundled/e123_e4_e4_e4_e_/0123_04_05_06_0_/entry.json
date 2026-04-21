@@ -1,0 +1,104 @@
+{
+  "CNickelIndex": "e123|e4|e4|e4|e|:0123|04|05|06|0|",
+  "MassScales": 11,
+  "FunctionClass": "Calabi-Yau",
+  "EpsilonOrder": "",
+  "References": [
+    "arXiv:2209.10962 (Lett.Math.Phys. 113 (37), 2023)",
+    "arXiv:2302.14840"
+  ],
+  "Records": [
+    {
+      "reference": "arXiv:2209.10962 (Lett.Math.Phys. 113 (37), 2023)",
+      "authors": "Lairez, Pierre, Vanhove, Pierre",
+      "description": "Two-loop tardigrade (5-point, non-planar) in $D=4$ with 6 generic masses. Picard-Fuchs operator is order 11 (irreducible) for fully generic masses and kinematics, suggesting K3 surface with Picard number 11. Order 6 for symmetric kinematics.",
+      "epsOrders": "",
+      "familyName": "tardigrade 5-point",
+      "method": "DE",
+      "tools": [],
+      "ancillaryFiles": true,
+      "doi": "10.1007/s11005-023-01661-3",
+      "texkey": "Lairez:2022zkj",
+      "masterCount": 0,
+      "dimScheme": "d=4",
+      "computationLevel": "DE_only",
+      "location": "Section 5.2",
+      "recordId": "bx_778b2ad3ced9",
+      "verified": false,
+      "verifiedAt": ""
+    },
+    {
+      "reference": "arXiv:2302.14840",
+      "authors": [
+        {
+          "full_name": "Doran, Charles F.",
+          "inspire_id": 1011530
+        },
+        {
+          "full_name": "Harder, Andrew",
+          "inspire_id": 2276840
+        },
+        {
+          "full_name": "Vanhove, Pierre",
+          "inspire_id": 984979
+        },
+        {
+          "full_name": "Pichon-Pharabod, Eric",
+          "inspire_id": 2637284
+        }
+      ],
+      "description": "The non-planar tardigrade graph $(2,2,2)$: 5 vertices, 6 edges, $L=2$, 5 external legs. Two trivalent vertices joined by three chains of length 2. Symanzik polynomials in eq. e:tardigrade. Theorem t:tardigrade: for generic parameters and $D\\ge 2$ there is a quartic K3 surface $S$ with six $A_1$ singularities such that $\\mathrm{Gr}^W_4 H^4(X_{(2,2,2);D};\\mathbb{Q}) = H^2(S;\\mathbb{Q})(-1)$ up to mixed Tate factors. This is the smallest two-loop example whose motive is not in $\\mathrm{MHS}^{\\mathrm{hyp}}$. The Picard-Fuchs operator of the canonical differential form has the same K3 singular locus as the operator computed from the derived quartic $G_{(2,2,2)}(t)$; the two operators differ by the explicit scaling $\\sqrt{(p^2 t - (m_1+m_2)^2)(p^2 t - (m_1-m_2)^2)}$. The appendix by Pichon-Pharabod determines the Picard rank of the K3 surface to be 11 and computes its Neron-Severi lattice using certified numerical period integration.",
+      "epsOrders": "",
+      "familyName": "non-planar two-loop tardigrade (2,2,2)",
+      "method": "graph hypersurface, quadric fibration, blowup, mixed Hodge structure, K3 surface, Picard-Fuchs, Griffiths-Dwork",
+      "tools": [
+        "SageMath",
+        "numerical period integrator"
+      ],
+      "ancillaryFiles": true,
+      "doi": "",
+      "texkey": "",
+      "masterCount": 0,
+      "dimScheme": "d=4",
+      "computationLevel": "basis",
+      "location": "Section sec:tardigrade (Theorem t:tardigrade); Figure fig:tardigrade; eq. e:tardigrade; Appendix by Pichon-Pharabod",
+      "recordId": "bx_fb2de18f1e93",
+      "verified": false,
+      "verifiedAt": ""
+    }
+  ],
+  "Names": [
+    "tardigrade 5-point",
+    "non-planar two-loop tardigrade (2,2,2)"
+  ],
+  "Source": [
+    "arXiv"
+  ],
+  "Loops": 2,
+  "NumPropagators": 6,
+  "Results": [],
+  "edges": "{{{1, 2}, m[1]}, {{1, 3}, m[2]}, {{1, 4}, m[3]}, {{2, 5}, m[4]}, {{3, 5}, m[5]}, {{4, 5}, m[6]}}",
+  "nodes": "{{1, 0}, {2, 0}, {3, 0}, {4, 0}, {5, 0}}",
+  "CanonicalName": "6-mass non-planar double box",
+  "MassConfig": {
+    "numEdges": 6,
+    "numMassiveEdges": 6,
+    "numMasslessEdges": 0,
+    "distinctInternalMasses": 6,
+    "internalMassLabels": [
+      "m[1]",
+      "m[2]",
+      "m[3]",
+      "m[4]",
+      "m[5]",
+      "m[6]"
+    ],
+    "edgeMassPattern": "123456",
+    "numExtLegs": 5,
+    "numOnshellMassiveExtLegs": 0,
+    "numMasslessExtLegs": 5,
+    "extLegSignature": "00000"
+  },
+  "Subsectors": [],
+  "ParentSectors": []
+}

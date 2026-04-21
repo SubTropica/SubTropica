@@ -1,0 +1,63 @@
+{
+  "CNickelIndex": "123|23|e3|e|:111|11|21|2|",
+  "MassScales": 1,
+  "FunctionClass": "unknown",
+  "EpsilonOrder": "1",
+  "References": [
+    "arXiv:2408.06551"
+  ],
+  "Records": [
+    {
+      "reference": "arXiv:2408.06551",
+      "authors": "de Doncker, E., Yuasa, F., Ishikawa, T., Kato, K.",
+      "description": "3-loop self-energy (baseball) diagram with complete graph $K_4$ topology and 6 equal-mass internal lines. Laurent expansion coefficients computed numerically via sector decomposition with linear extrapolation in epsilon.",
+      "epsOrders": "1",
+      "familyName": "all-massive 3-loop 2-point baseball (K4 graph)",
+      "method": "sector_decomposition",
+      "tools": [
+        "pySecDec"
+      ],
+      "ancillaryFiles": false,
+      "doi": "",
+      "texkey": "deDoncker:2024qzc",
+      "masterCount": 0,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "numerical",
+      "location": "Eq. (2)-(3), Section 2",
+      "recordId": "bx_f72e8d6da96e",
+      "verified": false,
+      "verifiedAt": ""
+    }
+  ],
+  "Names": [
+    "all-massive 3-loop 2-point baseball (K4 graph)"
+  ],
+  "Source": [
+    "arXiv"
+  ],
+  "Loops": 3,
+  "NumPropagators": 6,
+  "Results": [],
+  "edges": "{{{1, 2}, m}, {{1, 3}, m}, {{1, 4}, m}, {{2, 3}, m}, {{2, 4}, m}, {{3, 4}, m}}",
+  "nodes": "{{3, M}, {4, M}}",
+  "CanonicalName": "Equal-mass envelope",
+  "MassConfig": {
+    "numEdges": 6,
+    "numMassiveEdges": 6,
+    "numMasslessEdges": 0,
+    "distinctInternalMasses": 1,
+    "internalMassLabels": [
+      "m"
+    ],
+    "edgeMassPattern": "111111",
+    "numExtLegs": 2,
+    "numOnshellMassiveExtLegs": 2,
+    "numMasslessExtLegs": 0,
+    "extLegSignature": "MM"
+  },
+  "commonNames": [
+    "K₄"
+  ],
+  "Subsectors": [],
+  "ParentSectors": []
+}

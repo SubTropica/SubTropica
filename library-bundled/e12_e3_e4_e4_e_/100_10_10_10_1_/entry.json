@@ -1,0 +1,57 @@
+{
+  "CNickelIndex": "e12|e3|e4|e4|e|:100|10|10|10|1|",
+  "MassScales": 6,
+  "FunctionClass": "hypergeometric",
+  "EpsilonOrder": "all_orders",
+  "References": [
+    "arXiv:2502.12127 (JHEP 09 (118), 2025)"
+  ],
+  "Records": [
+    {
+      "reference": "arXiv:2502.12127 (JHEP 09 (118), 2025)",
+      "authors": "Alkalaev, Konstantin, Mandrygin, Semyon",
+      "description": "Parametric one-loop five-point conformal integral in $D$ dimensions with arbitrary propagator powers $a_1,...,a_5$, sum equal to $D$. Reconstructed as a $\\mathbb{Z}_5$-invariant sum of ten basis functions generated from two master functions by the cyclic group action (Eq. 7.30). The master functions are identified from the analytic continuation of the computable part of the bipartite Mellin-Barnes representation and involve multivariate generalized hypergeometric series (Appell $F_1$ / Lauricella $F_D$ type). Two consistency checks: setting one propagator power to zero reduces to the box (Eq. 7.32-7.35), and the non-parametric limit $a_i=1$, $D=5$ reproduces the Nandan-Paulos-Spradlin-Volovich pentagon formula in terms of logarithms (Appendix D.2).",
+      "epsOrders": "all_orders",
+      "familyName": "parametric 1-loop 5-point conformal integral (pentagon, generic propagator powers)",
+      "method": "Mellin-Barnes, direct_integration",
+      "tools": [],
+      "ancillaryFiles": false,
+      "doi": "10.1007/JHEP09(2025)118",
+      "texkey": "Alkalaev:2025fgn",
+      "masterCount": 0,
+      "dimScheme": "d=D",
+      "computationLevel": "full",
+      "location": "Section 7 (sec:penta), Eqs. (7.1)-(7.37); explicit basis functions in Appendix D",
+      "recordId": "bx_a23f3977bed9",
+      "verified": false,
+      "verifiedAt": ""
+    }
+  ],
+  "Names": [],
+  "Source": [
+    "arXiv"
+  ],
+  "Loops": 1,
+  "NumPropagators": 5,
+  "Results": [],
+  "edges": "{{{1, 2}, 0}, {{1, 3}, 0}, {{2, 4}, 0}, {{3, 5}, 0}, {{4, 5}, 0}}",
+  "nodes": "{{1, M}, {2, M}, {4, M}, {5, M}, {3, M}}",
+  "CanonicalName": "5-mass pentagon (b)",
+  "MassConfig": {
+    "numEdges": 5,
+    "numMassiveEdges": 0,
+    "numMasslessEdges": 5,
+    "distinctInternalMasses": 0,
+    "internalMassLabels": [],
+    "edgeMassPattern": "00000",
+    "numExtLegs": 5,
+    "numOnshellMassiveExtLegs": 5,
+    "numMasslessExtLegs": 0,
+    "extLegSignature": "MMMMM"
+  },
+  "commonNames": [
+    "E₀"
+  ],
+  "Subsectors": [],
+  "ParentSectors": []
+}

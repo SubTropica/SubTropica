@@ -1,0 +1,68 @@
+{
+  "CNickelIndex": "1111||:1112||",
+  "MassScales": 2,
+  "FunctionClass": "elliptic",
+  "EpsilonOrder": "",
+  "References": [
+    "arXiv:2407.21700 (PoS LL2024 (008), 2024)"
+  ],
+  "Records": [
+    {
+      "reference": "arXiv:2407.21700 (PoS LL2024 (008), 2024)",
+      "authors": "Abreu, Samuel, Behring, Arnd, McLeod, Andrew J., Page, Ben",
+      "description": "Called $I_1^{(3)}$ in the paper. 3-loop banana tadpole with 3 $m_b$ and 1 $m_t$ propagators. Maximal cut yields the on-shell sunrise elliptic integral. Contributes to electroweak rho parameter at $\\mathcal{O}(\\alpha_s^2)$.",
+      "epsOrders": "",
+      "familyName": "2-mass 3-loop banana vacuum integral (rho parameter)",
+      "method": "IBP, DE",
+      "tools": [
+        "FORM",
+        "Reduze",
+        "AMFlow"
+      ],
+      "ancillaryFiles": false,
+      "doi": "10.22323/1.467.0008",
+      "texkey": "Abreu:2024jde",
+      "masterCount": 0,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "maximal_cut",
+      "location": "Fig. 2(a)",
+      "recordId": "bx_7df452273b67",
+      "verified": false,
+      "verifiedAt": ""
+    }
+  ],
+  "Names": [
+    "2-mass 3-loop banana vacuum integral (rho parameter)"
+  ],
+  "Source": [
+    "arXiv"
+  ],
+  "Loops": 3,
+  "NumPropagators": 4,
+  "Results": [],
+  "edges": "{{{1, 2}, m[1]}, {{1, 2}, m[1]}, {{1, 2}, m[1]}, {{1, 2}, m[2]}}",
+  "nodes": "{}",
+  "CanonicalName": "2-mass triple bubble",
+  "MassConfig": {
+    "numEdges": 4,
+    "numMassiveEdges": 4,
+    "numMasslessEdges": 0,
+    "distinctInternalMasses": 2,
+    "internalMassLabels": [
+      "m[1]",
+      "m[2]"
+    ],
+    "edgeMassPattern": "1112",
+    "numExtLegs": 0,
+    "numOnshellMassiveExtLegs": 0,
+    "numMasslessExtLegs": 0,
+    "extLegSignature": ""
+  },
+  "Subsectors": [],
+  "ParentSectors": [
+    "11122|2||:11101|2||",
+    "11122|2||:11202|1||",
+    "1122|22||:1112|12||",
+    "1122|22||:1112|22||"
+  ]
+}

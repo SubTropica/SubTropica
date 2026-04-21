@@ -1,0 +1,66 @@
+{
+  "CNickelIndex": "123|e4|e4|e5|5|e|:012|21|20|20|2|2|",
+  "MassScales": 4,
+  "FunctionClass": "MPL",
+  "EpsilonOrder": "0",
+  "References": [
+    "arXiv:2005.04236 (JHEP 11 (023), 2020)"
+  ],
+  "Records": [
+    {
+      "reference": "arXiv:2005.04236 (JHEP 11 (023), 2020)",
+      "authors": "Parra-Martinez, Julio, Ruf, Michael S., Zeng, Mao",
+      "description": "Two-loop non-planar double-box (IX/XB) topology with two massive matter lines ($m_1$ top, $m_2$ bottom) connected by three gravitons in a non-planar (crossed-rungs) configuration. Scalar integral $I_{IX} = I_{1,1,1,1,1,1,1,0,0}$ in the family of Eq. (4.99). After soft expansion the family has 15 master integrals (split even/odd in $|q|$), organized into a canonical pure basis $f_{IX,1..15}$. Canonical DE in dlog form with alphabet $\\{x, x-1, x+1\\}$; the differential equations and pure-basis structure parallel those of the planar RT family. The crossed xIX integral is identical to XI and obtained by crossing.",
+      "epsOrders": "0",
+      "familyName": "Non-planar double-box (IX)",
+      "method": "IBP, DE",
+      "tools": [
+        "FIRE",
+        "epsilon",
+        "Fuchsia"
+      ],
+      "ancillaryFiles": true,
+      "doi": "10.1007/JHEP11(2020)023",
+      "texkey": "Parra-Martinez:2020dzs",
+      "masterCount": 15,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "full",
+      "location": "Section 4.2.3, Eq. (4.99) (eq:XBPropsFull), Fig. 12 (props_XB). Pure basis: Eqs. (4.103)-(4.117). Crossed version xIX.",
+      "recordId": "bx_03e28ac71931",
+      "verified": false,
+      "verifiedAt": ""
+    }
+  ],
+  "Names": [
+    "Non-planar double-box (IX)"
+  ],
+  "Source": [
+    "arXiv"
+  ],
+  "Loops": 2,
+  "NumPropagators": 7,
+  "Results": [],
+  "edges": "{{{1, 2}, 0}, {{1, 3}, m[1]}, {{1, 4}, m[2]}, {{2, 5}, m[1]}, {{3, 5}, 0}, {{4, 6}, 0}, {{5, 6}, m[2]}}",
+  "nodes": "{{2, m[2]}, {3, m[2]}, {4, m[2]}, {6, m[2]}}",
+  "CanonicalName": "2-mass non-planar box-pentagon, 4 massive propagators (b)",
+  "MassConfig": {
+    "numEdges": 7,
+    "numMassiveEdges": 4,
+    "numMasslessEdges": 3,
+    "distinctInternalMasses": 2,
+    "internalMassLabels": [
+      "m[1]",
+      "m[2]"
+    ],
+    "edgeMassPattern": "0121002",
+    "numExtLegs": 4,
+    "numOnshellMassiveExtLegs": 4,
+    "numMasslessExtLegs": 0,
+    "extLegSignature": "MMMM"
+  },
+  "commonNames": [
+    "L2"
+  ],
+  "Subsectors": [],
+  "ParentSectors": []
+}

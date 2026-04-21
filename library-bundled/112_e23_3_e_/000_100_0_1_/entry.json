@@ -1,0 +1,106 @@
+{
+  "CNickelIndex": "112|e23|3|e|:000|100|0|1|",
+  "MassScales": 1,
+  "FunctionClass": "MPL",
+  "EpsilonOrder": "-3,-2,-1,0,1,2",
+  "References": [
+    "arXiv:1705.06483 (doi: 10.1103/PhysRevD.96.036016)"
+  ],
+  "Records": [
+    {
+      "epsOrders": "-3,-2,-1,0,1,2",
+      "reference": "arXiv:1705.06483 (doi: 10.1103/PhysRevD.96.036016)",
+      "authors": "Mikhail V. Kompaniets and Erik Panzer",
+      "description": "massless propagator computed for the $\\varphi^4$ 6-loop calculation available from the ancillary files p_int_g4.mpl (Maple) and p_int_g4.m (Mathematica) of the arXiv submission results are rational linear combinations of multiple zeta values",
+      "recordId": "1504717745.vkb1",
+      "verified": false,
+      "verifiedAt": ""
+    }
+  ],
+  "Source": [
+    "arXiv",
+    "Loopedia"
+  ],
+  "Results": [
+    {
+      "resultCompressed": "1:eJyVVEtOwzAQTRooH5FDILHgBCDWVKKLVooKK8TGlZxqJAdXdfiegxOw5ghcAM7Dgk0b/CFuEo/TNIuJxva8mXnz7OMpn6T9IAjEoTTXdAFUDEhORCRdOhcgf0G6ow4oMwKRpz3l7UszITnwe8IglA4oFLO3K80NZFQYd0+aS57NGX02cC5AIT9Qy2lUpkrYgyce9Bm1lUCnhBo+VUXqtkZ8pqPHYzTa7WyoCutXC4O3Xsdm4XNVFHix8KXKsmsJf6KL/5MVLjbhM8voFqxt5gLOauPUxWFhptJG7E+N7+z1ETvVynZcY/su7sr24NfLdrxqZ7sT/oXLSgkS+YiwwxkyPtM9rlWuLpRBDkvTGDu8OwPGUrUo3+Fju2F+uypFY7H+P3AhdBL2CaZXD4RJjqnaPl2aOLas9tIqpND3xsC5XwMYf0e10jyXAbkyGJ/rS3mgU7OXK5JlRCMa8TQCTi2s4uCW5kTjwlI9uFZyf2EAPhU=",
+      "resultTeX": "\\frac{1}{6 \\varepsilon^3}-\\frac{i \\left(-i \\log \\left(M^2\\right)+\\pi +3 i\\right)}{2 \\varepsilon^2}+\\frac{54 \\log ^2\\left(M^2\\right)+108 i (\\pi +3 i) \\log \\left(M^2\\right)-12 \\zeta(2)-55 \\pi ^2-324 i \\pi +660}{72 \\varepsilon}+(\\text{more terms})+O\\left(\\varepsilon^1\\right)",
+      "dimension": "4 - 2*eps",
+      "epsOrder": 0,
+      "propExponents": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "propagators": [],
+      "numerators": [],
+      "internalMasses": [],
+      "externalMasses": [],
+      "substitutions": "{}",
+      "normalization": "Automatic",
+      "stVersion": "SubTropica v1.0.322",
+      "stCommand": "STIntegrate[pref * (integrand / (Times @@ xvars)), {x2,0,Infinity}, {x3,0,Infinity}, {x4,0,Infinity}, {x5,0,Infinity}, {x6,0,Infinity}, Order->0]  (* with Gauge->{x1->1} *)",
+      "contributor": "Sebastian Mizera",
+      "timestamp": "2026-04-18T11:53:59",
+      "byteCount": 4696,
+      "method": "direct_integration",
+      "tools": [
+        "SubTropica",
+        "AnTropica"
+      ],
+      "verification": {
+        "method": "pySecDec",
+        "kinematicPoint": {
+          "Msq": "-2/97"
+        },
+        "tolerance": 0.0001,
+        "maxRelError": 3.928662965176187e-06,
+        "verifiedAt": "2026-04-18T11:53:59"
+      },
+      "legOrder": [],
+      "symbolTeX": "\\begin{aligned}\\varepsilon^{-2}&\\colon\\;-\\frac{1}{2}\\,(M^2) \\\\ \\varepsilon^{-1}&\\colon\\;-\\frac{9}{2}\\,(M^2) + \\frac{3}{2}\\,(M^2 \\otimes M^2) \\\\ \\varepsilon^{0}&\\colon\\;\\frac{27}{2}\\,(M^2 \\otimes M^2) - \\frac{9}{2}\\,(M^2 \\otimes M^2 \\otimes M^2) - \\frac{55}{2}\\,(M^2)\\end{aligned}",
+      "alphabet": [
+        "M^2"
+      ],
+      "symbolWeight": 3,
+      "symbolTerms": 6
+    }
+  ],
+  "Names": [
+    "Massless banana-kite",
+    "Banana-kite",
+    "3-loop propagator"
+  ],
+  "edges": "{{{1, 2}, 0}, {{1, 2}, 0}, {{1, 3}, 0}, {{2, 3}, 0}, {{2, 4}, 0}, {{3, 4}, 0}}",
+  "nodes": "{{2, M}, {4, M}}",
+  "quadruple": "{E^(3*eps*EulerGamma)*Gamma[3*eps], (x1*x2*x4 + x1*x3*x4 + x2*x3*x4 + x1*x2*x5 + x1*x3*x5 + x2*x3*x5 + x1*x4*x5 + x2*x4*x5 + x1*x2*x6 + x1*x3*x6 + x2*x3*x6 + x1*x4*x6 + x2*x4*x6)^(2*(-1 + 2*eps))/(MM*x5*(x1*x2*x4 + x1*x3*x4 + x2*x3*x4 + x1*x2*x6 + x1*x3*x6 + x2*x3*x6 + x1*x4*x6 + x2*x4*x6))^(3*eps), {x1, x2, x3, x4, x5, x6}, {MM}}",
+  "numericallyVerified": true,
+  "numericallyVerifiedAt": "2026-04-12",
+  "CanonicalName": "Massless bubble-triangle-triangle",
+  "MassConfig": {
+    "numEdges": 6,
+    "numMassiveEdges": 0,
+    "numMasslessEdges": 6,
+    "distinctInternalMasses": 0,
+    "internalMassLabels": [],
+    "edgeMassPattern": "000000",
+    "numExtLegs": 2,
+    "numOnshellMassiveExtLegs": 2,
+    "numMasslessExtLegs": 0,
+    "extLegSignature": "MM"
+  },
+  "Subsectors": [
+    "112|e2|e|:000|10|1|"
+  ],
+  "ParentSectors": [
+    "112|23|e34|4|e|:000|00|100|0|1|",
+    "112|34|33|e4|e|:000|00|00|10|1|",
+    "1123|4|44|e4|e|:0000|0|00|10|1|",
+    "1123|e|34|e44||:0000|1|00|100||",
+    "112|e23|4|e44||:000|100|0|100||",
+    "123|234|4|e|e|:000|000|0|1|1|"
+  ]
+}

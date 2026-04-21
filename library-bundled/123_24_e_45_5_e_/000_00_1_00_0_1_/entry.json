@@ -1,0 +1,61 @@
+{
+  "CNickelIndex": "123|24|e|45|5|e|:000|00|1|00|0|1|",
+  "MassScales": 0,
+  "FunctionClass": "MPL",
+  "EpsilonOrder": "-6,-5,-4,-3,-2,-1,0,1,2",
+  "References": [
+    "arXiv:hep-ph/0505174 (Comput.Phys.Commun. 175 (180), 2006)"
+  ],
+  "Records": [
+    {
+      "dimScheme": "d=4-2*eps",
+      "recordId": "bf_77839b0f02bb",
+      "familyName": "P (planar 3L propagator)",
+      "verified": false,
+      "verifiedAt": "",
+      "authors": "Bekavac, Stefan",
+      "texkey": "Bekavac:2005xs",
+      "computationLevel": "full",
+      "masterCount": 1,
+      "location": "Sections 6 and 7",
+      "transcendentalWeight": 7,
+      "method": [],
+      "reference": "arXiv:hep-ph/0505174, Comput.Phys.Commun. 175 (180), 2006",
+      "ancillaryFiles": [],
+      "description": "Planar 3-loop massless propagator MI (ladder, 6 vertices, 8 edges). Computed via GPXT. All $\\varepsilon$ terms through $\\varepsilon^2$ obtained fully analytically in MZVs to weight 7.",
+      "epsOrders": "-6,-5,-4,-3,-2,-1,0,1,2",
+      "tools": [
+        "FORM"
+      ],
+      "doi": "10.1016/j.cpc.2006.02.004"
+    }
+  ],
+  "Names": [
+    "P (planar 3L propagator)"
+  ],
+  "Source": [
+    "arXiv"
+  ],
+  "Loops": 3,
+  "NumPropagators": 8,
+  "Results": [],
+  "edges": "{{{1, 2}, 0}, {{1, 3}, 0}, {{1, 4}, 0}, {{2, 3}, 0}, {{2, 5}, 0}, {{4, 5}, 0}, {{4, 6}, 0}, {{5, 6}, 0}}",
+  "nodes": "{{3, M}, {6, M}}",
+  "CanonicalName": "Massless non-planar triangle-pentagon-triangle",
+  "MassConfig": {
+    "numEdges": 8,
+    "numMassiveEdges": 0,
+    "numMasslessEdges": 8,
+    "distinctInternalMasses": 0,
+    "internalMassLabels": [],
+    "edgeMassPattern": "00000000",
+    "numExtLegs": 2,
+    "numOnshellMassiveExtLegs": 2,
+    "numMasslessExtLegs": 0,
+    "extLegSignature": "MM"
+  },
+  "Subsectors": [
+    "123|234|4|e|e|:000|000|0|1|1|"
+  ],
+  "ParentSectors": []
+}

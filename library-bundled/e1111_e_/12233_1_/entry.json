@@ -1,0 +1,92 @@
+{
+  "CNickelIndex": "e1111|e|:12233|1|",
+  "MassScales": 2,
+  "FunctionClass": "Calabi-Yau",
+  "EpsilonOrder": "",
+  "References": [
+    "arXiv:2504.17757 (JHEP 10 (202), 2025)",
+    "arXiv:2502.15325"
+  ],
+  "Records": [
+    {
+      "reference": "arXiv:2502.15325",
+      "authors": [
+        {
+          "full_name": "Duhr, Claude",
+          "inspire_id": 1040449
+        }
+      ],
+      "description": "Three-loop banana in $D=2$ with pairwise-equal internal masses ($m_1=m_3$ and $m_2=m_4$). The period vector is four-dimensional $(\\Pi_2, \\Pi_{12}, \\Pi_{11}, \\Pi_0)$. After a $GL(4,\\mathbb{Z})$ change of basis the transcendental lattice becomes $T = H \\oplus \\langle 2 \\rangle \\oplus \\langle -6 \\rangle$. Via the exceptional isomorphism $O(2,2) \\sim SL(2,\\mathbb{R}) \\times SL(2,\\mathbb{R})$ restricted appropriately, the holomorphic period and mirror map are Hilbert modular forms on $H \\times H$.",
+      "epsOrders": "",
+      "familyName": "three-loop banana (pairwise-equal masses, Hilbert modular) / three-loop banana with pairwise-equal masses (Hilbert modular periods)",
+      "method": "K3 periods, transcendental lattice analysis, GL(4,Z) basis change, Hilbert modular forms, mirror map",
+      "tools": [],
+      "ancillaryFiles": false,
+      "doi": "",
+      "texkey": "",
+      "masterCount": 0,
+      "dimScheme": "d=2",
+      "computationLevel": "maximal_cut",
+      "location": "section 'Automorphic properties of three-loop banana integrals', subsection 'The pairwise-equal-mass case m1=m3 and m2=m4' (bananas_2.tex)",
+      "recordId": "bx_b882ab5e6792",
+      "verified": false,
+      "verifiedAt": ""
+    },
+    {
+      "authors": "Maggio, Sara, Sohnle, Yoann",
+      "texkey": "Maggio:2025jel",
+      "verified": false,
+      "verifiedAt": "",
+      "ancillaryPaths": [
+        "banana_2_2.nb"
+      ],
+      "reference": "arXiv:2504.17757, JHEP 10 (202), 2025",
+      "ancillaryFiles": [],
+      "recordId": "bf_e7447b305ab2",
+      "masterCount": 8,
+      "computationLevel": "DE_only",
+      "doi": "10.1007/JHEP10(2025)202",
+      "tools": [],
+      "description": "Three-loop banana integral family with two distinct internal masses in the 2-2 configuration: two propagators carry mass $m_1$ and two carry mass $m_2$. Nine denominators (four propagators + five ISPs). Computed in $D=2-2\\varepsilon$ dimensions. The underlying geometry is a K3 surface (Calabi-Yau 2-fold) with two moduli $z_1=m_1^2/p^2$, $z_2=m_2^2/p^2$. Eight master integrals: two tadpoles, four in the derivative block on the maximal cut, and two decoupling integrals. The canonical differential equation is derived locally at the MUM-point $(z_1,z_2)=(0,0)$ with integer coefficients. This is the first epsilon-factorised form for this integral.",
+      "epsOrders": "",
+      "method": [],
+      "dimScheme": "d=2-2*eps",
+      "location": "Eq. (6.13)-(6.17), Section 6.1.2",
+      "familyName": "3L-banana-2mass-2-2"
+    }
+  ],
+  "Names": [
+    "3L-banana-2mass-2-2",
+    "three-loop banana (pairwise-equal masses, Hilbert modular)",
+    "three-loop banana with pairwise-equal masses (Hilbert modular periods)"
+  ],
+  "Source": [
+    "arXiv"
+  ],
+  "Loops": 3,
+  "NumPropagators": 4,
+  "Results": [],
+  "edges": "{{{1, 2}, m[1]}, {{1, 2}, m[1]}, {{1, 2}, m[2]}, {{1, 2}, m[2]}}",
+  "nodes": "{{1, M}, {2, M}}",
+  "CanonicalName": "2-mass banana (b)",
+  "MassConfig": {
+    "numEdges": 4,
+    "numMassiveEdges": 4,
+    "numMasslessEdges": 0,
+    "distinctInternalMasses": 2,
+    "internalMassLabels": [
+      "m[1]",
+      "m[2]"
+    ],
+    "edgeMassPattern": "1122",
+    "numExtLegs": 2,
+    "numOnshellMassiveExtLegs": 2,
+    "numMasslessExtLegs": 0,
+    "extLegSignature": "MM"
+  },
+  "commonNames": [
+    "B3"
+  ],
+  "Subsectors": [],
+  "ParentSectors": []
+}

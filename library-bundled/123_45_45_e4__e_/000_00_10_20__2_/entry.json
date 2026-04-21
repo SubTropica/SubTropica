@@ -1,0 +1,68 @@
+{
+  "CNickelIndex": "123|45|45|e4||e|:000|00|10|20||2|",
+  "MassScales": 1,
+  "FunctionClass": "unknown",
+  "EpsilonOrder": "1",
+  "References": [
+    "arXiv:2201.02576 (Phys.Rev.D 106 (), 2022)"
+  ],
+  "Records": [
+    {
+      "authors": "Dubovyk, Ievgen, Freitas, Ayres, Gluza, Janusz, Grzanka, Krzysztof, Hidding, Martijn, Usovitsch, Johann",
+      "texkey": "Dubovyk:2022frj",
+      "verified": false,
+      "verifiedAt": "",
+      "ancillaryPaths": [
+        "anc/master_lhNp1_minkowski.m"
+      ],
+      "reference": "arXiv:2201.02576, Phys.Rev.D 106, 2022",
+      "ancillaryFiles": [],
+      "recordId": "bf_b294602d8b21",
+      "masterCount": 30,
+      "computationLevel": "numerical",
+      "doi": "10.1103/PhysRevD.106.L111301",
+      "tools": [
+        "Kira",
+        "Reduze",
+        "pySecDec",
+        "DiffExp"
+      ],
+      "description": "Three-loop non-planar self-energy integral family with eight propagators and one ISP ($q_1^2$). Only one internal line carries mass (W or Z boson); all other propagators are massless. Evaluated at $p^2=M_Z^2$ with $M_a=M_Z$ and $M_a=M_W$ using differential equations with Euclidean boundary terms transported to Minkowski kinematics via DiffExp. Results given to 8+ digit precision through $\\mathcal{O}(\\varepsilon)$. The family involves 30 master integrals.",
+      "epsOrders": "-3,-2,-1,0,1",
+      "method": [],
+      "dimScheme": "d=4-2*eps",
+      "location": "Eq. (5), Section III (Example 1)",
+      "familyName": "lhNp1"
+    }
+  ],
+  "Names": [
+    "lhNp1"
+  ],
+  "Source": [
+    "arXiv"
+  ],
+  "Loops": 3,
+  "NumPropagators": 8,
+  "Results": [],
+  "edges": "{{{1, 3}, m}, {{1, 4}, 0}, {{1, 5}, 0}, {{2, 3}, 0}, {{2, 4}, 0}, {{2, 5}, 0}, {{3, 6}, 0}, {{4, 6}, 0}}",
+  "nodes": "{{5, M}, {6, M}}",
+  "CanonicalName": "Quad-box core, 1 massive propagator",
+  "MassConfig": {
+    "numEdges": 8,
+    "numMassiveEdges": 1,
+    "numMasslessEdges": 7,
+    "distinctInternalMasses": 1,
+    "internalMassLabels": [
+      "m"
+    ],
+    "edgeMassPattern": "10000000",
+    "numExtLegs": 2,
+    "numOnshellMassiveExtLegs": 2,
+    "numMasslessExtLegs": 0,
+    "extLegSignature": "MM"
+  },
+  "Subsectors": [
+    "123|234|4|e|e|:000|000|0|1|1|"
+  ],
+  "ParentSectors": []
+}

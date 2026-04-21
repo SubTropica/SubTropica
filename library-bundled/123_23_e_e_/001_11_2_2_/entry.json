@@ -1,0 +1,66 @@
+{
+  "CNickelIndex": "123|23|e|e|:001|11|2|2|",
+  "MassScales": 2,
+  "FunctionClass": "elliptic",
+  "EpsilonOrder": "all orders",
+  "References": [
+    "arXiv:2211.16357"
+  ],
+  "Records": [
+    {
+      "authors": "Dlapa, Christoph, Henn, Johannes M., Wagner, Fabian J.",
+      "texkey": "Dlapa:2022wdu",
+      "verified": false,
+      "verifiedAt": "",
+      "reference": "arXiv:2211.16357, JHEP 08 (120), 2023",
+      "ancillaryFiles": [],
+      "recordId": "bf_6bc275dae5bb",
+      "masterCount": 8,
+      "computationLevel": "full",
+      "doi": "10.1007/JHEP08(2023)120",
+      "tools": [
+        "FIRE",
+        "LiteRed",
+        "FiniteFlow"
+      ],
+      "description": "Two-loop kite integral family with equal internal masses (3 massive + 2 massless propagators). Contains the equal-mass sunrise as subsector, source of elliptic functions. Epsilon-factorized DE found, reproducing Adams-Weinzierl result.",
+      "epsOrders": "all orders",
+      "method": [],
+      "dimScheme": "d=4-2*eps",
+      "location": "Section 3.1, Eqs. (3.2)-(3.3)",
+      "familyName": "kite-equal-mass"
+    }
+  ],
+  "Names": [
+    "kite-equal-mass"
+  ],
+  "Source": [
+    "arXiv"
+  ],
+  "Loops": 2,
+  "NumPropagators": 5,
+  "Results": [],
+  "edges": "{{{1, 2}, 0}, {{1, 3}, 0}, {{1, 4}, m}, {{2, 3}, m}, {{2, 4}, m}}",
+  "nodes": "{{3, M}, {4, M}}",
+  "CanonicalName": "Kite, 3 massive propagators (a)",
+  "MassConfig": {
+    "numEdges": 5,
+    "numMassiveEdges": 3,
+    "numMasslessEdges": 2,
+    "distinctInternalMasses": 1,
+    "internalMassLabels": [
+      "m"
+    ],
+    "edgeMassPattern": "00111",
+    "numExtLegs": 2,
+    "numOnshellMassiveExtLegs": 2,
+    "numMasslessExtLegs": 0,
+    "extLegSignature": "MM"
+  },
+  "commonNames": [
+    "M",
+    "H-graph"
+  ],
+  "Subsectors": [],
+  "ParentSectors": []
+}

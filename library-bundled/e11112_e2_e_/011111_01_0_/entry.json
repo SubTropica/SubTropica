@@ -1,0 +1,85 @@
+{
+  "CNickelIndex": "e11112|e2|e|:011111|01|0|",
+  "MassScales": 1,
+  "FunctionClass": "Calabi-Yau",
+  "EpsilonOrder": "-8,-7,-6,-5,-4,-3,-2,-1,0",
+  "References": [
+    "arXiv:2212.09550 (JHEP 02 (228), 2023)",
+    "arXiv:2503.20655 (JHEP 06 (128), 2025)"
+  ],
+  "Records": [
+    {
+      "dimScheme": "d=2-2*eps",
+      "recordId": "bf_4c0312bbc970",
+      "familyName": "4L-ice-cone-equal-mass",
+      "verified": false,
+      "verifiedAt": "",
+      "authors": "Duhr, Claude, Klemm, Albrecht, Nega, Christoph, Tancredi, Lorenzo",
+      "texkey": "Duhr:2022dxb",
+      "computationLevel": "full",
+      "masterCount": 11,
+      "location": "Eq. (2.1), (2.14), Sections 2-4",
+      "method": [],
+      "reference": "arXiv:2212.09550, JHEP 02 (228), 2023",
+      "ancillaryFiles": [],
+      "description": "4-loop equal-mass ice cone: (3)-loop banana inserted into 1-loop triangle. 6 massive propagators in $D=2-2\\varepsilon$. 11 master integrals. Maximal cuts factorize into banana periods. CY 2-fold geometry.",
+      "epsOrders": "-8,-7,-6,-5,-4,-3,-2,-1,0",
+      "tools": [
+        "Reduze",
+        "Kira"
+      ],
+      "doi": "10.1007/JHEP02(2023)228"
+    },
+    {
+      "ancillaryPaths": [
+        "AncillaryFiles/ancillary.m"
+      ],
+      "dimScheme": "d=2-2*eps",
+      "recordId": "bf_064a175cb50c",
+      "familyName": "four-loop ice cone",
+      "verified": false,
+      "verifiedAt": "",
+      "authors": "Duhr, Claude, Maggio, Sara, Nega, Christoph, Benjamin Sauer, Tancredi, Lorenzo, Wagner, Fabian J.",
+      "texkey": "Duhr:2025lbz",
+      "computationLevel": "DE_only",
+      "masterCount": 7,
+      "location": "Section 6.1, Eq. (6.1)-(6.3), Fig. 2",
+      "method": [],
+      "reference": "arXiv:2503.20655, JHEP 06 (128), 2025",
+      "ancillaryFiles": [],
+      "description": "Four-loop ice cone with 6 equal-mass propagators. Maximal cut in $d=2$ contains two K3 surfaces isomorphic to 3-loop banana at $x$ and $1/x$. 7 MIs. Epsilon-factorized DE with 8 transcendental functions.",
+      "epsOrders": "",
+      "tools": [],
+      "doi": "10.1007/JHEP06(2025)128"
+    }
+  ],
+  "Names": [
+    "4L-ice-cone-equal-mass",
+    "four-loop ice cone"
+  ],
+  "Source": [
+    "arXiv"
+  ],
+  "Loops": 4,
+  "NumPropagators": 6,
+  "Results": [],
+  "edges": "{{{1, 2}, m}, {{1, 2}, m}, {{1, 2}, m}, {{1, 2}, m}, {{1, 3}, m}, {{2, 3}, m}}",
+  "nodes": "{{1, 0}, {2, 0}, {3, 0}}",
+  "CanonicalName": "Equal-mass bubble-bubble-bubble-triangle",
+  "MassConfig": {
+    "numEdges": 6,
+    "numMassiveEdges": 6,
+    "numMasslessEdges": 0,
+    "distinctInternalMasses": 1,
+    "internalMassLabels": [
+      "m"
+    ],
+    "edgeMassPattern": "111111",
+    "numExtLegs": 3,
+    "numOnshellMassiveExtLegs": 0,
+    "numMasslessExtLegs": 3,
+    "extLegSignature": "000"
+  },
+  "Subsectors": [],
+  "ParentSectors": []
+}

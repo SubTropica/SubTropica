@@ -1,0 +1,321 @@
+{
+  "CNickelIndex": "123|23|e|e|:101|10|2|2|",
+  "MassScales": 1,
+  "FunctionClass": "elliptic",
+  "EpsilonOrder": "-2,-1,0",
+  "References": [
+    "arXiv:1811.09308 (Phys.Rev.D 98 (), 2018)",
+    "arXiv:2011.13337 (Nucl.Phys.B 963 (), 2021)",
+    "arXiv:2503.01954 (JHEP 07 (160), 2025)",
+    "arXiv:1807.02542 (doi: 10.1007/978-3-030-04480-0_4)",
+    "arXiv:2207.09275",
+    "arXiv:1807.01007",
+    "arXiv:1607.01571 (J.Math.Phys. 57 (), 2016)",
+    "arXiv:1802.05020 (Phys.Lett.B 781 (270), 2018)",
+    "arXiv:1704.08895 (Commun.Num.Theor.Phys. 12 (193), 2018)",
+    "arXiv:1602.01481 (Nucl.Phys.B 907 (400), 2016)",
+    "arXiv:1705.08952 (Nucl.Phys.B 922 (528), 2017)"
+  ],
+  "Records": [
+    {
+      "ancillaryPaths": [
+        "supplementary_material.mpl"
+      ],
+      "dimScheme": "d=4-2*eps",
+      "recordId": "bf_1ae504d7e28a",
+      "familyName": "kite integral",
+      "verified": false,
+      "verifiedAt": "",
+      "authors": "Hönemann, Ina, Tempest, Kirsten, Weinzierl, Stefan",
+      "texkey": "Honemann:2018mrb",
+      "computationLevel": "full",
+      "masterCount": 8,
+      "transcendentalWeight": 3,
+      "location": "Section 3, Eq. (3.2)-(3.3), Fig. 1-2",
+      "method": [],
+      "reference": "arXiv:1811.09308, Phys.Rev.D 98, 2018",
+      "ancillaryFiles": [],
+      "description": "Two-loop kite family for electron self-energy in QED. 5 propagators (3 massive, 2 massless). 8 MIs computed as iterated integrals of modular forms of $\\Gamma_1(6)$. Elliptic sectors from sunrise sub-topology.",
+      "epsOrders": "-2,-1,0",
+      "tools": [],
+      "doi": "10.1103/PhysRevD.98.113008"
+    },
+    {
+      "ancillaryPaths": [
+        "anc/Data/kite1-A+Bep",
+        "anc/Data/kite1-masters-results-J-integrals",
+        "anc/kites-results.nb"
+      ],
+      "dimScheme": "d=4-2*eps",
+      "recordId": "bf_a8ec34d33d83",
+      "familyName": "kite (two massless lines)",
+      "verified": false,
+      "verifiedAt": "",
+      "authors": "Bezuglov, M.A., Onishchenko, A.I., Veretin, O.L.",
+      "texkey": "Bezuglov:2020ywm",
+      "computationLevel": "full",
+      "masterCount": 8,
+      "location": "Section 3.1, Eq. (3.1)-(3.3)",
+      "method": [],
+      "reference": "arXiv:2011.13337, Nucl.Phys.B 963, 2021",
+      "ancillaryFiles": [],
+      "description": "Two-loop kite diagram with two massless internal lines ($D_1$, $D_5$) and three massive propagators with equal mass $m=1$. Results expressible in terms of elliptic polylogarithms. DE for 8 master integrals reduced to $A+B\\varepsilon$ form. This is the standard kite studied by Adams-Bogner-Schweitzer-Weinzierl and Broedel et al.",
+      "epsOrders": "-4,-3,-2,-1,0,1,2",
+      "tools": [
+        "LiteRed",
+        "Libra",
+        "FIESTA"
+      ],
+      "doi": "10.1016/j.nuclphysb.2020.115302"
+    },
+    {
+      "reference": "arXiv:2503.01954 (JHEP 07 (160), 2025)",
+      "authors": "Duhr, Claude, Vasquez, Andres, Ventura, Giuseppe, Vryonidou, Eleni",
+      "description": "Two-loop top self-energy family A in SMEFT. 8 MIs. Massive propagators on lines 2,3,5.",
+      "epsOrders": "",
+      "familyName": "T_A / top self-energy family A (SMEFT two-loop, 3 massive lines)",
+      "method": "IBP",
+      "tools": [
+        "Kira",
+        "FORM",
+        "PolyLogTools"
+      ],
+      "ancillaryFiles": false,
+      "doi": "10.1007/JHEP07(2025)160",
+      "texkey": "Duhr:2025zqw",
+      "masterCount": 8,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "IBP_only",
+      "location": "Table 1",
+      "recordId": "bx_f70aac0e5b22",
+      "verified": false,
+      "verifiedAt": ""
+    },
+    {
+      "reference": "arXiv:1807.02542 (doi: 10.1007/978-3-030-04480-0_4)",
+      "authors": "Bogner, Christian, Schweitzer, Armin, Weinzierl, Stefan",
+      "description": "Kite family with 3 equal-mass propagators + 2 massless. 8 masters: 5 polylogarithmic + 3 elliptic (sunrise, raised-index sunrise, full kite). Paper presents analytic continuation through thresholds at $t=m^2$ and $t=9m^2$ via deformation on underlying elliptic curve family.",
+      "epsOrders": "all_orders",
+      "familyName": "3-equal-mass two-loop 2-point kite family (5 propagators)",
+      "method": "IBP, DE, direct_integration",
+      "tools": [
+        "SecDec"
+      ],
+      "ancillaryFiles": false,
+      "doi": "10.1007/978-3-030-04480-0_4",
+      "texkey": "Bogner:2018uus",
+      "masterCount": 8,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "full",
+      "location": "Section 2, Eq. defining I(nu1..nu5); Fig. 1(c)",
+      "recordId": "bx_fc62ff3b8e5d",
+      "verified": false,
+      "verifiedAt": ""
+    },
+    {
+      "reference": "arXiv:2207.09275",
+      "authors": [
+        {
+          "full_name": "Barakat, Mohamed",
+          "inspire_id": 2116940
+        },
+        {
+          "full_name": "Brüser, Robin",
+          "inspire_id": 1682961
+        },
+        {
+          "full_name": "Huber, Tobias",
+          "inspire_id": 1050613
+        },
+        {
+          "full_name": "Piclum, Jan",
+          "inspire_id": 1271186
+        }
+      ],
+      "description": "Two-loop on-shell kite self-energy integral with five propagators, single mass scale $m$, and on-shell $p_1^2=m^2$. Used to illustrate a bottleneck: the full Groebner basis computation could not be completed due to expression swell, but the normal forms $\\mathrm{NF}(a_i D_i^-)$ for $i=1..5$ were obtained via a linear-algebra ansatz, enabling top-sector reduction.",
+      "epsOrders": "",
+      "familyName": "on-shell 2-loop 2-point kite self-energy (5 propagators)",
+      "method": "IBP",
+      "tools": [],
+      "ancillaryFiles": false,
+      "doi": "",
+      "texkey": "",
+      "masterCount": 0,
+      "dimScheme": "d=D",
+      "computationLevel": "IBP_only",
+      "location": "Section 5, Fig. 2",
+      "recordId": "bx_dfe47b914267",
+      "verified": false,
+      "verifiedAt": ""
+    },
+    {
+      "reference": "arXiv:1807.01007",
+      "authors": [
+        {
+          "full_name": "Adams, Luise",
+          "inspire_id": 1259450
+        },
+        {
+          "full_name": "Weinzierl, Stefan",
+          "inspire_id": 983857
+        }
+      ],
+      "description": "One of the four example graphs of Fig. 3: a two-loop two-point function depending on the single dimensionless variable $x=p^2/m^2$, containing the equal-mass sunrise as a subtopology. Solid internal lines carry mass $m$ and dashed internal lines are massless; the external legs are on shell. The paper does not list explicit propagator momenta for this figure, so the propagator list, edge set, and kinematics are reported as null. The Picard-Fuchs analysis yields exactly one irreducible second-order factor (the one associated to the sunrise subtopology); all other factors are first order. Once the variable is changed from $x$ to the modular parameter $\\tau$ of the sunrise elliptic curve and the master integrals are rescaled appropriately, the system of differential equations is brought into $\\varepsilon$-form and solved order by order in $\\varepsilon$ in terms of iterated integrals of modular forms of $\\Gamma_1(6)$.",
+      "epsOrders": "all_orders",
+      "familyName": "two-loop two-point kite-type integral containing equal-mass sunrise subtopology",
+      "method": "DE",
+      "tools": [],
+      "ancillaryFiles": false,
+      "doi": "",
+      "texkey": "",
+      "masterCount": 0,
+      "dimScheme": "d=2-2*eps",
+      "computationLevel": "full",
+      "location": "Fig. 3 (figex2); Section 'Feynman integrals evaluating to iterated integrals of modular forms'",
+      "recordId": "bx_cf6f1eaf1738",
+      "verified": false,
+      "verifiedAt": ""
+    },
+    {
+      "reference": "arXiv:1607.01571 (J.Math.Phys. 57 (), 2016)",
+      "authors": "Adams, Luise, Bogner, Christian, Schweitzer, Armin, Weinzierl, Stefan",
+      "description": "Two-loop kite to all orders in $\\varepsilon$ using elliptic polylogarithms (ELi functions). Contains sunrise sub-topology. Singular at $t=0, m^2, 9m^2$.",
+      "epsOrders": "all_orders",
+      "familyName": "kite",
+      "method": "DE",
+      "tools": [
+        "Reduze"
+      ],
+      "ancillaryFiles": false,
+      "doi": "10.1063/1.4969060",
+      "texkey": "Adams:2016xah",
+      "masterCount": 8,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "full",
+      "location": "Eq.(1)-(2), Section 2",
+      "recordId": "bx_d75fd9e4fffc",
+      "verified": false,
+      "verifiedAt": ""
+    },
+    {
+      "reference": "arXiv:1802.05020 (Phys.Lett.B 781 (270), 2018)",
+      "authors": "Adams, Luise, Weinzierl, Stefan",
+      "description": "The kite integral family is a two-loop self-energy topology in $D=4-2\\varepsilon$ with five propagators, three massive. The system of eight master integrals is brought to epsilon-form using periods of the elliptic curve from the maximal cut of the sunrise sub-topology. Integration kernels are modular forms of $\\Gamma_1(6)$.",
+      "epsOrders": "all_orders",
+      "familyName": "kite",
+      "method": "DE, IBP",
+      "tools": [],
+      "ancillaryFiles": false,
+      "doi": "10.1016/j.physletb.2018.04.002",
+      "texkey": "Adams:2018yfj",
+      "masterCount": 8,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "DE_only",
+      "location": "eqs. (3)-(4), basis eq. (19), epsilon-form eqs. (24)-(25)",
+      "recordId": "bx_926491e5477c",
+      "verified": false,
+      "verifiedAt": ""
+    },
+    {
+      "reference": "arXiv:1705.08952 (Nucl.Phys.B 922 (528), 2017)",
+      "authors": "Bogner, Christian, Schweitzer, Armin, Weinzierl, Stefan",
+      "description": "Kite family with full analytic continuation over $t \\in \\mathbb{R}$ via ELi-functions. All MIs to all orders in $\\varepsilon$.",
+      "epsOrders": "all_orders",
+      "familyName": "kite",
+      "method": "DE",
+      "tools": [
+        "SecDec"
+      ],
+      "ancillaryFiles": false,
+      "doi": "10.1016/j.nuclphysb.2017.07.008",
+      "texkey": "Bogner:2017vim",
+      "masterCount": 8,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "full",
+      "location": "Eq.(58)-(59), Sec. 5",
+      "recordId": "bx_e148615c5579",
+      "verified": false,
+      "verifiedAt": ""
+    },
+    {
+      "authors": "Remiddi, Ettore, Tancredi, Lorenzo",
+      "texkey": "Remiddi:2016gno",
+      "verified": false,
+      "verifiedAt": "",
+      "reference": "arXiv:1602.01481, Nucl.Phys.B 907 (400), 2016",
+      "ancillaryFiles": [],
+      "recordId": "bf_2983db9e4633",
+      "masterCount": 8,
+      "computationLevel": "full",
+      "doi": "10.1016/j.nuclphysb.2016.04.013",
+      "tools": [
+        "Reduze",
+        "FORM",
+        "SecDec"
+      ],
+      "description": "Two-loop kite (QED electron self-energy) with 3 massive and 2 massless propagators. 8 MIs, 3 elliptic. Solved via dispersion relations inserting sunrise solutions into DEs.",
+      "epsOrders": "-4,-3,-2,-1,0,1",
+      "method": [],
+      "dimScheme": "d=4-2*eps",
+      "location": "Eq.(5.1)-(5.2), Sections 5-6, 10",
+      "familyName": "kite"
+    },
+    {
+      "authors": "Adams, Luise, Weinzierl, Stefan",
+      "texkey": "Adams:2017ejb",
+      "verified": false,
+      "verifiedAt": "",
+      "reference": "arXiv:1704.08895, Commun.Num.Theor.Phys. 12 (193), 2018",
+      "ancillaryFiles": [],
+      "recordId": "bf_f9b77bf57db4",
+      "masterCount": 0,
+      "computationLevel": "full",
+      "doi": "10.4310/CNTP.2018.v12.n2.a1",
+      "tools": [],
+      "description": "Two-loop kite self-energy integral with 5 propagators (3 massive, 2 massless). Contains the sunrise as subtopology. All integration kernels are modular forms of $\\Gamma_1(12)$. Expressed to all orders in $\\varepsilon$ as iterated integrals of modular forms.",
+      "epsOrders": "all orders",
+      "method": [],
+      "dimScheme": "d=2-2*eps",
+      "location": "fig.4, Section 5, eq.(40)-(44)",
+      "familyName": "kite"
+    }
+  ],
+  "Names": [
+    "kite integral",
+    "kite (two massless lines)",
+    "T_A",
+    "3-equal-mass two-loop 2-point kite family (5 propagators)",
+    "on-shell 2-loop 2-point kite self-energy (5 propagators)",
+    "top self-energy family A (SMEFT two-loop, 3 massive lines)",
+    "two-loop two-point kite-type integral containing equal-mass sunrise subtopology"
+  ],
+  "Source": [
+    "arXiv"
+  ],
+  "Loops": 2,
+  "NumPropagators": 5,
+  "Results": [],
+  "edges": "{{{1, 2}, m}, {{1, 3}, 0}, {{1, 4}, m}, {{2, 3}, m}, {{2, 4}, 0}}",
+  "nodes": "{{3, M}, {4, M}}",
+  "CanonicalName": "Kite, 3 massive propagators (d)",
+  "MassConfig": {
+    "numEdges": 5,
+    "numMassiveEdges": 3,
+    "numMasslessEdges": 2,
+    "distinctInternalMasses": 1,
+    "internalMassLabels": [
+      "m"
+    ],
+    "edgeMassPattern": "10110",
+    "numExtLegs": 2,
+    "numOnshellMassiveExtLegs": 2,
+    "numMasslessExtLegs": 0,
+    "extLegSignature": "MM"
+  },
+  "commonNames": [
+    "M",
+    "H-graph"
+  ],
+  "Subsectors": [],
+  "ParentSectors": []
+}

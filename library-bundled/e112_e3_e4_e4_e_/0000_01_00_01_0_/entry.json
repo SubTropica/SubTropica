@@ -1,0 +1,65 @@
+{
+  "CNickelIndex": "e112|e3|e4|e4|e|:0000|01|00|01|0|",
+  "MassScales": 6,
+  "FunctionClass": "unknown",
+  "EpsilonOrder": "4",
+  "References": [
+    "arXiv:2312.08131 (JHEP 07 (084), 2024)"
+  ],
+  "Records": [
+    {
+      "reference": "arXiv:2312.08131 (JHEP 07 (084), 2024)",
+      "authors": "Febres Cordero, F., Figueiredo, G., Kraus, M., Page, B., Reina, L.",
+      "description": "Two-loop penta-bubble $Z(\\tilde{T_2})$, image of $\\tilde{T_2}$ under $p_1 \\leftrightarrow p_3$, $p_4 \\leftrightarrow p_5$. 19 MIs. Numerical results through $\\mathcal{O}(\\varepsilon^4)$.",
+      "epsOrders": "4",
+      "familyName": "Z(T2tilde) / T2tilde",
+      "method": "IBP, DE, series_expansion",
+      "tools": [
+        "Kira",
+        "FIRE",
+        "DiffExp",
+        "AMFlow",
+        "PolyLogTools"
+      ],
+      "ancillaryFiles": true,
+      "doi": "10.1007/JHEP07(2024)084",
+      "texkey": "FebresCordero:2023pww",
+      "masterCount": 19,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "numerical",
+      "location": "Section 2, obtained by Z: p1<->p3, p4<->p5",
+      "recordId": "bx_035b6016b16f",
+      "verified": false,
+      "verifiedAt": ""
+    }
+  ],
+  "Names": [
+    "T2tilde",
+    "Z(T2tilde)"
+  ],
+  "Source": [
+    "arXiv"
+  ],
+  "Loops": 2,
+  "NumPropagators": 6,
+  "Results": [],
+  "edges": "{{{1, 2}, 0}, {{1, 2}, 0}, {{1, 3}, 0}, {{2, 4}, m}, {{3, 5}, 0}, {{4, 5}, m}}",
+  "nodes": "{{1, 0}, {2, 0}, {4, 0}, {5, 0}, {3, 0}}",
+  "CanonicalName": "Bubble-pentagon, 2 massive propagators",
+  "MassConfig": {
+    "numEdges": 6,
+    "numMassiveEdges": 2,
+    "numMasslessEdges": 4,
+    "distinctInternalMasses": 1,
+    "internalMassLabels": [
+      "m"
+    ],
+    "edgeMassPattern": "000101",
+    "numExtLegs": 5,
+    "numOnshellMassiveExtLegs": 0,
+    "numMasslessExtLegs": 5,
+    "extLegSignature": "00000"
+  },
+  "Subsectors": [],
+  "ParentSectors": []
+}

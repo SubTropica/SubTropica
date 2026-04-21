@@ -1,0 +1,62 @@
+{
+  "CNickelIndex": "e123|e24|e|e4|e|:0010|010|0|00|0|",
+  "MassScales": 6,
+  "FunctionClass": "unknown",
+  "EpsilonOrder": "",
+  "References": [
+    "arXiv:2512.05869"
+  ],
+  "Records": [
+    {
+      "reference": "arXiv:2512.05869",
+      "authors": "Coro, Federico, Novichkov, Pavel P., Page, Ben, Song, Qian",
+      "description": "Called $\\Gamma_5$ in the paper. Triangle (2 massive top propagators) connected to box (3 massless propagators) for $pp \\to t\\bar{t}H$.",
+      "epsOrders": "",
+      "familyName": "massive 2-loop 5-point planar box-triangle type II for ttH",
+      "method": "IBP",
+      "tools": [
+        "Singular"
+      ],
+      "ancillaryFiles": true,
+      "doi": "",
+      "texkey": "Coro:2025kha",
+      "masterCount": 0,
+      "dimScheme": "d=D",
+      "computationLevel": "IBP_only",
+      "location": "Fig. 3d, App. B",
+      "recordId": "bx_7f39a3717501",
+      "verified": false,
+      "verifiedAt": ""
+    }
+  ],
+  "Names": [
+    "massive 2-loop 5-point planar box-triangle type II for ttH"
+  ],
+  "Source": [
+    "arXiv"
+  ],
+  "Loops": 2,
+  "NumPropagators": 6,
+  "Results": [],
+  "edges": "{{{1, 2}, 0}, {{1, 3}, m}, {{1, 4}, 0}, {{2, 3}, m}, {{2, 5}, 0}, {{4, 5}, 0}}",
+  "nodes": "{{1, 0}, {4, 0}, {5, 0}, {2, 0}, {3, 0}}",
+  "CanonicalName": "Triangle-box, 2 massive propagators",
+  "MassConfig": {
+    "numEdges": 6,
+    "numMassiveEdges": 2,
+    "numMasslessEdges": 4,
+    "distinctInternalMasses": 1,
+    "internalMassLabels": [
+      "m"
+    ],
+    "edgeMassPattern": "010100",
+    "numExtLegs": 5,
+    "numOnshellMassiveExtLegs": 0,
+    "numMasslessExtLegs": 5,
+    "extLegSignature": "00000"
+  },
+  "Subsectors": [],
+  "ParentSectors": [
+    "123|e45|e4|e5|e|e|:001|001|00|01|0|0|"
+  ]
+}

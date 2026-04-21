@@ -1,0 +1,60 @@
+{
+  "CNickelIndex": "123|e4|e4|e4||:000|00|00|11||",
+  "MassScales": 1,
+  "FunctionClass": "MPL",
+  "EpsilonOrder": "0",
+  "References": [
+    "arXiv:1703.09692 (Comput.Phys.Commun. 222 (313), 2018)"
+  ],
+  "Records": [
+    {
+      "reference": "arXiv:1703.09692 (Comput.Phys.Commun. 222 (313), 2018)",
+      "authors": "Borowka, S., Heinrich, G., Jahn, S., Jones, S.P., Kerner, M., Schlenk, J., Zirke, T.",
+      "description": "Two-loop vertex integral N3 entering the Zbb form factor (Fleischer:1998nb, Dubovyk:2016zok), with one massive propagator (mass $m_Z$) and the on-shell condition $s = p_3^2 = m_Z^2$. The kinematics has no Euclidean region: the second Symanzik polynomial $F$ vanishes on a hyperplane in Feynman parameter space, producing endpoint singularities at $x_i=1$ in addition to those at the origin. pySecDec uses a dedicated splitting procedure (avoiding the symmetric point $x_i=0.5$) to remap these into origin singularities. Numerical results through $\\varepsilon^0$ are reported in Tab. N3.",
+      "epsOrders": "0",
+      "familyName": "triangle2L_split (N3)",
+      "method": "sector_decomposition",
+      "tools": [
+        "pySecDec"
+      ],
+      "ancillaryFiles": false,
+      "doi": "10.1016/j.cpc.2017.09.015",
+      "texkey": "Borowka:2017idc",
+      "masterCount": 0,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "numerical",
+      "location": "Section 5.6, Fig. Zbb, Tab. N3",
+      "recordId": "bx_e42c5296c15d",
+      "verified": false,
+      "verifiedAt": ""
+    }
+  ],
+  "Names": [
+    "triangle2L_split (N3)"
+  ],
+  "Source": [
+    "arXiv"
+  ],
+  "Loops": 2,
+  "NumPropagators": 6,
+  "Results": [],
+  "edges": "{{{1, 2}, 0}, {{1, 3}, 0}, {{1, 4}, 0}, {{2, 5}, 0}, {{3, 5}, 0}, {{4, 5}, m}}",
+  "nodes": "{{2, 0}, {3, 0}, {4, m}}",
+  "CanonicalName": "Non-planar double box, 1 massive propagator",
+  "MassConfig": {
+    "numEdges": 6,
+    "numMassiveEdges": 1,
+    "numMasslessEdges": 5,
+    "distinctInternalMasses": 1,
+    "internalMassLabels": [
+      "m"
+    ],
+    "edgeMassPattern": "000001",
+    "numExtLegs": 3,
+    "numOnshellMassiveExtLegs": 1,
+    "numMasslessExtLegs": 2,
+    "extLegSignature": "00M"
+  },
+  "Subsectors": [],
+  "ParentSectors": []
+}

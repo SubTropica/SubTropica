@@ -1,0 +1,102 @@
+{
+  "CNickelIndex": "1123|24|e|e5|e5|e|:0000|00|0|00|00|0|",
+  "MassScales": 2,
+  "FunctionClass": "MPL",
+  "EpsilonOrder": "6",
+  "References": [
+    "arXiv:2412.06972 (JHEP 02 (088), 2025)",
+    "arXiv:2512.02999 (Missing[\"KeyAbsent\", \"journal\"] Missing[\"KeyAbsent\", \"volume\"] (Missing[\"KeyAbsent\", \"pages\"]), Missing[\"KeyAbsent\", \"year\"])"
+  ],
+  "Records": [
+    {
+      "reference": "arXiv:2412.06972 (JHEP 02 (088), 2025)",
+      "authors": [
+        {
+          "full_name": "Canko, Dhimiter",
+          "inspire_id": 1603946
+        },
+        {
+          "full_name": "Pozzoli, Mattia",
+          "inspire_id": 2858585
+        }
+      ],
+      "description": "Three-loop reducible ladder-box crossed family RL2 for production of two off-shell vector bosons with different masses $m_3$, $m_4$. 25 masters in canonical dlog basis, solved analytically through weight 6 via DE in rationalized variables $(x,y,z)$. Cross-checked semi-numerically via DiffExp. Called `RL2` in the paper.",
+      "epsOrders": "6",
+      "familyName": "2-off-shell-mass three-loop 4-point reducible ladder-box crossed (8 propagators) - family RL2 / 2-off-shell-mass three-loop 4-point reducible ladder-box (8 propagators) - family RL1",
+      "method": "DE, IBP, series_expansion",
+      "tools": [
+        "FiniteFlow",
+        "DiffExp"
+      ],
+      "ancillaryFiles": true,
+      "doi": "10.1007/JHEP02(2025)088",
+      "texkey": "Canko:2024ara",
+      "masterCount": 25,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "full",
+      "location": "Section 2, Fig. RL2, top-sector (1,1,1,1,0,0,0,0,1,0,0,1,1,0,1)",
+      "recordId": "bx_36523384b123",
+      "verified": false,
+      "verifiedAt": ""
+    },
+    {
+      "reference": "arXiv:2512.02999",
+      "authors": [
+        {
+          "full_name": "Canko, Dhimiter",
+          "inspire_id": 1603946
+        },
+        {
+          "full_name": "Pozzoli, Mattia",
+          "inspire_id": 2858585
+        }
+      ],
+      "description": "Planar 3-loop family RL1 reducible ladder-box for N3LO QCD VV production. 27 MIs (different mass). Massless internal, 2 massive external legs. Canonical DEs + generalized power series.",
+      "epsOrders": "",
+      "familyName": "Massless 3-loop 4-point RL1 reducible ladder-box (diboson production) / Massless 3-loop 4-point RL2 reducible ladder-box (diboson production)",
+      "method": "IBP, DE, series_expansion",
+      "tools": [
+        "FiniteFlow",
+        "AMFlow",
+        "DiffExp"
+      ],
+      "ancillaryFiles": false,
+      "doi": "",
+      "texkey": "Canko:2025itd",
+      "masterCount": 27,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "full",
+      "location": "Table 1, Fig. 1a",
+      "recordId": "bx_938bc0e45357",
+      "verified": false,
+      "verifiedAt": ""
+    }
+  ],
+  "Names": [
+    "Massless 3-loop 4-point RL1 reducible ladder-box (diboson production)",
+    "Massless 3-loop 4-point RL2 reducible ladder-box (diboson production)"
+  ],
+  "Source": [
+    "arXiv"
+  ],
+  "Loops": 3,
+  "NumPropagators": 8,
+  "Results": [],
+  "edges": "{{{1, 2}, 0}, {{1, 2}, 0}, {{1, 3}, 0}, {{1, 4}, 0}, {{2, 3}, 0}, {{2, 5}, 0}, {{4, 6}, 0}, {{5, 6}, 0}}",
+  "nodes": "{{3, 0}, {4, 0}, {5, 0}, {6, 0}}",
+  "CanonicalName": "Massless triangle-bubble-pentagon",
+  "MassConfig": {
+    "numEdges": 8,
+    "numMassiveEdges": 0,
+    "numMasslessEdges": 8,
+    "distinctInternalMasses": 0,
+    "internalMassLabels": [],
+    "edgeMassPattern": "00000000",
+    "numExtLegs": 4,
+    "numOnshellMassiveExtLegs": 0,
+    "numMasslessExtLegs": 4,
+    "extLegSignature": "0000"
+  },
+  "Subsectors": [],
+  "ParentSectors": []
+}

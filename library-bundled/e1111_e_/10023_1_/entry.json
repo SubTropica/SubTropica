@@ -1,0 +1,74 @@
+{
+  "CNickelIndex": "e1111|e|:10023|1|",
+  "MassScales": 0,
+  "FunctionClass": "MPL",
+  "EpsilonOrder": "0",
+  "References": [],
+  "Records": [],
+  "Source": "SubTropica",
+  "Results": [
+    {
+      "resultCompressed": "1:eJzNWr1uE0EQPjsGopCCkpaOgiJVREVF4SKFFXiAOJIdreRwUc5gxBNQUuQBeARKaiqUKgUFj0BJAwKEEu5nsXf3vr2d/bVTXHzx7cw3M/t9M3eXB8f54fR2lmXFTnl4Njlnk+LpeD4utsrTyVnByl/ZtDopBuXhgBXzab86u1UenrPTSbE6HeWLyXlzWl07mr0sil75YaGsYDflT1H9bXFcf5bXTKs1tf+D/ET+ilVfIWsKiMat8o1wdduDEs7SoQBV9SEGsAVsbJeHw/Gc5S/Gsxo460vo3dO1K6VLufqXlNDhLD8Rsva/hnVZsbdt6eLO9WpeGgM/KQAa3xoLOxQIfC0O4i8Fg1I1DaSmTEsGrHaFeLnwFxXKgBJMcCh8qWyW/cGbHxizpYgSuomFdwATwnpsyEaL3ysyUzpxJSrJjVMJW7GiQeFWg2NR9sXvtpYH94l2hk6xd8E+dVHskbhGvfpxDyuE1HVrxe2Q7c/XWPF0RrDyvtfoJrDS00I5ysjx9PRQXpOtcDai2eAeOR6uoTAgWyiaiN7SwfC9g0KytoJj+k6PiZvBQe2R7aRpt1fk9MTquQqgr5QE8S285IRqZERht2AE58YWiiaiIwszHQT/Qo/Jn1ZyuVCKH1FUWDKDk2wTViezvtHjSkOt+/S6J+LWQ1KKuB0tuayt4PR8IG0g0YxHDxZ3skfTknayBy1EMz60kOzg9FgB6iIqjV9wfF8rwSIhwtl+R4EUGksHyc4oRYuDx6MZBgekpz1JPeLgwQkiDWRx+OU+P8fB4yHUkQB5zPSRBGiDatbVPNZTtM55cS1ES9MY17IhEz2THWpi64uxiR2x1lrjU0PFy0fN5gBeOEwnNzNKMHImnfxcUMKRCezk524mitHqUeKINU8R20a9niUr3nV3FHLR6gZcL4+LZnWbhJ/N1hlJkZb9dlFo1U0B7hIXwmwzyvsPRUefkDLn5bayFF3isJKG1zjsJ4LIYUcRVI47GoCIaJs2MHvcEnNpkKJQ9HFDt4+XeuXJUu742NGPQ0ZqJKlIGxIPKT0mcidPkEkEkmco0n3BBqQ61m1BqtBSK2bIKH60o/AZx2HRuv5VQvcaThYr54HcGs/qhV7okdwaCq0lhxrKzfCUCeeCPpYTm/4mJlRs+7Hxaaac8Dc6RmRwzCHBw6qdBN/QoUYmtUwSh2yIffJvLGbH6KbyykFgyXcjp29ewartRWFWyy27vuEvVerDP/sVrYQ=",
+      "resultTeX": "\\frac{\\log \\left(1-\\frac{1}{w}\\right)-\\log \\left(\\frac{\\text{wb}-1}{\\text{wb}}\\right)}{\\varepsilon^2 (w-\\text{wb})}+\\frac{-10 H(w,\\text{wb}\\,;1)+10 H(\\text{wb},w\\,;1)-4 H\\left(\\frac{w \\text{wb}}{w+\\text{wb}-1},w\\,;1\\right)+4 H\\left(\\frac{w \\text{wb}}{w+\\text{wb}-1},\\text{wb}\\,;1\\right)-8 H(0,w\\,;1)+8 H(0,\\text{wb}\\,;1)-6 \\log \\left(\\frac{w-1}{w}\\right) \\log (\\text{wb}-1)+6 \\log (w-1) \\log \\left(\\frac{\\text{wb}-1}{\\text{wb}}\\right)+7 \\log ^2\\left(\\frac{w-1}{w}\\right)-6 \\log (w-1) \\log \\left(\\frac{w-1}{w}\\right)-7 \\log ^2\\left(\\frac{\\text{wb}-1}{\\text{wb}}\\right)+6 \\log (\\text{wb}-1) \\log \\left(\\frac{\\text{wb}-1}{\\text{wb}}\\right)}{2 \\varepsilon (w-\\text{wb})} \\cdots",
+      "dimension": "2 - 2*eps",
+      "epsOrder": 0,
+      "propExponents": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "propagators": [],
+      "numerators": [],
+      "internalMasses": [],
+      "externalMasses": [],
+      "substitutions": "{MM -> 1, mm1 -> w*wb, mm2 -> (1 - w)*(1 - wb)}",
+      "normalization": "Automatic",
+      "stVersion": "SubTropica v1.0.379",
+      "stCommand": "STIntegrate[{{{{1, 2}, Subscript[m, 1]}, {{1, 2}, Subscript[m, 2]}, {{1, 2}, 0}, {{1, 2}, 0}}, {{1, M}, {2, M}}}, Dimension -> \"2 - 2*eps\", Order -> 0, Substitutions -> {MM -> 1, mm1 -> w*wb, mm2 -> (1 - w)*(1 - wb)}]",
+      "contributor": "SM",
+      "timestamp": "2026-04-19T19:00:08",
+      "byteCount": 37648,
+      "symbolTeX": "\\begin{aligned}\\varepsilon^{-2}&\\colon\\;\\frac{1}{w-\\text{wb}}\\,(w-1) + \\frac{1}{\\text{wb}-w}\\,(w) + \\frac{1}{\\text{wb}-w}\\,(\\text{wb}-1) + \\frac{1}{w-\\text{wb}}\\,(\\text{wb}) \\\\ \\varepsilon^{-1}&\\colon\\;\\frac{2}{w-\\text{wb}}\\,(w \\otimes w-1) + \\frac{1}{w-\\text{wb}}\\,(w \\otimes w) - \\frac{2}{w-\\text{wb}}\\,(\\text{wb} \\otimes \\text{wb}-1) + \\frac{1}{\\text{wb}-w}\\,(\\text{wb} \\otimes \\text{wb}) - \\frac{5}{w-\\text{wb}}\\,(w-1 \\otimes \\text{wb}-1) + \\frac{2}{w-\\text{wb}}\\,(w-1 \\otimes \\text{wb}) + \\frac{10}{w-\\text{wb}}\\,(w-\\text{wb} \\otimes \\text{wb}-1) - \\frac{10}{w-\\text{wb}}\\,(w-\\text{wb} \\otimes \\text{wb}) - \\frac{10}{w-\\text{wb}}\\,(w-\\text{wb} \\otimes w-1) + \\frac{10}{w-\\text{wb}}\\,(w-\\text{wb} \\otimes w) + \\frac{2}{w-\\text{wb}}\\,(\\text{wb} \\otimes w-1) - \\frac{5}{w-\\text{wb}}\\,(\\text{wb} \\otimes w) + \\frac{5}{w-\\text{wb}}\\,(\\text{wb}-1 \\otimes w-1) - \\frac{2}{w-\\text{wb}}\\,(\\text{wb}-1 \\otimes w) - \\frac{2}{w-\\text{wb}}\\,(w \\otimes \\text{wb}-1) + \\frac{5}{w-\\text{wb}}\\,(w \\otimes \\text{wb}) + \\frac{1}{\\text{wb}-w}\\,(w-1 \\otimes w-1) - \\frac{2}{w-\\text{wb}}\\,(w-1 \\otimes w) + \\frac{1}{w-\\text{wb}}\\,(\\text{wb}-1 \\otimes \\text{wb}-1) + \\frac{2}{w-\\text{wb}}\\,(\\text{wb}-1 \\otimes \\text{wb}) \\\\ \\varepsilon^{0}&\\colon\\;-\\frac{2}{w-\\text{wb}}\\,(w \\otimes w \\otimes w-1) + \\frac{1}{\\text{wb}-w}\\,(w \\otimes w \\otimes w) + \\frac{2}{w-\\text{wb}}\\,(\\text{wb} \\otimes \\text{wb} \\otimes \\text{wb}-1) + \\frac{1}{w-\\text{wb}}\\,(\\text{wb} \\otimes \\text{wb} \\otimes \\text{wb}) + \\frac{4}{w-\\text{wb}}\\,(w-1 \\otimes w \\otimes w-1) + \\frac{2}{w-\\text{wb}}\\,(w-1 \\otimes w \\otimes w) - \\frac{4}{w-\\text{wb}}\\,(\\text{wb}-1 \\otimes \\text{wb} \\otimes \\text{wb}-1) - \\frac{2}{w-\\text{wb}}\\,(\\text{wb}-1 \\otimes \\text{wb} \\otimes \\text{wb}) - \\frac{2}{w-\\text{wb}}\\,(w \\otimes w-1 \\otimes w-1) - \\frac{4}{w-\\text{wb}}\\,(w \\otimes w-1 \\otimes w) - \\frac{16}{w-\\text{wb}}\\,(w \\otimes w-1 \\otimes \\text{wb}-1) + \\frac{10}{w-\\text{wb}}\\,(w \\otimes w-1 \\otimes \\text{wb}) + \\frac{20}{w-\\text{wb}}\\,(w \\otimes w-\\text{wb} \\otimes \\text{wb}-1) - \\frac{20}{w-\\text{wb}}\\,(w \\otimes w-\\text{wb} \\otimes \\text{wb}) - \\frac{20}{w-\\text{wb}}\\,(w \\otimes w-\\text{wb} \\otimes w-1) + \\frac{20}{w-\\text{wb}}\\,(w \\otimes w-\\text{wb} \\otimes w) + \\frac{10}{w-\\text{wb}}\\,(w \\otimes \\text{wb} \\otimes w-1) - \\frac{25}{w-\\text{wb}}\\,(w \\otimes \\text{wb} \\otimes w) - \\frac{10}{w-\\text{wb}}\\,(w \\otimes \\text{wb} \\otimes \\text{wb}-1) - \\frac{5}{w-\\text{wb}}\\,(w \\otimes \\text{wb} \\otimes \\text{wb}) + \\frac{20}{w-\\text{wb}}\\,(w-\\text{wb} \\otimes \\text{wb} \\otimes \\text{wb}-1) + \\frac{10}{w-\\text{wb}}\\,(w-\\text{wb} \\otimes \\text{wb} \\otimes \\text{wb}) - \\frac{10}{w-\\text{wb}}\\,(w-\\text{wb} \\otimes w \\otimes w-1) - \\frac{20}{w-\\text{wb}}\\,(w-\\text{wb} \\otimes w \\otimes w) + \\frac{10}{w-\\text{wb}}\\,(\\text{wb} \\otimes w \\otimes w-1) + \\frac{5}{w-\\text{wb}}\\,(\\text{wb} \\otimes w \\otimes w) + \\frac{2}{w-\\text{wb}}\\,(\\text{wb} \\otimes \\text{wb}-1 \\otimes \\text{wb}-1) + \\frac{4}{w-\\text{wb}}\\,(\\text{wb} \\otimes \\text{wb}-1 \\otimes \\text{wb}) - \\frac{20}{w-\\text{wb}}\\,(\\text{wb} \\otimes w-\\text{wb} \\otimes w-1) + \\frac{20}{w-\\text{wb}}\\,(\\text{wb} \\otimes w-\\text{wb} \\otimes w) + \\frac{16}{w-\\text{wb}}\\,(\\text{wb} \\otimes \\text{wb}-1 \\otimes w-1) - \\frac{10}{w-\\text{wb}}\\,(\\text{wb} \\otimes \\text{wb}-1 \\otimes w) - \\frac{10}{w-\\text{wb}}\\,(\\text{wb} \\otimes w \\otimes \\text{wb}-1) + \\frac{25}{w-\\text{wb}}\\,(\\text{wb} \\otimes w \\otimes \\text{wb}) + \\frac{20}{w-\\text{wb}}\\,(\\text{wb} \\otimes w-\\text{wb} \\otimes \\text{wb}-1) - \\frac{20}{w-\\text{wb}}\\,(\\text{wb} \\otimes w-\\text{wb} \\otimes \\text{wb}) - \\frac{10}{w-\\text{wb}}\\,(\\text{wb}-w \\otimes w \\otimes w-1) + \\frac{10}{w-\\text{wb}}\\,(\\text{wb}-w \\otimes w \\otimes w) + \\frac{4}{w-\\text{wb}}\\,(w \\otimes \\text{wb}-1 \\otimes w-1) + \\frac{2}{w-\\text{wb}}\\,(w \\otimes \\text{wb}-1 \\otimes w) - \\frac{2}{w-\\text{wb}}\\,(\\text{wb} \\otimes w-1 \\otimes w-1) - \\frac{4}{w-\\text{wb}}\\,(\\text{wb} \\otimes w-1 \\otimes w) - \\frac{4}{w-\\text{wb}}\\,(\\text{wb} \\otimes w-1 \\otimes \\text{wb}-1) - \\frac{2}{w-\\text{wb}}\\,(\\text{wb} \\otimes w-1 \\otimes \\text{wb}) - \\frac{10}{w-\\text{wb}}\\,(w-1 \\otimes w \\otimes \\text{wb}-1) + \\frac{16}{w-\\text{wb}}\\,(w-1 \\otimes w \\otimes \\text{wb}) - \\frac{2}{w-\\text{wb}}\\,(w-1 \\otimes \\text{wb} \\otimes w-1) - \\frac{4}{w-\\text{wb}}\\,(w-1 \\otimes \\text{wb} \\otimes w) - \\frac{4}{w-\\text{wb}}\\,(w-1 \\otimes \\text{wb} \\otimes \\text{wb}-1) - \\frac{2}{w-\\text{wb}}\\,(w-1 \\otimes \\text{wb} \\otimes \\text{wb}) + \\frac{2}{w-\\text{wb}}\\,(w \\otimes \\text{wb}-1 \\otimes \\text{wb}-1) + \\frac{4}{w-\\text{wb}}\\,(w \\otimes \\text{wb}-1 \\otimes \\text{wb}) + \\frac{4}{w-\\text{wb}}\\,(\\text{wb}-1 \\otimes w \\otimes w-1) + \\frac{2}{w-\\text{wb}}\\,(\\text{wb}-1 \\otimes w \\otimes w) + \\frac{2}{w-\\text{wb}}\\,(\\text{wb}-1 \\otimes w \\otimes \\text{wb}-1) + \\frac{4}{w-\\text{wb}}\\,(\\text{wb}-1 \\otimes w \\otimes \\text{wb}) + \\frac{10}{w-\\text{wb}}\\,(\\text{wb}-1 \\otimes \\text{wb} \\otimes w-1) - \\frac{16}{w-\\text{wb}}\\,(\\text{wb}-1 \\otimes \\text{wb} \\otimes w)  + \\cdots",
+      "alphabet": [
+        "w-1",
+        "w",
+        "\\text{wb}-1",
+        "\\text{wb}",
+        "w-\\text{wb}",
+        "\\text{wb}-w"
+      ],
+      "symbolWeight": 3,
+      "symbolTerms": 128,
+      "legOrder": [
+        1,
+        2
+      ]
+    }
+  ],
+  "edges": "{{{1, 2}, Subscript[m, 1]}, {{1, 2}, Subscript[m, 2]}, {{1, 2}, 0}, {{1, 2}, 0}}",
+  "nodes": "{{1, M}, {2, M}}",
+  "Loops": 3,
+  "NumPropagators": 4,
+  "MassConfig": {
+    "numEdges": 4,
+    "numMassiveEdges": 2,
+    "numMasslessEdges": 2,
+    "distinctInternalMasses": 2,
+    "internalMassLabels": [
+      "Subscript[m, 1]",
+      "Subscript[m, 2]"
+    ],
+    "edgeMassPattern": "1200",
+    "numExtLegs": 2,
+    "numOnshellMassiveExtLegs": 2,
+    "numMasslessExtLegs": 0,
+    "extLegSignature": "MM"
+  },
+  "CanonicalName": "2-mass banana, 2 massive propagators",
+  "Names": [],
+  "ParentSectors": [],
+  "Subsectors": [],
+  "commonNames": null,
+  "quadruple": "{E^(3*eps*EulerGamma)*Gamma[1 + 3*eps], x1*x2*x3*x4*(x1*x2*x3 + x1*x2*x4 + x1*x3*x4 + x2*x3*x4)^(4*eps)*(w*wb*x1^2*x2*x3 + x1*x2^2*x3 - w*x1*x2^2*x3 - wb*x1*x2^2*x3 + w*wb*x1*x2^2*x3 + w*wb*x1^2*x2*x4 + x1*x2^2*x4 - w*x1*x2^2*x4 - wb*x1*x2^2*x4 + w*wb*x1*x2^2*x4 + w*wb*x1^2*x3*x4 - w*x1*x2*x3*x4 - wb*x1*x2*x3*x4 + 2*w*wb*x1*x2*x3*x4 + x2^2*x3*x4 - w*x2^2*x3*x4 - wb*x2^2*x3*x4 + w*wb*x2^2*x3*x4)^(-1 - 3*eps), {x1, x2, x3, x4}, {w, wb}}"
+}

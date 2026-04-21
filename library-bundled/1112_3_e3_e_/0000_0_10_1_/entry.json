@@ -1,0 +1,101 @@
+{
+  "CNickelIndex": "1112|3|e3|e|:0000|0|10|1|",
+  "MassScales": 1,
+  "FunctionClass": "MPL",
+  "EpsilonOrder": "-2,-1,0,1,2",
+  "References": [
+    "arXiv:1705.06483 (doi: 10.1103/PhysRevD.96.036016)"
+  ],
+  "Records": [
+    {
+      "epsOrders": "-2,-1,0,1,2",
+      "reference": "arXiv:1705.06483 (doi: 10.1103/PhysRevD.96.036016)",
+      "authors": "Mikhail V. Kompaniets and Erik Panzer",
+      "description": "massless propagator computed for the $\\varphi^4$ 6-loop calculation available from the ancillary files p_int_g4.mpl (Maple) and p_int_g4.m (Mathematica) of the arXiv submission results are rational linear combinations of multiple zeta values",
+      "recordId": "1504717746.i1BD",
+      "verified": true,
+      "verifiedAt": "2026-04-07",
+      "ancillaryFiles": true
+    }
+  ],
+  "Source": [
+    "arXiv",
+    "Loopedia"
+  ],
+  "Results": [
+    {
+      "resultCompressed": "1:eJyNkE0OgjAQhauoEMNGb+ANvIMuISHoBWrSmknAEoo/ceFt3bp3I04HJSlCpIvXTPte++UtdiqWE8aYnqJsRA5Cr3nBtYOjyDTgxqQZ9AglAF3IoZk8lJgXoA48gRIX+MZJd2OULaRCt1gHOIBnPRolRw1PfKI17aKsVJol4kIwQKdGImgE6EqaHwg/UHvyhWFPrKWJTyys+6sv1q0ba2Y1E6mzyD/Oitix7fPaXmO4Xd3+YCBv+cX43wQ8rNoJrS1WcTayvtV2ej2RiwiqPo28AReff/g=",
+      "resultTeX": "-\\frac{1}{12 \\varepsilon^2}+\\frac{2 \\log \\left(M^2\\right)+2 i \\pi -7}{8 \\varepsilon}+\\frac{1}{48} \\left(-18 \\log ^2\\left(M^2\\right)+18 (7-2 i \\pi ) \\log \\left(M^2\\right)+12 \\zeta(2)+17 \\pi ^2+126 i \\pi -283\\right)+O\\left(\\varepsilon^1\\right)",
+      "dimension": "4 - 2*eps",
+      "epsOrder": 0,
+      "propExponents": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "propagators": [],
+      "numerators": [],
+      "internalMasses": [],
+      "externalMasses": [],
+      "substitutions": "{}",
+      "normalization": "Automatic",
+      "stVersion": "SubTropica v1.0.322",
+      "stCommand": "STIntegrate[pref * (integrand / (Times @@ xvars)), {x2,0,Infinity}, {x3,0,Infinity}, {x4,0,Infinity}, {x5,0,Infinity}, {x6,0,Infinity}, Order->0]  (* with Gauge->{x1->1} *)",
+      "contributor": "Sebastian Mizera",
+      "timestamp": "2026-04-18T11:47:09",
+      "byteCount": 1808,
+      "method": "direct_integration",
+      "tools": [
+        "SubTropica",
+        "AnTropica"
+      ],
+      "verification": {
+        "method": "pySecDec",
+        "kinematicPoint": {
+          "Msq": "-41/47"
+        },
+        "tolerance": 0.0001,
+        "maxRelError": 2.374794845336973e-05,
+        "verifiedAt": "2026-04-18T11:47:09"
+      },
+      "legOrder": [],
+      "symbolTeX": "\\begin{aligned}\\varepsilon^{-1}&\\colon\\;\\frac{1}{4}\\,(M^2) \\\\ \\varepsilon^{0}&\\colon\\;\\frac{21}{8}\\,(M^2) - \\frac{3}{4}\\,(M^2 \\otimes M^2)\\end{aligned}",
+      "alphabet": [
+        "M^2"
+      ],
+      "symbolWeight": 2,
+      "symbolTerms": 3
+    }
+  ],
+  "Names": [
+    "Massless non-planar kite-sunset",
+    "Non-planar kite-sunset",
+    "3-loop propagator"
+  ],
+  "edges": "{{{1, 2}, 0}, {{1, 2}, 0}, {{1, 2}, 0}, {{1, 3}, 0}, {{2, 4}, 0}, {{3, 4}, 0}}",
+  "nodes": "{{3, M}, {4, M}}",
+  "numericallyVerified": true,
+  "numericallyVerifiedAt": "2026-04-12",
+  "CanonicalName": "Massless bubble-bubble-box",
+  "MassConfig": {
+    "numEdges": 6,
+    "numMassiveEdges": 0,
+    "numMasslessEdges": 6,
+    "distinctInternalMasses": 0,
+    "internalMassLabels": [],
+    "edgeMassPattern": "000000",
+    "numExtLegs": 2,
+    "numOnshellMassiveExtLegs": 2,
+    "numMasslessExtLegs": 0,
+    "extLegSignature": "MM"
+  },
+  "Subsectors": [],
+  "ParentSectors": [
+    "1112|3|344|e|e|:0000|0|000|1|1|",
+    "1112|3|44|e4|e|:0000|0|00|10|1|",
+    "1122|23|4|e4|e|:0000|00|0|10|1|"
+  ]
+}

@@ -1,0 +1,72 @@
+{
+  "CNickelIndex": "123|45|46|57|e|e|e7|e|:000|00|00|00|0|0|00|0|",
+  "MassScales": 2,
+  "FunctionClass": "MPL",
+  "EpsilonOrder": "-6,-5,-4,-3,-2,-1,0,1,2,3,4,5,6,7,8",
+  "References": [
+    "arXiv:2111.13595",
+    "arXiv:2002.09492 (JHEP 04 (167), 2020)"
+  ],
+  "Records": [
+    {
+      "epsOrders": "-6,-5,-4,-3,-2,-1,0",
+      "reference": "arXiv:2111.13595",
+      "authors": "Piotr Bargiela, Fabrizio Caola, Andreas von Manteuffel, Lorenzo Tancredi",
+      "description": "The three-loop four-point massless Master Integrals are computed in planar, non-planar, and double-non-planar sectors. The result is given in terms of Harmonic Polylogarithms.",
+      "recordId": "1724945165.pbtA",
+      "verified": false,
+      "verifiedAt": ""
+    },
+    {
+      "reference": "arXiv:2002.09492 (JHEP 04 (167), 2020)",
+      "authors": "Henn, Johannes, Mistlberger, Bernhard, Smirnov, Vladimir A., Wasser, Pascal",
+      "description": "Three-loop planar tennis court family E (HMSW). Planar topology with outer box, horizontal middle bar, and a single vertical rung in the lower half; all 8 internal vertices are 3-valent. Depicted in Fig. 1(e) of the paper (Introduction.tex, lines 163-172); propagator definitions in ancillary file FamilyDefinition.m row 5.",
+      "epsOrders": "8",
+      "familyName": "HMSW_E",
+      "method": "DE, IBP",
+      "tools": [],
+      "ancillaryFiles": true,
+      "doi": "10.1007/JHEP04(2020)167",
+      "texkey": "Henn:2020lye",
+      "masterCount": 41,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "full",
+      "location": "Section 7 eq. (eq:3LoopIntDef), Table 2, ancillary FamilyDefinition.m (row 5)",
+      "recordId": "bx_1ff81540806d",
+      "verified": false,
+      "verifiedAt": ""
+    }
+  ],
+  "Source": [
+    "arXiv",
+    "Loopedia"
+  ],
+  "Results": [],
+  "Names": [
+    "Massless double-non-planar 3-loop box",
+    "Double-non-planar 3-loop box",
+    "HMSW_E",
+    "Three-loop planar tennis court (family E)"
+  ],
+  "Loops": 3,
+  "NumPropagators": 10,
+  "edges": "{{{1, 2}, 0}, {{1, 3}, 0}, {{1, 4}, 0}, {{2, 5}, 0}, {{2, 6}, 0}, {{3, 5}, 0}, {{3, 7}, 0}, {{4, 6}, 0}, {{4, 8}, 0}, {{7, 8}, 0}}",
+  "nodes": "{{5, 0}, {7, 0}, {8, 0}, {6, 0}}",
+  "CanonicalName": "Massless extended core",
+  "MassConfig": {
+    "numEdges": 10,
+    "numMassiveEdges": 0,
+    "numMasslessEdges": 10,
+    "distinctInternalMasses": 0,
+    "internalMassLabels": [],
+    "edgeMassPattern": "0000000000",
+    "numExtLegs": 4,
+    "numOnshellMassiveExtLegs": 0,
+    "numMasslessExtLegs": 4,
+    "extLegSignature": "0000"
+  },
+  "Subsectors": [
+    "123|45|46|56|e|e|e|:000|00|00|00|0|0|1|"
+  ],
+  "ParentSectors": []
+}

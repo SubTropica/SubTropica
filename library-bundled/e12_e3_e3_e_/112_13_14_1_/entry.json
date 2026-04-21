@@ -1,0 +1,87 @@
+{
+  "CNickelIndex": "e12|e3|e3|e|:112|13|14|1|",
+  "MassScales": 6,
+  "FunctionClass": "MPL",
+  "EpsilonOrder": "0",
+  "References": [
+    "arXiv:1005.2076 (Nucl.Phys.B 844 (199), 2011)",
+    "arXiv:2501.09454 (JHEP 04 (116), 2025)",
+    "arXiv:2512.14363"
+  ],
+  "Records": [
+    {
+      "reference": "arXiv:2501.09454 (JHEP 04 (116), 2025)",
+      "authors": "Flieger, Wojciech, Henn, Johannes, Schreiber, Anders, Trnka, Jaroslav",
+      "description": "One-loop box with 4 internal masses $m_1..m_4$ in 4D embedding-space (dual-conformal) formalism. Coulomb-branch on-shell conditions $p_i^2=m_i^2+m_{i+1}^2$. Variables $u=(1+x^2)^2/(4x^2)$, $v=(1+y^2)^2/(4y^2)$; canonical pure basis of 4 masters.",
+      "epsOrders": "0",
+      "familyName": "4-mass one-loop 4-point box (Coulomb branch of N=4 sYM)",
+      "method": "DE, IBP",
+      "tools": [],
+      "ancillaryFiles": true,
+      "doi": "10.1007/JHEP04(2025)116",
+      "texkey": "Flieger:2025ekn",
+      "masterCount": 4,
+      "dimScheme": "d=4",
+      "computationLevel": "full",
+      "location": "Section 3, Eq. (3.46)",
+      "recordId": "bx_393ea1bc4550",
+      "verified": false,
+      "verifiedAt": ""
+    },
+    {
+      "reference": "arXiv:2512.14363",
+      "authors": "Duhr, Claude, Mork, Paul",
+      "description": "Fully massive one-loop box with 4 distinct propagator masses and 6 external invariants (10 scales), computed to $\\mathcal{O}(\\varepsilon^2)$. Decomposed into 24 orthoschemes. Two types of square roots rationalized. First explicit MPL result at higher $\\varepsilon$ orders for the generic massive box.",
+      "epsOrders": "2",
+      "familyName": "fully massive 1-loop box (10 scales, higher eps)",
+      "method": "direct_integration",
+      "tools": [],
+      "ancillaryFiles": true,
+      "doi": "",
+      "texkey": "Duhr:2025azh",
+      "masterCount": 1,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "full",
+      "location": "Section 4.2, Eq. (4.15)-(4.28)",
+      "recordId": "bx_84884d9cee9e",
+      "verified": false,
+      "verifiedAt": ""
+    }
+  ],
+  "Names": [
+    "D0",
+    "4-mass one-loop 4-point box (Coulomb branch of N=4 sYM)",
+    "fully massive 1-loop box (10 scales, higher eps)"
+  ],
+  "Source": [
+    "arXiv"
+  ],
+  "Loops": 1,
+  "NumPropagators": 4,
+  "Results": [],
+  "edges": "{{{1, 2}, m[1]}, {{1, 3}, m[2]}, {{2, 4}, m[3]}, {{3, 4}, m[4]}}",
+  "nodes": "{{1, m[1]}, {2, m[1]}, {4, m[1]}, {3, m[1]}}",
+  "CanonicalName": "4-mass box (d)",
+  "MassConfig": {
+    "numEdges": 4,
+    "numMassiveEdges": 4,
+    "numMasslessEdges": 0,
+    "distinctInternalMasses": 4,
+    "internalMassLabels": [
+      "m[1]",
+      "m[2]",
+      "m[3]",
+      "m[4]"
+    ],
+    "edgeMassPattern": "1234",
+    "numExtLegs": 4,
+    "numOnshellMassiveExtLegs": 4,
+    "numMasslessExtLegs": 0,
+    "extLegSignature": "MMMM"
+  },
+  "commonNames": [
+    "D₀(4 masses)"
+  ],
+  "Subsectors": [],
+  "ParentSectors": []
+}

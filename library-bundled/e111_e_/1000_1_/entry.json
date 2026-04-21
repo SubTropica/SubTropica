@@ -1,0 +1,283 @@
+{
+  "CNickelIndex": "e111|e|:1000|1|",
+  "MassScales": 0,
+  "FunctionClass": "hypergeometric",
+  "EpsilonOrder": "all_orders",
+  "References": [
+    "arXiv:2309.12772 (JHEP 02 (179), 2024)",
+    "arXiv:1804.00131 (Phys.Rev.D 98 (), 2018)",
+    "arXiv:1901.11510 (JHEP 05 (153), 2019)",
+    "arXiv:2306.02927",
+    "arXiv:2412.15962",
+    "arXiv:1305.2421 (JHEP 11 (022), 2013)",
+    "arXiv:1907.08227 (Phys.Rev.D 100 (), 2019)",
+    "arXiv:2412.21053"
+  ],
+  "Records": [
+    {
+      "reference": "arXiv:2309.12772 (JHEP 02 (179), 2024)",
+      "authors": "Duhr, Claude, Porkert, Franziska",
+      "description": "Two-loop massless sunset in $d=2$ with generic propagator powers. Result: product of sv Beta functions.",
+      "epsOrders": "all_orders",
+      "familyName": "Ban_2 (2-loop sunrise d=2)",
+      "method": "direct_integration",
+      "tools": [],
+      "ancillaryFiles": false,
+      "doi": "10.1007/JHEP02(2024)179",
+      "texkey": "Duhr:2023bku",
+      "masterCount": 1,
+      "dimScheme": "d=2",
+      "computationLevel": "full",
+      "location": "Section 4.1",
+      "recordId": "bx_e8b8305113ca",
+      "verified": false,
+      "verifiedAt": ""
+    },
+    {
+      "reference": "arXiv:1804.00131 (Phys.Rev.D 98 (), 2018)",
+      "authors": [
+        {
+          "full_name": "Kosower, David A.",
+          "inspire_id": 1002112
+        }
+      ],
+      "description": "Massless sunrise (sunset) with 3 propagators and one massive external momentum $K^2=s$. Closed-form in Gamma functions. 1 master integral.",
+      "epsOrders": "all_orders",
+      "familyName": "P_00",
+      "method": "IBP, direct_integration",
+      "tools": [],
+      "ancillaryFiles": false,
+      "doi": "10.1103/PhysRevD.98.025008",
+      "texkey": "",
+      "masterCount": 1,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "full",
+      "location": "Fig. 3, Sec. VII.A",
+      "recordId": "bx_190de1e53c2c",
+      "verified": false,
+      "verifiedAt": ""
+    },
+    {
+      "reference": "arXiv:1901.11510 (JHEP 05 (153), 2019)",
+      "authors": "Frellesvig, Hjalte, Gasparotto, Federico, Laporta, Stefano, Mandal, Manoj K., Mastrolia, Pierpaolo, Mattiazzi, Luca, Mizera, Sebastian",
+      "description": "Massless two-loop sunrise (banana) diagram, with three massless propagators and one ISP $z=k_2^2$. The 1-form $\\omega$ from the standard Baikov representation has a single master on the maximal cut. The reduction $I_{1,1,1;-1} = (s/3) I_{1,1,1;0}$ is obtained in the monomial basis via intersection numbers, in agreement with LiteRed. The same family is also treated via iterated 1-form intersections in Section 17.1 using the two-fold Baikov representation.",
+      "epsOrders": "",
+      "familyName": "Two-Loop Massless Sunrise",
+      "method": "intersection",
+      "tools": [
+        "LiteRed"
+      ],
+      "ancillaryFiles": false,
+      "doi": "10.1007/JHEP05(2019)153",
+      "texkey": "Frellesvig:2019kgj",
+      "masterCount": 1,
+      "dimScheme": "d=D",
+      "computationLevel": "maximal_cut",
+      "location": "Section 8.1, Eqs. (8.1)-(8.5), Fig. 6",
+      "recordId": "bx_aff21ea408ce",
+      "verified": false,
+      "verifiedAt": ""
+    },
+    {
+      "reference": "arXiv:2306.02927",
+      "authors": [
+        {
+          "full_name": "Guan, Xin",
+          "inspire_id": 2162418
+        },
+        {
+          "full_name": "Li, Xiang",
+          "inspire_id": 2838350
+        },
+        {
+          "full_name": "Ma, Yan-Qing",
+          "inspire_id": 1056966
+        }
+      ],
+      "description": "Massless two-loop sunrise family with external momentum $k$, $k^2=s$. Three propagators $D_1=l_1^2$, $D_2=l_2^2$, $D_3=(l_1+l_2+k)^2$ plus two ISPs $D_4=l_1 \\cdot k$, $D_5=l_2 \\cdot k$. All sub-sector integrals are scaleless and vanish. The top sector contains only 3 master integrals. Explicit DEs $A_4, A_5$ of the GFs w.r.t. $x_4,x_5$ and an explicit closed-form recurrence relation (Eq. 29) reducing $I(\\nu_4,\\nu_5)$ to $I(0,0)$ are given, as well as $\\eta$-type DEs (4 MIs) for arbitrary powers of denominators. Used to illustrate that the fixed-direction scheme gives DEs already in canonical form.",
+      "epsOrders": "",
+      "familyName": "two-loop massless sunrise (one-scale)",
+      "method": "IBP, DE",
+      "tools": [
+        "Blade"
+      ],
+      "ancillaryFiles": true,
+      "doi": "",
+      "texkey": "",
+      "masterCount": 3,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "IBP_only",
+      "location": "Sec. 'Two-loop sunrise', Eqs. (22)-(29)",
+      "recordId": "bx_48839b76c60b",
+      "verified": false,
+      "verifiedAt": ""
+    },
+    {
+      "reference": "arXiv:2412.15962",
+      "authors": "Wang, Ziwen, Yang, Li Lin",
+      "description": "Massless sunrise (banana) with $p^2=s$. Preliminary extension of contour-based reduction to two loops. Derives $I(1,2,2)$ reduction relation.",
+      "epsOrders": "",
+      "familyName": "massless 2-loop 2-point sunrise",
+      "method": "IBP",
+      "tools": [],
+      "ancillaryFiles": false,
+      "doi": "",
+      "texkey": "Wang:2024hsm",
+      "masterCount": 0,
+      "dimScheme": "d=D",
+      "computationLevel": "IBP_only",
+      "location": "Section 4.2, Figure 6",
+      "recordId": "bx_18079d8b4f3b",
+      "verified": false,
+      "verifiedAt": ""
+    },
+    {
+      "reference": "arXiv:1305.2421 (JHEP 11 (022), 2013)",
+      "authors": "Brandhuber, Andreas, Gürdoğan, Ömer, Korres, Dimitrios, Mooney, Robert, Travaglini, Gabriele",
+      "description": "Two-loop sunset master integral in $d=3-2\\varepsilon$. Massless, single-scale. Closed form in Gamma functions to all orders in $\\varepsilon$.",
+      "epsOrders": "all_orders",
+      "familyName": "sunrise",
+      "method": "Mellin-Barnes, direct_integration",
+      "tools": [],
+      "ancillaryFiles": false,
+      "doi": "10.1007/JHEP11(2013)022",
+      "texkey": "Brandhuber:2013gda",
+      "masterCount": 0,
+      "dimScheme": "d=2m-2*eps",
+      "computationLevel": "full",
+      "location": "Eq. (A.1)",
+      "recordId": "bx_1145a3b9a619",
+      "verified": false,
+      "verifiedAt": ""
+    },
+    {
+      "reference": "arXiv:1907.08227 (Phys.Rev.D 100 (), 2019)",
+      "authors": "Gerlach, Marvin, Mishima, Go, Steinhauser, Matthias",
+      "description": "Two-loop massless sunrise (banana) integral with external momentum $2p$ (where $p^2=m^2$, so the invariant is $4m^2$). Result is exact in epsilon, given in terms of Gamma functions. Appears in the annihilation channel of the NRQCD matching calculation.",
+      "epsOrders": "all_orders",
+      "familyName": "I_2^d",
+      "method": "direct_integration",
+      "tools": [
+        "FIRE",
+        "LiteRed",
+        "FIESTA"
+      ],
+      "ancillaryFiles": true,
+      "doi": "10.1103/PhysRevD.100.054016",
+      "texkey": "Gerlach:2019kfo",
+      "masterCount": 1,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "full",
+      "location": "Appendix B, Eq. (B.1), Fig. 3",
+      "recordId": "bx_4fc26ebc7a2f",
+      "verified": false,
+      "verifiedAt": ""
+    },
+    {
+      "reference": "arXiv:2412.21053",
+      "authors": [
+        {
+          "full_name": "Huang, Li-Hong",
+          "inspire_id": 3069105
+        },
+        {
+          "full_name": "Huang, Rui-Jun",
+          "inspire_id": 1066027
+        },
+        {
+          "full_name": "Ma, Yan-Qing",
+          "inspire_id": 1056966
+        }
+      ],
+      "description": "Two-loop massless-internal sunrise self-energy with two massive external legs. Computed numerically to 6-digit precision via the new fixed-branch-integral (FBI) representation with dimension-changing transform (DCT); 726 sample points, 0.14 ms/point. Cross-checked against AMFlow. Called graph e2 in Table I of the paper.",
+      "epsOrders": "",
+      "familyName": "2-mass 2-loop 2-point sunrise (3 propagators)",
+      "method": "direct_integration, series_expansion",
+      "tools": [
+        "AMFlow"
+      ],
+      "ancillaryFiles": false,
+      "doi": "",
+      "texkey": "",
+      "masterCount": 0,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "numerical",
+      "location": "Table I (graph e2), Two-loop examples section",
+      "recordId": "bx_11446de96a74",
+      "verified": false,
+      "verifiedAt": ""
+    }
+  ],
+  "Names": [
+    "Ban_2 (2-loop sunrise d=2)",
+    "P_00",
+    "Two-Loop Massless Sunrise",
+    "two-loop massless sunrise (one-scale)",
+    "massless 2-loop 2-point sunrise",
+    "sunrise"
+  ],
+  "Source": [
+    "arXiv"
+  ],
+  "Loops": 2,
+  "NumPropagators": 3,
+  "Results": [
+    {
+      "resultCompressed": "1:eJxTTMoPSmNjYGAo5gISwalFmanFLoklicXMQG5qQXEmkGJIYwIpYAESPpnFJRAeK5AIycxNLYZwOYBEUGJJZn5eYk7mfyDIBCkvBsn5+qYxE9LBCORkcqDrABkRkFNanPkZaCBWa9mBhHN+bkFOagXYpQhbAzLRNICl0kAWgf3mk58OtQviXLALQAQAPfk7kg==",
+      "resultTeX": "-\\frac{M^2}{4 \\varepsilon}+\\frac{1}{8} M^2 \\left(4 \\log \\left(M^2\\right)+4 i \\pi -13\\right)+O\\left(\\varepsilon^1\\right)",
+      "dimension": "4 - 2*eps",
+      "epsOrder": "0",
+      "epsOrders": "0",
+      "propExponents": [
+        1,
+        1,
+        1
+      ],
+      "propagators": [],
+      "numerators": [],
+      "internalMasses": [],
+      "externalMasses": [],
+      "substitutions": "",
+      "rootSubstitutions": "{}",
+      "normalization": "Automatic",
+      "stVersion": "SubTropica v1.0.293",
+      "stCommand": "",
+      "contributor": "Sebastian Mizera",
+      "timestamp": "2026-04-15T15:53:53",
+      "verifiedAt": "2026-04-15T15:53:53",
+      "verified": true,
+      "method": "direct_integration",
+      "tools": [
+        "SubTropica"
+      ],
+      "methodLR": "Lungo",
+      "findRoots": false,
+      "byteCount": 752
+    }
+  ],
+  "edges": "{{{1, 2}, 0}, {{1, 2}, 0}, {{1, 2}, 0}}",
+  "nodes": "{{1, M}, {2, M}}",
+  "CanonicalName": "Massless sunrise",
+  "MassConfig": {
+    "numEdges": 3,
+    "numMassiveEdges": 0,
+    "numMasslessEdges": 3,
+    "distinctInternalMasses": 0,
+    "internalMassLabels": [],
+    "edgeMassPattern": "000",
+    "numExtLegs": 2,
+    "numOnshellMassiveExtLegs": 2,
+    "numMasslessExtLegs": 0,
+    "extLegSignature": "MM"
+  },
+  "commonNames": [
+    "S",
+    "B2"
+  ],
+  "Subsectors": [],
+  "ParentSectors": [
+    "11122|e|e|:00000|1|1|",
+    "1122|e2|e|:0000|10|1|",
+    "112|e2|e|:000|10|1|"
+  ]
+}

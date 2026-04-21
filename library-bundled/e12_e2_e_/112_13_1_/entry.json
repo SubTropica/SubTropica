@@ -1,0 +1,94 @@
+{
+  "CNickelIndex": "e12|e2|e|:112|13|1|",
+  "MassScales": 3,
+  "FunctionClass": "hypergeometric",
+  "EpsilonOrder": "2",
+  "References": [
+    "arXiv:2208.01000 (Missing[\"KeyAbsent\", \"journal\"] Missing[\"KeyAbsent\", \"volume\"] (Missing[\"KeyAbsent\", \"pages\"]), Missing[\"KeyAbsent\", \"year\"])",
+    "arXiv:2512.14363"
+  ],
+  "Records": [
+    {
+      "reference": "arXiv:2208.01000 (Nucl.Phys.B 989 (116145), 2023)",
+      "authors": [
+        {
+          "full_name": "Bera, Souvik",
+          "inspire_id": 1969293
+        }
+      ],
+      "description": "One-loop massive three-point (vertex/triangle) integral with three distinct internal masses and three off-shell external legs, expressed in closed form as an Appell $F_1$ double hypergeometric function of kinematic variables $(x,y)$. The paper performs the epsilon expansion ($d=4-2\\varepsilon$) of $F_1(1-\\varepsilon, 1, 1/2, 2-\\varepsilon, x, y)$ by first analytically continuing $F_1$ onto a region where $|1/(1-x)|<1$ and applying the authors' Taylor/Laurent-expansion methodology, giving coefficients through $\\mathcal{O}(\\varepsilon^2)$ as linear combinations of Kampe de Feriet / $F_1$ / $F_2$-type hypergeometric functions. Numerical cross-check at $(x,y) = (11.1 - i \\cdot 10^{-12}, 12.1 - i \\cdot 10^{-12})$ against Table B.2 of Phan:2018cnz.",
+      "epsOrders": "2",
+      "familyName": "one-loop massive vertex (triangle) via Appell F1",
+      "method": "series_expansion, direct_integration",
+      "tools": [
+        "Mathematica",
+        "Olsson.wl",
+        "HypExp",
+        "Hyperdire"
+      ],
+      "ancillaryFiles": true,
+      "doi": "10.1016/j.nuclphysb.2023.116145",
+      "texkey": "Bera:2022ecn",
+      "masterCount": 0,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "full",
+      "location": "Section: Taylor series of Appell F_1 (Eq. B.2 of Phan:2018cnz reproduced as F1((d-2)/2,1,1/2,d/2,x_c,y_c))",
+      "recordId": "bx_b7fec141cc3c",
+      "verified": false,
+      "verifiedAt": ""
+    },
+    {
+      "reference": "arXiv:2512.14363",
+      "authors": "Duhr, Claude, Mork, Paul",
+      "description": "Fully massive one-loop triangle with 3 distinct propagator masses and 3 distinct external masses (6 scales), computed to $\\mathcal{O}(\\varepsilon^2)$. Decomposed into 6 orthoschemes via projective dissection of hyperbolic simplex. All square roots rationalized. First explicit MPL result at higher $\\varepsilon$ orders for the generic massive triangle.",
+      "epsOrders": "2",
+      "familyName": "fully massive 1-loop triangle (6 scales, higher eps)",
+      "method": "direct_integration",
+      "tools": [],
+      "ancillaryFiles": true,
+      "doi": "",
+      "texkey": "Duhr:2025azh",
+      "masterCount": 1,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "full",
+      "location": "Section 4.1, Eq. (4.2)-(4.14)",
+      "recordId": "bx_fbc3403e10ce",
+      "verified": false,
+      "verifiedAt": ""
+    }
+  ],
+  "Names": [
+    "one-loop massive vertex (triangle) via Appell F1",
+    "fully massive 1-loop triangle (6 scales, higher eps)"
+  ],
+  "Source": [
+    "arXiv"
+  ],
+  "Loops": 1,
+  "NumPropagators": 3,
+  "Results": [],
+  "edges": "{{{1, 2}, m[1]}, {{1, 3}, m[2]}, {{2, 3}, m[3]}}",
+  "nodes": "{{1, m[1]}, {2, m[1]}, {3, m[1]}}",
+  "CanonicalName": "3-mass triangle (d)",
+  "MassConfig": {
+    "numEdges": 3,
+    "numMassiveEdges": 3,
+    "numMasslessEdges": 0,
+    "distinctInternalMasses": 3,
+    "internalMassLabels": [
+      "m[1]",
+      "m[2]",
+      "m[3]"
+    ],
+    "edgeMassPattern": "123",
+    "numExtLegs": 3,
+    "numOnshellMassiveExtLegs": 3,
+    "numMasslessExtLegs": 0,
+    "extLegSignature": "MMM"
+  },
+  "commonNames": [
+    "C₀(3 masses)"
+  ],
+  "Subsectors": [],
+  "ParentSectors": []
+}

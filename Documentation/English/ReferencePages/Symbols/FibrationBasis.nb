@@ -1,0 +1,281 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Wolfram 14.3' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       154,          7]
+NotebookDataLength[     10525,        272]
+NotebookOptionsPosition[      8292,        230]
+NotebookOutlinePosition[      8732,        246]
+CellTagsIndexPosition[      8689,        243]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["FibrationBasis", "ObjectName",ExpressionUUID->"eddb4474-83c7-46d1-b7a0-0aa6ab456ab1"],
+
+Cell[BoxData[GridBox[{
+   {Cell[TextData[{
+     StyleBox["FibrationBasis", "TI"],
+     " \[LineSeparator]While HyperIntica is the main (analytic) integration \
+routine working under the hood of the STIntegrate function, it can also be \
+used as a standalone function."
+    }], "TableText",ExpressionUUID->"c54e4634-9a9f-441e-ac7a-538be7a8e135"]}
+  },
+  GridBoxAlignment->{"Columns" -> {{Left}}},
+  GridBoxItemSize->{
+   "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}]], "Usage",
+ CellID->1,ExpressionUUID->"32874eb1-80a6-4933-84fe-d1c1c5998598"],
+
+Cell["\<\
+While HyperIntica is the main (analytic) integration routine working under \
+the hood of the STIntegrate function, it can also be used as a standalone \
+function. It evaluates iterated integrals \[Integral]_0^\[Infinity] \
+\[Ellipsis] \[Integral]_0^\[Infinity] f\\, dx_1 \[Ellipsis] dx_n in  for \
+expressions built from hyperlogarithms, polylogarithms, logarithms, and \
+rational functions, returning results in terms of multi-zeta values and \
+hyperlogarithms in the original integrand f parameters (if any). The syntax \
+is: (see example below)\
+\>", "Notes",ExpressionUUID->"4496424e-8f25-4824-a616-3b8d4c24bcca"],
+
+Cell[BoxData[
+ RowBox[{"HyperIntica", "[", 
+  RowBox[{"integrand", ",", " ", "variables", ",", " ", 
+   RowBox[{"\"\<Monitor\>\"", " ", "->", " ", "False"}]}], "]"}]], "Input",Exp\
+ressionUUID->"054da383-1de4-4a16-b4fd-e4bce8261384"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Details", "Section",ExpressionUUID->"694349c0-c6e5-4993-b834-2fc2c0bb85a9"],
+
+Cell["Fibration basis", "Subsection",ExpressionUUID->"a1704612-551a-4a77-9af6-de49e008dbac"],
+
+Cell["\<\
+FibrationBasis[expr, variables] rewrites an expression in a fibration basis, \
+often making non-trivial functional identities between hyperlogarithms \
+manifest. The argument expr accepts a symbolic expression (e.g., PolyLog or \
+Hlog). The variables argument defines the fibration order x_1 \[Precedes] x_2 \
+\[Precedes] \[Ellipsis] \[Precedes] x_n, where w_j = \
+w_j(x_1,\[Ellipsis],x_n). The output can vary significantly with this \
+ordering. The decomposition is based on the shuffle identity introduced \
+earlier in ,\
+\>", "Text",ExpressionUUID->"453882ad-2afe-410c-b537-9d332c569791"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"(*", " ", 
+   RowBox[{"Single", "-", 
+    RowBox[{"variable", ":", " ", 
+     RowBox[{
+      RowBox[{"Li", "\\", "textcolor"}], 
+      RowBox[{"{", "gray", "}"}], 
+      RowBox[{"{", 
+       RowBox[{
+        RowBox[{"{", "}"}], "_", "5"}], "}"}], 
+      RowBox[{"(", 
+       RowBox[{
+        RowBox[{"-", "1"}], "/", "z"}], ")"}], " ", "expressed", " ", "as", " ",
+       "sum", " ", "of", "  ", "c_w", " ", 
+      RowBox[{"Hlog", "[", 
+       RowBox[{"z", ",", " ", "w"}], "]"}], "  ", "with", " ", "MZV", " ", 
+      "coefficient", " ", "c_w"}]}]}], " ", "*)"}], "\n", "\t", 
+  RowBox[{
+   RowBox[{"FibrationBasis", "[", 
+    RowBox[{
+     RowBox[{"PolyLog", "[", 
+      RowBox[{"5", ",", " ", 
+       RowBox[{
+        RowBox[{"-", "1"}], "/", "z"}]}], "]"}], ",", " ", 
+     RowBox[{"{", "z", "}"}]}], "]"}], "\n", "\t", 
+   RowBox[{"(*", 
+    RowBox[{
+     RowBox[{"-", 
+      RowBox[{"Hlog", "[", 
+       RowBox[{"z", ",", " ", 
+        RowBox[{"{", 
+         RowBox[{"0", ",", " ", "0", ",", " ", "0", ",", " ", "0", ",", " ", 
+          RowBox[{"-", "1"}]}], "}"}]}], "]"}]}], " ", "+", " ", 
+     RowBox[{"Hlog", "[", 
+      RowBox[{"z", ",", " ", 
+       RowBox[{"{", 
+        RowBox[{
+        "0", ",", " ", "0", ",", " ", "0", ",", " ", "0", ",", " ", "0"}], 
+        "}"}]}], "]"}], " ", "+", " ", 
+     RowBox[{
+      RowBox[{"Hlog", "[", 
+       RowBox[{"z", ",", " ", 
+        RowBox[{"{", 
+         RowBox[{"0", ",", " ", "0", ",", " ", "0"}], "}"}]}], "]"}], "*", 
+      RowBox[{"mzv", "[", "2", "]"}]}], " ", "+", " ", 
+     RowBox[{
+      RowBox[{"(", 
+       RowBox[{"7", "*", 
+        RowBox[{"Hlog", "[", 
+         RowBox[{"z", ",", " ", 
+          RowBox[{"{", "0", "}"}]}], "]"}], "*", 
+        RowBox[{
+         RowBox[{"mzv", "[", "2", "]"}], "^", "2"}]}], ")"}], "/", "10"}]}], 
+    "*)"}], "\n", "\t", "\n", "\t", 
+   RowBox[{"(*", " ", 
+    RowBox[{"Two", "-", 
+     RowBox[{"variable", ":"}]}], " ", "*)"}], "\n", "\t", 
+   RowBox[{"FibrationBasis", "[", 
+    RowBox[{
+     RowBox[{"Hlog", "[", 
+      RowBox[{"1", ",", " ", 
+       RowBox[{"{", 
+        RowBox[{
+         RowBox[{"1", " ", "+", " ", "x"}], ",", " ", 
+         RowBox[{"1", " ", "+", " ", "y"}]}], "}"}]}], "]"}], ",", " ", 
+     RowBox[{"{", 
+      RowBox[{"x", ",", " ", "y"}], "}"}]}], "]"}], "\n", "\t", 
+   RowBox[{"(*", 
+    RowBox[{
+     RowBox[{"-", 
+      RowBox[{"Hlog", "[", 
+       RowBox[{"x", ",", " ", 
+        RowBox[{"{", 
+         RowBox[{"y", ",", " ", 
+          RowBox[{"-", "1"}]}], "}"}]}], "]"}]}], " ", "+", " ", 
+     RowBox[{"Hlog", "[", 
+      RowBox[{"x", ",", " ", 
+       RowBox[{"{", 
+        RowBox[{"y", ",", " ", "0"}], "}"}]}], "]"}], " ", "-", " ", 
+     RowBox[{
+      RowBox[{"Hlog", "[", 
+       RowBox[{"x", ",", " ", 
+        RowBox[{"{", "0", "}"}]}], "]"}], " ", 
+      RowBox[{"Hlog", "[", 
+       RowBox[{"y", ",", " ", 
+        RowBox[{"{", 
+         RowBox[{"-", "1"}], "}"}]}], "]"}]}], " ", "+", "\n", "\t", 
+     RowBox[{
+      RowBox[{"Hlog", "[", 
+       RowBox[{"x", ",", " ", 
+        RowBox[{"{", "y", "}"}]}], "]"}], " ", 
+      RowBox[{"Hlog", "[", 
+       RowBox[{"y", ",", " ", 
+        RowBox[{"{", 
+         RowBox[{"-", "1"}], "}"}]}], "]"}]}], " ", "+", " ", 
+     RowBox[{
+      RowBox[{"Hlog", "[", 
+       RowBox[{"x", ",", " ", 
+        RowBox[{"{", "0", "}"}]}], "]"}], " ", 
+      RowBox[{"Hlog", "[", 
+       RowBox[{"y", ",", " ", 
+        RowBox[{"{", "0", "}"}]}], "]"}]}], " ", "-", "\n", "\t", 
+     RowBox[{
+      RowBox[{"Hlog", "[", 
+       RowBox[{"x", ",", " ", 
+        RowBox[{"{", "y", "}"}]}], "]"}], " ", 
+      RowBox[{"Hlog", "[", 
+       RowBox[{"y", ",", " ", 
+        RowBox[{"{", "0", "}"}]}], "]"}]}], " ", "+", " ", 
+     RowBox[{"Hlog", "[", 
+      RowBox[{"y", ",", " ", 
+       RowBox[{"{", 
+        RowBox[{"0", ",", " ", 
+         RowBox[{"-", "1"}]}], "}"}]}], "]"}], " ", "-", " ", 
+     RowBox[{"Hlog", "[", 
+      RowBox[{"y", ",", " ", 
+       RowBox[{"{", 
+        RowBox[{"0", ",", " ", "0"}], "}"}]}], "]"}], " ", "-", "\n", "\t", 
+     RowBox[{"mzv", "[", "2", "]"}]}], "*)"}]}]}]], "Input",ExpressionUUID->\
+"c603e97c-3d36-48fc-a5fd-fe7240e28968"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Metadata", "MetadataSection",ExpressionUUID->"15d2bbb2-103d-452c-aa96-5ba9daa54d9f"],
+
+Cell[CellGroupData[{
+
+Cell["Categorization", "CategorizationSection",ExpressionUUID->"4e52e4bb-496a-4a13-9905-d73754763ee1"],
+
+Cell["Symbol", "Categorization",
+ CellLabel->
+  "Entity Type",ExpressionUUID->"23495eff-e52f-41ed-8a79-f31c9375b6b5"],
+
+Cell["SubTropica", "Categorization",
+ CellLabel->
+  "Paclet Name",ExpressionUUID->"a4160bb2-a3d6-4a08-af11-335a174bfb3a"],
+
+Cell["SubTropica`", "Categorization",
+ CellLabel->"Context",ExpressionUUID->"b0f3cfcd-7494-41b8-98e0-7f4c66598deb"],
+
+Cell["SubTropica/ref/FibrationBasis", "Categorization",
+ CellLabel->"URI",ExpressionUUID->"753a07a1-5f86-49f8-bfc3-384e948c2a8b"]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Keywords", "KeywordsSection",ExpressionUUID->"fb98f815-aef1-4728-925f-9c33307541eb"],
+
+Cell["Feynman integral", "Keywords",ExpressionUUID->"849d5f51-8d40-4114-b1d3-03d741c0a2a4"],
+
+Cell["tropical geometry", "Keywords",ExpressionUUID->"f4dacdcc-c25c-434f-abfc-d5452dbcbad9"],
+
+Cell["dimensional regularization", "Keywords",ExpressionUUID->"af8d2b10-ce74-4777-be64-a2039cd259ac"]
+}, Closed]]
+}, Open  ]]
+},
+TaggingRules-><|"Paclet" -> "SubTropica"|>,
+FrontEndVersion->"14.3 for Mac OS X ARM (64-bit) (July 8, 2025)",
+StyleDefinitions->FrontEnd`FileName[{"Wolfram"}, "FunctionPageStylesExt.nb", 
+  CharacterEncoding -> "UTF-8"],
+ExpressionUUID->"48b88533-191e-4ca6-b7fe-983f59d11475"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[576, 22, 91, 0, 70, "ObjectName",ExpressionUUID->"eddb4474-83c7-46d1-b7a0-0aa6ab456ab1"],
+Cell[670, 24, 551, 11, 70, "Usage",ExpressionUUID->"32874eb1-80a6-4933-84fe-d1c1c5998598",
+ CellID->1],
+Cell[1224, 37, 627, 9, 70, "Notes",ExpressionUUID->"4496424e-8f25-4824-a616-3b8d4c24bcca"],
+Cell[1854, 48, 233, 4, 70, "Input",ExpressionUUID->"054da383-1de4-4a16-b4fd-e4bce8261384"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[2124, 57, 81, 0, 70, "Section",ExpressionUUID->"694349c0-c6e5-4993-b834-2fc2c0bb85a9"],
+Cell[2208, 59, 92, 0, 70, "Subsection",ExpressionUUID->"a1704612-551a-4a77-9af6-de49e008dbac"],
+Cell[2303, 61, 602, 9, 70, "Text",ExpressionUUID->"453882ad-2afe-410c-b537-9d332c569791"],
+Cell[2908, 72, 4188, 120, 70, "Input",ExpressionUUID->"c603e97c-3d36-48fc-a5fd-fe7240e28968"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[7133, 197, 90, 0, 70, "MetadataSection",ExpressionUUID->"15d2bbb2-103d-452c-aa96-5ba9daa54d9f"],
+Cell[CellGroupData[{
+Cell[7248, 201, 102, 0, 70, "CategorizationSection",ExpressionUUID->"4e52e4bb-496a-4a13-9905-d73754763ee1"],
+Cell[7353, 203, 117, 2, 70, "Categorization",ExpressionUUID->"23495eff-e52f-41ed-8a79-f31c9375b6b5"],
+Cell[7473, 207, 121, 2, 70, "Categorization",ExpressionUUID->"a4160bb2-a3d6-4a08-af11-335a174bfb3a"],
+Cell[7597, 211, 115, 1, 70, "Categorization",ExpressionUUID->"b0f3cfcd-7494-41b8-98e0-7f4c66598deb"],
+Cell[7715, 214, 129, 1, 70, "Categorization",ExpressionUUID->"753a07a1-5f86-49f8-bfc3-384e948c2a8b"]
+}, Closed]],
+Cell[CellGroupData[{
+Cell[7881, 220, 90, 0, 70, "KeywordsSection",ExpressionUUID->"fb98f815-aef1-4728-925f-9c33307541eb"],
+Cell[7974, 222, 91, 0, 70, "Keywords",ExpressionUUID->"849d5f51-8d40-4114-b1d3-03d741c0a2a4"],
+Cell[8068, 224, 92, 0, 70, "Keywords",ExpressionUUID->"f4dacdcc-c25c-434f-abfc-d5452dbcbad9"],
+Cell[8163, 226, 101, 0, 70, "Keywords",ExpressionUUID->"af8d2b10-ce74-4777-be64-a2039cd259ac"]
+}, Closed]]
+}, Open  ]]
+}
+]
+*)
+
+(* End of internal cache information *)

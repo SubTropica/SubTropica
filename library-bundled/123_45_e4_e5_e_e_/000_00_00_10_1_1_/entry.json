@@ -1,0 +1,73 @@
+{
+  "CNickelIndex": "123|45|e4|e5|e|e|:000|00|00|10|1|1|",
+  "MassScales": 3,
+  "FunctionClass": "MPL",
+  "EpsilonOrder": "",
+  "References": [
+    "arXiv:2103.04638 (JHEP 07 (227), 2021)",
+    "arXiv:2312.00641"
+  ],
+  "Records": [
+    {
+      "reference": "arXiv:2312.00641",
+      "authors": [
+        {
+          "full_name": "Belitsky, A.V.",
+          "inspire_id": 1016889
+        },
+        {
+          "full_name": "Smirnov, V.A.",
+          "inspire_id": 988366
+        }
+      ],
+      "description": "Two-loop massless planar double box relevant for three-leg form factors with off-shell external legs $p_1^2=p_2^2=p_3^2=-\\mu$ and operator momentum $q=p_1+p_2+p_3$ with $q^2=-1$. Computed in the near mass-shell limit $\\mu\\to 0$ using canonical differential equations in $(u,v,w,\\mu)$. 62 master integrals obtained via IBP with FIRE and LiteRed, canonical basis built from Baikov leading singularities, and iteratively integrated up to transcendental weight four in terms of multiple polylogarithms. Results in Section 6 and in the ancillary file anc/dbox/ResMPLdbox.m; the main derivation notebook is anc/A2Zdbox.nb.",
+      "epsOrders": "0",
+      "familyName": "3-mass 2-loop 4-point planar double box (near mass-shell)",
+      "method": "IBP, DE",
+      "tools": [
+        "FIRE",
+        "LiteRed"
+      ],
+      "ancillaryFiles": true,
+      "doi": "",
+      "texkey": "",
+      "masterCount": 62,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "full",
+      "location": "Section 2 Eqs. after (2.3)-(2.5); Sections 3-6; results in Section 6 and file anc/dbox/ResMPLdbox.m",
+      "recordId": "bx_de41942cd2d9",
+      "verified": false,
+      "verifiedAt": ""
+    }
+  ],
+  "Names": [
+    "double box with three massive external legs",
+    "3-mass 2-loop 4-point planar double box (near mass-shell)"
+  ],
+  "Source": [
+    "arXiv"
+  ],
+  "Loops": 2,
+  "NumPropagators": 7,
+  "Results": [],
+  "edges": "{{{1, 2}, 0}, {{1, 3}, 0}, {{1, 4}, 0}, {{2, 5}, 0}, {{2, 6}, 0}, {{3, 5}, 0}, {{4, 6}, 0}}",
+  "nodes": "{{3, 0}, {4, M}, {6, M}, {5, M}}",
+  "CanonicalName": "3-mass double box (a)",
+  "MassConfig": {
+    "numEdges": 7,
+    "numMassiveEdges": 0,
+    "numMasslessEdges": 7,
+    "distinctInternalMasses": 0,
+    "internalMassLabels": [],
+    "edgeMassPattern": "0000000",
+    "numExtLegs": 4,
+    "numOnshellMassiveExtLegs": 3,
+    "numMasslessExtLegs": 1,
+    "extLegSignature": "0MMM"
+  },
+  "commonNames": [
+    "L2"
+  ],
+  "Subsectors": [],
+  "ParentSectors": []
+}

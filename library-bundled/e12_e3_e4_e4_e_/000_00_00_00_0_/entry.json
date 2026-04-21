@@ -1,0 +1,403 @@
+{
+  "CNickelIndex": "e12|e3|e4|e4|e|:000|00|00|00|0|",
+  "MassScales": 5,
+  "FunctionClass": "MPL",
+  "EpsilonOrder": "-2,-1,0,1,2",
+  "References": [
+    "arXiv:2009.07803 (JHEP 20 (167), 2020)",
+    "arXiv:2112.00055 (Missing[\"KeyAbsent\", \"journal\"] Missing[\"KeyAbsent\", \"volume\"] (Missing[\"KeyAbsent\", \"pages\"]), Missing[\"KeyAbsent\", \"year\"])",
+    "arXiv:1512.01165 (JHEP 02 (021), 2016)",
+    "arXiv:2311.16907 (Phys.Rev.D 110 (), 2024)",
+    "arXiv:2405.18178 (JHEP 09 (018), 2024)",
+    "arXiv:2110.10111 (Missing[\"KeyAbsent\", \"journal\"] Missing[\"KeyAbsent\", \"volume\"] (Missing[\"KeyAbsent\", \"pages\"]), Missing[\"KeyAbsent\", \"year\"])",
+    "arXiv:2310.12199 (JHEP 04 (060), 2024)",
+    "arXiv:1803.05894 (Missing[\"KeyAbsent\", \"journal\"] Missing[\"KeyAbsent\", \"volume\"] (Missing[\"KeyAbsent\", \"pages\"]), Missing[\"KeyAbsent\", \"year\"])",
+    "arXiv:2107.02106 (JHEP 10 (041), 2021)",
+    "arXiv:2504.16766 (Missing[\"KeyAbsent\", \"journal\"] Missing[\"KeyAbsent\", \"volume\"] (Missing[\"KeyAbsent\", \"pages\"]), Missing[\"KeyAbsent\", \"year\"])",
+    "arXiv:2311.02457 (Missing[\"KeyAbsent\", \"journal\"] Missing[\"KeyAbsent\", \"volume\"] (Missing[\"KeyAbsent\", \"pages\"]), Missing[\"KeyAbsent\", \"year\"])"
+  ],
+  "Records": [
+    {
+      "dimScheme": "d=4-2*eps",
+      "recordId": "bf_0ba1c6f05081",
+      "familyName": "pentagon",
+      "verified": false,
+      "verifiedAt": "",
+      "authors": "Chicherin, Dmitry, Sotnikov, Vasily",
+      "texkey": "Chicherin:2020oor",
+      "computationLevel": "full",
+      "masterCount": 11,
+      "location": "Eq. (2.3)",
+      "transcendentalWeight": 4,
+      "method": [],
+      "reference": "arXiv:2009.07803, JHEP 20 (167), 2020",
+      "ancillaryFiles": [],
+      "description": "One-loop massless pentagon topology for five-particle scattering. 11 master integrals computed through $\\mathcal{O}(\\varepsilon^2)$ in terms of pentagon functions (MPLs).",
+      "epsOrders": "-2,-1,0,1,2",
+      "tools": [],
+      "doi": "10.1007/JHEP12(2020)167"
+    },
+    {
+      "ancillaryPaths": [
+        "anc/ppppp",
+        "anc/mpppp",
+        "anc/mmppp",
+        "anc/mpmpp"
+      ],
+      "dimScheme": "d=4-2*eps",
+      "recordId": "bf_4ab8e36b28cb",
+      "familyName": "massless 5-point pentagon",
+      "verified": false,
+      "verifiedAt": "",
+      "authors": [
+        {
+          "full_name": "Caron-Huot, Simon",
+          "inspire_id": 1259628
+        },
+        {
+          "full_name": "Pokraka, Andrzej",
+          "inspire_id": 1649885
+        }
+      ],
+      "computationLevel": "full",
+      "texkey": "Caron-Huot:2021iev",
+      "masterCount": 11,
+      "location": "eqs. (5.8)-(5.10), Section 5.3; eqs. (2.17)-(2.20)",
+      "method": [],
+      "reference": "arXiv:2112.00055 (JHEP 04 (078), 2022)",
+      "ancillaryFiles": [],
+      "description": "Massless one-loop 5-point pentagon integral family used for computing 5-gluon helicity amplitudes via the intersection theory / dual form formalism. In the massless degeneration, the basis shrinks from 31 (generic masses) to 11 master integrals: 5 bubbles, 5 one-mass boxes (reorganized as finite 6-dimensional boxes), and 1 pentagon (which vanishes at $d=4$). The paper computes all generalized unitarity coefficients to all orders in epsilon for all independent helicity configurations. Ancillary files contain the full epsilon-dependent results in momentum twistor parametrization.",
+      "epsOrders": "all orders",
+      "tools": [],
+      "doi": "10.1007/JHEP04(2022)078"
+    },
+    {
+      "dimScheme": "d=4-2*eps",
+      "recordId": "bf_df4409b2e926",
+      "familyName": "one-loop massless pentagon",
+      "verified": false,
+      "verifiedAt": "",
+      "authors": "Kozlov, Mikhail G., Lee, Roman N.",
+      "texkey": "Kozlov:2015kol",
+      "computationLevel": "full",
+      "masterCount": 11,
+      "location": "Eq. (1)-(4)",
+      "method": [],
+      "reference": "arXiv:1512.01165, JHEP 02 (021), 2016",
+      "ancillaryFiles": [],
+      "description": "One-loop scalar pentagon with 5 massless propagators and 5 on-shell massless external legs. Main result: one-fold integral representation exact in $d$. Epsilon expansion near $d=6$ yields Goncharov polylogarithms. $Z_5$ cyclic symmetry. 11 MIs (1 pentagon + 5 boxes + 5 bubbles).",
+      "epsOrders": "all orders",
+      "tools": [
+        "LiteRed",
+        "FIESTA"
+      ],
+      "doi": "10.1007/JHEP02(2016)021"
+    },
+    {
+      "dimScheme": "d=4-2*eps",
+      "recordId": "bf_0a2399b63449",
+      "verified": false,
+      "verifiedAt": "",
+      "authors": "Gambuti, Giulio, Kosower, David A., Novichkov, Pavel P., Tancredi, Lorenzo",
+      "texkey": "Gambuti:2023eqh",
+      "computationLevel": "basis",
+      "masterCount": 0,
+      "reference": "arXiv:2311.16907, Phys.Rev.D 110, 2024",
+      "ancillaryFiles": [],
+      "description": "Massless one-loop pentagon, the simplest case where evanescent integrals arise. Ten IR regions (five soft, five collinear) are identified. Within 166 UV-compatible monomials at rank five, 141 are locally finite with six rank-two generators, and 40 are evanescent with the evanescent sub-ideal generated by the out-of-plane component squared.",
+      "familyName": "one-loop massless pentagon",
+      "location": "Sec. 6.1, Eqs. (6.8)-(6.11), Fig. 4",
+      "method": [],
+      "epsOrders": "",
+      "tools": [
+        "FiniteFlow"
+      ],
+      "doi": "10.1103/PhysRevD.110.116026"
+    },
+    {
+      "dimScheme": "d",
+      "recordId": "bf_837b0796c568",
+      "verified": false,
+      "verifiedAt": "",
+      "authors": "Crisanti, Giulio, Smith, Sid",
+      "texkey": "Crisanti:2024onv",
+      "computationLevel": "C-matrix",
+      "masterCount": 0,
+      "reference": "arXiv:2405.18178, JHEP 09 (018), 2024",
+      "ancillaryFiles": [],
+      "description": "One-loop massless pentagon with five massless external legs and five massless internal propagators. The spanning set of cuts up to symmetry is $\\{\\{z_4,z_5\\}, \\{z_3,z_5\\}\\}$. Diagonal bases are given for each cut. On the $\\{z_3,z_5\\}$ cut, the basis requires an extra element '1' (no propagator poles), indicating that the diagonal basis prescription sometimes needs modifications for massless kinematics.",
+      "familyName": "one-loop massless pentagon",
+      "location": "Section 6.5, Eqs. (6.15)-(6.21)",
+      "method": [],
+      "epsOrders": "",
+      "tools": [
+        "Mathematica",
+        "LiteRed",
+        "FiniteFlow"
+      ],
+      "doi": "10.1007/JHEP09(2024)018"
+    },
+    {
+      "reference": "arXiv:2110.10111 (JHEP 01 (096), 2022)",
+      "authors": [
+        {
+          "full_name": "Chicherin, Dmitry",
+          "inspire_id": 1259630
+        },
+        {
+          "full_name": "Sotnikov, Vasily",
+          "inspire_id": 1470871
+        },
+        {
+          "full_name": "Zoia, Simone",
+          "inspire_id": 1783520
+        }
+      ],
+      "description": "One-loop one-mass pentagon. 5 massless propagators. 13 MIs ($\\sigma_{id}$). Part of 856-function pentagon function basis with 156-letter $S_4$ alphabet.",
+      "epsOrders": "4",
+      "familyName": "1L pentagon",
+      "method": "DE, IBP",
+      "tools": [
+        "GiNaC",
+        "DiffExp",
+        "PolyLogTools"
+      ],
+      "ancillaryFiles": true,
+      "doi": "10.1007/JHEP01(2022)096",
+      "texkey": "Chicherin:2021dyp",
+      "masterCount": 13,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "full",
+      "location": "Table 1, Eq. (2.1a)",
+      "recordId": "bx_da7291d9cea4",
+      "verified": false,
+      "verifiedAt": ""
+    },
+    {
+      "reference": "arXiv:2310.12199 (JHEP 04 (060), 2024)",
+      "authors": "Caron-Huot, Simon, Giroux, Mathieu, Hannesdottir, Holmfridur S., Mizera, Sebastian",
+      "description": "Massless one-loop pentagon family with 5 external massless legs. Used to verify crossing conjecture for all one-loop five-point master integrals via canonical differential equations. 11 master integrals: 5 bubbles, 5 one-mass boxes, and 1 pentagon in $D=6-2\\varepsilon$.",
+      "epsOrders": "",
+      "familyName": "massless_pentagon_5pt",
+      "method": "",
+      "tools": [
+        "FIRE6"
+      ],
+      "ancillaryFiles": true,
+      "doi": "10.1007/JHEP04(2024)060",
+      "texkey": "Caron-Huot:2023ikn",
+      "masterCount": 11,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "",
+      "location": "Sec. 5.4, Eqs. (5.34)-(5.35)",
+      "recordId": "bx_86b085a31014",
+      "verified": false,
+      "verifiedAt": ""
+    },
+    {
+      "reference": "arXiv:1803.05894 (PoS RADCOR2017 (002), 2018)",
+      "authors": [
+        {
+          "full_name": "Abreu, Samuel",
+          "inspire_id": 1287226
+        },
+        {
+          "full_name": "Britto, Ruth",
+          "inspire_id": 1015279
+        },
+        {
+          "full_name": "Duhr, Claude",
+          "inspire_id": 1040449
+        },
+        {
+          "full_name": "Gardi, Einan",
+          "inspire_id": 1019159
+        }
+      ],
+      "description": "Fully massless one-loop pentagon in $D = 6 - 2\\varepsilon$ dimensions, five cyclic Mandelstam invariants $s_i = (q_i - q_{i+2})^2$. The paper gives closed-form results for all cuts required by the diagrammatic coaction: the order-$\\varepsilon^1$ maximal cut is $\\ln(-16 \\, \\mathrm{Gram}_5 / (s_1 s_2 s_3 s_4 s_5))$; the order-$\\varepsilon^0$ quadruple cut (all propagators but $i$ on shell) is $\\ln(\\bar{v}/v)$ where $v$ and $\\bar{v}$ are square roots of $16 \\, \\mathrm{Gram}_5$ shifted by the cyclic polynomial in the $s_i$; all triple cuts vanish. Substituting these into the generic pentagon DE reproduces the known Kozlov-Lee differential equation and the symbol letters match a subset of those appearing in two-loop five-point massless integrals.",
+      "epsOrders": "",
+      "familyName": "massless_pentagon_in_d6_minus_2eps",
+      "method": "DE, unitarity",
+      "tools": [],
+      "ancillaryFiles": true,
+      "doi": "10.22323/1.290.0002",
+      "texkey": "Abreu:2018sat",
+      "masterCount": 0,
+      "dimScheme": "d=2m-2*eps",
+      "computationLevel": "DE_only",
+      "location": "Sec. 4.1.2, eqs. (maxPent), (quadPent), (tripPent)",
+      "recordId": "bx_b5cbf6882569",
+      "verified": false,
+      "verifiedAt": ""
+    },
+    {
+      "reference": "arXiv:2107.02106 (JHEP 10 (041), 2021)",
+      "authors": [
+        {
+          "full_name": "Syrrakos, Nikolaos",
+          "inspire_id": 1820563
+        }
+      ],
+      "description": "One-loop pentagon with 3m; 3 off-shell external legs $(q_1,q_3,q_5)$ with SDE $x$-parametrization, labelled family $E$ in the paper. 18 masters solved via SDE approach with $x$-parametrization rationalizing square roots; canonical DE; Goncharov polylogs up to weight 4. Called $E$ in the paper.",
+      "epsOrders": "4",
+      "familyName": "3-off-shell-mass one-loop 5-point pentagon [SDE] (massless internal, 5 propagators) - family E / 2-off-shell-mass one-loop 5-point pentagon (massless internal, 5 propagators) - family C / 3-off-shell-mass one-loop 5-point pentagon (massless internal, 5 propagators) - family D / 2-off-shell-mass one-loop 5-point pentagon (massless internal, 5 propagators) - family D",
+      "method": "DE, IBP, direct_integration",
+      "tools": [
+        "Kira",
+        "FIESTA"
+      ],
+      "ancillaryFiles": true,
+      "doi": "10.1007/JHEP10(2021)041",
+      "texkey": "Syrrakos:2021nij",
+      "masterCount": 18,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "full",
+      "location": "anc/E.m",
+      "recordId": "bx_c5c7b4e1fdc0",
+      "verified": false,
+      "verifiedAt": ""
+    },
+    {
+      "reference": "arXiv:2504.16766 (JHEP 02 (144), 2026)",
+      "authors": [
+        {
+          "full_name": "Ma, Yan-Qing",
+          "inspire_id": 1056966
+        },
+        {
+          "full_name": "Qin, Cong-Hao",
+          "inspire_id": 2915012
+        },
+        {
+          "full_name": "Tan, Ao",
+          "inspire_id": 2239672
+        },
+        {
+          "full_name": "Yan, Kai",
+          "inspire_id": 1784333
+        }
+      ],
+      "description": "One-loop massless pentagon demonstrating DRR method. All external momenta massless.",
+      "epsOrders": "0",
+      "familyName": "Massless 1-loop pentagon (5 massless legs)",
+      "method": "IBP",
+      "tools": [
+        "Blade"
+      ],
+      "ancillaryFiles": false,
+      "doi": "10.1007/JHEP02(2026)144",
+      "texkey": "Ma:2025mog",
+      "masterCount": 0,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "full",
+      "location": "Section 4.1",
+      "recordId": "bx_f1c56bfa55a5",
+      "verified": false,
+      "verifiedAt": ""
+    },
+    {
+      "reference": "arXiv:2311.02457 (PoS RADCOR2023 (058), 2024)",
+      "authors": [
+        {
+          "full_name": "Artico, Daniele",
+          "inspire_id": 2709216
+        },
+        {
+          "full_name": "Magnea, Lorenzo",
+          "inspire_id": 999255
+        }
+      ],
+      "description": "Massless one-loop pentagon demonstrating dimensional-shift relations from parameter-space IBPs. Reproduces Bern-Dixon-Kosower decomposition into boxes.",
+      "epsOrders": "",
+      "familyName": "massless one-loop pentagon (parameter-space IBP example)",
+      "method": "IBP",
+      "tools": [],
+      "ancillaryFiles": false,
+      "doi": "10.22323/1.432.0058",
+      "texkey": "Artico:2023bzt",
+      "masterCount": 0,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "IBP_only",
+      "location": "Section 4, Eqs. (37)-(42)",
+      "recordId": "bx_a74e32eb5ad5",
+      "verified": false,
+      "verifiedAt": ""
+    }
+  ],
+  "Names": [
+    "pentagon",
+    "massless 5-point pentagon",
+    "one-loop massless pentagon",
+    "one-loop massive pentagon",
+    "1L pentagon",
+    "massless_pentagon_5pt",
+    "massless_pentagon_in_d6_minus_2eps",
+    "Massless 1-loop pentagon (5 massless legs)",
+    "massless one-loop pentagon (parameter-space IBP example)"
+  ],
+  "Source": [
+    "arXiv",
+    "Loopedia"
+  ],
+  "Loops": 1,
+  "NumPropagators": 5,
+  "Results": [
+    {
+      "resultCompressed": "1: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",
+      "resultTeX": "\\frac{2 s_{12}^2-s_{12} s_{15}+3 s_{12} s_{23}-4 s_{12} s_{45}-s_{15} s_{45}-s_{23} s_{34}+3 s_{34} s_{45}+2 s_{45}^2}{\\varepsilon^2 s_{12} s_{45} (s_{12}+s_{23}-s_{45}) (s_{12}-s_{34}-s_{45}) (s_{15}-s_{23}-s_{34})}+\\frac{2 s_{12}^2 \\log \\left(\\frac{s_{45}}{s_{15}-s_{23}-s_{34}}\\right)+2 s_{12}^2 \\log \\left(-\\frac{s_{12}+s_{23}-s_{45}}{s_{45}}\\right)+s_{12}^2 \\log \\left(\\frac{s_{12}}{s_{45}}\\right)-s_{12}^2 \\log (-s_{45})+s_{12}^2 (-\\log (-s_{12}))-2 s_{45}^2 \\log \\left(\\frac{-s_{15}+s_{23}+s_{34}}{-s_{12}+s_{34}+s_{45}}\\right)+2 s_{12} s_{23} \\log \\left(\\frac{s_{45}}{s_{15}-s_{23}-s_{34}}\\right)-2 s_{12} s_{45} \\log \\left(\\frac{s_{45}}{s_{15}-s_{23}-s_{34}}\\right)-s_{12} s_{15} \\log \\left(\\frac{-s_{15}+s_{23}+s_{34}}{-s_{12}+s_{34}+s_{45}}\\right)+s_{12} s_{23} \\log \\left(\\frac{-s_{15}+s_{23}+s_{34}}{-s_{12}+s_{34}+s_{45}}\\right)+2 s_{12} s_{34} \\log \\left(\\frac{-s_{15}+s_{23}+s_{34}}{-s_{12}+s_{34}+s_{45}}\\right)+2 s_{12} s_{45} \\log \\left(\\frac{-s_{15}+s_{23}+s_{34}}{-s_{12}+s_{34}+s_{45}}\\right)+s_{23} s_{34} \\log \\left(\\frac{-s_{15}+s_{23}+s_{34}}{-s_{12}+s_{34}+s_{45}}\\right)-s_{15} s_{45} \\log \\left(\\frac{-s_{15}+s_{23}+s_{34}}{-s_{12}+s_{34}+s_{45}}\\right)+2 s_{23} s_{45} \\log \\left(\\frac{-s_{15}+s_{23}+s_{34}}{-s_{12}+s_{34}+s_{45}}\\right)-s_{34} s_{45} \\log \\left(\\frac{-s_{15}+s_{23}+s_{34}}{-s_{12}+s_{34}+s_{45}}\\right)+s_{12} s_{15} \\log (s_{12}+s_{23}-s_{45})+s_{15} s_{45} \\log \\left(-\\frac{s_{12}+s_{23}-s_{45}}{s_{12}}\\right)-s_{12} s_{15} \\log \\left(\\frac{s_{12}}{s_{45}}\\right)+s_{15} s_{45} \\log (-s_{12})+s_{15} s_{45} \\log \\left(\\frac{s_{12}}{s_{45}}\\right)-s_{12} s_{34} \\log (s_{12}+s_{23}-s_{45})-s_{12} s_{34} \\log \\left(-\\frac{s_{12}+s_{23}-s_{45}}{s_{45}}\\right)-s_{34} s_{45} \\log \\left(-\\frac{s_{12}+s_{23}-s_{45}}{s_{12}}\\right)-s_{23} s_{34} \\log \\left(-\\frac{s_{12}+s_{23}-s_{45}}{s_{45}}\\right)+s_{23} s_{34} \\log (-s_{12})-s_{12} s_{23} \\log (s_{12}+s_{23}-s_{45})+2 s_{12} s_{23} \\log \\left(\\frac{s_{12}}{s_{45}}\\right)+2 s_{12} s_{23} \\log \\left(-\\frac{s_{12}+s_{23}-s_{45}}{s_{45}}\\right)-2 s_{12} s_{45} \\log \\left(-\\frac{s_{12}+s_{23}-s_{45}}{s_{45}}\\right)-s_{12} s_{23} \\log (-s_{45})-s_{23} s_{45} \\log \\left(-\\frac{s_{12}+s_{23}-s_{45}}{s_{12}}\\right)-s_{23} s_{45} \\log \\left(\\frac{s_{12}}{s_{45}}\\right)-s_{23} s_{45} \\log \\left(-\\frac{s_{12}+s_{23}-s_{45}}{s_{45}}\\right)-s_{12} s_{23} \\log (-s_{12})+s_{12} s_{34} \\log \\left(\\frac{s_{12}}{s_{45}}\\right)-3 s_{34} s_{45} \\log (-s_{12})-s_{34} s_{45} \\log \\left(\\frac{s_{12}}{s_{45}}\\right)+s_{12} s_{34} \\log (-s_{12})-2 s_{45}^2 \\log (-s_{12})+3 s_{12} s_{45} \\log (-s_{12})-s_{12} s_{45} \\log \\left(\\frac{s_{12}}{s_{45}}\\right)+s_{12} s_{45} \\log (-s_{45})}{\\varepsilon s_{12} s_{45} (s_{12}+s_{23}-s_{45}) (s_{12}-s_{34}-s_{45}) (s_{15}-s_{23}-s_{34})}+\\left(\\frac{s_{45} \\log ^2(-s_{12})}{s_{12} (s_{15}-s_{23}-s_{34}) (s_{12}+s_{23}-s_{45}) (s_{12}-s_{34}-s_{45})}+\\frac{3 s_{34} \\log ^2(-s_{12})}{2 s_{12} (s_{15}-s_{23}-s_{34}) (s_{12}+s_{23}-s_{45}) (s_{12}-s_{34}-s_{45})}\\right. \\cdots",
+      "dimension": "4 - 2*eps",
+      "epsOrder": "0",
+      "epsOrders": "0",
+      "propExponents": [
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "propagators": [],
+      "numerators": [],
+      "internalMasses": [],
+      "externalMasses": [],
+      "substitutions": "",
+      "normalization": "Automatic",
+      "stVersion": "SubTropica v1.0.296",
+      "stCommand": "",
+      "contributor": "Sebastian Mizera",
+      "timestamp": "2026-04-16T09:46:20",
+      "verifiedAt": "2026-04-16T09:46:20",
+      "verified": true,
+      "method": "direct_integration",
+      "tools": [
+        "SubTropica"
+      ],
+      "methodLR": "Lungo",
+      "byteCount": 286152
+    }
+  ],
+  "edges": "{{{1, 2}, 0}, {{1, 3}, 0}, {{2, 4}, 0}, {{3, 5}, 0}, {{4, 5}, 0}}",
+  "nodes": "{{1, 0}, {2, 0}, {3, 0}, {4, 0}, {5, 0}}",
+  "quadruple": "{E^(eps*EulerGamma)*Gamma[3 + eps], (x1 + x2 + x3 + x4 + x5)^(1 + 2*eps)*(s12*x2*x3 - s12*x1*x4 - s23*x1*x4 + s45*x1*x4 + s45*x3*x4 + s15*x1*x5 - s23*x1*x5 - s34*x1*x5 + s12*x2*x5 - s34*x2*x5 - s45*x2*x5)^(-3 - eps), {x1, x2, x3, x4, x5}, {s12, s15, s23, s34, s45}}",
+  "CanonicalName": "Massless pentagon",
+  "MassConfig": {
+    "numEdges": 5,
+    "numMassiveEdges": 0,
+    "numMasslessEdges": 5,
+    "distinctInternalMasses": 0,
+    "internalMassLabels": [],
+    "edgeMassPattern": "00000",
+    "numExtLegs": 5,
+    "numOnshellMassiveExtLegs": 0,
+    "numMasslessExtLegs": 5,
+    "extLegSignature": "00000"
+  },
+  "commonNames": [
+    "E₀"
+  ],
+  "Subsectors": [
+    "e12|e3|e3|e|:000|00|00|1|"
+  ],
+  "ParentSectors": [
+    "112|e3|e4|e5|e5|e|:000|00|00|00|00|0|"
+  ]
+}

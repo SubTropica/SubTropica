@@ -1,0 +1,69 @@
+{
+  "CNickelIndex": "123|45|e4|e5|e|e|:111|11|01|01|0|0|",
+  "MassScales": 3,
+  "FunctionClass": "MPL",
+  "EpsilonOrder": "-4,-3,-2,-1,0",
+  "References": [
+    "arXiv:2207.02587 (JHEP 08 (259), 2022)"
+  ],
+  "Records": [
+    {
+      "dimScheme": "d=4-2*eps",
+      "recordId": "bf_e1020d4d97f1",
+      "familyName": "Topology 1 (planar double box)",
+      "verified": false,
+      "verifiedAt": "",
+      "authors": "Davies, Joshua, Mishima, Go, Schönwald, Kay, Steinhauser, Matthias, Zhang, Hantian",
+      "texkey": "Davies:2022ram",
+      "computationLevel": "full",
+      "masterCount": 0,
+      "location": "Section 3, Fig. 2 (left)",
+      "transcendentalWeight": 4,
+      "method": [],
+      "reference": "arXiv:2207.02587, JHEP 08 (259), 2022",
+      "ancillaryFiles": [],
+      "description": "Two-loop planar double box for $gg \\to HH$ Yukawa corrections. All 7 internal propagators massive ($m_t$), all external massless. MIs computed in high-energy expansion $m_t^2 \\ll s,t$ through $\\mathcal{O}(\\varepsilon^0)$ in HPLs up to weight 4.",
+      "epsOrders": "-4,-3,-2,-1,0",
+      "tools": [
+        "FIRE",
+        "Kira",
+        "LiteRed",
+        "FIESTA"
+      ],
+      "doi": "10.1007/JHEP08(2022)259"
+    }
+  ],
+  "Names": [
+    "Topology 1 (planar double box)"
+  ],
+  "Source": [
+    "arXiv"
+  ],
+  "Loops": 2,
+  "NumPropagators": 7,
+  "Results": [],
+  "edges": "{{{1, 2}, m}, {{1, 3}, m}, {{1, 4}, m}, {{2, 5}, m}, {{2, 6}, m}, {{3, 5}, m}, {{4, 6}, m}}",
+  "nodes": "{{3, 0}, {4, 0}, {6, 0}, {5, 0}}",
+  "CanonicalName": "Equal-mass double box",
+  "MassConfig": {
+    "numEdges": 7,
+    "numMassiveEdges": 7,
+    "numMasslessEdges": 0,
+    "distinctInternalMasses": 1,
+    "internalMassLabels": [
+      "m"
+    ],
+    "edgeMassPattern": "1111111",
+    "numExtLegs": 4,
+    "numOnshellMassiveExtLegs": 0,
+    "numMasslessExtLegs": 4,
+    "extLegSignature": "0000"
+  },
+  "commonNames": [
+    "L2"
+  ],
+  "Subsectors": [
+    "123|e24|e|e4|e|:111|011|0|01|0|"
+  ],
+  "ParentSectors": []
+}

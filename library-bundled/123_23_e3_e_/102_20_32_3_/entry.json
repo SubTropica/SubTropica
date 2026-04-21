@@ -1,0 +1,67 @@
+{
+  "CNickelIndex": "123|23|e3|e|:102|20|32|3|",
+  "MassScales": 2,
+  "FunctionClass": "elliptic",
+  "EpsilonOrder": "-3,-2,-1,0",
+  "References": [
+    "arXiv:1912.02747 (JHEP 02 (050), 2020)"
+  ],
+  "Records": [
+    {
+      "ancillaryPaths": [
+        "anc/MastersAndRho.m"
+      ],
+      "dimScheme": "d=4-2*eps",
+      "recordId": "bf_b83d6e995234",
+      "familyName": "rho3L topology A / rho3L topology B",
+      "verified": false,
+      "verifiedAt": "",
+      "authors": "Abreu, Samuel, Becchetti, Matteo, Duhr, Claude, Marzucca, Robin",
+      "texkey": "Abreu:2019fgk",
+      "computationLevel": "full",
+      "masterCount": 10,
+      "transcendentalWeight": 4,
+      "location": "Eq. (2.4)-(2.6), Section 2",
+      "method": [],
+      "reference": "arXiv:1912.02747, JHEP 02 (050), 2020",
+      "ancillaryFiles": [],
+      "description": "Three-loop self-energy topology A for electroweak rho parameter with two massive quark flavours at zero external momentum. $K_4$ graph, 6 edges. 10 MIs: 7 MPL + 3 elliptic. Results as iterated integrals of modular forms for $\\Gamma_1(6)$.",
+      "epsOrders": "-3,-2,-1,0",
+      "tools": [],
+      "doi": "10.1007/JHEP02(2020)050"
+    }
+  ],
+  "Names": [
+    "rho3L topology A",
+    "rho3L topology B"
+  ],
+  "Source": [
+    "arXiv"
+  ],
+  "Loops": 3,
+  "NumPropagators": 6,
+  "Results": [],
+  "edges": "{{{1, 2}, m[1]}, {{1, 3}, 0}, {{1, 4}, m[2]}, {{2, 3}, m[2]}, {{2, 4}, 0}, {{3, 4}, m[2]}}",
+  "nodes": "{{3, M}, {4, M}}",
+  "CanonicalName": "2-mass envelope, 4 massive propagators",
+  "MassConfig": {
+    "numEdges": 6,
+    "numMassiveEdges": 4,
+    "numMasslessEdges": 2,
+    "distinctInternalMasses": 2,
+    "internalMassLabels": [
+      "m[1]",
+      "m[2]"
+    ],
+    "edgeMassPattern": "102202",
+    "numExtLegs": 2,
+    "numOnshellMassiveExtLegs": 2,
+    "numMasslessExtLegs": 0,
+    "extLegSignature": "MM"
+  },
+  "commonNames": [
+    "K₄"
+  ],
+  "Subsectors": [],
+  "ParentSectors": []
+}

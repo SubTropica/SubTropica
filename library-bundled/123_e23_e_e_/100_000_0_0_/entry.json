@@ -1,0 +1,100 @@
+{
+  "CNickelIndex": "123|e23|e|e|:100|000|0|0|",
+  "MassScales": 1,
+  "FunctionClass": "MPL",
+  "EpsilonOrder": "3",
+  "References": [
+    "arXiv:2408.03252 (JHEP 12 (), 2024)"
+  ],
+  "Records": [
+    {
+      "reference": "arXiv:2408.03252 (JHEP 12 (), 2024)",
+      "authors": "Di Noi, Stefano, Gröber, Ramona, Mandal, Manoj K.",
+      "description": "Two-loop integral family for $gg \\to H^\\dagger H$ in unbroken-phase SMEFT, category 1 topology with internal Higgs propagator connecting two vertices on the fermion loop. Massless fermions, one massive scalar (Higgs doublet mass $m$). Used to compute two-loop counterterm for $\\mathcal{O}_{HG}$ operator.",
+      "epsOrders": "3",
+      "familyName": "T1",
+      "method": "",
+      "tools": [
+        "qgraf",
+        "FeynCalc",
+        "LiteRed2",
+        "AMFlow",
+        "PolyLogTools",
+        "GiNaC"
+      ],
+      "ancillaryFiles": true,
+      "doi": "10.1007/JHEP12(2024)220",
+      "texkey": "DiNoi:2024ajj",
+      "masterCount": 4,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "full",
+      "location": "Appendix B (Section MIs), Eq. before Eq.(3.2)",
+      "recordId": "bx_c95a2e53bf13",
+      "verified": false,
+      "verifiedAt": ""
+    }
+  ],
+  "Names": [
+    "T1"
+  ],
+  "Source": [
+    "arXiv"
+  ],
+  "Loops": 2,
+  "NumPropagators": 5,
+  "Results": [
+    {
+      "resultCompressed": "1:eJyFUFsKwjAQjI0VES/hXfzsR6heIEIiC42Rbqvg0Qs+dk1FEkPNx4TZnZ3JZnPwtV0IIXBFsDMtGNzqTqMkas4IdAnLBOcEFWBnC2YlwR6cQXjS+daUv5oWmToXWjKWc2tKXnyyVNOP5jMusU3lj6M2cQ1TS4Jad+BPugEeAvknrIzChmiT6e0UJJsE+ZprufcmuuHXNjeWzbhHf+Jul7cKHlQOWzO8ACWpd5w=",
+      "resultTeX": "-\\frac{1}{\\varepsilon^2 m^2}+\\frac{2 (\\log (m^2)-1)}{\\varepsilon m^2}+\\frac{-6 \\log ^2(m^2)+12 \\log (m^2)-3 \\zeta(2)-\\pi ^2-6}{3 m^2}+O\\left(\\varepsilon^1\\right)",
+      "dimension": "4 - 2*eps",
+      "epsOrder": "0",
+      "epsOrders": "0",
+      "propExponents": [
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "propagators": [],
+      "numerators": [],
+      "internalMasses": [],
+      "externalMasses": [],
+      "substitutions": "",
+      "rootSubstitutions": "{}",
+      "normalization": "Automatic",
+      "stVersion": "SubTropica v1.0.293",
+      "stCommand": "",
+      "contributor": "Sebastian Mizera",
+      "timestamp": "2026-04-15T16:20:14",
+      "verifiedAt": "2026-04-15T16:20:14",
+      "verified": true,
+      "method": "direct_integration",
+      "tools": [
+        "SubTropica"
+      ],
+      "methodLR": "Lungo",
+      "findRoots": false,
+      "byteCount": 1512
+    }
+  ],
+  "edges": "{{{1, 2}, m}, {{1, 3}, 0}, {{1, 4}, 0}, {{2, 3}, 0}, {{2, 4}, 0}}",
+  "nodes": "{{2, 0}, {3, 0}, {4, 0}}",
+  "CanonicalName": "Double triangle (b), 1 massive propagator",
+  "MassConfig": {
+    "numEdges": 5,
+    "numMassiveEdges": 1,
+    "numMasslessEdges": 4,
+    "distinctInternalMasses": 1,
+    "internalMassLabels": [
+      "m"
+    ],
+    "edgeMassPattern": "10000",
+    "numExtLegs": 3,
+    "numOnshellMassiveExtLegs": 0,
+    "numMasslessExtLegs": 3,
+    "extLegSignature": "000"
+  },
+  "Subsectors": [],
+  "ParentSectors": []
+}

@@ -1,0 +1,71 @@
+{
+  "CNickelIndex": "123|45|e4|e6|e|e6|e|:011|11|01|01|1|11|1|",
+  "MassScales": 6,
+  "FunctionClass": "unknown",
+  "EpsilonOrder": "4",
+  "References": [
+    "arXiv:2302.08955"
+  ],
+  "Records": [
+    {
+      "reference": "arXiv:2302.08955",
+      "authors": [
+        {
+          "full_name": "Borinsky, Michael",
+          "inspire_id": 1640938
+        },
+        {
+          "full_name": "Munch, Henrik J.",
+          "inspire_id": 2000628
+        },
+        {
+          "full_name": "Tellander, Felix",
+          "inspire_id": 1898337
+        }
+      ],
+      "description": "Two-loop five-point diagram contributing to triple Higgs production via gluon fusion, $gg \\to HHH$, in $D = 4 - 2\\varepsilon$ dimensions. Two massless gluons plus three on-shell Higgs external legs ($p_2^2 = p_3^2 = p_4^2 = m_H^2$), with seven internal top-quark propagators (mass $m_t$) and one massless internal propagator. Evaluated at $m_t^2/m_H^2 = 1.8995$ and the physical phase space point listed in the paper, up to $\\varepsilon^4$ with $N=1\\mathrm{e}8$ tropical samples, cross-checked against pySecDec.",
+      "epsOrders": "4",
+      "familyName": "Two-loop five-point gg -> HHH top-quark pentagon-box diagram (triple Higgs production)",
+      "method": "tropical, direct_integration",
+      "tools": [
+        "pySecDec"
+      ],
+      "ancillaryFiles": false,
+      "doi": "",
+      "texkey": "",
+      "masterCount": 0,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "full",
+      "location": "Section 5.5 (Diagram contributing to triple Higgs production via gluon fusion), label sec: gg3Higgs",
+      "recordId": "bx_d7d0c250398f",
+      "verified": false,
+      "verifiedAt": ""
+    }
+  ],
+  "Names": [],
+  "Source": [
+    "arXiv"
+  ],
+  "Loops": 2,
+  "NumPropagators": 8,
+  "Results": [],
+  "edges": "{{{1, 2}, 0}, {{1, 3}, m}, {{1, 4}, m}, {{2, 5}, m}, {{2, 6}, m}, {{3, 5}, m}, {{4, 7}, m}, {{6, 7}, m}}",
+  "nodes": "{{3, 0}, {4, 0}, {7, m}, {6, m}, {5, m}}",
+  "CanonicalName": "Box-pentagon, 7 massive propagators",
+  "MassConfig": {
+    "numEdges": 8,
+    "numMassiveEdges": 7,
+    "numMasslessEdges": 1,
+    "distinctInternalMasses": 1,
+    "internalMassLabels": [
+      "m"
+    ],
+    "edgeMassPattern": "01111111",
+    "numExtLegs": 5,
+    "numOnshellMassiveExtLegs": 3,
+    "numMasslessExtLegs": 2,
+    "extLegSignature": "00MMM"
+  },
+  "Subsectors": [],
+  "ParentSectors": []
+}

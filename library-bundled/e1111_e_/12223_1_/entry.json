@@ -1,0 +1,144 @@
+{
+  "CNickelIndex": "e1111|e|:12223|1|",
+  "MassScales": 2,
+  "FunctionClass": "Calabi-Yau",
+  "EpsilonOrder": "",
+  "References": [
+    "arXiv:2504.17757 (JHEP 10 (202), 2025)",
+    "arXiv:2502.15325",
+    "arXiv:2502.15326 (JHEP 06 (250), 2025)",
+    "arXiv:2511.19245"
+  ],
+  "Records": [
+    {
+      "reference": "arXiv:2502.15325",
+      "authors": [
+        {
+          "full_name": "Duhr, Claude",
+          "inspire_id": 1040449
+        }
+      ],
+      "description": "Three-loop banana in $D=2$ with three equal internal masses ($m_2=m_3=m_4$) and one distinct mass ($m_1$). The period vector is four-dimensional $(\\Pi_2, \\Pi_{12}, \\Pi_{11}, \\Pi_0)$. After a $GL(4,\\mathbb{Z})$ change of basis the transcendental lattice becomes $T = H \\oplus H(3)$. This matches families of K3 surfaces giving ordinary modular forms over $H \\times H$, and the holomorphic period and mirror map admit an ordinary modular parametrisation (elliptic).",
+      "epsOrders": "",
+      "familyName": "three-loop banana (three equal masses) / three-loop banana with three equal masses (elliptic modular periods)",
+      "method": "K3 periods, transcendental lattice analysis, GL(4,Z) basis change, mirror map, modular parametrisation",
+      "tools": [],
+      "ancillaryFiles": false,
+      "doi": "",
+      "texkey": "",
+      "masterCount": 0,
+      "dimScheme": "d=2",
+      "computationLevel": "maximal_cut",
+      "location": "section 'Automorphic properties of three-loop banana integrals', subsection 'The three-equal-mass case m2=m3=m4' (bananas_2.tex)",
+      "recordId": "bx_fa5b6119e4c3",
+      "verified": false,
+      "verifiedAt": ""
+    },
+    {
+      "reference": "arXiv:2502.15326 (JHEP 06 (250), 2025)",
+      "authors": "Duhr, Claude, Maggio, Sara",
+      "description": "Three-loop banana integral in $d=2$ with four propagators (three mass $m_1$, one mass $m_2$). Two-parameter K3 surface. Holomorphic period factorizes as product of two copies of the two-loop equal-mass sunrise maximal cut. Modular parametrization via $\\Gamma_0(6)$ and $\\Gamma_0(12)$.",
+      "epsOrders": "",
+      "familyName": "three-loop banana (3+1 masses)",
+      "method": "DE",
+      "tools": [],
+      "ancillaryFiles": false,
+      "doi": "10.1007/JHEP06(2025)250",
+      "texkey": "Duhr:2025ppd",
+      "masterCount": 0,
+      "dimScheme": "d=2",
+      "computationLevel": "maximal_cut",
+      "location": "Section 4",
+      "recordId": "bx_23d1577c357e",
+      "verified": false,
+      "verifiedAt": ""
+    },
+    {
+      "authors": "Maggio, Sara, Sohnle, Yoann",
+      "texkey": "Maggio:2025jel",
+      "verified": false,
+      "verifiedAt": "",
+      "ancillaryPaths": [
+        "banana_3_1.nb"
+      ],
+      "reference": "arXiv:2504.17757, JHEP 10 (202), 2025",
+      "ancillaryFiles": [],
+      "recordId": "bf_d852e6ef329e",
+      "masterCount": 7,
+      "computationLevel": "DE_only",
+      "doi": "10.1007/JHEP10(2025)202",
+      "tools": [],
+      "description": "Three-loop banana integral family with two distinct internal masses in the 3-1 configuration: three propagators carry mass $m_1$ and one carries mass $m_2$. Nine denominators (four propagators + five ISPs). Computed in $D=2-2\\varepsilon$ dimensions. The underlying geometry is a K3 surface (Calabi-Yau 2-fold) with two moduli $z_1=m_1^2/p^2$, $z_2=m_2^2/p^2$. Seven master integrals: two tadpoles, four in the derivative block on the maximal cut, and one decoupling integral. The canonical differential equation is derived locally at the MUM-point $(z_1,z_2)=(0,0)$ with integer coefficients in the series expansion. This is the first epsilon-factorised form for this integral.",
+      "epsOrders": "",
+      "method": [],
+      "dimScheme": "d=2-2*eps",
+      "location": "Eq. (6.3)-(6.8), Section 6.1.1",
+      "familyName": "3L-banana-2mass-3-1"
+    },
+    {
+      "reference": "arXiv:2511.19245",
+      "authors": [
+        {
+          "full_name": "Duhr, Claude",
+          "inspire_id": 1040449
+        },
+        {
+          "full_name": "Maggio, Sara",
+          "inspire_id": 2635064
+        }
+      ],
+      "description": "Three-loop banana family with three equal masses $m_1$ and one different mass $m_2$. 4 propagators + 5 ISPs; $D=2-2\\varepsilon$; 7 masters via LiteRed2 IBP. Canonical epsilon-factorised DE; the K3 surface of the maximal cut factorises into a product of two elliptic curves, so periods and DE letters are expressed in meromorphic modular forms for $\\Gamma_1(12)$. All master integrals in closed form as iterated integrals of modular forms.",
+      "epsOrders": "all_orders",
+      "familyName": "3-loop banana with three equal masses and one different mass (4 propagators)",
+      "method": "IBP, DE",
+      "tools": [
+        "LiteRed"
+      ],
+      "ancillaryFiles": true,
+      "doi": "",
+      "texkey": "",
+      "masterCount": 7,
+      "dimScheme": "d=2-2*eps",
+      "computationLevel": "full",
+      "location": "Section 2, Eq. (2.1); initial basis Eq. (2.3)",
+      "recordId": "bx_893a76e61fba",
+      "verified": false,
+      "verifiedAt": ""
+    }
+  ],
+  "Names": [
+    "3L-banana-2mass-3-1",
+    "three-loop banana (three equal masses)",
+    "three-loop banana (3+1 masses)",
+    "three-loop banana with three equal masses (elliptic modular periods)"
+  ],
+  "Source": [
+    "arXiv"
+  ],
+  "Loops": 3,
+  "NumPropagators": 4,
+  "Results": [],
+  "edges": "{{{1, 2}, m[1]}, {{1, 2}, m[1]}, {{1, 2}, m[1]}, {{1, 2}, m[2]}}",
+  "nodes": "{{1, M}, {2, M}}",
+  "CanonicalName": "2-mass banana (a)",
+  "MassConfig": {
+    "numEdges": 4,
+    "numMassiveEdges": 4,
+    "numMasslessEdges": 0,
+    "distinctInternalMasses": 2,
+    "internalMassLabels": [
+      "m[1]",
+      "m[2]"
+    ],
+    "edgeMassPattern": "1112",
+    "numExtLegs": 2,
+    "numOnshellMassiveExtLegs": 2,
+    "numMasslessExtLegs": 0,
+    "extLegSignature": "MM"
+  },
+  "commonNames": [
+    "B3"
+  ],
+  "Subsectors": [],
+  "ParentSectors": []
+}

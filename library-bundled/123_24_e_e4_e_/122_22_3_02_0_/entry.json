@@ -1,0 +1,70 @@
+{
+  "CNickelIndex": "123|24|e|e4|e|:122|22|3|02|0|",
+  "MassScales": 3,
+  "FunctionClass": "elliptic",
+  "EpsilonOrder": "-4,-3,-2,-1,0,1,2",
+  "References": [
+    "arXiv:2501.14435"
+  ],
+  "Records": [
+    {
+      "reference": "arXiv:2501.14435, Phys.Rev.D 112, 2025",
+      "authors": "Marzucca, Robin, McLeod, Andrew J., Nega, Christoph",
+      "description": "Two-loop integral family for mixed QCD-EW corrections to $gg \\to H$ at $\\mathcal{O}(g^3 g_s^2)$. This family has two top-level topologies (the hexagonal graph with a massive $M$ line, and a triangle-bubble topology) and contains the elliptic two-mass sunrise integral as a subtopology. Depends on $s$, $m_t$, and a second mass $M$ (which can be $m_H$, $m_W$, or $m_Z$). Contains 30 master integrals computed through $\\mathcal{O}(\\varepsilon^2)$ (weight 6). The elliptic sector is governed by the sunrise elliptic curve with period $\\varpi_0$ and two additional transcendental functions $G_1, G_2$ defined as iterated integrals over $\\varpi_0$. Results expressed as iterated integrals over 24 algebraic and 28 elliptic integration kernels. Numerically cross-checked against AMFlow to 13 digits for elliptic integrals and 40 digits for polylogarithmic subsectors.",
+      "epsOrders": "-4,-3,-2,-1,0,1,2",
+      "familyName": "gg→H QCD-EW (Family 2)",
+      "method": "DE + IBP",
+      "tools": [
+        "QGRAF",
+        "FORM",
+        "Reduze",
+        "Kira",
+        "AMFlow",
+        "GiNaC"
+      ],
+      "ancillaryFiles": true,
+      "doi": "10.1103/d62t-55k2",
+      "texkey": "Marzucca:2025eak",
+      "ancillaryPaths": [
+        "ancillary files on arXiv and Zenodo (doi:10.5281/zenodo.14843619)"
+      ],
+      "masterCount": 30,
+      "transcendentalWeight": 6,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "full",
+      "location": "Eq. (3.1)-(3.2), Section 3.4, Appendix A.2",
+      "recordId": "bf_283c5978b081",
+      "verified": false,
+      "verifiedAt": ""
+    }
+  ],
+  "Names": [
+    "gg→H QCD-EW (Family 2)"
+  ],
+  "Source": "arXiv",
+  "Loops": 2,
+  "NumPropagators": 6,
+  "Results": [],
+  "edges": "{{{1, 2}, m[1]}, {{1, 3}, m[2]}, {{1, 4}, m[2]}, {{2, 3}, m[2]}, {{2, 5}, m[2]}, {{4, 5}, m[2]}}",
+  "nodes": "{{3, M}, {4, 0}, {5, 0}}",
+  "CanonicalName": "2-mass triangle-box (b)",
+  "MassConfig": {
+    "numEdges": 6,
+    "numMassiveEdges": 6,
+    "numMasslessEdges": 0,
+    "distinctInternalMasses": 2,
+    "internalMassLabels": [
+      "m[1]",
+      "m[2]"
+    ],
+    "edgeMassPattern": "122222",
+    "numExtLegs": 3,
+    "numOnshellMassiveExtLegs": 1,
+    "numMasslessExtLegs": 2,
+    "extLegSignature": "M00"
+  },
+  "Subsectors": [
+    "1123|e|e3|e|:1111|2|01|0|"
+  ],
+  "ParentSectors": []
+}

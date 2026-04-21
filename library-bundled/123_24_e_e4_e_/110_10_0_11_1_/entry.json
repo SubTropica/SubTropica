@@ -1,0 +1,102 @@
+{
+  "CNickelIndex": "123|24|e|e4|e|:110|10|0|11|1|",
+  "MassScales": 1,
+  "FunctionClass": "MPL",
+  "EpsilonOrder": "-2,-1,0,1,2",
+  "References": [
+    "arXiv:1712.09889 (Phys.Rev.D 97 (), 2018)"
+  ],
+  "Records": [
+    {
+      "ancillaryPaths": [
+        "anc/anc.m"
+      ],
+      "dimScheme": "d=4-2*eps",
+      "recordId": "bf_30c916b92f1e",
+      "familyName": "Singlet",
+      "verified": false,
+      "verifiedAt": "",
+      "authors": "Ablinger, J., Behring, A., Blümlein, J., Falcioni, G., De Freitas, A., Marquard, P. et al.",
+      "texkey": "Ablinger:2017hst",
+      "computationLevel": "full",
+      "masterCount": 15,
+      "transcendentalWeight": 6,
+      "location": "Section 3.1, Eqs. (3.3)-(3.4), Table 2, Figure 2",
+      "method": [],
+      "reference": "arXiv:1712.09889, Phys.Rev.D 97, 2018",
+      "ancillaryFiles": [],
+      "description": "Two-loop singlet integral family for massive quark form factors with 6 propagators (4 massive, 2 massless). 15 MIs computed through $\\mathcal{O}(\\varepsilon^2)$ in HPLs.",
+      "epsOrders": "-2,-1,0,1,2",
+      "tools": [
+        "FORM"
+      ],
+      "doi": "10.1103/PhysRevD.97.094022"
+    }
+  ],
+  "Names": [
+    "Singlet"
+  ],
+  "Source": [
+    "arXiv"
+  ],
+  "Loops": 2,
+  "NumPropagators": 6,
+  "Results": [
+    {
+      "resultCompressed": "1:eJyFj0EKwjAQRWNTi/QW3sVlF6V6gQgT+dAY6US8vXEmoQVX3bzw4M/n53yPk++MMdwLrrSA+OKSYytKL4Y8xjcaaAUDOFU7Cm4IxFVPgsklxKebcRBBux1qdIwfWlg1BHxzzt7utUgo77Zsy8b5zbB/6VIMVa+LypeG+FjvS3+ZqvgBQQM+YA==",
+      "resultTeX": "\\frac{1}{4 \\varepsilon m^2^2}-\\frac{2 \\log (m^2)+3}{4 m^2^2}+O\\left(\\varepsilon^1\\right)",
+      "dimension": "4 - 2*eps",
+      "epsOrder": 0,
+      "propExponents": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "propagators": [],
+      "numerators": [],
+      "internalMasses": [],
+      "externalMasses": [],
+      "substitutions": "{}",
+      "normalization": "Automatic",
+      "stVersion": "SubTropica v1.0.362",
+      "stCommand": "STIntegrate[{{{{1, 2}, m}, {{1, 3}, m}, {{1, 4}, 0}, {{2, 3}, m}, {{2, 5}, 0}, {{4, 5}, m}}, {{3, 0}, {4, m}, {5, m}}}, Dimension -> \"4 - 2*eps\", Order -> 0]",
+      "contributor": "SM",
+      "timestamp": "2026-04-19T16:06:25",
+      "byteCount": 776,
+      "symbolTeX": "\\varepsilon^{0}\\colon\\;-\\frac{m^{-4}}{2}\\,(m^2)",
+      "alphabet": [
+        "m^2"
+      ],
+      "symbolWeight": 1,
+      "symbolTerms": 1,
+      "legOrder": [
+        1,
+        2,
+        3
+      ]
+    }
+  ],
+  "edges": "{{{1, 2}, m}, {{1, 3}, m}, {{1, 4}, 0}, {{2, 3}, m}, {{2, 5}, 0}, {{4, 5}, m}}",
+  "nodes": "{{3, 0}, {4, m}, {5, m}}",
+  "quadruple": "{E^(2*eps*EulerGamma)*Gamma[2*(1 + eps)], (x1*x2 + x1*x3 + x2*x3 + x1*x4 + x3*x4 + x1*x5 + x2*x5 + x4*x5 + x1*x6 + x2*x6 + x4*x6)^(3*eps)/(-(mm*(x1 + x2 + x4)*(x1*x2 + x1*x3 + x2*x3 + x1*x4 + x3*x4 + x1*x5 + x2*x5 + x4*x5 + x1*x6 + x2*x6 + x4*x6 + x6^2)))^(2*(1 + eps)), {x1, x2, x3, x4, x5, x6}, {mm}}",
+  "CanonicalName": "Triangle-box, 4 massive propagators",
+  "MassConfig": {
+    "numEdges": 6,
+    "numMassiveEdges": 4,
+    "numMasslessEdges": 2,
+    "distinctInternalMasses": 1,
+    "internalMassLabels": [
+      "m"
+    ],
+    "edgeMassPattern": "110101",
+    "numExtLegs": 3,
+    "numOnshellMassiveExtLegs": 2,
+    "numMasslessExtLegs": 1,
+    "extLegSignature": "0MM"
+  },
+  "Subsectors": [],
+  "ParentSectors": []
+}

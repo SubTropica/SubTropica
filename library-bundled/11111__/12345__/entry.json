@@ -1,0 +1,64 @@
+{
+  "CNickelIndex": "11111||:12345||",
+  "MassScales": 5,
+  "FunctionClass": "hypergeometric",
+  "EpsilonOrder": "all_orders",
+  "References": [
+    "arXiv:2403.13025 (JHEP 03 (013), 2025)"
+  ],
+  "Records": [
+    {
+      "reference": "arXiv:2403.13025 (JHEP 03 (013), 2025)",
+      "authors": "Zhang, Hai-Bin, Feng, Tai-Fu",
+      "description": "4-loop vacuum banana (5 propagators, 2 vertices) with arbitrary masses. GKZ hypergeometric system derived via Mellin-Barnes + Miller transformation. 2 master integrals.",
+      "epsOrders": "all_orders",
+      "familyName": "generic-mass 4-loop 5-banana vacuum integral",
+      "method": "Mellin-Barnes",
+      "tools": [
+        "FIESTA"
+      ],
+      "ancillaryFiles": true,
+      "doi": "10.1007/JHEP03(2025)013",
+      "texkey": "Zhang:2024mxd",
+      "masterCount": 2,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "full",
+      "location": "Sec. 3, Eq. (5)-(26)",
+      "recordId": "bx_dfe125992519",
+      "verified": false,
+      "verifiedAt": ""
+    }
+  ],
+  "Names": [
+    "generic-mass 4-loop 5-banana vacuum integral"
+  ],
+  "Source": [
+    "arXiv"
+  ],
+  "Loops": 4,
+  "NumPropagators": 5,
+  "Results": [],
+  "edges": "{{{1, 2}, m[1]}, {{1, 2}, m[2]}, {{1, 2}, m[3]}, {{1, 2}, m[4]}, {{1, 2}, m[5]}}",
+  "nodes": "{}",
+  "CanonicalName": "5-mass quadruple bubble",
+  "MassConfig": {
+    "numEdges": 5,
+    "numMassiveEdges": 5,
+    "numMasslessEdges": 0,
+    "distinctInternalMasses": 5,
+    "internalMassLabels": [
+      "m[1]",
+      "m[2]",
+      "m[3]",
+      "m[4]",
+      "m[5]"
+    ],
+    "edgeMassPattern": "12345",
+    "numExtLegs": 0,
+    "numOnshellMassiveExtLegs": 0,
+    "numMasslessExtLegs": 0,
+    "extLegSignature": ""
+  },
+  "Subsectors": [],
+  "ParentSectors": []
+}

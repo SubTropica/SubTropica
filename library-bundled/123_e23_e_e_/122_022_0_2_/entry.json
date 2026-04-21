@@ -1,0 +1,68 @@
+{
+  "CNickelIndex": "123|e23|e|e|:122|022|0|2|",
+  "MassScales": 2,
+  "FunctionClass": "elliptic",
+  "EpsilonOrder": "2",
+  "References": [
+    "arXiv:2501.14435 (Phys.Rev.D 112 (), 2025)"
+  ],
+  "Records": [
+    {
+      "reference": "arXiv:2501.14435 (Phys.Rev.D 112 (), 2025)",
+      "authors": "Marzucca, Robin, McLeod, Andrew J., Nega, Christoph",
+      "description": "Two-loop integral family for mixed QCD-EW corrections to $gg \\to H$ at $\\mathcal{O}(g^3 g_s^2)$. This family has three top-level topologies and contains the elliptic two-mass sunrise integral as a subtopology. Depends on $s$, $m_t$, and a second mass $M$ (which can be $m_H$, $m_W$, or $m_Z$). Contains 26 master integrals computed through $\\mathcal{O}(\\varepsilon^2)$ (weight 6). The elliptic sector is governed by the sunrise elliptic curve with period $\\varpi_0$ and the additional transcendental function $G_1$. Unlike Family 2, the function $G_2$ is not needed for this family. Results expressed as iterated integrals over algebraic and elliptic integration kernels. The first top-level topology shown has 4 vertices and 5 edges: a triangle with a cross-diagonal. Numerically cross-checked against AMFlow.",
+      "epsOrders": "2",
+      "familyName": "Family 5",
+      "method": "DE, IBP",
+      "tools": [
+        "QGRAF",
+        "FORM",
+        "Reduze",
+        "Kira",
+        "AMFlow",
+        "GiNaC"
+      ],
+      "ancillaryFiles": true,
+      "doi": "10.1103/d62t-55k2",
+      "texkey": "Marzucca:2025eak",
+      "masterCount": 26,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "full",
+      "location": "Eq. (3.1)-(3.2), Section 3.4, Appendix A.5",
+      "recordId": "bx_477d33b2c338",
+      "verified": false,
+      "verifiedAt": ""
+    }
+  ],
+  "Names": [
+    "Family 5"
+  ],
+  "Source": [
+    "arXiv"
+  ],
+  "Loops": 2,
+  "NumPropagators": 5,
+  "Results": [],
+  "edges": "{{{1, 2}, m[1]}, {{1, 3}, m[2]}, {{1, 4}, m[2]}, {{2, 3}, m[2]}, {{2, 4}, m[2]}}",
+  "nodes": "{{2, 0}, {3, 0}, {4, m[2]}}",
+  "CanonicalName": "2-mass double triangle (b-c)",
+  "MassConfig": {
+    "numEdges": 5,
+    "numMassiveEdges": 5,
+    "numMasslessEdges": 0,
+    "distinctInternalMasses": 2,
+    "internalMassLabels": [
+      "m[1]",
+      "m[2]"
+    ],
+    "edgeMassPattern": "12222",
+    "numExtLegs": 3,
+    "numOnshellMassiveExtLegs": 1,
+    "numMasslessExtLegs": 2,
+    "extLegSignature": "00M"
+  },
+  "Subsectors": [],
+  "ParentSectors": [
+    "123|24|e|e4|e|:122|22|2|02|0|"
+  ]
+}

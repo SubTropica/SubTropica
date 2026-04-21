@@ -1,0 +1,76 @@
+{
+  "CNickelIndex": "e112|e3|e3|e|:0112|02|02|0|",
+  "MassScales": 4,
+  "FunctionClass": "elliptic",
+  "EpsilonOrder": "all_orders",
+  "References": [
+    "arXiv:2205.14115"
+  ],
+  "Records": [
+    {
+      "reference": "arXiv:2205.14115",
+      "authors": [
+        {
+          "full_name": "Bezuglov, M.A.",
+          "inspire_id": 1706746
+        },
+        {
+          "full_name": "Kotikov, A.V.",
+          "inspire_id": 1002077
+        },
+        {
+          "full_name": "Onishchenko, A.I.",
+          "inspire_id": 994870
+        }
+      ],
+      "description": "Two-loop family of Feynman integrals $J^{mM}_{b_1 b_2 b_3 a_1 a_2}$ arising in the matching of QCD to NRQCD, defined in Eq. (2.1) with three mass-$m$ propagators and two mass-$M$ propagators, external kinematics $q_1^2=q_2^2=0$, $q_1.q_2=2 m^2$ (so $p=(q_1+q_2)/2$ satisfies $p^2=m^2$). IBP reduction yields 9 master integrals $J_1..J_9$ listed after Eq. (2.1). $J_1, J_2, J_9$ are obtained by direct Feynman-parameter integration; $J_3..J_8$ are computed analytically in closed form exact in $d$ via the Frobenius method applied to their differential equations, yielding combinations of $_3F_2$ and $_4F_3$ hypergeometric functions (Sections 2 and 4). Section 3 provides integral representations expanded at fixed $d$ through canonical DE and iterated integrals (polylogarithmic and elliptic II-type kernels, see Appendix A). The Frobenius/hypergeometric representation is exact in epsilon (all-orders).",
+      "epsOrders": "all_orders",
+      "familyName": "two-mass 2-loop 4-point NRQCD matching family (5 propagators)",
+      "method": "IBP, DE, direct_integration",
+      "tools": [
+        "HypExp"
+      ],
+      "ancillaryFiles": false,
+      "doi": "",
+      "texkey": "",
+      "masterCount": 9,
+      "dimScheme": "d=D",
+      "computationLevel": "full",
+      "location": "Section 2, Eq. (2.1); diagram in Fig. 1",
+      "recordId": "bx_293c0a118c47",
+      "verified": false,
+      "verifiedAt": ""
+    }
+  ],
+  "Names": [
+    "two-mass 2-loop 4-point NRQCD matching family (5 propagators)"
+  ],
+  "Source": [
+    "arXiv"
+  ],
+  "Loops": 2,
+  "NumPropagators": 5,
+  "Results": [],
+  "edges": "{{{1, 2}, m[1]}, {{1, 2}, m[1]}, {{1, 3}, m[2]}, {{2, 4}, m[2]}, {{3, 4}, m[2]}}",
+  "nodes": "{{1, 0}, {2, 0}, {4, 0}, {3, 0}}",
+  "CanonicalName": "2-mass bubble-box",
+  "MassConfig": {
+    "numEdges": 5,
+    "numMassiveEdges": 5,
+    "numMasslessEdges": 0,
+    "distinctInternalMasses": 2,
+    "internalMassLabels": [
+      "m[1]",
+      "m[2]"
+    ],
+    "edgeMassPattern": "11222",
+    "numExtLegs": 4,
+    "numOnshellMassiveExtLegs": 0,
+    "numMasslessExtLegs": 4,
+    "extLegSignature": "0000"
+  },
+  "Subsectors": [
+    "e12|e2|e|:011|01|2|"
+  ],
+  "ParentSectors": []
+}

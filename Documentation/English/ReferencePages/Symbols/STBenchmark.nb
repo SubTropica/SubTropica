@@ -1,0 +1,158 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Wolfram 14.3' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       154,          7]
+NotebookDataLength[      6031,        149]
+NotebookOptionsPosition[      4167,        111]
+NotebookOutlinePosition[      4607,        127]
+CellTagsIndexPosition[      4564,        124]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["STBenchmark", "ObjectName",ExpressionUUID->"511c9bf9-c5ef-49a8-8601-fe354abacfa6"],
+
+Cell[BoxData[GridBox[{
+   {Cell[TextData[{
+     StyleBox["STBenchmark[]", "TI"],
+     " \[LineSeparator]runs the full benchmark suite defined in \
+mgExamples/mgDiagrams.wl: a dependency check (see STDependencies[]) followed \
+by the STIntegrate / STNIntegrate cases exercising every supported input form \
+and backend. Cases run sequentially in the main kernel; caches are cleared \
+between cases so that one case's state cannot poison the next."
+    }], "TableText",ExpressionUUID->"fb824479-741e-41dc-901b-89ff43ac9e24"]},
+   {Cell[TextData[{
+     StyleBox["STBenchmark[selector]", "TI"],
+     " \[LineSeparator]restricts the run to a subset (e.g. \"diagrams\", \
+{\"nIntDiagrams\", 1 ;; 3}, or a list of case ids). Options: \"Verify\" -> \
+True | False (cross-check nIntDiagrams via STVerify); \"Display\" -> \"Stream\
+\" | \"Silent\"; \"Baseline\" -> Automatic | None | _String (path to baseline \
+JSON); \"UpdateBaseline\" -> True | False | Automatic (bake current run as \
+the new baseline; Automatic writes only when no baseline exists yet); \
+\"Report\" -> None | _String (write a Markdown report); \"SkipPackageCheck\" \
+-> True | False."
+    }], "TableText",ExpressionUUID->"735ed364-4a8e-4f96-a68b-733e6814f772"]}
+  },
+  GridBoxAlignment->{"Columns" -> {{Left}}},
+  GridBoxItemSize->{
+   "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}]], "Usage",
+ CellID->1,ExpressionUUID->"39a555d0-9fe8-4cae-a6cc-6d2e1105aae2"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["See Also", "SeeAlsoSection",ExpressionUUID->"52c7f69a-f72b-4559-b8a9-ee209f362fda"],
+
+Cell[TextData[{
+ Cell[BoxData[
+  ButtonBox["STDependencies",
+   BaseStyle->"Link",
+   ButtonData->"paclet:SubTropica/ref/STDependencies"]], "InlineFormula",
+  ExpressionUUID->"e97fefc6-eee1-4f83-871c-55eff52db87b"],
+ " \[EmptyVerySmallSquare] ",
+ Cell[BoxData[
+  ButtonBox["STCheckDependencies",
+   BaseStyle->"Link",
+   ButtonData->"paclet:SubTropica/ref/STCheckDependencies"]], "InlineFormula",
+  ExpressionUUID->"f1714a9e-3d3a-4c59-8af7-9bb0406d9a55"],
+ " \[EmptyVerySmallSquare] ",
+ Cell[BoxData[
+  ButtonBox["STIntegrate",
+   BaseStyle->"Link",
+   ButtonData->"paclet:SubTropica/ref/STIntegrate"]], "InlineFormula",
+  ExpressionUUID->"699f51d5-4554-44ab-9ab3-cb905527d1d2"]
+}], "SeeAlso",ExpressionUUID->"d8447159-6e54-431a-8b9b-3df794c423cf"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Metadata", "MetadataSection",ExpressionUUID->"a606af49-85d5-45d9-ac3c-5dc3477e5189"],
+
+Cell[CellGroupData[{
+
+Cell["Categorization", "CategorizationSection",ExpressionUUID->"5b43bdd4-4b2f-4713-bd32-5eddaa98425d"],
+
+Cell["Symbol", "Categorization",
+ CellLabel->
+  "Entity Type",ExpressionUUID->"9c525721-2e27-47ec-8e49-e9312a3cecd4"],
+
+Cell["SubTropica", "Categorization",
+ CellLabel->
+  "Paclet Name",ExpressionUUID->"25dd135c-6de1-4782-8ba6-cf0c3eca8a11"],
+
+Cell["SubTropica`", "Categorization",
+ CellLabel->"Context",ExpressionUUID->"6e3acbbb-15b0-4ce0-bd8a-cf5b31eee012"],
+
+Cell["SubTropica/ref/STBenchmark", "Categorization",
+ CellLabel->"URI",ExpressionUUID->"3e35dd9a-5576-479e-9829-94a68eb04b46"]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Keywords", "KeywordsSection",ExpressionUUID->"1db47509-ff60-4736-b48c-6048857ec2ec"],
+
+Cell["Feynman integral", "Keywords",ExpressionUUID->"7db472a9-9b6d-4970-b379-c9df23714da1"],
+
+Cell["tropical geometry", "Keywords",ExpressionUUID->"b9b5f546-1a56-4a3b-80a0-9541c3543b15"],
+
+Cell["dimensional regularization", "Keywords",ExpressionUUID->"5cf3585c-843f-4111-af30-384e56c3b830"]
+}, Closed]]
+}, Open  ]]
+},
+TaggingRules-><|"Paclet" -> "SubTropica"|>,
+FrontEndVersion->"14.3 for Mac OS X ARM (64-bit) (July 8, 2025)",
+StyleDefinitions->FrontEnd`FileName[{"Wolfram"}, "FunctionPageStylesExt.nb", 
+  CharacterEncoding -> "UTF-8"],
+ExpressionUUID->"0a2c15e1-4326-4068-82ae-abfc6bc9a3e9"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[576, 22, 88, 0, 70, "ObjectName",ExpressionUUID->"511c9bf9-c5ef-49a8-8601-fe354abacfa6"],
+Cell[667, 24, 1430, 24, 70, "Usage",ExpressionUUID->"39a555d0-9fe8-4cae-a6cc-6d2e1105aae2",
+ CellID->1]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[2134, 53, 89, 0, 70, "SeeAlsoSection",ExpressionUUID->"52c7f69a-f72b-4559-b8a9-ee209f362fda"],
+Cell[2226, 55, 748, 18, 70, "SeeAlso",ExpressionUUID->"d8447159-6e54-431a-8b9b-3df794c423cf"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[3011, 78, 90, 0, 70, "MetadataSection",ExpressionUUID->"a606af49-85d5-45d9-ac3c-5dc3477e5189"],
+Cell[CellGroupData[{
+Cell[3126, 82, 102, 0, 70, "CategorizationSection",ExpressionUUID->"5b43bdd4-4b2f-4713-bd32-5eddaa98425d"],
+Cell[3231, 84, 117, 2, 70, "Categorization",ExpressionUUID->"9c525721-2e27-47ec-8e49-e9312a3cecd4"],
+Cell[3351, 88, 121, 2, 70, "Categorization",ExpressionUUID->"25dd135c-6de1-4782-8ba6-cf0c3eca8a11"],
+Cell[3475, 92, 115, 1, 70, "Categorization",ExpressionUUID->"6e3acbbb-15b0-4ce0-bd8a-cf5b31eee012"],
+Cell[3593, 95, 126, 1, 70, "Categorization",ExpressionUUID->"3e35dd9a-5576-479e-9829-94a68eb04b46"]
+}, Closed]],
+Cell[CellGroupData[{
+Cell[3756, 101, 90, 0, 70, "KeywordsSection",ExpressionUUID->"1db47509-ff60-4736-b48c-6048857ec2ec"],
+Cell[3849, 103, 91, 0, 70, "Keywords",ExpressionUUID->"7db472a9-9b6d-4970-b379-c9df23714da1"],
+Cell[3943, 105, 92, 0, 70, "Keywords",ExpressionUUID->"b9b5f546-1a56-4a3b-80a0-9541c3543b15"],
+Cell[4038, 107, 101, 0, 70, "Keywords",ExpressionUUID->"5cf3585c-843f-4111-af30-384e56c3b830"]
+}, Closed]]
+}, Open  ]]
+}
+]
+*)
+
+(* End of internal cache information *)

@@ -1,0 +1,117 @@
+{
+  "CNickelIndex": "e1111|e|:12234|1|",
+  "MassScales": 3,
+  "FunctionClass": "unknown",
+  "EpsilonOrder": "",
+  "References": [
+    "arXiv:2305.19768",
+    "arXiv:2502.15325"
+  ],
+  "Records": [
+    {
+      "reference": "arXiv:2502.15325",
+      "authors": [
+        {
+          "full_name": "Duhr, Claude",
+          "inspire_id": 1040449
+        }
+      ],
+      "description": "Three-loop banana in $D=2$ with exactly two equal internal masses ($m_2=m_3$), while $m_1$ and $m_4$ remain distinct. The period vector is five-dimensional $(\\Pi_2, \\Pi_{14}, \\Pi_{12}, \\Pi_{11}, \\Pi_0)$. After a $GL(5,\\mathbb{Z})$ change of basis the transcendental lattice becomes $T = H \\oplus H \\oplus \\langle -6 \\rangle$. Via the exceptional isomorphism $O(2,3) \\sim Sp(4,\\mathbb{R})$, the mirror map is a classical Siegel modular function on the Siegel upper half-space $H_2$ and the holomorphic period is a Siegel modular form of weight 1. The holomorphic period is realised as the determinant of the A-cycle period matrix of a family of genus-two hyperelliptic curves.",
+      "epsOrders": "",
+      "familyName": "three-loop banana (two equal masses, Siegel modular) / three-loop banana with two equal masses (Siegel modular periods)",
+      "method": "K3 periods, transcendental lattice analysis, GL(5,Z) basis change, Siegel modular forms, genus-two hyperelliptic period matrix, mirror map",
+      "tools": [],
+      "ancillaryFiles": false,
+      "doi": "",
+      "texkey": "",
+      "masterCount": 0,
+      "dimScheme": "d=2",
+      "computationLevel": "maximal_cut",
+      "location": "section 'Automorphic properties of three-loop banana integrals', subsection 'The two-equal-mass case m2=m3' (bananas_2.tex)",
+      "recordId": "bx_6e5611b09a3d",
+      "verified": false,
+      "verifiedAt": ""
+    },
+    {
+      "authors": [
+        {
+          "full_name": "Heinrich, G.",
+          "inspire_id": 1006298
+        },
+        {
+          "full_name": "Jones, S.P.",
+          "inspire_id": 1357945
+        },
+        {
+          "full_name": "Kerner, M.",
+          "inspire_id": 1234959
+        },
+        {
+          "full_name": "Magerya, V.",
+          "inspire_id": 1909862
+        },
+        {
+          "full_name": "Olsson, A.",
+          "inspire_id": 2777138
+        },
+        {
+          "full_name": "Schlenk, J.",
+          "inspire_id": 1280161
+        }
+      ],
+      "texkey": "",
+      "verified": false,
+      "verifiedAt": "",
+      "reference": "arXiv:2305.19768",
+      "ancillaryFiles": [],
+      "recordId": "bf_1ca5932d048d",
+      "masterCount": 0,
+      "computationLevel": "numerical",
+      "doi": "",
+      "tools": [
+        "pySecDec"
+      ],
+      "description": "Three-loop banana (sunrise) diagram with 4 internal propagators carrying 3 distinct mass scales $(m_1, m_1, m_2, m_3)$ between 2 vertices, forming a 2-point function. Previously existing pySecDec example used for benchmarking Disteval vs IntLib integrators.",
+      "epsOrders": "",
+      "method": [],
+      "dimScheme": "d=4-2*eps",
+      "location": "Section 3.2, Figure 10(a), Table 3",
+      "familyName": "banana_3mass"
+    }
+  ],
+  "Names": [
+    "banana_3mass",
+    "three-loop banana (two equal masses, Siegel modular)",
+    "three-loop banana with two equal masses (Siegel modular periods)"
+  ],
+  "Source": [
+    "arXiv"
+  ],
+  "Loops": 3,
+  "NumPropagators": 4,
+  "Results": [],
+  "edges": "{{{1, 2}, m[1]}, {{1, 2}, m[1]}, {{1, 2}, m[2]}, {{1, 2}, m[3]}}",
+  "nodes": "{{1, M}, {2, M}}",
+  "CanonicalName": "3-mass banana",
+  "MassConfig": {
+    "numEdges": 4,
+    "numMassiveEdges": 4,
+    "numMasslessEdges": 0,
+    "distinctInternalMasses": 3,
+    "internalMassLabels": [
+      "m[1]",
+      "m[2]",
+      "m[3]"
+    ],
+    "edgeMassPattern": "1123",
+    "numExtLegs": 2,
+    "numOnshellMassiveExtLegs": 2,
+    "numMasslessExtLegs": 0,
+    "extLegSignature": "MM"
+  },
+  "commonNames": [
+    "B3"
+  ],
+  "Subsectors": [],
+  "ParentSectors": []
+}

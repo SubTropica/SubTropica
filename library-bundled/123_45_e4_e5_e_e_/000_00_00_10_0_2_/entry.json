@@ -1,0 +1,106 @@
+{
+  "CNickelIndex": "123|45|e4|e5|e|e|:000|00|00|10|0|2|",
+  "MassScales": 4,
+  "FunctionClass": "MPL",
+  "EpsilonOrder": "-4,-3,-2,-1,0",
+  "References": [
+    "arXiv:hep-ph/9905323",
+    "arXiv:1511.01071",
+    "arXiv:2104.03957",
+    "arXiv:hep-ph/9907385",
+    "arXiv:2008.04823",
+    "arXiv:1612.02249",
+    "arXiv:1408.6409"
+  ],
+  "Records": [
+    {
+      "authors": [
+        {
+          "full_name": "Caola, Fabrizio",
+          "inspire_id": 1053709
+        },
+        {
+          "full_name": "Henn, Johannes M.",
+          "inspire_id": 1040053
+        },
+        {
+          "full_name": "Melnikov, Kirill",
+          "inspire_id": 997847
+        },
+        {
+          "full_name": "Smirnov, Alexander V.",
+          "inspire_id": 1024152
+        },
+        {
+          "full_name": "Smirnov, Vladimir A.",
+          "inspire_id": 988366
+        }
+      ],
+      "ancillaryFiles": [],
+      "recordId": "bf_6f9e5c5eda08",
+      "transcendentalWeight": 4,
+      "epsOrders": "-4,-3,-2,-1,0,1,2",
+      "location": "Section 2 of arXiv:1404.5590, Eq.(2.5)-(2.6); used in Section 3 of arXiv:1408.6409",
+      "texkey": "",
+      "verified": false,
+      "verifiedAt": "",
+      "reference": "arXiv:1408.6409",
+      "masterCount": 0,
+      "computationLevel": "analytic",
+      "doi": "",
+      "tools": [
+        "QGRAF",
+        "FORM",
+        "FIRE",
+        "GiNaC"
+      ],
+      "description": "Non-planar (crossed) double-box integral family for two-loop $qq'\\to V_1^* V_2^*$ with massless internal lines. Family N12: momentum mapping $p_{1,\\mathrm{fam}}=-q_4$, $p_{2,\\mathrm{fam}}=-q_3$, $p_{3,\\mathrm{fam}}=q_2$, $p_{4,\\mathrm{fam}}=q_1$. Mandelstam: $s_\\mathrm{fam}=S$, $t_\\mathrm{fam}=T$, $u_\\mathrm{fam}=U$.",
+      "method": [],
+      "dimScheme": "CDR",
+      "familyName": "N12 / P12 / P13 / P23 / N13 / N34"
+    }
+  ],
+  "Names": [
+    "Massless planar double box",
+    "Planar double box",
+    "PDB",
+    "2-loop ladder",
+    "P13",
+    "P23",
+    "N12",
+    "N13",
+    "N34"
+  ],
+  "Source": [
+    "arXiv",
+    "Loopedia"
+  ],
+  "Loops": 2,
+  "NumPropagators": 7,
+  "Results": [],
+  "edges": "{{{1, 2}, 0}, {{1, 3}, 0}, {{1, 4}, 0}, {{2, 5}, 0}, {{2, 6}, 0}, {{3, 5}, 0}, {{4, 6}, 0}}",
+  "nodes": "{{3, 0}, {4, M[2]}, {6, M[3]}, {5, 0}}",
+  "CanonicalName": "2-mass double box (d)",
+  "MassConfig": {
+    "numEdges": 7,
+    "numMassiveEdges": 0,
+    "numMasslessEdges": 7,
+    "distinctInternalMasses": 0,
+    "internalMassLabels": [],
+    "edgeMassPattern": "0000000",
+    "numExtLegs": 4,
+    "numOnshellMassiveExtLegs": 2,
+    "numMasslessExtLegs": 2,
+    "extLegSignature": "0MM0"
+  },
+  "commonNames": [
+    "L2"
+  ],
+  "Subsectors": [
+    "123|24|e|e4|e|:000|00|1|00|0|",
+    "123|24|e|e4|e|:000|00|1|20|3|"
+  ],
+  "ParentSectors": [
+    "123|45|e4|e6|e|e6|e|:000|00|00|00|0|10|0|"
+  ]
+}

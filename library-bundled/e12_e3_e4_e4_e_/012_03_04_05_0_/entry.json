@@ -1,0 +1,85 @@
+{
+  "CNickelIndex": "e12|e3|e4|e4|e|:012|03|04|05|0|",
+  "MassScales": 10,
+  "FunctionClass": "unknown",
+  "EpsilonOrder": "",
+  "References": [
+    "arXiv:2112.00055",
+    "arXiv:1803.05894"
+  ],
+  "Records": [
+    {
+      "reference": "arXiv:1803.05894",
+      "authors": [
+        {
+          "full_name": "Abreu, Samuel",
+          "inspire_id": 1287226
+        },
+        {
+          "full_name": "Britto, Ruth",
+          "inspire_id": 1015279
+        },
+        {
+          "full_name": "Duhr, Claude",
+          "inspire_id": 1040449
+        },
+        {
+          "full_name": "Gardi, Einan",
+          "inspire_id": 1019159
+        }
+      ],
+      "description": "Generic one-loop pentagon normalised to unit leading singularity in $D = 6 - 2\\varepsilon$ dimensions with arbitrary internal and external mass configuration. The paper uses the diagrammatic coaction to derive the total differential of the pentagon entirely from its cuts: contributions come from triple cuts (labelled by triples $(ijk)$) weighted by triangle-like coefficients, quadruple cuts (labelled by $(ijkl)$) weighted by box-like coefficients, and the maximal five-fold cut at order $\\varepsilon^1$ multiplied by the pentagon itself. The result bypasses IBP reduction and yields the canonical-form differential equation for any one-loop integral.",
+      "epsOrders": "",
+      "familyName": "generic_massive_pentagon_in_d6_minus_2eps",
+      "method": "DE, unitarity",
+      "tools": [],
+      "ancillaryFiles": true,
+      "doi": "",
+      "texkey": "",
+      "masterCount": 0,
+      "dimScheme": "d=2m-2*eps",
+      "computationLevel": "DE_only",
+      "location": "Sec. 4.1.2, eq. (pent)",
+      "recordId": "bx_bd25fd5cc0f3",
+      "verified": false,
+      "verifiedAt": ""
+    }
+  ],
+  "Names": [
+    "Massive pentagon",
+    "Pentagon",
+    "generic_massive_pentagon_in_d6_minus_2eps"
+  ],
+  "Source": [
+    "arXiv"
+  ],
+  "Loops": 1,
+  "NumPropagators": 5,
+  "Results": [],
+  "edges": "{{{1, 2}, m[1]}, {{1, 3}, m[2]}, {{2, 4}, m[3]}, {{3, 5}, m[4]}, {{4, 5}, m[5]}}",
+  "nodes": "{{1, 0}, {2, 0}, {4, 0}, {5, 0}, {3, 0}}",
+  "CanonicalName": "5-mass pentagon (a)",
+  "MassConfig": {
+    "numEdges": 5,
+    "numMassiveEdges": 5,
+    "numMasslessEdges": 0,
+    "distinctInternalMasses": 5,
+    "internalMassLabels": [
+      "m[1]",
+      "m[2]",
+      "m[3]",
+      "m[4]",
+      "m[5]"
+    ],
+    "edgeMassPattern": "12345",
+    "numExtLegs": 5,
+    "numOnshellMassiveExtLegs": 0,
+    "numMasslessExtLegs": 5,
+    "extLegSignature": "00000"
+  },
+  "commonNames": [
+    "E₀(5 masses)"
+  ],
+  "Subsectors": [],
+  "ParentSectors": []
+}

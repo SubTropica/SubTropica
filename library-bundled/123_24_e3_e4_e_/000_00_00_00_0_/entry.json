@@ -1,0 +1,61 @@
+{
+  "CNickelIndex": "123|24|e3|e4|e|:000|00|00|00|0|",
+  "MassScales": 0,
+  "FunctionClass": "unknown",
+  "EpsilonOrder": "",
+  "References": [
+    "arXiv:1408.2372 (Comput.Phys.Commun. 189 (182), 2015)"
+  ],
+  "Records": [
+    {
+      "reference": "arXiv:1408.2372 (Comput.Phys.Commun. 189 (182), 2015)",
+      "authors": "Smirnov, Alexander V.",
+      "description": "Two-loop non-planar massless vertex (three-point) family with two loop momenta $l, r$ and two independent external momenta $p, q$ ($p^2=q^2=0$, $2 p.q = -1$ fixing the overall scale). Seven inverse propagators define the basis. The example illustrates how to feed a FIRE start file into LiteRed via CreateNewBasis/GenerateIBP/AnalyzeSectors/FindSymmetries/SolvejSector and then load the resulting LiteRed rules back into FIRE via LoadLRules for IBP reduction. No analytic evaluation of masters is given.",
+      "epsOrders": "",
+      "familyName": "v2",
+      "method": "IBP",
+      "tools": [
+        "FIRE",
+        "LiteRed"
+      ],
+      "ancillaryFiles": false,
+      "doi": "10.1016/j.cpc.2014.11.024",
+      "texkey": "Smirnov:2014hma",
+      "masterCount": 0,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "IBP_only",
+      "location": "Section 5 (LiteRed interface), Eqs. around lines 578-583 and 622-627; example file examples/v2",
+      "recordId": "bx_ef4a0a29fff3",
+      "verified": false,
+      "verifiedAt": ""
+    }
+  ],
+  "Names": [
+    "v2"
+  ],
+  "Source": [
+    "arXiv"
+  ],
+  "Loops": 3,
+  "NumPropagators": 7,
+  "Results": [],
+  "edges": "{{{1, 2}, 0}, {{1, 3}, 0}, {{1, 4}, 0}, {{2, 3}, 0}, {{2, 5}, 0}, {{3, 4}, 0}, {{4, 5}, 0}}",
+  "nodes": "{{3, 0}, {4, 0}, {5, 0}}",
+  "CanonicalName": "Massless tetrahedral core (a)",
+  "MassConfig": {
+    "numEdges": 7,
+    "numMassiveEdges": 0,
+    "numMasslessEdges": 7,
+    "distinctInternalMasses": 0,
+    "internalMassLabels": [],
+    "edgeMassPattern": "0000000",
+    "numExtLegs": 3,
+    "numOnshellMassiveExtLegs": 0,
+    "numMasslessExtLegs": 3,
+    "extLegSignature": "000"
+  },
+  "Subsectors": [
+    "1123|e2|e3|e|:0000|00|00|0|"
+  ],
+  "ParentSectors": []
+}

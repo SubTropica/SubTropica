@@ -1,0 +1,87 @@
+{
+  "CNickelIndex": "123|e24|e|e4|e|:011|011|0|00|0|",
+  "MassScales": 3,
+  "FunctionClass": "MPL",
+  "EpsilonOrder": "0",
+  "References": [
+    "arXiv:2503.16885"
+  ],
+  "Records": [
+    {
+      "reference": "arXiv:2503.16885",
+      "authors": [
+        {
+          "full_name": "Guo, Yishuai",
+          "inspire_id": 2133061
+        },
+        {
+          "full_name": "Liu, Zhi-Feng",
+          "inspire_id": 1504872
+        },
+        {
+          "full_name": "Lu, Mingming",
+          "inspire_id": 2851560
+        },
+        {
+          "full_name": "Xia, Tianya",
+          "inspire_id": 1032160
+        },
+        {
+          "full_name": "Yang, Li Lin",
+          "inspire_id": 1031254
+        }
+      ],
+      "description": "Family F4 (1 topology, 6 propagators in top sector, 3 ISPs). 158 master coefficients. Features massless diagonal $(k_1-k_2)^2$.",
+      "epsOrders": "0",
+      "familyName": "planar pentagon-box with diagonal massless exchange (family F4) / planar pentagon-box with diagonal and two massive loop momenta (family F5)",
+      "method": "IBP, DE",
+      "tools": [
+        "Kira",
+        "AMFlow",
+        "PolyLogTools",
+        "FORM"
+      ],
+      "ancillaryFiles": true,
+      "doi": "",
+      "texkey": "",
+      "masterCount": 0,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "full",
+      "location": "Eq. (2.5d), Fig. 1(r)",
+      "recordId": "bx_556b4d73b5c3",
+      "verified": false,
+      "verifiedAt": ""
+    }
+  ],
+  "Names": [
+    "planar pentagon-box with diagonal massless exchange (family F4)",
+    "planar pentagon-box with diagonal and two massive loop momenta (family F5)"
+  ],
+  "Source": [
+    "arXiv"
+  ],
+  "Loops": 2,
+  "NumPropagators": 6,
+  "Results": [],
+  "edges": "{{{1, 2}, 0}, {{1, 3}, m}, {{1, 4}, m}, {{2, 3}, m}, {{2, 5}, m}, {{4, 5}, 0}}",
+  "nodes": "{{2, 0}, {3, 0}, {4, 0}, {5, 0}}",
+  "CanonicalName": "Triangle-box, 4 massive propagators",
+  "MassConfig": {
+    "numEdges": 6,
+    "numMassiveEdges": 4,
+    "numMasslessEdges": 2,
+    "distinctInternalMasses": 1,
+    "internalMassLabels": [
+      "m"
+    ],
+    "edgeMassPattern": "011110",
+    "numExtLegs": 4,
+    "numOnshellMassiveExtLegs": 0,
+    "numMasslessExtLegs": 4,
+    "extLegSignature": "0000"
+  },
+  "Subsectors": [
+    "123|e23|e|e|:011|011|0|2|"
+  ],
+  "ParentSectors": []
+}

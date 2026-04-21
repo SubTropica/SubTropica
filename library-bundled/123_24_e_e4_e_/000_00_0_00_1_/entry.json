@@ -1,0 +1,144 @@
+{
+  "CNickelIndex": "123|24|e|e4|e|:000|00|0|00|1|",
+  "MassScales": 1,
+  "FunctionClass": "MPL",
+  "EpsilonOrder": "0",
+  "References": [
+    "arXiv:2603.18691",
+    "arXiv:1709.06055 (Phys.Rev.D 96 (), 2017)"
+  ],
+  "Records": [
+    {
+      "reference": "arXiv:2603.18691",
+      "authors": [
+        {
+          "full_name": "Dhani, Prasanna K.",
+          "inspire_id": 1607975
+        },
+        {
+          "full_name": "Pyretzidis, Konstantinos",
+          "inspire_id": 2938780
+        },
+        {
+          "full_name": "Ramírez-Uribe, Selomit",
+          "inspire_id": 1730297
+        },
+        {
+          "full_name": "Ríos-Sánchez, José",
+          "inspire_id": 2760441
+        },
+        {
+          "full_name": "Sborlini, German F.R.",
+          "inspire_id": 1074173
+        },
+        {
+          "full_name": "Tiwari, Surabhi",
+          "inspire_id": 1935452
+        },
+        {
+          "full_name": "Rodrigo, Germán",
+          "inspire_id": 991497
+        }
+      ],
+      "description": "Two-loop massless 3-point with 6 propagators (alternate topology). IR-finite via LTD.",
+      "epsOrders": "0",
+      "familyName": "Massless 2-loop 3-point topology B (6 propagators, 2 massless legs)",
+      "method": "direct_integration",
+      "tools": [],
+      "ancillaryFiles": false,
+      "doi": "",
+      "texkey": "",
+      "masterCount": 0,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "numerical",
+      "location": "Section 5, Table I",
+      "recordId": "bx_1d784aca728a",
+      "verified": false,
+      "verifiedAt": ""
+    },
+    {
+      "reference": "arXiv:1709.06055 (Phys.Rev.D 96 (), 2017)",
+      "authors": "Bern, Zvi, Enciso, Michael, Ita, Harald, Zeng, Mao",
+      "description": "Two-loop planar triangle-box with 6 propagators and one ISP, all massless internal, two massless and one massive external leg. No integral evaluation.",
+      "epsOrders": "",
+      "familyName": "triangle-box",
+      "method": "IBP",
+      "tools": [],
+      "ancillaryFiles": false,
+      "doi": "10.1103/PhysRevD.96.096017",
+      "texkey": "Bern:2017gdk",
+      "masterCount": 0,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "IBP_only",
+      "location": "Section 4.3, Fig. 5",
+      "recordId": "bx_7b7b122ca4bc",
+      "verified": false,
+      "verifiedAt": ""
+    }
+  ],
+  "Names": [
+    "Massless 2-loop 3-point topology B (6 propagators, 2 massless legs)"
+  ],
+  "Source": [
+    "arXiv"
+  ],
+  "Loops": 2,
+  "NumPropagators": 6,
+  "Results": [
+    {
+      "resultCompressed": "1:eJyNkd0KgkAQhTf7JQh6hHqWulQQ6wU2WGNIW3Hsh57RB+oispm1DMUtb85yds7MfswudzoIR0IInJJsVAoK1zKT2CerEgQ6RMgGByQuYBY67CYkgcxAH2UEPTLAN2VtSLKFWKEtOq8N9aMTwszWPSZZ6TiJ1NXAwKMoCuSSD40GUwr5BYPv6r3JeV5HrAUzjGpYh85YuR3rzljVna8vKn0nwbHNrwjyWvMvAt7qh+D/Ehr/Zaja2toQgem+4fh2Nil4Emu5SpYXXux/Hw==",
+      "resultTeX": "\\frac{1}{8 \\varepsilon^2}+\\frac{-4 \\log \\left(M^2\\right)-4 i \\pi +13}{16 \\varepsilon}+\\frac{1}{32} \\left(8 \\log ^2\\left(M^2\\right)+(-52+16 i \\pi ) \\log \\left(M^2\\right)+4 \\zeta(2)-8 \\pi ^2-52 i \\pi +107\\right)+O\\left(\\varepsilon^1\\right)",
+      "dimension": "6 - 2*eps",
+      "epsOrder": 0,
+      "propExponents": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "propagators": [],
+      "numerators": [],
+      "internalMasses": [],
+      "externalMasses": [],
+      "substitutions": "{}",
+      "normalization": "Automatic",
+      "stVersion": "SubTropica v1.0.379",
+      "stCommand": "STIntegrate[{{{{1, 4}, 0}, {{1, 5}, 0}, {{2, 5}, 0}, {{2, 3}, 0}, {{3, 4}, 0}, {{4, 5}, 0}}, {{1, 0}, {2, M}, {3, 0}}}, Dimension -> \"6 - 2*eps\", Order -> 0]",
+      "contributor": "SM",
+      "timestamp": "2026-04-19T19:00:57",
+      "byteCount": 1784,
+      "symbolTeX": "\\begin{aligned}\\varepsilon^{-1}&\\colon\\;-\\frac{1}{4}\\,(M^2) \\\\ \\varepsilon^{0}&\\colon\\;-\\frac{13}{8}\\,(M^2) + \\frac{1}{2}\\,(M^2 \\otimes M^2)\\end{aligned}",
+      "alphabet": [
+        "M^2"
+      ],
+      "symbolWeight": 2,
+      "symbolTerms": 3,
+      "legOrder": [
+        1,
+        3,
+        2
+      ]
+    }
+  ],
+  "edges": "{{{1, 2}, 0}, {{1, 3}, 0}, {{1, 4}, 0}, {{2, 3}, 0}, {{2, 5}, 0}, {{4, 5}, 0}}",
+  "nodes": "{{3, 0}, {4, 0}, {5, M}}",
+  "CanonicalName": "1-mass triangle-box (a)",
+  "MassConfig": {
+    "numEdges": 6,
+    "numMassiveEdges": 0,
+    "numMasslessEdges": 6,
+    "distinctInternalMasses": 0,
+    "internalMassLabels": [],
+    "edgeMassPattern": "000000",
+    "numExtLegs": 3,
+    "numOnshellMassiveExtLegs": 1,
+    "numMasslessExtLegs": 2,
+    "extLegSignature": "00M"
+  },
+  "Subsectors": [],
+  "ParentSectors": [
+    "123|24|e|e5|e5|e|:000|00|0|00|00|0|"
+  ]
+}

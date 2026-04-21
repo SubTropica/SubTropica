@@ -1,0 +1,73 @@
+{
+  "CNickelIndex": "123|23|e|e|:101|11|2|2|",
+  "MassScales": 1,
+  "FunctionClass": "elliptic",
+  "EpsilonOrder": "-4,-3,-2,-1,0,1,2",
+  "References": [
+    "arXiv:2011.13337 (Nucl.Phys.B 963 (), 2021)"
+  ],
+  "Records": [
+    {
+      "ancillaryPaths": [
+        "anc/Data/kite2-A+Bep",
+        "anc/Data/kite2-masters-results-J-integrals",
+        "anc/kites-results.nb"
+      ],
+      "dimScheme": "d=4-2*eps",
+      "recordId": "bf_265a604db55f",
+      "familyName": "kite (one massless line)",
+      "verified": false,
+      "verifiedAt": "",
+      "authors": "Bezuglov, M.A., Onishchenko, A.I., Veretin, O.L.",
+      "texkey": "Bezuglov:2020ywm",
+      "computationLevel": "full",
+      "masterCount": 12,
+      "location": "Section 3.2, Eq. (3.7)-(3.9)",
+      "method": [],
+      "reference": "arXiv:2011.13337, Nucl.Phys.B 963, 2021",
+      "ancillaryFiles": [],
+      "description": "Two-loop kite diagram with one massless internal line ($D_1$) and four massive propagators with equal mass $m=1$. Requires hyperelliptic polylogarithms due to additional square root $\\sqrt{(4-s)/s}$; cannot be expressed via elliptic polylogarithms alone. New analytic result. DE for 12 masters in $A+B\\varepsilon$ form.",
+      "epsOrders": "-4,-3,-2,-1,0,1,2",
+      "tools": [
+        "LiteRed",
+        "Libra",
+        "FIESTA"
+      ],
+      "doi": "10.1016/j.nuclphysb.2020.115302"
+    }
+  ],
+  "Names": [
+    "kite (one massless line)"
+  ],
+  "Source": [
+    "arXiv"
+  ],
+  "Loops": 2,
+  "NumPropagators": 5,
+  "Results": [],
+  "edges": "{{{1, 2}, m}, {{1, 3}, 0}, {{1, 4}, m}, {{2, 3}, m}, {{2, 4}, m}}",
+  "nodes": "{{3, M}, {4, M}}",
+  "CanonicalName": "Kite, 4 massive propagators",
+  "MassConfig": {
+    "numEdges": 5,
+    "numMassiveEdges": 4,
+    "numMasslessEdges": 1,
+    "distinctInternalMasses": 1,
+    "internalMassLabels": [
+      "m"
+    ],
+    "edgeMassPattern": "10111",
+    "numExtLegs": 2,
+    "numOnshellMassiveExtLegs": 2,
+    "numMasslessExtLegs": 0,
+    "extLegSignature": "MM"
+  },
+  "commonNames": [
+    "M",
+    "H-graph"
+  ],
+  "Subsectors": [
+    "112|e2|e|:111|21|2|"
+  ],
+  "ParentSectors": []
+}

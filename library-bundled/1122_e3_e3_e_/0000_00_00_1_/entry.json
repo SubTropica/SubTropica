@@ -1,0 +1,111 @@
+{
+  "CNickelIndex": "1122|e3|e3|e|:0000|00|00|1|",
+  "MassScales": 1,
+  "FunctionClass": "hypergeometric",
+  "EpsilonOrder": "-3,-2,-1,0,1,2,3",
+  "References": [
+    "arXiv:1004.3653",
+    "hep-ph/0607185"
+  ],
+  "Records": [
+    {
+      "epsOrders": "-3,-2,-1,0,1,2,3",
+      "reference": "arXiv:1004.3653",
+      "authors": "T. Gehrmann, E.W.N. Glover, T. Huber, N. Ikizlerli, C. Studerus",
+      "description": "The authors give all master integrals used in the computation of quark and gluon form factors to three loops in QCD. These integrals are available in Appendix A and all have a prefactor given by Eq. A.1.",
+      "recordId": "1499084266.sc9a",
+      "verified": true,
+      "verifiedAt": "2026-04-07",
+      "dimScheme": "d=4-2*eps",
+      "familyName": "A_{6,1}",
+      "location": "Figure 3, Equation (A.17)"
+    },
+    {
+      "reference": "hep-ph/0607185",
+      "authors": "T. Gehrmann, G. Heinrich, T. Huber, C. Studerus",
+      "description": "Name in Paper: $A_{6,1}$",
+      "recordId": "1479984631.iFeR",
+      "verified": true,
+      "verifiedAt": "2026-04-07",
+      "location": "Figure 1, Equation (7)",
+      "familyName": "A_{6,1}",
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "full"
+    }
+  ],
+  "Source": [
+    "arXiv",
+    "Loopedia"
+  ],
+  "Results": [
+    {
+      "resultCompressed": "1:eJyVlEtOwzAQhtOmtAlCQmLLCokz9AIgsWmlqLBihZFsNFKMqzo8z8EBegTOwYqjwJIFD8+QOk1sN2kXU9n+Z+bzzDhH12omhlEU6V1jzvkCuD5lBdOxWfK5BvMXiQEK0ExAF6KPq8SYGStA3bIcemYB6CHilTLL77RHmVglne0YcwGSl9KRMSdKznP+SInh1/w0HmXQcKAjgYkJdaJuSDedegO7tHvIMFynhdfOWMsw1idi2b1MPfBFqYS+G58ieW8Rd+E4xt2So70UcFADIDafmw80VEYkECO36W3k71/BCr78bFPBQPxD96qrINWcVjlTZ3YhqzVyU66rtS407rIfxqC7tHcexjaERUs6l+HbN6hbNR7e3IH2+noeNeD7qj4exL7subJBrRTy+d4Lktq9lEDypzMmJSMtDWPT4cO+LUxwyQtGkFSU/+lF8wdpkwiN",
+      "resultTeX": "\\frac{1}{3 \\varepsilon^3}+\\frac{-\\log \\left(M^2\\right)-i \\pi +\\frac{8}{3}}{\\varepsilon^2}+\\frac{18 \\log ^2\\left(M^2\\right)+36 i \\pi  \\log \\left(M^2\\right)-96 \\log \\left(M^2\\right)-15 \\pi ^2-96 i \\pi +176}{12 \\varepsilon}+(\\text{more terms})+O\\left(\\varepsilon^1\\right)",
+      "dimension": "4 - 2*eps",
+      "epsOrder": 0,
+      "propExponents": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "propagators": [],
+      "numerators": [],
+      "internalMasses": [],
+      "externalMasses": [],
+      "substitutions": "{}",
+      "normalization": "Automatic",
+      "stVersion": "SubTropica v1.0.322",
+      "stCommand": "STIntegrate[pref * (integrand / (Times @@ xvars)), {x2,0,Infinity}, {x3,0,Infinity}, {x4,0,Infinity}, {x5,0,Infinity}, {x6,0,Infinity}, Order->0]  (* with Gauge->{x1->1} *)",
+      "contributor": "Sebastian Mizera",
+      "timestamp": "2026-04-18T11:48:41",
+      "byteCount": 3864,
+      "method": "direct_integration",
+      "tools": [
+        "SubTropica",
+        "AnTropica"
+      ],
+      "verification": {
+        "method": "pySecDec",
+        "kinematicPoint": {
+          "Msq": "-37/2"
+        },
+        "tolerance": 0.0001,
+        "maxRelError": 6.81706507078494e-05,
+        "verifiedAt": "2026-04-18T11:48:41"
+      },
+      "legOrder": [],
+      "symbolTeX": "\\begin{aligned}\\varepsilon^{-2}&\\colon\\;-(M^2) \\\\ \\varepsilon^{-1}&\\colon\\;-8\\,(M^2) + 3\\,(M^2 \\otimes M^2) \\\\ \\varepsilon^{0}&\\colon\\;-44\\,(M^2) + 24\\,(M^2 \\otimes M^2) - 9\\,(M^2 \\otimes M^2 \\otimes M^2)\\end{aligned}",
+      "alphabet": [
+        "M^2"
+      ],
+      "symbolWeight": 3,
+      "symbolTerms": 6
+    }
+  ],
+  "Names": [
+    "A6,1",
+    "1-mass spectacles-kite (3-point)",
+    "one-mass spectacles-kite (3-point)",
+    "Spectacles-kite (3-point)"
+  ],
+  "edges": "{{{1, 2}, 0}, {{1, 2}, 0}, {{1, 3}, 0}, {{1, 3}, 0}, {{2, 4}, 0}, {{3, 4}, 0}}",
+  "nodes": "{{2, 0}, {4, M}, {3, 0}}",
+  "CanonicalName": "1-mass bubble-box-bubble",
+  "MassConfig": {
+    "numEdges": 6,
+    "numMassiveEdges": 0,
+    "numMasslessEdges": 6,
+    "distinctInternalMasses": 0,
+    "internalMassLabels": [],
+    "edgeMassPattern": "000000",
+    "numExtLegs": 3,
+    "numOnshellMassiveExtLegs": 1,
+    "numMasslessExtLegs": 2,
+    "extLegSignature": "0M0"
+  },
+  "Subsectors": [],
+  "ParentSectors": []
+}

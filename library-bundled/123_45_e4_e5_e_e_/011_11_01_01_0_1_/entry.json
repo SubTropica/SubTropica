@@ -1,0 +1,83 @@
+{
+  "CNickelIndex": "123|45|e4|e5|e|e|:011|11|01|01|0|1|",
+  "MassScales": 3,
+  "FunctionClass": "elliptic",
+  "EpsilonOrder": "",
+  "References": [
+    "arXiv:2305.14090"
+  ],
+  "Records": [
+    {
+      "reference": "arXiv:2305.14090",
+      "authors": [
+        {
+          "full_name": "Görges, Lennard",
+          "inspire_id": 2661968
+        },
+        {
+          "full_name": "Nega, Christoph",
+          "inspire_id": 1969299
+        },
+        {
+          "full_name": "Tancredi, Lorenzo",
+          "inspire_id": 1284289
+        },
+        {
+          "full_name": "Wagner, Fabian J.",
+          "inspire_id": 2606401
+        }
+      ],
+      "description": "Two-loop planar double box contributing to Higgs+jet production through a massive quark loop. Three dimensionless parameters. 72 master integrals (reduced from 73 by a new Kira 2.0 relation). Elliptic subsector (pinched propagator 3) with 4 masters. Four new functions $G_1,...,G_4$ are needed: $G_1,G_2$ for the homogeneous elliptic system, $G_3,G_4$ for the inhomogeneous contributions from subtopologies. All $G_i$ are integrals of $\\varpi_0$ times rational/algebraic functions over the mass variable.",
+      "epsOrders": "",
+      "familyName": "double box (Higgs+jet, massive quark loop)",
+      "method": "DE",
+      "tools": [
+        "Kira 2.0"
+      ],
+      "ancillaryFiles": true,
+      "doi": "",
+      "texkey": "",
+      "masterCount": 72,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "DE_only",
+      "location": "Section 3.4 (Sec3_Applications.tex), eq. (3.39)-(3.54)",
+      "recordId": "bx_099def752c58",
+      "verified": false,
+      "verifiedAt": ""
+    }
+  ],
+  "Names": [
+    "double box (Higgs+jet, massive quark loop)"
+  ],
+  "Source": [
+    "arXiv"
+  ],
+  "Loops": 2,
+  "NumPropagators": 7,
+  "Results": [],
+  "edges": "{{{1, 2}, 0}, {{1, 3}, m}, {{1, 4}, m}, {{2, 5}, m}, {{2, 6}, m}, {{3, 5}, m}, {{4, 6}, m}}",
+  "nodes": "{{3, 0}, {4, 0}, {6, m}, {5, 0}}",
+  "CanonicalName": "Double box, 6 massive propagators (b)",
+  "MassConfig": {
+    "numEdges": 7,
+    "numMassiveEdges": 6,
+    "numMasslessEdges": 1,
+    "distinctInternalMasses": 1,
+    "internalMassLabels": [
+      "m"
+    ],
+    "edgeMassPattern": "0111111",
+    "numExtLegs": 4,
+    "numOnshellMassiveExtLegs": 1,
+    "numMasslessExtLegs": 3,
+    "extLegSignature": "00M0"
+  },
+  "commonNames": [
+    "L2"
+  ],
+  "Subsectors": [
+    "123|24|e|e4|e|:011|11|2|01|0|",
+    "123|e24|e|e4|e|:011|011|1|01|0|"
+  ],
+  "ParentSectors": []
+}

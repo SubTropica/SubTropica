@@ -1,0 +1,154 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Wolfram 14.3' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       154,          7]
+NotebookDataLength[      6018,        145]
+NotebookOptionsPosition[      3888,        104]
+NotebookOutlinePosition[      4328,        120]
+CellTagsIndexPosition[      4285,        117]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["ForgetAllMemo", "ObjectName",ExpressionUUID->"37f86b62-332f-46a5-b0aa-eefcf16907da"],
+
+Cell[BoxData[GridBox[{
+   {Cell[TextData[{
+     StyleBox["ForgetAllMemo", "TI"],
+     " \[LineSeparator]While HyperIntica is the main (analytic) integration \
+routine working under the hood of the STIntegrate function, it can also be \
+used as a standalone function."
+    }], "TableText",ExpressionUUID->"7b6bc5e2-e1fd-4306-b10d-c2004b4c2945"]}
+  },
+  GridBoxAlignment->{"Columns" -> {{Left}}},
+  GridBoxItemSize->{
+   "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}]], "Usage",
+ CellID->1,ExpressionUUID->"8864f596-3121-45cb-8352-3df52ae37824"],
+
+Cell["\<\
+While HyperIntica is the main (analytic) integration routine working under \
+the hood of the STIntegrate function, it can also be used as a standalone \
+function. It evaluates iterated integrals \[Integral]_0^\[Infinity] \
+\[Ellipsis] \[Integral]_0^\[Infinity] f\\, dx_1 \[Ellipsis] dx_n in  for \
+expressions built from hyperlogarithms, polylogarithms, logarithms, and \
+rational functions, returning results in terms of multi-zeta values and \
+hyperlogarithms in the original integrand f parameters (if any). The syntax \
+is: (see example below)\
+\>", "Notes",ExpressionUUID->"82b8fe15-b875-47f2-afb6-46c89681dd38"],
+
+Cell[BoxData[
+ RowBox[{"HyperIntica", "[", 
+  RowBox[{"integrand", ",", " ", "variables", ",", " ", 
+   RowBox[{"\"\<Monitor\>\"", " ", "->", " ", "False"}]}], "]"}]], "Input",Exp\
+ressionUUID->"81be2699-0b5f-456a-afee-4353c81dedc2"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Details", "Section",ExpressionUUID->"7d831a13-dc7d-4bf2-bd37-617a340b7e6c"],
+
+Cell["Memoization and cache management", "Subsection",ExpressionUUID->"f313354d-89f2-4157-948d-c5ab60b7ac8b"],
+
+Cell["\<\
+During integration, {HyperIntica} accumulates several internal memoization \
+caches. These persist for the duration of the session, which is beneficial \
+when evaluating many related integrals, and can be cleared at any time by \
+calling ForgetAllMemo in the notebook where calculations are done.\
+\>", "Text",ExpressionUUID->"bdca83bd-fca1-44d5-96cf-1e17f669d739"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Metadata", "MetadataSection",ExpressionUUID->"b98ade64-386d-4db7-a278-9198f1de989d"],
+
+Cell[CellGroupData[{
+
+Cell["Categorization", "CategorizationSection",ExpressionUUID->"8240ec3c-9c2a-42a3-9603-bf3db2d0f60c"],
+
+Cell["Symbol", "Categorization",
+ CellLabel->
+  "Entity Type",ExpressionUUID->"275015fb-a18c-4e5a-bf2c-46d503d9c028"],
+
+Cell["SubTropica", "Categorization",
+ CellLabel->
+  "Paclet Name",ExpressionUUID->"fc7cef70-db3b-4649-b61d-07f637d4bb75"],
+
+Cell["SubTropica`", "Categorization",
+ CellLabel->"Context",ExpressionUUID->"8517093b-87c3-48e8-b875-25e814f550e4"],
+
+Cell["SubTropica/ref/ForgetAllMemo", "Categorization",
+ CellLabel->"URI",ExpressionUUID->"cf4a69c8-bf10-419f-a086-6e45c57e9123"]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Keywords", "KeywordsSection",ExpressionUUID->"c2bf5c0b-3726-420b-8ed4-c9fcb062c1db"],
+
+Cell["Feynman integral", "Keywords",ExpressionUUID->"16329034-8176-4f11-9f25-afa4d67525be"],
+
+Cell["tropical geometry", "Keywords",ExpressionUUID->"1830a4e7-acd4-447b-9125-9d923f3e85ef"],
+
+Cell["dimensional regularization", "Keywords",ExpressionUUID->"ddcd7095-5bbf-460c-a6ba-3a8895307ab0"]
+}, Closed]]
+}, Open  ]]
+},
+TaggingRules-><|"Paclet" -> "SubTropica"|>,
+FrontEndVersion->"14.3 for Mac OS X ARM (64-bit) (July 8, 2025)",
+StyleDefinitions->FrontEnd`FileName[{"Wolfram"}, "FunctionPageStylesExt.nb", 
+  CharacterEncoding -> "UTF-8"],
+ExpressionUUID->"48b88533-191e-4ca6-b7fe-983f59d11475"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[576, 22, 90, 0, 70, "ObjectName",ExpressionUUID->"37f86b62-332f-46a5-b0aa-eefcf16907da"],
+Cell[669, 24, 550, 11, 70, "Usage",ExpressionUUID->"8864f596-3121-45cb-8352-3df52ae37824",
+ CellID->1],
+Cell[1222, 37, 627, 9, 70, "Notes",ExpressionUUID->"82b8fe15-b875-47f2-afb6-46c89681dd38"],
+Cell[1852, 48, 233, 4, 70, "Input",ExpressionUUID->"81be2699-0b5f-456a-afee-4353c81dedc2"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[2122, 57, 81, 0, 70, "Section",ExpressionUUID->"7d831a13-dc7d-4bf2-bd37-617a340b7e6c"],
+Cell[2206, 59, 109, 0, 70, "Subsection",ExpressionUUID->"f313354d-89f2-4157-948d-c5ab60b7ac8b"],
+Cell[2318, 61, 375, 5, 70, "Text",ExpressionUUID->"bdca83bd-fca1-44d5-96cf-1e17f669d739"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[2730, 71, 90, 0, 70, "MetadataSection",ExpressionUUID->"b98ade64-386d-4db7-a278-9198f1de989d"],
+Cell[CellGroupData[{
+Cell[2845, 75, 102, 0, 70, "CategorizationSection",ExpressionUUID->"8240ec3c-9c2a-42a3-9603-bf3db2d0f60c"],
+Cell[2950, 77, 117, 2, 70, "Categorization",ExpressionUUID->"275015fb-a18c-4e5a-bf2c-46d503d9c028"],
+Cell[3070, 81, 121, 2, 70, "Categorization",ExpressionUUID->"fc7cef70-db3b-4649-b61d-07f637d4bb75"],
+Cell[3194, 85, 115, 1, 70, "Categorization",ExpressionUUID->"8517093b-87c3-48e8-b875-25e814f550e4"],
+Cell[3312, 88, 128, 1, 70, "Categorization",ExpressionUUID->"cf4a69c8-bf10-419f-a086-6e45c57e9123"]
+}, Closed]],
+Cell[CellGroupData[{
+Cell[3477, 94, 90, 0, 70, "KeywordsSection",ExpressionUUID->"c2bf5c0b-3726-420b-8ed4-c9fcb062c1db"],
+Cell[3570, 96, 91, 0, 70, "Keywords",ExpressionUUID->"16329034-8176-4f11-9f25-afa4d67525be"],
+Cell[3664, 98, 92, 0, 70, "Keywords",ExpressionUUID->"1830a4e7-acd4-447b-9125-9d923f3e85ef"],
+Cell[3759, 100, 101, 0, 70, "Keywords",ExpressionUUID->"ddcd7095-5bbf-460c-a6ba-3a8895307ab0"]
+}, Closed]]
+}, Open  ]]
+}
+]
+*)
+
+(* End of internal cache information *)

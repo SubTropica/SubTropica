@@ -1,0 +1,113 @@
+{
+  "CNickelIndex": "123|24|e|45|6|67|7|e|:000|00|1|00|0|00|0|1|",
+  "MassScales": 0,
+  "FunctionClass": "MPL",
+  "EpsilonOrder": "-8,-7,-6,-5,-4,-3,-2,-1,0,1,2",
+  "References": [
+    "arXiv:1902.05076",
+    "arXiv:1910.07522 (JHEP 12 (026), 2019)"
+  ],
+  "Records": [
+    {
+      "dimScheme": "d=4-2*eps",
+      "recordId": "bf_dd0d6ee91984",
+      "familyName": "Topology 4",
+      "verified": false,
+      "verifiedAt": "",
+      "authors": [
+        {
+          "full_name": "Brüser, Robin",
+          "inspire_id": 1682961
+        },
+        {
+          "full_name": "Grozin, Andrey",
+          "inspire_id": 1007419
+        },
+        {
+          "full_name": "Henn, Johannes M.",
+          "inspire_id": 1040053
+        },
+        {
+          "full_name": "Stahlhofen, Maximilian",
+          "inspire_id": 1045923
+        }
+      ],
+      "computationLevel": "full",
+      "texkey": "",
+      "masterCount": 46,
+      "location": "Eqs. (3.5)-(3.6), Section 3.2, restrictions in Eq. (3.7), topology shown in Figure 2",
+      "transcendentalWeight": 7,
+      "method": [],
+      "reference": "arXiv:1902.05076",
+      "ancillaryFiles": [],
+      "description": "Four-loop HQET integral topology 4 for the matter-dependent cusp anomalous dimension at small angle. Defined via 16 propagators $D_k$ with $G(a_1,...,a_{16}) = e^{4 \\varepsilon \\gamma_E} \\int \\prod D_k^{-a_k}$, restricting $a_{15}=a_{16}=0$ and $a_{10},a_{11},a_{12} \\geq 0$. Contains 4 HQET (Wilson line) propagators linear in $v.k_i$ and 7 standard massless quadratic propagators. Together with topology 5 and topologies 1-3 from arXiv:1708.01221, accounts for 46 master integrals for all $n_f$-dependent color structures. Three new MIs from topologies 4 and 5 are computed via Feynman parametrization and HyperInt, checked with FIESTA4.",
+      "epsOrders": "-8,-7,-6,-5,-4,-3,-2,-1,0,1,2",
+      "tools": [
+        "FIRE",
+        "LiteRed",
+        "HyperInt",
+        "FIESTA"
+      ],
+      "doi": ""
+    },
+    {
+      "ancillaryPaths": [
+        "anc/"
+      ],
+      "dimScheme": "d=4-2*eps",
+      "recordId": "bf_e02fc3fcc45d",
+      "familyName": "L / four-loop massless propagator topology L (planar ladder)",
+      "verified": false,
+      "verifiedAt": "",
+      "authors": "Magerya, Vitaly, Pikelner, Andrey",
+      "texkey": "Magerya:2019cvz",
+      "computationLevel": "full",
+      "masterCount": 0,
+      "location": "Table 1, Tables 2-8",
+      "transcendentalWeight": 12,
+      "method": [],
+      "reference": "arXiv:1910.07522, JHEP 12 (026), 2019",
+      "ancillaryFiles": [],
+      "description": "Topology L for 4-loop massless propagator integrals and all unitarity cuts. 8 vertices, 11 propagators. Planar ladder topology. Results as $\\varepsilon$-series with MZV coefficients to weight 12.",
+      "epsOrders": "",
+      "tools": [
+        "LiteRed",
+        "FIRE",
+        "FIESTA",
+        "Fuchsia",
+        "HyperInt",
+        "GiNaC"
+      ],
+      "doi": "10.1007/JHEP12(2019)026"
+    }
+  ],
+  "Names": [
+    "Topology 4",
+    "4-loop form factor (10 propagators)",
+    "L",
+    "four-loop massless propagator topology L (planar ladder)"
+  ],
+  "Source": [
+    "arXiv"
+  ],
+  "Loops": 4,
+  "NumPropagators": 11,
+  "Results": [],
+  "edges": "{{{1, 2}, 0}, {{1, 3}, 0}, {{1, 4}, 0}, {{2, 3}, 0}, {{2, 5}, 0}, {{4, 5}, 0}, {{4, 6}, 0}, {{5, 7}, 0}, {{6, 7}, 0}, {{6, 8}, 0}, {{7, 8}, 0}}",
+  "nodes": "{{3, M}, {8, M}}",
+  "CanonicalName": "Massless non-planar triangle-pentagon-pentagon-triangle",
+  "MassConfig": {
+    "numEdges": 11,
+    "numMassiveEdges": 0,
+    "numMasslessEdges": 11,
+    "distinctInternalMasses": 0,
+    "internalMassLabels": [],
+    "edgeMassPattern": "00000000000",
+    "numExtLegs": 2,
+    "numOnshellMassiveExtLegs": 2,
+    "numMasslessExtLegs": 0,
+    "extLegSignature": "MM"
+  },
+  "Subsectors": [],
+  "ParentSectors": []
+}

@@ -1,0 +1,63 @@
+{
+  "CNickelIndex": "11111||:01112||",
+  "MassScales": 2,
+  "FunctionClass": "elliptic",
+  "EpsilonOrder": "",
+  "References": [
+    "arXiv:2407.21700 (PoS LL2024 (008), 2024)"
+  ],
+  "Records": [
+    {
+      "reference": "arXiv:2407.21700 (PoS LL2024 (008), 2024)",
+      "authors": "Abreu, Samuel, Behring, Arnd, McLeod, Andrew J., Page, Ben",
+      "description": "Called $I_5^{(4)}$. 5-banana with masses $(m_t,m_b,m_b,m_b,0)$. Depends on sunrise curve $P_1(z)$.",
+      "epsOrders": "",
+      "familyName": "2-mass 4-loop 5-line banana vacuum integral I_5",
+      "method": "IBP, DE",
+      "tools": [
+        "FORM",
+        "Reduze",
+        "AMFlow"
+      ],
+      "ancillaryFiles": false,
+      "doi": "10.22323/1.467.0008",
+      "texkey": "Abreu:2024jde",
+      "masterCount": 0,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "maximal_cut",
+      "location": "Fig. 2(f)",
+      "recordId": "bx_664ac1f85684",
+      "verified": false,
+      "verifiedAt": ""
+    }
+  ],
+  "Names": [
+    "2-mass 4-loop 5-line banana vacuum integral I_5"
+  ],
+  "Source": [
+    "arXiv"
+  ],
+  "Loops": 4,
+  "NumPropagators": 5,
+  "Results": [],
+  "edges": "{{{1, 2}, 0}, {{1, 2}, m[1]}, {{1, 2}, m[1]}, {{1, 2}, m[1]}, {{1, 2}, m[2]}}",
+  "nodes": "{}",
+  "CanonicalName": "2-mass quadruple bubble, 4 massive propagators",
+  "MassConfig": {
+    "numEdges": 5,
+    "numMassiveEdges": 4,
+    "numMasslessEdges": 1,
+    "distinctInternalMasses": 2,
+    "internalMassLabels": [
+      "m[1]",
+      "m[2]"
+    ],
+    "edgeMassPattern": "01112",
+    "numExtLegs": 0,
+    "numOnshellMassiveExtLegs": 0,
+    "numMasslessExtLegs": 0,
+    "extLegSignature": ""
+  },
+  "Subsectors": [],
+  "ParentSectors": []
+}

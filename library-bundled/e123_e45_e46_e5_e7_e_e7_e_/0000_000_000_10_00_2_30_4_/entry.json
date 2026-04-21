@@ -1,0 +1,84 @@
+{
+  "CNickelIndex": "e123|e45|e46|e5|e7|e|e7|e|:0000|000|000|10|00|2|30|4|",
+  "MassScales": 0,
+  "FunctionClass": "Calabi-Yau",
+  "EpsilonOrder": "",
+  "References": [
+    "arXiv:1805.09326"
+  ],
+  "Records": [
+    {
+      "authors": [
+        {
+          "full_name": "Bourjaily, Jacob L.",
+          "inspire_id": 1020130
+        },
+        {
+          "full_name": "He, Yang-Hui",
+          "inspire_id": 1006373
+        },
+        {
+          "full_name": "Mcleod, Andrew J.",
+          "inspire_id": 1486130
+        },
+        {
+          "full_name": "Von Hippel, Matt",
+          "inspire_id": 1067843
+        },
+        {
+          "full_name": "Wilhelm, Matthias",
+          "inspire_id": 1283987
+        }
+      ],
+      "texkey": "",
+      "verified": true,
+      "verifiedAt": "2026-04-09",
+      "reference": "arXiv:1805.09326",
+      "ancillaryFiles": [],
+      "recordId": "bf_f198d4c0e651",
+      "masterCount": 0,
+      "computationLevel": "none",
+      "doi": "",
+      "tools": [
+        "Macaulay2"
+      ],
+      "description": "3-loop traintrack integral involving a K3 surface. 3-loop traintrack with 10 massless propagators, 12 massless external legs grouped into 8 momenta. Finite and dual-conformally invariant in $d=4$. Involves weight-4 hyperlogarithms integrated over a K3 surface, realized as a degree-12 hypersurface in weighted projective space $\\mathbb{P}^3_{[1:1:4:6]}$. The K3 is a smooth semi-stable elliptic surface of Picard number 2 with Weierstrass discriminant of degree 24 in the fiber parameter. Singular fibers all of Kodaira type $I_n$.",
+      "epsOrders": "",
+      "method": [],
+      "dimScheme": "d=4",
+      "location": "Eq. (1), Sec. Geometry of the Elliptic Fibration",
+      "familyName": "traintrack_3L_K3"
+    }
+  ],
+  "Names": [
+    "3-loop traintrack",
+    "Traintrack (K3)"
+  ],
+  "Source": [
+    "arXiv",
+    "Loopedia"
+  ],
+  "Loops": 3,
+  "NumPropagators": 10,
+  "Results": [],
+  "edges": "{{{1, 2}, 0}, {{1, 3}, 0}, {{2, 4}, 0}, {{3, 4}, 0}, {{3, 5}, 0}, {{4, 6}, 0}, {{5, 6}, 0}, {{5, 7}, 0}, {{6, 8}, 0}, {{7, 8}, 0}}",
+  "nodes": "{{1, M[1]}, {2, M[2]}, {3, 0}, {4, 0}, {5, 0}, {6, 0}, {7, M[3]}, {8, M[4]}}",
+  "CanonicalName": "4-mass non-planar box-hexagon-box",
+  "MassConfig": {
+    "numEdges": 10,
+    "numMassiveEdges": 0,
+    "numMasslessEdges": 10,
+    "distinctInternalMasses": 0,
+    "internalMassLabels": [],
+    "edgeMassPattern": "0000000000",
+    "numExtLegs": 8,
+    "numOnshellMassiveExtLegs": 4,
+    "numMasslessExtLegs": 4,
+    "extLegSignature": "MM0000MM"
+  },
+  "commonNames": [
+    "TT3"
+  ],
+  "Subsectors": [],
+  "ParentSectors": []
+}

@@ -1,0 +1,337 @@
+{
+  "CNickelIndex": "123|23|e|e|:000|00|1|1|",
+  "MassScales": 0,
+  "FunctionClass": "MPL",
+  "EpsilonOrder": "-4,-3,-2,-1,0,1,2",
+  "References": [
+    "arXiv:1403.3385",
+    "arXiv:1305.2161 (Nucl.Phys.B 874 (567), 2013)",
+    "arXiv:2006.10917 (JHEP 10 (079), 2020)",
+    "arXiv:hep-ph/0308311 (Missing[\"KeyAbsent\", \"journal\"] Missing[\"KeyAbsent\", \"volume\"] (Missing[\"KeyAbsent\", \"pages\"]), Missing[\"KeyAbsent\", \"year\"])",
+    "arXiv:2303.09203 (Missing[\"KeyAbsent\", \"journal\"] Missing[\"KeyAbsent\", \"volume\"] (Missing[\"KeyAbsent\", \"pages\"]), Missing[\"KeyAbsent\", \"year\"])",
+    "arXiv:1812.02164 (Missing[\"KeyAbsent\", \"journal\"] Missing[\"KeyAbsent\", \"volume\"] (Missing[\"KeyAbsent\", \"pages\"]), Missing[\"KeyAbsent\", \"year\"])",
+    "arXiv:2504.02573 (Missing[\"KeyAbsent\", \"journal\"] Missing[\"KeyAbsent\", \"volume\"] (Missing[\"KeyAbsent\", \"pages\"]), Missing[\"KeyAbsent\", \"year\"])",
+    "arXiv:1712.09215",
+    "arXiv:1602.01962 (Theor.Math.Phys. 190 (446), 2017)"
+  ],
+  "Records": [
+    {
+      "reference": "arXiv:1305.2161 (Nucl.Phys.B 874 (567), 2013)",
+      "authors": "Panzer, Erik",
+      "description": "Two-loop massless propagator (sunset). Expansion to $\\varepsilon^6$ for general propagator powers $a_e=1+\\varepsilon\\,\\nu_e$ via hyperlogarithmic integration.",
+      "epsOrders": "6",
+      "familyName": "F",
+      "method": "direct_integration",
+      "tools": [
+        "HyperInt"
+      ],
+      "ancillaryFiles": false,
+      "doi": "10.1016/j.nuclphysb.2013.05.025",
+      "texkey": "Panzer:2013cha",
+      "masterCount": 0,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "full",
+      "location": "Example 2.2",
+      "recordId": "bx_23e83f9348cf",
+      "verified": false,
+      "verifiedAt": ""
+    },
+    {
+      "reference": "arXiv:2006.10917 (JHEP 10 (079), 2020)",
+      "authors": "Chen, Long-Bin, Wang, Wei, Zhu, Ruilin",
+      "description": "Two-loop quasi-PDF family 1. 5 quadratic + 2 linear (eikonal) propagators from Wilson line. 36 MIs in GPLs to weight 3. Off-shell quark with spacelike momentum.",
+      "epsOrders": "0",
+      "familyName": "quasiPDF family 1 / quasiPDF family 2",
+      "method": "IBP, DE",
+      "tools": [
+        "FIRE"
+      ],
+      "ancillaryFiles": true,
+      "doi": "10.1007/JHEP10(2020)079",
+      "texkey": "Chen:2020iqi",
+      "masterCount": 36,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "full",
+      "location": "Eqs. (2.3)-(2.5)",
+      "recordId": "bx_483a60677a90",
+      "verified": false,
+      "verifiedAt": ""
+    },
+    {
+      "reference": "arXiv:hep-ph/0308311 (Eur.Phys.J.C 32 (67-78), 2003)",
+      "authors": [
+        {
+          "full_name": "Bierenbaum, Isabella",
+          "inspire_id": 1039889
+        },
+        {
+          "full_name": "Weinzierl, Stefan",
+          "inspire_id": 983857
+        }
+      ],
+      "description": "The massless two-loop two-point master topology with five propagators raised to arbitrary (non-integer) powers $\\nu_j = n_j + a_j\\varepsilon$, in generic even dimension $D = 2m - 2\\varepsilon$. The paper derives the integral as a convolution product of two primitive one-loop integrals and, via inverse Mellin transformations followed by closing Mellin-Barnes contours and summing residues, obtains a nested-sum representation that can be expanded to arbitrary order in epsilon. A central theorem (the 'Bierenbaum-Weinzierl theorem') proves that only rational numbers and multiple zeta values appear in the Laurent expansion. Explicit Laurent expansions through $\\mathcal{O}(\\varepsilon^7)$ (transcendental weight 10) are quoted for several parameter choices in Section 5 and were implemented in C++ using nestedsums and GiNaC.",
+      "epsOrders": "all_orders",
+      "familyName": "massless two-loop two-point master topology (5 propagators)",
+      "method": "Mellin-Barnes, direct_integration",
+      "tools": [
+        "GiNaC"
+      ],
+      "ancillaryFiles": false,
+      "doi": "10.1140/epjc/s2003-01389-7",
+      "texkey": "Bierenbaum:2003ud",
+      "masterCount": 0,
+      "dimScheme": "d=2m-2*eps",
+      "computationLevel": "full",
+      "location": "Section 2, Eq. (objofinvest); explicit results in Section 5",
+      "recordId": "bx_9609ffbc791c",
+      "verified": false,
+      "verifiedAt": ""
+    },
+    {
+      "reference": "arXiv:2303.09203 (J.Math.Sci. 264 (298-312), 2022)",
+      "authors": [
+        {
+          "full_name": "Derkachev, S.E.",
+          "inspire_id": 2127199
+        },
+        {
+          "full_name": "Ivanov, A.V.",
+          "inspire_id": 1043957
+        },
+        {
+          "full_name": "Shumilov, L.A.",
+          "inspire_id": 2878659
+        }
+      ],
+      "description": "Grozin/Bierenbaum-Weinzierl master two-loop massless propagator with 5 scalar lines of generic indices. Solved via position-space Mellin-Barnes uniqueness with chain rule. In $d=2$, factorized into bilinear combination of $3F2$ hypergeometrics.",
+      "epsOrders": "all_orders",
+      "familyName": "Two-loop massless 2-point master diagram (five generic-power propagators)",
+      "method": "Mellin-Barnes, direct_integration",
+      "tools": [],
+      "ancillaryFiles": false,
+      "doi": "10.1007/s10958-022-05998-3",
+      "texkey": "Derkachev:2022lay",
+      "masterCount": 1,
+      "dimScheme": "d=D",
+      "computationLevel": "full",
+      "location": "Sec. 3 (d=2), Sec. 4 (general d)",
+      "recordId": "bx_cf2c24dffbad",
+      "verified": false,
+      "verifiedAt": ""
+    },
+    {
+      "reference": "arXiv:1812.02164 (JHEP 01 (202), 2019)",
+      "authors": [
+        {
+          "full_name": "Mikhailov, S.V.",
+          "inspire_id": 997496
+        },
+        {
+          "full_name": "Volchanskiy, N.I.",
+          "inspire_id": 1048345
+        }
+      ],
+      "description": "Two-loop massless kite two-point scalar integral with two composite vertices carrying Bjorken fractions $x$ and $y$ (Dirac deltas on two internal lines). Propagators are $D_1=(k_1-p)^2$, $D_2=(k_2-p)^2$, $D_3=k_1^2$, $D_4=k_2^2$, $D_5=(k_1-k_2)^2$ with arbitrary indices $n_1,...,n_5$ and arbitrary space-time dimension $D$. The integral $I(p;\\{n_i\\};x,y;D)$ is evaluated exactly (all orders in $D$) in the alpha representation and expressed in closed form through the Kampe de Feriet function of two variables; in several special cases it reduces to $3F2$ functions. Twofold Mellin moments are obtained in terms of generalized Lauricella $F^{(3)}$ series and KdF functions. The special case $n_1=n_2=n_3=n_4=1$, $n_5=n$ is treated in Section 5. Called the 'kite' diagram in the paper; see figures 1 and 2 and Eqs. (2.4)-(2.5).",
+      "epsOrders": "all_orders",
+      "familyName": "two-loop massless kite with two composite vertices",
+      "method": "direct_integration",
+      "tools": [],
+      "ancillaryFiles": false,
+      "doi": "10.1007/JHEP01(2019)202",
+      "texkey": "Mikhailov:2018udp",
+      "masterCount": 0,
+      "dimScheme": "d=D",
+      "computationLevel": "full",
+      "location": "Section 2, Eq. (2.4) (eq:2loopscint); propagators in Eq. (2.5) (eq:denoms); figure 1",
+      "recordId": "bx_74021a506bb8",
+      "verified": false,
+      "verifiedAt": ""
+    },
+    {
+      "reference": "arXiv:2504.02573",
+      "authors": [
+        {
+          "full_name": "Hu, Chang",
+          "inspire_id": 1839161
+        },
+        {
+          "full_name": "Li, Wen-Di",
+          "inspire_id": 1880158
+        },
+        {
+          "full_name": "Li, Xiang",
+          "inspire_id": 2838350
+        }
+      ],
+      "description": "Massless two-loop self-energy with vertical propagator (cross-rung). Five massless propagators. Generating function for top-sector reduction derived.",
+      "epsOrders": "",
+      "familyName": "two-loop massless double-triangle self-energy",
+      "method": "IBP",
+      "tools": [
+        "FIRE"
+      ],
+      "ancillaryFiles": false,
+      "doi": "",
+      "texkey": "Hu:2025rrt",
+      "masterCount": 3,
+      "dimScheme": "d=D",
+      "computationLevel": "IBP_only",
+      "location": "Section 6.2",
+      "recordId": "bx_1d155aaa0879",
+      "verified": false,
+      "verifiedAt": ""
+    },
+    {
+      "reference": "arXiv:1712.09215",
+      "authors": "Bitoun, Thomas, Bogner, Christian, Klausen, Rene Pascal, Panzer, Erik",
+      "description": "Massless two-loop self-energy with 5 propagators ($K_4$ minus one edge). Used as main running example for parametric annihilator method. Master integral count $\\mathrm{NoM}=3$ from Euler characteristic.",
+      "epsOrders": "",
+      "familyName": "W3' (two-loop propagator)",
+      "method": "IBP",
+      "tools": [],
+      "ancillaryFiles": false,
+      "doi": "",
+      "texkey": "",
+      "masterCount": 3,
+      "dimScheme": "d=D",
+      "computationLevel": "IBP_only",
+      "location": "Appendix C, Example 4.1, Figure 7",
+      "recordId": "bx_87d9140d4e05",
+      "verified": false,
+      "verifiedAt": ""
+    },
+    {
+      "reference": "arXiv:1602.01962 (Theor.Math.Phys. 190 (446), 2017)",
+      "authors": "Teber, S., Kotikov, A.V.",
+      "description": "Two-loop massless propagator-type diagram $J(\\alpha_1,...,\\alpha_5)$ with arbitrary propagator indices. Evaluated using method of uniqueness (star-triangle relation) in momentum space. Special case $J(1,1,1,1,\\lambda)$ with $\\lambda=D/2-1$ yields $I(\\lambda) = 3\\Gamma(\\lambda)\\Gamma(1-\\lambda)/\\Gamma(2\\lambda) \\cdot [\\psi'(\\lambda) - \\psi'(1)]$. At $D=4$ gives $6\\zeta(3)$.",
+      "epsOrders": "all_orders",
+      "familyName": "two-loop massless propagator (p-integral)",
+      "method": "direct_integration",
+      "tools": [],
+      "ancillaryFiles": false,
+      "doi": "10.1134/S004057791703014X",
+      "texkey": "Teber:2016unz",
+      "masterCount": 0,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "full",
+      "location": "Eq. (2), Section 2",
+      "recordId": "bx_795dc886b1e3",
+      "verified": false,
+      "verifiedAt": ""
+    }
+  ],
+  "Names": [
+    "Massless 2-loop propagator (5 propagators)",
+    "2-loop propagator (5 propagators)",
+    "M36",
+    "F",
+    "quasiPDF family 1",
+    "quasiPDF family 2",
+    "massless two-loop two-point master topology (5 propagators)",
+    "Two-loop massless 2-point master diagram (five generic-power propagators)",
+    "two-loop massless kite with two composite vertices",
+    "two-loop massless double-triangle self-energy"
+  ],
+  "Source": [
+    "arXiv",
+    "Loopedia"
+  ],
+  "Loops": 2,
+  "NumPropagators": 5,
+  "Results": [
+    {
+      "resultCompressed": "1:eJxTTMoPSmNjYGAo5gISwalFmanFLoklicXMQG5qQXEmkGJIYwQpYAESPpnFJWlMMF5ATmlxGkhhMSuQCMnMTS3OBHEhKkBiAfnlqUXFIK6vb+Z/IEBo9sjJT88EGQwxAWY62EKwOJIk8caDXQpSlFtVBlaMZh4AtdwvBg==",
+      "resultTeX": "\\left(3 M^{-2} H(0,1,1\\,;1)+3 \\zeta(3) M^{-2}\\right)+O\\left(\\varepsilon^1\\right)",
+      "dimension": "4 - 2*eps",
+      "epsOrder": "0",
+      "epsOrders": "0",
+      "propExponents": [
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "propagators": [],
+      "numerators": [],
+      "internalMasses": [],
+      "externalMasses": [],
+      "substitutions": "",
+      "normalization": "Automatic",
+      "stVersion": "SubTropica v1.0.296",
+      "stCommand": "",
+      "contributor": "Sebastian Mizera",
+      "timestamp": "2026-04-16T09:44:31",
+      "verifiedAt": "2026-04-16T09:44:31",
+      "verified": true,
+      "method": "direct_integration",
+      "tools": [
+        "SubTropica"
+      ],
+      "methodLR": "Lungo",
+      "byteCount": 808
+    },
+    {
+      "resultCompressed": "1:eJyVkksOgkAMhgdRNOoB3HoEz6ALFpAQ9AKYDKYJOITiI57brY8W5DFIiM6ik3/o3/mmZblXfmgJIXBKYStTkLgJsgBNkjJBoE2ELHBIwQHMwgGrEYUdxBILOaHgBxmoYxDBixbM+ZiNrrsqCvRZDBJgfVn4Ti86ITyoZOfFYwprFSeRvOaseSXkTx6ERlnQUYc/Wewmi6Wx4M8sdoNFN8CM+1qdeeoi008mDKqW1+mLKr3CMLUKfRg8j96WtNju2gNztk5fQdoy89zr7Ph2zrPgyf+EUQ7oDSDOg10=",
+      "resultTeX": "-\\frac{\\text{MM1}}{12 \\varepsilon^2}+\\frac{\\text{MM1} (\\log (\\text{MM1})+i \\pi -3)}{6 \\varepsilon}+\\frac{1}{72} \\text{MM1} \\left(-12 \\log ^2(\\text{MM1})+24 (3-i \\pi ) \\log (\\text{MM1})+12 \\zeta(2)+11 \\pi ^2+72 i \\pi -141\\right)+O\\left(\\varepsilon^1\\right)",
+      "dimension": "6 - 2*eps",
+      "epsOrder": 0,
+      "propExponents": [
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "propagators": [],
+      "numerators": [],
+      "internalMasses": [],
+      "externalMasses": [],
+      "substitutions": "{}",
+      "normalization": "Automatic",
+      "stVersion": "SubTropica v1.0.379",
+      "stCommand": "STIntegrate[{{{{1, 3}, 0}, {{2, 3}, 0}, {{1, 4}, 0}, {{2, 4}, 0}, {{3, 4}, 0}}, {{1, Subscript[M, 1]}, {2, Subscript[M, 1]}}}, Dimension -> \"6 - 2*eps\", Order -> 0]",
+      "contributor": "SM",
+      "timestamp": "2026-04-19T19:00:43",
+      "byteCount": 1808,
+      "symbolTeX": "\\begin{aligned}\\varepsilon^{-1}&\\colon\\;\\frac{\\text{MM1}}{6}\\,(\\text{MM1}) \\\\ \\varepsilon^{0}&\\colon\\;\\text{MM1}\\,(\\text{MM1}) - \\frac{\\text{MM1}}{3}\\,(\\text{MM1} \\otimes \\text{MM1})\\end{aligned}",
+      "alphabet": [
+        "\\text{MM1}"
+      ],
+      "symbolWeight": 2,
+      "symbolTerms": 3,
+      "legOrder": [
+        1,
+        2
+      ]
+    }
+  ],
+  "edges": "{{{1, 2}, 0}, {{1, 3}, 0}, {{1, 4}, 0}, {{2, 3}, 0}, {{2, 4}, 0}}",
+  "nodes": "{{3, M}, {4, M}}",
+  "quadruple": "{E^(2*eps*EulerGamma)*Gamma[1 + 2*eps], (x1*x2 + x1*x3 + x2*x3 + x1*x4 + x3*x4 + x1*x5 + x2*x5 + x4*x5)^(-1 + 3*eps)*(MM*(x1*x2*x4 + x1*x3*x4 + x2*x3*x4 + x1*x2*x5 + x1*x3*x5 + x2*x3*x5 + x2*x4*x5 + x3*x4*x5))^(-1 - 2*eps), {x1, x2, x3, x4, x5}, {MM}}",
+  "numericallyVerified": true,
+  "numericallyVerifiedAt": "2026-04-12",
+  "CanonicalName": "Massless kite",
+  "MassConfig": {
+    "numEdges": 5,
+    "numMassiveEdges": 0,
+    "numMasslessEdges": 5,
+    "distinctInternalMasses": 0,
+    "internalMassLabels": [],
+    "edgeMassPattern": "00000",
+    "numExtLegs": 2,
+    "numOnshellMassiveExtLegs": 2,
+    "numMasslessExtLegs": 0,
+    "extLegSignature": "MM"
+  },
+  "commonNames": [
+    "M"
+  ],
+  "Subsectors": [
+    "1122|e|e|:0000|1|1|",
+    "112|e2|e|:000|10|1|"
+  ],
+  "ParentSectors": [
+    "112|34|34|e|e|:110|00|00|2|2|"
+  ]
+}

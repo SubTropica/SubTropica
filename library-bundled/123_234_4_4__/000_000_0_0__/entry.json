@@ -1,0 +1,97 @@
+{
+  "CNickelIndex": "123|234|4|4||:000|000|0|0||",
+  "MassScales": 0,
+  "FunctionClass": "MPL",
+  "EpsilonOrder": "0",
+  "References": [
+    "arXiv:1403.3385 (Comput.Phys.Commun. 188 (148), 2015)"
+  ],
+  "Records": [
+    {
+      "reference": "arXiv:1403.3385 (Comput.Phys.Commun. 188 (148), 2015)",
+      "authors": "Panzer, Erik",
+      "description": "Wheel with 4 spokes (4-loop vacuum period). Value $= 20\\,\\zeta(5)$ in $D=4$.",
+      "epsOrders": "0",
+      "familyName": "WS4",
+      "method": "direct_integration",
+      "tools": [
+        "HyperInt"
+      ],
+      "ancillaryFiles": true,
+      "doi": "10.1016/j.cpc.2014.10.019",
+      "texkey": "Panzer:2014caa",
+      "masterCount": 0,
+      "dimScheme": "d=4",
+      "computationLevel": "full",
+      "location": "Appendix A.1",
+      "recordId": "bx_a9289268c295",
+      "verified": false,
+      "verifiedAt": ""
+    }
+  ],
+  "Names": [
+    "WS4"
+  ],
+  "Source": [
+    "arXiv"
+  ],
+  "Loops": 4,
+  "NumPropagators": 8,
+  "Results": [
+    {
+      "resultCompressed": "1:eJxTTMoPSmNjYGAo5gISwalFmanFLoklicXMQG5qQXEmkGJIYwIpYAESPpnFJRAeK5AIycxNLYZwOYBEUGJJZn5eYk4mI5CTyQPSyAnTGJBTWoymMdMMxWiPnPx0sM40VmTbwA5AIhhhBLppoiSaxojCQjdNhRzTcLqNn3jTEM7C6TayTMPpNk4STUMLN2ZU0/4DAcKGgPzy1KJiEDcgMxNEpYH0gNNWblVZJjMW58hhqGLFYo0QhiqE6SA3R6WWJGIzHldiBYmkyaIkVjQbvxHwGJYQZCGUVtDt+E0VO/AnbBkmama6S8QnHiLclsFIzUw3jcSEzYDXbWSZhtNtUSSaRl6csuGLU/wOlMARFXiNxO/KB2QbidOVLCQaSUE8EzYSpysDyDESf1hqkG0kTlduId5ItGCkRlhiiRmsRtqQYyT+sHwDL3VJNRKnK1NIdCUR6XIXia4kIl1uIMdIvGGJo/ICmYWltiaxhiXYdNBhxNp0QFO1hwldFRsWx/jgCBtmPGGDrfmBZuwW7CFBWGMP9hDA1AhugSHcBAAvcN39",
+      "resultTeX": "\\frac{54 H(0,0,0,1,1\\,;1)+21 H(0,0,1,0,1\\,;1)+36 H(0,0,1,1,1\\,;1)+15 H(0,1,0,0,1\\,;1)+15 H(0,1,0,1,1\\,;1)+9 H(0,1,1,0,1\\,;1)+18 \\zeta(2) \\zeta(3)-\\pi ^2 \\zeta(3)+30 \\zeta(5)}{12 \\varepsilon}+\\frac{1}{8} \\left(-180 \\zeta(3) H(0,1,1\\,;1)-10 \\pi ^2 H(0,0,1,1\\,;1)-5 \\pi ^2 H(0,1,0,1\\,;1)+540 H(0,0,0,1,1\\,;1)+210 H(0,0,1,0,1\\,;1)+360 H(0,0,1,1,1\\,;1)+150 H(0,1,0,0,1\\,;1)+150 H(0,1,0,1,1\\,;1)+90 H(0,1,1,0,1\\,;1)+540 H(0,0,0,0,1,1\\,;1)+280 H(0,0,0,1,0,1\\,;1)+480 H(0,0,0,1,1,1\\,;1)+260 H(0,0,1,0,0,1\\,;1)+150 H(0,0,1,0,1,1\\,;1)+80 H(0,0,1,1,0,1\\,;1)+40 H(0,0,1,1,1,1\\,;1)+180 H(0,1,0,0,0,1\\,;1)+150 H(0,1,0,0,1,1\\,;1)+60 H(0,1,0,1,0,1\\,;1)-20 H(0,1,0,1,1,1\\,;1)+100 H(0,1,1,0,0,1\\,;1)-70 H(0,1,1,0,1,1\\,;1)-80 H(0,1,1,1,0,1\\,;1)+180 \\zeta(2) \\zeta(3)+140 \\zeta(3) \\zeta(3)+\\pi ^4 \\zeta(2)-10 \\pi ^2 \\zeta(3)+300 \\zeta(5)+700 \\zeta(6)\\right)+O\\left(\\varepsilon^1\\right)",
+      "dimension": "4 - 2*eps",
+      "epsOrder": 0,
+      "propExponents": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "propagators": [],
+      "numerators": [],
+      "internalMasses": [],
+      "externalMasses": [],
+      "substitutions": "{}",
+      "normalization": "Automatic",
+      "stVersion": "SubTropica v1.0.308",
+      "stCommand": "",
+      "contributor": "Sebastian Mizera",
+      "timestamp": "2026-04-18T00:25:33",
+      "byteCount": 11760,
+      "method": "vacuum_period",
+      "tools": [
+        "SubTropica"
+      ],
+      "VacuumPeriod": true,
+      "note": "Vacuum period: fully scaleless Feynman integral is 0 in dim-reg d=4-2e; this result is the Kontsevich-Zagier graph period at d=4 (F set to 1 when aF = O(e)).",
+      "symbolTeX": "",
+      "alphabet": [],
+      "symbolWeight": 0,
+      "symbolTerms": 0,
+      "legOrder": []
+    }
+  ],
+  "edges": "{{{1, 2}, 0}, {{1, 3}, 0}, {{1, 4}, 0}, {{2, 3}, 0}, {{2, 4}, 0}, {{2, 5}, 0}, {{3, 5}, 0}, {{4, 5}, 0}}",
+  "nodes": "{}",
+  "CanonicalName": "Massless tetrahedral core (a)",
+  "MassConfig": {
+    "numEdges": 8,
+    "numMassiveEdges": 0,
+    "numMasslessEdges": 8,
+    "distinctInternalMasses": 0,
+    "internalMassLabels": [],
+    "edgeMassPattern": "00000000",
+    "numExtLegs": 0,
+    "numOnshellMassiveExtLegs": 0,
+    "numMasslessExtLegs": 0,
+    "extLegSignature": ""
+  },
+  "Subsectors": [],
+  "ParentSectors": []
+}

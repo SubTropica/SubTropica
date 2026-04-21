@@ -1,0 +1,68 @@
+{
+  "CNickelIndex": "123|e4|e4|e5|5|e|:000|00|00|11|0|1|",
+  "MassScales": 3,
+  "FunctionClass": "MPL",
+  "EpsilonOrder": "0",
+  "References": [
+    "arXiv:1306.3504 (JHEP 10 (037), 2013)"
+  ],
+  "Records": [
+    {
+      "authors": "von Manteuffel, Andreas, Studerus, Cedric",
+      "texkey": "vonManteuffel:2013uoa",
+      "verified": false,
+      "verifiedAt": "",
+      "reference": "arXiv:1306.3504",
+      "ancillaryFiles": [],
+      "recordId": "bf_13063504tt2n",
+      "masterCount": 3,
+      "computationLevel": "analytic",
+      "doi": "10.1007/JHEP10(2013)037",
+      "tools": [
+        "Reduze 2",
+        "QGRAF",
+        "MB.m",
+        "GiNaC"
+      ],
+      "description": "Non-planar double box with one massive propagator for light $N_f$ two-loop corrections to $gg \\to t\\bar{t}$. Three master integrals with propagator powers $\\{1,1,1,1,0,0,1,1,1\\}$ and irreducible numerator insertions $k_1 \\cdot k_2$ and $(k_1 \\cdot k_2)^2$. Most involved topology in the paper. Thresholds in all three channels $s, t, u$. Results in GPLs with argument $y$ and weights $\\{-1, 0, -x, -1/x, -(1+x^2)/x, -(1-x+x^2)/x\\}$ or argument $x$ and weights $\\{-1, 0, 1, [1+o^2], [1-o+o^2]\\}$. Coproduct-augmented symbol analysis yields simplifications for poles in $\\varepsilon$. Mellin-Barnes representation given in Appendix A.",
+      "epsOrders": "0",
+      "method": [],
+      "dimScheme": "CDR",
+      "location": "Eq.(2.9)-(2.14), Section 4, Appendix A",
+      "familyName": "tt2nA:7:463"
+    }
+  ],
+  "Names": [
+    "tt2nA:7:463"
+  ],
+  "Source": [
+    "arXiv"
+  ],
+  "Loops": 2,
+  "NumPropagators": 7,
+  "Results": [],
+  "edges": "{{{1, 2}, 0}, {{1, 3}, 0}, {{1, 4}, 0}, {{2, 5}, 0}, {{3, 5}, 0}, {{4, 6}, m}, {{5, 6}, 0}}",
+  "nodes": "{{2, 0}, {3, 0}, {4, m}, {6, m}}",
+  "CanonicalName": "Non-planar box-pentagon, 1 massive propagator (c)",
+  "MassConfig": {
+    "numEdges": 7,
+    "numMassiveEdges": 1,
+    "numMasslessEdges": 6,
+    "distinctInternalMasses": 1,
+    "internalMassLabels": [
+      "m"
+    ],
+    "edgeMassPattern": "0000010",
+    "numExtLegs": 4,
+    "numOnshellMassiveExtLegs": 2,
+    "numMasslessExtLegs": 2,
+    "extLegSignature": "00MM"
+  },
+  "commonNames": [
+    "L2"
+  ],
+  "Subsectors": [
+    "123|e4|e4|e4||:000|00|00|10||"
+  ],
+  "ParentSectors": []
+}

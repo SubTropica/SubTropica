@@ -1,0 +1,62 @@
+{
+  "CNickelIndex": "123|e45|e4|e5|e|e|:001|001|00|01|0|0|",
+  "MassScales": 6,
+  "FunctionClass": "unknown",
+  "EpsilonOrder": "",
+  "References": [
+    "arXiv:2512.05869"
+  ],
+  "Records": [
+    {
+      "reference": "arXiv:2512.05869",
+      "authors": "Coro, Federico, Novichkov, Pavel P., Page, Ben, Song, Qian",
+      "description": "Called $\\Gamma_1$ in the paper. Double box for $pp \\to t\\bar{t}H$. Right box has 3 massive top propagators; left box has 3 massless propagators. Main worked example with Landau-based syzygy construction.",
+      "epsOrders": "",
+      "familyName": "massive 2-loop 5-point planar double box for ttH",
+      "method": "IBP",
+      "tools": [
+        "Singular"
+      ],
+      "ancillaryFiles": true,
+      "doi": "",
+      "texkey": "Coro:2025kha",
+      "masterCount": 0,
+      "dimScheme": "d=D",
+      "computationLevel": "IBP_only",
+      "location": "Fig. 1, Sec. IV",
+      "recordId": "bx_24e52691b743",
+      "verified": false,
+      "verifiedAt": ""
+    }
+  ],
+  "Names": [
+    "massive 2-loop 5-point planar double box for ttH"
+  ],
+  "Source": [
+    "arXiv"
+  ],
+  "Loops": 2,
+  "NumPropagators": 7,
+  "Results": [],
+  "edges": "{{{1, 2}, 0}, {{1, 3}, 0}, {{1, 4}, m}, {{2, 5}, 0}, {{2, 6}, m}, {{3, 5}, 0}, {{4, 6}, m}}",
+  "nodes": "{{2, 0}, {5, 0}, {3, 0}, {4, 0}, {6, 0}}",
+  "CanonicalName": "Double box, 3 massive propagators",
+  "MassConfig": {
+    "numEdges": 7,
+    "numMassiveEdges": 3,
+    "numMasslessEdges": 4,
+    "distinctInternalMasses": 1,
+    "internalMassLabels": [
+      "m"
+    ],
+    "edgeMassPattern": "0010101",
+    "numExtLegs": 5,
+    "numOnshellMassiveExtLegs": 0,
+    "numMasslessExtLegs": 5,
+    "extLegSignature": "00000"
+  },
+  "Subsectors": [
+    "e123|e24|e|e4|e|:0010|010|0|00|0|"
+  ],
+  "ParentSectors": []
+}

@@ -1,0 +1,62 @@
+{
+  "CNickelIndex": "e112|e3|e4|e4|e|:0001|01|01|01|0|",
+  "MassScales": 6,
+  "FunctionClass": "unknown",
+  "EpsilonOrder": "",
+  "References": [
+    "arXiv:2512.05869"
+  ],
+  "Records": [
+    {
+      "reference": "arXiv:2512.05869",
+      "authors": "Coro, Federico, Novichkov, Pavel P., Page, Ben, Song, Qian",
+      "description": "Called $\\Gamma_6$ in the paper. Pentagon (4 massive top propagators) connected to bubble (1 massless propagator) for $pp \\to t\\bar{t}H$.",
+      "epsOrders": "",
+      "familyName": "massive 2-loop 5-point planar pentabubble for ttH",
+      "method": "IBP",
+      "tools": [
+        "Singular"
+      ],
+      "ancillaryFiles": true,
+      "doi": "",
+      "texkey": "Coro:2025kha",
+      "masterCount": 0,
+      "dimScheme": "d=D",
+      "computationLevel": "IBP_only",
+      "location": "Fig. 3e, App. B",
+      "recordId": "bx_8e02a3fc621a",
+      "verified": false,
+      "verifiedAt": ""
+    }
+  ],
+  "Names": [
+    "massive 2-loop 5-point planar pentabubble for ttH"
+  ],
+  "Source": [
+    "arXiv"
+  ],
+  "Loops": 2,
+  "NumPropagators": 6,
+  "Results": [],
+  "edges": "{{{1, 2}, 0}, {{1, 2}, 0}, {{1, 3}, m}, {{2, 4}, m}, {{3, 5}, m}, {{4, 5}, m}}",
+  "nodes": "{{1, 0}, {2, 0}, {4, 0}, {5, 0}, {3, 0}}",
+  "CanonicalName": "Bubble-pentagon, 4 massive propagators",
+  "MassConfig": {
+    "numEdges": 6,
+    "numMassiveEdges": 4,
+    "numMasslessEdges": 2,
+    "distinctInternalMasses": 1,
+    "internalMassLabels": [
+      "m"
+    ],
+    "edgeMassPattern": "001111",
+    "numExtLegs": 5,
+    "numOnshellMassiveExtLegs": 0,
+    "numMasslessExtLegs": 5,
+    "extLegSignature": "00000"
+  },
+  "Subsectors": [],
+  "ParentSectors": [
+    "123|e24|e|e5|e5|e|:001|001|0|01|01|0|"
+  ]
+}

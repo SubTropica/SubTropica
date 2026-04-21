@@ -1,0 +1,63 @@
+{
+  "CNickelIndex": "112|e3|e4|e4|e|:001|00|02|10|1|",
+  "MassScales": 4,
+  "FunctionClass": "MPL",
+  "EpsilonOrder": "4",
+  "References": [
+    "arXiv:2312.06773 (Eur.Phys.J.C 84 (495), 2024)"
+  ],
+  "Records": [
+    {
+      "reference": "arXiv:2312.06773 (Eur.Phys.J.C 84 (495), 2024)",
+      "authors": "Böttcher, Nico, Schwanemann, Niklas, Weinzierl, Stefan",
+      "description": "Two-loop box integral with fermion bubble insertion for electroweak corrections. Topology B: $m_2=0$, $m_3=m_N$, $m_4=m_Z$. Involves square roots $r_1$ and $r_3$. Relevant to P2 experiment (e-N scattering) with mixed massless/massive gauge bosons.",
+      "epsOrders": "4",
+      "familyName": "Box with fermion bubble, topology B (0, mN, mZ)",
+      "method": "IBP, DE",
+      "tools": [
+        "Kira",
+        "GiNaC",
+        "AMFlow"
+      ],
+      "ancillaryFiles": true,
+      "doi": "10.1140/epjc/s10052-024-12843-1",
+      "texkey": "Bottcher:2023wsr",
+      "masterCount": 11,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "full",
+      "location": "Eq. (3)-(5), Sec. 4.2.2",
+      "recordId": "bx_74f8faf76faf",
+      "verified": false,
+      "verifiedAt": ""
+    }
+  ],
+  "Names": [
+    "Box with fermion bubble, topology B (0, mN, mZ)"
+  ],
+  "Source": [
+    "arXiv"
+  ],
+  "Loops": 2,
+  "NumPropagators": 6,
+  "Results": [],
+  "edges": "{{{1, 2}, 0}, {{1, 2}, 0}, {{1, 3}, m[1]}, {{2, 4}, 0}, {{3, 5}, m[2]}, {{4, 5}, 0}}",
+  "nodes": "{{2, 0}, {4, m[1]}, {5, m[1]}, {3, 0}}",
+  "CanonicalName": "2-mass bubble-pentagon, 2 massive propagators (b)",
+  "MassConfig": {
+    "numEdges": 6,
+    "numMassiveEdges": 2,
+    "numMasslessEdges": 4,
+    "distinctInternalMasses": 2,
+    "internalMassLabels": [
+      "m[1]",
+      "m[2]"
+    ],
+    "edgeMassPattern": "001020",
+    "numExtLegs": 4,
+    "numOnshellMassiveExtLegs": 2,
+    "numMasslessExtLegs": 2,
+    "extLegSignature": "0MM0"
+  },
+  "Subsectors": [],
+  "ParentSectors": []
+}

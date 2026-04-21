@@ -1,0 +1,62 @@
+{
+  "CNickelIndex": "123|23|4|e4|e|:011|11|0|23|2|",
+  "MassScales": 2,
+  "FunctionClass": "elliptic",
+  "EpsilonOrder": "0",
+  "References": [
+    "arXiv:2306.13369 (JHEP 07 (211), 2023)"
+  ],
+  "Records": [
+    {
+      "reference": "arXiv:2306.13369 (JHEP 07 (211), 2023)",
+      "authors": "Krachkov, Petr A., Lee, Roman N.",
+      "description": "Called LbL in the paper. Three-loop light-by-light integral family for mixed self-energy--vacuum-polarization contributions to hydrogen Lamb shift and hyperfine splitting. Furry picture with Coulomb exchange and delta-function constraint. 14 master integrals including elliptic sector ($K$, $E$ integrals).",
+      "epsOrders": "0",
+      "familyName": "3-loop 2-point light-by-light SEVP (hydrogen Lamb shift)",
+      "method": "IBP, DE, series_expansion",
+      "tools": [
+        "LiteRed",
+        "Libra"
+      ],
+      "ancillaryFiles": false,
+      "doi": "10.1007/JHEP07(2023)211",
+      "texkey": "Krachkov:2023tly",
+      "masterCount": 14,
+      "dimScheme": "d=2-2*eps",
+      "computationLevel": "full",
+      "location": "Eqs. (2)-(3), Fig. 2",
+      "recordId": "bx_1e38338b1054",
+      "verified": false,
+      "verifiedAt": ""
+    }
+  ],
+  "Names": [
+    "3-loop 2-point light-by-light SEVP (hydrogen Lamb shift)"
+  ],
+  "Source": [
+    "arXiv"
+  ],
+  "Loops": 3,
+  "NumPropagators": 7,
+  "Results": [],
+  "edges": "{{{1, 2}, 0}, {{1, 3}, m[1]}, {{1, 4}, m[1]}, {{2, 3}, m[1]}, {{2, 4}, m[1]}, {{3, 5}, 0}, {{4, 5}, m[2]}}",
+  "nodes": "{{4, M}, {5, M}}",
+  "CanonicalName": "2-mass tetrahedral core, 5 massive propagators",
+  "MassConfig": {
+    "numEdges": 7,
+    "numMassiveEdges": 5,
+    "numMasslessEdges": 2,
+    "distinctInternalMasses": 2,
+    "internalMassLabels": [
+      "m[1]",
+      "m[2]"
+    ],
+    "edgeMassPattern": "0111102",
+    "numExtLegs": 2,
+    "numOnshellMassiveExtLegs": 2,
+    "numMasslessExtLegs": 0,
+    "extLegSignature": "MM"
+  },
+  "Subsectors": [],
+  "ParentSectors": []
+}

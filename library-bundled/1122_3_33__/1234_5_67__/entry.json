@@ -1,0 +1,69 @@
+{
+  "CNickelIndex": "1122|3|33||:1234|5|67||",
+  "Loops": 4,
+  "NumPropagators": 7,
+  "CanonicalName": "7-mass box with 3 bubble insertions",
+  "Names": [
+    "generic-mass 4-loop U-type vacuum integral (7 propagators)"
+  ],
+  "References": [
+    "arXiv:2403.13025 (JHEP 03 (013), 2025)"
+  ],
+  "Records": [
+    {
+      "reference": "arXiv:2403.13025 (JHEP 03 (013), 2025)",
+      "authors": "Zhang, Hai-Bin, Feng, Tai-Fu",
+      "description": "4-loop vacuum U-type (4 vertices, 7 propagators) with arbitrary masses. 1 master integral. GKZ system dimension $20 \\times 20$.",
+      "epsOrders": "all_orders",
+      "familyName": "generic-mass 4-loop U-type vacuum integral (7 propagators)",
+      "method": "Mellin-Barnes",
+      "tools": [
+        "FIESTA",
+        "FeynGKZ"
+      ],
+      "ancillaryFiles": true,
+      "doi": "10.1007/JHEP03(2025)013",
+      "texkey": "Zhang:2024mxd",
+      "masterCount": 1,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "full",
+      "location": "Sec. 5.1, Eq. (51)-(65)",
+      "recordId": "bx_7126249a6b66",
+      "verified": false,
+      "verifiedAt": ""
+    }
+  ],
+  "Results": [],
+  "edges": "{{{1, 2}, m[1]}, {{1, 2}, m[2]}, {{3, 4}, m[3]}, {{3, 4}, m[4]}, {{2, 3}, m[5]}, {{1, 4}, m[6]}, {{1, 4}, m[7]}}",
+  "nodes": "{}",
+  "MassScales": 7,
+  "MassConfig": {
+    "numEdges": 7,
+    "numMassiveEdges": 7,
+    "numMasslessEdges": 0,
+    "distinctInternalMasses": 7,
+    "internalMassLabels": [
+      "m[1]",
+      "m[2]",
+      "m[3]",
+      "m[4]",
+      "m[5]",
+      "m[6]",
+      "m[7]"
+    ],
+    "edgeMassPattern": "1234567",
+    "numExtLegs": 0,
+    "numOnshellMassiveExtLegs": 0,
+    "numMasslessExtLegs": 0,
+    "extLegSignature": ""
+  },
+  "FunctionClass": "hypergeometric",
+  "EpsilonOrder": "all_orders",
+  "Source": [
+    "arXiv"
+  ],
+  "Subsectors": [
+    "112|22||:123|45||"
+  ],
+  "ParentSectors": []
+}

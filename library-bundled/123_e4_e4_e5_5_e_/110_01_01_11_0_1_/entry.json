@@ -1,0 +1,63 @@
+{
+  "CNickelIndex": "123|e4|e4|e5|5|e|:110|01|01|11|0|1|",
+  "MassScales": 3,
+  "FunctionClass": "Calabi-Yau",
+  "EpsilonOrder": "",
+  "References": [
+    "arXiv:2307.11497 (Phys.Rev.D 109 (), 2024)"
+  ],
+  "Records": [
+    {
+      "authors": "Marzucca, Robin, McLeod, Andrew J., Page, Ben, Pögel, Sebastian, Weinzierl, Stefan",
+      "ancillaryFiles": [],
+      "recordId": "bf_f33dbb773754",
+      "epsOrders": "",
+      "location": "Figure 2 (upper)",
+      "texkey": "Marzucca:2023gto",
+      "verified": false,
+      "verifiedAt": "",
+      "reference": "arXiv:2307.11497, Phys.Rev.D 109, 2024",
+      "masterCount": 0,
+      "computationLevel": "maximal_cut",
+      "doi": "10.1103/PhysRevD.109.L031901",
+      "tools": [],
+      "description": "Two-loop nonplanar crossed box for $gg \\to t\\bar{t}$ with 5 massive (top quark) and 2 massless (gluon) internal propagators. Genus drop from 3 to 2.",
+      "method": [],
+      "dimScheme": "d=4",
+      "familyName": "nonplanar crossed box (gg->tt)"
+    }
+  ],
+  "Names": [
+    "nonplanar crossed box (gg->tt)"
+  ],
+  "Source": [
+    "arXiv"
+  ],
+  "Loops": 2,
+  "NumPropagators": 7,
+  "Results": [],
+  "edges": "{{{1, 2}, m}, {{1, 3}, m}, {{1, 4}, 0}, {{2, 5}, m}, {{3, 5}, m}, {{4, 6}, m}, {{5, 6}, 0}}",
+  "nodes": "{{2, 0}, {3, 0}, {4, m}, {6, m}}",
+  "CanonicalName": "Non-planar box-pentagon, 5 massive propagators (b)",
+  "MassConfig": {
+    "numEdges": 7,
+    "numMassiveEdges": 5,
+    "numMasslessEdges": 2,
+    "distinctInternalMasses": 1,
+    "internalMassLabels": [
+      "m"
+    ],
+    "edgeMassPattern": "1101110",
+    "numExtLegs": 4,
+    "numOnshellMassiveExtLegs": 2,
+    "numMasslessExtLegs": 2,
+    "extLegSignature": "00MM"
+  },
+  "commonNames": [
+    "L2"
+  ],
+  "Subsectors": [
+    "123|e4|e4|e4||:011|20|01|01||"
+  ],
+  "ParentSectors": []
+}

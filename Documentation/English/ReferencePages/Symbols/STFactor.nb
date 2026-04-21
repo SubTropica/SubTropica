@@ -1,0 +1,132 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Wolfram 14.3' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       154,          7]
+NotebookDataLength[      5008,        123]
+NotebookOptionsPosition[      3192,         87]
+NotebookOutlinePosition[      3632,        103]
+CellTagsIndexPosition[      3589,        100]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["STFactor", "ObjectName",ExpressionUUID->"945b879b-178c-4874-8bd4-cee6827cecfa"],
+
+Cell[BoxData[GridBox[{
+   {Cell[TextData[{
+     StyleBox["STFactor", "TI"],
+     " \[LineSeparator], x_i \[RightArrow] x_i/\[Lambda] for each component \
+\\rho_i > 0) and then apply STFactor to the result."
+    }], "TableText",ExpressionUUID->"e4c478af-98de-4418-b458-052d943d8d5f"]}
+  },
+  GridBoxAlignment->{"Columns" -> {{Left}}},
+  GridBoxItemSize->{
+   "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}]], "Usage",
+ CellID->1,ExpressionUUID->"0829d2c9-9e81-4b54-9355-6372515f265a"],
+
+Cell["\<\
+STFactor factorizes products inside powers that depend on \[CurlyEpsilon]: it \
+splits (a\[CenterDot] b)^{c\[CurlyEpsilon]+d} into a^{c\[CurlyEpsilon]+d}\\, \
+b^{c\[CurlyEpsilon]+d} whenever one of the factors is manifestly positive for \
+positive integration variables: (see example below) A typical usage is to \
+rescale the integration variables along a ray \\rho of the Newton polytope \
+(e.g., x_i \[RightArrow] x_i/\[Lambda] for each component \\rho_i > 0) and \
+then apply STFactor to the result. The factorized form makes the \
+\[Lambda]-dependence explicit, revealing whether the integrand diverges or \
+converges along that ray.\
+\>", "Notes",ExpressionUUID->"72f03ad8-2ce9-44ac-8298-9c22c1257bfb"],
+
+Cell[BoxData[
+ RowBox[{"STFactor", "[", "expression", "]"}]], "Input",ExpressionUUID->"322227f6-22d4-4dd5-beb6-e02107871972"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Metadata", "MetadataSection",ExpressionUUID->"58e3e2a8-4eb0-4059-b55a-bc6f616f20c0"],
+
+Cell[CellGroupData[{
+
+Cell["Categorization", "CategorizationSection",ExpressionUUID->"22170783-7a02-44f7-b886-ad4641b5b193"],
+
+Cell["Symbol", "Categorization",
+ CellLabel->
+  "Entity Type",ExpressionUUID->"80b8e5f3-6513-43f9-b87a-5c918925c1ca"],
+
+Cell["SubTropica", "Categorization",
+ CellLabel->
+  "Paclet Name",ExpressionUUID->"21919bb9-115b-4e62-a2bb-765acc23e361"],
+
+Cell["SubTropica`", "Categorization",
+ CellLabel->"Context",ExpressionUUID->"cac79760-d992-46e6-aa16-c55f7d39fef9"],
+
+Cell["SubTropica/ref/STFactor", "Categorization",
+ CellLabel->"URI",ExpressionUUID->"89bf11dc-9dbf-4736-9877-5b8e2c70a1e5"]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Keywords", "KeywordsSection",ExpressionUUID->"4a4500b4-1c89-4433-875c-592c92e321a3"],
+
+Cell["Feynman integral", "Keywords",ExpressionUUID->"5517d735-f4f9-4fac-b07d-746e565c5440"],
+
+Cell["tropical geometry", "Keywords",ExpressionUUID->"30a9dc02-639a-4ac4-9642-6eef61aad8e5"],
+
+Cell["dimensional regularization", "Keywords",ExpressionUUID->"8d8aa3e6-ca31-4897-be77-0ab629077d90"]
+}, Closed]]
+}, Open  ]]
+},
+TaggingRules-><|"Paclet" -> "SubTropica"|>,
+FrontEndVersion->"14.3 for Mac OS X ARM (64-bit) (July 8, 2025)",
+StyleDefinitions->FrontEnd`FileName[{"Wolfram"}, "FunctionPageStylesExt.nb", 
+  CharacterEncoding -> "UTF-8"],
+ExpressionUUID->"48b88533-191e-4ca6-b7fe-983f59d11475"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[576, 22, 85, 0, 70, "ObjectName",ExpressionUUID->"945b879b-178c-4874-8bd4-cee6827cecfa"],
+Cell[664, 24, 489, 10, 70, "Usage",ExpressionUUID->"0829d2c9-9e81-4b54-9355-6372515f265a",
+ CellID->1],
+Cell[1156, 36, 718, 10, 70, "Notes",ExpressionUUID->"72f03ad8-2ce9-44ac-8298-9c22c1257bfb"],
+Cell[1877, 48, 125, 1, 70, "Input",ExpressionUUID->"322227f6-22d4-4dd5-beb6-e02107871972"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[2039, 54, 90, 0, 70, "MetadataSection",ExpressionUUID->"58e3e2a8-4eb0-4059-b55a-bc6f616f20c0"],
+Cell[CellGroupData[{
+Cell[2154, 58, 102, 0, 70, "CategorizationSection",ExpressionUUID->"22170783-7a02-44f7-b886-ad4641b5b193"],
+Cell[2259, 60, 117, 2, 70, "Categorization",ExpressionUUID->"80b8e5f3-6513-43f9-b87a-5c918925c1ca"],
+Cell[2379, 64, 121, 2, 70, "Categorization",ExpressionUUID->"21919bb9-115b-4e62-a2bb-765acc23e361"],
+Cell[2503, 68, 115, 1, 70, "Categorization",ExpressionUUID->"cac79760-d992-46e6-aa16-c55f7d39fef9"],
+Cell[2621, 71, 123, 1, 70, "Categorization",ExpressionUUID->"89bf11dc-9dbf-4736-9877-5b8e2c70a1e5"]
+}, Closed]],
+Cell[CellGroupData[{
+Cell[2781, 77, 90, 0, 70, "KeywordsSection",ExpressionUUID->"4a4500b4-1c89-4433-875c-592c92e321a3"],
+Cell[2874, 79, 91, 0, 70, "Keywords",ExpressionUUID->"5517d735-f4f9-4fac-b07d-746e565c5440"],
+Cell[2968, 81, 92, 0, 70, "Keywords",ExpressionUUID->"30a9dc02-639a-4ac4-9642-6eef61aad8e5"],
+Cell[3063, 83, 101, 0, 70, "Keywords",ExpressionUUID->"8d8aa3e6-ca31-4897-be77-0ab629077d90"]
+}, Closed]]
+}, Open  ]]
+}
+]
+*)
+
+(* End of internal cache information *)

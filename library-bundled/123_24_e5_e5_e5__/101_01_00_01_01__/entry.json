@@ -1,0 +1,72 @@
+{
+  "CNickelIndex": "123|24|e5|e5|e5||:101|01|00|01|01||",
+  "MassScales": 1,
+  "FunctionClass": "elliptic",
+  "EpsilonOrder": "all_orders",
+  "References": [
+    "arXiv:2008.11641"
+  ],
+  "Records": [
+    {
+      "reference": "arXiv:2008.11641",
+      "authors": [
+        {
+          "full_name": "Prausa, Mario",
+          "inspire_id": 1509869
+        },
+        {
+          "full_name": "Usovitsch, Johann",
+          "inspire_id": 1510205
+        }
+      ],
+      "description": "Unique elliptic sector of leading-color 3-loop Higgs-gluon form factor with single massive quark. Eight propagators, 3 massless + 5 unit-mass. 6 masters via DE in $x$, kernels built from complete elliptic $K$.",
+      "epsOrders": "all_orders",
+      "familyName": "mixed-mass 3-loop 3-point elliptic sector (8 propagators)",
+      "method": "DE, series_expansion, sector_decomposition, IBP",
+      "tools": [
+        "Kira",
+        "FORM",
+        "FIESTA",
+        "epsilon"
+      ],
+      "ancillaryFiles": true,
+      "doi": "",
+      "texkey": "",
+      "masterCount": 6,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "full",
+      "location": "Sect. 3.3",
+      "recordId": "bx_5226980d5383",
+      "verified": false,
+      "verifiedAt": ""
+    }
+  ],
+  "Names": [
+    "mixed-mass 3-loop 3-point elliptic sector (8 propagators)"
+  ],
+  "Source": [
+    "arXiv"
+  ],
+  "Loops": 3,
+  "NumPropagators": 8,
+  "Results": [],
+  "edges": "{{{1, 2}, m}, {{1, 3}, 0}, {{1, 4}, m}, {{2, 3}, 0}, {{2, 5}, m}, {{3, 6}, 0}, {{4, 6}, m}, {{5, 6}, m}}",
+  "nodes": "{{3, 0}, {4, 0}, {5, 0}}",
+  "CanonicalName": "Pentagonal core (b), 5 massive propagators",
+  "MassConfig": {
+    "numEdges": 8,
+    "numMassiveEdges": 5,
+    "numMasslessEdges": 3,
+    "distinctInternalMasses": 1,
+    "internalMassLabels": [
+      "m"
+    ],
+    "edgeMassPattern": "10101011",
+    "numExtLegs": 3,
+    "numOnshellMassiveExtLegs": 0,
+    "numMasslessExtLegs": 3,
+    "extLegSignature": "000"
+  },
+  "Subsectors": [],
+  "ParentSectors": []
+}

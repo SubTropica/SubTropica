@@ -1,0 +1,76 @@
+{
+  "CNickelIndex": "111||:123||",
+  "MassScales": 3,
+  "FunctionClass": "unknown",
+  "EpsilonOrder": "",
+  "References": [
+    "arXiv:2504.02573"
+  ],
+  "Records": [
+    {
+      "reference": "arXiv:2504.02573",
+      "authors": [
+        {
+          "full_name": "Hu, Chang",
+          "inspire_id": 1839161
+        },
+        {
+          "full_name": "Li, Wen-Di",
+          "inspire_id": 1880158
+        },
+        {
+          "full_name": "Li, Xiang",
+          "inspire_id": 2838350
+        }
+      ],
+      "description": "Two-loop vacuum diagram (triangle graph, no external legs) with three propagators carrying independent masses. Generating functions for top and sub-top sectors derived.",
+      "epsOrders": "",
+      "familyName": "two-loop vacuum triangle",
+      "method": "IBP",
+      "tools": [],
+      "ancillaryFiles": false,
+      "doi": "",
+      "texkey": "",
+      "masterCount": 4,
+      "dimScheme": "d=D",
+      "computationLevel": "IBP_only",
+      "location": "Section 6.1",
+      "recordId": "bx_b36bfef55e61",
+      "verified": false,
+      "verifiedAt": ""
+    }
+  ],
+  "Names": [
+    "two-loop vacuum triangle"
+  ],
+  "Source": [
+    "arXiv"
+  ],
+  "Loops": 2,
+  "NumPropagators": 3,
+  "Results": [],
+  "edges": "{{{1, 2}, m[1]}, {{1, 2}, m[2]}, {{1, 2}, m[3]}}",
+  "nodes": "{}",
+  "CanonicalName": "3-mass theta",
+  "MassConfig": {
+    "numEdges": 3,
+    "numMassiveEdges": 3,
+    "numMasslessEdges": 0,
+    "distinctInternalMasses": 3,
+    "internalMassLabels": [
+      "m[1]",
+      "m[2]",
+      "m[3]"
+    ],
+    "edgeMassPattern": "123",
+    "numExtLegs": 0,
+    "numOnshellMassiveExtLegs": 0,
+    "numMasslessExtLegs": 0,
+    "extLegSignature": ""
+  },
+  "Subsectors": [],
+  "ParentSectors": [
+    "1112|22||:1234|56||",
+    "112|22||:123|45||"
+  ]
+}

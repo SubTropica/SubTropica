@@ -1,0 +1,61 @@
+{
+  "CNickelIndex": "123|45|e4|e5|e|e|:101|01|11|10|1|1|",
+  "MassScales": 3,
+  "FunctionClass": "MPL",
+  "EpsilonOrder": "",
+  "References": [
+    "arXiv:2503.16601 (Comput.Phys.Commun. 320 (), 2026)"
+  ],
+  "Records": [
+    {
+      "dimScheme": "d=4-2*eps",
+      "recordId": "bf_15b4883f188a",
+      "verified": false,
+      "verifiedAt": "",
+      "authors": "Correia, Miguel, Giroux, Mathieu, Mizera, Sebastian",
+      "texkey": "Correia:2025wtb",
+      "computationLevel": "basis",
+      "masterCount": 0,
+      "reference": "arXiv:2503.16601, Comput.Phys.Commun. 320, 2026",
+      "ancillaryFiles": [],
+      "description": "Two-loop planar Bhabha/Moller t-channel topology. 7 propagators (4 massive electron, 3 massless photon). SOFIA finds 52 candidate symbol letters. Cross-checked against 2108.03828.",
+      "familyName": "Bhabha t-channel planar",
+      "location": "Section 5.1",
+      "method": [],
+      "epsOrders": "",
+      "tools": [],
+      "doi": "10.1016/j.cpc.2025.109970"
+    }
+  ],
+  "Names": [
+    "Bhabha t-channel planar"
+  ],
+  "Source": [
+    "arXiv"
+  ],
+  "Loops": 2,
+  "NumPropagators": 7,
+  "Results": [],
+  "edges": "{{{1, 2}, m}, {{1, 3}, 0}, {{1, 4}, m}, {{2, 5}, 0}, {{2, 6}, m}, {{3, 5}, m}, {{4, 6}, 0}}",
+  "nodes": "{{3, m}, {4, m}, {6, m}, {5, m}}",
+  "CanonicalName": "Double box, 4 massive propagators (f)",
+  "MassConfig": {
+    "numEdges": 7,
+    "numMassiveEdges": 4,
+    "numMasslessEdges": 3,
+    "distinctInternalMasses": 1,
+    "internalMassLabels": [
+      "m"
+    ],
+    "edgeMassPattern": "1010110",
+    "numExtLegs": 4,
+    "numOnshellMassiveExtLegs": 4,
+    "numMasslessExtLegs": 0,
+    "extLegSignature": "MMMM"
+  },
+  "commonNames": [
+    "L2"
+  ],
+  "Subsectors": [],
+  "ParentSectors": []
+}

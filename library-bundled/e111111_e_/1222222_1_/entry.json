@@ -1,0 +1,97 @@
+{
+  "CNickelIndex": "e111111|e|:1222222|1|",
+  "MassScales": 2,
+  "FunctionClass": "Calabi-Yau",
+  "EpsilonOrder": "-5,-4,-3,-2,-1,0,1,2",
+  "References": [
+    "arXiv:2212.08908",
+    "arXiv:2209.03922 (SciPost Phys.Core 6 (050), 2023)"
+  ],
+  "Records": [
+    {
+      "authors": [
+        {
+          "full_name": "Pögel, Sebastian",
+          "inspire_id": 2129032
+        },
+        {
+          "full_name": "Wang, Xing",
+          "inspire_id": 1701348
+        },
+        {
+          "full_name": "Weinzierl, Stefan",
+          "inspire_id": 983857
+        }
+      ],
+      "texkey": "",
+      "verified": false,
+      "verifiedAt": "",
+      "reference": "arXiv:2212.08908",
+      "ancillaryFiles": [],
+      "recordId": "bf_86f50e8f30fe",
+      "masterCount": 6,
+      "transcendentalWeight": 5,
+      "computationLevel": "analytic",
+      "doi": "",
+      "tools": [
+        "pySecDec"
+      ],
+      "description": "Five-loop equal-mass banana integral in $D=2-2\\varepsilon$ dimensions. Related to a Calabi-Yau 4-fold. First new result of this paper beyond the state of the art. Six master integrals $M_0,...,M_5$. The $\\varepsilon$-expansion of $M_1$ starts at order $\\varepsilon^5$: $M_1^{(5,5)} = 288\\zeta_5 + 480\\zeta_3 I(1,Y_2) + I(1,Y_2,Y_2,1,f_{6,0})$. Singular points at $x \\in \\{4,16,36\\}$. The special local normal form is $\\theta_q^2 (1/Y_2) \\theta_q (1/Y_2) \\theta_q^2$. Compared against pySecDec numerics with excellent agreement.",
+      "epsOrders": "-5,-4,-3,-2,-1,0,1,2",
+      "method": [],
+      "dimScheme": "d=2-2eps",
+      "location": "Eq.(3), Section 5, Eq.(33)-(37)",
+      "familyName": "banana_5loop_equal_mass / five-loop equal-mass banana"
+    },
+    {
+      "reference": "arXiv:2209.03922 (SciPost Phys.Core 6 (050), 2023)",
+      "authors": "Forum, Andreas, von Hippel, Matt",
+      "description": "5-loop equal-mass sunrise (banana) integral in $d=2-2\\varepsilon$. 6 massive propagators. Symbol and coaction constructed via unipotent differential equations with Frobenius basis. Calabi-Yau 4-fold geometry.",
+      "epsOrders": "0",
+      "familyName": "equal-mass 5-loop banana",
+      "method": "DE",
+      "tools": [],
+      "ancillaryFiles": true,
+      "doi": "10.21468/SciPostPhysCore.6.3.050",
+      "texkey": "Forum:2022lpz",
+      "masterCount": 6,
+      "dimScheme": "d=2-2*eps",
+      "computationLevel": "full",
+      "location": "Sections 3-4",
+      "recordId": "bx_026f4ef8f815",
+      "verified": false,
+      "verifiedAt": ""
+    }
+  ],
+  "Names": [
+    "Equal-mass 5-loop banana"
+  ],
+  "Source": [
+    "arXiv"
+  ],
+  "Loops": 5,
+  "NumPropagators": 6,
+  "Results": [],
+  "edges": "{{{1, 2}, m}, {{1, 2}, m}, {{1, 2}, m}, {{1, 2}, m}, {{1, 2}, m}, {{1, 2}, m}}",
+  "nodes": "{{1, M}, {2, M}}",
+  "CanonicalName": "Equal-mass banana",
+  "MassConfig": {
+    "numEdges": 6,
+    "numMassiveEdges": 6,
+    "numMasslessEdges": 0,
+    "distinctInternalMasses": 1,
+    "internalMassLabels": [
+      "m"
+    ],
+    "edgeMassPattern": "111111",
+    "numExtLegs": 2,
+    "numOnshellMassiveExtLegs": 2,
+    "numMasslessExtLegs": 0,
+    "extLegSignature": "MM"
+  },
+  "commonNames": [
+    "B5"
+  ],
+  "Subsectors": [],
+  "ParentSectors": []
+}

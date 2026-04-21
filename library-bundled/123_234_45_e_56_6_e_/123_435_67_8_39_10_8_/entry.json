@@ -1,0 +1,84 @@
+{
+  "CNickelIndex": "123|234|45|e|56|6|e|:123|435|67|8|39|10|8|",
+  "MassScales": 9,
+  "FunctionClass": "unknown",
+  "EpsilonOrder": "10",
+  "References": [
+    "arXiv:2302.08955"
+  ],
+  "Records": [
+    {
+      "reference": "arXiv:2302.08955",
+      "authors": [
+        {
+          "full_name": "Borinsky, Michael",
+          "inspire_id": 1640938
+        },
+        {
+          "full_name": "Munch, Henrik J.",
+          "inspire_id": 2000628
+        },
+        {
+          "full_name": "Tellander, Felix",
+          "inspire_id": 1898337
+        }
+      ],
+      "description": "Five-loop two-point zigzag self-energy diagram in $D = 3 - 2\\varepsilon$ dimensions, with 11 propagators all carrying distinct masses $m_e^2 = e+1$ ($e=0..10$) and external momentum squared $p_0^2 = 100$, evaluated up to order $\\varepsilon^{10}$ using tropical Monte Carlo sampling with $N=10^8$ points. Demonstrates that feyntrop handles high loop orders with many scales where AMFlow and pySecDec were memory-limited on a 16 GB laptop.",
+      "epsOrders": "10",
+      "familyName": "Five-loop two-point zigzag self-energy diagram (11 distinct masses)",
+      "method": "tropical, direct_integration",
+      "tools": [
+        "pySecDec"
+      ],
+      "ancillaryFiles": false,
+      "doi": "",
+      "texkey": "",
+      "masterCount": 0,
+      "dimScheme": "d=2-2*eps",
+      "computationLevel": "full",
+      "location": "Section 5.1 (A 5-loop 2-point zigzag diagram), label sec:5L_2pt",
+      "recordId": "bx_ba0cbae2d4eb",
+      "verified": false,
+      "verifiedAt": ""
+    }
+  ],
+  "Names": [
+    "Five-loop two-point zigzag self-energy diagram (11 distinct masses)"
+  ],
+  "Source": [
+    "arXiv"
+  ],
+  "Loops": 5,
+  "NumPropagators": 11,
+  "Results": [],
+  "edges": "{{{1, 2}, m[1]}, {{1, 3}, m[2]}, {{1, 4}, m[3]}, {{2, 3}, m[4]}, {{2, 4}, m[5]}, {{2, 5}, m[6]}, {{3, 5}, m[7]}, {{3, 6}, m[8]}, {{5, 6}, m[9]}, {{5, 7}, m[1]}, {{6, 7}, m[1]}}",
+  "nodes": "{{4, M}, {7, M}}",
+  "CanonicalName": "9-mass tetrahedral core (e)",
+  "MassConfig": {
+    "numEdges": 11,
+    "numMassiveEdges": 11,
+    "numMasslessEdges": 0,
+    "distinctInternalMasses": 9,
+    "internalMassLabels": [
+      "m[1]",
+      "m[2]",
+      "m[3]",
+      "m[4]",
+      "m[5]",
+      "m[6]",
+      "m[7]",
+      "m[8]",
+      "m[9]"
+    ],
+    "edgeMassPattern": "12345678911",
+    "numExtLegs": 2,
+    "numOnshellMassiveExtLegs": 2,
+    "numMasslessExtLegs": 0,
+    "extLegSignature": "MM"
+  },
+  "commonNames": [
+    "Z5"
+  ],
+  "Subsectors": [],
+  "ParentSectors": []
+}

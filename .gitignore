@@ -1,0 +1,21 @@
+# Public repo .gitignore — installed into the public release commit by
+# scripts/publish-release.sh.  Intentionally minimal: the stripped
+# public tree has no dev tooling, so there isn't much junk to guard
+# against.
+
+.DS_Store
+*.bak
+*.bak-*
+
+# Build output
+build/
+
+# Caches (should never land in releases)
+cache/
+node_modules/
+pysecdec_cache/
+.wrangler/
+
+# Logs
+*.log
+logs/

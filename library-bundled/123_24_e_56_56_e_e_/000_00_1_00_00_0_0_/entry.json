@@ -1,0 +1,72 @@
+{
+  "CNickelIndex": "123|24|e|56|56|e|e|:000|00|1|00|00|0|0|",
+  "MassScales": 1,
+  "FunctionClass": "MPL",
+  "EpsilonOrder": "0",
+  "Loops": 3,
+  "NumPropagators": 9,
+  "MassConfig": {
+    "numEdges": 9,
+    "numMassiveEdges": 0,
+    "numMasslessEdges": 9,
+    "distinctInternalMasses": 0,
+    "internalMassLabels": [],
+    "edgeMassPattern": "000000000",
+    "numExtLegs": 3,
+    "numOnshellMassiveExtLegs": 1,
+    "numMasslessExtLegs": 2,
+    "extLegSignature": "M00"
+  },
+  "CanonicalName": "1-mass Sudakov form-factor (b)",
+  "Names": [],
+  "References": [],
+  "Records": [],
+  "Source": "SubTropica",
+  "ParentSectors": [],
+  "Subsectors": [],
+  "commonNames": null,
+  "edges": "{{{3, 4}, 0}, {{3, 5}, 0}, {{2, 4}, 0}, {{2, 5}, 0}, {{1, 6}, 0}, {{1, 7}, 0}, {{4, 6}, 0}, {{5, 7}, 0}, {{6, 7}, 0}}",
+  "nodes": "{{1, M}, {2, 0}, {3, 0}}",
+  "quadruple": "{-(E^(3*eps*EulerGamma)*Gamma[3*eps]), (x1*x2*x3*x4*x5*x6*x7*x8*x9*(x1*x3*x5 + x2*x3*x5 + x1*x4*x5 + x2*x4*x5 + x1*x3*x6 + x2*x3*x6 + x1*x4*x6 + x2*x4*x6 + x1*x5*x7 + x2*x5*x7 + x3*x5*x7 + x4*x5*x7 + x1*x6*x7 + x2*x6*x7 + x3*x6*x7 + x4*x6*x7 + x1*x5*x8 + x2*x5*x8 + x3*x5*x8 + x4*x5*x8 + x1*x6*x8 + x2*x6*x8 + x3*x6*x8 + x4*x6*x8 + x1*x3*x9 + x2*x3*x9 + x1*x4*x9 + x2*x4*x9 + x1*x5*x9 + x2*x5*x9 + x3*x5*x9 + x4*x5*x9 + x1*x6*x9 + x2*x6*x9 + x3*x6*x9 + x4*x6*x9 + x1*x7*x9 + x2*x7*x9 + x3*x7*x9 + x4*x7*x9 + x1*x8*x9 + x2*x8*x9 + x3*x8*x9 + x4*x8*x9)^(-3 + 4*eps))/(-(MM*(x1*x3*x5*x6 + x2*x3*x5*x6 + x1*x4*x5*x6 + x2*x4*x5*x6 + x2*x4*x5*x7 + x2*x4*x6*x7 + x1*x5*x6*x7 + x2*x5*x6*x7 + x3*x5*x6*x7 + x4*x5*x6*x7 + x1*x3*x5*x8 + x1*x3*x6*x8 + x1*x5*x6*x8 + x2*x5*x6*x8 + x3*x5*x6*x8 + x4*x5*x6*x8 + x1*x5*x7*x8 + x2*x5*x7*x8 + x3*x5*x7*x8 + x4*x5*x7*x8 + x1*x6*x7*x8 + x2*x6*x7*x8 + x3*x6*x7*x8 + x4*x6*x7*x8 + x2*x4*x5*x9 + x1*x3*x6*x9 + x1*x5*x6*x9 + x2*x5*x6*x9 + x3*x5*x6*x9 + x4*x5*x6*x9 + x2*x4*x7*x9 + x1*x6*x7*x9 + x2*x6*x7*x9 + x3*x6*x7*x9 + x4*x6*x7*x9 + x1*x3*x8*x9 + x1*x5*x8*x9 + x2*x5*x8*x9 + x3*x5*x8*x9 + x4*x5*x8*x9 + x1*x7*x8*x9 + x2*x7*x8*x9 + x3*x7*x8*x9 + x4*x7*x8*x9)))^(3*eps), {x1, x2, x3, x4, x5, x6, x7, x8, x9}, {MM}}",
+  "Results": [
+    {
+      "resultCompressed": "1:eJxTTMoPSmNjYGAo5gISwalFmanFLoklicXMQG5qQXEmkGJIA3GKWYCET2ZxSRoTiMcBJIISSzLz8xJzMv8DQSYPSCVYjhVIhGTmphZjUcoI5GSCjEpjgRkakFNanPkbaARW3exAwjk/tyAntQLsGLAJxSCpgMw0MBvkOp/8dLCYry+aIZkgLkQdyK6o1JLETGbiXboAqCJNCMWlBw4R61IJUYRL0VxVxoTshID88tQiqEqIg9GUCzPgVM6CRfkHuBhI1iMnPx3sG9R4RIQmRBLNjA54hKCawYJpBn6DBIg3iBHFNHSDZvwjzSCcLgLFC9akw0xMrJ4AJlUS0t+Tv8jJBRx12LRhjfYKBmSH5laVQVShOjPzzX8MG1DSEqYBaNYEYKjCkkMgwY+iClvSuyCNPbsRFbQTvqMFLT4zwKqxxgCm1sx/oBIKniAAa/gABA==",
+      "resultTeX": "-\\frac{1}{12 \\varepsilon^2}+\\frac{\\log \\left(M^2\\right)+2 \\zeta(3)+i \\pi -5}{4 \\varepsilon}+\\frac{240 H(0,1,1\\,;1)-120 H(0,0,1,1\\,;1)-240 H(0,1,0,1\\,;1)-360 H(0,1,1,1\\,;1)-2160 \\zeta(3) \\log \\left(M^2\\right)-540 \\log ^2\\left(M^2\\right)-1080 i \\pi  \\log \\left(M^2\\right)+5400 \\log \\left(M^2\\right)-20 \\pi ^2 \\zeta(2)+120 \\zeta(2)+80 \\zeta(3)-360 \\zeta(4)-2160 i \\pi  \\zeta(3)+7120 \\zeta(3)+19 \\pi ^4+630 \\pi ^2+5400 i \\pi -15680}{1440}+O\\left(\\varepsilon^1\\right)",
+      "dimension": "6 - 2*eps",
+      "epsOrder": 0,
+      "propExponents": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "propagators": [],
+      "numerators": [],
+      "internalMasses": [],
+      "externalMasses": [],
+      "substitutions": "{}",
+      "normalization": "Automatic",
+      "stVersion": "SubTropica v1.0.389",
+      "stCommand": "STIntegrate[{{{{3, 4}, 0}, {{3, 5}, 0}, {{2, 4}, 0}, {{2, 5}, 0}, {{1, 6}, 0}, {{1, 7}, 0}, {{4, 6}, 0}, {{5, 7}, 0}, {{6, 7}, 0}}, {{1, M}, {2, 0}, {3, 0}}}, Dimension -> \"6 - 2*eps\", Order -> 0]",
+      "contributor": "SM",
+      "timestamp": "2026-04-20T17:42:10",
+      "byteCount": 4192,
+      "symbolTeX": "\\begin{aligned}\\varepsilon^{-1}&\\colon\\;\\frac{1}{4}\\,(M^2) \\\\ \\varepsilon^{0}&\\colon\\;\\frac{15}{4}\\,(M^2) - \\frac{3}{4}\\,(M^2 \\otimes M^2)\\end{aligned}",
+      "alphabet": [
+        "M^2"
+      ],
+      "symbolWeight": 2,
+      "symbolTerms": 3,
+      "legOrder": [
+        1,
+        2,
+        3
+      ]
+    }
+  ]
+}

@@ -1,0 +1,98 @@
+{
+  "CNickelIndex": "123|45|e4|e5|e|e|:000|00|00|10|0|1|",
+  "MassScales": 3,
+  "FunctionClass": "MPL",
+  "EpsilonOrder": "2",
+  "References": [
+    "arXiv:1408.6409"
+  ],
+  "Records": [
+    {
+      "reference": "arXiv:1408.6409",
+      "authors": [
+        {
+          "full_name": "Caola, Fabrizio",
+          "inspire_id": 1053709
+        },
+        {
+          "full_name": "Henn, Johannes M.",
+          "inspire_id": 1040053
+        },
+        {
+          "full_name": "Melnikov, Kirill",
+          "inspire_id": 997847
+        },
+        {
+          "full_name": "Smirnov, Alexander V.",
+          "inspire_id": 1024152
+        },
+        {
+          "full_name": "Smirnov, Vladimir A.",
+          "inspire_id": 988366
+        }
+      ],
+      "description": "Non-planar (crossed) double-box integral family (N12) for two-loop $qq' \\to V_1^* V_2^*$ with massless internal lines and two off-shell external legs. Momentum mapping $p_{1,\\mathrm{fam}}=-q_4$, $p_{2,\\mathrm{fam}}=-q_3$, $p_{3,\\mathrm{fam}}=q_2$, $p_{4,\\mathrm{fam}}=q_1$; Mandelstam: $s_\\mathrm{fam}=S$, $t_\\mathrm{fam}=T$, $u_\\mathrm{fam}=U$. Master integrals computed via canonical differential equations in arXiv:1404.5590.",
+      "epsOrders": "2",
+      "familyName": "non-planar crossed double-box s-channel / planar double-box s-channel / planar double-box t-channel / planar double-box u-channel / non-planar crossed double-box t-channel / non-planar crossed double-box direct channel",
+      "method": "IBP, DE",
+      "tools": [
+        "QGRAF",
+        "FORM",
+        "FIRE",
+        "GiNaC"
+      ],
+      "ancillaryFiles": false,
+      "doi": "",
+      "texkey": "",
+      "masterCount": 0,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "full",
+      "location": "Section 2 of arXiv:1404.5590, Eq.(2.5)-(2.6); used in Section 3 of arXiv:1408.6409",
+      "recordId": "bx_9ec3ed6883d1",
+      "verified": false,
+      "verifiedAt": ""
+    }
+  ],
+  "Names": [
+    "P12",
+    "P13",
+    "P23",
+    "N12",
+    "N13",
+    "N34",
+    "planar double-box s-channel",
+    "planar double-box t-channel",
+    "planar double-box u-channel",
+    "non-planar crossed double-box s-channel",
+    "non-planar crossed double-box t-channel",
+    "non-planar crossed double-box direct channel"
+  ],
+  "Source": [
+    "arXiv"
+  ],
+  "Loops": 2,
+  "NumPropagators": 7,
+  "Results": [],
+  "edges": "{{{1, 2}, 0}, {{1, 3}, 0}, {{1, 4}, 0}, {{2, 5}, 0}, {{2, 6}, 0}, {{3, 5}, 0}, {{4, 6}, 0}}",
+  "nodes": "{{3, 0}, {4, M}, {6, M}, {5, 0}}",
+  "CanonicalName": "2-mass double box (c)",
+  "MassConfig": {
+    "numEdges": 7,
+    "numMassiveEdges": 0,
+    "numMasslessEdges": 7,
+    "distinctInternalMasses": 0,
+    "internalMassLabels": [],
+    "edgeMassPattern": "0000000",
+    "numExtLegs": 4,
+    "numOnshellMassiveExtLegs": 2,
+    "numMasslessExtLegs": 2,
+    "extLegSignature": "0MM0"
+  },
+  "commonNames": [
+    "L2"
+  ],
+  "Subsectors": [
+    "123|24|e|e4|e|:000|00|1|00|0|"
+  ],
+  "ParentSectors": []
+}

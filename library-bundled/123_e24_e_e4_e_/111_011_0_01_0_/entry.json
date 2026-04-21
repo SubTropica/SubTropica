@@ -1,0 +1,68 @@
+{
+  "CNickelIndex": "123|e24|e|e4|e|:111|011|0|01|0|",
+  "MassScales": 3,
+  "FunctionClass": "MPL",
+  "EpsilonOrder": "-4,-3,-2,-1,0",
+  "References": [
+    "arXiv:2207.02587 (JHEP 08 (259), 2022)"
+  ],
+  "Records": [
+    {
+      "dimScheme": "d=4-2*eps",
+      "recordId": "bf_4ab0246131d4",
+      "familyName": "Topology 2 (crossed box) / Topology 2 (planar box-triangle)",
+      "verified": false,
+      "verifiedAt": "",
+      "authors": "Davies, Joshua, Mishima, Go, Schönwald, Kay, Steinhauser, Matthias, Zhang, Hantian",
+      "texkey": "Davies:2022ram",
+      "computationLevel": "full",
+      "masterCount": 0,
+      "location": "Section 3, Fig. 2 (right)",
+      "transcendentalWeight": 4,
+      "method": [],
+      "reference": "arXiv:2207.02587, JHEP 08 (259), 2022",
+      "ancillaryFiles": [],
+      "description": "Two-loop crossed box for $gg \\to HH$ Yukawa corrections. All 6 internal propagators massive ($m_t$), all external massless. Exact integrals involve elliptic functions; computed in high-energy expansion.",
+      "epsOrders": "-4,-3,-2,-1,0",
+      "tools": [
+        "FIRE",
+        "Kira",
+        "LiteRed",
+        "FIESTA"
+      ],
+      "doi": "10.1007/JHEP08(2022)259"
+    }
+  ],
+  "Names": [
+    "Topology 2 (crossed box)",
+    "Topology 2 (planar box-triangle)"
+  ],
+  "Source": [
+    "arXiv"
+  ],
+  "Loops": 2,
+  "NumPropagators": 6,
+  "Results": [],
+  "edges": "{{{1, 2}, m}, {{1, 3}, m}, {{1, 4}, m}, {{2, 3}, m}, {{2, 5}, m}, {{4, 5}, m}}",
+  "nodes": "{{2, 0}, {3, 0}, {4, 0}, {5, 0}}",
+  "CanonicalName": "Equal-mass triangle-box",
+  "MassConfig": {
+    "numEdges": 6,
+    "numMassiveEdges": 6,
+    "numMasslessEdges": 0,
+    "distinctInternalMasses": 1,
+    "internalMassLabels": [
+      "m"
+    ],
+    "edgeMassPattern": "111111",
+    "numExtLegs": 4,
+    "numOnshellMassiveExtLegs": 0,
+    "numMasslessExtLegs": 4,
+    "extLegSignature": "0000"
+  },
+  "Subsectors": [],
+  "ParentSectors": [
+    "123|45|e4|e5|e|e|:111|11|01|01|0|0|",
+    "123|e4|e4|e5|5|e|:111|01|01|01|1|0|"
+  ]
+}

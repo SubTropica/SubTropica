@@ -1,0 +1,70 @@
+{
+  "CNickelIndex": "123|e4|e4|e5|5|e|:010|01|00|00|0|0|",
+  "MassScales": 3,
+  "FunctionClass": "elliptic",
+  "EpsilonOrder": "all_orders",
+  "References": [
+    "arXiv:2412.07522"
+  ],
+  "Records": [
+    {
+      "reference": "arXiv:2412.07522",
+      "authors": [
+        {
+          "full_name": "Schwanemann, Niklas",
+          "inspire_id": 1887879
+        },
+        {
+          "full_name": "Weinzierl, Stefan",
+          "inspire_id": 983857
+        }
+      ],
+      "description": "Elliptic curve $E(b)$ occurs in sector 123, elliptic curve $E(c)$ occurs in sectors 126 and 127. Mass assignment should read 'm on props 4,7' not '1,4,7'.",
+      "epsOrders": "all_orders",
+      "familyName": "Non-planar 2-loop crossed-box with two heavy bosons on rung and far leg (Moller, topology A-tilde)",
+      "method": "IBP, DE",
+      "tools": [
+        "Kira"
+      ],
+      "ancillaryFiles": true,
+      "doi": "",
+      "texkey": "",
+      "masterCount": 48,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "full",
+      "location": "Sec. 2.2, Table 2",
+      "recordId": "bx_7372f1c07c79",
+      "verified": false,
+      "verifiedAt": ""
+    }
+  ],
+  "Names": [],
+  "Source": [
+    "arXiv"
+  ],
+  "Loops": 2,
+  "NumPropagators": 7,
+  "Results": [],
+  "edges": "{{{1, 2}, 0}, {{1, 3}, m}, {{1, 4}, 0}, {{2, 5}, m}, {{3, 5}, 0}, {{4, 6}, 0}, {{5, 6}, 0}}",
+  "nodes": "{{2, 0}, {3, 0}, {4, 0}, {6, 0}}",
+  "CanonicalName": "Non-planar box-pentagon, 2 massive propagators (f)",
+  "MassConfig": {
+    "numEdges": 7,
+    "numMassiveEdges": 2,
+    "numMasslessEdges": 5,
+    "distinctInternalMasses": 1,
+    "internalMassLabels": [
+      "m"
+    ],
+    "edgeMassPattern": "0101000",
+    "numExtLegs": 4,
+    "numOnshellMassiveExtLegs": 0,
+    "numMasslessExtLegs": 4,
+    "extLegSignature": "0000"
+  },
+  "commonNames": [
+    "L2"
+  ],
+  "Subsectors": [],
+  "ParentSectors": []
+}

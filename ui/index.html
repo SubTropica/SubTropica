@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noai, noimageai">
+<title>SubTropica Online</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#x1F965;</text></svg>">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css"/>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+<link rel="stylesheet" href="style.css">
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-QX6JVYQ721"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-QX6JVYQ721');
+</script>
+</head>
+<body>
+
+  <!-- ═══════════ TOOLBAR ═══════════ -->
+  <div class="toolbar" id="toolbar">
+    <div class="toolbar-left">
+      <span class="app-title" id="app-title" style="cursor:pointer"><span class="title-accent">Sub</span><span class="title-main">Tropica</span> <span class="title-badge">Online</span></span>
+      <div class="toolbar-sep"></div>
+      <div class="toolbar-group" id="mode-segment">
+        <button class="mode-btn active-draw" id="mode-draw" title="[1] Draw mode">&#9998; Draw</button>
+        <button class="mode-btn" id="mode-delete" title="[2] Delete mode">&#10005; Delete</button>
+      </div>
+      <div class="toolbar-sep"></div>
+      <div class="toolbar-group">
+        <button class="btn btn-sm btn-secondary" id="undo-btn" title="Ctrl+Z">&#x21A9; Undo</button>
+        <button class="btn btn-sm btn-secondary" id="redo-btn" title="Ctrl+Y">&#x21AA; Redo</button>
+        <button class="btn btn-sm btn-secondary btn-danger" id="clear-btn">Clear</button>
+      </div>
+      <div class="toolbar-sep"></div>
+      <div class="display-dropdown">
+        <button class="btn btn-sm btn-secondary display-dropdown-btn" id="display-btn">Display</button>
+        <div class="display-dropdown-menu" id="display-menu">
+          <label class="display-dropdown-item" title="Show momentum labels [N]">
+            <input type="checkbox" id="momenta-toggle" checked/>
+            <span>Momenta</span>
+          </label>
+          <label class="display-dropdown-item" title="Show momentum arrows">
+            <input type="checkbox" id="arrows-toggle" checked/>
+            <span>Arrows</span>
+          </label>
+          <div class="display-dropdown-divider"></div>
+          <label class="display-dropdown-slider" title="Edge line thickness">
+            <span>Thickness</span>
+            <input type="range" id="line-scale" min="0.3" max="3" step="0.1" value="1"/>
+          </label>
+          <label class="display-dropdown-slider" title="Label font size">
+            <span>Labels</span>
+            <input type="range" id="label-scale" min="0.3" max="3" step="0.1" value="1"/>
+          </label>
+        </div>
+      </div>
+    </div>
+    <div class="toolbar-right">
+      <div class="nickel-readout" id="nickel-readout" style="display:none"
+           data-tip-html="<strong>Nickel index</strong> — canonical string label for this graph topology. Independent of how you drew it; two diagrams with the same Nickel are the same topology up to isomorphism. SubTropica uses it to match your drawing against the library.">
+        <span class="nickel-label">Nickel</span>
+        <span class="nickel-value" id="nickel-display">&mdash;</span>
+      </div>
+      <button class="btn btn-sm btn-secondary" id="export-menu-btn" style="font-weight:600">
+        <svg class="ico" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg> Export
+      </button>
+      <button class="btn btn-sm btn-library" id="browse-btn">
+        <svg class="ico" viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg> Library
+      </button>
+      <div class="overflow-dropdown" id="overflow-dropdown">
+        <button class="btn btn-sm btn-secondary overflow-btn" id="overflow-btn" title="More" aria-label="More options">
+          <svg class="ico" viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="12" r="1.8"/><circle cx="12" cy="12" r="1.8"/><circle cx="19" cy="12" r="1.8"/></svg>
+        </button>
+        <div class="overflow-menu" id="overflow-menu" role="menu">
+          <button class="overflow-item" data-action="config" role="menuitem">Configure (kinematics, advanced)</button>
+          <div class="overflow-sep"></div>
+          <button class="overflow-item" data-action="redo" role="menuitem">Redo</button>
+          <button class="overflow-item" data-action="rotate-cw" role="menuitem">Rotate clockwise</button>
+          <button class="overflow-item" data-action="rotate-ccw" role="menuitem">Rotate counter-clockwise</button>
+          <button class="overflow-item" data-action="flip-h" role="menuitem">Flip horizontal</button>
+          <button class="overflow-item" data-action="flip-v" role="menuitem">Flip vertical</button>
+          <button class="overflow-item" data-action="rebalance" role="menuitem">Auto-arrange layout</button>
+          <div class="overflow-sep"></div>
+          <button class="overflow-item overflow-danger" data-action="clear" role="menuitem">Clear canvas</button>
+        </div>
+      </div>
+      <button class="theme-toggle" id="theme-toggle" title="Toggle dark mode">
+        <svg class="ico" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+      </button>
+      <button class="theme-toggle" id="help-btn" title="Keyboard shortcuts [?]">?</button>
+    </div>
+  </div>
+
+  <!-- ═══════════ REVIEW TOOLBAR (only when ?review=1 in full mode) ═══════════ -->
+  <div class="review-toolbar" id="review-toolbar" style="display:none">
+    <div class="review-toolbar-left">
+      <span class="review-badge">REVIEW</span>
+      <div class="review-tabs">
+        <button class="review-tab review-tab-active" data-queue-type="pairs" id="review-tab-pairs">Pairs</button>
+        <button class="review-tab" data-queue-type="rejects" id="review-tab-rejects">Rejects</button>
+      </div>
+      <select class="review-filter-select" id="review-filter">
+        <option value="pending">pending only</option>
+        <option value="all">all</option>
+        <option value="verified">verified only</option>
+      </select>
+    </div>
+    <div class="review-toolbar-center">
+      <button class="review-nav-btn" id="review-prev-btn" title="Previous [K or ←]">&larr; Prev</button>
+      <span class="review-progress" id="review-progress"><input type="text" id="review-progress-input" class="review-progress-input" value="—" size="4"> / <span id="review-progress-total">—</span></span>
+      <button class="review-nav-btn" id="review-next-btn" title="Next [J or →]">Next &rarr;</button>
+    </div>
+    <div class="review-toolbar-right">
+      <span class="review-current-label" id="review-current-label"></span>
+      <button class="review-nav-btn" id="review-reload-btn" title="Reload queue">&#x21bb;</button>
+      <button class="review-nav-btn review-close-btn" id="review-exit-btn" title="Exit review mode">&times;</button>
+    </div>
+  </div>
+
+  <!-- ═══════════ REVIEW FILTER ROW (chips for loops / legs / mass scales) ═══════════ -->
+  <div class="review-filter-row" id="review-filter-row" style="display:none">
+    <span class="review-filter-label">Filter</span>
+    <div class="review-filter-group" id="review-filter-loops">
+      <span class="review-filter-group-label">loops</span>
+    </div>
+    <div class="review-filter-group" id="review-filter-legs">
+      <span class="review-filter-group-label">legs</span>
+    </div>
+    <div class="review-filter-group" id="review-filter-ms">
+      <span class="review-filter-group-label">mass scales</span>
+    </div>
+    <button class="review-filter-clear" id="review-filter-clear" title="Clear all filters">clear</button>
+  </div>
+
+  <!-- ═══════════ FULL-PAGE CANVAS ═══════════ -->
+  <svg id="draw-canvas" viewBox="-6 -4 12 8"
+       xmlns="http://www.w3.org/2000/svg">
+    <g id="grid-layer"></g>
+    <g id="edge-layer"></g>
+    <g id="preview-layer"></g>
+    <g id="vertex-layer"></g>
+    <g id="selection-layer"></g>
+  </svg>
+
+  <!-- ═══════════ HINT (bottom center, fades out) ═══════════ -->
+  <div class="draw-hint" id="draw-hint">Click to place a vertex, drag between vertices to create edges</div>
+
+  <!-- ═══════════ NOTIFICATION STACK (right side) ═══════════ -->
+  <div class="notif-stack" id="notif-stack">
+    <!-- Notification toasts inserted by JS -->
+  </div>
+
+  <!-- ═══════════ REVIEW SAVE BAR (canvas-edit dirty indicator) ═══════════ -->
+  <div class="review-save-bar" id="review-save-bar" style="display:none">
+    <span class="review-save-bar-text">Canvas has unsaved topology/mass changes</span>
+    <button class="review-save-bar-btn review-save-bar-save" id="review-save-btn">Save changes (&#8984;S)</button>
+    <button class="review-save-bar-btn review-save-bar-discard" id="review-discard-btn">Discard</button>
+  </div>
+
+  <!-- ═══════════ REVIEW PDF PANEL (left column, arxiv paper viewer) ═══════════ -->
+  <div class="review-pdf-panel" id="review-pdf-panel" style="display:none">
+    <div class="review-pdf-toolbar">
+      <div class="pdf-nav-side">
+        <button class="review-pdf-nav" id="review-pdf-close" title="Close PDF panel">&times;</button>
+      </div>
+      <div class="pdf-nav-center">
+        <button class="review-pdf-nav" id="review-pdf-prev" title="Previous page">&larr;</button>
+        <span class="review-pdf-page" id="review-pdf-page"><input class="pdf-page-inline" id="review-pdf-page-input" type="text" value="—" size="3" title="Edit page number" autocomplete="off"/> / <span id="review-pdf-page-total">—</span></span>
+        <button class="review-pdf-nav" id="review-pdf-next" title="Next page">&rarr;</button>
+      </div>
+      <div class="pdf-nav-side pdf-nav-side-end">
+        <button class="review-pdf-nav" id="review-pdf-open" title="Open PDF in new tab">&#8599;</button>
+        <button class="review-pdf-nav review-pdf-bib" id="review-pdf-bibtex" title="Fetch BibTeX from INSPIRE and copy to clipboard">Copy BibTeX</button>
+      </div>
+    </div>
+    <div class="review-pdf-viewport" id="review-pdf-viewport">
+      <div class="pdf-pages" id="review-pdf-pages"></div>
+    </div>
+    <div class="review-pdf-resize" id="review-pdf-resize" title="Drag to resize"></div>
+  </div>
+
+  <!-- ═══════════ REVIEW SIDE PANEL (persistent right column in review mode) ═══════════ -->
+  <div class="review-side-panel" id="review-side-panel" style="display:none">
+    <div class="review-side-header" id="review-side-header">
+      <div class="review-side-name" id="review-side-name">&mdash;</div>
+      <div class="review-side-nickel" id="review-side-nickel">&mdash;</div>
+      <div class="review-side-badges" id="review-side-badges"></div>
+    </div>
+    <div class="review-side-body" id="review-side-body">
+      <!-- Populated by reviewPopulateSidePanel -->
+    </div>
+  </div>
+
+  <!-- ═══════════ DETAIL PANEL (slides in from right) ═══════════ -->
+  <div class="detail-backdrop" id="detail-backdrop"></div>
+  <div class="detail-popup" id="detail-panel">
+    <div class="detail-header">
+      <span class="detail-header-title" id="detail-header-title"></span>
+      <button class="popup-close" id="detail-close">&times;</button>
+    </div>
+    <div class="detail-scroll" id="detail-configs"></div>
+  </div>
+
+  <!-- ═══════════ CONFIG PANEL (slides in from right) ═══════════ -->
+  <div class="config-backdrop" id="config-backdrop"></div>
+  <div class="config-panel" id="config-panel">
+    <div class="config-sheet-handle" id="config-sheet-handle" aria-hidden="true">
+      <div class="config-sheet-handle-bar"></div>
+    </div>
+    <button class="config-sheet-close" id="config-sheet-close" title="Close" aria-label="Close panel">&times;</button>
+    <div class="config-tab-pull" id="config-tab-pull" title="Side panel [C]">
+      <span class="config-tab-icon-open"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="9" y1="3" x2="9" y2="21"/></svg></span>
+      <span class="config-tab-icon-close">&#x2190;</span>
+    </div>
+    <div class="config-tabs">
+      <button class="config-tab active" data-tab="cfg-momenta">Kinematics</button>
+      <button class="config-tab" data-tab="cfg-advanced">Advanced</button>
+      <button class="config-tab" data-tab="cfg-export">Export</button>
+      <button class="config-tab" data-tab="cfg-paper" id="cfg-paper-tab">PDF preview</button>
+      <div class="cfg-help-wrap" style="margin-left:auto">
+        <button class="cfg-help-btn" id="cfg-help-toggle" title="Input notation help">?</button>
+        <div class="cfg-help-popup" id="cfg-help-popup">
+          <div class="cfg-help-title">Input notation</div>
+          <table class="cfg-help-table">
+            <tr><td><b>l</b> or <b>ell</b></td><td>&rarr; &#8467; (loop momentum)</td></tr>
+            <tr><td><b>l1</b>, <b>l2</b></td><td>&rarr; &#8467;<sub>1</sub>, &#8467;<sub>2</sub></td></tr>
+            <tr><td><b>p</b>, <b>p1</b>, <b>p2</b></td><td>&rarr; <i>p</i>, <i>p</i><sub>1</sub>, <i>p</i><sub>2</sub></td></tr>
+            <tr><td><b>s12</b>, <b>s23</b></td><td>&rarr; <i>s</i><sub>12</sub>, <i>s</i><sub>23</sub> (Mandelstam)</td></tr>
+            <tr><td><b>m_H</b>, <b>M_W</b>, <b>m1</b></td><td>&rarr; mass labels (use <b>_</b> for subscript)</td></tr>
+            <tr><td><b>l.p</b></td><td>&rarr; &#8467; &middot; <i>p</i> (dot product &rarr; CenterDot)</td></tr>
+            <tr><td><b>l*p</b></td><td>&rarr; &#8467; <i>p</i> (scalar multiplication)</td></tr>
+            <tr><td><b>(l+p)^2</b></td><td>&rarr; (&#8467; + <i>p</i>)&sup2;</td></tr>
+            <tr><td><b>1/2</b></td><td>&rarr; &frac12; (fraction)</td></tr>
+            <tr><td><b>-></b> or <b>=</b></td><td>&rarr; &rarr; (substitution rule)</td></tr>
+          </table>
+          <div class="cfg-help-title" style="margin-top:8px">Output variables</div>
+          <table class="cfg-help-table">
+            <tr><td><b>mm</b>, <b>mm1</b>, <b>mmH</b></td><td>= internal (propagator) mass&sup2;</td></tr>
+            <tr><td><b>MM</b>, <b>MM1</b>, <b>MMW</b></td><td>= external momentum squared</td></tr>
+            <tr><td><b>s12</b>, <b>s23</b></td><td>= Mandelstam invariants</td></tr>
+          </table>
+          <div class="cfg-help-note" style="margin-top:6px">Mass label mapping: <b>m_H</b> &rarr; output variable <b>mmH</b>; <b>M_W</b> &rarr; <b>MMW</b>.<br>Use output variable names in substitution rules, e.g. <b>{mmH -> 1, s12 -> 6}</b>.</div>
+          <div class="cfg-help-note">Custom momentum &amp; mass labels from your diagram are recognized automatically.</div>
+        </div>
+      </div>
+    </div>
+    <div class="config-body" id="config-body">
+      <!-- Tab 1: Kinematics -->
+      <div class="config-tab-content active" id="cfg-momenta">
+        <div class="cfg-section cfg-framed">
+          <div class="cfg-section-title">External momenta</div>
+          <div id="cfg-ext-masses">
+            <!-- Populated by JS: one row per external leg with momentum name + mass -->
+          </div>
+        </div>
+        <div class="cfg-section cfg-framed" id="cfg-edge-table-container">
+          <!-- Populated by JS: edge table with chord toggles, momenta, masses, exponents -->
+        </div>
+        <div class="cfg-section cfg-framed">
+          <div class="cfg-section-title">Numerators</div>
+          <div id="cfg-numerator-rows">
+            <!-- Populated by JS -->
+          </div>
+          <div class="cfg-btn-row">
+            <button class="btn btn-sm btn-secondary" id="cfg-add-numerator">+ Add</button>
+            <button class="btn btn-sm btn-secondary" id="cfg-remove-numerator">&minus; Remove</button>
+          </div>
+        </div>
+        <div class="cfg-section cfg-framed" id="cfg-kinematics-section" style="display:none">
+          <div class="cfg-section-title">Kinematic substitutions</div>
+          <div id="cfg-kinematics-display" style="font-size:13px; line-height:1.8">
+            <!-- Populated by JS: p_i . p_j = f(sij, Mi) rendered in LaTeX -->
+          </div>
+        </div>
+        <div class="cfg-section cfg-framed">
+          <div class="cfg-section-title">Extra substitutions</div>
+          <div class="cfg-row">
+            <input class="cfg-input" id="cfg-substitutions-momenta" value="" placeholder="e.g. {s12 -> 6, mmH -> 1}" style="width:100%" autocomplete="off"/>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tab 4: Advanced Options -->
+      <div class="config-tab-content" id="cfg-advanced">
+        <input type="hidden" id="cfg-substitutions" value=""/>
+
+        <!-- Integral -->
+        <details class="cfg-accordion" open>
+          <summary>Integral</summary>
+          <div class="cfg-row">
+            <label class="cfg-label">Representation</label>
+            <select class="cfg-select" id="cfg-representation">
+              <option value="Schwinger" selected>Schwinger</option>
+              <option value="LeePomeransky">Lee-Pomeransky</option>
+            </select>
+          </div>
+          <div class="cfg-row">
+            <label class="cfg-label">Normalization</label>
+            <div class="cfg-field-row">
+              <label class="cfg-check-inline"><input type="checkbox" id="cfg-auto-norm" checked/> Auto</label>
+              <input class="cfg-input" id="cfg-normalization" value="1" disabled/>
+            </div>
+          </div>
+        </details>
+
+        <!-- Gauge & LR -->
+        <details class="cfg-accordion">
+          <summary>Gauge &amp; LR</summary>
+          <div class="cfg-row">
+            <label class="cfg-label">Gauge</label>
+            <div class="cfg-field-row">
+              <label class="cfg-check-inline"><input type="checkbox" id="cfg-auto-gauge" checked/> Auto</label>
+              <input class="cfg-input" id="cfg-gauge" value="{x1 -> 1}" disabled/>
+            </div>
+          </div>
+          <div class="cfg-row">
+            <label class="cfg-label">Include gauges</label>
+            <input class="cfg-input" id="cfg-include-gauges" value="All"/>
+          </div>
+          <div class="cfg-row">
+            <label class="cfg-label"
+                   data-tip-html="<strong>Linear-reducibility algorithm</strong>. <code>Espresso</code> is a fast heuristic that uses hints from the gauge-scoring pass. <code>Lungo</code> is the thorough older algorithm (discriminant+resultant with global deduplication) — slower but more likely to find an integration order for integrals where Espresso fails.">LR method</label>
+            <select class="cfg-select" id="cfg-method-lr"
+                    data-tip-html="<strong>Linear-reducibility algorithm</strong>. <code>Espresso</code> is a fast heuristic that uses hints from the gauge-scoring pass. <code>Lungo</code> is the thorough older algorithm (discriminant+resultant with global deduplication) — slower but more likely to find an integration order for integrals where Espresso fails.">
+              <option value="Espresso" selected>Espresso</option>
+              <option value="Lungo">Lungo</option>
+            </select>
+          </div>
+          <div class="cfg-row"><label class="cfg-check-inline"
+                 data-tip-html="<strong>Fibered rationalization</strong>. Tries nested square-root substitutions so integrands with algebraic letters (W<sub>i</sub>) become rational in the remaining variables. Needed whenever vanilla linear-reducibility analysis gives &ldquo;No linearly reducible order&rdquo;."><input type="checkbox" id="cfg-find-roots"/> Find roots</label></div>
+        </details>
+
+        <!-- Scoring -->
+        <details class="cfg-accordion">
+          <summary>Scoring</summary>
+          <div class="cfg-row">
+            <label class="cfg-label">Heuristic</label>
+            <select class="cfg-select" id="cfg-heuristic">
+              <option value="LeafCountLinear" selected>LeafCountLinear</option>
+              <option value="LeafCountRMS">LeafCountRMS</option>
+              <option value="LeafCountPlusDegree">LeafCountPlusDegree</option>
+              <option value="LeafCountTimesTerms">LeafCountTimesTerms</option>
+            </select>
+          </div>
+          <div class="cfg-row">
+            <label class="cfg-label">Score interval</label>
+            <input class="cfg-input cfg-input-sm" id="cfg-score-interval" value="{1, 3}"/>
+          </div>
+          <div class="cfg-row">
+            <label class="cfg-label">Score parallel</label>
+            <input class="cfg-input cfg-input-sm" id="cfg-score-parallel" value="All"/>
+          </div>
+          <div class="cfg-row">
+            <label class="cfg-label">Time bound</label>
+            <input class="cfg-input cfg-input-sm" id="cfg-time-bound" value="10^17"/>
+          </div>
+          <div class="cfg-row">
+            <label class="cfg-label">Memory cutoff</label>
+            <input class="cfg-input cfg-input-sm" id="cfg-memory-cutoff" value="None"/>
+          </div>
+          <div class="cfg-row">
+            <label class="cfg-label">Scoring mem %</label>
+            <input class="cfg-input cfg-input-sm" id="cfg-scoring-mem" value="0.5"/>
+          </div>
+        </details>
+
+        <!-- Parallelization -->
+        <details class="cfg-accordion">
+          <summary>Parallelization</summary>
+          <div class="cfg-row">
+            <label class="cfg-label">Parallelization</label>
+            <input class="cfg-input cfg-input-sm" id="cfg-parallelization" value="All"/>
+          </div>
+          <div class="cfg-row">
+            <label class="cfg-label">Kernels</label>
+            <input class="cfg-input cfg-input-sm" id="cfg-kernels" placeholder="auto"/>
+          </div>
+          <div class="cfg-row">
+            <label class="cfg-label">Setup parallel</label>
+            <input class="cfg-input cfg-input-sm" id="cfg-setup-parallel" value="Automatic"/>
+          </div>
+        </details>
+
+        <!-- Execution -->
+        <details class="cfg-accordion">
+          <summary>Execution</summary>
+          <div class="cfg-row">
+            <label class="cfg-label">Stop at</label>
+            <select class="cfg-select" id="cfg-stop-at">
+              <option value="Automatic" selected>Full run</option>
+              <option value="AfterBuildingIntegrand">After building integrand</option>
+              <option value="AfterExpansion">After expansion</option>
+              <option value="AfterLinearOrder">After linear order</option>
+              <option value="AfterMinimalLRCheck">After LR check</option>
+              <option value="AfterMinimalLRCheckOneShot">After LR check (one-shot)</option>
+            </select>
+          </div>
+          <div class="cfg-row">
+            <label class="cfg-label">Start at</label>
+            <input class="cfg-input cfg-input-sm" id="cfg-start-at" value="None"/>
+          </div>
+          <div class="cfg-row">
+            <label class="cfg-label">Select faces</label>
+            <input class="cfg-input cfg-input-sm" id="cfg-select-faces" value="All"/>
+          </div>
+          <div class="cfg-row">
+            <label class="cfg-label">Contour</label>
+            <select class="cfg-select" id="cfg-contour">
+              <option value="Abort" selected>Abort</option>
+              <option value="Continue">Continue</option>
+            </select>
+          </div>
+          <div class="cfg-row"><label class="cfg-check-inline"><input type="checkbox" id="cfg-reuse-results" checked/> Reuse results</label></div>
+          <div class="cfg-row"><label class="cfg-check-inline"><input type="checkbox" id="cfg-clear-caches"/> Clear caches</label></div>
+        </details>
+
+        <!-- Output -->
+        <details class="cfg-accordion">
+          <summary>Output</summary>
+          <div class="cfg-row">
+            <label class="cfg-label">Simplify</label>
+            <select class="cfg-select" id="cfg-simplify">
+              <option value="Simplify" selected>Simplify</option>
+              <option value="FullSimplify">FullSimplify</option>
+              <option value="Identity">None</option>
+            </select>
+          </div>
+          <div class="cfg-row"><label class="cfg-check-inline"><input type="checkbox" id="cfg-clean-output" checked/> Clean output</label></div>
+          <div class="cfg-row"><label class="cfg-check-inline"><input type="checkbox" id="cfg-verbose"/> Verbose</label></div>
+          <div class="cfg-row"><label class="cfg-check-inline"><input type="checkbox" id="cfg-show-timings" checked/> Show timings</label></div>
+          <div class="cfg-row"><label class="cfg-check-inline"><input type="checkbox" id="cfg-show-integrands"/> Show integrands</label></div>
+          <div class="cfg-row"><label class="cfg-check-inline"><input type="checkbox" id="cfg-save-slowest"/> Save slowest</label></div>
+          <div class="cfg-row"><label class="cfg-check-inline"><input type="checkbox" id="cfg-save-all"/> Save all</label></div>
+        </details>
+      </div>
+
+      <!-- Tab: Export (STIntegrate commands) -->
+      <div class="config-tab-content" id="cfg-export">
+        <div class="cfg-section cfg-framed">
+          <div class="cfg-section-title">STIntegrate commands</div>
+          <div class="export-hint">Copy any form to reproduce this integration.</div>
+          <div class="export-cmd" id="export-cmd-graph">
+            <div class="export-cmd-header">
+              <span class="export-cmd-label">Graph form</span>
+              <button class="modal-btn-tiny export-copy" data-target="export-cmd-graph" title="Copy to clipboard">Copy</button>
+            </div>
+            <pre class="export-code" id="export-code-graph"></pre>
+          </div>
+          <div class="export-cmd" id="export-cmd-props">
+            <div class="export-cmd-header">
+              <span class="export-cmd-label">Propagator form</span>
+              <button class="modal-btn-tiny export-copy" data-target="export-cmd-props" title="Copy to clipboard">Copy</button>
+            </div>
+            <pre class="export-code" id="export-code-props"></pre>
+          </div>
+          <div class="export-cmd" id="export-cmd-quad">
+            <div class="export-cmd-header">
+              <span class="export-cmd-label">Quadruple form</span>
+              <button class="modal-btn-tiny export-copy" data-target="export-cmd-quad" title="Copy to clipboard">Copy</button>
+            </div>
+            <pre class="export-code" id="export-code-quad"></pre>
+          </div>
+        </div>
+        <div class="cfg-section cfg-framed export-full-only">
+          <div class="cfg-section-title">Notebook variables</div>
+          <div class="export-hint">These globals are updated live in your Mathematica kernel as you draw.</div>
+          <div class="export-vars" id="export-vars">
+            <!-- Populated by JS -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Tab 3: Paper (PDF viewer + reference info) -->
+      <div class="config-tab-content" id="cfg-paper">
+        <button class="cfg-pdf-back" id="cfg-pdf-back" style="display:none">&larr; Back to papers</button>
+        <div class="cfg-pdf-ref" id="cfg-pdf-ref"></div>
+        <div class="cfg-pdf-coverage" id="cfg-pdf-coverage"></div>
+        <div class="cfg-pdf-nav" id="cfg-pdf-nav" style="display:none">
+          <div class="pdf-nav-side"></div>
+          <div class="pdf-nav-center">
+            <button class="review-pdf-nav" id="cfg-pdf-prev" title="Previous page">&larr;</button>
+            <span class="review-pdf-page" id="cfg-pdf-page"><input class="pdf-page-inline" id="cfg-pdf-page-input" type="text" value="—" size="3" title="Edit page number" autocomplete="off"/> / <span id="cfg-pdf-page-total">—</span></span>
+            <button class="review-pdf-nav" id="cfg-pdf-next" title="Next page">&rarr;</button>
+          </div>
+          <div class="pdf-nav-side pdf-nav-side-end">
+            <button class="review-pdf-nav" id="cfg-pdf-open" title="Open PDF in new tab">&#8599;</button>
+            <button class="review-pdf-nav review-pdf-bib" id="cfg-pdf-bibtex" title="Fetch BibTeX from INSPIRE and copy to clipboard">Copy BibTeX</button>
+          </div>
+        </div>
+        <div class="pdf-pages" id="cfg-pdf-pages" style="display:none"></div>
+        <div class="cfg-pdf-skeleton" id="cfg-pdf-skeleton" style="display:none"></div>
+        <div class="cfg-pdf-empty" id="cfg-pdf-empty">Click a paper thumbnail to view it here.</div>
+      </div>
+    </div>
+    <div class="config-footer" id="config-footer">
+      <!-- JS populates: Integrate button (full mode) or Get SubTropica link (lite mode) -->
+    </div>
+    <div class="config-resize" id="config-resize" title="Drag to resize"></div>
+  </div>
+
+  <!-- ═══════════ EXPORT DROPDOWN ═══════════ -->
+  <div class="export-dropdown" id="export-dropdown">
+    <div class="export-item" id="export-copy-svg">Copy SVG to clipboard</div>
+    <div class="export-item" id="export-copy-png">Copy PNG to clipboard</div>
+    <div class="export-item" id="export-copy-link">Copy shareable link</div>
+    <div class="export-sep"></div>
+    <div class="export-item" id="export-pdf">Download PDF</div>
+    <div class="export-item" id="export-png">Download PNG</div>
+    <div class="export-item" id="export-tikz">Download TikZ</div>
+  </div>
+
+  <!-- ═══════════ BOTTOM CONTROLS ═══════════ -->
+  <div class="bottom-bar" id="bottom-bar">
+    <div class="bottom-group">
+      <button class="bottom-btn" id="rotate-cw-btn" title="Rotate 45° clockwise"><svg class="ico" viewBox="0 0 24 24"><path d="M23 4v6h-6"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg></button>
+      <button class="bottom-btn" id="rotate-ccw-btn" title="Rotate 45° counter-clockwise"><svg class="ico" viewBox="0 0 24 24"><path d="M1 4v6h6"/><path d="M3.51 15a9 9 0 1 0 2.12-9.36L1 10"/></svg></button>
+      <button class="bottom-btn" id="flip-h-btn" title="Flip horizontal"><svg class="ico" viewBox="0 0 24 24"><path d="M7 16L3 12l4-4"/><path d="M17 16l4-4-4-4"/><line x1="3" y1="12" x2="21" y2="12"/></svg></button>
+      <button class="bottom-btn" id="flip-v-btn" title="Flip vertical"><svg class="ico" viewBox="0 0 24 24"><path d="M16 7l-4-4-4 4"/><path d="M16 17l-4 4-4-4"/><line x1="12" y1="3" x2="12" y2="21"/></svg></button>
+      <button class="bottom-btn" id="rebalance-btn" title="Auto-arrange [L]">
+        <svg class="ico" viewBox="0 0 24 24"><path d="M12 2l1.5 4.5L18 8l-4.5 1.5L12 14l-1.5-4.5L6 8l4.5-1.5L12 2z"/><path d="M5 16l1 3 3 1-3 1-1 3-1-3-3-1 3-1 1-3z"/><path d="M19 14l.75 2.25L22 17l-2.25.75L19 20l-.75-2.25L16 17l2.25-.75L19 14z"/></svg>
+      </button>
+    </div>
+    <div class="bottom-sep"></div>
+    <div class="bottom-group">
+      <label class="bottom-snap" title="[S] Toggle snap">
+        <input type="checkbox" id="snap-toggle"/>
+        <span>Snap to grid</span>
+      </label>
+    </div>
+    <div class="bottom-sep"></div>
+    <div class="bottom-group">
+      <button class="bottom-btn" id="zoom-out-btn" title="Zoom out">&minus;</button>
+      <span class="bottom-zoom" id="zoom-display">100%</span>
+      <button class="bottom-btn" id="zoom-in-btn" title="Zoom in">+</button>
+    </div>
+  </div>
+
+  <!-- ═══════════ BROWSER OVERLAY ═══════════ -->
+  <div class="browser-overlay" id="browser-overlay">
+    <div class="browser-panel">
+      <div class="browser-header">
+        <div class="browser-header-top">
+          <h2>Library</h2>
+          <div class="browser-tabs">
+            <button class="browser-tab active" id="browser-tab-topos" data-tab="topos">Topologies</button>
+            <button class="browser-tab" id="browser-tab-diagrams" data-tab="diagrams">Diagrams</button>
+          </div>
+          <div style="flex:1"></div>
+          <span style="position:relative;display:inline-block">
+            <input class="browser-search" id="browser-search" placeholder="Search..." autocomplete="off"/>
+            <button id="browser-search-clear" style="position:absolute;right:6px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:14px;color:var(--text-muted);display:none;padding:0 2px" title="Clear search">&times;</button>
+          </span>
+          <button class="btn btn-sm btn-secondary browser-sync-btn" id="browser-sync-btn" title="Sync with central library" style="display:none">Sync</button>
+          <button class="detail-close" id="browser-close">&times;</button>
+        </div>
+        <div class="browser-filters">
+          <div class="browser-chip-group" id="browser-filter-loops" data-label="Loops:"></div>
+          <div class="browser-chip-group" id="browser-filter-legs" data-label="Legs:"></div>
+          <div class="browser-chip-group" id="browser-filter-fc" data-label="Class:" style="display:none"></div>
+          <div class="browser-chip-group" id="browser-filter-ms" data-label="Scales:" style="display:none"></div>
+          <div class="browser-chip-group" id="browser-filter-verified" data-label="Verified:" style="display:none"></div>
+          <div class="browser-toggles-right">
+            <label class="browser-precomputed-toggle" id="browser-filter-precomputed">
+              <input type="checkbox" id="browser-precomputed-cb"/>
+              <span>Computed only</span>
+            </label>
+            <label class="browser-precomputed-toggle" id="browser-filter-local" style="display:none">
+              <input type="checkbox" id="browser-local-cb"/>
+              <span>Local only</span>
+            </label>
+          </div>
+        </div>
+      </div>
+      <div class="browser-count" id="browser-count"></div>
+      <div class="browser-body" id="browser-body"></div>
+    </div>
+  </div>
+
+  <!-- ═══════════ EDGE TOOLTIP ═══════════ -->
+  <div class="edge-tooltip" id="edge-tooltip"></div>
+
+  <!-- ═══════════ MASS PICKER TOOLTIP ═══════════ -->
+  <div class="mass-picker" id="mass-picker">
+    <div class="mass-picker-body" id="mass-picker-body"></div>
+  </div>
+
+  <!-- ═══════════ MASS LEGEND ═══════════ -->
+  <div class="mass-legend" id="mass-legend" style="display:none"></div>
+
+  <!-- ═══════════ INTEGRAL CARD (formula preview + settings + Integrate) ═══════════ -->
+  <div class="integral-card" id="integral-card">
+    <div class="integral-card-preview" id="integral-card-preview">
+      <div class="integral-card-formula" id="integral-card-formula"></div>
+      <div class="integral-card-settings">
+        <div class="ic-row">
+          <label class="ic-label">Name</label>
+          <input class="ic-input" id="ic-name" placeholder="diagram name" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+        </div>
+        <div class="ic-row">
+          <label class="ic-label"
+                 data-tip-html="<strong>Spacetime dimension</strong> — integrate in <code>d</code> dimensions. Default <code>4 - 2*eps</code> is the standard dimensional-regularization convention; use <code>eps</code> as the expansion parameter.">Dim</label>
+          <input class="ic-input ic-input-sm" id="ic-dimension" value="4 - 2*eps" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
+                 data-tip-html="<strong>Spacetime dimension</strong> — integrate in <code>d</code> dimensions. Default <code>4 - 2*eps</code> is the standard dimensional-regularization convention; use <code>eps</code> as the expansion parameter."/>
+          <label class="ic-label" style="margin-left:6px"
+                 data-tip-html="<strong>&epsilon; order</strong> — highest power of <code>eps</code> to keep in the expansion. <code>0</code> gives the finite part (through <code>eps^0</code>); use <code>1</code> or <code>2</code> for subleading terms.">&epsilon; order</label>
+          <input class="ic-input ic-input-xs" id="ic-eps-order" value="0" type="number" step="1"
+                 data-tip-html="<strong>&epsilon; order</strong> — highest power of <code>eps</code> to keep in the expansion. <code>0</code> gives the finite part (through <code>eps^0</code>); use <code>1</code> or <code>2</code> for subleading terms."/>
+          <button class="modal-btn-tiny" id="ic-check-complexity" title="Run the Tier-2 kernel complexity check (tropical expansion, divergent facets, LR-gauge)" style="display:none;margin-left:auto">Check complexity</button>
+          <button class="modal-btn-tiny" id="ic-check-mpl" title="Check if polylogarithmic" style="display:none">Check if MPL</button>
+        </div>
+      </div>
+      <div class="integral-card-actions">
+        <button class="modal-btn-tiny ic-online-only" id="integral-copy-tex" title="Copy LaTeX"
+                data-tip-html="Copy the Feynman-parameter integrand in <strong>LaTeX</strong> form, ready to paste into a paper or notes.">LaTeX</button>
+        <button class="modal-btn-tiny ic-online-only" id="integral-copy-mma" title="Copy Mathematica"
+                data-tip-html="Copy the Feynman integral as a <strong>Mathematica</strong> expression using SubTropica conventions: <code>mm[i]</code> for internal masses<sup>2</sup>, <code>MM</code>/<code>MM<sub>i</sub></code> for external, <code>s</code>/<code>t</code>/<code>u</code> for Mandelstams.">Mathematica</button>
+      </div>
+      <div class="difficulty-stars" id="difficulty-stars" title="Estimated difficulty"></div>
+    </div>
+    <button class="integrate-fab" id="integrate-fab" title="Integrate diagram">
+      <span class="integrate-fab-chevron" id="integral-card-toggle" title="Toggle formula preview"></span>
+      <span class="mascot-emoji" style="font-size:1.2em">&#x1F965;</span>&thinsp;Integrate
+    </button>
+  </div>
+
+  <!-- ═══════════ LIBRARY FAB (mobile only) ═══════════ -->
+  <button class="library-fab" id="library-fab" title="Library" aria-label="Open library">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
+  </button>
+
+  <!-- ═══════════ INTEGRATE MODAL ═══════════ -->
+  <div class="modal-overlay" id="integrate-overlay">
+    <div class="modal-panel modal-panel-wide">
+      <div class="modal-header">
+        <h3><span style="color:var(--text-muted);font-weight:500">Sub</span><span style="font-weight:700">Tropica</span></h3>
+        <button class="detail-close" id="integrate-close">&times;</button>
+      </div>
+      <div class="modal-body" id="integrate-body">
+        <!-- Populated dynamically by openIntegrateModal() -->
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════ ABOUT MODAL ═══════════ -->
+  <div class="modal-overlay" id="about-overlay">
+    <div class="modal-panel about-panel">
+      <button class="detail-close" id="about-close">&times;</button>
+      <div class="about-body" id="about-body">
+        <!-- Populated dynamically -->
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════ HELP MODAL ═══════════ -->
+  <div class="modal-overlay" id="help-overlay">
+    <div class="modal-panel help-panel">
+      <button class="detail-close" id="help-close">&times;</button>
+      <div class="help-body">
+        <h3 style="margin:0 0 12px 0">Keyboard Shortcuts</h3>
+        <div class="help-grid">
+          <div class="help-section">
+            <div class="help-section-title">Drawing</div>
+            <div class="help-row"><kbd>Click</kbd> <span>Place vertex</span></div>
+            <div class="help-row"><kbd>Drag</kbd> <span>Create edge between vertices</span></div>
+            <div class="help-row"><kbd>Shift+Drag</kbd> <span>Move vertex</span></div>
+            <div class="help-row"><kbd>Click edge</kbd> <span>Subdivide edge</span></div>
+            <div class="help-row"><kbd>Drag &rarr; return</kbd> <span>Create tadpole (self-loop)</span></div>
+          </div>
+          <div class="help-section">
+            <div class="help-section-title">Modes</div>
+            <div class="help-row"><kbd>1</kbd> <span>Draw mode</span></div>
+            <div class="help-row"><kbd>2</kbd> <span>Delete mode</span></div>
+            <div class="help-row"><kbd>N</kbd> <span>Cycle labels (None / Numbers / Momenta)</span></div>
+            <div class="help-row"><kbd>S</kbd> <span>Toggle snap to grid</span></div>
+          </div>
+          <div class="help-section">
+            <div class="help-section-title">Navigation</div>
+            <div class="help-row"><kbd>Ctrl+Drag</kbd> <span>Pan canvas</span></div>
+            <div class="help-row"><kbd>Ctrl+Scroll</kbd> <span>Zoom in/out</span></div>
+            <div class="help-row"><kbd>+ / &minus;</kbd> <span>Zoom in/out</span></div>
+            <div class="help-row"><kbd>0</kbd> <span>Reset zoom</span></div>
+          </div>
+          <div class="help-section">
+            <div class="help-section-title">Actions</div>
+            <div class="help-row"><kbd>Ctrl+Z</kbd> <span>Undo</span></div>
+            <div class="help-row"><kbd>Ctrl+Y</kbd> <span>Redo</span></div>
+            <div class="help-row"><kbd>L</kbd> <span>Auto-arrange layout</span></div>
+            <div class="help-row"><kbd>C</kbd> <span>Toggle configuration panel</span></div>
+            <div class="help-row"><kbd>Tab</kbd> <span>Cycle selected vertex</span></div>
+            <div class="help-row"><kbd>Esc</kbd> <span>Deselect / close panel</span></div>
+          </div>
+          <div class="help-section">
+            <div class="help-section-title">Edge Properties</div>
+            <div class="help-row"><span>Click the small circle on any edge to set mass, line style, particle label, or momentum direction.</span></div>
+          </div>
+        </div>
+        <div class="help-footer">
+          <button class="btn btn-sm btn-secondary" id="help-tour-btn"
+                  data-tip-html="Replays the first-visit walkthrough: where to draw, how to edit an edge, Library &amp; Integrate entry points.">
+            <svg class="ico" viewBox="0 0 24 24" style="width:14px;height:14px"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            Play tour again
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<script type="module" src="app.js?v={{ST_VERSION}}"></script>
+
+</body>
+</html>

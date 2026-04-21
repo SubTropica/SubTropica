@@ -1,0 +1,82 @@
+{
+  "CNickelIndex": "123|45|e4|e6|e|e6|e|:000|00|00|00|1|00|0|",
+  "MassScales": 6,
+  "FunctionClass": "unknown",
+  "EpsilonOrder": "-4,-3,-2,-1,0",
+  "References": [
+    "arXiv:1906.11862 (JHEP 09 (119), 2019)",
+    "arXiv:1511.09404"
+  ],
+  "Records": [
+    {
+      "dimScheme": "d=4-2*eps",
+      "recordId": "bf_f5066f246fe1",
+      "familyName": "W4p_planar",
+      "verified": false,
+      "verifiedAt": "",
+      "authors": "Hartanto, Heribertus Bayu, Badger, Simon, Brønnum-Hansen, Christian, Peraro, Tiziano",
+      "texkey": "Hartanto:2019uvl",
+      "computationLevel": "numerical",
+      "masterCount": 202,
+      "location": "Eq. (2.7)",
+      "method": [],
+      "reference": "arXiv:1906.11862, JHEP 09 (119), 2019",
+      "ancillaryFiles": [],
+      "description": "Planar two-loop integral family for $W+4$ parton scattering. Pentagon-box family with 8 propagators and 3 ISPs. External leg $p_5=p_{56}$ is off-shell ($W$ boson). All other external legs massless. All 15 maximal cut topologies obtained by cyclic permutations. 202 master integrals evaluated numerically via finite-field sampling and sector decomposition.",
+      "epsOrders": "-4,-3,-2,-1,0",
+      "tools": [
+        "FiniteFlow",
+        "FORM",
+        "LiteRed",
+        "pySecDec",
+        "FIESTA"
+      ],
+      "doi": "10.1007/JHEP09(2019)119"
+    },
+    {
+      "reference": "arXiv:1511.09404",
+      "authors": "Costas G. Papadopoulos, Damiano Tommasini, Christopher Wever",
+      "description": "Integrals defined in Eq. (2.8) and all masters (powers) of this family are listed in Eq. (2.9). Extra files with results: https://www.dropbox.com/s/90iiqfcazrhwtso/results.tgz?dl=0",
+      "recordId": "1491220355.FozY",
+      "computationLevel": "full",
+      "dimScheme": "d=4-2*eps",
+      "location": "Eq.(3), Section 2",
+      "verified": false,
+      "verifiedAt": ""
+    }
+  ],
+  "Names": [
+    "W4p_planar",
+    "1-mass penta-box (5-point)",
+    "one-mass penta-box (5-point)",
+    "Penta-box (5-point)"
+  ],
+  "Source": [
+    "arXiv",
+    "Loopedia"
+  ],
+  "Loops": 2,
+  "NumPropagators": 8,
+  "Results": [],
+  "edges": "{{{1, 2}, 0}, {{1, 3}, 0}, {{1, 4}, 0}, {{2, 5}, 0}, {{2, 6}, 0}, {{3, 5}, 0}, {{4, 7}, 0}, {{6, 7}, 0}}",
+  "nodes": "{{3, 0}, {4, 0}, {7, 0}, {6, 0}, {5, M}}",
+  "CanonicalName": "1-mass box-pentagon (b)",
+  "MassConfig": {
+    "numEdges": 8,
+    "numMassiveEdges": 0,
+    "numMasslessEdges": 8,
+    "distinctInternalMasses": 0,
+    "internalMassLabels": [],
+    "edgeMassPattern": "00000000",
+    "numExtLegs": 5,
+    "numOnshellMassiveExtLegs": 1,
+    "numMasslessExtLegs": 4,
+    "extLegSignature": "0000M"
+  },
+  "Subsectors": [
+    "123|24|e|e5|e5|e|:000|00|1|00|00|0|",
+    "123|45|e4|e5|e|e|:000|00|00|00|1|2|",
+    "123|e45|e4|e5|e|e|:000|000|00|10|0|0|"
+  ],
+  "ParentSectors": []
+}

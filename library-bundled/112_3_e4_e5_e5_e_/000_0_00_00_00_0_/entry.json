@@ -1,0 +1,60 @@
+{
+  "CNickelIndex": "112|3|e4|e5|e5|e|:000|0|00|00|00|0|",
+  "MassScales": 2,
+  "FunctionClass": "MPL",
+  "EpsilonOrder": "0",
+  "References": [
+    "arXiv:1904.05299 (Phys.Rev.Lett. 123 (), 2019)"
+  ],
+  "Records": [
+    {
+      "reference": "arXiv:1904.05299 (Phys.Rev.Lett. 123 (), 2019)",
+      "authors": "Duhr, Claude, Johansson, Henrik, Kälin, Gregor, Mogull, Gustav, Verbeek, Bram",
+      "description": "Box-bubble topology for the two-loop four-gluon amplitude in $N=2$ SQCD. One-loop box with a self-energy (bubble) insertion on one internal propagator. Diagrams (i) and (j) have adjoint gluon-loop and fundamental quark-loop bubble insertions respectively. Propagator denominators defined in Ref. [Johansson:2017bfl]. At the conformal point $N_f=2N_c$, diagrams (i) and (j) manifestly cancel from the integrand. Diagram (i) contributes only to $N=4$ SYM part; (j) contributes only to $S$ (the non-conformal part).",
+      "epsOrders": "0",
+      "familyName": "box-bubble",
+      "method": "unitarity, IBP",
+      "tools": [
+        "LiteRed"
+      ],
+      "ancillaryFiles": true,
+      "doi": "10.1103/PhysRevLett.123.241601",
+      "texkey": "Duhr:2019ywc",
+      "masterCount": 0,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "full",
+      "location": "Fig.1 diagrams (i),(j)",
+      "recordId": "bx_2b1ec00300bd",
+      "verified": false,
+      "verifiedAt": ""
+    }
+  ],
+  "Names": [
+    "box-bubble"
+  ],
+  "Source": [
+    "arXiv"
+  ],
+  "Loops": 2,
+  "NumPropagators": 7,
+  "Results": [],
+  "edges": "{{{1, 2}, 0}, {{1, 2}, 0}, {{1, 3}, 0}, {{2, 4}, 0}, {{3, 5}, 0}, {{4, 6}, 0}, {{5, 6}, 0}}",
+  "nodes": "{{3, 0}, {4, 0}, {6, 0}, {5, 0}}",
+  "CanonicalName": "Massless bubble-hexagon",
+  "MassConfig": {
+    "numEdges": 7,
+    "numMassiveEdges": 0,
+    "numMasslessEdges": 7,
+    "distinctInternalMasses": 0,
+    "internalMassLabels": [],
+    "edgeMassPattern": "0000000",
+    "numExtLegs": 4,
+    "numOnshellMassiveExtLegs": 0,
+    "numMasslessExtLegs": 4,
+    "extLegSignature": "0000"
+  },
+  "Subsectors": [
+    "112|e3|e4|e4|e|:000|00|00|00|0|"
+  ],
+  "ParentSectors": []
+}

@@ -1,0 +1,65 @@
+{
+  "CNickelIndex": "e123|e24|e|e5|e5|e|:0000|000|0|00|00|0|",
+  "MassScales": 9,
+  "FunctionClass": "MPL",
+  "EpsilonOrder": "4",
+  "References": [
+    "arXiv:2403.19742 (JHEP 08 (027), 2024)"
+  ],
+  "Records": [
+    {
+      "reference": "arXiv:2403.19742 (JHEP 08 (027), 2024)",
+      "authors": "Henn, Johannes M., Matijašić, Antonela, Miczajka, Julian, Peraro, Tiziano, Xu, Yingxuan, Zhang, Yang",
+      "description": "Two-loop six-point massless planar pentagon-triangle integral family. 7 propagators from 13-denominator hexagon basis $(D_1,D_2,D_3,D_4,D_{11},D_{12},D_{13})$. 44 master integrals (1 top-sector + 43 subsector). Solved analytically via canonical DEs to weight 4 / $\\mathcal{O}(\\varepsilon^4)$ in Euclidean region.",
+      "epsOrders": "4",
+      "familyName": "pentagon-triangle",
+      "method": "IBP, DE, series_expansion",
+      "tools": [
+        "LiteRed",
+        "AMFlow",
+        "PolyLogTools"
+      ],
+      "ancillaryFiles": true,
+      "doi": "10.1007/JHEP08(2024)027",
+      "texkey": "Henn:2024ngj",
+      "masterCount": 44,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "full",
+      "location": "Section 3.3, Figure 1b, Section 4.2",
+      "recordId": "bx_0d90e3c31e9b",
+      "verified": false,
+      "verifiedAt": ""
+    }
+  ],
+  "Names": [
+    "pentagon-triangle"
+  ],
+  "Source": [
+    "arXiv"
+  ],
+  "Loops": 2,
+  "NumPropagators": 7,
+  "Results": [],
+  "edges": "{{{1, 2}, 0}, {{1, 3}, 0}, {{1, 4}, 0}, {{2, 3}, 0}, {{2, 5}, 0}, {{4, 6}, 0}, {{5, 6}, 0}}",
+  "nodes": "{{1, 0}, {4, 0}, {6, 0}, {5, 0}, {2, 0}, {3, 0}}",
+  "CanonicalName": "Massless triangle-pentagon",
+  "MassConfig": {
+    "numEdges": 7,
+    "numMassiveEdges": 0,
+    "numMasslessEdges": 7,
+    "distinctInternalMasses": 0,
+    "internalMassLabels": [],
+    "edgeMassPattern": "0000000",
+    "numExtLegs": 6,
+    "numOnshellMassiveExtLegs": 0,
+    "numMasslessExtLegs": 6,
+    "extLegSignature": "000000"
+  },
+  "Subsectors": [
+    "e123|e24|e|e4|e|:0000|000|0|00|1|",
+    "e123|e24|e|e4|e|:0000|100|0|00|0|"
+  ],
+  "ParentSectors": [
+    "123|e45|e4|e6|e|e6|e|:000|000|00|00|0|00|0|"
+  ]
+}

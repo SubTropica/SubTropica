@@ -1,0 +1,64 @@
+{
+  "CNickelIndex": "e12|e3|e3|e|:001|10|01|0|",
+  "MassScales": 3,
+  "FunctionClass": "unknown",
+  "EpsilonOrder": "0",
+  "References": [
+    "arXiv:1502.06595 (Comput.Phys.Commun. 196 (470), 2015)"
+  ],
+  "Records": [
+    {
+      "reference": "arXiv:1502.06595 (Comput.Phys.Commun. 196 (470), 2015)",
+      "authors": "Borowka, S., Heinrich, G., Jones, S.P., Kerner, M., Schlenk, J., Zirke, T.",
+      "description": "One-loop four-point box with one off-shell leg ($p_1$) and one internal mass on two adjacent propagators. Demo 1_box_1L of SecDec-3.0; numerical evaluation at two kinematic points specified in kinem.input. Massless propagators and light-like legs are dashed in Fig. 7. Total runtime 41 s.",
+      "epsOrders": "0",
+      "familyName": "1_box_1L",
+      "method": "sector_decomposition",
+      "tools": [
+        "SecDec"
+      ],
+      "ancillaryFiles": false,
+      "doi": "10.1016/j.cpc.2015.05.022",
+      "texkey": "Borowka:2015mxa",
+      "masterCount": 0,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "numerical",
+      "location": "Section 5.1, Fig. 7",
+      "recordId": "bx_a858e5bfdeae",
+      "verified": false,
+      "verifiedAt": ""
+    }
+  ],
+  "Names": [
+    "1_box_1L"
+  ],
+  "Source": [
+    "arXiv"
+  ],
+  "Loops": 1,
+  "NumPropagators": 4,
+  "Results": [],
+  "edges": "{{{1, 2}, 0}, {{1, 3}, m}, {{2, 4}, 0}, {{3, 4}, m}}",
+  "nodes": "{{1, 0}, {2, m}, {4, 0}, {3, 0}}",
+  "CanonicalName": "Box, 2 massive propagators (b)",
+  "MassConfig": {
+    "numEdges": 4,
+    "numMassiveEdges": 2,
+    "numMasslessEdges": 2,
+    "distinctInternalMasses": 1,
+    "internalMassLabels": [
+      "m"
+    ],
+    "edgeMassPattern": "0101",
+    "numExtLegs": 4,
+    "numOnshellMassiveExtLegs": 1,
+    "numMasslessExtLegs": 3,
+    "extLegSignature": "0M00"
+  },
+  "commonNames": [
+    "D₀(2×m)",
+    "L1"
+  ],
+  "Subsectors": [],
+  "ParentSectors": []
+}

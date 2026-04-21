@@ -1,0 +1,72 @@
+{
+  "CNickelIndex": "123|45|e6|e7|e6|e7|7||:000|00|00|00|00|00|0||",
+  "MassScales": 2,
+  "FunctionClass": "MPL",
+  "EpsilonOrder": "-6,-5,-4,-3,-2,-1,0",
+  "References": [
+    "arXiv:2111.13595",
+    "arXiv:2002.09492 (JHEP 04 (167), 2020)"
+  ],
+  "Records": [
+    {
+      "epsOrders": "-6,-5,-4,-3,-2,-1,0",
+      "reference": "arXiv:2111.13595",
+      "authors": "Piotr Bargiela, Fabrizio Caola, Andreas von Manteuffel, Lorenzo Tancredi",
+      "description": "The three-loop four-point massless Master Integrals are computed in planar, non-planar, and double-non-planar sectors. The result is given in terms of Harmonic Polylogarithms.",
+      "recordId": "1724945295.cLi6",
+      "verified": false,
+      "verifiedAt": ""
+    },
+    {
+      "reference": "arXiv:2002.09492 (JHEP 04 (167), 2020)",
+      "authors": "Henn, Johannes, Mistlberger, Bernhard, Smirnov, Vladimir A., Wasser, Pascal",
+      "description": "Three-loop non-planar family H. Non-planar topology with a central propagator crossing all three loops. Numerators are dot products rather than squared momenta.",
+      "epsOrders": "8",
+      "familyName": "HMSW_H",
+      "method": "",
+      "tools": [],
+      "ancillaryFiles": true,
+      "doi": "10.1007/JHEP04(2020)167",
+      "texkey": "Henn:2020lye",
+      "masterCount": 76,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "full",
+      "location": "eq. 7.1, Table 1, ancillary FamilyDefinition.m (row 8)",
+      "recordId": "bx_106029d6e449",
+      "verified": false,
+      "verifiedAt": ""
+    }
+  ],
+  "Source": [
+    "arXiv",
+    "Loopedia"
+  ],
+  "Results": [],
+  "Names": [
+    "Massless non-planar 3-loop ladder b",
+    "Non-planar 3-loop ladder B",
+    "HMSW_H"
+  ],
+  "edges": "{{{1, 2}, 0}, {{1, 3}, 0}, {{1, 4}, 0}, {{2, 5}, 0}, {{2, 6}, 0}, {{3, 7}, 0}, {{4, 8}, 0}, {{5, 7}, 0}, {{6, 8}, 0}, {{7, 8}, 0}}",
+  "nodes": "{{3, 0}, {4, 0}, {5, 0}, {6, 0}}",
+  "Loops": 3,
+  "NumPropagators": 10,
+  "CanonicalName": "Massless pentagonal core (b)",
+  "MassConfig": {
+    "numEdges": 10,
+    "numMassiveEdges": 0,
+    "numMasslessEdges": 10,
+    "distinctInternalMasses": 0,
+    "internalMassLabels": [],
+    "edgeMassPattern": "0000000000",
+    "numExtLegs": 4,
+    "numOnshellMassiveExtLegs": 0,
+    "numMasslessExtLegs": 4,
+    "extLegSignature": "0000"
+  },
+  "commonNames": [
+    "L3"
+  ],
+  "Subsectors": [],
+  "ParentSectors": []
+}

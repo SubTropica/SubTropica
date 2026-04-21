@@ -1,0 +1,84 @@
+{
+  "CNickelIndex": "e12|e3|e34|e5|e56|e7|e78|e9|e9|e|:100|20|000|00|000|00|000|00|30|4|",
+  "MassScales": 0,
+  "FunctionClass": "Calabi-Yau",
+  "EpsilonOrder": "",
+  "References": [
+    "arXiv:1805.09326"
+  ],
+  "Records": [
+    {
+      "authors": [
+        {
+          "full_name": "Bourjaily, Jacob L.",
+          "inspire_id": 1020130
+        },
+        {
+          "full_name": "He, Yang-Hui",
+          "inspire_id": 1006373
+        },
+        {
+          "full_name": "Mcleod, Andrew J.",
+          "inspire_id": 1486130
+        },
+        {
+          "full_name": "Von Hippel, Matt",
+          "inspire_id": 1067843
+        },
+        {
+          "full_name": "Wilhelm, Matthias",
+          "inspire_id": 1283987
+        }
+      ],
+      "texkey": "",
+      "verified": true,
+      "verifiedAt": "2026-04-08",
+      "reference": "arXiv:1805.09326",
+      "ancillaryFiles": [],
+      "recordId": "bf_168afcb2df73",
+      "masterCount": 0,
+      "computationLevel": "none",
+      "doi": "",
+      "tools": [
+        "Macaulay2"
+      ],
+      "description": "4-loop traintrack integral involving a Calabi-Yau threefold. 4-loop traintrack with 13 massless propagators, 14 massless external legs grouped into 10 momenta. Finite and dual-conformally invariant in $d=4$. Involves weight-5 hyperlogarithms integrated over an irreducible smooth Calabi-Yau threefold, elliptically fibered over $\\mathbb{P}^2$. Weierstrass coefficients $g_2(z_1,z_2)$ and $g_3(z_1,z_2)$ have degrees specified in Eq. (13). Verified to have trivial canonical sheaf using Macaulay2.",
+      "epsOrders": "",
+      "method": [],
+      "dimScheme": "d=4",
+      "location": "Eq. (1), Sec. Calabi-Yaus at Higher Loops",
+      "familyName": "traintrack_4L_CY3"
+    }
+  ],
+  "Names": [
+    "4-loop traintrack",
+    "Traintrack (Calabi-Yau 3-fold)"
+  ],
+  "Source": [
+    "arXiv",
+    "Loopedia"
+  ],
+  "Loops": 4,
+  "NumPropagators": 13,
+  "Results": [],
+  "edges": "{{{1, 2}, 0}, {{1, 3}, 0}, {{2, 4}, 0}, {{3, 4}, 0}, {{3, 5}, 0}, {{4, 6}, 0}, {{5, 6}, 0}, {{5, 7}, 0}, {{6, 8}, 0}, {{7, 8}, 0}, {{7, 9}, 0}, {{8, 10}, 0}, {{9, 10}, 0}}",
+  "nodes": "{{1, M[1]}, {2, M[2]}, {3, 0}, {4, 0}, {5, 0}, {6, 0}, {7, 0}, {8, 0}, {9, M[3]}, {10, M[4]}}",
+  "CanonicalName": "4-mass non-planar box-hexagon-hexagon-box",
+  "MassConfig": {
+    "numEdges": 13,
+    "numMassiveEdges": 0,
+    "numMasslessEdges": 13,
+    "distinctInternalMasses": 0,
+    "internalMassLabels": [],
+    "edgeMassPattern": "0000000000000",
+    "numExtLegs": 10,
+    "numOnshellMassiveExtLegs": 4,
+    "numMasslessExtLegs": 6,
+    "extLegSignature": "MM000000MM"
+  },
+  "commonNames": [
+    "TT4"
+  ],
+  "Subsectors": [],
+  "ParentSectors": []
+}

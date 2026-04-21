@@ -1,0 +1,60 @@
+{
+  "CNickelIndex": "123|45|67|e4|e|e6|8|e8|e|:111|11|11|01|0|01|1|01|0|",
+  "MassScales": 6,
+  "FunctionClass": "Calabi-Yau",
+  "EpsilonOrder": "",
+  "References": [
+    "arXiv:2307.11497"
+  ],
+  "Records": [
+    {
+      "authors": "Marzucca, Robin, McLeod, Andrew J., Page, Ben, Pögel, Sebastian, Weinzierl, Stefan",
+      "ancillaryFiles": [],
+      "recordId": "bf_8c199aeca122",
+      "epsOrders": "",
+      "location": "Figure 3",
+      "texkey": "Marzucca:2023gto",
+      "verified": false,
+      "verifiedAt": "",
+      "reference": "arXiv:2307.11497, Phys.Rev.D 109, 2024",
+      "masterCount": 0,
+      "computationLevel": "maximal_cut",
+      "doi": "10.1103/PhysRevD.109.L031901",
+      "tools": [
+        "Singular"
+      ],
+      "description": "Three-loop box-pentagon-box with 11 equal-mass internal propagators and 5 massless external legs. Maximal cut gives genus 5 (non-hyperelliptic) curve dropping to genus 3 hyperelliptic.",
+      "method": [],
+      "dimScheme": "d=4",
+      "familyName": "box-pentagon-box"
+    }
+  ],
+  "Names": [
+    "box-pentagon-box"
+  ],
+  "Source": [
+    "arXiv"
+  ],
+  "Loops": 3,
+  "NumPropagators": 11,
+  "Results": [],
+  "edges": "{{{1, 2}, m}, {{1, 3}, m}, {{1, 4}, m}, {{2, 5}, m}, {{2, 6}, m}, {{3, 7}, m}, {{3, 8}, m}, {{4, 5}, m}, {{6, 7}, m}, {{7, 9}, m}, {{8, 9}, m}}",
+  "nodes": "{{4, 0}, {8, 0}, {9, 0}, {6, 0}, {5, 0}}",
+  "CanonicalName": "Equal-mass non-planar box-heptagon-box",
+  "MassConfig": {
+    "numEdges": 11,
+    "numMassiveEdges": 11,
+    "numMasslessEdges": 0,
+    "distinctInternalMasses": 1,
+    "internalMassLabels": [
+      "m"
+    ],
+    "edgeMassPattern": "11111111111",
+    "numExtLegs": 5,
+    "numOnshellMassiveExtLegs": 0,
+    "numMasslessExtLegs": 5,
+    "extLegSignature": "00000"
+  },
+  "Subsectors": [],
+  "ParentSectors": []
+}

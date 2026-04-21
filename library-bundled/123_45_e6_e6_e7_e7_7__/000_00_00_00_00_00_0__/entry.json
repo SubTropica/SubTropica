@@ -1,0 +1,92 @@
+{
+  "CNickelIndex": "123|45|e6|e6|e7|e7|7||:000|00|00|00|00|00|0||",
+  "MassScales": 2,
+  "FunctionClass": "MPL",
+  "EpsilonOrder": "-6,-5,-4,-3,-2,-1,0",
+  "References": [
+    "arXiv:2111.13595",
+    "arXiv:1411.0911 (JHEP 04 (108), 2015)",
+    "arXiv:2002.09492 (JHEP 04 (167), 2020)"
+  ],
+  "Records": [
+    {
+      "epsOrders": "-6,-5,-4,-3,-2,-1,0",
+      "reference": "arXiv:2111.13595",
+      "authors": "Piotr Bargiela, Fabrizio Caola, Andreas von Manteuffel, Lorenzo Tancredi",
+      "description": "The three-loop four-point massless Master Integrals are computed in planar, non-planar, and double-non-planar sectors. The result is given in terms of Harmonic Polylogarithms.",
+      "recordId": "1724944643.VPsR",
+      "verified": false,
+      "verifiedAt": ""
+    },
+    {
+      "reference": "arXiv:1411.0911 (JHEP 04 (108), 2015)",
+      "authors": "Lee, Roman N.",
+      "description": "Three-loop massless four-point 'XX-box' topology with 28 master integrals (Fig. 2), reduced via an experimental version of LiteRed. Differential equations in the dimensionless variable $x = t/s$ are obtained for 25 of the 28 masters (the 3 top-sector integrals are excluded due to IBP-reduction complexity). The system has Fuchsian singular points at $x = 0, -1, \\infty$ (i.e. $t=0, u=0, s=0$). The paper demonstrates the reduction-to-epsilon-form algorithm explicitly on the $3\\times 3$ diagonal block spanned by indices $\\{23,24,25\\}$ (Eq. 8.2 onward), and reports that all diagonal blocks are similarly brought to epsilon-form, after which the off-diagonal pieces are removed by the block-triangular procedure of Section 7. The full M-matrix is not printed.",
+      "epsOrders": "",
+      "familyName": "XX-box (three-loop)",
+      "method": "IBP, DE",
+      "tools": [
+        "LiteRed"
+      ],
+      "ancillaryFiles": false,
+      "doi": "10.1007/JHEP04(2015)108",
+      "texkey": "Lee:2014ioa",
+      "masterCount": 28,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "DE_only",
+      "location": "Section 8 (Example), Figs. 1-2, Eq. (8.1)",
+      "recordId": "bx_c21d0e0bfd1b",
+      "verified": false,
+      "verifiedAt": ""
+    },
+    {
+      "reference": "arXiv:2002.09492 (JHEP 04 (167), 2020)",
+      "authors": "Henn, Johannes, Mistlberger, Bernhard, Smirnov, Vladimir A., Wasser, Pascal",
+      "description": "Three-loop non-planar box family D. Double-crossed non-planar topology with crossings on both sides.",
+      "epsOrders": "8",
+      "familyName": "HMSW_D",
+      "method": "",
+      "tools": [],
+      "ancillaryFiles": true,
+      "doi": "10.1007/JHEP04(2020)167",
+      "texkey": "Henn:2020lye",
+      "masterCount": 28,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "full",
+      "location": "eq. 7.1, Table 1, ancillary FamilyDefinition.m (row 4)",
+      "recordId": "bx_54bcb33cd563",
+      "verified": false,
+      "verifiedAt": ""
+    }
+  ],
+  "Source": [
+    "arXiv",
+    "Loopedia"
+  ],
+  "Results": [],
+  "Names": [
+    "Massless non-planar 3-loop ladder a",
+    "Non-planar 3-loop ladder A",
+    "XX-box (three-loop)",
+    "HMSW_D"
+  ],
+  "edges": "{{{1, 2}, 0}, {{1, 3}, 0}, {{1, 4}, 0}, {{2, 5}, 0}, {{2, 6}, 0}, {{3, 7}, 0}, {{4, 7}, 0}, {{5, 8}, 0}, {{6, 8}, 0}, {{7, 8}, 0}}",
+  "nodes": "{{3, 0}, {4, 0}, {5, 0}, {6, 0}}",
+  "Loops": 3,
+  "NumPropagators": 10,
+  "CanonicalName": "Massless non-planar box-hexagon-box",
+  "MassConfig": {
+    "numEdges": 10,
+    "numMassiveEdges": 0,
+    "numMasslessEdges": 10,
+    "distinctInternalMasses": 0,
+    "internalMassLabels": [],
+    "edgeMassPattern": "0000000000",
+    "numExtLegs": 4,
+    "numOnshellMassiveExtLegs": 0,
+    "numMasslessExtLegs": 4,
+    "extLegSignature": "0000"
+  },
+  "Subsectors": [],
+  "ParentSectors": []
+}

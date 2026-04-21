@@ -1,0 +1,207 @@
+{
+  "CNickelIndex": "123|23|e|e|:100|01|2|2|",
+  "MassScales": 1,
+  "FunctionClass": "MPL",
+  "EpsilonOrder": "",
+  "References": [
+    "arXiv:2305.01283 (Sci.China Phys.Mech.Astron. 67 (), 2024)"
+  ],
+  "Records": [
+    {
+      "reference": "arXiv:2305.01283 (Sci.China Phys.Mech.Astron. 67 (), 2024)",
+      "authors": "Chen, Jiaqi, Feng, Bo, Yang, Li Lin",
+      "description": "Two-loop kite topology with 2 massive and 3 massless propagators, one external momentum. Used as main example for intersection-theory-based symbology method. 4 master integrals. Symbol alphabet $\\{m^2, s-2m^2, s-m^2\\}$ derived from Newton polytope analysis of Baikov representation.",
+      "epsOrders": "",
+      "familyName": "kite",
+      "method": "intersection, DE",
+      "tools": [],
+      "ancillaryFiles": false,
+      "doi": "10.1007/s11433-023-2239-8",
+      "texkey": "Chen:2023kgw",
+      "masterCount": 4,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "DE_only",
+      "location": "Section 4, Appendix C",
+      "recordId": "bx_2243490943c0",
+      "verified": false,
+      "verifiedAt": ""
+    }
+  ],
+  "Names": [
+    "kite"
+  ],
+  "Source": [
+    "arXiv"
+  ],
+  "Loops": 2,
+  "NumPropagators": 5,
+  "edges": "{{{1, 2}, m}, {{1, 3}, 0}, {{1, 4}, 0}, {{2, 3}, 0}, {{2, 4}, m}}",
+  "nodes": "{{3, M}, {4, M}}",
+  "CanonicalName": "Kite, 2 massive propagators (d)",
+  "MassConfig": {
+    "numEdges": 5,
+    "numMassiveEdges": 2,
+    "numMasslessEdges": 3,
+    "distinctInternalMasses": 1,
+    "internalMassLabels": [
+      "m"
+    ],
+    "edgeMassPattern": "10001",
+    "numExtLegs": 2,
+    "numOnshellMassiveExtLegs": 2,
+    "numMasslessExtLegs": 0,
+    "extLegSignature": "MM"
+  },
+  "commonNames": [
+    "M",
+    "H-graph"
+  ],
+  "Subsectors": [
+    "112|e2|e|:010|20|2|"
+  ],
+  "ParentSectors": [],
+  "Results": [
+    {
+      "resultCompressed": "1:eJzNld1uwiAUxzt0ZtkL7HrvsotdaGJ0idddAoakDCKdJr775vhIK4U2rPZg2wsa6Pn4nT8H+vrJN2SRZZl8VsMWHyiWb3mZy5maYiGpemXkQRvM1bCksiQv1WxdfEuiDeWjGj4ow5Je1ENQtbbmJ3yQerpaOZ+083vB91QHthGq6CahzYrcPI5pM5mJzlg0Z+0FSVdHaYM1qun1HTMLE4ERDoynJwpj9ScC27dOVyDE/ptnPwHv4LBOgjgfo0sspiSxSCExXEFwx0sr0+r/M7ABbj5eVyJovW6ESXbG7iqxmJLEPgycxPPQq2dVyK0KmM4ooF2XfJ+qZmv5pIZNXlL+lRdW7Nh/PQ2b1xVhkjpie7AmSWDjsVS3GgqBu2RZRGQZp4DZvwowpnAFOH3gXoSTYBEOi3fGx2nsOio7Hy3CYKwUnRTn/I1ckQ3ORFrFruneTXvXlKIj5fU/a4Y/Fdmtvw==",
+      "resultTeX": "\\left(M^{-2} H\\left(0,\\frac{1}{W_1^-+1},1-m^2 M^{-2}\\,;1\\right)+M^{-2} H\\left(\\frac{1}{W_1^-+1},0,1-m^2 M^{-2}\\,;1\\right)+M^{-2} H\\left(0,0,\\frac{1}{W_1^-+1}\\,;1\\right)-M^{-2} H\\left(0,\\frac{1}{W_1^-+1},1\\,;1\\right)-3 M^{-2} H\\left(\\frac{1}{W_1^-+1},0,1\\,;1\\right)+M^{-2} H\\left(0,\\frac{1}{W_1^++1},1-m^2 M^{-2}\\,;1\\right)+M^{-2} H\\left(\\frac{1}{W_1^++1},0,1-m^2 M^{-2}\\,;1\\right)+M^{-2} H\\left(0,0,\\frac{1}{W_1^++1}\\,;1\\right)-M^{-2} H\\left(0,\\frac{1}{W_1^++1},1\\,;1\\right)-3 M^{-2} H\\left(\\frac{1}{W_1^++1},0,1\\,;1\\right)-M^{-2} H\\left(0,0,1-m^2 M^{-2}\\,;1\\right)+2 M^{-2} H\\left(0,1-m^2 M^{-2},1\\,;1\\right)+M^{-2} H\\left(1-m^2 M^{-2},0,1\\,;1\\right)-M^{-2} \\log \\left(1-m^2 M^{-2}\\right) H\\left(0,1-m^2 M^{-2}\\,;1\\right)-\\zeta(2) M^{-2} \\log \\left(-W_1^-\\right)-\\frac{1}{6} M^{-2} \\log ^3\\left(-W_1^-\\right)-\\zeta(2) M^{-2} \\log \\left(-W_1^+\\right)-\\frac{1}{6} M^{-2} \\log ^3\\left(-W_1^+\\right)-2 \\zeta(2) M^{-2} \\log \\left(-m^2 M^{-2}\\right)+2 \\zeta(2) M^{-2} \\log \\left(1-m^2 M^{-2}\\right)+2 \\zeta(2) M^{-2} \\log \\left(\\frac{m^2}{m^2-M^2}\\right)+\\frac{1}{6} M^{-2} \\log ^3\\left(\\frac{m^2}{m^2-M^2}\\right)+\\frac{1}{2} M^{-2} \\log \\left(1-m^2 M^{-2}\\right) \\log ^2\\left(\\frac{m^2}{m^2-M^2}\\right)\\right)+O\\left(\\varepsilon^1\\right)",
+      "dimension": "4 - 2*eps",
+      "epsOrder": "0",
+      "epsOrders": "0",
+      "propExponents": [
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "propagators": [],
+      "numerators": [],
+      "internalMasses": [],
+      "externalMasses": [],
+      "substitutions": "",
+      "rootSubstitutions": "{Wm[1] -> (-2*mm + MM - Sqrt[-((4*mm - MM)*MM)])/(2*mm), Wp[1] -> (-2*mm + MM + Sqrt[-((4*mm - MM)*MM)])/(2*mm)}",
+      "normalization": "Automatic",
+      "stVersion": "SubTropica v1.0.395",
+      "stCommand": "",
+      "contributor": "Sebastian Mizera",
+      "timestamp": "2026-04-19T21:45:17",
+      "verifiedAt": "2026-04-19T21:45:17",
+      "verified": true,
+      "method": "direct_integration",
+      "tools": [
+        "SubTropica"
+      ],
+      "methodLR": "Lungo",
+      "findRoots": true,
+      "byteCount": 13376,
+      "algebraicLetters": [
+        {
+          "index": 1,
+          "variable": "x5",
+          "polynomial": "mm + 2*mm*x5 - MM*x5 + mm*x5^2",
+          "LC": "mm",
+          "sum": "(-2*mm + MM)/mm",
+          "product": "1",
+          "discriminant": "-4*mm^2 + (2*mm - MM)^2",
+          "minusRoot": "(-2*mm + MM - Sqrt[-((4*mm - MM)*MM)])/(2*mm)",
+          "plusRoot": "(-2*mm + MM + Sqrt[-((4*mm - MM)*MM)])/(2*mm)",
+          "polynomialTeX": "x_{5}^2 m^2+2 x_{5} m^2+m^2-x_{5} M^2",
+          "discriminantTeX": "\\left(2 m^2-M^2\\right)^2-4 m^4",
+          "minusRootTeX": "\\frac{1}{2} m^{-2} \\left(-\\sqrt{-\\left(M^2 \\left(4 m^2-M^2\\right)\\right)}-2 m^2+M^2\\right)",
+          "plusRootTeX": "\\frac{1}{2} m^{-2} \\left(\\sqrt{-\\left(M^2 \\left(4 m^2-M^2\\right)\\right)}-2 m^2+M^2\\right)"
+        }
+      ],
+      "symbolTeX": "\\varepsilon^{0}\\colon\\;-M^{-2}\\,(m^2-M^2 \\otimes M^2 \\otimes m^2) + M^{-2}\\,(m^2-M^2 \\otimes M^2 \\otimes m^2-M^2) + M^{-2}\\,(M^2 \\otimes m^2-M^2 \\otimes m^2-M^2) + 2 M^{-2}\\,(M^2 \\otimes M^2 \\otimes m^2) - 2 M^{-2}\\,(M^2 \\otimes M^2 \\otimes m^2-M^2) - M^{-2}\\,(W_1^-+1 \\otimes W_1^-+1 \\otimes W_1^-) - M^{-2}\\,(W_1^++1 \\otimes W_1^++1 \\otimes W_1^+) - M^{-2}\\,(m^2-M^2 \\otimes m^2 \\otimes m^2) + M^{-2}\\,(m^2-M^2 \\otimes m^2 \\otimes m^2-M^2) - M^{-2}\\,(M^2 \\otimes m^2 \\otimes m^2-M^2) - 2 M^{-2}\\,(m^2 \\otimes m^2-M^2 \\otimes m^2) + M^{-2}\\,(m^2 \\otimes m^2-M^2 \\otimes m^2-M^2) + M^{-2}\\,(m^2 \\otimes M^2 \\otimes m^2) - M^{-2}\\,(m^2 \\otimes M^2 \\otimes m^2-M^2) + 2 M^{-2}\\,(W_1^-+1 \\otimes W_1^- \\otimes W_1^-) - M^{-2}\\,(W_1^- \\otimes W_1^-+1 \\otimes W_1^-) + M^{-2}\\,(m^2 \\left(-W_1^-\\right)+M^2 W_1^--m^2 \\otimes m^2-M^2 \\otimes m^2) - M^{-2}\\,(m^2 \\left(-W_1^-\\right)+M^2 W_1^--m^2 \\otimes m^2-M^2 \\otimes m^2-M^2) - M^{-2}\\,(m^2 \\left(-W_1^-\\right)+M^2 W_1^--m^2 \\otimes M^2 \\otimes m^2) + M^{-2}\\,(m^2 \\left(-W_1^-\\right)+M^2 W_1^--m^2 \\otimes M^2 \\otimes m^2-M^2) + M^{-2}\\,(m^2 W_1^--M^2 W_1^-+m^2 \\otimes W_1^-+1 \\otimes W_1^-) + 2 M^{-2}\\,(W_1^++1 \\otimes W_1^+ \\otimes W_1^+) - M^{-2}\\,(W_1^+ \\otimes W_1^++1 \\otimes W_1^+) + M^{-2}\\,(m^2 \\left(-W_1^+\\right)+M^2 W_1^+-m^2 \\otimes m^2-M^2 \\otimes m^2) - M^{-2}\\,(m^2 \\left(-W_1^+\\right)+M^2 W_1^+-m^2 \\otimes m^2-M^2 \\otimes m^2-M^2) - M^{-2}\\,(m^2 \\left(-W_1^+\\right)+M^2 W_1^+-m^2 \\otimes M^2 \\otimes m^2) + M^{-2}\\,(m^2 \\left(-W_1^+\\right)+M^2 W_1^+-m^2 \\otimes M^2 \\otimes m^2-M^2) + M^{-2}\\,(m^2 W_1^+-M^2 W_1^++m^2 \\otimes W_1^++1 \\otimes W_1^+) - M^{-2}\\,(W_1^- \\otimes m^2-M^2 \\otimes m^2) + M^{-2}\\,(W_1^- \\otimes m^2-M^2 \\otimes m^2-M^2) + M^{-2}\\,(W_1^- \\otimes M^2 \\otimes m^2) - M^{-2}\\,(W_1^- \\otimes M^2 \\otimes m^2-M^2) - M^{-2}\\,(m^2-M^2 \\otimes W_1^- \\otimes m^2) + M^{-2}\\,(m^2-M^2 \\otimes W_1^- \\otimes m^2-M^2) + M^{-2}\\,(m^2-M^2 \\otimes m^2 \\left(-W_1^-\\right)+M^2 W_1^--m^2 \\otimes m^2) - M^{-2}\\,(m^2-M^2 \\otimes m^2 \\left(-W_1^-\\right)+M^2 W_1^--m^2 \\otimes m^2-M^2) + M^{-2}\\,(M^2 \\otimes W_1^- \\otimes m^2) - M^{-2}\\,(M^2 \\otimes W_1^- \\otimes m^2-M^2) - M^{-2}\\,(M^2 \\otimes m^2 \\left(-W_1^-\\right)+M^2 W_1^--m^2 \\otimes m^2) + M^{-2}\\,(M^2 \\otimes m^2 \\left(-W_1^-\\right)+M^2 W_1^--m^2 \\otimes m^2-M^2) + M^{-2}\\,(m^2-M^2 \\otimes m^2-M^2 \\otimes W_1^-) - M^{-2}\\,(m^2-M^2 \\otimes m^2 W_1^--M^2 W_1^-+m^2 \\otimes W_1^-) - M^{-2}\\,(M^2 \\otimes m^2-M^2 \\otimes W_1^-) - M^{-2}\\,(M^2 \\otimes W_1^-+1 \\otimes W_1^-) + M^{-2}\\,(M^2 \\otimes m^2 W_1^--M^2 W_1^-+m^2 \\otimes W_1^-) - M^{-2}\\,(W_1^+ \\otimes m^2-M^2 \\otimes m^2) + M^{-2}\\,(W_1^+ \\otimes m^2-M^2 \\otimes m^2-M^2) + M^{-2}\\,(W_1^+ \\otimes M^2 \\otimes m^2) - M^{-2}\\,(W_1^+ \\otimes M^2 \\otimes m^2-M^2) - M^{-2}\\,(m^2-M^2 \\otimes W_1^+ \\otimes m^2) + M^{-2}\\,(m^2-M^2 \\otimes W_1^+ \\otimes m^2-M^2) + M^{-2}\\,(m^2-M^2 \\otimes m^2 \\left(-W_1^+\\right)+M^2 W_1^+-m^2 \\otimes m^2) - M^{-2}\\,(m^2-M^2 \\otimes m^2 \\left(-W_1^+\\right)+M^2 W_1^+-m^2 \\otimes m^2-M^2) + M^{-2}\\,(M^2 \\otimes W_1^+ \\otimes m^2) - M^{-2}\\,(M^2 \\otimes W_1^+ \\otimes m^2-M^2) - M^{-2}\\,(M^2 \\otimes m^2 \\left(-W_1^+\\right)+M^2 W_1^+-m^2 \\otimes m^2) + M^{-2}\\,(M^2 \\otimes m^2 \\left(-W_1^+\\right)+M^2 W_1^+-m^2 \\otimes m^2-M^2) + M^{-2}\\,(m^2-M^2 \\otimes m^2-M^2 \\otimes W_1^+) - M^{-2}\\,(m^2-M^2 \\otimes m^2 W_1^+-M^2 W_1^++m^2 \\otimes W_1^+) - M^{-2}\\,(M^2 \\otimes m^2-M^2 \\otimes W_1^+) - M^{-2}\\,(M^2 \\otimes W_1^++1 \\otimes W_1^+) + M^{-2}\\,(M^2 \\otimes m^2 W_1^+-M^2 W_1^++m^2 \\otimes W_1^+) + M^{-2}\\,(M^2 \\otimes m^2 \\otimes M^2) - M^{-2}\\,(M^2 \\otimes m^2-M^2 \\otimes M^2) - M^{-2}\\,(m^2 \\otimes m^2 \\otimes M^2) + M^{-2}\\,(m^2 \\otimes m^2-M^2 \\otimes M^2) + M^{-2}\\,(m^2 \\otimes m^2 \\otimes m^2) - M^{-2}\\,(W_1^- \\otimes W_1^- \\otimes W_1^-) - M^{-2}\\,(W_1^+ \\otimes W_1^+ \\otimes W_1^+)",
+      "alphabet": [
+        "m^2-M^2",
+        "M^2",
+        "m^2",
+        "W_1^-+1",
+        "W_1^-",
+        "W_1^++1",
+        "W_1^+",
+        "m^2 \\left(-W_1^-\\right)+M^2 W_1^--m^2",
+        "m^2 W_1^--M^2 W_1^-+m^2",
+        "m^2 \\left(-W_1^+\\right)+M^2 W_1^+-m^2",
+        "m^2 W_1^+-M^2 W_1^++m^2"
+      ],
+      "symbolWeight": 3,
+      "symbolTerms": 69,
+      "normalizedSymbolTeX": "\\varepsilon^{0}&\\colon\\;M^{-2}\\!\\left[(W_1 \\otimes W_2 \\otimes W_1) + (W_2 \\otimes W_1 \\otimes W_1) - 2\\,(W_2 \\otimes W_2 \\otimes W_1) - (W_3 \\otimes W_3 \\otimes W^-_1) - (W_4 \\otimes W_4 \\otimes W^+_1) + 2\\,(W_3 \\otimes W^-_1 \\otimes W^-_1) - (W^-_1 \\otimes W_3 \\otimes W^-_1) - (W_5 \\otimes W_1 \\otimes W_1) + (W_5 \\otimes W_2 \\otimes W_1) + (W_5 \\otimes W_3 \\otimes W^-_1) + 2\\,(W_4 \\otimes W^+_1 \\otimes W^+_1) - (W^+_1 \\otimes W_4 \\otimes W^+_1) - (W_6 \\otimes W_1 \\otimes W_1) + (W_6 \\otimes W_2 \\otimes W_1) + (W_6 \\otimes W_4 \\otimes W^+_1) + (W^-_1 \\otimes W_1 \\otimes W_1) - (W^-_1 \\otimes W_2 \\otimes W_1) + (W_1 \\otimes W^-_1 \\otimes W_1) - (W_1 \\otimes W_5 \\otimes W_1) - (W_2 \\otimes W^-_1 \\otimes W_1) + (W_2 \\otimes W_5 \\otimes W_1) + (W_1 \\otimes W_1 \\otimes W^-_1) - (W_1 \\otimes W_5 \\otimes W^-_1) - (W_2 \\otimes W_1 \\otimes W^-_1) - (W_2 \\otimes W_3 \\otimes W^-_1) + (W_2 \\otimes W_5 \\otimes W^-_1) + (W^+_1 \\otimes W_1 \\otimes W_1) - (W^+_1 \\otimes W_2 \\otimes W_1) + (W_1 \\otimes W^+_1 \\otimes W_1) - (W_1 \\otimes W_6 \\otimes W_1) - (W_2 \\otimes W^+_1 \\otimes W_1) + (W_2 \\otimes W_6 \\otimes W_1) + (W_1 \\otimes W_1 \\otimes W^+_1) - (W_1 \\otimes W_6 \\otimes W^+_1) - (W_2 \\otimes W_1 \\otimes W^+_1) - (W_2 \\otimes W_4 \\otimes W^+_1) + (W_2 \\otimes W_6 \\otimes W^+_1) - (W_2 \\otimes W_1 \\otimes W_2) - (W^-_1 \\otimes W^-_1 \\otimes W^-_1) - (W^+_1 \\otimes W^+_1 \\otimes W^+_1)\\right]",
+      "wDefinitions": [
+        {
+          "label": "W_1",
+          "kind": "rational",
+          "pairIndex": null,
+          "definition": "\\frac{m^2-M^2}{m^2}",
+          "originalLetter": "m^2-M^2"
+        },
+        {
+          "label": "W_2",
+          "kind": "rational",
+          "pairIndex": null,
+          "definition": "\\frac{M^2}{m^2}",
+          "originalLetter": "M^2"
+        },
+        {
+          "label": "W_3",
+          "kind": "rational",
+          "pairIndex": null,
+          "definition": "\\frac{1+W_1^-}{m^2}",
+          "originalLetter": "W_1^-+1"
+        },
+        {
+          "label": "W^-_1",
+          "kind": "algebraic",
+          "pairIndex": 1,
+          "definition": "\\frac{1}{2} m^{-2} \\left(-\\sqrt{-\\left(M^2 \\left(4 m^2-M^2\\right)\\right)}-2 m^2+M^2\\right)",
+          "originalLetter": "W_1^-",
+          "polynomialTeX": "x_{5}^2 m^2+2 x_{5} m^2+m^2-x_{5} M^2",
+          "discriminantTeX": "\\left(2 m^2-M^2\\right)^2-4 m^4"
+        },
+        {
+          "label": "W_4",
+          "kind": "rational",
+          "pairIndex": null,
+          "definition": "\\frac{1+W_1^+}{m^2}",
+          "originalLetter": "W_1^++1"
+        },
+        {
+          "label": "W^+_1",
+          "kind": "algebraic",
+          "pairIndex": 1,
+          "definition": "\\frac{1}{2} m^{-2} \\left(\\sqrt{-\\left(M^2 \\left(4 m^2-M^2\\right)\\right)}-2 m^2+M^2\\right)",
+          "originalLetter": "W_1^+",
+          "polynomialTeX": "x_{5}^2 m^2+2 x_{5} m^2+m^2-x_{5} M^2",
+          "discriminantTeX": "\\left(2 m^2-M^2\\right)^2-4 m^4"
+        },
+        {
+          "label": "W_5",
+          "kind": "rational",
+          "pairIndex": null,
+          "definition": "\\frac{-m^2-W_1^- m^2+W_1^- M^2}{m^2}",
+          "originalLetter": "m^2 \\left(-W_1^-\\right)+M^2 W_1^--m^2"
+        },
+        {
+          "label": "W_6",
+          "kind": "rational",
+          "pairIndex": null,
+          "definition": "\\frac{-m^2-W_1^+ m^2+W_1^+ M^2}{m^2}",
+          "originalLetter": "m^2 \\left(-W_1^+\\right)+M^2 W_1^+-m^2"
+        }
+      ],
+      "normalizedAlphabet": [
+        "W_1",
+        "W_2",
+        "W_3",
+        "W^-_1",
+        "W_4",
+        "W^+_1",
+        "W_5",
+        "W_6"
+      ],
+      "symbolScale": "m^2",
+      "normalizedSymbolTerms": 40
+    }
+  ]
+}

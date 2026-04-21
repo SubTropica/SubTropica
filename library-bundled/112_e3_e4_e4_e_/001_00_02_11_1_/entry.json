@@ -1,0 +1,63 @@
+{
+  "CNickelIndex": "112|e3|e4|e4|e|:001|00|02|11|1|",
+  "MassScales": 4,
+  "FunctionClass": "MPL",
+  "EpsilonOrder": "4",
+  "References": [
+    "arXiv:2312.06773 (Eur.Phys.J.C 84 (495), 2024)"
+  ],
+  "Records": [
+    {
+      "reference": "arXiv:2312.06773 (Eur.Phys.J.C 84 (495), 2024)",
+      "authors": "Böttcher, Nico, Schwanemann, Niklas, Weinzierl, Stefan",
+      "description": "Two-loop box integral with fermion bubble insertion for electroweak corrections to weak mixing angle measurements. Topology A: all wavy lines massive ($m_Z$), green line massive ($m_N$). Most complicated case with 4 square roots ($r_1$, $r_2$, $r_3$, $r_5$). Relevant to P2 experiment (e-N scattering). Results expressed as MPLs after simultaneous rationalization of all square roots.",
+      "epsOrders": "4",
+      "familyName": "Box with fermion bubble, topology A (mZ, mN, mZ)",
+      "method": "IBP, DE",
+      "tools": [
+        "Kira",
+        "GiNaC",
+        "AMFlow"
+      ],
+      "ancillaryFiles": true,
+      "doi": "10.1140/epjc/s10052-024-12843-1",
+      "texkey": "Bottcher:2023wsr",
+      "masterCount": 15,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "full",
+      "location": "Eq. (3)-(5), Sec. 4.2.1",
+      "recordId": "bx_c1eebc74c9f9",
+      "verified": false,
+      "verifiedAt": ""
+    }
+  ],
+  "Names": [
+    "Box with fermion bubble, topology A (mZ, mN, mZ)"
+  ],
+  "Source": [
+    "arXiv"
+  ],
+  "Loops": 2,
+  "NumPropagators": 6,
+  "Results": [],
+  "edges": "{{{1, 2}, 0}, {{1, 2}, 0}, {{1, 3}, m[1]}, {{2, 4}, 0}, {{3, 5}, m[2]}, {{4, 5}, m[1]}}",
+  "nodes": "{{2, 0}, {4, m[1]}, {5, m[1]}, {3, 0}}",
+  "CanonicalName": "2-mass bubble-pentagon, 3 massive propagators",
+  "MassConfig": {
+    "numEdges": 6,
+    "numMassiveEdges": 3,
+    "numMasslessEdges": 3,
+    "distinctInternalMasses": 2,
+    "internalMassLabels": [
+      "m[1]",
+      "m[2]"
+    ],
+    "edgeMassPattern": "001021",
+    "numExtLegs": 4,
+    "numOnshellMassiveExtLegs": 2,
+    "numMasslessExtLegs": 2,
+    "extLegSignature": "0MM0"
+  },
+  "Subsectors": [],
+  "ParentSectors": []
+}

@@ -1,0 +1,157 @@
+# .github/workflows/submit.yml
+#
+# Triggered by workflow_dispatch from the Cloudflare Worker.
+# Parses a JSON payload, writes the result to the appropriate
+# library entry (JSON format), and opens a PR targeting main.
+
+name: Process Submission
+
+on:
+  workflow_dispatch:
+    inputs:
+      payload:
+        description: "JSON payload from SubTropica"
+        required: true
+        type: string
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  create-pr:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Parse and write entry
+        id: write
+        shell: python3 {0}
+        run: |
+          import json, os, hashlib
+
+          payload = json.loads(os.environ["PAYLOAD"])
+
+          cnickel = payload["cnickelIndex"]
+          parts = cnickel.split(":", 1)
+          topo_nickel = parts[0]
+          mass_nickel = parts[1] if len(parts) > 1 else ''.join('0' if c != '|' else '|' for c in topo_nickel)
+
+          def sanitize(s):
+              return s.replace("|", "_")
+
+          topo_dir = f"library-bundled/{sanitize(topo_nickel)}"
+          config_dir = f"{topo_dir}/{sanitize(mass_nickel)}"
+          os.makedirs(config_dir, exist_ok=True)
+
+          # Write topology.json if missing
+          topo_path = f"{topo_dir}/topology.json"
+          if not os.path.exists(topo_path):
+              topo_data = {
+                  "NickelIndex": topo_nickel,
+                  "Name": "",
+                  "Loops": payload.get("loops", 0),
+                  "Legs": payload.get("legs", 0),
+                  "Propagators": payload.get("propagators", 0),
+                  "LoopediaURL": ""
+              }
+              with open(topo_path, "w") as f:
+                  json.dump(topo_data, f, indent="\t")
+                  f.write("\n")
+
+          # Build result record (matches STSaveResult schema)
+          result_record = {
+              "resultCompressed": payload["resultCompressed"],
+              "resultTeX": payload.get("resultTeX", ""),
+              "dimension": payload["dimension"],
+              "epsOrder": payload["epsOrder"],
+              "propExponents": payload.get("propExponents", []),
+              "propagators": payload.get("propagators", []),
+              "numerators": payload.get("numerators", []),
+              "internalMasses": payload.get("internalMasses", []),
+              "externalMasses": payload.get("externalMasses", []),
+              "substitutions": payload.get("substitutions", "{}"),
+              "normalization": payload.get("normalization", "Automatic"),
+              "stVersion": payload.get("stVersion", "unknown"),
+              "stCommand": payload.get("stCommand", ""),
+              "contributor": payload.get("contributor", ""),
+              "timestamp": payload.get("timestamp", ""),
+              "byteCount": payload.get("byteCount", 0)
+          }
+
+          # Read existing entry.json or create new
+          entry_path = f"{config_dir}/entry.json"
+          if os.path.exists(entry_path):
+              with open(entry_path) as f:
+                  entry = json.load(f)
+              if "Results" not in entry:
+                  entry["Results"] = []
+              # Dedup: skip if an identical result already exists
+              # (same dimension + epsOrder + propExponents + substitutions + normalization)
+              is_dup = any(
+                  r.get("dimension") == result_record["dimension"]
+                  and r.get("epsOrder") == result_record["epsOrder"]
+                  and r.get("propExponents") == result_record["propExponents"]
+                  and r.get("substitutions") == result_record["substitutions"]
+                  and r.get("normalization") == result_record["normalization"]
+                  for r in entry["Results"]
+              )
+              if is_dup:
+                  print(f"Duplicate result for {cnickel}, skipping.")
+              else:
+                  entry["Results"].append(result_record)
+          else:
+              entry = {
+                  "CNickelIndex": cnickel,
+                  "MassScales": payload.get("massScales", 0),
+                  "FunctionClass": "MPL",
+                  "EpsilonOrder": str(payload["epsOrder"]),
+                  "References": [],
+                  "Records": [],
+                  "Source": "SubTropica",
+                  "Results": [result_record],
+                  "Names": []
+              }
+
+          with open(entry_path, "w") as f:
+              json.dump(entry, f, indent="\t")
+              f.write("\n")
+
+          # Set outputs
+          short_hash = hashlib.md5(json.dumps(payload).encode()).hexdigest()[:8]
+          branch = f"submit/{sanitize(cnickel)}-{short_hash}"
+          # Sanitize dimension for shell safety (replace spaces, *, etc.)
+          dim_safe = payload['dimension'].replace(' ', '').replace('*', '')
+          title = f"Add result: {sanitize(cnickel)} eps^{payload['epsOrder']} D={dim_safe}"
+
+          with open(os.environ["GITHUB_OUTPUT"], "a") as f:
+              f.write(f"branch={branch}\n")
+              f.write(f"title={title}\n")
+              f.write(f"cnickel={cnickel}\n")
+        env:
+          PAYLOAD: ${{ inputs.payload }}
+
+      - name: Create PR
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_TITLE: ${{ steps.write.outputs.title }}
+          PR_BRANCH: ${{ steps.write.outputs.branch }}
+          PR_CNICKEL: ${{ steps.write.outputs.cnickel }}
+        run: |
+          git config user.name "subtropica-bot"
+          git config user.email "subtropica-bot@users.noreply.github.com"
+          git checkout -b "$PR_BRANCH"
+          git add -A
+          git diff --cached --quiet && echo "No changes to commit" && exit 0
+          git commit -m "Add result for $PR_CNICKEL"
+          git push -u origin "$PR_BRANCH"
+          gh pr create \
+            --title "$PR_TITLE" \
+            --body "Automated submission from SubTropica.
+
+          **Topology**: \`$PR_CNICKEL\`
+
+          Submitted via SubTropica library submission system." \
+            --base main

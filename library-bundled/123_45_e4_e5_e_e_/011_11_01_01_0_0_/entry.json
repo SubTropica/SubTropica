@@ -1,0 +1,278 @@
+{
+  "CNickelIndex": "123|45|e4|e5|e|e|:011|11|01|01|0|0|",
+  "MassScales": 3,
+  "FunctionClass": "MPL",
+  "EpsilonOrder": "-4,-3,-2,-1,0,1,2,3,4",
+  "References": [
+    "arXiv:hep-ph/0611236 (JHEP 01 (082), 2007)",
+    "arXiv:1801.09696 (Missing[\"KeyAbsent\", \"journal\"] Missing[\"KeyAbsent\", \"volume\"] (Missing[\"KeyAbsent\", \"pages\"]), Missing[\"KeyAbsent\", \"year\"])",
+    "arXiv:1404.2922 (JHEP 06 (114), 2014)",
+    "arXiv:1701.07356 (JHEP 04 (083), 2017)",
+    "arXiv:2509.15315 (Missing[\"KeyAbsent\", \"journal\"] Missing[\"KeyAbsent\", \"volume\"] (Missing[\"KeyAbsent\", \"pages\"]), Missing[\"KeyAbsent\", \"year\"])",
+    "arXiv:2507.17815 (Missing[\"KeyAbsent\", \"journal\"] Missing[\"KeyAbsent\", \"volume\"] (Missing[\"KeyAbsent\", \"pages\"]), Missing[\"KeyAbsent\", \"year\"])",
+    "arXiv:2405.18755"
+  ],
+  "Records": [
+    {
+      "dimScheme": "d=4-2*eps",
+      "recordId": "bf_681891337b94",
+      "familyName": "TP2",
+      "verified": false,
+      "verifiedAt": "",
+      "authors": "Anastasiou, Charalampos, Beerli, Stefan, Bucherer, Stefan, Daleo, Alejandro, Kunszt, Zoltan",
+      "texkey": "Anastasiou:2006hc",
+      "computationLevel": "full",
+      "masterCount": 17,
+      "location": "Section 2, Eq. below Eq.(2)",
+      "transcendentalWeight": 4,
+      "method": [],
+      "reference": "arXiv:hep-ph/0611236, JHEP 01 (082), 2007",
+      "ancillaryFiles": [],
+      "description": "Parent topology TP2 for two-loop $gg\\to H$ via massive quark loop. All-massive box-triangle with one massless internal line $(k_1-k_2)^2$. Six massive and one massless propagator. Hosts master integrals GLASSES, TRIBUB, MP5, MP6.",
+      "epsOrders": "-4,-3,-2,-1,0,1,2,3,4",
+      "tools": [],
+      "doi": "10.1088/1126-6708/2007/01/082"
+    },
+    {
+      "ancillaryPaths": [
+        "https://www.ttp.kit.edu/preprints/2018/ttp18-009/"
+      ],
+      "dimScheme": "d=4-2*eps",
+      "recordId": "bf_72fc5698996e",
+      "familyName": "D_6",
+      "verified": false,
+      "verifiedAt": "",
+      "authors": [
+        {
+          "full_name": "Davies, Joshua",
+          "inspire_id": 1467550
+        },
+        {
+          "full_name": "Mishima, Go",
+          "inspire_id": 1274096
+        },
+        {
+          "full_name": "Steinhauser, Matthias",
+          "inspire_id": 987600
+        },
+        {
+          "full_name": "Wellmann, David",
+          "inspire_id": 2187946
+        }
+      ],
+      "computationLevel": "full",
+      "texkey": "Davies:2018ood",
+      "masterCount": 6,
+      "location": "Appendix A, two-loop family definitions",
+      "transcendentalWeight": 6,
+      "method": [],
+      "reference": "arXiv:1801.09696 (JHEP 03 (048), 2018)",
+      "ancillaryFiles": [],
+      "description": "Two-loop planar double-box family for $gg\\to HH$ with 6 massive ($m_t$) and 1 massless internal propagator. The massless propagator is the rung $(k_1-k_2)^2$ connecting the two loops. Master integrals defined with 9 propagators but the last 2 indices (ISPs) are always zero. Expanded in small $m_t^2$ to sufficient depth for the amplitude at $\\mathcal{O}(m_t^{16})$, results in HPLs with alphabet $\\{-1,0\\}$ in variable $t/s$ and powers of $\\log(-m_t^2/s)$. Boundary conditions from method of regions + Mellin-Barnes + PSLQ. Five crossing families defined: $D_4 = D_6(p_1,p_4,p_3,p_2)$, $D_5 = D_6(p_1,p_2,p_4,p_3)$, $D_8 = D_6(p_4,p_1,p_3,p_2)$, $D_{10} = D_6(p_3,p_1,p_4,p_2)$, $D_{11} = D_6(p_3,p_1,p_2,p_4)$. Total 27 master integrals across $D_6$ and its crossings. Integration measure: $(\\mu^2)^{(4-d)/2} e^{\\varepsilon \\gamma_E} d^d k / (i \\pi^{d/2})$.",
+      "epsOrders": "",
+      "tools": [
+        "FIRE",
+        "LiteRed",
+        "FORM",
+        "FIESTA",
+        "pySecDec"
+      ],
+      "doi": "10.1007/JHEP03(2018)048"
+    },
+    {
+      "reference": "arXiv:1404.2922 (JHEP 06 (114), 2014)",
+      "authors": "Caron-Huot, Simon, Henn, Johannes M.",
+      "description": "Two-loop massive double-box for light-by-light scattering. 7 propagators (6 massive, 1 massless rung) + 2 ISPs. 29 master integrals in $d=4-2\\varepsilon$. Weight-4 MPLs. D-dim alphabet includes $\\sqrt{16+16u+8v+v^2}$.",
+      "epsOrders": "all_orders",
+      "familyName": "massive 2-loop double box (LbL)",
+      "method": "DE",
+      "tools": [
+        "FIRE"
+      ],
+      "ancillaryFiles": true,
+      "doi": "10.1007/JHEP06(2014)114",
+      "texkey": "Caron-Huot:2014lda",
+      "masterCount": 29,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "full",
+      "location": "eq. (2.3), Appendix A eqs. (A.1)-(A.30)",
+      "recordId": "bx_ce85f1702e61",
+      "verified": false,
+      "verifiedAt": ""
+    },
+    {
+      "reference": "arXiv:1701.07356 (JHEP 04 (083), 2017)",
+      "authors": "Frellesvig, Hjalte, Papadopoulos, Costas G.",
+      "description": "Two-loop four-point planar double-box of Bonciani et al. (denoted $I^A_{70}$) with six massive propagators (the two external arcs) and a single massless rung $x_7 = (k_1-k_2)^2$; same kinematics as the box-triangle (one off-shell leg $p_4$). The hepta-cut reduces to a one-fold integral over a quartic and evaluates to an algebraic (rational-with-square-root) function, demonstrating that the elliptic character of the uncut integral arises only from its sub-topologies and not from the top sector.",
+      "epsOrders": "0",
+      "familyName": "elliptic double-box (I^A_70)",
+      "method": "direct_integration",
+      "tools": [],
+      "ancillaryFiles": true,
+      "doi": "10.1007/JHEP04(2017)083",
+      "texkey": "Frellesvig:2017aai",
+      "masterCount": 0,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "maximal_cut",
+      "location": "Appendix A.5 (subs:double-box-ell), Eqs. (A.51)-(A.58)",
+      "recordId": "bx_7d73a0730af3",
+      "verified": false,
+      "verifiedAt": ""
+    },
+    {
+      "reference": "arXiv:2509.15315 (JHEP 01 (090), 2026)",
+      "authors": [
+        {
+          "full_name": "Coro, Federico",
+          "inspire_id": 2689909
+        },
+        {
+          "full_name": "Nega, Christoph",
+          "inspire_id": 1969299
+        },
+        {
+          "full_name": "Tancredi, Lorenzo",
+          "inspire_id": 1284289
+        },
+        {
+          "full_name": "Wagner, Fabian J.",
+          "inspire_id": 2606401
+        }
+      ],
+      "description": "Third planar two-loop four-point family (called PLC in the paper), a planar double box with the outer lines of both boxes running through the massive quark and only the middle rung massless. Defined by 9 denominators; all 9 correspond to genuine graph edges in the top sector (no ISPs), with the fully massive six-edge plus rung structure carrying the heavy-quark mass. Used as one of the five families into which all two-loop amplitudes for di-jet and photon+jet production through a heavy-quark loop are reduced, with the canonical basis provided in the Zenodo ancillary. Results computed analytically as iterated integrals (including elliptic kernels) through $\\mathcal{O}(\\varepsilon^0)$.",
+      "epsOrders": "0",
+      "familyName": "fully-massive planar double box (PLC)",
+      "method": "IBP, DE, series_expansion",
+      "tools": [
+        "QGRAF",
+        "FORM",
+        "Reduze",
+        "Kira"
+      ],
+      "ancillaryFiles": true,
+      "doi": "10.1007/JHEP01(2026)090",
+      "texkey": "Coro:2025vgn",
+      "masterCount": 220,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "full",
+      "location": "Appendix B, Table (fig:toposPL); Fig. (fig:gg_aa_diagrams); Sec. 3",
+      "recordId": "bx_4e3e6dc358b8",
+      "verified": false,
+      "verifiedAt": ""
+    },
+    {
+      "reference": "arXiv:2507.17815 (JHEP 01 (014), 2026)",
+      "authors": [
+        {
+          "full_name": "Barrera, Oscar",
+          "inspire_id": 2957072
+        },
+        {
+          "full_name": "Dersy, Aurélien",
+          "inspire_id": 2083042
+        },
+        {
+          "full_name": "Husain, Rabia",
+          "inspire_id": 1925286
+        },
+        {
+          "full_name": "Schwartz, Matthew D.",
+          "inspire_id": 1019662
+        },
+        {
+          "full_name": "Zhang, Xiaoyuan",
+          "inspire_id": 1806305
+        }
+      ],
+      "description": "Called $I_5(u,v)$ in the paper. 2-loop planar double box with massive outer propagators (common mass $m$) and one massless middle rung. 4 massless external legs, 7 propagators (6 massive, 1 massless). Finite in $d=4$, uniform transcendental weight 4. Previously computed by Caron-Huot and Henn (1404.2922), bootstrapped by Hannesdottir et al. (2410.02424). 12-letter alphabet with square roots. Rationalized via $w,z$ variables. Prefactor $P_5(u,v)=u^2 v/(m^6 \\sqrt{(u+1)(u+v+1)})$. Fitted with 200 points. AMFlow: 80 CPU-min/point, 30 digits.",
+      "epsOrders": "0",
+      "familyName": "2-loop outer-mass double box",
+      "method": "DE, IBP",
+      "tools": [
+        "AMFlow",
+        "SOFIA",
+        "BLADE",
+        "GiNaC",
+        "Fplll",
+        "PolyLogTools"
+      ],
+      "ancillaryFiles": false,
+      "doi": "10.1007/JHEP01(2026)014",
+      "texkey": "Barrera:2025uin",
+      "masterCount": 0,
+      "dimScheme": "d=4",
+      "computationLevel": "full",
+      "location": "Eq. (32), Section 4.4",
+      "recordId": "bx_8fd44621abf7",
+      "verified": false,
+      "verifiedAt": ""
+    },
+    {
+      "reference": "arXiv:2405.18755",
+      "authors": [
+        {
+          "full_name": "Passarino, Giampiero",
+          "inspire_id": 994109
+        }
+      ],
+      "description": "Two-loop planar double-box integral with massless external legs, one massless internal propagator and six equal-mass internal propagators. A scalar contribution to $\\gamma \\gamma \\to \\gamma \\gamma$ and $g g \\to g g$. After partial quadratization and the $x$-integration the result is written as a generalized Fox function in $s, t, u$ and $m^2$.",
+      "epsOrders": "",
+      "familyName": "1-mass planar double box (6 massive + 1 massless internal)",
+      "method": "direct_integration, Mellin-Barnes",
+      "tools": [],
+      "ancillaryFiles": false,
+      "doi": "",
+      "texkey": "",
+      "masterCount": 0,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "full",
+      "location": "Section 5.7",
+      "recordId": "bx_241bfa0d3e82",
+      "verified": false,
+      "verifiedAt": ""
+    }
+  ],
+  "Names": [
+    "Massive planar double box",
+    "Planar double box",
+    "TP2",
+    "massive 2-loop double box (LbL)",
+    "D_6",
+    "elliptic double-box (I^A_70)",
+    "fully-massive planar double box (PLC)",
+    "2-loop outer-mass double box",
+    "1-mass planar double box (6 massive + 1 massless internal)"
+  ],
+  "Source": [
+    "arXiv",
+    "Loopedia"
+  ],
+  "Loops": 2,
+  "NumPropagators": 7,
+  "Results": [],
+  "edges": "{{{1, 2}, 0}, {{1, 3}, m}, {{1, 4}, m}, {{2, 5}, m}, {{2, 6}, m}, {{3, 5}, m}, {{4, 6}, m}}",
+  "nodes": "{{3, 0}, {4, 0}, {5, 0}, {6, 0}}",
+  "CanonicalName": "Double box, 6 massive propagators (a)",
+  "MassConfig": {
+    "numEdges": 7,
+    "numMassiveEdges": 6,
+    "numMasslessEdges": 1,
+    "distinctInternalMasses": 1,
+    "internalMassLabels": [
+      "m"
+    ],
+    "edgeMassPattern": "0111111",
+    "numExtLegs": 4,
+    "numOnshellMassiveExtLegs": 0,
+    "numMasslessExtLegs": 4,
+    "extLegSignature": "0000"
+  },
+  "commonNames": [
+    "L2"
+  ],
+  "Subsectors": [
+    "123|24|e|e4|e|:011|11|2|01|0|",
+    "123|e24|e|e4|e|:011|011|0|01|0|"
+  ],
+  "ParentSectors": []
+}

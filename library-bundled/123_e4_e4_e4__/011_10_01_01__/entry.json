@@ -1,0 +1,58 @@
+{
+  "CNickelIndex": "123|e4|e4|e4||:011|10|01|01||",
+  "MassScales": 1,
+  "FunctionClass": "elliptic",
+  "EpsilonOrder": "",
+  "References": [
+    "arXiv:1810.03818 (JHEP 02 (139), 2019)"
+  ],
+  "Records": [
+    {
+      "reference": "arXiv:1810.03818 (JHEP 02 (139), 2019)",
+      "authors": "Mastrolia, Pierpaolo, Mizera, Sebastian",
+      "description": "Two-loop non-planar three-point function with one off-shell external leg ($p_1^2=s$) and two massless legs ($p_2^2=p_3^2=0$), with four massive internal propagators (mass $m$) and two massless internal propagators ($k_1$ and $p_1-k_1$). The paper computes the maximal cut in Baikov representation using intersection theory of twisted cocycles, identifying a basis of three master integrals on the maximal cut in generic $D$ dimensions and derives the Pfaffian/differential equation system in the variable $x$ defined by $4 m^2/s = (1-x)^2/x$ (alphabet $\\{x-1, x, x+1\\}$). In the strict $D=4$ limit the basis collapses to two and the geometry is that of an elliptic curve branching at $\\{-\\rho,-s,s,\\rho\\}$ with $\\rho = \\sqrt{s(s+16 m^2)}$. An ISP $D_7 = 2(p_2+k_1)^2 - p_1^2$ is introduced. Computation_level is maximal_cut: master integrals are not evaluated, only the IBP-equivalent intersection-number decomposition and the resulting differential equations are derived.",
+      "epsOrders": "",
+      "familyName": "two-loop non-planar triangle with massive internal lines",
+      "method": "intersection, DE",
+      "tools": [],
+      "ancillaryFiles": false,
+      "doi": "10.1007/JHEP02(2019)139",
+      "texkey": "Mastrolia:2018uzb",
+      "masterCount": 3,
+      "dimScheme": "d=D",
+      "computationLevel": "maximal_cut",
+      "location": "Section 2, Eq. (2.10)-(2.11) (diagram and propagators); Section 5 (D=4 elliptic case)",
+      "recordId": "bx_6bcb496bfe19",
+      "verified": false,
+      "verifiedAt": ""
+    }
+  ],
+  "Names": [
+    "two-loop non-planar triangle with massive internal lines"
+  ],
+  "Source": [
+    "arXiv"
+  ],
+  "Loops": 2,
+  "NumPropagators": 6,
+  "Results": [],
+  "edges": "{{{1, 2}, 0}, {{1, 3}, m}, {{1, 4}, m}, {{2, 5}, 0}, {{3, 5}, m}, {{4, 5}, m}}",
+  "nodes": "{{2, m}, {3, 0}, {4, 0}}",
+  "CanonicalName": "Non-planar double box, 4 massive propagators (d)",
+  "MassConfig": {
+    "numEdges": 6,
+    "numMassiveEdges": 4,
+    "numMasslessEdges": 2,
+    "distinctInternalMasses": 1,
+    "internalMassLabels": [
+      "m"
+    ],
+    "edgeMassPattern": "011011",
+    "numExtLegs": 3,
+    "numOnshellMassiveExtLegs": 1,
+    "numMasslessExtLegs": 2,
+    "extLegSignature": "M00"
+  },
+  "Subsectors": [],
+  "ParentSectors": []
+}

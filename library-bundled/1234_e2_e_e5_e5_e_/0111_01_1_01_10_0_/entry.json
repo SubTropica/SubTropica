@@ -1,0 +1,63 @@
+{
+  "CNickelIndex": "1234|e2|e|e5|e5|e|:0111|01|1|01|10|0|",
+  "MassScales": 6,
+  "FunctionClass": "hypergeometric",
+  "EpsilonOrder": "",
+  "References": [
+    "arXiv:2405.18755"
+  ],
+  "Records": [
+    {
+      "reference": "arXiv:2405.18755",
+      "authors": [
+        {
+          "full_name": "Passarino, Giampiero",
+          "inspire_id": 994109
+        }
+      ],
+      "description": "Two-loop triangle-box (tria-box) for 1-to-4 decay with six internal propagators, external configuration $Q^2=-s$, $p_1^2=p_4^2=0$, $p_2^2=p_3^2=-m^2$ and mixed internal masses (two massless + four of mass $M$). After partial quadratization the x-integration yields a Mellin-Barnes representation with explicit Gamma-function structure.",
+      "epsOrders": "",
+      "familyName": "2-mass 2-loop 5-point tria-box with mixed internal masses",
+      "method": "direct_integration, Mellin-Barnes",
+      "tools": [],
+      "ancillaryFiles": false,
+      "doi": "",
+      "texkey": "",
+      "masterCount": 0,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "full",
+      "location": "Section 5.9",
+      "recordId": "bx_9ac92d8fd373",
+      "verified": false,
+      "verifiedAt": ""
+    }
+  ],
+  "Names": [
+    "2-mass 2-loop 5-point tria-box with mixed internal masses"
+  ],
+  "Source": [
+    "arXiv"
+  ],
+  "Loops": 2,
+  "NumPropagators": 7,
+  "Results": [],
+  "edges": "{{{1, 2}, 0}, {{1, 3}, m}, {{1, 4}, m}, {{1, 5}, m}, {{2, 3}, m}, {{4, 6}, m}, {{5, 6}, 0}}",
+  "nodes": "{{2, 0}, {3, m}, {4, 0}, {5, m}, {6, 0}}",
+  "CanonicalName": "Extended core, 5 massive propagators",
+  "MassConfig": {
+    "numEdges": 7,
+    "numMassiveEdges": 5,
+    "numMasslessEdges": 2,
+    "distinctInternalMasses": 1,
+    "internalMassLabels": [
+      "m"
+    ],
+    "edgeMassPattern": "0111110",
+    "numExtLegs": 5,
+    "numOnshellMassiveExtLegs": 2,
+    "numMasslessExtLegs": 3,
+    "extLegSignature": "0M0M0"
+  },
+  "Subsectors": [],
+  "ParentSectors": []
+}

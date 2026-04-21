@@ -1,0 +1,55 @@
+{
+  "CNickelIndex": "1123|4|34|e4|e|:0000|0|00|10|1|",
+  "MassScales": 1,
+  "FunctionClass": "MPL",
+  "EpsilonOrder": "-2,-1,0,1",
+  "References": [
+    "arXiv:1705.06483 (doi: 10.1103/PhysRevD.96.036016)"
+  ],
+  "Records": [
+    {
+      "epsOrders": "-2,-1,0,1",
+      "reference": "arXiv:1705.06483 (doi: 10.1103/PhysRevD.96.036016)",
+      "authors": "Mikhail V. Kompaniets and Erik Panzer",
+      "description": "massless propagator computed for the $\\varphi^4$ 6-loop calculation available from the ancillary files p_int_g4.mpl (Maple) and p_int_g4.m (Mathematica) of the arXiv submission results are rational linear combinations of multiple zeta values",
+      "recordId": "1504717746.N73e",
+      "verified": false,
+      "verifiedAt": ""
+    }
+  ],
+  "Source": [
+    "arXiv",
+    "Loopedia"
+  ],
+  "Results": [],
+  "Names": [
+    "Massless 2-loop propagator (5 propagators)",
+    "2-loop propagator (5 propagators)",
+    "2-loop propagator (5 propagators), 1 multi-edge"
+  ],
+  "edges": "{{{1, 2}, 0}, {{1, 2}, 0}, {{1, 3}, 0}, {{1, 4}, 0}, {{2, 5}, 0}, {{3, 4}, 0}, {{3, 5}, 0}, {{4, 5}, 0}}",
+  "nodes": "{{4, M}, {5, M}}",
+  "quadruple": "{E^(4*eps*EulerGamma)*Gamma[4*eps], (x1*x2*x3*x6 + x1*x2*x4*x6 + x1*x3*x4*x6 + x2*x3*x4*x6 + x1*x3*x5*x6 + x2*x3*x5*x6 + x1*x4*x5*x6 + x2*x4*x5*x6 + x1*x2*x3*x7 + x1*x2*x4*x7 + x1*x3*x4*x7 + x2*x3*x4*x7 + x1*x3*x5*x7 + x2*x3*x5*x7 + x1*x4*x5*x7 + x2*x4*x5*x7 + x1*x2*x6*x7 + x1*x4*x6*x7 + x2*x4*x6*x7 + x1*x5*x6*x7 + x2*x5*x6*x7 + x1*x2*x3*x8 + x1*x2*x4*x8 + x1*x3*x4*x8 + x2*x3*x4*x8 + x1*x3*x5*x8 + x2*x3*x5*x8 + x1*x4*x5*x8 + x2*x4*x5*x8 + x1*x2*x6*x8 + x1*x3*x6*x8 + x2*x3*x6*x8 + x1*x5*x6*x8 + x2*x5*x6*x8 + x1*x3*x7*x8 + x2*x3*x7*x8 + x1*x4*x7*x8 + x2*x4*x7*x8 + x1*x6*x7*x8 + x2*x6*x7*x8)^(-2 + 5*eps)/(MM*(x1*x2*x3*x6 + x1*x2*x4*x6 + x1*x3*x4*x6 + x2*x3*x4*x6 + x1*x3*x5*x6 + x2*x3*x5*x6 + x1*x4*x5*x6 + x2*x4*x5*x6 + x1*x2*x3*x7 + x1*x2*x4*x7 + x1*x3*x4*x7 + x2*x3*x4*x7 + x1*x3*x5*x7 + x2*x3*x5*x7 + x1*x4*x5*x7 + x2*x4*x5*x7 + x1*x2*x6*x7 + x1*x4*x6*x7 + x2*x4*x6*x7 + x1*x5*x6*x7 + x2*x5*x6*x7)*x8)^(4*eps), {x1, x2, x3, x4, x5, x6, x7, x8}, {MM}}",
+  "numericallyVerified": true,
+  "numericallyVerifiedAt": "2026-04-12",
+  "CanonicalName": "Massless tetrahedral core with bubble insertion (b)",
+  "MassConfig": {
+    "numEdges": 8,
+    "numMassiveEdges": 0,
+    "numMasslessEdges": 8,
+    "distinctInternalMasses": 0,
+    "internalMassLabels": [],
+    "edgeMassPattern": "00000000",
+    "numExtLegs": 2,
+    "numOnshellMassiveExtLegs": 2,
+    "numMasslessExtLegs": 0,
+    "extLegSignature": "MM"
+  },
+  "Subsectors": [
+    "123|23|e3|e|:000|00|10|1|"
+  ],
+  "ParentSectors": [
+    "1123|24|5|45|e5|e|:0000|00|0|00|10|1|",
+    "1123|4|34|e5|55|e|:0000|0|00|10|00|1|"
+  ]
+}

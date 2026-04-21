@@ -1,0 +1,10 @@
+name = "subtropica-submit"
+main = "submit-worker.js"
+compatibility_date = "2024-01-01"
+
+# KV namespace for dedup.
+# Create it with:  wrangler kv namespace create SUBMISSIONS
+# Then paste the id below.
+[[kv_namespaces]]
+binding = "SUBMISSIONS"
+id = "01c6cf180b924f15a6b6c18a1d40a53b"

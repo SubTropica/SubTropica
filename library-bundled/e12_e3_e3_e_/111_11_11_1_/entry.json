@@ -1,0 +1,65 @@
+{
+  "CNickelIndex": "e12|e3|e3|e|:111|11|11|1|",
+  "MassScales": 3,
+  "FunctionClass": "MPL",
+  "EpsilonOrder": "",
+  "References": [
+    "arXiv:2405.18178 (JHEP 09 (018), 2024)"
+  ],
+  "Records": [
+    {
+      "authors": "Crisanti, Giulio, Smith, Sid",
+      "texkey": "Crisanti:2024onv",
+      "verified": false,
+      "verifiedAt": "",
+      "reference": "arXiv:2405.18178, JHEP 09 (018), 2024",
+      "ancillaryFiles": [],
+      "recordId": "bf_13a927e42589",
+      "masterCount": 15,
+      "computationLevel": "C-matrix",
+      "doi": "10.1007/JHEP09(2024)018",
+      "tools": [
+        "Mathematica",
+        "LiteRed",
+        "FiniteFlow"
+      ],
+      "description": "One-loop massive box with four equal-mass external legs (mass $m_1$) and four equal-mass internal propagators (mass $m_2$). The Baikov polynomial is given explicitly. The diagonal basis has 15 master integrals across all sectors ($1 + 4 + 6 + 4$ from subsectors with $0,1,2,3$ delta forms, plus the top sector). This is the fully massive case where the diagonal basis prescription works optimally.",
+      "epsOrders": "",
+      "method": [],
+      "dimScheme": "d",
+      "location": "Section 6.4, Eqs. (6.9)-(6.14)",
+      "familyName": "one-loop massive box"
+    }
+  ],
+  "Names": [
+    "one-loop massive box"
+  ],
+  "Source": [
+    "arXiv"
+  ],
+  "Loops": 1,
+  "NumPropagators": 4,
+  "Results": [],
+  "edges": "{{{1, 2}, m}, {{1, 3}, m}, {{2, 4}, m}, {{3, 4}, m}}",
+  "nodes": "{{1, m}, {2, m}, {4, m}, {3, m}}",
+  "CanonicalName": "Equal-mass box (d)",
+  "MassConfig": {
+    "numEdges": 4,
+    "numMassiveEdges": 4,
+    "numMasslessEdges": 0,
+    "distinctInternalMasses": 1,
+    "internalMassLabels": [
+      "m"
+    ],
+    "edgeMassPattern": "1111",
+    "numExtLegs": 4,
+    "numOnshellMassiveExtLegs": 4,
+    "numMasslessExtLegs": 0,
+    "extLegSignature": "MMMM"
+  },
+  "commonNames": [
+    "D₀(m)"
+  ],
+  "Subsectors": [],
+  "ParentSectors": []
+}

@@ -1,0 +1,65 @@
+{
+  "CNickelIndex": "123|45|e4|e5|e|e|:011|11|01|10|0|1|",
+  "MassScales": 3,
+  "FunctionClass": "elliptic",
+  "EpsilonOrder": "-4,-3,-2,-1,0",
+  "References": [
+    "arXiv:2112.09145"
+  ],
+  "Records": [
+    {
+      "dimScheme": "d=4-2*eps",
+      "recordId": "bf_bf422cf141ea",
+      "familyName": "ladder2L",
+      "verified": false,
+      "verifiedAt": "",
+      "authors": "Winterhalder, R., Magerya, V., Villa, E., Jones, S.P., Kerner, M., Butter, A., Heinrich, G., Plehn, T.",
+      "computationLevel": "numerical",
+      "texkey": "",
+      "masterCount": 0,
+      "location": "Figure 1 (top right), Section 2",
+      "method": [],
+      "reference": "arXiv:2112.09145",
+      "ancillaryFiles": [],
+      "description": "Two-loop planar double box (ladder) integral with massive internal propagators, occurring in ttV production at two loops. Seven propagators: five massive (mass $m$) and two massless rungs. Four external legs: $p_1, p_2$ massless; $p_3$ on-shell with mass $m$; $p_4$ off-shell. Close to 2-loop gluon ladder with Coulomb singularity. Anticipated to contain elliptic functions. Has 6 Feynman parameters. Used as benchmark for neural network contour deformation optimization.",
+      "epsOrders": "-4,-3,-2,-1,0",
+      "tools": [
+        "pySecDec"
+      ],
+      "doi": ""
+    }
+  ],
+  "Names": [
+    "ladder2L"
+  ],
+  "Source": [
+    "arXiv"
+  ],
+  "Loops": 2,
+  "NumPropagators": 7,
+  "Results": [],
+  "edges": "{{{1, 2}, 0}, {{1, 3}, m}, {{1, 4}, m}, {{2, 5}, m}, {{2, 6}, m}, {{3, 5}, m}, {{4, 6}, 0}}",
+  "nodes": "{{3, 0}, {4, m}, {6, m}, {5, 0}}",
+  "CanonicalName": "Double box, 5 massive propagators (b)",
+  "MassConfig": {
+    "numEdges": 7,
+    "numMassiveEdges": 5,
+    "numMasslessEdges": 2,
+    "distinctInternalMasses": 1,
+    "internalMassLabels": [
+      "m"
+    ],
+    "edgeMassPattern": "0111110",
+    "numExtLegs": 4,
+    "numOnshellMassiveExtLegs": 2,
+    "numMasslessExtLegs": 2,
+    "extLegSignature": "0MM0"
+  },
+  "commonNames": [
+    "L2"
+  ],
+  "Subsectors": [
+    "123|24|e|e4|e|:011|11|2|01|0|"
+  ],
+  "ParentSectors": []
+}

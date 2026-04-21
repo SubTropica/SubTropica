@@ -1,0 +1,95 @@
+{
+  "CNickelIndex": "1111||:1234||",
+  "MassScales": 4,
+  "FunctionClass": "MPL",
+  "EpsilonOrder": "0",
+  "References": [
+    "arXiv:1804.10570 (Nucl.Phys.B 938 (416), 2019)",
+    "arXiv:1811.10429"
+  ],
+  "Records": [
+    {
+      "reference": "arXiv:1804.10570 (Nucl.Phys.B 938 (416), 2019)",
+      "authors": "Groote, S., Körner, J.G.",
+      "description": "Three-loop sunrise-type vacuum diagram with four different masses in $D=4-2\\varepsilon$ dimensions, computed in coordinate space via Bessel function integrals. Corresponds to $E(m_1^2,m_2^2,m_3^2,m_4^2)$ of Martin-Robertson and $M(1,1,1,1,0,0)$ of Freitas. Finite parts evaluated numerically using truncated Bessel integral identities.",
+      "epsOrders": "0",
+      "familyName": "3-loop sunrise vacuum (E) / 3-loop sunrise vacuum with dot (F)",
+      "method": "direct_integration",
+      "tools": [],
+      "ancillaryFiles": true,
+      "doi": "10.1016/j.nuclphysb.2018.11.023",
+      "texkey": "Groote:2018rpb",
+      "masterCount": 0,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "numerical",
+      "location": "Sec. 2-3, Eq. (10)-(11), Fig. 1(a)",
+      "recordId": "bx_958f50af4b74",
+      "verified": false,
+      "verifiedAt": ""
+    },
+    {
+      "reference": "arXiv:1811.10429",
+      "authors": [
+        {
+          "full_name": "Gu, Zhi-Hua",
+          "inspire_id": 1047011
+        },
+        {
+          "full_name": "Zhang, Hai-Bin",
+          "inspire_id": 1233633
+        }
+      ],
+      "description": "Three-loop four-propagator vacuum integral $U_3(m_1^2,m_2^2,m_3^2,m_4^2)$ with four independent internal masses and no external legs (basketball/banana-type topology: four edges between two vertices). Computed exactly in $D=4-2\\varepsilon$ via Feynman parametrization, shown to be equivalent to a hypergeometric-theory derivation using modified Bessel function representations. Closed-form result given as triple-variable generalized hypergeometric (Lauricella $F_C^{(3)}$) series in mass ratios, plus associated systems of homogeneous linear PDEs to analytically continue beyond the convergent region via a finite-element method. Special cases worked out in Section 4: (4.1) $m_1=m_2$, (4.2) $m_1=0$, (4.3) $m_1=m_2=0$, expressed via Kampe de Feriet and Appell $F_4$ functions. Numerical cross-check against Martin 2017.",
+      "epsOrders": "all_orders",
+      "familyName": "4-mass 3-loop vacuum (4 propagators)",
+      "method": "direct_integration, Mellin-Barnes",
+      "tools": [],
+      "ancillaryFiles": false,
+      "doi": "",
+      "texkey": "",
+      "masterCount": 1,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "full",
+      "location": "Eq. (2), Fig. 1; results in Sections 3-4",
+      "recordId": "bx_cedb346bce38",
+      "verified": false,
+      "verifiedAt": ""
+    }
+  ],
+  "Names": [
+    "3-loop sunrise vacuum (E)",
+    "4-mass 3-loop vacuum (4 propagators)",
+    "3-loop sunrise vacuum with dot (F)"
+  ],
+  "Source": [
+    "arXiv"
+  ],
+  "Loops": 3,
+  "NumPropagators": 4,
+  "Results": [],
+  "edges": "{{{1, 2}, m[1]}, {{1, 2}, m[2]}, {{1, 2}, m[3]}, {{1, 2}, m[4]}}",
+  "nodes": "{}",
+  "CanonicalName": "4-mass triple bubble",
+  "MassConfig": {
+    "numEdges": 4,
+    "numMassiveEdges": 4,
+    "numMasslessEdges": 0,
+    "distinctInternalMasses": 4,
+    "internalMassLabels": [
+      "m[1]",
+      "m[2]",
+      "m[3]",
+      "m[4]"
+    ],
+    "edgeMassPattern": "1234",
+    "numExtLegs": 0,
+    "numOnshellMassiveExtLegs": 0,
+    "numMasslessExtLegs": 0,
+    "extLegSignature": ""
+  },
+  "Subsectors": [],
+  "ParentSectors": [
+    "112|22||:123|45||",
+    "1122|22||:1234|56||"
+  ]
+}

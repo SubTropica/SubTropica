@@ -1,0 +1,68 @@
+{
+  "CNickelIndex": "123|45|46|57|7|e|e7||:000|00|00|00|0|1|10||",
+  "MassScales": 0,
+  "FunctionClass": "MPL",
+  "EpsilonOrder": "",
+  "References": [
+    "arXiv:1910.07522 (JHEP 12 (026), 2019)"
+  ],
+  "Records": [
+    {
+      "ancillaryPaths": [
+        "anc/"
+      ],
+      "dimScheme": "d=4-2*eps",
+      "recordId": "bf_ece67fd118bf",
+      "familyName": "N / four-loop massless propagator topology N (non-planar)",
+      "verified": false,
+      "verifiedAt": "",
+      "authors": "Magerya, Vitaly, Pikelner, Andrey",
+      "texkey": "Magerya:2019cvz",
+      "computationLevel": "full",
+      "masterCount": 0,
+      "location": "Table 1, Tables 2-8",
+      "transcendentalWeight": 12,
+      "method": [],
+      "reference": "arXiv:1910.07522, JHEP 12 (026), 2019",
+      "ancillaryFiles": [],
+      "description": "Topology N for 4-loop massless propagator integrals and all unitarity cuts. 8 vertices, 11 propagators. Non-planar topology. Results as $\\varepsilon$-series with MZV coefficients to weight 12.",
+      "epsOrders": "",
+      "tools": [
+        "LiteRed",
+        "FIRE",
+        "FIESTA",
+        "Fuchsia",
+        "HyperInt",
+        "GiNaC"
+      ],
+      "doi": "10.1007/JHEP12(2019)026"
+    }
+  ],
+  "Names": [
+    "N",
+    "four-loop massless propagator topology N (non-planar)"
+  ],
+  "Source": [
+    "arXiv"
+  ],
+  "Loops": 4,
+  "NumPropagators": 11,
+  "Results": [],
+  "edges": "{{{1, 2}, 0}, {{1, 3}, 0}, {{1, 4}, 0}, {{2, 5}, 0}, {{2, 6}, 0}, {{3, 5}, 0}, {{3, 7}, 0}, {{4, 6}, 0}, {{4, 8}, 0}, {{5, 8}, 0}, {{7, 8}, 0}}",
+  "nodes": "{{6, M}, {7, M}}",
+  "CanonicalName": "Massless pentagonal core",
+  "MassConfig": {
+    "numEdges": 11,
+    "numMassiveEdges": 0,
+    "numMasslessEdges": 11,
+    "distinctInternalMasses": 0,
+    "internalMassLabels": [],
+    "edgeMassPattern": "00000000000",
+    "numExtLegs": 2,
+    "numOnshellMassiveExtLegs": 2,
+    "numMasslessExtLegs": 0,
+    "extLegSignature": "MM"
+  },
+  "Subsectors": [],
+  "ParentSectors": []
+}

@@ -1,0 +1,66 @@
+{
+  "CNickelIndex": "123|24|e|e5|e5|e|:110|10|0|00|01|0|",
+  "MassScales": 3,
+  "FunctionClass": "elliptic",
+  "EpsilonOrder": "4",
+  "References": [
+    "arXiv:2102.13450 (JHEP 06 (163), 2021)"
+  ],
+  "Records": [
+    {
+      "authors": "Badger, Simon, Chaubey, Ekta, Hartanto, Heribertus Bayu, Marzucca, Robin",
+      "texkey": "Badger:2021owl",
+      "verified": false,
+      "verifiedAt": "",
+      "reference": "arXiv:2102.13450, JHEP 06 (163), 2021",
+      "ancillaryFiles": [],
+      "recordId": "bf_5c52da9caf48",
+      "masterCount": 22,
+      "transcendentalWeight": 4,
+      "computationLevel": "master_integrals",
+      "doi": "10.1007/JHEP06(2021)163",
+      "tools": [
+        "FiniteFlow",
+        "LiteRed",
+        "QGRAF",
+        "FORM",
+        "Spinney",
+        "GiNaC"
+      ],
+      "description": "Penta-triangle integral family for the closed top-quark loop contribution $A^{(2),N_h}$ to the two-loop leading colour $gg \\to t\\bar{t}$ amplitude. Contains two new elliptic master integrals ($J_{21}, J_{22}$) not previously in the literature. 15 of the 22 master integrals map to the topbox family of Adams et al.",
+      "epsOrders": "-2,-1,0,1,2,3,4",
+      "method": [],
+      "dimScheme": "CDR",
+      "location": "Eq. below Eq. (4.7), Section 4.1",
+      "familyName": "penta-triangle"
+    }
+  ],
+  "Names": [
+    "penta-triangle"
+  ],
+  "Source": [
+    "arXiv"
+  ],
+  "Loops": 2,
+  "NumPropagators": 7,
+  "Results": [],
+  "edges": "{{{1, 2}, m}, {{1, 3}, m}, {{1, 4}, 0}, {{2, 3}, m}, {{2, 5}, 0}, {{4, 6}, 0}, {{5, 6}, m}}",
+  "nodes": "{{3, 0}, {4, 0}, {6, 0}, {5, 0}}",
+  "CanonicalName": "Triangle-pentagon, 4 massive propagators",
+  "MassConfig": {
+    "numEdges": 7,
+    "numMassiveEdges": 4,
+    "numMasslessEdges": 3,
+    "distinctInternalMasses": 1,
+    "internalMassLabels": [
+      "m"
+    ],
+    "edgeMassPattern": "1101001",
+    "numExtLegs": 4,
+    "numOnshellMassiveExtLegs": 0,
+    "numMasslessExtLegs": 4,
+    "extLegSignature": "0000"
+  },
+  "Subsectors": [],
+  "ParentSectors": []
+}

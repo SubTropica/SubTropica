@@ -1,0 +1,97 @@
+{
+  "CNickelIndex": "1123|e|e33|e|:0000|1|000|0|",
+  "MassScales": 1,
+  "FunctionClass": "unknown",
+  "EpsilonOrder": "-3,-2,-1,0,1,2,3",
+  "References": [
+    "arXiv:1004.3653"
+  ],
+  "Records": [
+    {
+      "epsOrders": "-3,-2,-1,0,1,2,3",
+      "reference": "arXiv:1004.3653",
+      "authors": "T. Gehrmann, E.W.N. Glover, T. Huber, N. Ikizlerli, C. Studerus",
+      "description": "The authors give all master integrals used in the computation of quark and gluon form factors to three loops in QCD. These integrals are available in Appendix A and all have a prefactor given by Eq. A.1.",
+      "recordId": "1499084266.FL3W",
+      "verified": false,
+      "verifiedAt": ""
+    }
+  ],
+  "Source": [
+    "arXiv",
+    "Loopedia"
+  ],
+  "Results": [
+    {
+      "resultCompressed": "1:eJytVEtOwzAQTZvyVSQEN0DiJiDBopWi0gsYyalGcnBVh69YsuEuPRZruAAQPHbj4GZcXMRmIs/3zZuZHF/JcbGdJIna1+KSz4GrM1YxleonnynQn6QYoAOKIaiq6ONrV4sxq0BeMwE9/QBUW9uWFhMouVrrmjZJc3GjYCcUjYZTWc4Evzdg4LOua4WmHFYCjKnACgb+UE6N32gUCQs1lgwH6zka1iIM6x1hOV0u7/h86RkmzSFYeMHrEJygdongdxLgyCttUFFhFET48IguH283mb6hOfOazPqxNFdfQZpf/kBzJ/9Bl5UmSRoiwg3sQsip6bFdbrwYm7nXCGukBvFf17DZMN+6vJGxVP+v9CKkMdAzal8DKWxxaqvdv8kQ9xR9LZMf1VeaOgzvAMXfwIMWOAbiZCg+213YM6XFwzkrS2Yy2g3Cgbe79A15FDEQ",
+      "resultTeX": "\\frac{1}{2 \\varepsilon^3}+\\frac{-3 \\log \\left(M^2\\right)-3 i \\pi +7}{2 \\varepsilon^2}+\\frac{18 \\log ^2\\left(M^2\\right)+(-84+36 i \\pi ) \\log \\left(M^2\\right)-4 \\zeta(2)-17 \\pi ^2-84 i \\pi +132}{8 \\varepsilon}+(\\text{more terms})+O\\left(\\varepsilon^1\\right)",
+      "dimension": "4 - 2*eps",
+      "epsOrder": 0,
+      "propExponents": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "propagators": [],
+      "numerators": [],
+      "internalMasses": [],
+      "externalMasses": [],
+      "substitutions": "{}",
+      "normalization": "Automatic",
+      "stVersion": "SubTropica v1.0.322",
+      "stCommand": "STIntegrate[pref * (integrand / (Times @@ xvars)), {x2,0,Infinity}, {x3,0,Infinity}, {x4,0,Infinity}, {x5,0,Infinity}, {x6,0,Infinity}, Order->0]  (* with Gauge->{x1->1} *)",
+      "contributor": "Sebastian Mizera",
+      "timestamp": "2026-04-18T11:52:43",
+      "byteCount": 4552,
+      "method": "direct_integration",
+      "tools": [
+        "SubTropica",
+        "AnTropica"
+      ],
+      "verification": {
+        "method": "pySecDec",
+        "kinematicPoint": {
+          "Msq": "-19/53"
+        },
+        "tolerance": 0.0001,
+        "maxRelError": 1.0390102258245041e-05,
+        "verifiedAt": "2026-04-18T11:52:43"
+      },
+      "legOrder": [],
+      "symbolTeX": "\\begin{aligned}\\varepsilon^{-2}&\\colon\\;-\\frac{3}{2}\\,(M^2) \\\\ \\varepsilon^{-1}&\\colon\\;-\\frac{21}{2}\\,(M^2) + \\frac{9}{2}\\,(M^2 \\otimes M^2) \\\\ \\varepsilon^{0}&\\colon\\;\\frac{63}{2}\\,(M^2 \\otimes M^2) - \\frac{27}{2}\\,(M^2 \\otimes M^2 \\otimes M^2) - \\frac{99}{2}\\,(M^2)\\end{aligned}",
+      "alphabet": [
+        "M^2"
+      ],
+      "symbolWeight": 3,
+      "symbolTerms": 6
+    }
+  ],
+  "Names": [
+    "1-mass spectacles-triangle (3-point, non-planar)",
+    "one-mass spectacles-triangle (3-point, non-planar)",
+    "Spectacles-triangle (3-point, non-planar)"
+  ],
+  "edges": "{{{1, 2}, 0}, {{1, 2}, 0}, {{1, 3}, 0}, {{1, 4}, 0}, {{3, 4}, 0}, {{3, 4}, 0}}",
+  "nodes": "{{2, M}, {3, 0}, {4, 0}}",
+  "quadruple": "{E^(3*eps*EulerGamma)*Gamma[3*eps], ((x1 + x2)*(x3*x5 + x4*x5 + x3*x6 + x4*x6 + x5*x6))^(2*(-1 + 2*eps))/(MM*(x1*x2*x3*x5 + x1*x2*x4*x5 + x1*x3*x4*x5 + x2*x3*x4*x5 + x1*x2*x3*x6 + x1*x2*x4*x6 + x1*x3*x4*x6 + x2*x3*x4*x6 + x1*x2*x5*x6))^(3*eps), {x1, x2, x3, x4, x5, x6}, {MM}}",
+  "numericallyVerified": true,
+  "numericallyVerifiedAt": "2026-04-12",
+  "CanonicalName": "1-mass pentagonal core with 2 bubble insertions",
+  "MassConfig": {
+    "numEdges": 6,
+    "numMassiveEdges": 0,
+    "numMasslessEdges": 6,
+    "distinctInternalMasses": 0,
+    "internalMassLabels": [],
+    "edgeMassPattern": "000000",
+    "numExtLegs": 3,
+    "numOnshellMassiveExtLegs": 1,
+    "numMasslessExtLegs": 2,
+    "extLegSignature": "M00"
+  },
+  "Subsectors": [],
+  "ParentSectors": []
+}

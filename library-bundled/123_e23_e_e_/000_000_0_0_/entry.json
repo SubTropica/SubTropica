@@ -1,0 +1,124 @@
+{
+  "CNickelIndex": "123|e23|e|e|:000|000|0|0|",
+  "MassScales": 0,
+  "FunctionClass": "MPL",
+  "EpsilonOrder": "",
+  "References": [
+    "arXiv:hep-ph/9402223 (Phys.Lett.B 332 (159), 1994)",
+    "arXiv:2507.17815 (Missing[\"KeyAbsent\", \"journal\"] Missing[\"KeyAbsent\", \"volume\"] (Missing[\"KeyAbsent\", \"pages\"]), Missing[\"KeyAbsent\", \"year\"])"
+  ],
+  "Records": [
+    {
+      "reference": "arXiv:2507.17815 (JHEP 01 (014), 2026)",
+      "authors": [
+        {
+          "full_name": "Barrera, Oscar",
+          "inspire_id": 2957072
+        },
+        {
+          "full_name": "Dersy, Aurélien",
+          "inspire_id": 2083042
+        },
+        {
+          "full_name": "Husain, Rabia",
+          "inspire_id": 1925286
+        },
+        {
+          "full_name": "Schwartz, Matthew D.",
+          "inspire_id": 1019662
+        },
+        {
+          "full_name": "Zhang, Xiaoyuan",
+          "inspire_id": 1806305
+        }
+      ],
+      "description": "Called $I_2(x)$ in the paper. 2-loop 3-point master integral for $q\\bar{q} \\to VV$ planar topologies from Gehrmann, Tancredi, Weihs (1306.6344). 5 massless propagators, 2-loop triangle with internal rung. Two on-shell legs combined into $p_{12}$, two off-shell legs $q_1^2=q_2^2=Q^2$. Single variable $x$. Prefactor $P_2(x)=x/(m^2(1-x^2))$. Fitted at $\\varepsilon^0$ (weight 4): full 182, uniform 124 functions. AMFlow: 22.4 CPU-min/point, 362 points, 28 digits. Uniform transcendental weight.",
+      "epsOrders": "0",
+      "familyName": "2-loop triangle with 5 propagators",
+      "method": "DE, IBP",
+      "tools": [
+        "AMFlow",
+        "SOFIA",
+        "BLADE",
+        "GiNaC"
+      ],
+      "ancillaryFiles": false,
+      "doi": "10.1007/JHEP01(2026)014",
+      "texkey": "Barrera:2025uin",
+      "masterCount": 0,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "full",
+      "location": "Eq. (19), Section 4.2, second diagram",
+      "recordId": "bx_78b8ee0888e6",
+      "verified": false,
+      "verifiedAt": ""
+    }
+  ],
+  "Names": [
+    "planar with internal vertex (fig.1c)",
+    "2-loop triangle with 5 propagators"
+  ],
+  "Source": [
+    "arXiv"
+  ],
+  "Loops": 2,
+  "NumPropagators": 5,
+  "Results": [
+    {
+      "resultCompressed": "1:eJxTTMoPSmNjYGAo5gISwalFmanFLoklicXMQG5qQXEmkGJIAxHFLEDCJ7O4JJMRyEAQAM7WC/E=",
+      "resultTeX": "O\\left(\\varepsilon^1\\right)",
+      "dimension": "4 - 2*eps",
+      "epsOrder": 0,
+      "propExponents": [
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "propagators": [],
+      "numerators": [],
+      "internalMasses": [],
+      "externalMasses": [],
+      "substitutions": "",
+      "normalization": "Automatic",
+      "stVersion": "SubTropica v1.0.363",
+      "stCommand": "STIntegrate[{{{{1, 2}, 0}, {{1, 3}, 0}, {{1, 4}, 0}, {{2, 3}, 0}, {{2, 4}, 0}}, {{2, 0}, {3, 0}, {4, 0}}}, Dimension -> \"4 - 2*eps\", Order -> 0, Substitutions -> \"\"]",
+      "contributor": "SM",
+      "timestamp": "2026-04-19T16:08:54",
+      "byteCount": 192,
+      "symbolTeX": "",
+      "alphabet": [],
+      "symbolWeight": 0,
+      "symbolTerms": 0,
+      "legOrder": [
+        1,
+        2,
+        3
+      ]
+    }
+  ],
+  "edges": "{{{1, 2}, 0}, {{1, 3}, 0}, {{1, 4}, 0}, {{2, 3}, 0}, {{2, 4}, 0}}",
+  "nodes": "{{2, 0}, {3, 0}, {4, 0}}",
+  "CanonicalName": "Massless double triangle (b)",
+  "MassConfig": {
+    "numEdges": 5,
+    "numMassiveEdges": 0,
+    "numMasslessEdges": 5,
+    "distinctInternalMasses": 0,
+    "internalMassLabels": [],
+    "edgeMassPattern": "00000",
+    "numExtLegs": 3,
+    "numOnshellMassiveExtLegs": 0,
+    "numMasslessExtLegs": 3,
+    "extLegSignature": "000"
+  },
+  "Subsectors": [
+    "e112|e2|e|:0000|00|0|"
+  ],
+  "ParentSectors": [
+    "1123|e4|e4|e4||:0000|00|00|00||",
+    "123|24|e|e4|e|:000|00|0|00|0|",
+    "123|e4|e4|e4||:000|00|00|00||"
+  ]
+}

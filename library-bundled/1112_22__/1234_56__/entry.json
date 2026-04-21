@@ -1,0 +1,69 @@
+{
+  "CNickelIndex": "1112|22||:1234|56||",
+  "MassScales": 6,
+  "FunctionClass": "hypergeometric",
+  "EpsilonOrder": "all_orders",
+  "References": [
+    "arXiv:2403.13025 (JHEP 03 (013), 2025)"
+  ],
+  "Records": [
+    {
+      "reference": "arXiv:2403.13025 (JHEP 03 (013), 2025)",
+      "authors": "Zhang, Hai-Bin, Feng, Tai-Fu",
+      "description": "4-loop vacuum flower-type (3 vertices, 6 propagators) with arbitrary masses. 1 master integral. GKZ system dimension $16 \\times 16$.",
+      "epsOrders": "all_orders",
+      "familyName": "generic-mass 4-loop flower-type vacuum integral (6 propagators)",
+      "method": "Mellin-Barnes",
+      "tools": [
+        "FIESTA"
+      ],
+      "ancillaryFiles": true,
+      "doi": "10.1007/JHEP03(2025)013",
+      "texkey": "Zhang:2024mxd",
+      "masterCount": 1,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "full",
+      "location": "Sec. 4.1, Eq. (27)-(38)",
+      "recordId": "bx_a0c101dd49d1",
+      "verified": false,
+      "verifiedAt": ""
+    }
+  ],
+  "Names": [
+    "generic-mass 4-loop flower-type vacuum integral (6 propagators)"
+  ],
+  "Source": [
+    "arXiv"
+  ],
+  "Loops": 4,
+  "NumPropagators": 6,
+  "Results": [],
+  "edges": "{{{1, 2}, m[1]}, {{1, 2}, m[2]}, {{1, 2}, m[3]}, {{1, 3}, m[4]}, {{2, 3}, m[5]}, {{2, 3}, m[6]}}",
+  "nodes": "{}",
+  "CanonicalName": "6-mass bubble-bubble-triangle-bubble (b)",
+  "MassConfig": {
+    "numEdges": 6,
+    "numMassiveEdges": 6,
+    "numMasslessEdges": 0,
+    "distinctInternalMasses": 6,
+    "internalMassLabels": [
+      "m[1]",
+      "m[2]",
+      "m[3]",
+      "m[4]",
+      "m[5]",
+      "m[6]"
+    ],
+    "edgeMassPattern": "123456",
+    "numExtLegs": 0,
+    "numOnshellMassiveExtLegs": 0,
+    "numMasslessExtLegs": 0,
+    "extLegSignature": ""
+  },
+  "Subsectors": [
+    "111||:123||"
+  ],
+  "ParentSectors": [
+    "112|233|3||:123|456|7||"
+  ]
+}

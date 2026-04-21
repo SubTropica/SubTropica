@@ -1,0 +1,65 @@
+{
+  "CNickelIndex": "1122|22||:0011|12||",
+  "MassScales": 2,
+  "FunctionClass": "elliptic",
+  "EpsilonOrder": "",
+  "References": [
+    "arXiv:2407.21700 (PoS LL2024 (008), 2024)"
+  ],
+  "Records": [
+    {
+      "reference": "arXiv:2407.21700 (PoS LL2024 (008), 2024)",
+      "authors": "Abreu, Samuel, Behring, Arnd, McLeod, Andrew J., Page, Ben",
+      "description": "Called $I_6^{(4)}$. Three bubbles ($B_{00}$, $B_{bb}$, $B_{bt}$) chained in a triangle. Depends on sunrise curve $P_1(z)$.",
+      "epsOrders": "",
+      "familyName": "2-mass 4-loop necklace vacuum integral I_6",
+      "method": "IBP, DE",
+      "tools": [
+        "FORM",
+        "Reduze",
+        "AMFlow"
+      ],
+      "ancillaryFiles": false,
+      "doi": "10.22323/1.467.0008",
+      "texkey": "Abreu:2024jde",
+      "masterCount": 0,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "maximal_cut",
+      "location": "Fig. 2(g)",
+      "recordId": "bx_8739931a0e29",
+      "verified": false,
+      "verifiedAt": ""
+    }
+  ],
+  "Names": [
+    "2-mass 4-loop necklace vacuum integral I_6"
+  ],
+  "Source": [
+    "arXiv"
+  ],
+  "Loops": 4,
+  "NumPropagators": 6,
+  "Results": [],
+  "edges": "{{{1, 2}, 0}, {{1, 2}, 0}, {{1, 3}, m[1]}, {{1, 3}, m[1]}, {{2, 3}, m[1]}, {{2, 3}, m[2]}}",
+  "nodes": "{}",
+  "CanonicalName": "2-mass triangle with 3 bubble insertions, 4 massive propagators",
+  "MassConfig": {
+    "numEdges": 6,
+    "numMassiveEdges": 4,
+    "numMasslessEdges": 2,
+    "distinctInternalMasses": 2,
+    "internalMassLabels": [
+      "m[1]",
+      "m[2]"
+    ],
+    "edgeMassPattern": "001112",
+    "numExtLegs": 0,
+    "numOnshellMassiveExtLegs": 0,
+    "numMasslessExtLegs": 0,
+    "extLegSignature": ""
+  },
+  "Subsectors": [
+    "1111||:1111||"
+  ],
+  "ParentSectors": []
+}

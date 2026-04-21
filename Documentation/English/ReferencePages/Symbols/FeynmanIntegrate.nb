@@ -1,0 +1,144 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Wolfram 14.3' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       154,          7]
+NotebookDataLength[      5080,        135]
+NotebookOptionsPosition[      3221,         97]
+NotebookOutlinePosition[      3661,        113]
+CellTagsIndexPosition[      3618,        110]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["FeynmanIntegrate", "ObjectName",ExpressionUUID->"6ee128d0-3501-4bef-a1eb-72f772d37b98"],
+
+Cell[BoxData[GridBox[{
+   {Cell[TextData[{
+     StyleBox["FeynmanIntegrate[]", "TI"],
+     " \[LineSeparator]opens the interactive Feynman diagram UI, blocks until \
+integration completes, and returns the result."
+    }], "TableText",ExpressionUUID->"d08f6e2c-18cb-439f-b81e-55c968263656"]}
+  },
+  GridBoxAlignment->{"Columns" -> {{Left}}},
+  GridBoxItemSize->{
+   "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}]], "Usage",
+ CellID->1,ExpressionUUID->"47229551-9f3d-4363-ae05-0c13b8499cb4"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["See Also", "SeeAlsoSection",ExpressionUUID->"8dad38d0-65e7-4698-860b-bb13ecd8dbca"],
+
+Cell[TextData[{
+ Cell[BoxData[
+  ButtonBox["STIntegrate",
+   BaseStyle->"Link",
+   ButtonData->"paclet:SubTropica/ref/STIntegrate"]], "InlineFormula",
+  ExpressionUUID->"1b58fc5d-39ae-4f88-94e0-59ed744cbcda"],
+ " \[EmptyVerySmallSquare] ",
+ Cell[BoxData[
+  ButtonBox["FeynmanDraw",
+   BaseStyle->"Link",
+   ButtonData->"paclet:SubTropica/ref/FeynmanDraw"]], "InlineFormula",
+  ExpressionUUID->"88433c5e-b348-4476-8a02-f3aa232b560f"],
+ " \[EmptyVerySmallSquare] ",
+ Cell[BoxData[
+  ButtonBox["FeynmanPlot",
+   BaseStyle->"Link",
+   ButtonData->"paclet:SubTropica/ref/FeynmanPlot"]], "InlineFormula",
+  ExpressionUUID->"19b0e981-80b3-4ce8-aa29-d83101827b47"]
+}], "SeeAlso",ExpressionUUID->"a351710e-7bfb-41e8-8946-f1d7b8a07ecd"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Metadata", "MetadataSection",ExpressionUUID->"6c93dd09-d532-46a1-81f3-dc342d888c44"],
+
+Cell[CellGroupData[{
+
+Cell["Categorization", "CategorizationSection",ExpressionUUID->"a06cda7b-5fab-4c15-979b-675a07ce0a26"],
+
+Cell["Symbol", "Categorization",
+ CellLabel->
+  "Entity Type",ExpressionUUID->"a71ae0f5-32ed-4a01-a847-7d3bea51e67d"],
+
+Cell["SubTropica", "Categorization",
+ CellLabel->
+  "Paclet Name",ExpressionUUID->"23421491-9d76-45d5-a756-14968ef1892b"],
+
+Cell["SubTropica`", "Categorization",
+ CellLabel->"Context",ExpressionUUID->"2a0f4542-eaf4-415f-898f-d988de3eabd1"],
+
+Cell["SubTropica/ref/FeynmanIntegrate", "Categorization",
+ CellLabel->"URI",ExpressionUUID->"a6042b20-5bd8-4e43-86df-402019b7ceeb"]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Keywords", "KeywordsSection",ExpressionUUID->"aeb12302-7e2c-4f98-94e5-43030a3caee0"],
+
+Cell["Feynman integral", "Keywords",ExpressionUUID->"87166b99-e260-4183-8a31-0b7837b62e3c"],
+
+Cell["tropical geometry", "Keywords",ExpressionUUID->"5cff2b87-33d9-43d7-9db1-f255311e7ade"],
+
+Cell["dimensional regularization", "Keywords",ExpressionUUID->"0b3833fc-c4f3-4924-bac3-bd1223cb384e"]
+}, Closed]]
+}, Open  ]]
+},
+TaggingRules-><|"Paclet" -> "SubTropica"|>,
+FrontEndVersion->"14.3 for Mac OS X ARM (64-bit) (July 8, 2025)",
+StyleDefinitions->FrontEnd`FileName[{"Wolfram"}, "FunctionPageStylesExt.nb", 
+  CharacterEncoding -> "UTF-8"],
+ExpressionUUID->"48b88533-191e-4ca6-b7fe-983f59d11475"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[576, 22, 93, 0, 70, "ObjectName",ExpressionUUID->"6ee128d0-3501-4bef-a1eb-72f772d37b98"],
+Cell[672, 24, 496, 10, 70, "Usage",ExpressionUUID->"47229551-9f3d-4363-ae05-0c13b8499cb4",
+ CellID->1]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[1205, 39, 89, 0, 70, "SeeAlsoSection",ExpressionUUID->"8dad38d0-65e7-4698-860b-bb13ecd8dbca"],
+Cell[1297, 41, 726, 18, 70, "SeeAlso",ExpressionUUID->"a351710e-7bfb-41e8-8946-f1d7b8a07ecd"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[2060, 64, 90, 0, 70, "MetadataSection",ExpressionUUID->"6c93dd09-d532-46a1-81f3-dc342d888c44"],
+Cell[CellGroupData[{
+Cell[2175, 68, 102, 0, 70, "CategorizationSection",ExpressionUUID->"a06cda7b-5fab-4c15-979b-675a07ce0a26"],
+Cell[2280, 70, 117, 2, 70, "Categorization",ExpressionUUID->"a71ae0f5-32ed-4a01-a847-7d3bea51e67d"],
+Cell[2400, 74, 121, 2, 70, "Categorization",ExpressionUUID->"23421491-9d76-45d5-a756-14968ef1892b"],
+Cell[2524, 78, 115, 1, 70, "Categorization",ExpressionUUID->"2a0f4542-eaf4-415f-898f-d988de3eabd1"],
+Cell[2642, 81, 131, 1, 70, "Categorization",ExpressionUUID->"a6042b20-5bd8-4e43-86df-402019b7ceeb"]
+}, Closed]],
+Cell[CellGroupData[{
+Cell[2810, 87, 90, 0, 70, "KeywordsSection",ExpressionUUID->"aeb12302-7e2c-4f98-94e5-43030a3caee0"],
+Cell[2903, 89, 91, 0, 70, "Keywords",ExpressionUUID->"87166b99-e260-4183-8a31-0b7837b62e3c"],
+Cell[2997, 91, 92, 0, 70, "Keywords",ExpressionUUID->"5cff2b87-33d9-43d7-9db1-f255311e7ade"],
+Cell[3092, 93, 101, 0, 70, "Keywords",ExpressionUUID->"0b3833fc-c4f3-4924-bac3-bd1223cb384e"]
+}, Closed]]
+}, Open  ]]
+}
+]
+*)
+
+(* End of internal cache information *)

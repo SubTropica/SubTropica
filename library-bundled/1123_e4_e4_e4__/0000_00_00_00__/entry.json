@@ -1,0 +1,76 @@
+{
+  "CNickelIndex": "1123|e4|e4|e4||:0000|00|00|00||",
+  "MassScales": 0,
+  "FunctionClass": "MPL",
+  "EpsilonOrder": "1",
+  "References": [
+    "arXiv:hep-ph/0607185"
+  ],
+  "Records": [
+    {
+      "reference": "arXiv:hep-ph/0607185",
+      "authors": [
+        {
+          "full_name": "Gehrmann, T.",
+          "inspire_id": 1008686
+        },
+        {
+          "full_name": "Heinrich, G.",
+          "inspire_id": 1006298
+        },
+        {
+          "full_name": "Huber, T.",
+          "inspire_id": 1050613
+        },
+        {
+          "full_name": "Studerus, C.",
+          "inspire_id": 1040296
+        }
+      ],
+      "description": "Massless three-loop seven-propagator form factor: two-loop crossed vertex with a one-loop insertion. Closed form with ${}_3F_2(1)$ and ${}_4F_3(1)$. Laurent expanded through $\\mathcal{O}(\\varepsilon)$. Leading pole $(\\pi^2/12)/\\varepsilon^3$. Called `A_{7,2}` in the paper.",
+      "epsOrders": "1",
+      "familyName": "massless 3-loop 3-point form factor crossed with one-loop bubble insertion in two-loop vertex (7 propagators) / massless 3-loop 3-point form factor planar with one-loop bubble insertion in two-loop vertex (7 propagators)",
+      "method": "direct_integration, sector_decomposition",
+      "tools": [
+        "HypExp"
+      ],
+      "ancillaryFiles": false,
+      "doi": "",
+      "texkey": "",
+      "masterCount": 1,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "full",
+      "location": "Section 3, Eqs. for A_{7,2} and J_6(alpha); Figure 1 (A_{7,2})",
+      "recordId": "bx_c11f69b7fb2a",
+      "verified": false,
+      "verifiedAt": ""
+    }
+  ],
+  "Names": [],
+  "Source": [
+    "arXiv"
+  ],
+  "Loops": 3,
+  "NumPropagators": 7,
+  "Results": [],
+  "edges": "{{{1, 2}, 0}, {{1, 2}, 0}, {{1, 3}, 0}, {{1, 4}, 0}, {{2, 5}, 0}, {{3, 5}, 0}, {{4, 5}, 0}}",
+  "nodes": "{{2, 0}, {3, 0}, {4, 0}}",
+  "CanonicalName": "Massless non-planar bubble-box-box",
+  "MassConfig": {
+    "numEdges": 7,
+    "numMassiveEdges": 0,
+    "numMasslessEdges": 7,
+    "distinctInternalMasses": 0,
+    "internalMassLabels": [],
+    "edgeMassPattern": "0000000",
+    "numExtLegs": 3,
+    "numOnshellMassiveExtLegs": 0,
+    "numMasslessExtLegs": 3,
+    "extLegSignature": "000"
+  },
+  "Subsectors": [
+    "1123|e2|e3|e|:0000|00|00|0|",
+    "123|e23|e|e|:000|000|0|0|"
+  ],
+  "ParentSectors": []
+}

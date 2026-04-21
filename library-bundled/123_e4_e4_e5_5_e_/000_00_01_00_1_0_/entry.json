@@ -1,0 +1,100 @@
+{
+  "CNickelIndex": "123|e4|e4|e5|5|e|:000|00|01|00|1|0|",
+  "MassScales": 3,
+  "FunctionClass": "MPL",
+  "EpsilonOrder": "4",
+  "References": [
+    "arXiv:2211.13713",
+    "arXiv:2212.07190 (JHEP 07 (089), 2023)"
+  ],
+  "Records": [
+    {
+      "reference": "arXiv:2211.13713",
+      "authors": [
+        {
+          "full_name": "Wang, Jian",
+          "inspire_id": 1336281
+        },
+        {
+          "full_name": "Wang, Yefan",
+          "inspire_id": 1852412
+        }
+      ],
+      "description": "Non-planar 2-loop family NP2 in $m_W \\to 0$ limit; 49 masters (65 with $m_W \\neq 0$). Single square root rationalized; MPLs weight 4. Called NP2 in the paper.",
+      "epsOrders": "4",
+      "familyName": "Two-loop non-planar family NP2 for gb->tW in mW=0 limit",
+      "method": "DE, IBP",
+      "tools": [
+        "FIRE",
+        "PolyLogTools",
+        "GiNaC",
+        "FIESTA",
+        "AMFlow"
+      ],
+      "ancillaryFiles": true,
+      "doi": "",
+      "texkey": "",
+      "masterCount": 49,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "full",
+      "location": "Sec. 3.1",
+      "recordId": "bx_c81128f56d64",
+      "verified": false,
+      "verifiedAt": ""
+    },
+    {
+      "reference": "arXiv:2212.07190 (JHEP 07 (089), 2023)",
+      "authors": "Chen, Long-Bin, Dong, Liang, Li, Hai Tao, Li, Zhao, Wang, Jian, Wang, Yefan",
+      "description": "Two-loop non-planar topology NP2 for $g b \\to W t$ at NNLO QCD with top-quark mass $m_t$. 64 master integrals reduced via FIRE and evaluated numerically by AMFlow with FIESTA cross-check. Called `NP2` in the paper.",
+      "epsOrders": "4",
+      "familyName": "2m7 two-loop 4-point non-planar tW production topology (9 propagators) - family NP2",
+      "method": "IBP, DE, series_expansion",
+      "tools": [
+        "FIRE",
+        "AMFlow",
+        "FIESTA"
+      ],
+      "ancillaryFiles": true,
+      "doi": "10.1007/JHEP07(2023)089",
+      "texkey": "Chen:2022pdw",
+      "masterCount": 64,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "full",
+      "location": "Table tab:families",
+      "recordId": "bx_1041b00343b4",
+      "verified": false,
+      "verifiedAt": ""
+    }
+  ],
+  "Names": [
+    "Two-loop non-planar family NP2 for gb->tW in mW=0 limit"
+  ],
+  "Source": [
+    "arXiv"
+  ],
+  "Loops": 2,
+  "NumPropagators": 7,
+  "Results": [],
+  "edges": "{{{1, 2}, 0}, {{1, 3}, 0}, {{1, 4}, 0}, {{2, 5}, 0}, {{3, 5}, m}, {{4, 6}, 0}, {{5, 6}, m}}",
+  "nodes": "{{2, 0}, {3, 0}, {4, 0}, {6, 0}}",
+  "CanonicalName": "Non-planar box-pentagon, 2 massive propagators (a)",
+  "MassConfig": {
+    "numEdges": 7,
+    "numMassiveEdges": 2,
+    "numMasslessEdges": 5,
+    "distinctInternalMasses": 1,
+    "internalMassLabels": [
+      "m"
+    ],
+    "edgeMassPattern": "0000101",
+    "numExtLegs": 4,
+    "numOnshellMassiveExtLegs": 0,
+    "numMasslessExtLegs": 4,
+    "extLegSignature": "0000"
+  },
+  "commonNames": [
+    "L2"
+  ],
+  "Subsectors": [],
+  "ParentSectors": []
+}

@@ -1,0 +1,77 @@
+{
+  "CNickelIndex": "123|24|e|e5|e6|e6|e|:000|00|0|00|00|00|0|",
+  "MassScales": 5,
+  "FunctionClass": "unknown",
+  "EpsilonOrder": "",
+  "References": [
+    "arXiv:1912.09294"
+  ],
+  "Records": [
+    {
+      "reference": "arXiv:1912.09294",
+      "authors": [
+        {
+          "full_name": "Guan, Xin",
+          "inspire_id": 2162418
+        },
+        {
+          "full_name": "Liu, Xiao",
+          "inspire_id": 1708819
+        },
+        {
+          "full_name": "Ma, Yan-Qing",
+          "inspire_id": 1056966
+        }
+      ],
+      "description": "Called 'ht' in the paper (topology (d) in Fig. 1). Hexa-triangle family for massless two-loop five-light-parton scattering. 8 propagators and 3 irreducible scalar products. Complete IBP reduction of 2634 integrals (up to numerator degree 5) to 28 master integrals via block-triangular relations. Relations are 11 MB, solvable numerically in 0.035 s per phase-space point. Validated against FIRE6.",
+      "epsOrders": "",
+      "familyName": "two-loop five-point massless hexa-triangle / ht",
+      "method": "IBP, series_expansion",
+      "tools": [
+        "FiniteFlow",
+        "LiteRed",
+        "FIRE"
+      ],
+      "ancillaryFiles": true,
+      "doi": "",
+      "texkey": "",
+      "masterCount": 28,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "IBP_only",
+      "location": "Eq.(4) of readme.pdf; Fig.1(d) of main text; Table I",
+      "recordId": "bx_c156ac40a01a",
+      "verified": false,
+      "verifiedAt": ""
+    }
+  ],
+  "Names": [
+    "Hexa-triangle",
+    "ht",
+    "two-loop five-point massless hexa-triangle"
+  ],
+  "Source": [
+    "arXiv"
+  ],
+  "Loops": 2,
+  "NumPropagators": 8,
+  "Results": [],
+  "edges": "{{{1, 2}, 0}, {{1, 3}, 0}, {{1, 4}, 0}, {{2, 3}, 0}, {{2, 5}, 0}, {{4, 6}, 0}, {{5, 7}, 0}, {{6, 7}, 0}}",
+  "nodes": "{{3, 0}, {4, 0}, {6, 0}, {7, 0}, {5, 0}}",
+  "CanonicalName": "Massless triangle-hexagon",
+  "MassConfig": {
+    "numEdges": 8,
+    "numMassiveEdges": 0,
+    "numMasslessEdges": 8,
+    "distinctInternalMasses": 0,
+    "internalMassLabels": [],
+    "edgeMassPattern": "00000000",
+    "numExtLegs": 5,
+    "numOnshellMassiveExtLegs": 0,
+    "numMasslessExtLegs": 5,
+    "extLegSignature": "00000"
+  },
+  "Subsectors": [
+    "112|e3|e4|e5|e5|e|:000|00|00|00|00|0|"
+  ],
+  "ParentSectors": []
+}

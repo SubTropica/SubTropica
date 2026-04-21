@@ -1,0 +1,341 @@
+{
+  "CNickelIndex": "e1111|e|:12345|1|",
+  "MassScales": 5,
+  "FunctionClass": "Calabi-Yau",
+  "EpsilonOrder": "-3,-2,-1,0,1,2,3,4",
+  "References": [
+    "arXiv:2006.05510",
+    "arXiv:1807.11466",
+    "arXiv:2210.09898",
+    "arXiv:2303.15624",
+    "arXiv:2209.10962 (Lett.Math.Phys. 113 (37), 2023)",
+    "arXiv:2507.23061 (JHEP 12 (034), 2025)",
+    "arXiv:2507.23594 (JHEP 01 (021), 2026)",
+    "arXiv:2502.15325",
+    "arXiv:2311.02370",
+    "arXiv:1804.10570 (Nucl.Phys.B 938 (416), 2019)",
+    "arXiv:2508.04309",
+    "arXiv:2312.03453 (Missing[\"KeyAbsent\", \"journal\"] Missing[\"KeyAbsent\", \"volume\"] (Missing[\"KeyAbsent\", \"pages\"]), Missing[\"KeyAbsent\", \"year\"])",
+    "arXiv:2603.03649"
+  ],
+  "Records": [
+    {
+      "authors": "Vanhove, Pierre",
+      "ancillaryFiles": [],
+      "recordId": "bf_978ed0e2ea57",
+      "epsOrders": "",
+      "location": "Section 4.3, Eqs. (4.84)-(4.98)",
+      "texkey": "Vanhove:2018mto",
+      "verified": false,
+      "verifiedAt": "",
+      "reference": "arXiv:1807.11466",
+      "masterCount": 0,
+      "computationLevel": "DE_only",
+      "doi": "10.1007/978-3-030-04480-0_17",
+      "tools": [],
+      "description": "Three-loop massive sunset in $D=2$ with four distinct masses. Picard-Fuchs operator of order 6 computed. Geometry is a K3 surface in equal-mass case.",
+      "method": [],
+      "dimScheme": "d=2",
+      "familyName": "3L-sunset-4m"
+    },
+    {
+      "authors": "Giroux, Mathieu, Pokraka, Andrzej",
+      "texkey": "Giroux:2022wav",
+      "verified": false,
+      "verifiedAt": "",
+      "reference": "arXiv:2210.09898, JHEP 03 (155), 2023",
+      "ancillaryFiles": [],
+      "recordId": "bf_4730b641f2ed",
+      "masterCount": 15,
+      "computationLevel": "partial_cut",
+      "doi": "10.1007/JHEP03(2023)155",
+      "tools": [],
+      "description": "Three-loop four-mass banana. Maximal cut yields elliptically fibered K3 surface ($h^{1,1}=19$, $h^{2,0}=1$). 15 master integrals. Full DE left to future work.",
+      "epsOrders": "",
+      "method": [],
+      "dimScheme": "d=4-2*eps",
+      "location": "Section 7",
+      "familyName": "four-mass banana (3-loop)"
+    },
+    {
+      "reference": "arXiv:2209.10962 (Lett.Math.Phys. 113 (37), 2023)",
+      "authors": "Lairez, Pierre, Vanhove, Pierre",
+      "description": "Three-loop sunset in $D=2$ with 4 generic masses. Picard-Fuchs operator is order 6 for generic masses, associated to K3 surface. Order decreases to 5,4,4,3 for various mass specializations $[1^22],[22],[13],[4]$.",
+      "epsOrders": "",
+      "familyName": "three-loop sunset",
+      "method": "DE",
+      "tools": [],
+      "ancillaryFiles": true,
+      "doi": "10.1007/s11005-023-01661-3",
+      "texkey": "Lairez:2022zkj",
+      "masterCount": 0,
+      "dimScheme": "d=2",
+      "computationLevel": "DE_only",
+      "location": "Section 3.3",
+      "recordId": "bx_a2ea75e1aaac",
+      "verified": false,
+      "verifiedAt": ""
+    },
+    {
+      "reference": "arXiv:2507.23061 (JHEP 12 (034), 2025)",
+      "authors": "Duhr, Claude, Maggio, Sara, Porkert, Franziska, Semper, Cathrin, Stawinski, Sven F.",
+      "description": "Three-loop banana (sunrise-type) self-energy integral family with four distinct non-zero masses in $D=2-2\\varepsilon$ dimensions. The geometry is a family of K3 surfaces. A canonical (eps-factorized) differential equation system is constructed using twisted cohomology methods. The 15 master integrals include 4 tadpole subsectors, a corner integral, its mass derivatives, a second mass derivative, and 5 ISP integrals. The canonical DE matrix involves iterated integrals over rational functions, K3 periods and their derivatives, plus two genuinely new epsilon-functions that cannot be expressed in terms of periods alone.",
+      "epsOrders": "",
+      "familyName": "three-loop banana",
+      "method": "DE, IBP, intersection",
+      "tools": [
+        "LiteRed"
+      ],
+      "ancillaryFiles": true,
+      "doi": "10.1007/JHEP12(2025)034",
+      "texkey": "Duhr:2025kkq",
+      "masterCount": 15,
+      "dimScheme": "d=2-2*eps",
+      "computationLevel": "full",
+      "location": "Section 2, eq. (2.1)-(2.3)",
+      "recordId": "bx_111f231186d4",
+      "verified": false,
+      "verifiedAt": ""
+    },
+    {
+      "reference": "arXiv:2502.15325",
+      "authors": [
+        {
+          "full_name": "Duhr, Claude",
+          "inspire_id": 1040449
+        }
+      ],
+      "description": "Three-loop banana (watermelon) integral in $D=2$ with four distinct internal masses and external momentum $p$ (with $p^2$ normalized to 1). The maximal cut computes periods of a four-parameter family of K3 surfaces. The transcendental lattice is $T = H \\oplus H \\oplus A_2(-3)$ of discriminant $-3$. Via the exceptional isomorphism $O(2,4) \\sim SU(2,2)$, the holomorphic period and mirror map are hermitian modular forms. The six-dimensional period vector is $(\\Pi_2, \\Pi_{14}, \\Pi_{13}, \\Pi_{12}, \\Pi_{11}, \\Pi_0)$, satisfying a bilinear Hodge-Riemann relation with the Gram matrix $\\Sigma_4$.",
+      "epsOrders": "",
+      "familyName": "three-loop banana (four different masses, hermitian modular) / three-loop banana with four different masses (hermitian modular periods)",
+      "method": "parametric representation, Baikov representation, K3 periods, transcendental lattice analysis, orthogonal modular forms, mirror map, Hodge structure",
+      "tools": [],
+      "ancillaryFiles": false,
+      "doi": "",
+      "texkey": "",
+      "masterCount": 0,
+      "dimScheme": "d=2",
+      "computationLevel": "maximal_cut",
+      "location": "section 'Automorphic properties of three-loop banana integrals', subsection 'The case of four different masses' (bananas_2.tex)",
+      "recordId": "bx_a6bc26f033c5",
+      "verified": false,
+      "verifiedAt": ""
+    },
+    {
+      "reference": "arXiv:2311.02370",
+      "authors": [
+        {
+          "full_name": "Smirnov, Alexander V.",
+          "inspire_id": 1024152
+        },
+        {
+          "full_name": "Zeng, Mao",
+          "inspire_id": 1310565
+        }
+      ],
+      "description": "Three-loop banana (sunrise) diagram with four unequal internal masses $m_1, m_2, m_3, m_4$. External momentum squared set to $p^2=1$ (numerical). Five kinematic variables $(d, m_1^2, m_2^2, m_3^2, m_4^2)$. Reduced with rank-1 numerator. Demonstrates dramatic speedup (up to 9x) of FLINT/Symbolica over Fermat for many-scale problems.",
+      "epsOrders": "",
+      "familyName": "banana_3L_unequal_mass",
+      "method": "IBP, Laporta, FIRE",
+      "tools": [
+        "FIRE"
+      ],
+      "ancillaryFiles": true,
+      "doi": "",
+      "texkey": "",
+      "masterCount": 0,
+      "dimScheme": "",
+      "computationLevel": "IBP_only",
+      "location": "Section 3.4, Fig. 4",
+      "recordId": "bx_6b0e6e1104d0",
+      "verified": false,
+      "verifiedAt": ""
+    },
+    {
+      "reference": "arXiv:2508.04309",
+      "authors": [
+        {
+          "full_name": "Flieger, Wojciech",
+          "inspire_id": 1955301
+        }
+      ],
+      "description": "3-loop banana integral with 4 generic masses. Holonomic rank $r=15=2^4-1$. The underlying geometry involves a K3 surface.",
+      "epsOrders": "",
+      "familyName": "3-loop banana (generic masses)",
+      "method": "Griffiths-Dwork, Macaulay_matrix, D-module",
+      "tools": [],
+      "ancillaryFiles": false,
+      "doi": "",
+      "texkey": "",
+      "masterCount": 15,
+      "dimScheme": "",
+      "computationLevel": "annihilating_ideal",
+      "location": "eq. (3.1), Section 3.3 (unnumbered table)",
+      "recordId": "bx_216178b35c06",
+      "verified": false,
+      "verifiedAt": ""
+    },
+    {
+      "authors": "Pögel, Sebastian, Teschke, Toni, Wang, Xing, Weinzierl, Stefan",
+      "texkey": "Pogel:2025bca",
+      "verified": false,
+      "verifiedAt": "",
+      "reference": "arXiv:2507.23594, JHEP 01 (021), 2026",
+      "ancillaryFiles": [],
+      "recordId": "bf_b389a3c4b68c",
+      "masterCount": 15,
+      "transcendentalWeight": 3,
+      "computationLevel": "analytic",
+      "doi": "10.1007/JHEP01(2026)021",
+      "tools": [
+        "AMFlow",
+        "sector_decomposition"
+      ],
+      "description": "Three-loop banana (sunrise/watermelon) two-point integral with four distinct internal masses $m_1, m_2, m_3, m_4$ in $D=2-2\\varepsilon$ dimensions. The integral family has 4 propagators and 5 irreducible scalar products $(\\sigma_5,\\ldots,\\sigma_9$, adapted to the loop-by-loop Baikov representation). There are 15 master integrals: 4 tadpoles (sectors with $\\text{id} < 15$) and 11 in the top sector (sector 15). The maximal cut yields a two-dimensional Baikov representation with variables $\\sigma_5, \\sigma_6$. The underlying geometry is a K3 surface (Calabi-Yau 2-fold), realized as a double cover $y^2 - P(z_1,z_2) = 0$ in weighted projective space. The top-sector master integrals decompose via Hodge-theoretic filtrations $(F_{\\text{comb}}, F_{\\text{geom}}, W)$ into 6 integrals associated with the K3 cohomology and 5 integrals associated with isolated points having regulated logarithmic singularities. The eps-factorised differential equation is derived algorithmically using the method of Bree et al. (2025): first a basis $J$ is constructed with Laurent polynomial DE (orders $\\varepsilon^{-2}$ to $\\varepsilon^1$) compatible with the $F_{\\text{comb}}$ filtration, then successive rotations $R_2^{(-2)}, R_2^{(-1)}, R_2^{(0)}$ eliminate non-eps-factorising terms. No prior knowledge of the K3 geometry is required. Numerical results for $K_5$ at order $\\varepsilon^3$ and $\\varepsilon^4$ are verified against AMFlow and sector decomposition to 9 digits. Phenomenological results are given for masses $(m_W, m_Z, m_H, m_t)$.",
+      "epsOrders": "-3,-2,-1,0,1,2,3,4",
+      "method": [],
+      "dimScheme": "d=2-2*eps",
+      "location": "Eq. (1)-(3) for the integral family definition; Eq. (6)-(8) for inverse propagators and Baikov variables; Eq. (13) for the starting basis I of 15 master integrals; Section 3 for basis J construction; Section 4 for basis K with eps-factorised DE; Section 5 for results",
+      "familyName": "three-loop banana (unequal mass)"
+    },
+    {
+      "authors": "Zeng, Mao",
+      "texkey": "Zeng:2023jek",
+      "verified": false,
+      "verifiedAt": "",
+      "reference": "arXiv:2303.15624, JHEP 09 (042), 2023",
+      "ancillaryFiles": [],
+      "recordId": "bf_8ba72536b60f",
+      "masterCount": 15,
+      "computationLevel": "numerical",
+      "doi": "10.1007/JHEP09(2023)042",
+      "tools": [
+        "FIRE",
+        "DiffExp"
+      ],
+      "description": "Three-loop banana (sunrise-type) integral family with four unequal internal masses $m_1, m_2, m_3, m_4$ and off-shell external momentum $p$, evaluated in $d=2-2\\varepsilon$. The family has 15 master integrals: 11 nontrivial top-level integrals and 4 trivial products of tadpole integrals. All 11 nontrivial master integrals are evaluated numerically via positivity constraints (semidefinite programming with SDPA-QD) at the kinematic point $p^2=2$, $m_1^2=2$, $m_2^2=3/2$, $m_3^2=4/3$, $m_4^2=1$, achieving $\\sim 10^{-9}$ relative accuracy at $\\mathcal{O}(\\varepsilon^0)$. Epsilon expansion computed to $\\mathcal{O}(\\varepsilon^2)$ via both direct positivity constraints and numerical differentiation. Reference results from DiffExp (series solutions of differential equations) used for validation. The three-loop banana with unequal masses is known to involve Calabi-Yau geometry.",
+      "epsOrders": "-3,-2,-1,0,1,2",
+      "method": [],
+      "dimScheme": "d=2-2*eps",
+      "location": "Eq. (3.1), Section 3, Fig. 2; master integrals Eqs. (3.2)-(3.4); numerical results Eqs. (3.14)-(3.16) at kinematic point Eq. (3.8)",
+      "familyName": "three-loop banana (unequal masses)"
+    },
+    {
+      "reference": "arXiv:2312.03453 (Phys.Rev.D 109 (076020), 2024)",
+      "authors": [
+        {
+          "full_name": "Jiang, Xuhang",
+          "inspire_id": 1849050
+        },
+        {
+          "full_name": "Lian, Ming",
+          "inspire_id": 2731415
+        },
+        {
+          "full_name": "Yang, Li Lin",
+          "inspire_id": 1031254
+        }
+      ],
+      "description": "3-loop unequal-mass banana reduction via top-sector ISP and loop-by-loop Baikov.",
+      "epsOrders": "",
+      "familyName": "three-loop unequal-mass banana (Baikov example)",
+      "method": "IBP, intersection",
+      "tools": [],
+      "ancillaryFiles": false,
+      "doi": "10.1103/PhysRevD.109.076020",
+      "texkey": "Jiang:2023oyq",
+      "masterCount": 15,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "IBP_only",
+      "location": "Sect. 3.4",
+      "recordId": "bx_d8c3d71dfa70",
+      "verified": false,
+      "verifiedAt": ""
+    },
+    {
+      "reference": "arXiv:2603.03649",
+      "authors": "Bree, Iris, Gasparotto, Federico, Matijašić, Antonela, Mazloumi, Pouria, Melnichenko, Dmytro, Pögel, Sebastian, Teschke, Toni, Wang, Xing, Weinzierl, Stefan, Wu, Konglong, Xu, Xiaofeng",
+      "description": "Three-loop banana (sunrise) with four distinct internal masses. 4 propagators + 5 ISPs. 15 master integrals (11 in top sector + 4 tadpoles). K3 surface geometry with four moduli. Epsilon-factorization requires Picard-Fuchs operators and Frobenius period solutions. Used as the Calabi-Yau example for the algorithm.",
+      "epsOrders": "",
+      "familyName": "3-loop banana self-energy (4 unequal masses, Calabi-Yau)",
+      "method": "IBP, DE, intersection",
+      "tools": [],
+      "ancillaryFiles": false,
+      "doi": "",
+      "texkey": "epsilon:2026fbo",
+      "masterCount": 15,
+      "dimScheme": "d=2-2*eps",
+      "computationLevel": "DE_only",
+      "location": "Section 4",
+      "recordId": "bx_3c3127d6ab0f",
+      "verified": false,
+      "verifiedAt": ""
+    },
+    {
+      "authors": "Hidding, Martijn",
+      "texkey": "Hidding:2020ytt",
+      "verified": false,
+      "verifiedAt": "",
+      "reference": "arXiv:2006.05510, Comput.Phys.Commun. 269, 2021",
+      "ancillaryFiles": [],
+      "recordId": "bf_c065e35d88bb",
+      "masterCount": 15,
+      "computationLevel": "full",
+      "doi": "10.1016/j.cpc.2021.108125",
+      "tools": [
+        "DiffExp",
+        "Kira",
+        "pySecDec"
+      ],
+      "description": "Unequal-mass three-loop banana graph family with 4 massive propagators carrying distinct masses $m_1$-$m_4$ in $d=2-2\\varepsilon$. 15 master integrals with 11 coupled in the top sector. Associated with a Calabi-Yau 2-fold. Cross-checked against pySecDec.",
+      "epsOrders": "-3,-2,-1,0,1,2,3,4",
+      "method": [],
+      "dimScheme": "d=2-2*eps",
+      "location": "Section 6.2, Eqs. (6.11)-(6.13)",
+      "familyName": "Unequal-mass three-loop banana"
+    }
+  ],
+  "Names": [
+    "Unequal-mass banana",
+    "General banana",
+    "Banana",
+    "3-loop sunrise",
+    "Watermelon",
+    "3-loop propagator",
+    "3L-sunset-4m",
+    "four-mass banana (3-loop)",
+    "three-loop banana (unequal masses)"
+  ],
+  "Source": [
+    "arXiv",
+    "Loopedia"
+  ],
+  "Loops": 3,
+  "NumPropagators": 4,
+  "Results": [],
+  "edges": "{{{1, 2}, m[2]}, {{1, 2}, m[3]}, {{1, 2}, m[4]}, {{1, 2}, m[5]}}",
+  "nodes": "{{1, M}, {2, M}}",
+  "CanonicalName": "4-mass banana",
+  "MassConfig": {
+    "numEdges": 4,
+    "numMassiveEdges": 4,
+    "numMasslessEdges": 0,
+    "distinctInternalMasses": 4,
+    "internalMassLabels": [
+      "m[2]",
+      "m[3]",
+      "m[4]",
+      "m[5]"
+    ],
+    "edgeMassPattern": "1234",
+    "numExtLegs": 2,
+    "numOnshellMassiveExtLegs": 2,
+    "numMasslessExtLegs": 0,
+    "extLegSignature": "MM"
+  },
+  "commonNames": [
+    "B3"
+  ],
+  "Subsectors": [],
+  "ParentSectors": []
+}

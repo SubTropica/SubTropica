@@ -1,0 +1,101 @@
+{
+  "CNickelIndex": "e1111|e|:10000|1|",
+  "MassScales": 0,
+  "FunctionClass": "unknown",
+  "EpsilonOrder": "-1,0,1,2,3,4,5",
+  "References": [
+    "arXiv:1004.3653",
+    "arXiv:2507.23594"
+  ],
+  "Records": [
+    {
+      "epsOrders": "-1,0,1,2,3,4,5",
+      "reference": "arXiv:1004.3653",
+      "authors": "T. Gehrmann, E.W.N. Glover, T. Huber, N. Ikizlerli, C. Studerus",
+      "description": "The authors give all master integrals used in the computation of quark and gluon form factors to three loops in QCD. These integrals are available in Appendix A and all have a prefactor given by Eq. A.1.",
+      "recordId": "1499084266.FGp0",
+      "verified": false,
+      "verifiedAt": ""
+    }
+  ],
+  "Source": [
+    "arXiv",
+    "Loopedia"
+  ],
+  "Results": [
+    {
+      "resultCompressed": "1:eJxTTMoPSmNjYGAo5gISwalFmanFLoklicXMQG5qQXEmkGJIYwIpYAESPpnFJRAeK5AIycxNLYZwOYBEUGJJZn5eYk4mI5CTqQLXCFIakF+eWlQM4vr6ZoKoNGaiTLlBjCkglwXklBZnuqOoRjKYHUg45+cW5KRWgH2U+e7///9ggwIy0TSApdJAloPDwCc/HWYhUPw/xFUgAgAki0Nc",
+      "resultTeX": "\\frac{M^4}{36 \\varepsilon}+\\frac{1}{216} M^4 \\left(-18 \\log \\left(M^2\\right)-18 i \\pi +71\\right)+O\\left(\\varepsilon^1\\right)",
+      "dimension": "4 - 2*eps",
+      "epsOrder": 0,
+      "propExponents": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "propagators": [],
+      "numerators": [],
+      "internalMasses": [],
+      "externalMasses": [],
+      "substitutions": "{}",
+      "normalization": "Automatic",
+      "stVersion": "SubTropica v1.0.322",
+      "stCommand": "STIntegrate[pref * (integrand / (Times @@ xvars)), {x2,0,Infinity}, {x3,0,Infinity}, {x4,0,Infinity}, Order->0]  (* with Gauge->{x1->1} *)",
+      "contributor": "Sebastian Mizera",
+      "timestamp": "2026-04-18T11:38:48",
+      "byteCount": 896,
+      "method": "direct_integration",
+      "tools": [
+        "SubTropica",
+        "AnTropica"
+      ],
+      "verification": {
+        "method": "pySecDec",
+        "kinematicPoint": {
+          "Msq": "-19/29"
+        },
+        "tolerance": 0.0001,
+        "maxRelError": 2.0000001660985716e-05,
+        "verifiedAt": "2026-04-18T11:38:48"
+      },
+      "legOrder": [],
+      "symbolTeX": "\\varepsilon^{0}\\colon\\;-\\frac{M^4}{12}\\,(M^2)",
+      "alphabet": [
+        "M^2"
+      ],
+      "symbolWeight": 1,
+      "symbolTerms": 1
+    }
+  ],
+  "Names": [
+    "Banana",
+    "3-loop sunrise",
+    "Watermelon",
+    "3-loop propagator",
+    "three-loop banana (unequal mass)"
+  ],
+  "edges": "{{{1, 2}, 0}, {{1, 2}, 0}, {{1, 2}, 0}, {{1, 2}, 0}}",
+  "nodes": "{{1, M}, {2, M}}",
+  "quadruple": "{E^(3*eps*EulerGamma)*Gamma[-2 + 3*eps], (MM*x1*x2*x3*x4)^(2 - 3*eps)*(x1*x2*x3 + x1*x2*x4 + x1*x3*x4 + x2*x3*x4)^(4*(-1 + eps)), {x1, x2, x3, x4}, {MM}}",
+  "numericallyVerified": true,
+  "numericallyVerifiedAt": "2026-04-12",
+  "CanonicalName": "Massless banana",
+  "MassConfig": {
+    "numEdges": 4,
+    "numMassiveEdges": 0,
+    "numMasslessEdges": 4,
+    "distinctInternalMasses": 0,
+    "internalMassLabels": [],
+    "edgeMassPattern": "0000",
+    "numExtLegs": 2,
+    "numOnshellMassiveExtLegs": 2,
+    "numMasslessExtLegs": 0,
+    "extLegSignature": "MM"
+  },
+  "commonNames": [
+    "B3"
+  ],
+  "Subsectors": [],
+  "ParentSectors": []
+}

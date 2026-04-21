@@ -1,0 +1,72 @@
+{
+  "CNickelIndex": "123|45|e4|e6|e|e6|e|:000|00|00|11|0|11|2|",
+  "MassScales": 7,
+  "FunctionClass": "unknown",
+  "EpsilonOrder": "-2,-1,0,1,2,3,4",
+  "References": [
+    "arXiv:2312.08131"
+  ],
+  "Records": [
+    {
+      "authors": "Febres Cordero, F., Figueiredo, G., Kraus, M., Page, B., Reina, L.",
+      "texkey": "FebresCordero:2023pww",
+      "verified": false,
+      "verifiedAt": "",
+      "ancillaryPaths": [
+        "anc/T1/basis.m",
+        "anc/T1/M_alpha.m",
+        "anc/T1/boundaries.m",
+        "anc/oneForms.m"
+      ],
+      "reference": "arXiv:2312.08131, JHEP 07 (084), 2024",
+      "ancillaryFiles": [],
+      "recordId": "bf_08c11b50a4bc",
+      "masterCount": 111,
+      "transcendentalWeight": 4,
+      "computationLevel": "numerical",
+      "doi": "10.1007/JHEP07(2024)084",
+      "tools": [
+        "Kira",
+        "FIRE",
+        "DiffExp",
+        "AMFlow",
+        "PolyLogTools"
+      ],
+      "description": "Two-loop penta-box for leading-color $pp \\to ttH$ with light-quark loop. 111 MIs, 152 one-forms (4 non-dlog from kite sector). Numerical results through $\\mathcal{O}(\\varepsilon^4)$ via DiffExp.",
+      "epsOrders": "-2,-1,0,1,2,3,4",
+      "method": [],
+      "dimScheme": "d=4-2*eps",
+      "location": "Section 2.1, Eqs. (2.2)-(2.5), Figure 2",
+      "familyName": "T1"
+    }
+  ],
+  "Names": [
+    "Penta-box T1 (pp→ttH)",
+    "T1"
+  ],
+  "Source": [
+    "arXiv"
+  ],
+  "Loops": 2,
+  "NumPropagators": 8,
+  "Results": [],
+  "edges": "{{{1, 2}, 0}, {{1, 3}, 0}, {{1, 4}, 0}, {{2, 5}, 0}, {{2, 6}, 0}, {{3, 5}, 0}, {{4, 7}, m}, {{6, 7}, m}}",
+  "nodes": "{{3, 0}, {4, m}, {7, M}, {6, m}, {5, 0}}",
+  "CanonicalName": "Box-pentagon, 2 massive propagators (a)",
+  "MassConfig": {
+    "numEdges": 8,
+    "numMassiveEdges": 2,
+    "numMasslessEdges": 6,
+    "distinctInternalMasses": 1,
+    "internalMassLabels": [
+      "m"
+    ],
+    "edgeMassPattern": "00000011",
+    "numExtLegs": 5,
+    "numOnshellMassiveExtLegs": 3,
+    "numMasslessExtLegs": 2,
+    "extLegSignature": "0MMM0"
+  },
+  "Subsectors": [],
+  "ParentSectors": []
+}

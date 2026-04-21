@@ -1,0 +1,77 @@
+{
+  "CNickelIndex": "e1111111|e|:12222222|1|",
+  "MassScales": 2,
+  "FunctionClass": "Calabi-Yau",
+  "EpsilonOrder": "-6,-5,-4,-3,-2,-1,0,1,2",
+  "References": [
+    "arXiv:2212.08908"
+  ],
+  "Records": [
+    {
+      "authors": [
+        {
+          "full_name": "Pögel, Sebastian",
+          "inspire_id": 2129032
+        },
+        {
+          "full_name": "Wang, Xing",
+          "inspire_id": 1701348
+        },
+        {
+          "full_name": "Weinzierl, Stefan",
+          "inspire_id": 983857
+        }
+      ],
+      "texkey": "",
+      "verified": false,
+      "verifiedAt": "",
+      "reference": "arXiv:2212.08908",
+      "ancillaryFiles": [],
+      "recordId": "bf_c41a13dfb08c",
+      "masterCount": 7,
+      "transcendentalWeight": 6,
+      "computationLevel": "analytic",
+      "doi": "",
+      "tools": [
+        "pySecDec"
+      ],
+      "description": "Six-loop equal-mass banana integral in $D=2-2\\varepsilon$ dimensions. Related to a Calabi-Yau 5-fold. First case with two non-trivial Y-invariants $Y_2$ and $Y_3$. Seven master integrals $M_0,...,M_6$. The $\\varepsilon$-expansion of $M_1$ starts at order $\\varepsilon^6$: $M_1^{(6,6)}$ involves iterated integrals over $Y_2$ and $Y_3$, with leading terms $1120\\zeta_3^2 - 2016\\zeta_5 \\ln(q)$. Singular points at $x \\in \\{4,16,36,64\\}$ (i.e. $(2k)^2$ for $k=1,...,4$, but from paper: $S^{(6)} = \\{1,9,49\\}$ for $l=6$ even). The special local normal form is $\\theta_q^2 (1/Y_2) \\theta_q (1/Y_3) \\theta_q (1/Y_2) \\theta_q^2$. Compared against pySecDec with excellent agreement.",
+      "epsOrders": "-6,-5,-4,-3,-2,-1,0,1,2",
+      "method": [],
+      "dimScheme": "d=2-2eps",
+      "location": "Eq.(3), Section 6, Eq.(38)-(40)",
+      "familyName": "banana_6loop_equal_mass / six-loop equal-mass banana"
+    }
+  ],
+  "Names": [
+    "Equal-mass 6-loop banana"
+  ],
+  "Source": [
+    "arXiv"
+  ],
+  "Loops": 6,
+  "NumPropagators": 7,
+  "Results": [],
+  "edges": "{{{1, 2}, m}, {{1, 2}, m}, {{1, 2}, m}, {{1, 2}, m}, {{1, 2}, m}, {{1, 2}, m}, {{1, 2}, m}}",
+  "nodes": "{{1, M}, {2, M}}",
+  "CanonicalName": "Equal-mass banana",
+  "MassConfig": {
+    "numEdges": 7,
+    "numMassiveEdges": 7,
+    "numMasslessEdges": 0,
+    "distinctInternalMasses": 1,
+    "internalMassLabels": [
+      "m"
+    ],
+    "edgeMassPattern": "1111111",
+    "numExtLegs": 2,
+    "numOnshellMassiveExtLegs": 2,
+    "numMasslessExtLegs": 0,
+    "extLegSignature": "MM"
+  },
+  "commonNames": [
+    "B6"
+  ],
+  "Subsectors": [],
+  "ParentSectors": []
+}

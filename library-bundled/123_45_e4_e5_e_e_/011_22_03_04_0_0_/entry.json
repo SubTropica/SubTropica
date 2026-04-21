@@ -1,0 +1,62 @@
+{
+  "CNickelIndex": "123|45|e4|e5|e|e|:011|22|03|04|0|0|",
+  "MassScales": 6,
+  "FunctionClass": "MPL",
+  "EpsilonOrder": "0",
+  "References": [
+    "arXiv:2501.09454 (JHEP 04 (116), 2025)"
+  ],
+  "Records": [
+    {
+      "reference": "arXiv:2501.09454 (JHEP 04 (116), 2025)",
+      "authors": "Flieger, Wojciech, Henn, Johannes, Schreiber, Anders, Trnka, Jaroslav",
+      "description": "Two-loop planar double box with 4 internal masses and dual-conformal on-shell Coulomb-branch kinematics. 11 masters in canonical basis via embedding-space IBPs. DE alphabet in variables $(x,y)$. Results at Regge limit in HPLs through weight 4.",
+      "epsOrders": "0",
+      "familyName": "4-mass two-loop 4-point planar double box (Coulomb branch of N=4 sYM, 7 propagators)",
+      "method": "DE, IBP",
+      "tools": [],
+      "ancillaryFiles": true,
+      "doi": "10.1007/JHEP04(2025)116",
+      "texkey": "Flieger:2025ekn",
+      "masterCount": 11,
+      "dimScheme": "d=4",
+      "computationLevel": "full",
+      "location": "Section 4, s-channel G_{1,1,1,0,1,0,1,1,1}",
+      "recordId": "bx_1d973dcc8dc8",
+      "verified": false,
+      "verifiedAt": ""
+    }
+  ],
+  "Names": [],
+  "Source": [
+    "arXiv"
+  ],
+  "Loops": 2,
+  "NumPropagators": 7,
+  "Results": [],
+  "edges": "{{{1, 2}, 0}, {{1, 3}, m[1]}, {{1, 4}, m[1]}, {{2, 5}, m[2]}, {{2, 6}, m[2]}, {{3, 5}, m[3]}, {{4, 6}, m[4]}}",
+  "nodes": "{{3, 0}, {4, 0}, {6, 0}, {5, 0}}",
+  "CanonicalName": "4-mass double box, 6 massive propagators",
+  "MassConfig": {
+    "numEdges": 7,
+    "numMassiveEdges": 6,
+    "numMasslessEdges": 1,
+    "distinctInternalMasses": 4,
+    "internalMassLabels": [
+      "m[1]",
+      "m[2]",
+      "m[3]",
+      "m[4]"
+    ],
+    "edgeMassPattern": "0112234",
+    "numExtLegs": 4,
+    "numOnshellMassiveExtLegs": 0,
+    "numMasslessExtLegs": 4,
+    "extLegSignature": "0000"
+  },
+  "commonNames": [
+    "L2"
+  ],
+  "Subsectors": [],
+  "ParentSectors": []
+}

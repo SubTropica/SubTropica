@@ -1,0 +1,102 @@
+{
+  "CNickelIndex": "e123|e23|e|e|:0123|045|0|0|",
+  "MassScales": 7,
+  "FunctionClass": "rational",
+  "EpsilonOrder": "",
+  "References": [
+    "arXiv:2209.10962 (Lett.Math.Phys. 113 (37), 2023)",
+    "arXiv:2302.14840"
+  ],
+  "Records": [
+    {
+      "reference": "arXiv:2209.10962 (Lett.Math.Phys. 113 (37), 2023)",
+      "authors": "Lairez, Pierre, Vanhove, Pierre",
+      "description": "Two-loop massive kite graph (4-point) in $D=4$. Algorithm gives order 7 operator that factorizes into $L^{(1)} L^{(2)} L^{(3)} (z\\, d/dz + 1)$, all factors with Liouvillian solutions only.",
+      "epsOrders": "",
+      "familyName": "kite 4-point D=4",
+      "method": "DE",
+      "tools": [],
+      "ancillaryFiles": true,
+      "doi": "10.1007/s11005-023-01661-3",
+      "texkey": "Lairez:2022zkj",
+      "masterCount": 0,
+      "dimScheme": "d=4",
+      "computationLevel": "DE_only",
+      "location": "Section 5.1.2",
+      "recordId": "bx_3b1b637d2f9f",
+      "verified": false,
+      "verifiedAt": ""
+    },
+    {
+      "reference": "arXiv:2302.14840",
+      "authors": [
+        {
+          "full_name": "Doran, Charles F.",
+          "inspire_id": 1011530
+        },
+        {
+          "full_name": "Harder, Andrew",
+          "inspire_id": 2276840
+        },
+        {
+          "full_name": "Vanhove, Pierre",
+          "inspire_id": 984979
+        },
+        {
+          "full_name": "Pichon-Pharabod, Eric",
+          "inspire_id": 2637284
+        }
+      ],
+      "description": "The kite graph $(2,1,2)$: 4 vertices, 5 edges, $L=2$, 4 external legs. Two trivalent vertices connected by two chains of length 2 and one single edge. Symanzik polynomials $U_{(2,1,2)}$ and $V_{(2,1,2);D}$ given explicitly. Proposition p:212: for $D\\ge 2$ the quadric fibration on the blowup is non-degenerate; for $D=2$ the discriminant curve has geometric genus 0 so the cohomology is mixed Tate; for $D>2$ it has genus 1 and $\\mathrm{Gr}^W H^3(X_{(2,1,2);4};\\mathbb{Q}) = H^1(E)(-1)$ for an elliptic curve depending on mass and kinematic parameters. In $D=4$ the Feynman differential form lives in the complement of $U \\cup F$, and the Picard-Fuchs operator agrees with the Weierstrass family after a scaling analysis, recovering the kite elliptic curve in Bloch 2021.",
+      "epsOrders": "",
+      "familyName": "two-loop kite graph (2,1,2)",
+      "method": "graph hypersurface, quadric fibration, blowup, mixed Hodge structure, Picard-Fuchs, Griffiths-Dwork",
+      "tools": [
+        "SageMath"
+      ],
+      "ancillaryFiles": true,
+      "doi": "",
+      "texkey": "",
+      "masterCount": 0,
+      "dimScheme": "d=D",
+      "computationLevel": "basis",
+      "location": "Section sec:kite (Proposition p:212); Figure fig:kite",
+      "recordId": "bx_6c8f834c4f94",
+      "verified": false,
+      "verifiedAt": ""
+    }
+  ],
+  "Names": [
+    "kite 4-point D=4",
+    "two-loop kite graph (2,1,2)"
+  ],
+  "Source": [
+    "arXiv"
+  ],
+  "Loops": 2,
+  "NumPropagators": 5,
+  "Results": [],
+  "edges": "{{{1, 2}, m[1]}, {{1, 3}, m[2]}, {{1, 4}, m[3]}, {{2, 3}, m[4]}, {{2, 4}, m[5]}}",
+  "nodes": "{{1, 0}, {4, 0}, {2, 0}, {3, 0}}",
+  "CanonicalName": "5-mass double triangle (a)",
+  "MassConfig": {
+    "numEdges": 5,
+    "numMassiveEdges": 5,
+    "numMasslessEdges": 0,
+    "distinctInternalMasses": 5,
+    "internalMassLabels": [
+      "m[1]",
+      "m[2]",
+      "m[3]",
+      "m[4]",
+      "m[5]"
+    ],
+    "edgeMassPattern": "12345",
+    "numExtLegs": 4,
+    "numOnshellMassiveExtLegs": 0,
+    "numMasslessExtLegs": 4,
+    "extLegSignature": "0000"
+  },
+  "Subsectors": [],
+  "ParentSectors": []
+}

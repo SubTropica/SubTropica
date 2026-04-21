@@ -1,0 +1,218 @@
+{
+  "CNickelIndex": "123|45|46|e5|7|e|e7|e|:000|00|00|00|0|0|00|0|",
+  "MassScales": 2,
+  "FunctionClass": "unknown",
+  "EpsilonOrder": "",
+  "References": [
+    "arXiv:2311.16907 (Phys.Rev.D 110 (), 2024)",
+    "arXiv:2010.06947 (JHEP 02 (080), 2021)",
+    "arXiv:hep-ph/0305142",
+    "arXiv:1802.02419",
+    "arXiv:2002.09492 (JHEP 04 (167), 2020)",
+    "arXiv:1911.10174 (JHEP 04 (018), 2020)",
+    "hep-ph/0305142"
+  ],
+  "Records": [
+    {
+      "dimScheme": "d=4-2*eps",
+      "recordId": "bf_3fc90b013132",
+      "verified": false,
+      "verifiedAt": "",
+      "authors": "Gambuti, Giulio, Kosower, David A., Novichkov, Pavel P., Tancredi, Lorenzo",
+      "texkey": "Gambuti:2023eqh",
+      "computationLevel": "basis",
+      "masterCount": 0,
+      "reference": "arXiv:2311.16907, Phys.Rev.D 110, 2024",
+      "ancillaryFiles": [],
+      "description": "Massless three-loop planar ladder integral, the $L=3$ instance of the all-loop ladder conjecture. The conjecture gives 2 rank-2, 6 rank-3, and 9 rank-4 locally finite generators (17 total) with no generators beyond rank 4. Evanescent generators appear at ranks 4 through 6. The conjecture is verified by explicit computation at $L=3$ and $L=4$.",
+      "familyName": "three-loop ladder",
+      "location": "Sec. 7.2, Eqs. (7.14)-(7.21), Fig. 7",
+      "method": [],
+      "epsOrders": "",
+      "tools": [
+        "FiniteFlow"
+      ],
+      "doi": "10.1103/PhysRevD.110.116026"
+    },
+    {
+      "ancillaryPaths": [
+        "anc/UTBASE_Massless.m",
+        "anc/UTSOL_Massless.m"
+      ],
+      "dimScheme": "d=4-2*eps",
+      "recordId": "bf_0906a6d8e822",
+      "familyName": "three-loop ladder-box (massless)",
+      "verified": false,
+      "verifiedAt": "",
+      "authors": "Canko, Dhimiter D., Syrrakos, Nikolaos",
+      "texkey": "Canko:2020gqp",
+      "computationLevel": "full",
+      "masterCount": 26,
+      "transcendentalWeight": 6,
+      "location": "Section 4, Eq. (4.6)-(4.9)",
+      "method": [],
+      "reference": "arXiv:2010.06947, JHEP 02 (080), 2021",
+      "ancillaryFiles": [],
+      "description": "Massless three-loop planar ladder-box (triple-box) with all external legs massless. 26 master integrals in canonical basis, solutions in GPLs of $y=s_{23}/s_{12}$ with 2-letter alphabet $\\{0,1\\}$. Obtained via $x \\to 1$ resummation of the one-mass SDE family.",
+      "epsOrders": "-6,-5,-4,-3,-2,-1,0,1,2,3,4,5,6",
+      "tools": [
+        "FIRE",
+        "Kira",
+        "PolyLogTools",
+        "HyperInt",
+        "pySecDec"
+      ],
+      "doi": "10.1007/JHEP02(2021)080"
+    },
+    {
+      "reference": "arXiv:hep-ph/0305142",
+      "authors": [
+        {
+          "full_name": "Smirnov, Vladimir A.",
+          "inspire_id": 988366
+        }
+      ],
+      "description": "Three-loop massless on-shell planar triple box Feynman integral $T(1,\\ldots,1;s,t;\\varepsilon)$ with all ten propagator powers equal to one and on-shell external legs $p_i^2=0$, evaluated analytically for general Mandelstam $s,t$ through the finite part. Full Laurent expansion from the leading $1/\\varepsilon^6$ pole through $\\varepsilon^0$ in Eq. (3box-result), expressed in harmonic polylogarithms $H_{a_1,\\ldots,a_n}(x)$ of weight up to six with indices in $\\{0,1\\}$, $x=-t/s$, $L=\\ln(s/t)$. Evaluation uses alpha (Feynman) parameters together with a sevenfold Mellin-Barnes representation, then residues/contour shifts, Barnes-lemma integrations, and summation of nested harmonic sums in HPLs. Completes the $1/\\varepsilon$ and $\\varepsilon^0$ parts missing from earlier work. Cross-checked against numerical alpha-parameter integration and Regge-limit expansion.",
+      "epsOrders": "0",
+      "familyName": "massless on-shell planar triple box",
+      "method": "Mellin-Barnes, direct_integration",
+      "tools": [],
+      "ancillaryFiles": false,
+      "doi": "",
+      "texkey": "",
+      "masterCount": 0,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "full",
+      "location": "Eq. (3box) propagators, Eq. (7MB) sevenfold MB representation, Eq. (3box-result) final analytic expression",
+      "recordId": "bx_73801a3a68f9",
+      "verified": false,
+      "verifiedAt": ""
+    },
+    {
+      "reference": "arXiv:1802.02419",
+      "authors": [
+        {
+          "full_name": "Meyer, Christoph",
+          "inspire_id": 1591111
+        },
+        {
+          "full_name": "Uwer, Peter",
+          "inspire_id": null
+        },
+        {
+          "full_name": "Kreimer, Dirk",
+          "inspire_id": null
+        },
+        {
+          "full_name": "Weinzierl, Stefan",
+          "inspire_id": null
+        }
+      ],
+      "description": "Three-loop massless planar triple-box topology with 10 propagators and 5 ISPs, 26 master integrals. Relevant for NNNLO QCD 2-jet production; first evaluated by Smirnov and later via DE by Henn, Mistlberger. Called TB in the paper. Canonical basis built with CANONICA in about two minutes; alphabet $\\{x,1+x\\}$ with $x=s/t$.",
+      "epsOrders": "",
+      "familyName": "massless 3-loop 4-point triple box",
+      "method": "IBP, DE",
+      "tools": [
+        "Reduze",
+        "Canonica"
+      ],
+      "ancillaryFiles": false,
+      "doi": "",
+      "texkey": "",
+      "masterCount": 26,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "basis",
+      "location": "Section 5.4, Eqs. (5.38)-(5.40)",
+      "recordId": "bx_cfc17ab2cdec",
+      "verified": false,
+      "verifiedAt": ""
+    },
+    {
+      "reference": "arXiv:2002.09492 (JHEP 04 (167), 2020)",
+      "authors": "Henn, Johannes, Mistlberger, Bernhard, Smirnov, Vladimir A., Wasser, Pascal",
+      "description": "Three-loop planar ladder box (family A). Planar topology with three sequential boxes arranged in a ladder configuration.",
+      "epsOrders": "8",
+      "familyName": "HMSW_A",
+      "method": "",
+      "tools": [],
+      "ancillaryFiles": true,
+      "doi": "10.1007/JHEP04(2020)167",
+      "texkey": "Henn:2020lye",
+      "masterCount": 26,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "full",
+      "location": "eq. 7.1, Table 1, ancillary FamilyDefinition.m (row 1)",
+      "recordId": "bx_e6f5734eb995",
+      "verified": false,
+      "verifiedAt": ""
+    },
+    {
+      "reference": "arXiv:1911.10174 (JHEP 04 (018), 2020)",
+      "authors": "Henn, Johannes M., Korchemsky, Gregory P., Mistlberger, Bernhard",
+      "description": "Three-loop four-point integral family with 15 denominator factors defined in Eq. (3.10) of Section 3.1, written in dual coordinates with $x_1=0$, $x_2=p_1$, $x_3=p_1+p_2$, $x_4=-p_4$ (external) and $x_6=k_1$, $x_7=k_2$, $x_8=k_3$ (loop momenta). All 4 external momenta are light-like ($p_i^2=0$) with momentum conservation. These integrals contribute to the Wilson loop with Lagrangian insertion $F(x)$ and ultimately to the four-loop cusp anomalous dimension via the Lagrangian-insertion method. The triple-ladder is the all-ones top sector (Fig. 3a). IBP reduction with FIRE5 yields 257 master integrals. A canonical-form differential equation basis is constructed using improved Baikov / leading-singularity techniques (Section 3.2) and integrated through transcendental weight 6 (finite order in $\\varepsilon$ for finite quantities) in terms of HPLs over the alphabet $\\{x, 1+x, (1+i\\sqrt{x})/(1-i\\sqrt{x})\\}$ with $x=s/t$. Boundary conditions are fixed by regularity at $u=0$ ($x=-1$).",
+      "epsOrders": "0",
+      "familyName": "G (three-loop four-point planar supergraph in dual coordinates)",
+      "method": "IBP, DE",
+      "tools": [
+        "FIRE"
+      ],
+      "ancillaryFiles": true,
+      "doi": "10.1007/JHEP04(2020)018",
+      "texkey": "Henn:2019swt",
+      "masterCount": 257,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "full",
+      "location": "Section 3.1, Eq. (3.10) (definitionFamily); Figure 3",
+      "recordId": "bx_501803216ac5",
+      "verified": false,
+      "verifiedAt": ""
+    },
+    {
+      "epsOrders": "≤ 0",
+      "reference": "hep-ph/0305142",
+      "authors": "V.A. Smirnov",
+      "description": "The massless on-shell triple box integral is computed using its Mellin-Barnes representation. The result is given in terms of harmonic polylogarithms.",
+      "recordId": "1502127224.QCBT",
+      "verified": false,
+      "verifiedAt": ""
+    }
+  ],
+  "Names": [
+    "three-loop ladder",
+    "three-loop ladder-box (massless)",
+    "Massless 3-loop ladder",
+    "3-loop ladder",
+    "Triple box",
+    "Traintrack",
+    "massless on-shell planar triple box",
+    "massless 3-loop 4-point triple box",
+    "HMSW_A",
+    "G (three-loop four-point planar supergraph in dual coordinates)"
+  ],
+  "Source": [
+    "arXiv",
+    "Loopedia"
+  ],
+  "Loops": 3,
+  "NumPropagators": 10,
+  "Results": [],
+  "edges": "{{{1, 2}, 0}, {{1, 3}, 0}, {{1, 4}, 0}, {{2, 5}, 0}, {{2, 6}, 0}, {{3, 5}, 0}, {{3, 7}, 0}, {{4, 6}, 0}, {{5, 8}, 0}, {{7, 8}, 0}}",
+  "nodes": "{{4, 0}, {6, 0}, {7, 0}, {8, 0}}",
+  "CanonicalName": "Massless triple box",
+  "MassConfig": {
+    "numEdges": 10,
+    "numMassiveEdges": 0,
+    "numMasslessEdges": 10,
+    "distinctInternalMasses": 0,
+    "internalMassLabels": [],
+    "edgeMassPattern": "0000000000",
+    "numExtLegs": 4,
+    "numOnshellMassiveExtLegs": 0,
+    "numMasslessExtLegs": 4,
+    "extLegSignature": "0000"
+  },
+  "Subsectors": [
+    "123|24|e|45|6|e6|e|:000|00|1|00|0|00|0|"
+  ],
+  "ParentSectors": []
+}

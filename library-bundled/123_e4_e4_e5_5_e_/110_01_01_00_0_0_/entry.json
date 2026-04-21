@@ -1,0 +1,164 @@
+{
+  "CNickelIndex": "123|e4|e4|e5|5|e|:110|01|01|00|0|0|",
+  "MassScales": 3,
+  "FunctionClass": "unknown",
+  "EpsilonOrder": "0",
+  "References": [
+    "arXiv:1812.03060 (JHEP 03 (190), 2019)",
+    "arXiv:2308.11412 (JHEP 12 (105), 2023)",
+    "arXiv:2402.07311 (JHEP 05 (064), 2024)",
+    "arXiv:2502.03282"
+  ],
+  "Records": [
+    {
+      "reference": "arXiv:1812.03060 (JHEP 03 (190), 2019)",
+      "authors": "Mandal, Manoj K., Zhao, Xiaoran",
+      "description": "Non-planar two-loop four-point family with one internal mass, relevant for $gg \\to \\gamma\\gamma$ and $q\\bar{q} \\to \\gamma\\gamma$ via top quark. 4 massive and 3 massless propagators. Seven-propagator master integrals were previously unknown; IR-divergent sectors present.",
+      "epsOrders": "0",
+      "familyName": "F2",
+      "method": "",
+      "tools": [
+        "FIRE5",
+        "LiteRed",
+        "Nift",
+        "odeint",
+        "pySecDec"
+      ],
+      "ancillaryFiles": true,
+      "doi": "10.1007/JHEP03(2019)190",
+      "texkey": "Mandal:2018cdj",
+      "masterCount": 36,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "numerical",
+      "location": "Eq. (3.2), Fig. 1b",
+      "recordId": "bx_487253d636a2",
+      "verified": false,
+      "verifiedAt": ""
+    },
+    {
+      "reference": "arXiv:2308.11412 (JHEP 12 (105), 2023)",
+      "authors": "Becchetti, Matteo, Bonciani, Roberto, Cieri, Leandro, Coro, Federico, Ripani, Federico",
+      "description": "Non-planar double-box integral family NPL for two-loop $q\\bar{q} \\to \\gamma\\gamma$ form factors with massive top quark loop. 36 master integrals divided into two subsets: (I) canonical logarithmic subset expressible in MPLs with a 30-letter alphabet containing 9 square roots, and (II) elliptic sectors containing 6 MIs. The elliptic sectors are: (a) a non-planar massive triangle (2 MIs, $g_{31}$-$g_{32}$, expressible in eMPLs) and (b) the top-sector non-planar double-box (4 MIs, $g_{33}$-$g_{36}$, original computation). The maximal cut of the double-box integral yields an elliptic curve $y_c^2 = (z_8+t)(z_8+s+t)(z_8-z_+)(z_8-z_-)$ which degenerates to the massive triangle curve in the forward limit $t=0$. System solved semi-analytically via DiffExp generalised power series. Boundary conditions: $g_1=f_1$, $g_2=f_2$, all others vanish at $y=z=0$. Numerical validation against AMFlow to 200 digits. Grid of 13752 phase-space points evaluated (2.5h PLA + 10.5h NPL on single core). Corresponds to diagram (b) in Fig. 1 where top quark couples to external photons in non-planar topology.",
+      "epsOrders": "0",
+      "familyName": "NPL / massive 2-loop 4-point non-planar double box",
+      "method": "IBP, DE, series_expansion",
+      "tools": [
+        "Kira",
+        "FORM",
+        "DiffExp",
+        "AMFlow"
+      ],
+      "ancillaryFiles": true,
+      "doi": "10.1007/JHEP12(2023)105",
+      "texkey": "Becchetti:2023wev",
+      "masterCount": 36,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "full",
+      "location": "Table 1 (propagator definitions), Section 3.1 (general setup), Section 3.3 (non-planar DEQs and elliptic analysis), Eqs. (20)-(22) (alphabet and roots), Appendix A (MI list: J17,J19,J20,J30-J34,J39-J42)",
+      "recordId": "bx_405427604c8f",
+      "verified": false,
+      "verifiedAt": ""
+    },
+    {
+      "reference": "arXiv:2402.07311 (JHEP 05 (064), 2024)",
+      "authors": "Ahmed, Taushif, Chaubey, Ekta, Kaur, Mandeep, Maggio, Sara",
+      "description": "Two-loop non-planar four-point integral family for NNLO QCD corrections to diphoton ($gg \\to \\gamma\\gamma$) and dijet production at hadron colliders, with a massive top-quark loop (4 massive propagators, 3 massless). The family depends on three scales: $s$, $t$, and $m_t^2$. The top sector (7-propagator, integrals $J_{33}$-$J_{36}$) and the 6-propagator subsector ($J_{31}$-$J_{32}$) are elliptic, but the authors identify a single elliptic curve governing both sectors, contrary to earlier claims of two distinct curves. The paper derives an $\\varepsilon$-factorized differential equation for the elliptic top sector via a sequence of transformations ($U_0$ through $U_4$), leveraging the factorization of the Picard-Fuchs operator and properties of the maximal cut. Analytic results are expressed as Chen's iterated integrals over elliptic one-forms involving periods of the elliptic curve. The ancillary file provides the full 36-MI basis enabling iterated-integral solutions at each order in $\\varepsilon$.",
+      "epsOrders": "",
+      "familyName": "Non-planar topology (Figure 1)",
+      "method": "IBP, DE",
+      "tools": [
+        "Kira",
+        "FIRE"
+      ],
+      "ancillaryFiles": true,
+      "doi": "10.1007/JHEP05(2024)064",
+      "texkey": "Ahmed:2024tsg",
+      "masterCount": 36,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "DE_only",
+      "location": "Eq. (2.2)-(2.3), Section 2; basis in Eq. (2.6); top-sector DE in Section 3 and Appendix A.1",
+      "recordId": "bx_1c51bd1f43a1",
+      "verified": false,
+      "verifiedAt": ""
+    },
+    {
+      "reference": "arXiv:2502.03282",
+      "authors": [
+        {
+          "full_name": "Ahmed, Taushif",
+          "inspire_id": 1291898
+        },
+        {
+          "full_name": "Chakraborty, Amlan",
+          "inspire_id": 1764987
+        },
+        {
+          "full_name": "Chaubey, Ekta",
+          "inspire_id": 1681619
+        },
+        {
+          "full_name": "Kaur, Mandeep",
+          "inspire_id": 2100306
+        }
+      ],
+      "description": "Non-planar two-loop 4-point family NPL2 for diphoton production with closed top loop. 36 MIs. One of the two non-planar families is elliptic; paper does not state which, so function_class='unknown'. Called `NPL2` in the paper.",
+      "epsOrders": "0",
+      "familyName": "mixed-mass 2-loop 4-point non-planar double box (7 propagators, 4 massive)",
+      "method": "IBP, DE",
+      "tools": [
+        "Reduze",
+        "Kira",
+        "LiteRed",
+        "FiniteFlow",
+        "FORM"
+      ],
+      "ancillaryFiles": true,
+      "doi": "",
+      "texkey": "",
+      "masterCount": 36,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "full",
+      "location": "Section 3, Table 1, Figure 5 (NPL2)",
+      "recordId": "bx_df043b746c4a",
+      "verified": false,
+      "verifiedAt": ""
+    }
+  ],
+  "Names": [
+    "F2",
+    "NPL",
+    "Non-planar topology (Figure 1)",
+    "mixed-mass 2-loop 4-point non-planar double box (7 propagators, 4 massive)",
+    "massive 2-loop 4-point non-planar double box"
+  ],
+  "Source": [
+    "arXiv"
+  ],
+  "Loops": 2,
+  "NumPropagators": 7,
+  "Results": [],
+  "edges": "{{{1, 2}, m}, {{1, 3}, m}, {{1, 4}, 0}, {{2, 5}, m}, {{3, 5}, m}, {{4, 6}, 0}, {{5, 6}, 0}}",
+  "nodes": "{{2, 0}, {3, 0}, {4, 0}, {6, 0}}",
+  "CanonicalName": "Non-planar box-pentagon, 4 massive propagators (a)",
+  "MassConfig": {
+    "numEdges": 7,
+    "numMassiveEdges": 4,
+    "numMasslessEdges": 3,
+    "distinctInternalMasses": 1,
+    "internalMassLabels": [
+      "m"
+    ],
+    "edgeMassPattern": "1101100",
+    "numExtLegs": 4,
+    "numOnshellMassiveExtLegs": 0,
+    "numMasslessExtLegs": 4,
+    "extLegSignature": "0000"
+  },
+  "commonNames": [
+    "L2"
+  ],
+  "Subsectors": [
+    "123|e4|e4|e4||:011|20|01|01||"
+  ],
+  "ParentSectors": []
+}

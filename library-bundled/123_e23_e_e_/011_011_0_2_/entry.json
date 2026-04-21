@@ -1,0 +1,54 @@
+{
+  "CNickelIndex": "123|e23|e|e|:011|011|0|2|",
+  "MassScales": 2,
+  "FunctionClass": "unknown",
+  "EpsilonOrder": "0",
+  "References": [
+    "hep-ph/0611236"
+  ],
+  "Records": [
+    {
+      "epsOrders": "0",
+      "reference": "hep-ph/0611236",
+      "authors": "Charalampos Anastasiou, Stefan Beerli, Stefan Bucherer, Alejandro Daleo, Zoltan Kunszt",
+      "description": "The authors give the two-loop master integrals for the production of a Higgs boson via a massive quark and a squark loop.",
+      "recordId": "1499265872.sHLO",
+      "verified": false,
+      "verifiedAt": ""
+    }
+  ],
+  "Source": [
+    "arXiv",
+    "Loopedia"
+  ],
+  "Results": [],
+  "Names": [
+    "Kite (3-point) (equal masses)",
+    "Kite (3-point)"
+  ],
+  "edges": "{{{1, 2}, 0}, {{1, 3}, m}, {{1, 4}, m}, {{2, 3}, m}, {{2, 4}, m}}",
+  "nodes": "{{2, 0}, {3, 0}, {4, M}}",
+  "CanonicalName": "Double triangle, 4 massive propagators (b-b)",
+  "MassConfig": {
+    "numEdges": 5,
+    "numMassiveEdges": 4,
+    "numMasslessEdges": 1,
+    "distinctInternalMasses": 1,
+    "internalMassLabels": [
+      "m"
+    ],
+    "edgeMassPattern": "01111",
+    "numExtLegs": 3,
+    "numOnshellMassiveExtLegs": 1,
+    "numMasslessExtLegs": 2,
+    "extLegSignature": "00M"
+  },
+  "Subsectors": [],
+  "ParentSectors": [
+    "123|24|e|e4|e|:011|11|0|01|2|",
+    "123|24|e|e4|e|:011|11|2|01|0|",
+    "123|e24|e|e4|e|:011|011|0|00|0|",
+    "123|e24|e|e4|e|:011|011|0|01|0|",
+    "123|e4|e4|e4||:011|00|01|21||"
+  ]
+}

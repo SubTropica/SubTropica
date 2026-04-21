@@ -1,0 +1,72 @@
+{
+  "CNickelIndex": "123|24|e|45|6|e6|e|:000|00|1|23|3|00|0|",
+  "MassScales": 2,
+  "FunctionClass": "unknown",
+  "EpsilonOrder": "-3,-2,-1,0",
+  "References": [
+    "arXiv:2201.02576 (Phys.Rev.D 106 (), 2022)"
+  ],
+  "Records": [
+    {
+      "ancillaryPaths": [
+        "anc/master_vtwPl_minkowski.m"
+      ],
+      "dimScheme": "d=4-2*eps",
+      "recordId": "bf_07b9031bd3aa",
+      "familyName": "vtwPl",
+      "verified": false,
+      "verifiedAt": "",
+      "authors": "Dubovyk, Ievgen, Freitas, Ayres, Gluza, Janusz, Grzanka, Krzysztof, Hidding, Martijn, Usovitsch, Johann",
+      "texkey": "Dubovyk:2022frj",
+      "computationLevel": "numerical",
+      "masterCount": 77,
+      "location": "Eq. (6), Section III (Example 2)",
+      "method": [],
+      "reference": "arXiv:2201.02576, Phys.Rev.D 106, 2022",
+      "ancillaryFiles": [],
+      "description": "Three-loop planar vertex integral family with nine propagators and three ISPs, arising in $\\mathcal{O}(\\alpha^2 \\alpha_s)$ corrections to Z-pole electroweak precision observables. Contains two massive W-boson propagators and one massive top-quark propagator. External momenta $p_1, p_2$ are massless ($p_1^2=p_2^2=0$) with $p=p_1+p_2$ and $p^2=M_Z^2$. Evaluated using DE transport from Euclidean boundary to Minkowski point, yielding 8+ digits precision for integrals up to tensor rank 3. The family involves 77 master integrals.",
+      "epsOrders": "-3,-2,-1,0",
+      "tools": [
+        "Kira",
+        "Reduze",
+        "pySecDec",
+        "DiffExp"
+      ],
+      "doi": "10.1103/PhysRevD.106.L111301"
+    }
+  ],
+  "Names": [
+    "vtwPl"
+  ],
+  "Source": [
+    "arXiv",
+    "a",
+    "r",
+    "X",
+    "i",
+    "v"
+  ],
+  "Loops": 3,
+  "NumPropagators": 9,
+  "Results": [],
+  "edges": "{{{1, 2}, 0}, {{1, 4}, m[1]}, {{1, 6}, m[2]}, {{2, 3}, 0}, {{2, 5}, 0}, {{3, 4}, 0}, {{3, 5}, 0}, {{4, 7}, m[2]}, {{6, 7}, 0}}",
+  "nodes": "{{5, M}, {6, 0}, {7, 0}}",
+  "CanonicalName": "2-mass non-planar triangle-pentagon-box, 3 massive propagators",
+  "MassConfig": {
+    "numEdges": 9,
+    "numMassiveEdges": 3,
+    "numMasslessEdges": 6,
+    "distinctInternalMasses": 2,
+    "internalMassLabels": [
+      "m[1]",
+      "m[2]"
+    ],
+    "edgeMassPattern": "012000020",
+    "numExtLegs": 3,
+    "numOnshellMassiveExtLegs": 1,
+    "numMasslessExtLegs": 2,
+    "extLegSignature": "M00"
+  },
+  "Subsectors": [],
+  "ParentSectors": []
+}

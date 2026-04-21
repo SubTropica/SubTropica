@@ -1,0 +1,155 @@
+{
+  "CNickelIndex": "1123|23|e|e|:1111|11|2|2|",
+  "MassScales": 2,
+  "FunctionClass": "MPL",
+  "EpsilonOrder": "-3,-2,-1,0",
+  "References": [
+    "arXiv:2510.12885",
+    "arXiv:2405.13286 (Missing[\"KeyAbsent\", \"journal\"] Missing[\"KeyAbsent\", \"volume\"] (Missing[\"KeyAbsent\", \"pages\"]), Missing[\"KeyAbsent\", \"year\"])",
+    "arXiv:2603.15252 (Missing[\"KeyAbsent\", \"journal\"] Missing[\"KeyAbsent\", \"volume\"] (Missing[\"KeyAbsent\", \"pages\"]), Missing[\"KeyAbsent\", \"year\"])",
+    "arXiv:2408.06551"
+  ],
+  "Records": [
+    {
+      "epsOrders": "-3,-2,-1,0",
+      "reference": "arXiv:2510.12885",
+      "authors": "Laurent Lellouch, Alessandro Lupo, Mattias Sjö, Kálmán Szabo, Pierre Vanhove",
+      "description": "Expansion in $d=4-2\\varepsilon$ dimensions. Divergent parts contain only polylogarithms (this does not follow from IBP alone, but from additional Schouten relations). Finite parts given in terms of one-dimensional integral whose integrand includes the three-loop sunset in 2 dimensions (Nickel index e1111|e|:z1111|z|). Numerical implementations in preparation.",
+      "masterCount": 2,
+      "recordId": "1763118956.rTMO",
+      "verified": false,
+      "verifiedAt": ""
+    },
+    {
+      "reference": "arXiv:2405.13286 (PTEP 2024 (083B08), 2024)",
+      "authors": [
+        {
+          "full_name": "de Doncker, Elise",
+          "inspire_id": 1052498
+        },
+        {
+          "full_name": "Ishikawa, Tadashi",
+          "inspire_id": 1004851
+        },
+        {
+          "full_name": "Kato, Kiyoshi",
+          "inspire_id": 1003496
+        },
+        {
+          "full_name": "Yuasa, Fukuko",
+          "inspire_id": 982501
+        }
+      ],
+      "description": "Equal-mass three-loop two-point function with 6 internal lines arranged as a 4-cycle with a doubled diagonal. Analytic Laurent coefficients $C_{-2}$, $C_{-1}$, $C_0$ in terms of $j_s^{(1)}$, $j_s^{(2)}$ and $(j_s^{(1)})^2$; $C_1$ numerical. Cross-checked against pySecDec. Called `Loop (IV)` in the paper.",
+      "epsOrders": "0",
+      "familyName": "equal-mass 3-loop 2-point 4-cycle with doubled diagonal (6 propagators)",
+      "method": "direct_integration, sector_decomposition",
+      "tools": [
+        "pySecDec"
+      ],
+      "ancillaryFiles": false,
+      "doi": "10.1093/ptep/ptae122",
+      "texkey": "deDoncker:2024lmk",
+      "masterCount": 0,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "full",
+      "location": "Section 2, Eq. (2.14); Fig. 1 (Loop IV)",
+      "recordId": "bx_915dd9a09b33",
+      "verified": false,
+      "verifiedAt": ""
+    },
+    {
+      "reference": "arXiv:2603.15252",
+      "authors": [
+        {
+          "full_name": "Lellouch, Laurent",
+          "inspire_id": 1000612
+        },
+        {
+          "full_name": "Lupo, Alessandro",
+          "inspire_id": 1982690
+        },
+        {
+          "full_name": "Sjö, Mattias",
+          "inspire_id": 2747078
+        },
+        {
+          "full_name": "Vanhove, Pierre",
+          "inspire_id": 984979
+        }
+      ],
+      "description": "Six-propagator 3-loop sector $\\nu=(1,1,0,1,1,0,1,1,0)$ with elliptic MIs $E_5$, $E_6$. Evaluated via Wronskian method in $d=4$.",
+      "epsOrders": "0",
+      "familyName": "3-loop HVP cat's-eye sector (E5/E6)",
+      "method": "DE, direct_integration, series_expansion, sector_decomposition",
+      "tools": [
+        "pySecDec",
+        "AMFlow"
+      ],
+      "ancillaryFiles": false,
+      "doi": "",
+      "texkey": "Lellouch:2026xdr",
+      "masterCount": 2,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "full",
+      "location": "Eq. (2.7), Sec. 4",
+      "recordId": "bx_38120e563000",
+      "verified": false,
+      "verifiedAt": ""
+    },
+    {
+      "reference": "arXiv:2408.06551",
+      "authors": "de Doncker, E., Yuasa, F., Ishikawa, T., Kato, K.",
+      "description": "3-loop self-energy (baseball) diagram: 4 internal vertices with one doubled central 'seam' edge (NOT complete $K_4$), 6 equal-mass internal lines ($m=1$ in units of $m^2$). Laurent coefficients $C_{-2}$, $C_{-1}$, $C_0$, $C_1$ of the integral $I_{51234}$ computed numerically via Feynman-parameter sector decomposition, QUADPACK iterated adaptive integration or QMC lattice rules on GPU, combined with linear (Richardson) extrapolation in epsilon and optional Wynn-epsilon nonlinear extrapolation in the rho regulator ('double extrapolation').",
+      "epsOrders": "1",
+      "familyName": "all-massive 3-loop 2-point baseball (doubled-seam 4-vertex graph)",
+      "method": "sector_decomposition, numerical_extrapolation",
+      "tools": [
+        "QUADPACK",
+        "Mathematica"
+      ],
+      "ancillaryFiles": false,
+      "doi": "",
+      "texkey": "deDoncker:2024qzc",
+      "masterCount": 0,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "numerical",
+      "location": "Section 2, Eqs. (3)-(7) (master integral I_{51234} and its four sub-terms I_{00}, I_{01}, I_{10}, I_{11}); auxiliary polynomials f, q, G defined in Eqs. (8)-(13)",
+      "recordId": "bx_df518956ad57",
+      "verified": false,
+      "verifiedAt": ""
+    }
+  ],
+  "Source": [
+    "arXiv",
+    "Loopedia"
+  ],
+  "Results": [],
+  "Names": [
+    "Kite-spectacles (2 mass scales)",
+    "Kite-spectacles",
+    "3-loop propagator"
+  ],
+  "edges": "{{{1, 2}, m}, {{1, 2}, m}, {{1, 3}, m}, {{1, 4}, m}, {{2, 3}, m}, {{2, 4}, m}}",
+  "nodes": "{{3, M}, {4, M}}",
+  "CanonicalName": "Equal-mass cat eye",
+  "MassConfig": {
+    "numEdges": 6,
+    "numMassiveEdges": 6,
+    "numMasslessEdges": 0,
+    "distinctInternalMasses": 1,
+    "internalMassLabels": [
+      "m"
+    ],
+    "edgeMassPattern": "111111",
+    "numExtLegs": 2,
+    "numOnshellMassiveExtLegs": 2,
+    "numMasslessExtLegs": 0,
+    "extLegSignature": "MM"
+  },
+  "Subsectors": [
+    "1112|e2|e|:1111|21|2|",
+    "1122|e|e|:1111|2|2|"
+  ],
+  "ParentSectors": []
+}

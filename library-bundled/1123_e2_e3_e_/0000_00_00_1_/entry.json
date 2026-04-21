@@ -1,0 +1,107 @@
+{
+  "CNickelIndex": "1123|e2|e3|e|:0000|00|00|1|",
+  "MassScales": 1,
+  "FunctionClass": "unknown",
+  "EpsilonOrder": "-3,-2,-1,0,1,2,3",
+  "References": [
+    "arXiv:1004.3653",
+    "hep-ph/0607185"
+  ],
+  "Records": [
+    {
+      "epsOrders": "-3,-2,-1,0,1,2,3",
+      "reference": "arXiv:1004.3653",
+      "authors": "T. Gehrmann, E.W.N. Glover, T. Huber, N. Ikizlerli, C. Studerus",
+      "description": "The authors give all master integrals used in the computation of quark and gluon form factors to three loops in QCD. These integrals are available in the annex A and have all a prefactor given by equation A.1.",
+      "recordId": "1499084266.6V5A",
+      "verified": false,
+      "verifiedAt": ""
+    },
+    {
+      "reference": "hep-ph/0607185",
+      "authors": "T. Gehrmann, G. Heinrich, T. Huber, C. Studerus",
+      "description": "Name in Paper: A6,3",
+      "recordId": "1479980949.QcPQ",
+      "verified": false,
+      "verifiedAt": ""
+    }
+  ],
+  "Source": [
+    "arXiv",
+    "Loopedia"
+  ],
+  "Results": [
+    {
+      "resultCompressed": "1:eJyVVL1OwzAQTkgpFNEBJlakjrAiMVOJDq1UFSbEYiSnOsnBUR1+n6NPwLMw8Qy8AwsDCwWfTUwcOz/NcJGdu++++/w5hzd8FneDIBA7MlzQBVAxJBkRkVzSVIB8BXEHEzCMQWTxBq62ZZiRDPgtYRDKBSCK/rYpwyUkVOjllgxnPEkZfdRwLsCPfAC34yhvNWV3FfWgcvDTFFo1VPAxklRjjflcVU8m3mp3sgMk1i0Sg/e2w8JS9vaThQ+kZfam/IEu/jILWjThDwyTNVRr1gL2rQkVOV+ZZlqq3cU9k5w83/uyqtQeYWrfUvu631bt4Vel2qererVb4R+7quQgkUeIV3PCOMuI8bma8d/leKE0cpiH0rHDi3PAvlY1znf0WO8w31yXemsjD/eeZYSC2TrWPAOrRd08rGDiEs+96qPxjfVp/RMqPApHodfJrW5m8eY3Nlo6dHx+OjF7PTUjezonSUIUojZPqSA1sCj2Fc2IwoVv/OEay/0CB689SA==",
+      "resultTeX": "\\frac{1}{6 \\varepsilon^3}-\\frac{i \\left(-i \\log \\left(M^2\\right)+\\pi +3 i\\right)}{2 \\varepsilon^2}+\\frac{18 \\log ^2\\left(M^2\\right)+36 i (\\pi +3 i) \\log \\left(M^2\\right)+12 \\zeta(2)-17 \\pi ^2-108 i \\pi +220}{24 \\varepsilon}+(\\text{more terms})+O\\left(\\varepsilon^1\\right)",
+      "dimension": "4 - 2*eps",
+      "epsOrder": 0,
+      "propExponents": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "propagators": [],
+      "numerators": [],
+      "internalMasses": [],
+      "externalMasses": [],
+      "substitutions": "{}",
+      "normalization": "Automatic",
+      "stVersion": "SubTropica v1.0.322",
+      "stCommand": "STIntegrate[pref * (integrand / (Times @@ xvars)), {x2,0,Infinity}, {x3,0,Infinity}, {x4,0,Infinity}, {x5,0,Infinity}, {x6,0,Infinity}, Order->0]  (* with Gauge->{x1->1} *)",
+      "contributor": "Sebastian Mizera",
+      "timestamp": "2026-04-18T11:50:19",
+      "byteCount": 4696,
+      "method": "direct_integration",
+      "tools": [
+        "SubTropica",
+        "AnTropica"
+      ],
+      "verification": {
+        "method": "pySecDec",
+        "kinematicPoint": {
+          "Msq": "-31/7"
+        },
+        "tolerance": 0.0001,
+        "maxRelError": 3.938052225187533e-05,
+        "verifiedAt": "2026-04-18T11:50:19"
+      },
+      "legOrder": [],
+      "symbolTeX": "\\begin{aligned}\\varepsilon^{-2}&\\colon\\;-\\frac{1}{2}\\,(M^2) \\\\ \\varepsilon^{-1}&\\colon\\;-\\frac{9}{2}\\,(M^2) + \\frac{3}{2}\\,(M^2 \\otimes M^2) \\\\ \\varepsilon^{0}&\\colon\\;\\frac{27}{2}\\,(M^2 \\otimes M^2) - \\frac{9}{2}\\,(M^2 \\otimes M^2 \\otimes M^2) - \\frac{55}{2}\\,(M^2)\\end{aligned}",
+      "alphabet": [
+        "M^2"
+      ],
+      "symbolWeight": 3,
+      "symbolTerms": 6
+    }
+  ],
+  "Names": [
+    "A6,3",
+    "1-mass kite-bubble (3-point)",
+    "one-mass kite-bubble (3-point)",
+    "Kite-bubble (3-point)"
+  ],
+  "edges": "{{{1, 2}, 0}, {{1, 2}, 0}, {{1, 3}, 0}, {{1, 4}, 0}, {{2, 3}, 0}, {{3, 4}, 0}}",
+  "nodes": "{{2, 0}, {4, M}, {3, 0}}",
+  "quadruple": "{E^(3*eps*EulerGamma)*Gamma[3*eps], (x1*x2*x3 + x1*x2*x4 + x1*x3*x4 + x2*x3*x4 + x1*x3*x5 + x2*x3*x5 + x1*x4*x5 + x2*x4*x5 + x1*x2*x6 + x1*x3*x6 + x2*x3*x6 + x1*x5*x6 + x2*x5*x6)^(2*(-1 + 2*eps))/(MM*(x1 + x2)*x3*x5*x6)^(3*eps), {x1, x2, x3, x4, x5, x6}, {MM}}",
+  "CanonicalName": "1-mass bubble-triangle-triangle",
+  "MassConfig": {
+    "numEdges": 6,
+    "numMassiveEdges": 0,
+    "numMasslessEdges": 6,
+    "distinctInternalMasses": 0,
+    "internalMassLabels": [],
+    "edgeMassPattern": "000000",
+    "numExtLegs": 3,
+    "numOnshellMassiveExtLegs": 1,
+    "numMasslessExtLegs": 2,
+    "extLegSignature": "0M0"
+  },
+  "Subsectors": [],
+  "ParentSectors": [
+    "1123|e4|e4|e4||:0000|00|00|10||"
+  ]
+}
