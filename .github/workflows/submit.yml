@@ -40,7 +40,11 @@ jobs:
           mass_nickel = parts[1] if len(parts) > 1 else ''.join('0' if c != '|' else '|' for c in topo_nickel)
 
           def sanitize(s):
-              return s.replace("|", "_")
+              # Replace Nickel-index separators with underscores so the result
+              # is safe as both a directory name AND a git branch name.  Git
+              # refs forbid ':' (among others), and branches built from the
+              # full CNI include the topology/mass separator.
+              return s.replace("|", "_").replace(":", "_")
 
           topo_dir = f"library-bundled/{sanitize(topo_nickel)}"
           config_dir = f"{topo_dir}/{sanitize(mass_nickel)}"
