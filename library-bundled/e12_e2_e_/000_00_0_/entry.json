@@ -1,289 +1,322 @@
 {
-  "CNickelIndex": "e12|e2|e|:000|00|0|",
-  "MassScales": 0,
-  "FunctionClass": "MPL",
-  "EpsilonOrder": "",
-  "References": [
-    "arXiv:1709.06055 (Phys.Rev.D 96 (), 2017)",
-    "arXiv:2405.18178",
-    "arXiv:1510.06758 (Missing[\"KeyAbsent\", \"journal\"] Missing[\"KeyAbsent\", \"volume\"] (Missing[\"KeyAbsent\", \"pages\"]), Missing[\"KeyAbsent\", \"year\"])",
-    "arXiv:1803.05894 (Missing[\"KeyAbsent\", \"journal\"] Missing[\"KeyAbsent\", \"volume\"] (Missing[\"KeyAbsent\", \"pages\"]), Missing[\"KeyAbsent\", \"year\"])",
-    "arXiv:hep-ph/9307327 (Missing[\"KeyAbsent\", \"journal\"] Missing[\"KeyAbsent\", \"volume\"] (Missing[\"KeyAbsent\", \"pages\"]), Missing[\"KeyAbsent\", \"year\"])",
-    "arXiv:2603.18691 (Missing[\"KeyAbsent\", \"journal\"] Missing[\"KeyAbsent\", \"volume\"] (Missing[\"KeyAbsent\", \"pages\"]), Missing[\"KeyAbsent\", \"year\"])",
-    "arXiv:1705.03478"
-  ],
-  "Records": [
-    {
-      "dimScheme": "d=4-2*eps",
-      "recordId": "bf_de6a99c7668e",
-      "verified": false,
-      "verifiedAt": "",
-      "authors": "Bern, Zvi, Enciso, Michael, Ita, Harald, Zeng, Mao",
-      "texkey": "Bern:2017gdk",
-      "computationLevel": "IBP_only",
-      "masterCount": 0,
-      "reference": "arXiv:1709.06055, Phys.Rev.D 96, 2017",
-      "ancillaryFiles": [],
-      "description": "One-loop massless triangle with one massive external leg. Used to illustrate dual conformal IBP relations. No integral evaluation.",
-      "familyName": "one-external-mass triangle",
-      "location": "Section 3.1, Eqs. (3.9)-(3.17), Fig. 2",
-      "method": [],
-      "epsOrders": "",
-      "tools": [],
-      "doi": "10.1103/PhysRevD.96.096017"
-    },
-    {
-      "reference": "arXiv:1510.06758 (Phys.Rev.D 93 (125014), 2016)",
-      "authors": [
-        {
-          "full_name": "von Manteuffel, Andreas",
-          "inspire_id": 1020667
-        },
-        {
-          "full_name": "Panzer, Erik",
-          "inspire_id": 1261632
-        },
-        {
-          "full_name": "Schabinger, Robert M.",
-          "inspire_id": 1042049
-        }
-      ],
-      "description": "One-loop integral family for massless QCD quark and gluon form factors. Covers all one-loop form factor diagrams. Finite basis uses dimension-shifted ($d=6-2\\varepsilon$) bubble with squared propagators.",
-      "epsOrders": "6",
-      "familyName": "A1",
-      "method": "",
-      "tools": [
-        "Reduze2",
-        "HyperInt",
-        "Qgraf"
-      ],
-      "ancillaryFiles": true,
-      "doi": "10.1103/PhysRevD.93.125014",
-      "texkey": "vonManteuffel:2015gxa",
-      "masterCount": 1,
-      "dimScheme": "d=4-2*eps",
-      "computationLevel": "basis",
-      "location": "Table 1, Eq. (11)-(12)",
-      "recordId": "bx_59a40488ffef",
-      "verified": false,
-      "verifiedAt": ""
-    },
-    {
-      "reference": "arXiv:1803.05894 (PoS RADCOR2017 (002), 2018)",
-      "authors": [
-        {
-          "full_name": "Abreu, Samuel",
-          "inspire_id": 1287226
-        },
-        {
-          "full_name": "Britto, Ruth",
-          "inspire_id": 1015279
-        },
-        {
-          "full_name": "Duhr, Claude",
-          "inspire_id": 1040449
-        },
-        {
-          "full_name": "Gardi, Einan",
-          "inspire_id": 1019159
-        }
-      ],
-      "description": "Three-point one-loop function with three massless internal propagators, used as the primary worked example of the diagrammatic coaction: the coaction of the triangle is written as a sum over pinches (bubbles obtained by pinching one propagator) tensored with the corresponding cut triangles, plus the triangle itself tensored with its maximal cut. Scaleless tadpole pinches are discarded. The consistency of the coaction is checked by expanding in $\\varepsilon$ up to weight 4 and matching against the Goncharov-Brown coaction on MPLs.",
-      "epsOrders": "",
-      "familyName": "massless_triangle_three_offshell_legs",
-      "method": "direct_integration, unitarity",
-      "tools": [],
-      "ancillaryFiles": true,
-      "doi": "10.22323/1.290.0002",
-      "texkey": "Abreu:2018sat",
-      "masterCount": 0,
-      "dimScheme": "d=4-2*eps",
-      "computationLevel": "full",
-      "location": "Sec. 3, eq. (triangle), and surrounding discussion p. 5",
-      "recordId": "bx_4ba130d0450e",
-      "verified": false,
-      "verifiedAt": ""
-    },
-    {
-      "reference": "arXiv:hep-ph/9307327 (Phys.Atom.Nucl. 56 (1553-1557), 1993)",
-      "authors": [
-        {
-          "full_name": "Usyukina, N.I.",
-          "inspire_id": 2192017
-        },
-        {
-          "full_name": "Davydychev, Andrei I.",
-          "inspire_id": 1012291
-        }
-      ],
-      "description": "One-loop scalar triangle $J(4;1,1,1)=C^{(1)}(p_1^2,p_2^2,p_3^2)$ with massless internal propagators and three generic off-shell external momenta. Evaluated in $n=4$ via Feynman parameters and a two-fold Mellin-Barnes representation, yielding the closed-form $\\Phi^{(1)}(x,y)$ in Eq. (9) with $x=p_1^2/p_3^2$, $y=p_2^2/p_3^2$, $\\lambda=\\sqrt{(1-x-y)^2-4xy}$. Involves $\\operatorname{Li}_2(-\\rho x)$, $\\operatorname{Li}_2(-\\rho y)$ and logarithms.",
-      "epsOrders": "",
-      "familyName": "one-loop massless triangle with off-shell external legs",
-      "method": "direct_integration, Mellin-Barnes",
-      "tools": [],
-      "ancillaryFiles": false,
-      "doi": "",
-      "texkey": "Usyukina:1992wz",
-      "masterCount": 1,
-      "dimScheme": "d=4",
-      "computationLevel": "full",
-      "location": "Section 2, Fig. 1, Eqs. (1)-(7)",
-      "recordId": "bx_89aa44620b04",
-      "verified": false,
-      "verifiedAt": ""
-    },
-    {
-      "reference": "arXiv:2603.18691",
-      "authors": [
-        {
-          "full_name": "Dhani, Prasanna K.",
-          "inspire_id": 1607975
-        },
-        {
-          "full_name": "Pyretzidis, Konstantinos",
-          "inspire_id": 2938780
-        },
-        {
-          "full_name": "Ramírez-Uribe, Selomit",
-          "inspire_id": 1730297
-        },
-        {
-          "full_name": "Ríos-Sánchez, José",
-          "inspire_id": 2760441
-        },
-        {
-          "full_name": "Sborlini, German F.R.",
-          "inspire_id": 1074173
-        },
-        {
-          "full_name": "Tiwari, Surabhi",
-          "inspire_id": 1935452
-        },
-        {
-          "full_name": "Rodrigo, Germán",
-          "inspire_id": 991497
-        }
-      ],
-      "description": "One-loop massless triangle. IR-finite integrands constructed via LTD.",
-      "epsOrders": "0",
-      "familyName": "Massless 1-loop triangle (3 massless legs) / Massless 1-loop triangle (2 massless legs)",
-      "method": "direct_integration",
-      "tools": [],
-      "ancillaryFiles": false,
-      "doi": "",
-      "texkey": "Dhani:2026cxx",
-      "masterCount": 0,
-      "dimScheme": "d=4-2*eps",
-      "computationLevel": "full",
-      "location": "Sections 4-5, Table I",
-      "recordId": "bx_8a53ac3dc4bf",
-      "verified": false,
-      "verifiedAt": ""
-    },
-    {
-      "reference": "arXiv:1705.03478",
-      "authors": [
-        {
-          "full_name": "Harley, Mark",
-          "inspire_id": 1307863
-        },
-        {
-          "full_name": "Moriello, Francesco",
-          "inspire_id": 1799374
-        },
-        {
-          "full_name": "Schabinger, Robert M.",
-          "inspire_id": 1042049
-        }
-      ],
-      "description": "One-external-mass one-loop triangle with generic positive integer propagator exponents $\\nu_1, \\nu_2, \\nu_3$. Studied via s-channel cut in the Baikov-Lee representation to demonstrate the formalism for higher-multiplicity propagators and to verify the cut-discontinuity relation.",
-      "epsOrders": "all_orders",
-      "familyName": "OneExternalMassOneLoopTriangle",
-      "method": "direct_integration",
-      "tools": [],
-      "ancillaryFiles": true,
-      "doi": "",
-      "texkey": "",
-      "masterCount": 1,
-      "dimScheme": "d=4-2*eps",
-      "computationLevel": "full",
-      "location": "Section 3.1 (subsec:triangle-gendots), Appendix B (sapp:oneloop-tri)",
-      "recordId": "bx_211db94f21ff",
-      "verified": false,
-      "verifiedAt": ""
-    }
-  ],
-  "Names": [
-    "one-external-mass triangle",
-    "one-loop massive triangle",
-    "A1",
-    "massless_triangle_three_offshell_legs",
-    "one-loop massless triangle with off-shell external legs",
-    "Massless 1-loop triangle (3 massless legs)",
-    "OneExternalMassOneLoopTriangle",
-    "Massless 1-loop triangle (2 massless legs)"
-  ],
-  "Source": [
-    "arXiv"
-  ],
-  "Loops": 1,
-  "NumPropagators": 3,
-  "Results": [
-    {
-      "resultCompressed": "1:eJxTTMoPSmNjYGAo5gISwalFmanFLoklicXMQG5qQXEmkGJIAxHFLEDCJ7O4JJMRyEAQAM7WC/E=",
-      "resultTeX": "O\\left(\\varepsilon^1\\right)",
-      "dimension": "4 - 2*eps",
-      "epsOrder": "0",
-      "epsOrders": "0",
-      "propExponents": [
-        1,
-        1,
-        1
-      ],
-      "propagators": [],
-      "numerators": [],
-      "internalMasses": [],
-      "externalMasses": [],
-      "substitutions": "",
-      "normalization": "Automatic",
-      "stVersion": "SubTropica v1.0.296",
-      "stCommand": "",
-      "contributor": "Sebastian Mizera",
-      "timestamp": "2026-04-16T09:43:58",
-      "verifiedAt": "2026-04-16T09:43:58",
-      "verified": true,
-      "method": "direct_integration",
-      "tools": [
-        "SubTropica"
-      ],
-      "methodLR": "Lungo",
-      "byteCount": 192
-    }
-  ],
-  "edges": "{{{1, 2}, 0}, {{1, 3}, 0}, {{2, 3}, 0}}",
-  "nodes": "{{1, 0}, {2, 0}, {3, 0}}",
-  "numericallyVerified": true,
-  "numericallyVerifiedAt": "2026-04-12",
-  "CanonicalName": "Massless triangle",
-  "MassConfig": {
-    "numEdges": 3,
-    "numMassiveEdges": 0,
-    "numMasslessEdges": 3,
-    "distinctInternalMasses": 0,
-    "internalMassLabels": [],
-    "edgeMassPattern": "000",
-    "numExtLegs": 3,
-    "numOnshellMassiveExtLegs": 0,
-    "numMasslessExtLegs": 3,
-    "extLegSignature": "000"
-  },
-  "commonNames": [
-    "C₀"
-  ],
-  "Subsectors": [],
-  "ParentSectors": [
-    "1123|e|e3|e|:0000|0|00|0|",
-    "112|e3|e3|e|:000|00|00|0|",
-    "112|e3|e3|e|:010|00|00|0|"
-  ]
+	"CNickelIndex": "e12|e2|e|:000|00|0|",
+	"MassScales": 0,
+	"FunctionClass": "MPL",
+	"EpsilonOrder": "",
+	"References": [
+		"arXiv:1709.06055 (Phys.Rev.D 96 (), 2017)",
+		"arXiv:2405.18178",
+		"arXiv:1510.06758 (Missing[\"KeyAbsent\", \"journal\"] Missing[\"KeyAbsent\", \"volume\"] (Missing[\"KeyAbsent\", \"pages\"]), Missing[\"KeyAbsent\", \"year\"])",
+		"arXiv:1803.05894 (Missing[\"KeyAbsent\", \"journal\"] Missing[\"KeyAbsent\", \"volume\"] (Missing[\"KeyAbsent\", \"pages\"]), Missing[\"KeyAbsent\", \"year\"])",
+		"arXiv:hep-ph/9307327 (Missing[\"KeyAbsent\", \"journal\"] Missing[\"KeyAbsent\", \"volume\"] (Missing[\"KeyAbsent\", \"pages\"]), Missing[\"KeyAbsent\", \"year\"])",
+		"arXiv:2603.18691 (Missing[\"KeyAbsent\", \"journal\"] Missing[\"KeyAbsent\", \"volume\"] (Missing[\"KeyAbsent\", \"pages\"]), Missing[\"KeyAbsent\", \"year\"])",
+		"arXiv:1705.03478"
+	],
+	"Records": [
+		{
+			"dimScheme": "d=4-2*eps",
+			"recordId": "bf_de6a99c7668e",
+			"verified": false,
+			"verifiedAt": "",
+			"authors": "Bern, Zvi, Enciso, Michael, Ita, Harald, Zeng, Mao",
+			"texkey": "Bern:2017gdk",
+			"computationLevel": "IBP_only",
+			"masterCount": 0,
+			"reference": "arXiv:1709.06055, Phys.Rev.D 96, 2017",
+			"ancillaryFiles": [],
+			"description": "One-loop massless triangle with one massive external leg. Used to illustrate dual conformal IBP relations. No integral evaluation.",
+			"familyName": "one-external-mass triangle",
+			"location": "Section 3.1, Eqs. (3.9)-(3.17), Fig. 2",
+			"method": [],
+			"epsOrders": "",
+			"tools": [],
+			"doi": "10.1103/PhysRevD.96.096017"
+		},
+		{
+			"reference": "arXiv:1510.06758 (Phys.Rev.D 93 (125014), 2016)",
+			"authors": [
+				{
+					"full_name": "von Manteuffel, Andreas",
+					"inspire_id": 1020667
+				},
+				{
+					"full_name": "Panzer, Erik",
+					"inspire_id": 1261632
+				},
+				{
+					"full_name": "Schabinger, Robert M.",
+					"inspire_id": 1042049
+				}
+			],
+			"description": "One-loop integral family for massless QCD quark and gluon form factors. Covers all one-loop form factor diagrams. Finite basis uses dimension-shifted ($d=6-2\\varepsilon$) bubble with squared propagators.",
+			"epsOrders": "6",
+			"familyName": "A1",
+			"method": "",
+			"tools": [
+				"Reduze2",
+				"HyperInt",
+				"Qgraf"
+			],
+			"ancillaryFiles": true,
+			"doi": "10.1103/PhysRevD.93.125014",
+			"texkey": "vonManteuffel:2015gxa",
+			"masterCount": 1,
+			"dimScheme": "d=4-2*eps",
+			"computationLevel": "basis",
+			"location": "Table 1, Eq. (11)-(12)",
+			"recordId": "bx_59a40488ffef",
+			"verified": false,
+			"verifiedAt": ""
+		},
+		{
+			"reference": "arXiv:1803.05894 (PoS RADCOR2017 (002), 2018)",
+			"authors": [
+				{
+					"full_name": "Abreu, Samuel",
+					"inspire_id": 1287226
+				},
+				{
+					"full_name": "Britto, Ruth",
+					"inspire_id": 1015279
+				},
+				{
+					"full_name": "Duhr, Claude",
+					"inspire_id": 1040449
+				},
+				{
+					"full_name": "Gardi, Einan",
+					"inspire_id": 1019159
+				}
+			],
+			"description": "Three-point one-loop function with three massless internal propagators, used as the primary worked example of the diagrammatic coaction: the coaction of the triangle is written as a sum over pinches (bubbles obtained by pinching one propagator) tensored with the corresponding cut triangles, plus the triangle itself tensored with its maximal cut. Scaleless tadpole pinches are discarded. The consistency of the coaction is checked by expanding in $\\varepsilon$ up to weight 4 and matching against the Goncharov-Brown coaction on MPLs.",
+			"epsOrders": "",
+			"familyName": "massless_triangle_three_offshell_legs",
+			"method": "direct_integration, unitarity",
+			"tools": [],
+			"ancillaryFiles": true,
+			"doi": "10.22323/1.290.0002",
+			"texkey": "Abreu:2018sat",
+			"masterCount": 0,
+			"dimScheme": "d=4-2*eps",
+			"computationLevel": "full",
+			"location": "Sec. 3, eq. (triangle), and surrounding discussion p. 5",
+			"recordId": "bx_4ba130d0450e",
+			"verified": false,
+			"verifiedAt": ""
+		},
+		{
+			"reference": "arXiv:hep-ph/9307327 (Phys.Atom.Nucl. 56 (1553-1557), 1993)",
+			"authors": [
+				{
+					"full_name": "Usyukina, N.I.",
+					"inspire_id": 2192017
+				},
+				{
+					"full_name": "Davydychev, Andrei I.",
+					"inspire_id": 1012291
+				}
+			],
+			"description": "One-loop scalar triangle $J(4;1,1,1)=C^{(1)}(p_1^2,p_2^2,p_3^2)$ with massless internal propagators and three generic off-shell external momenta. Evaluated in $n=4$ via Feynman parameters and a two-fold Mellin-Barnes representation, yielding the closed-form $\\Phi^{(1)}(x,y)$ in Eq. (9) with $x=p_1^2/p_3^2$, $y=p_2^2/p_3^2$, $\\lambda=\\sqrt{(1-x-y)^2-4xy}$. Involves $\\operatorname{Li}_2(-\\rho x)$, $\\operatorname{Li}_2(-\\rho y)$ and logarithms.",
+			"epsOrders": "",
+			"familyName": "one-loop massless triangle with off-shell external legs",
+			"method": "direct_integration, Mellin-Barnes",
+			"tools": [],
+			"ancillaryFiles": false,
+			"doi": "",
+			"texkey": "Usyukina:1992wz",
+			"masterCount": 1,
+			"dimScheme": "d=4",
+			"computationLevel": "full",
+			"location": "Section 2, Fig. 1, Eqs. (1)-(7)",
+			"recordId": "bx_89aa44620b04",
+			"verified": false,
+			"verifiedAt": ""
+		},
+		{
+			"reference": "arXiv:2603.18691",
+			"authors": [
+				{
+					"full_name": "Dhani, Prasanna K.",
+					"inspire_id": 1607975
+				},
+				{
+					"full_name": "Pyretzidis, Konstantinos",
+					"inspire_id": 2938780
+				},
+				{
+					"full_name": "Ram\u00edrez-Uribe, Selomit",
+					"inspire_id": 1730297
+				},
+				{
+					"full_name": "R\u00edos-S\u00e1nchez, Jos\u00e9",
+					"inspire_id": 2760441
+				},
+				{
+					"full_name": "Sborlini, German F.R.",
+					"inspire_id": 1074173
+				},
+				{
+					"full_name": "Tiwari, Surabhi",
+					"inspire_id": 1935452
+				},
+				{
+					"full_name": "Rodrigo, Germ\u00e1n",
+					"inspire_id": 991497
+				}
+			],
+			"description": "One-loop massless triangle. IR-finite integrands constructed via LTD.",
+			"epsOrders": "0",
+			"familyName": "Massless 1-loop triangle (3 massless legs) / Massless 1-loop triangle (2 massless legs)",
+			"method": "direct_integration",
+			"tools": [],
+			"ancillaryFiles": false,
+			"doi": "",
+			"texkey": "Dhani:2026cxx",
+			"masterCount": 0,
+			"dimScheme": "d=4-2*eps",
+			"computationLevel": "full",
+			"location": "Sections 4-5, Table I",
+			"recordId": "bx_8a53ac3dc4bf",
+			"verified": false,
+			"verifiedAt": ""
+		},
+		{
+			"reference": "arXiv:1705.03478",
+			"authors": [
+				{
+					"full_name": "Harley, Mark",
+					"inspire_id": 1307863
+				},
+				{
+					"full_name": "Moriello, Francesco",
+					"inspire_id": 1799374
+				},
+				{
+					"full_name": "Schabinger, Robert M.",
+					"inspire_id": 1042049
+				}
+			],
+			"description": "One-external-mass one-loop triangle with generic positive integer propagator exponents $\\nu_1, \\nu_2, \\nu_3$. Studied via s-channel cut in the Baikov-Lee representation to demonstrate the formalism for higher-multiplicity propagators and to verify the cut-discontinuity relation.",
+			"epsOrders": "all_orders",
+			"familyName": "OneExternalMassOneLoopTriangle",
+			"method": "direct_integration",
+			"tools": [],
+			"ancillaryFiles": true,
+			"doi": "",
+			"texkey": "",
+			"masterCount": 1,
+			"dimScheme": "d=4-2*eps",
+			"computationLevel": "full",
+			"location": "Section 3.1 (subsec:triangle-gendots), Appendix B (sapp:oneloop-tri)",
+			"recordId": "bx_211db94f21ff",
+			"verified": false,
+			"verifiedAt": ""
+		}
+	],
+	"Names": [
+		"one-external-mass triangle",
+		"one-loop massive triangle",
+		"A1",
+		"massless_triangle_three_offshell_legs",
+		"one-loop massless triangle with off-shell external legs",
+		"Massless 1-loop triangle (3 massless legs)",
+		"OneExternalMassOneLoopTriangle",
+		"Massless 1-loop triangle (2 massless legs)"
+	],
+	"Source": [
+		"arXiv"
+	],
+	"Loops": 1,
+	"NumPropagators": 3,
+	"Results": [
+		{
+			"resultCompressed": "1:eJxTTMoPSmNjYGAo5gISwalFmanFLoklicXMQG5qQXEmkGJIAxHFLEDCJ7O4JJMRyEAQAM7WC/E=",
+			"resultTeX": "O\\left(\\varepsilon^1\\right)",
+			"dimension": "4 - 2*eps",
+			"epsOrder": "0",
+			"epsOrders": "0",
+			"propExponents": [
+				1,
+				1,
+				1
+			],
+			"propagators": [],
+			"numerators": [],
+			"internalMasses": [],
+			"externalMasses": [],
+			"substitutions": "",
+			"normalization": "Automatic",
+			"stVersion": "SubTropica v1.0.296",
+			"stCommand": "",
+			"contributor": "Sebastian Mizera",
+			"timestamp": "2026-04-16T09:43:58",
+			"verifiedAt": "2026-04-16T09:43:58",
+			"verified": true,
+			"method": "direct_integration",
+			"tools": [
+				"SubTropica"
+			],
+			"methodLR": "Lungo",
+			"byteCount": 192
+		},
+		{
+			"resultCompressed": "1:eJxNjksOwyAMROlXVW7Ru3TZRZTmAlQykiUoaYYqx088sEhZPBh4GnN/5yFcnXPoDC+ZVfDwxeNkUSaobS4cKJwNT0UJPOBiGDUJwpHxZhh80fzxUakrr9sb1T4vMoMxJV1tgdK3CSzs4w+7Xpur12YTU+39z9TrB9tEYgMUqCqC",
+			"resultTeX": "\\frac{(p(2)-p(1)) q}{2 m^2}+O\\left(\\varepsilon^1\\right)",
+			"dimension": "4 - 2*eps",
+			"epsOrder": 0,
+			"propExponents": [
+				1,
+				1,
+				1
+			],
+			"propagators": 3,
+			"numerators": [
+				[
+					"q*(l[1] - p[2])",
+					-1
+				]
+			],
+			"internalMasses": [
+				"m",
+				"m"
+			],
+			"externalMasses": [
+				"m",
+				"m"
+			],
+			"substitutions": "{Subscript[m, 2] -> m, Subscript[m, 3] -> m, Subscript[M, 1] -> m, Subscript[M, 2] -> m}",
+			"normalization": "Automatic",
+			"stVersion": "SubTropica v1.0.427",
+			"stCommand": "STIntegrate[{{{{1, 2}, 0}, {{1, 3}, m}, {{2, 3}, m}}, {{1, m}, {2, m}, {3, 0}}}, \"SetProblemID\" -> \"gMinus2\", \"Order\" -> 0, \"Substitutions\" -> {Subscript[m, 2] -> m, Subscript[m, 3] -> m, Subscript[M, 1] -> m, Subscript[M, 2] -> m}, \"CleanOutput\" -> True, \"Gauge\" -> {x2 -> 1}, \"FindRoots\" -> False, \"MethodLR\" -> \"Espresso\", \"internalMasses\" -> {m, m}, \"externalMasses\" -> {m, m}]",
+			"contributor": "Anonymous",
+			"timestamp": "Wed 22 Apr 2026 00:38:00",
+			"byteCount": 656
+		}
+	],
+	"edges": "{{{1, 2}, 0}, {{1, 3}, 0}, {{2, 3}, 0}}",
+	"nodes": "{{1, 0}, {2, 0}, {3, 0}}",
+	"numericallyVerified": true,
+	"numericallyVerifiedAt": "2026-04-12",
+	"CanonicalName": "Massless triangle",
+	"MassConfig": {
+		"numEdges": 3,
+		"numMassiveEdges": 0,
+		"numMasslessEdges": 3,
+		"distinctInternalMasses": 0,
+		"internalMassLabels": [],
+		"edgeMassPattern": "000",
+		"numExtLegs": 3,
+		"numOnshellMassiveExtLegs": 0,
+		"numMasslessExtLegs": 3,
+		"extLegSignature": "000"
+	},
+	"commonNames": [
+		"C\u2080"
+	],
+	"Subsectors": [],
+	"ParentSectors": [
+		"1123|e|e3|e|:0000|0|00|0|",
+		"112|e3|e3|e|:000|00|00|0|",
+		"112|e3|e3|e|:010|00|00|0|"
+	]
 }
