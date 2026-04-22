@@ -54,6 +54,7 @@ jobs:
               "wrong-propagators":     "Wrong propagators",
               "wrong-description":     "Wrong description",
               "wrong-reference":       "Wrong reference",
+              "citation-request":      "Citation request",
               "other":                 "Other",
           }.get(category, "Other")
 
@@ -149,6 +150,7 @@ jobs:
               correction:wrong-propagators)  color="fbca04" ;;
               correction:wrong-description)  color="fbca04" ;;
               correction:wrong-reference)    color="fbca04" ;;
+              correction:citation-request)   color="a2eeef" ;;
               correction:other)              color="cccccc" ;;
               *)                             color="cccccc" ;;
             esac
