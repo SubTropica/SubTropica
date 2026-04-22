@@ -1,0 +1,161 @@
+# .github/workflows/correction.yml
+#
+# Triggered by workflow_dispatch from the Cloudflare Worker.
+# Parses a correction-report JSON payload and opens a GitHub issue.
+# Corrections are human reports (misidentified diagram, wrong masses,
+# bad description, etc.) and require a maintainer to triage — no
+# automatic patching of library entries.
+
+name: Process Correction
+
+on:
+  workflow_dispatch:
+    inputs:
+      payload:
+        description: "JSON payload from SubTropica UI"
+        required: true
+        type: string
+
+permissions:
+  issues: write
+
+jobs:
+  create-issue:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Build issue body
+        id: build
+        shell: python3 {0}
+        run: |
+          import json, os
+
+          payload = json.loads(os.environ["PAYLOAD"])
+
+          cni       = payload.get("cnickelIndex", "")
+          record_id = payload.get("recordId", "")
+          category  = payload.get("category", "other")
+          comment   = payload.get("comment", "").strip()
+          proposed  = (payload.get("proposedValue", "") or "").strip()
+          field     = (payload.get("fieldPath", "") or "").strip()
+          current   = (payload.get("currentValue", "") or "").strip()
+          arxiv_id  = (payload.get("arxivId", "") or "").strip()
+          canon     = (payload.get("canonicalName", "") or "").strip()
+          contrib   = (payload.get("contributor", "") or "anonymous").strip() or "anonymous"
+          ui_ver    = (payload.get("uiVersion", "") or "").strip()
+          timestamp = (payload.get("timestamp", "") or "").strip()
+
+          cat_label = {
+              "misidentified-diagram": "Misidentified diagram",
+              "wrong-masses":          "Wrong masses",
+              "wrong-propagators":     "Wrong propagators",
+              "wrong-description":     "Wrong description",
+              "wrong-reference":       "Wrong reference",
+              "other":                 "Other",
+          }.get(category, "Other")
+
+          # Title: keep short and scannable in the issue list.  Prefer the
+          # canonical diagram name when the library has one, else fall back
+          # to the CNI.
+          title_target = canon if canon else cni
+          if len(title_target) > 60:
+              title_target = title_target[:57] + "..."
+          title = f"Correction [{cat_label}]: {title_target}"
+
+          # Body: structured fields above the fold, raw payload collapsed
+          # below for maintainer debugging.
+          lines = []
+          lines.append(f"**Category:** {cat_label}")
+          lines.append("")
+          lines.append("### Record")
+          if canon:
+              lines.append(f"- **Name:** `{canon}`")
+          lines.append(f"- **CNickelIndex:** `{cni}`")
+          if record_id:
+              lines.append(f"- **recordId:** `{record_id}`")
+          if arxiv_id:
+              lines.append(f"- **arXiv:** [{arxiv_id}](https://arxiv.org/abs/{arxiv_id})")
+          if field:
+              lines.append(f"- **Field:** `{field}`")
+          lines.append("")
+          lines.append("### What's wrong")
+          lines.append("")
+          lines.append(comment if comment else "_(no comment provided)_")
+          lines.append("")
+          if current:
+              lines.append("### Current value")
+              lines.append("")
+              lines.append("```")
+              lines.append(current)
+              lines.append("```")
+              lines.append("")
+          if proposed:
+              lines.append("### Proposed fix")
+              lines.append("")
+              lines.append("```")
+              lines.append(proposed)
+              lines.append("```")
+              lines.append("")
+          lines.append("---")
+          lines.append(f"Reported by: **{contrib}**")
+          meta_bits = []
+          if timestamp: meta_bits.append(timestamp)
+          if ui_ver:    meta_bits.append(f"UI v{ui_ver}")
+          if meta_bits:
+              lines.append(" · ".join(meta_bits))
+          lines.append("")
+          lines.append("<details><summary>Raw payload</summary>")
+          lines.append("")
+          lines.append("```json")
+          lines.append(json.dumps(payload, indent=2))
+          lines.append("```")
+          lines.append("")
+          lines.append("</details>")
+
+          body = "\n".join(lines)
+
+          labels = ["correction", f"correction:{category}"]
+
+          # Write outputs.  Multiline values use the GITHUB_OUTPUT heredoc
+          # form so newlines survive.
+          with open(os.environ["GITHUB_OUTPUT"], "a") as f:
+              f.write(f"title={title}\n")
+              f.write(f"labels={','.join(labels)}\n")
+              f.write("body<<CORRECTION_BODY_EOF\n")
+              f.write(body)
+              f.write("\nCORRECTION_BODY_EOF\n")
+        env:
+          PAYLOAD: ${{ inputs.payload }}
+
+      - name: Create issue
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ISSUE_TITLE: ${{ steps.build.outputs.title }}
+          ISSUE_BODY: ${{ steps.build.outputs.body }}
+          ISSUE_LABELS: ${{ steps.build.outputs.labels }}
+        run: |
+          # Ensure labels exist (idempotent — --force updates an existing
+          # label rather than failing).  Without this, `gh issue create
+          # --label` errors on first use with "label does not exist".
+          IFS=',' read -ra LBL_ARR <<< "$ISSUE_LABELS"
+          for lbl in "${LBL_ARR[@]}"; do
+            case "$lbl" in
+              correction)                    color="d73a4a" ;;
+              correction:misidentified-diagram) color="fbca04" ;;
+              correction:wrong-masses)       color="fbca04" ;;
+              correction:wrong-propagators)  color="fbca04" ;;
+              correction:wrong-description)  color="fbca04" ;;
+              correction:wrong-reference)    color="fbca04" ;;
+              correction:other)              color="cccccc" ;;
+              *)                             color="cccccc" ;;
+            esac
+            gh label create "$lbl" --color "$color" --force >/dev/null 2>&1 || true
+          done
+
+          gh issue create \
+            --title "$ISSUE_TITLE" \
+            --body  "$ISSUE_BODY" \
+            --label "$ISSUE_LABELS"
