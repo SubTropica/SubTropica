@@ -1,6 +1,12 @@
 (* ::Package:: *)
 
 BeginPackage["SubTropica`",{"HyperIntica`","Parallel`Developer`"}];
+
+
+(* ::Section::Closed:: *)
+(*Preamble*)
+
+
 (* Suppress shadowing warnings for common single-letter symbols (s, t, etc.)
    that inevitably appear in both SubTropica` and Global` contexts *)
 Off[General::shdw];
@@ -799,7 +805,7 @@ Options[ConfigureSubTropica] = {
 With[{$SubTropicaDir = DirectoryName[$InputFileName]},
 
 $SubTropicaInstallDir = $SubTropicaDir;
-$SubTropicaVersion = "1.1.0";
+$SubTropicaVersion = "1.1.1";
 
 (* FindRoots root-letter substitutions: W$i -> algebraic root expressions.
    Set by STReadResults when the integration used FindRoots alphabet letters.
@@ -981,7 +987,7 @@ STResetConfig[] := If[FileExistsQ[$STConfigFile],
 (*Print["Currently debugging..."]*)
 
 
-(* ::Section:: *)
+(* ::Section::Closed:: *)
 (*Description*)
 
 
@@ -1060,8 +1066,9 @@ STNIntegrate::usage="
 STNIntegrate[{edges, nodes}, opts] numerically evaluates a Feynman integral via sector decomposition.
 STNIntegrate[{propagators}, opts] evaluates from a propagator list.
 STNIntegrate[cni_String, opts] looks up a library entry by CNickelIndex and evaluates numerically.
-Options: \"Method\" -> \"pySecDec\" | \"FIESTA\", \"Integrator\" -> \"Qmc\" | \"Disteval\" | \"Vegas\",
-\"KinematicPoint\" -> {s12 -> -7, ...}, \"Order\" -> 0, \"Dimension\" -> 4-2eps, etc.
+Options: \"Method\" -> \"pySecDec\" | \"FIESTA\" | \"AMFlow\" | \"feyntrop\", \"Integrator\" -> \"Qmc\" | \"Disteval\" | \"Vegas\",
+\"Substitutions\" -> {s12 -> -7, ...}, \"Order\" -> 0, \"Dimension\" -> 4-2eps, etc.
+The legacy option name \"KinematicPoint\" remains accepted as an alias for \"Substitutions\" but is deprecated.
 Scalar products of momenta in propagators, numerators, and substitutions may be written as p*q, p\[CenterDot]q (CenterDot), or p.q (Dot).";
 
 STBuildLibraryJSON::usage = "STBuildLibraryJSON[] rebuilds ui/library.json from \
@@ -1154,7 +1161,20 @@ the default browser. Auto-starts the local SubTropica server if it isn't \
 already running, so you can call STReview[] without first calling STIntegrate[]. \
 The review tool lets you walk through paper/diagram pairings and verify or \
 remove them; verified records are flagged in the public library.json. \
-Localhost-only \[LongDash] not exposed to subtropica.org. Call STStop[] when done.";
+Localhost-only \[LongDash] not exposed to subtropi.ca. Call STStop[] when done.";
+
+STBrowser::usage = "STBrowser[] starts the local SubTropica server (if it is \
+not already running) and opens its URL in the default system browser. \
+Returns Null on success; returns $Failed only if the server could not be \
+started. No native viewer, no parallel kernels, no main polling loop \
+\[LongDash] the evaluation cell returns immediately and prints nothing. \
+Idempotent: subsequent calls reuse the existing server and reopen the \
+browser tab. Useful for library browsing, Review tool access, and diagram \
+inspection while keeping the notebook kernel free for parallel work. Note: \
+UI actions that would route back into Mathematica (e.g. running an \
+integration from the diagram editor) will hang in this mode because no \
+main loop is draining the IPC queue \[LongDash] use STIntegrate[] for that. \
+The URL is still available as $stServerURL if needed. Call STStop[] when done.";
 
 STStop::usage = "STStop[] shuts down the local SubTropica server if it is \
 running. Safe to call when no server is active. The server is also auto-killed \
@@ -1164,10 +1184,12 @@ when the Mathematica kernel exits.";
 STExpandIntegral::usage = "
 STExpandIntegral[integrand, xvars, coeffs, regulators_:{eps}, trDataGiven_:{}] expands an Euler integral as a combination of locally finite integrals, using
 a combination of Nillson-Passare analytical continuations and tropical subtractions.
-It returns a list expansions={{prefactor, subtraction},...} describing the terms in the expansion as a pair prefactor,integral. 
+It returns a list expansions={{prefactor, subtraction},...} describing the terms in the expansion as a pair prefactor,integral.
 The integral is evaluated to a list {{face integrand, face variables},...} indexed by the divergent faces of the Newton polytope.
 Each item corresponds to the integral over the integration variables of a locally finite integrand, itself described as a list of terms.
 ";
+
+STExpandIntegral::notwelldef = "The Euler integral is not well-defined: the tropical evaluation of the integrand vanishes on at least one ray of the Newton-polytope fan, and no regulator-dependent exponent is present to regulate that divergence. Typical cause: a Feynman-parameter integrand without an eps regulator on a subexpression (e.g., raw 1/(x1+x2) or eps/(x1+x2) instead of (x1+x2)^(-1-eps)).";
 
 (* Evaluate Subtractions by HyperInt *)
 STEvaluateSubtractionNP::usage="
@@ -1280,30 +1302,12 @@ If[$Notebooks,SetDirectory[NotebookDirectory[]];];
 If[!TrueQ[$Notebooks], Off[FrontEndObject::notavail]];
 
 
-(*CopyDirectory[$UserBaseDirectory<>"SubTropica/directoryStructure","./"]*)
-(*CopyDirectory["~/SubTropica/STdir",""]*)
-
-STCopyDirectoryContents[sourceDir_, targetDir_] := Module[
-  {files},
-  files = FileNames["*", sourceDir, Infinity];
-  Do[
-    CopyFile[
-      file,
-      FileNameJoin[{targetDir, StringDrop[file, StringLength[sourceDir] + 1]}],
-      OverwriteTarget -> True
-    ],
-    {file, files}
-  ]
-]
-
-(*$InputFileName*)
-
-(*  resolve package root even when loaded from a subdirectory (e.g. optimized/...).
-   Walk up one level if directoryStructure/... is not adjacent to this file. *)
-SubTropicaPackageDirectory = Module[{d = DirectoryName[AbsoluteFileName[$InputFileName]]},
-    If[DirectoryQ[FileNameJoin[{d, "directoryStructure"}]], d, ParentDirectory[d]]
-] <> "/";
-STCopyDirectoryContents[SubTropicaPackageDirectory<>"directoryStructure", "./"]
+(* Scratch directories for polymake (STtropicalDataOLD and variants) and
+   Normaliz (STnrmlzTriangulate) are created lazily at the top of each
+   function below, so the paclet no longer needs to ship a bundled
+   `directoryStructure/` and copy it into the user's CWD at load time.
+   The prior `STCopyDirectoryContents` dance silently no-op'd in released
+   paclets anyway because the allowlist build never shipped the source. *)
 
 
 
@@ -1432,7 +1436,7 @@ loops,props
 ];
 
 
-(* ::Subsection::Closed:: *)
+(* ::Subsection:: *)
 (*Gaussian Integration*)
 
 
@@ -1634,6 +1638,10 @@ STSymanzik::vacuumPeriod = "The F polynomial vanishes but the superficial degree
    by the top-level STIntegrate dispatch. *)
 $STLastVacuumPeriod = False;
 STSymanzik::badDot = "Dot expression `1` has more than two arguments; scalar products are binary. Treating as an iterated Times product.";
+STSymanzik::propNoLoop = "The following propagator(s) do not depend on any loop momentum: `1`. Every positive-exponent entry must contain at least one of the loop momenta `2`. Move loop-independent factors into the prefactor or drop them from the propagator list.";
+STSymanzik::zeroProp = "Propagator(s) at position(s) `1` evaluate to zero. A zero propagator raised to a positive power yields an ill-defined integrand.";
+STSymanzik::loopUnused = "Loop momentum (momenta) `1` do not appear in any propagator or numerator. Such a momentum integrates to a vacuous scaleless zero, which is indistinguishable from a physical scaleless diagram. Remove it from \"LoopMomenta\", or add a propagator that depends on it.";
+STSymanzik::zeroU = "The first Symanzik polynomial U is identically zero. This means the Schwinger-weighted quadratic form Sum[alpha_i * P_i] is singular in the loop momenta, so no Gaussian completion exists and the Symanzik parametric representation does not apply. Typical cause: every positive-exponent propagator is at most linear in some loop momentum (e.g., only eikonal / Wilson-line / HQET propagators, with no standard (...)^2 - m^2 propagator to regulate that direction).";
 
 (*- Options- *)
 Options[STSymanzik] = {
@@ -1729,7 +1737,7 @@ If[VectorQ[OptionValue["Exponents"]],
 
 	If[Length[OptionValue["Exponents"]] != Length[processedPropagators],
 		"The number of exponents should be the same as the number of propagators and numerators" // Print;
-		Return[];
+		(*Return[];*)Abort[];
 	];
 
 	Do[
@@ -1753,7 +1761,7 @@ If[MatchQ[OptionValue["Exponents"], {{___}, {___}}],
 
 	If[Length[OptionValue["Exponents"] // Flatten] != Length[processedPropagators],
 		"The number of exponents should be the same as the number of propagators and numerators" // Print;
-		Return[];
+		(*Return[];*)Abort[];
 	];
 
 	propagatorsParsed = processedPropagators[[;; Length[OptionValue["Exponents"][[1]]]]];
@@ -1780,7 +1788,7 @@ If[MatchQ[OptionValue["Exponents"], {{___}, {___}}],
 
 If[propagatorsParsed === {},
 	"No propagators found. All exponents are zero or negative (numerators only). At least one positive exponent is required." // Print;
-	Return[];
+	(*Return[];*)Abort[];
 ];
 
 
@@ -1800,7 +1808,38 @@ loops = If[OptionValue["LoopMomenta"] === Automatic,
 If[loops === {} || loops === Automatic,
 	Print["No loop momenta detected. The automatic detection recognizes l[1], l[2], ... only."];
 	Print["For bare symbols (e.g. l, k) or non-standard labels (e.g. \[ScriptL][1]), specify \"LoopMomenta\" explicitly."];
-	Return[];
+	Return[$Failed];
+];
+
+(* Per-propagator sanity: every positive-exponent entry must depend on at
+   least one loop momentum, and none may be identically zero. Without this
+   guard, a loop-independent "propagator" silently survives into the Symanzik
+   pipeline (producing a misleading result), and a zero propagator triggers a
+   cascade of downstream errors (Table::nliter, Part::partw, ...). *)
+Module[{zeroPos, badProps},
+	zeroPos = Flatten @ Position[propagatorsParsed, _?PossibleZeroQ, {1}, Heads -> False];
+	If[zeroPos =!= {},
+		Message[STSymanzik::zeroProp, zeroPos];
+		Return[$Failed]
+	];
+	badProps = Select[propagatorsParsed, FreeQ[#, Alternatives @@ loops] &];
+	If[badProps =!= {},
+		Message[STSymanzik::propNoLoop, badProps, loops];
+		Return[$Failed]
+	];
+];
+
+(* Reverse check: every loop momentum must appear in at least one entry
+   (prop or numerator). An unused loop integrates to a vacuous scaleless
+   zero, which the existing F=0 path reports as "scaleless" and masks the
+   user's typo. Only meaningful when "LoopMomenta" is user-supplied; auto-
+   detection at line 1802 guarantees the check passes. *)
+Module[{unusedLoops},
+	unusedLoops = Select[loops, FreeQ[combinedPropagators, #] &];
+	If[unusedLoops =!= {},
+		Message[STSymanzik::loopUnused, unusedLoops];
+		Return[$Failed]
+	];
 ];
 
 LL = LLinternal = loops // Length;
@@ -1925,6 +1964,16 @@ F\[Beta] = (
 ) /. subscriptsToBrackets;
 
 {U, F} = ({U\[Beta], F\[Beta]} /. {\[Alpha][e_] /; e > EE :> 0}) // Expand;
+
+(* Bulletproof Gaussian-completion check: U = Det(Q_beta) is the determinant
+   of the collective quadratic form. U identically zero <=> the form is
+   singular in the loop momenta <=> no Gaussian integration possible. This
+   catches inputs like purely-linear propagator sets (eikonal-only) that
+   the per-entry degree heuristic cannot, with no false positives. *)
+If[SameQ[U, 0],
+	Message[STSymanzik::zeroU];
+	Return[$Failed]
+];
 
 If[F === 0,
 	Module[{aFtest = Expand[Total[combinedExponents] - LL DD/2 - Total[numeratorExponents]]},
@@ -2141,7 +2190,7 @@ STGetFeynmanIntegrandGFULL[graph_ , kinematics_, dim_]:=Module[
 ];*)
 
 
-(* ::Subsection:: *)
+(* ::Subsection::Closed:: *)
 (*Manipulating Polynomials *)
 
 
@@ -2150,7 +2199,7 @@ STgetIrreducibleFacs[polys_]:=(FactorList/@polys)[[;;,;;,1]]//Flatten//DeleteCas
 STleadingLaurentOrder[expr_,x_]:=Module[{s=Series[expr,{x,0,0}]},If[Head[s]===SeriesData,s[[4]],Exponent[Together[expr],x,Min]]]
 
 
-(* ::Subsection:: *)
+(* ::Subsection::Closed:: *)
 (*Assumptions*)
 
 
@@ -2170,7 +2219,7 @@ Protect[STPositiveVariables];
 
 
 
-(* ::Subsection:: *)
+(* ::Subsection::Closed:: *)
 (*Evaluation*)
 
 
@@ -2223,7 +2272,9 @@ stringQnts
 	   squareToCurvy (to match the already-transformed "Sqrt(" substring),
 	   via a second StringReplace pass \[LongDash] StringReplace does not iterate
 	   rules within a single pass. *)
-	ginshStringSubs = {"Sqrt(" -> "sqrt(", "Complex(" -> "complex("};
+	(* "*^-6" is Mathematica's short scientific notation (= 10^-6); ginsh would
+	   parse the "^" as an exponent operator. Rewrite to explicit "*10^-6". *)
+	ginshStringSubs = {"Sqrt(" -> "sqrt(", "Complex(" -> "complex(", "*^" -> "*10^"};
 	logExprs = Cases[expr, Log[a_], Infinity] // DeleteDuplicates;
 	logStrs = ("log(" <> ToString[#[[1]], InputForm] <> ")") & /@ logExprs;
 	logStrs = StringReplace[StringReplace[#, squareToCurvy], ginshStringSubs] & /@ logStrs;
@@ -2251,11 +2302,28 @@ stringQnts
 
 	ginshOut=ginshOut//StringReplace[#,"E"-> "*10^"]&//ToExpression[#]&;
 	];
-	expr/.Table[ HsAndZetas[[i]] -> ginshOut[[i]],{i,1,HsAndZetas//Length}]//N
+	(* Final N[] on the substituted expression.  Two subtleties:
+	   (a) The huge-integer rational arithmetic kinematic substitutions produce
+	       (primes^2 / rationalised Sqrt denominators over each other) hits
+	       $MaxExtraPrecision on many library entries.  Lift the ceiling
+	       AND ask for 30-digit arbitrary-precision N so evaluation tracks
+	       significance adaptively instead of hitting the machine-precision
+	       meprec path.
+	   (b) Even with the ceiling raised, N::meprec can still print a message
+	       after the result is produced (N is permissive about reporting but
+	       still returns the best available value).  Quiet that specific
+	       message so the caller's Check[STToGinsh[...], $Failed] does not
+	       misinterpret a benign precision warning as a hard failure. *)
+	Quiet[
+		Block[{$MaxExtraPrecision = 10000},
+			N[expr /. Table[HsAndZetas[[i]] -> ginshOut[[i]], {i, 1, Length[HsAndZetas]}], 30]
+		],
+		N::meprec
+	]
 ]
 
 
-(* ::Subsection:: *)
+(* ::Subsection::Closed:: *)
 (*Shared-mass detection (used by all numerical backends)*)
 
 
@@ -2290,7 +2358,7 @@ stIsSharedMassLeg[{edges_List, nodes_List}, i_Integer] := Module[
 ];
 
 
-(* ::Subsection:: *)
+(* ::Subsection::Closed:: *)
 (*STToPySecDec: numerical Feynman integral evaluation via pySecDec*)
 
 
@@ -2350,6 +2418,8 @@ stMmaExprToPython[expr_] := Module[{e, s},
 		RegularExpression["Subscript\\[p,\\s*(\\d+)\\]"] :> "p$1",
 		RegularExpression["l\\[(\\d+)\\]"] :> "l$1",
 		RegularExpression["p\\[(\\d+)\\]"] :> "p$1",
+		RegularExpression["q\\[(\\d+)\\]"] :> "q$1",
+		RegularExpression["k\\[(\\d+)\\]"] :> "k$1",
 		RegularExpression["M\\[(\\d+)\\]"] :> "M$1",
 		RegularExpression["m\\[(\\d+)\\]"] :> "m$1",
 		"Sqrt[" ~~ x:Shortest[__] ~~ "]" :> "sqrt(" <> x <> ")",
@@ -2564,7 +2634,21 @@ Module[{props, loops, extMom, nExt, nLoops, exponents, powers, nNu,
 		props // Variables // Cases[#, l[_]] & // Sort,
 		OptionValue["LoopMomenta"] /. Subscript[a_, b__] :> a[b]
 	];
-	extMom = Complement[Cases[Variables[props], p[_]], loops] // Sort;
+	(* v1.0.422: accept any _Symbol[_Integer] momentum name (p, q, k, ...)
+	   as external, not just p[_].  Loop momenta (usually l[_]) are the
+	   complement.  Previously only p[_] matched, so users writing props
+	   in terms of q[i] (the convention in SubTropica's paper examples)
+	   got an empty extMom list and kinematic logic silently failed.
+
+	   v1.0.435: exclude the conventional mass-symbol letters {m, mm, M, MM}
+	   so an internal-mass factor like m[1]^2 inside a propagator doesn't
+	   get mis-classified as an external momentum (which then synthesised
+	   a fake "m3" nth-leg name and emitted bogus replacement_rules that
+	   FORM rejected with "Undeclared variable M1"). *)
+	extMom = Complement[
+		Cases[Variables[props], x:_Symbol[_Integer] /;
+			!MemberQ[{"m", "mm", "M", "MM"}, SymbolName[Head[x]]]],
+		loops] // Sort;
 	nExt = Length[extMom] + 1;
 	nLoops = Length[loops];
 
@@ -2575,39 +2659,183 @@ Module[{props, loops, extMom, nExt, nLoops, exponents, powers, nNu,
 	dim = OptionValue["Dimension"];
 	contDef = OptionValue["ContourDeformation"];
 	normalization = OptionValue["Normalization"];
-	userSubs = OptionValue["Substitutions"] /. Subscript[a_, b__] :> a[b] /. dotCanon;
+	(* Accept kinematics from both "Substitutions" (STToPySecDec's direct
+	   option) and "KinematicPoint" (STNIntegrate/STVerify forward subs
+	   here after resolving via stResolveEulerSubstitutions).  Users
+	   calling STToPySecDec directly use "Substitutions"; callers through
+	   STNIntegrate route them via "KinematicPoint". *)
+	userSubs = Module[{s, k},
+		s = OptionValue["Substitutions"];
+		k = OptionValue["KinematicPoint"];
+		If[!ListQ[s], s = {}];
+		If[!ListQ[k], k = {}];
+		Join[s, k] /. Subscript[a_, b__] :> a[b] /. dotCanon];
+
+	(* v1.0.422: un-flatten momenta back to indexed form.  STVerify's
+	   subs normalizer flattens q[1] -> q1, which doesn't match the
+	   indexed extMom[[i]] used in the Cases patterns below.  Map every
+	   flat pi/qi/ki symbol in userSubs back to its indexed form so the
+	   lookup succeeds. *)
+	Module[{unflattenRules},
+		unflattenRules = Cases[Join[extMom, loops],
+			h_[i_Integer] :> (Symbol[SymbolName[h] <> ToString[i]] -> h[i])];
+		If[unflattenRules =!= {},
+			userSubs = userSubs //. unflattenRules]];
+
+	(* v1.0.435: bake internal-mass substitutions into the propagator
+	   expressions before they reach pySecDec.  Without this, a propagator
+	   like l1^2 - m[1]^2 is shipped as the string 'l1**2 - m1**2' and
+	   FORM errors with "Undeclared variable m1" because internal masses
+	   are not declared as external_momenta or real_parameters.  We apply
+	   *only* rules whose LHS is an internal-mass letter (m or mm, either
+	   atomic or indexed); external masses / Mandelstams / scalar-products
+	   continue to flow through replacement_rules. *)
+	Module[{internalMassSubs, isInternalMassLhs, massUnflattenRules,
+			propMasses, propAtomicMasses, propToCanonical,
+			massLetters = {"m", "mm"}},
+		(* Collect mass-indexed symbols that actually appear in the props
+		   (e.g. {m[1], mm[1], mm[2]}), then build unflatten rules
+		   m1 -> m[1], mm2 -> mm[2], ... so user-supplied flat keys
+		   (from stNormalizeSubstitutions) can match the indexed props. *)
+		propMasses = Cases[Variables[props],
+			h_[i_Integer] /; MemberQ[massLetters, SymbolName[h]]];
+		massUnflattenRules = (
+			Symbol[SymbolName[Head[#]] <> ToString[#[[1]]]] -> #) & /@
+				DeleteDuplicates[propMasses];
+		If[massUnflattenRules =!= {},
+			userSubs = userSubs //. massUnflattenRules];
+
+		(* v1.0.438: atomic mass symbols in props get the same
+		   canonicalisation as sub LHSes, via stNormalizeSubLHS.  This
+		   covers both the bare "mm" -> "m" fold AND the indexed "mm1"
+		   -> "m1" fold (atomic), so props and subs end up in the same
+		   flat symbol space.  Mandelstam / momentum / "bare" kinds are
+		   skipped \[LongDash] we only rewrite for internal-mass kinds. *)
+		propToCanonical = Module[{candidates = Cases[Variables[props], _Symbol]},
+			DeleteCases[
+				Map[
+					Module[{cn = Quiet[stNormalizeSubLHS[#]]},
+						If[cn =!= $Failed && ListQ[cn] && Length[cn] == 2 &&
+								MemberQ[{"intmass", "intmasssq"}, cn[[2]]] &&
+								cn[[1]] =!= #,
+							# -> cn[[1]],
+							Nothing]] &,
+					candidates],
+				Nothing]];
+		If[propToCanonical =!= {},
+			props = props /. propToCanonical];
+
+		isInternalMassLhs[lhs_] := Which[
+			MatchQ[lhs, _Symbol],
+				(* Accept atomic mass-letter-only symbols AND mi / mmi
+				   flat forms produced by stNormalizeSubLHS. *)
+				MemberQ[massLetters, SymbolName[lhs]] ||
+				StringMatchQ[SymbolName[lhs], RegularExpression["^m\\d+$"]],
+			MatchQ[lhs, _Symbol[_Integer]],
+				MemberQ[massLetters, SymbolName[Head[lhs]]],
+			True, False];
+		internalMassSubs = Cases[userSubs,
+			rule_Rule /; isInternalMassLhs[rule[[1]]]];
+		If[internalMassSubs =!= {},
+			props = props /. internalMassSubs]];
 
 	propStrs = stMmaExprToPython /@ (Expand /@ props);
 	loopStrs = stMmaExprToPython /@ loops;
 	extStrs = stMmaExprToPython /@ extMom;
 
-	genKin = GenerateKinematics[nExt];
-	kinRules = {};
-	Do[
-		Module[{msub = Cases[userSubs, Rule[extMom[[i]]^2, v_] :> v]},
-			If[Length[msub] > 0,
-				AppendTo[kinRules, Subscript[M, i] -> Sqrt[msub[[1]]]]]
-		],
-	{i, Length[extMom]}];
+	(* v1.0.423: synthesize name for the implicit nth external momentum
+	   (momentum-conservation: p_n = -sum(p_i, i<n)).  pySecDec wants
+	   all nExt external momenta listed in external_momenta even if
+	   the propagators only reference nExt - 1 of them directly.  Use
+	   the same letter prefix as the user's existing extMom (q, p, k).
+	   Also build a concrete-momenta version of genKin so replacement
+	   rules reference the user's actual momentum names rather than
+	   GenerateKinematics's abstract Subscript[p, i] labels. *)
+	Module[{letter, synName, extMomFull, extStrsFull, pToExtRule, genKinConcrete},
+		letter = If[Length[extMom] > 0, SymbolName[Head[extMom[[1]]]], "p"];
+		synName = Symbol[letter][Length[extMom] + 1];
+		extMomFull = Append[extMom, synName];
+		extStrsFull = Append[extStrs, letter <> ToString[Length[extMom] + 1]];
+		pToExtRule = Table[Subscript[p, i] -> extMomFull[[i]], {i, nExt}];
 
-	replacementRules = Table[
-		Module[{lhs, rhs, pi, pj, lhsStr, rhsStr},
-			lhs = genKin[[r, 1]];
-			rhs = genKin[[r, 2]] /. kinRules //. userSubs;
-			pi = lhs[[1]] /. Subscript[p, k_] :> k;
-			pj = lhs[[2]] /. Subscript[p, k_] :> k;
-			lhsStr = "p" <> ToString[pi] <> "*p" <> ToString[pj];
-			rhsStr = stMmaExprToPython[rhs // Expand];
-			"('" <> lhsStr <> "', '" <> rhsStr <> "')"
-		],
-		{r, Length[genKin]}
+		genKin = GenerateKinematics[nExt];
+		genKinConcrete = genKin /. pToExtRule;
+		kinRules = {};
+		Do[
+			Module[{msub = Cases[userSubs, Rule[extMom[[i]]^2, v_] :> v]},
+				If[Length[msub] > 0,
+					AppendTo[kinRules, Subscript[M, i] -> Sqrt[msub[[1]]]]]
+			],
+		{i, Length[extMom]}];
+
+		(* v1.0.438: bind M_nExt for the synthesized nth leg via momentum
+		   conservation: q_n = -Sum(q_i, i<n) so q_n^2 = Sum_{i,j<n} q_i*q_j
+		   (Expand'd form).  Evaluate against userSubs (already dotCanon'd
+		   into Times/Power form) and add to kinRules if the result is
+		   numeric; otherwise leave M_nExt symbolic (user may have passed
+		   only internal masses and no external invariants, in which case
+		   this integral is not fully determined and pySecDec will fail
+		   with a clearer "missing realParam" error downstream). *)
+		Module[{synSq},
+			synSq = Expand[Total[extMom]^2] /. userSubs;
+			If[NumericQ[synSq],
+				AppendTo[kinRules, Subscript[M, nExt] -> Sqrt[synSq]]]];
+
+		(* v1.0.446: bind Mandelstam invariants s_{i,j,...} that appear in
+		   genKin's RHS (output of GenerateKinematics[nExt]).  GenerateKinematics
+		   expresses every scalar product q_i\[CenterDot]q_j in a cyclic basis of
+		   s-variables + M_i^2; without these s-rules the replacement_rules
+		   handed to pySecDec retain symbolic s12, s23, ... which FORM then
+		   rejects with "Undeclared variable s_ij".  Compute each s-invariant
+		   from user's q-subs via
+		      s_{i_1,...,i_k} = (sum_l q_{i_l})^2 = sum_{l,m} q_{i_l}\[CenterDot]q_{i_m}
+		   using extMomFull (which includes the synthesised nth leg q_nExt
+		   defined by momentum conservation) so indices up to nExt resolve. *)
+		Module[{sSyms, sRules, synMomSubs},
+			(* extMomFull[[nExt]] is the synthesised leg; it = -Sum(extMom[1..nExt-1])
+			   by momentum conservation.  Substitute, then re-Expand, so
+			   any resulting (sum q_i)^2 piece blows up into q_i^2 + 2 q_i q_j
+			   form that userSubs can match. *)
+			synMomSubs = {extMomFull[[nExt]] -> -Total[extMom]};
+			sSyms = DeleteDuplicates @ Cases[genKinConcrete[[All, 2]],
+				Subscript[s, __Integer], Infinity];
+			sRules = Map[
+				Function[ssym,
+					Module[{indices = List @@ Rest[ssym], v},
+						v = Expand[Expand[(Total[extMomFull[[indices]]])^2] /.
+						      synMomSubs] /. userSubs;
+						If[NumericQ[v], ssym -> v, Nothing]]],
+				sSyms];
+			kinRules = Join[kinRules, sRules]];
+
+		replacementRules = Table[
+			Module[{lhs, rhs, lhsStr, rhsStr, pi, pj},
+				(* lhs is Subscript[p, i]\[CenterDot]Subscript[p, j] in abstract
+				   form; extract the indices so we can emit names that match
+				   the user's external momentum convention. *)
+				lhs = genKin[[r, 1]];
+				pi = lhs[[1]] /. Subscript[p, k_] :> k;
+				pj = lhs[[2]] /. Subscript[p, k_] :> k;
+				rhs = genKinConcrete[[r, 2]] /. kinRules //. userSubs;
+				lhsStr = extStrsFull[[pi]] <> "*" <> extStrsFull[[pj]];
+				rhsStr = stMmaExprToPython[rhs // Expand];
+				"('" <> lhsStr <> "', '" <> rhsStr <> "')"
+			],
+			{r, Length[genKin]}
+		];
+
+		(* Use the extended list (including the synthesized momentum) for
+		   external_momenta so pySecDec sees every external leg referenced
+		   in replacement_rules. *)
+		extStrs = extStrsFull;
+
+		allSymbols = Join[Variables[props],
+			Variables[genKinConcrete[[All, 2]] /. kinRules //. userSubs]];
+		realParamSymbols = Select[allSymbols,
+			FreeQ[Join[loops, extMomFull, {eps}], #] && MatchQ[#, _Symbol] &
+		] // DeleteDuplicates // Sort;
+		realParamNames = stMmaExprToPython /@ realParamSymbols;
 	];
-
-	allSymbols = Join[Variables[props], Variables[genKin[[All, 2]] /. kinRules //. userSubs]];
-	realParamSymbols = Select[allSymbols,
-		FreeQ[Join[loops, extMom, {eps}], #] && MatchQ[#, _Symbol] &
-	] // DeleteDuplicates // Sort;
-	realParamNames = stMmaExprToPython /@ realParamSymbols;
 
 	Module[{prStr, lmStr, emStr, defaultPwStr, dimPy, pyIntegralBlock},
 		prStr = "[" <> StringRiffle["'" <> # <> "'" & /@ propStrs, ", "] <> "]";
@@ -2638,8 +2866,16 @@ Module[{props, loops, extMom, nExt, nLoops, exponents, powers, nNu,
 			"normalization" -> normalization,
 			"nEdges" -> Length[props],
 			"dimension" -> dim,
+			(* v1.0.449: include replacementRules in the topology hash key.
+			   Previously the cache was keyed only on props/loops/exts/powers/
+			   normalization/order/contDef, so two runs with the SAME topology
+			   but DIFFERENT kinematic substitutions (e.g. Euclidean vs
+			   physical-cut points) silently reused the first-run's .so file
+			   with baked-in replacement_rules.  All non-first runs returned
+			   stale numerical answers.  Folding replacementRules into the
+			   hash forces a rebuild whenever kinematic values change. *)
 			"topology" -> {Sort[propStrs], loopStrs, extStrs, powers,
-			               normalization, order, contDef}
+			               normalization, order, contDef, replacementRules}
 		|>;
 	];
 
@@ -2975,7 +3211,7 @@ Module[{cacheDir, hash, pkgDir, pkgName, soPath, kinPoint, kinValues,
 ];
 
 
-(* ::Subsection:: *)
+(* ::Subsection::Closed:: *)
 (*STVerify: numerical verification of library entries*)
 
 
@@ -3005,8 +3241,11 @@ Options[STVerify] = {
 	"LibraryPath" -> "library-bundled",
 	"Integrator"  -> Automatic,
 	"Method"      -> "pySecDec",  (* "pySecDec" | "FIESTA" | "AMFlow" | "feyntrop" *)
+	"NumSamples"  -> 1,           (* >1: re-verify at that many independent prime-ratio kinematic points and aggregate *)
+	"Seed"        -> Automatic,   (* integer: override the default Hash[cni]-based seed; Automatic = cni-hash *)
 	"Substitutions"  -> Automatic, (* passed through to STNIntegrate when present *)
 	"Dimension"      -> 4 - 2 eps, (* forwarded to STNIntegrate; for cni form, defaults to the entry's stored "dimension" *)
+	"Exponents"      -> Automatic, (* v1.0.425: forwarded to propagator-form STNIntegrate so non-unit exponents (numerators, squared props) are honored during verification *)
 	(* FIESTA-specific options *)
 	"NumberOfSubkernels" -> 1,
 	"NumberOfLinks"      -> 4,
@@ -3026,20 +3265,17 @@ Options[STVerify] = {
 (* ---- Shared helpers used by all STVerify forms ---- *)
 
 (* stLoadRootSubs[resultData]: rebuild the in-memory $stRootSubstitutions
-   rule list from a stored Results[[i]] record.
+   rule list from the structured `algebraicLetters` field of a stored
+   Results[[i]] record.  Each entry contributes Wm[i] -> <minusRoot>,
+   Wp[i] -> <plusRoot>; if `deltaSign` is present (an integer +/- 1
+   resolved by a previous STVerify pass), a delta[i] -> sign rule is
+   appended.  Returns a flat list of Rules suitable for `expr /. rules`,
+   or {} when no algebraic letters are stored.
 
-   Priority:
-     1. Structured `algebraicLetters` field (post-v1.0.389 schema).
-        Each entry contributes Wm[i] -> <minusRoot>, Wp[i] -> <plusRoot>.
-        If `deltaSign` is present (an integer +/- 1 resolved by a previous
-        STVerify pass), a delta[i] -> sign rule is also appended.
-     2. Legacy `rootSubstitutions` InputForm string. Parsed via ToExpression
-        with a Quiet[Check[...]] fallback to {}.
-     3. Neither present -> {}.
+   The legacy `rootSubstitutions` InputForm string (dual-written through
+   v1.0.453) is no longer consulted; v1.0.455 dropped it from the schema. *)
 
-   Returns a flat list of Rules suitable for `expr /. rules`. *)
-
-stLoadRootSubs[resultData_Association] := Module[{al, rs},
+stLoadRootSubs[resultData_Association] := Module[{al},
 	al = Lookup[resultData, "algebraicLetters", Null];
 	If[ListQ[al] && al =!= {},
 		Return @ Flatten @ Map[
@@ -3053,11 +3289,6 @@ stLoadRootSubs[resultData_Association] := Module[{al, rs},
 					AppendTo[rules, delta[i] -> d]];
 				rules]],
 			al]];
-
-	rs = Lookup[resultData, "rootSubstitutions", ""];
-	If[StringQ[rs] && rs =!= "",
-		Return @ Quiet[Check[ToExpression[rs], {}]]];
-
 	{}
 ];
 
@@ -3184,11 +3415,13 @@ STVerify[cni_String, opts:OptionsPattern[]] := Module[
 		Return[<|"pass" -> False, "reason" -> "decompress failed", "cni" -> cni, "loops" -> nLoops|>]
 	];
 
-	(* Load root-letter substitutions. Prefer the structured `algebraicLetters`
-	   field (post-v1.0.389 entries); fall back to the legacy `rootSubstitutions`
-	   InputForm string for older entries. `deltaSign` (+/- 1), if stored per
+	(* Load root-letter substitutions from the structured `algebraicLetters`
+	   field (post-v1.0.389 entries). `deltaSign` (+/- 1), if stored per
 	   index, is appended as a delta[i] -> sign rule so stVerifyEvalSymbolicGeneric
-	   can resolve iepsilon-disambiguated signs. *)
+	   can resolve iepsilon-disambiguated signs.  Entries written before the
+	   Phase-5 recompute may be missing `algebraicLetters` — those return
+	   an empty rule list and STVerify will fail the W-atom substitution,
+	   flagging the entry for re-save. *)
 	$stRootSubstitutions = stLoadRootSubs[resultData];
 
 	If[verbose,
@@ -3305,11 +3538,16 @@ STVerify[cni_String, opts:OptionsPattern[]] := Module[
 
 (* STVerify[{edges, nodes}, result] \[LongDash] verify from graph directly (no library lookup).
    Routes numerical evaluation through STNIntegrate so all four backends
-   (pySecDec / FIESTA / AMFlow / feyntrop) are available via the "Method" option. *)
+   (pySecDec / FIESTA / AMFlow / feyntrop) are available via the "Method" option.
+
+   NumSamples > 1: re-invoke self numSamples times with {"NumSamples" -> 1,
+   "Seed" -> baseSeed + k*1009} and aggregate.  Overall pass iff every
+   per-sample pass.  maxRelErr is the worst-case across samples.  Each
+   sample's full result association is returned under "samples". *)
 STVerify[{edges_List, nodes_List}, result_, opts:OptionsPattern[STVerify]] := Module[
 	{nLoops, nEdges, nVerts, kinPoint, psdResult, symbolicEval, comparison,
 	 verbose, order, maxeval, tolerance, seed, normalization, cni,
-	 symLead, psdOrder},
+	 symLead, psdOrder, numSamples, userSeed},
 
 	verbose = TrueQ[OptionValue["Verbose"]];
 	order = OptionValue["Order"];
@@ -3321,6 +3559,29 @@ STVerify[{edges_List, nodes_List}, result_, opts:OptionsPattern[STVerify]] := Mo
 	cni = Quiet[Check[
 		computeNickelIndex[edges, nodes],
 		"graph_" <> ToString[Hash[{edges, nodes}, "CRC32"]]]];
+
+	numSamples = OptionValue["NumSamples"];
+	userSeed = OptionValue["Seed"];
+	If[IntegerQ[numSamples] && numSamples > 1,
+		Module[{baseSeed, samples, passAll, maxErr, relErrs},
+			baseSeed = If[NumericQ[userSeed], userSeed, Hash[cni, "CRC32"]];
+			samples = Table[
+				If[verbose, Print["[STVerify] ---- sample ", k, " / ", numSamples, " ----"]];
+				STVerify[{edges, nodes}, result,
+					Sequence @@ Join[
+						DeleteCases[{opts}, Rule[("NumSamples" | "Seed"), _]],
+						{"NumSamples" -> 1, "Seed" -> baseSeed + 1009 k}]],
+				{k, 0, numSamples - 1}];
+			passAll = AllTrue[samples, (#["pass"] === True) &];
+			relErrs = Cases[samples, KeyValuePattern["maxRelErr" -> v_?NumericQ] :> v];
+			maxErr = If[relErrs === {}, None, Max[relErrs]];
+			Return[<|
+				"pass"       -> passAll,
+				"numSamples" -> numSamples,
+				"maxRelErr"  -> maxErr,
+				"samples"    -> samples,
+				"cni"        -> cni,
+				"loops"      -> nLoops|>]]];
 
 	(* Scaleless short-circuit: if the integral is identically zero in
 	   dim-reg AND the symbolic result is zero (or empty SeriesData), the
@@ -3342,7 +3603,7 @@ STVerify[{edges_List, nodes_List}, result_, opts:OptionsPattern[STVerify]] := Mo
 				Return[<|"pass" -> False, "reason" -> "scaleless_nonzero_symbolic",
 					"cni" -> cni, "loops" -> nLoops|>]]]];
 
-	seed = Hash[cni, "CRC32"];
+	seed = If[NumericQ[userSeed], userSeed, Hash[cni, "CRC32"]];
 	Module[{resultSymbols},
 		resultSymbols = Cases[result, _Symbol | _Symbol[_Integer], {0, Infinity}]
 			// DeleteDuplicates // DeleteCases[_?(MemberQ[{eps, Pi, E, I, SeriesData, List, Plus, Times, Power, Log, Hlog, zeta, mzv, Rational, Complex}, #] &)];
@@ -3352,7 +3613,7 @@ STVerify[{edges_List, nodes_List}, result_, opts:OptionsPattern[STVerify]] := Mo
 		Return[<|"pass" -> False,
 			"reason" -> "shared-mass on-shell (no Euclidean region) \[LongDash] unsupported",
 			"cni" -> cni, "loops" -> nLoops|>]];
-	If[verbose, Print["[STVerify] KinematicPoint: ", kinPoint]];
+	If[verbose, Print["[STVerify] seed=", seed, "  KinematicPoint: ", kinPoint]];
 
 	maxeval = OptionValue["MaxEval"];
 	If[maxeval === Automatic, maxeval = If[nLoops <= 1, 10^6, 10^7]];
@@ -3364,11 +3625,17 @@ STVerify[{edges_List, nodes_List}, result_, opts:OptionsPattern[STVerify]] := Mo
 	   eps^0.  Bumping requested_orders up by the loop count (and by the
 	   symbolic leading depth) ensures the backend captures the full pole
 	   structure. *)
-	symLead = If[Head[result] === SeriesData, result[[4]], 0];
-	psdOrder = Max[order, order + nLoops, order - symLead];
-
+	(* v1.0.453: don't bump Order.  The old comment here claimed that
+	   "requested_orders=[0] on a 1-loop box with eps^-2 pole returns only
+	   eps^-1, eps^0" and bumped psdOrder up by nLoops + (-symLead) to
+	   compensate.  That was a workaround for an older pySecDec convention
+	   and no longer needed: pySecDec with `Order -> 0` returns the full
+	   series from the leading pole through ε^0.  Aggressively bumping the
+	   Order caused verification to time out on multi-scale integrals like
+	   the massless pentagon (pySecDec spent >300s trying to compute
+	   through ε^2). *)
 	psdResult = stVerifyRunBackend[{edges, nodes}, kinPoint, normalization,
-		psdOrder, maxeval, {opts}];
+		order, maxeval, {opts}];
 	If[psdResult === $Failed,
 		Message[STVerify::backend, cni, OptionValue["Method"]];
 		Return[<|"pass" -> False, "reason" -> "numeric backend failed",
@@ -3565,9 +3832,18 @@ stFindEuclideanRegion[edges_, nodes_] := Module[
 	 kinVars, inequalities, samplePoint, sharedReduction,
 	 negFreduced, samplingCandidate},
 
-	(* Get the integrand from SOFIA \[LongDash] no gauge fixing, extract F polynomial *)
-	raw = Quiet @ Check[
-		Flatten[SOFIASymanzik[{edges, nodes}, dimension -> 4 - 2 eps]][[1]],
+	(* Get the integrand from SOFIA \[LongDash] no gauge fixing, extract F polynomial.
+	   SOFIASymanzik emits harmless First::nofirst / First::argt messages from
+	   empty-subtopology passes on some graphs (e.g. spectacles e1122|e|e|);
+	   suppress those explicitly so the outer Check only triggers on real
+	   failures.  Without this Quiet list, Check returned $Failed on the
+	   spectacles family even though SOFIA's actual return value was the
+	   correct integrand, causing stFindEuclideanRegion to erroneously
+	   report "no Euclidean region". *)
+	raw = Check[
+		Flatten[Quiet[
+			SOFIASymanzik[{edges, nodes}, dimension -> 4 - 2 eps],
+			{First::nofirst, First::argt, General::stop}]][[1]],
 		$Failed];
 	If[raw === $Failed, Return[None]];
 
@@ -3630,14 +3906,40 @@ stFindEuclideanRegion[edges_, nodes_] := Module[
 	(* Termwise sufficient test: each monomial coefficient > 0 *)
 	inequalities = And @@ (# > 0 & /@ coefficients);
 
-	(* Try to find a rational sample point *)
+	(* Try to find a rational sample point.  FindInstance typically returns
+	   small integers (e.g. MM[k] -> -1); re-cast into the prime-ratio
+	   convention used everywhere else so the output format is uniform
+	   with stEuclideanSamplingFallback and stMakeVerificationPoint. *)
 	samplePoint = Quiet @ Check[
 		FindInstance[inequalities, kinVars, Rationals],
 		{}];
 
 	If[samplePoint =!= {} && samplePoint =!= $Failed,
-		(* Termwise Euclidean region found.  Return it. *)
-		Return[{inequalities, samplePoint[[1]]}]];
+		Module[{fiPoint, primes, primeIdx = 0, seed, pickRatio, primeInstance},
+			fiPoint = samplePoint[[1]];
+			seed = Hash[{edges, nodes, "EuclFinder"}, "CRC32"];
+			primes = Prime /@ Range[PrimePi[100]];
+			pickRatio[] := Module[{k1, k2, p1, p2},
+				k1 = Mod[BitXor[seed, Hash[{primeIdx, "n"}, "CRC32"]], Length[primes]] + 1;
+				primeIdx++;
+				k2 = Mod[BitXor[seed, Hash[{primeIdx, "d"}, "CRC32"]], Length[primes]] + 1;
+				primeIdx++;
+				p1 = primes[[k1]]; p2 = primes[[k2]];
+				If[p1 === p2, p2 = primes[[Mod[k2, Length[primes]] + 1]]];
+				p1 / p2];
+			primeInstance = Table[
+				Module[{var = r[[1]], v = r[[2]], sgn},
+					sgn = Sign[v];
+					var -> (If[sgn === 0, 1, sgn] * pickRatio[])],
+				{r, fiPoint}];
+			(* Sanity check that the prime-ratio rescaling still satisfies
+			   the inequalities (it should, since the inequalities from the
+			   termwise test are sign-constraints scale-invariant in each
+			   kinematic variable).  Fall back to the raw FindInstance
+			   instance if some exotic constraint sneaks in. *)
+			If[TrueQ[inequalities /. primeInstance],
+				Return[{inequalities, primeInstance}],
+				Return[{inequalities, fiPoint}]]]];
 
 	(* ---------- Sampling fallback ----------
 	   Termwise test failed, but the polynomial may still be positive on
@@ -3661,83 +3963,113 @@ stFindEuclideanRegion[edges_, nodes_] := Module[
 	None
 ];
 
-(* Helper: try one standard-prior candidate and a lattice of simplex
-   samples.  Returns the candidate rule-list if every sample gives
-   negF > 0, else None. *)
+(* Helper: try several prime-ratio kinematic candidates against a
+   lattice of prime-ratio Schwinger samples.  Returns the first
+   candidate whose -F is strictly positive at every sample, else None.
+
+   Why prime ratios (v1.1.2):
+   \[Bullet] Kinematic candidate: a hardcoded {mass\[RightArrow]1, s\[RightArrow]-1} point often
+     sits on low-codimension cancellation surfaces of -F (e.g. for the
+     shared-mass box e12|e3|e3|e|:100|11|12|1|, the x2 coefficient of
+     -F is -mm[1] which rejects termwise AND the unit-mass candidate
+     gives zero at x = (0,1,0,0), tripping the sampling probe).  Prime
+     ratios give scale-separated, generic values so such cancellations
+     happen with probability zero.
+   \[Bullet] Schwinger samples: likewise, sparse {1, 1/100} corners are a
+     measure-zero slice of the simplex.  Prime-ratio coordinates probe
+     generic directions in (0,\[Infinity])^n, catching sign-flips that structured
+     lattices can miss.
+
+   Schwinger probes: n "corners" (one x_i dominant, others suppressed
+   by 1/p_large so the corner limit is approached), plus nInt generic
+   interior points.  Every coordinate comes from a deterministic
+   prime-ratio pool keyed on Hash[{negF, xvars, kinVars, ...}]. *)
 stEuclideanSamplingFallback[negF_, xvars_, kinVars_] := Module[
-	{candidate, simplexPoints, n = Length[xvars], vals, allPos},
+	{primes, nPrimes, baseSeed, pickRatio, classifyKin, buildKinCandidate,
+	 buildSchwingerSamples, candidate, samples, n = Length[xvars],
+	 vals, allPos, nCandidates = 5, nInt = 8, cand, result = None},
 
-	(* Candidate: masses \[RightArrow] 1, Mandelstams \[RightArrow] -1.  Consistent with the
-	   overall sign convention used everywhere downstream (prime-ratios
-	   with mass numerators positive, invariants negative).  We only
-	   need ONE candidate point for sampling \[LongDash] the goal is to accept OR
-	   reject a Euclidean region, not to sweep.
+	primes = Prime /@ Range[PrimePi[100]];    (* 25 primes up to 97 *)
+	nPrimes = Length[primes];
+	baseSeed = Hash[{negF, xvars, kinVars}, "CRC32"];
 
-	   kinVars may contain bare symbols (mm, s12, Msq) OR indexed heads
-	   (mm[1], MM[2], s[1,2]) depending on which SOFIA convention
-	   produced the F.  Classify by head name. *)
-	candidate = Table[
-		Module[{nm = Which[
-			MatchQ[v, _Symbol], SymbolName[v],
-			MatchQ[v, _Symbol[___]], SymbolName[Head[v]],
-			True, ""]},
-			Which[
-				StringStartsQ[nm, "mm"] || StringStartsQ[nm, "Msq"] ||
-				  StringStartsQ[nm, "MM"] || StringStartsQ[nm, "M"] ||
-				  StringStartsQ[nm, "m"], v -> 1,
-				StringStartsQ[nm, "s"], v -> -1,
-				True, v -> 1]],
+	(* Pick a deterministic p/q prime ratio from an arbitrary key.
+	   Ensures p =!= q so the ratio is never trivially 1. *)
+	pickRatio[key_] := Module[{k1, k2, p, q},
+		k1 = Mod[Hash[{baseSeed, key, "num"}, "CRC32"], nPrimes] + 1;
+		k2 = Mod[Hash[{baseSeed, key, "den"}, "CRC32"], nPrimes] + 1;
+		p = primes[[k1]]; q = primes[[k2]];
+		If[p === q, q = primes[[Mod[k2, nPrimes] + 1]]];
+		p/q];
+
+	(* kinVars may be bare symbols (mm, s12, Msq) or indexed heads
+	   (mm[1], MM[2], s[1,2]).  Classify by symbol-name prefix: any
+	   name starting with m/M (masses and their squares) gets a
+	   positive ratio; names starting with s (Mandelstams, invariants)
+	   get a negative ratio.  Other symbols default to positive. *)
+	classifyKin[v_] := Module[{nm = Which[
+		MatchQ[v, _Symbol], SymbolName[v],
+		MatchQ[v, _Symbol[___]], SymbolName[Head[v]],
+		True, ""]},
+		Which[
+			StringStartsQ[nm, "mm"] || StringStartsQ[nm, "Msq"] ||
+			  StringStartsQ[nm, "MM"] || StringStartsQ[nm, "M"] ||
+			  StringStartsQ[nm, "m"], +1,
+			StringStartsQ[nm, "s"], -1,
+			True, +1]];
+
+	buildKinCandidate[cIdx_] := Table[
+		v -> classifyKin[v] * pickRatio[{"kin", cIdx, v}],
 		{v, kinVars}];
 
-	(* Simplex lattice: corners, edge midpoints, face centroids,
-	   plus a handful of deterministic interior points.  All Schwinger
-	   parameters are strictly positive; the simplex is an arbitrary
-	   normalisation since F is homogeneous in x. *)
-	simplexPoints = Join[
-		(* Corners e_i (dominant single parameter, others at epsilon) *)
-		Table[Thread[xvars -> SparseArray[{i -> 1}, n, 1/100] // Normal],
-			{i, n}],
-		(* Edge midpoints e_i + e_j *)
-		Flatten[Table[
-			Thread[xvars -> SparseArray[{i -> 1, j -> 1}, n, 1/100] // Normal],
-			{i, n - 1}, {j, i + 1, n}], 1],
-		(* Centroid of 3-faces *)
-		If[n >= 3,
-			Flatten[Table[
-				Thread[xvars -> SparseArray[
-					{i -> 1, j -> 1, k -> 1}, n, 1/100] // Normal],
-				{i, n - 2}, {j, i + 1, n - 1}, {k, j + 1, n}], 2],
-			{}],
-		(* Full-simplex centroid *)
-		{Thread[xvars -> ConstantArray[1, n]]},
-		(* A few deterministic interior points with varied weights *)
+	(* n corner-like probes: x_i = prime ratio near 1, all other x_j
+	   suppressed by 1/(prime ratio * 10000) so the Schwinger corner
+	   limit is effectively reached.  Plus nInt fully-generic interior
+	   probes with every coordinate a fresh prime ratio. *)
+	buildSchwingerSamples[cIdx_] := Join[
 		Table[
 			Thread[xvars -> Table[
-				Mod[7 j + 3 i, 10] + 1,
+				If[i === j,
+					pickRatio[{"corner", cIdx, i, j, "dom"}],
+					pickRatio[{"corner", cIdx, i, j, "sub"}] / 10000],
 				{j, n}]],
-			{i, 3}]];
+			{i, n}],
+		Table[
+			Thread[xvars -> Table[
+				pickRatio[{"int", cIdx, k, j}],
+				{j, n}]],
+			{k, nInt}]];
 
-	vals = Table[
-		Quiet @ Check[Expand[(negF /. pt) /. candidate], Indeterminate],
-		{pt, simplexPoints}];
-	allPos = AllTrue[vals, NumericQ[#] && # > 0 &];
+	(* Try up to nCandidates kinematic assignments.  Accept the first
+	   whose -F is strictly positive at every Schwinger sample. *)
+	Do[
+		cand = buildKinCandidate[cIdx];
+		samples = buildSchwingerSamples[cIdx];
+		vals = Table[
+			Quiet @ Check[Expand[(negF /. pt) /. cand], Indeterminate],
+			{pt, samples}];
+		allPos = AllTrue[vals, NumericQ[#] && # > 0 &];
+		If[allPos,
+			result = cand;
+			Break[]],
+		{cIdx, nCandidates}];
 
-	If[allPos, candidate, None]
+	result
 ];
 
 
 (* ---- Helper: generate deterministic Euclidean kinematic point ---- *)
 
 stMakeVerificationPoint::sharedMassNoEuclidean =
-	"Shared-mass on-shell verification is currently unsupported: an internal edge mass symbol also appears on an external leg, forcing p^2 = m^2, and no parametric Euclidean region exists for this graph.  At such a point the integral lies on a mass-shell singularity whose Minkowski i\[CurlyEpsilon] prescription we don't reliably reproduce symbolically.  Skip verification for this entry.";
+	"Shared-mass graph with no parametric Euclidean region: an internal edge mass symbol also appears on an external leg, forcing p^2 = m^2 on-shell, so -F changes sign across the Schwinger simplex.  Verification via the i\[CurlyEpsilon] prescription currently gives Ginsh/pySecDec disagreement that depends on the sign choice per kinematic symbol, with no universal fix.  STVerify refuses to generate a point for this graph until the branch-resolution issue is fixed; entries of this type cannot currently be verified and are excluded from the library.";
 
 stMakeVerificationPoint::noEuclidean =
-	"No Euclidean region found for this graph's F polynomial.  Falling back to a random prime-ratio kinematic point; the symbolic result will be evaluated with an i\[CurlyEpsilon] prescription, but the answer may depend sensitively on that choice and agreement with numerical backends is not guaranteed.";
+	"No Euclidean region found for this graph's F polynomial.  STVerify refuses to generate a non-Euclidean point because the i\[CurlyEpsilon] prescription for the symbolic evaluation is graph-specific and no universal choice has been implemented yet.  Entries of this type are excluded from the library until the branch-resolution issue is fixed.";
 
 stMakeVerificationPoint[edges_, nodes_, seed_Integer, resultVars_List:{}] := Catch[Module[
 	{edgeMasses, nodeMasses, nExt, rules, intMassSyms, extInvariants,
 	 genKin, mandelstams, flattenSym, primes, pickPrime, euclidean,
-	 edgesF, nodesF, stb, hasSharedMass, cniForMsg},
+	 edgesF, nodesF, stb, hasSharedMass, cniForMsg, applySharedMassOnShell},
 
 	(* Flatten Subscript notation so Cases[_Symbol | _[_Integer], ...] picks
 	   up Subscript[m, k] / Subscript[M, k] as the flat symbols mk / Mk.
@@ -3756,6 +4088,34 @@ stMakeVerificationPoint[edges_, nodes_, seed_Integer, resultVars_List:{}] := Cat
 	nExt = Length[nodesF];
 	flattenSym[sym_] := Symbol[stMmaExprToPython[sym]];
 	rules = {};
+
+	(* Shared-mass on-shell correction for the rule list.  For each
+	   external leg whose mass symbol also appears on some internal edge,
+	   the on-shell constraint p^2 = m^2 means the external-invariant
+	   symbol (e.g. m2sq) must equal the internal mass squared rather
+	   than getting an independent, potentially NEGATIVE, prime ratio
+	   from the default generator.  Without this, pySecDec (which bakes
+	   p^2=m^2 into its replacement_rules template) and the symbolic
+	   side (which treats m2sq as an independent symbol) land at
+	   inconsistent numeric points and verification spuriously fails.
+	   Applied at every return site below so both Euclidean and
+	   non-Euclidean paths get the fix. *)
+	applySharedMassOnShell[rs_List] := Module[{out = rs, nm, sharedSym, sq, invSym, intValue},
+		Do[
+			nm = nodeMasses[[i]];
+			sharedSym = stIsSharedMassLeg[{edgesF, nodesF}, i];
+			If[sharedSym =!= None,
+				sq = Expand[nm^2];
+				If[sq =!= 0,
+					invSym = Which[
+						MatchQ[sq, _Symbol], sq,
+						True, Symbol[StringReplace[stMmaExprToPython[nm], "**" -> ""] <> "sq"]];
+					intValue = flattenSym[sharedSym] /. out;
+					If[intValue =!= flattenSym[sharedSym],
+						out = DeleteCases[out, Rule[invSym, _]];
+						AppendTo[out, invSym -> Expand[intValue^2]]]]],
+			{i, nExt}];
+		out];
 
 	(* Shared-mass detection: any external-leg mass symbol that also
 	   appears on an internal edge.  When this is true AND no Euclidean
@@ -3870,7 +4230,7 @@ stMakeVerificationPoint[edges_, nodes_, seed_Integer, resultVars_List:{}] := Cat
 			testPoint = ineqs /. rules;
 			If[TrueQ[testPoint],
 				$stEuclideanPoint = True;
-				Throw[rules, "euclidean"]
+				Throw[applySharedMassOnShell[rules], "euclidean"]
 			];
 
 			(* If not, use FindInstance on the inequalities to get a satisfying
@@ -3915,7 +4275,7 @@ stMakeVerificationPoint[edges_, nodes_, seed_Integer, resultVars_List:{}] := Cat
 						testPoint = ineqs /. rules;
 						If[TrueQ[testPoint],
 							$stEuclideanPoint = True;
-							Throw[rules, "euclidean"]]
+							Throw[applySharedMassOnShell[rules], "euclidean"]]
 					]
 				]
 			];
@@ -3923,26 +4283,25 @@ stMakeVerificationPoint[edges_, nodes_, seed_Integer, resultVars_List:{}] := Cat
 	];
 
 	(* Step 1 exhausted without finding an Euclidean point.
-	   Branch on shared-mass:
 
-	   - If ANY external-leg mass is shared with an internal edge, the
-	     on-shell constraint p^2 = m^2 places the integral on a mass-shell
-	     singularity.  SubTropica's symbolic evaluator doesn't handle the
-	     Minkowski i\[CurlyEpsilon] prescription at this boundary (see e.g. the shared-
-	     mass box e12|e3|e3|e|:100|11|11|1|, where pSD/FIESTA agree with
-	     each other but the symbolic lands on a different i\[CurlyEpsilon] sheet).
-	     Emit an explicit "unsupported" error and refuse to generate a
-	     point.
-
-	   - If NO shared mass is present, the Euclidean region was empty for
-	     other reasons (asymmetric graph, exotic kinematics).  The random
-	     prime-ratio point generated below is NOT Euclidean, so results
-	     need i\[CurlyEpsilon].  Emit a warning so the user knows verification may
-	     depend on the i\[CurlyEpsilon] prescription. *)
+	   For the current release, verification is REFUSED whenever no
+	   Euclidean region exists, regardless of whether the graph has
+	   shared masses.  The non-Euclidean i\[CurlyEpsilon] fallback (kept in the
+	   codepath below) produces Ginsh/pySecDec disagreement that depends
+	   on the i\[CurlyEpsilon] sign pattern per kinematic symbol, and there is no
+	   universal sign choice that works across all graphs (bubble-pent
+	   wants {mm2,s12} positive, box(e) wants mm1 positive; intersection
+	   empty).  Fixing this requires a graph-specific i\[CurlyEpsilon] auto-scan
+	   which is future work.  Until then, we pre-empt spurious
+	   verified-pass (or verify-refused with sentinel 99) outcomes by
+	   throwing $Failed here.  Callers see "shared-mass on-shell ..."
+	   or "no Euclidean region ..." as a structured reason and can
+	   decide how to handle (skip, queue for manual review, etc.). *)
 	If[hasSharedMass,
 		Message[stMakeVerificationPoint::sharedMassNoEuclidean];
 		Throw[$Failed, "euclidean"]];
 	Message[stMakeVerificationPoint::noEuclidean];
+	Throw[$Failed, "euclidean"];
 
 	(* Step 2: Fallback \[LongDash] random prime-ratio point (may not be Euclidean).
 	   The i\[CurlyEpsilon] prescription will be applied during evaluation. *)
@@ -4013,7 +4372,7 @@ stMakeVerificationPoint[edges_, nodes_, seed_Integer, resultVars_List:{}] := Cat
 	   removes EXACT duplicates, so we additionally keep the first occurrence
 	   per key.  Without this, pySecDec receives conflicting kinematic values
 	   for the same Mandelstam and either silently uses one or fails to build. *)
-	DeleteDuplicatesBy[DeleteDuplicates[rules], First]
+	DeleteDuplicatesBy[DeleteDuplicates[applySharedMassOnShell[rules]], First]
 ], "euclidean"];
 
 
@@ -4306,7 +4665,7 @@ stCompareLaurent[{psdVal_, psdErr_}, ginshExpr_, maxOrder_Integer, tolerance_, v
 ];
 
 
-(* ::Subsection:: *)
+(* ::Subsection::Closed:: *)
 (*STComputeAndVerify: compute symbolic result + numerical verification pipeline*)
 
 
@@ -4419,14 +4778,13 @@ STComputeAndVerify[cni_String, opts:OptionsPattern[]] := Module[
 				"methodLR" -> methodLR,
 				"recomputeBranch" -> "(-F)^eF"
 			|>;
-			(* FindRoots algebraic letters: structured metadata + legacy string
-			   (rootSubstitutions dropped in Phase 6). *)
+			(* FindRoots algebraic letters (structured metadata).  The legacy
+			   `rootSubstitutions` InputForm string was dropped in v1.0.455;
+			   consumers rebuild the Wm[i]/Wp[i] rule list from `minusRoot`
+			   / `plusRoot` via stLoadRootSubs. *)
 			Module[{algLetters = Quiet @ Check[stExtractAlgebraicLetters[], {}]},
 				If[algLetters =!= {} && !FreeQ[result, (Wm | Wp)[_Integer]],
-					nr["algebraicLetters"] = algLetters;
-					nr["rootSubstitutions"] = ToString[
-						GetAlgebraicBackSubRules[], InputForm],
-					nr["rootSubstitutions"] = ""]];
+					nr["algebraicLetters"] = algLetters]];
 			(* Symbol fields *)
 			Quiet[Check[
 				sf = stComputeSymbolFields[result];
@@ -4454,71 +4812,64 @@ STComputeAndVerify[cni_String, opts:OptionsPattern[]] := Module[
 		Missing["NotComputed"]
 	];
 
-	(* 4. Numerical verification *)
+	(* 4. Numerical verification.
+	   Always attempt every configured method; let STVerify + stMakeVerificationPoint
+	   decide per-backend whether a point exists (Euclidean-region logic).  The old
+	   pre-emptive shared-mass skip was removed: shared-mass configurations are
+	   handled correctly by pySecDec / FIESTA / AMFlow (v1.0.297) and feyntrop
+	   already skips itself internally. *)
 	verif = <|"status" -> "not_attempted"|>;
 	If[status === "OK" && TrueQ[OptionValue["Verify"]],
-		Module[{intMassSyms, extMassSyms, shared, methods, maxeval, tol, vr},
-			(* Detect shared internal/external mass *)
-			intMassSyms = Cases[edges[[All, 2]], _Symbol | _[_Integer], {0, Infinity}] // DeleteDuplicates;
-			extMassSyms = Cases[nodes[[All, 2]], _Symbol | _[_Integer], {0, Infinity}] // DeleteDuplicates;
-			shared = Intersection[intMassSyms, extMassSyms];
+		Module[{methods, maxeval, tol},
+			methods = OptionValue["VerifyMethods"];
+			maxeval = OptionValue["MaxEval"];
+			tol = OptionValue["Tolerance"];
 
-			If[Length[shared] > 0,
-				verif = <|"status" -> "skipped_shared_mass", "sharedSymbols" -> shared|>,
-				(* Run verification *)
-				methods = OptionValue["VerifyMethods"];
-				maxeval = OptionValue["MaxEval"];
-				tol = OptionValue["Tolerance"];
+			Do[
+				Module[{rv, tv = AbsoluteTime[], dt, relErr},
+					rv = Check[
+						STVerify[{edges, nodes}, result,
+							"MaxEval" -> maxeval,
+							"Tolerance" -> tol,
+							"Verbose" -> verbose,
+							"Method" -> method,
+							"Integrator" -> OptionValue["Integrator"],
+							"NumberOfSubkernels" -> OptionValue["NumberOfSubkernels"],
+							"NumberOfLinks" -> OptionValue["NumberOfLinks"]
+						],
+						<|"pass" -> False, "reason" -> "exception"|>
+					];
+					dt = AbsoluteTime[] - tv;
+					relErr = Lookup[rv, "maxRelErr", 99.];
+					If[!NumberQ[relErr], relErr = 99.];
 
-				Do[
-					Module[{rv, tv = AbsoluteTime[], dt, relErr},
-						rv = Check[
-							STVerify[{edges, nodes}, result,
-								"MaxEval" -> maxeval,
-								"Tolerance" -> tol,
-								"Verbose" -> verbose,
-								"Method" -> method,
-								"Integrator" -> OptionValue["Integrator"],
-								"NumberOfSubkernels" -> OptionValue["NumberOfSubkernels"],
-								"NumberOfLinks" -> OptionValue["NumberOfLinks"]
-							],
-							<|"pass" -> False, "reason" -> "exception"|>
+					verif[method] = <|"relErr" -> relErr, "time" -> dt, "pass" -> rv["pass"]|>;
+
+					If[rv["pass"] === True,
+						verif["status"] = Switch[verif["status"],
+							"not_attempted", "pass_" <> ToLowerCase[method],
+							s_String /; StringStartsQ[s, "pass_"], "pass_both",
+							_, "pass_" <> ToLowerCase[method]
 						];
-						dt = AbsoluteTime[] - tv;
-						relErr = Lookup[rv, "maxRelErr", 99.];
-						If[!NumberQ[relErr], relErr = 99.];
+						If[verbose, Print["[STComputeAndVerify] ", method, ": PASS relErr=", relErr, " t=", Round[dt, 0.1], "s"]],
+						If[verbose, Print["[STComputeAndVerify] ", method, ": FAIL reason=", Lookup[rv, "reason", "?"], " relErr=", relErr]]
+					];
 
-						verif[method] = <|"relErr" -> relErr, "time" -> dt, "pass" -> rv["pass"]|>;
+					(* Run all methods \[LongDash] do not short-circuit *)
+				],
+				{method, methods}
+			];
 
-						If[rv["pass"] === True,
-							verif["status"] = Switch[verif["status"],
-								"not_attempted", "pass_" <> ToLowerCase[method],
-								s_String /; StringStartsQ[s, "pass_"], "pass_both",
-								_, "pass_" <> ToLowerCase[method]
-							];
-							If[verbose, Print["[STComputeAndVerify] ", method, ": PASS relErr=", relErr, " t=", Round[dt, 0.1], "s"]],
-							If[verbose, Print["[STComputeAndVerify] ", method, ": FAIL reason=", Lookup[rv, "reason", "?"], " relErr=", relErr]]
-						];
-
-						(* Run all methods \[LongDash] do not short-circuit *)
-					],
-					{method, methods}
-				];
-
-				(* If still not_attempted after loop, mark as failed *)
-				If[verif["status"] === "not_attempted", verif["status"] = "failed"]
-			]
+			(* If still not_attempted after loop, mark as failed *)
+			If[verif["status"] === "not_attempted", verif["status"] = "failed"]
 		]
 	];
 
-	(* Add verification status and any resolved delta subs to record.
-	   Two destinations, because we dual-write during the transition window:
-	     - legacy `rootSubstitutions` string  (unchanged behaviour).
-	     - structured `algebraicLetters[i].deltaSign` (Phase 3 schema). *)
+	(* Record verification status and persist any resolved delta signs as
+	   `deltaSign` on the structured algebraicLetters entries.  The legacy
+	   rootSubstitutions string dual-write was removed in v1.0.455. *)
 	If[AssociationQ[record],
 		record["verificationStatus"] = verif["status"];
-		If[$stRootSubstitutions =!= {},
-			record["rootSubstitutions"] = ToString[$stRootSubstitutions, InputForm]];
 		If[KeyExistsQ[record, "algebraicLetters"] &&
 		   ListQ[record["algebraicLetters"]] && $stRootSubstitutions =!= {},
 			Module[{deltaRules, updated},
@@ -4548,7 +4899,7 @@ STComputeAndVerify[cni_String, opts:OptionsPattern[]] := Module[
 ];
 
 
-(* ::Subsection:: *)
+(* ::Subsection::Closed:: *)
 (*STNIntegrate: numerical Feynman integral evaluation via sector decomposition*)
 
 
@@ -4562,6 +4913,7 @@ STNIntegrate::scaleless = "Scaleless integral detected (all internal masses zero
 STNIntegrate::badsub = "Unrecognized left-hand side in Substitutions: `1`. Expected m, m[i], Subscript[m,i], mi, mm[i], mmi (internal mass); M, M[i], Subscript[M,i], Mi, MM[i], MMi (external mass); s[i,j,...], Subscript[s,i,j,...], or s<digits> (Mandelstam, up to 5 indices); or Dot/Times of p[i] factors (scalar product).";
 STNIntegrate::nonrule = "Entry in Substitutions is not a rule: `1`. Expected a List of Rule or RuleDelayed objects, or Automatic.";
 STNIntegrate::conflictsubs = "Both \"Substitutions\" and \"KinematicPoint\" were supplied. The legacy \"KinematicPoint\" name is kept as an alias; passing both is ambiguous. Using \"Substitutions\".";
+STNIntegrate::deprKinPoint = "The \"KinematicPoint\" option is deprecated; use \"Substitutions\" instead. The legacy name is still honoured but will be removed in a future release. (This notice fires once per kernel session.)";
 STNIntegrate::incomplete = "Substitutions do not fix all kinematic symbols. Unfixed: `1`. Add rules for these symbols, or set \"Substitutions\" -> Automatic.";
 STNIntegrate::conflictrules = "Conflicting substitution rules after canonicalisation: `1` was supplied more than once with different values.";
 
@@ -4623,8 +4975,13 @@ stParseFlatSubName[name_String] := Module[{digitPart, indices, nDigits},
                 {name, "mandelstam"},
                 $Failed
             ],
-        (* "p1", "p2", ...: momentum symbol (used inside Dot/Times). *)
-        StringMatchQ[name, "p" ~~ DigitCharacter..],
+        (* "p1", "p2", "q1", "k1", "l1", ...: momentum symbols (used
+           inside Dot/Times).  v1.0.425: extend to q, k, l (in addition
+           to p) so flat-form subs like {q1.q1 -> -1} \[LongDash] which arise
+           after the first normalization pass flattens q[1] -> q1 \[LongDash]
+           survive the second pass through stParseFlatSubName
+           (called from stNormalizeSubLHS's bare-symbol branch). *)
+        StringMatchQ[name, ("p" | "q" | "k" | "l") ~~ DigitCharacter..],
             {name, "momentum"},
         True,
             $Failed
@@ -4682,8 +5039,14 @@ stNormalizeSubLHS[lhs_] := Module[{parsed, parts, inner},
                         {Symbol["M" <> StringJoin[ToString /@ args] <> "sq"], "extmasssq"},
                     hName === "s" && Length[args] >= 2 && Length[args] <= 5,
                         {Symbol["s" <> StringJoin[ToString /@ args]], "mandelstam"},
-                    hName === "p" && Length[args] == 1,
-                        {Symbol["p" <> ToString[args[[1]]]], "momentum"},
+                    (* Momentum letters: p, q, k (external) and l (loop).
+                       v1.0.422: accept all of them so user-supplied subs
+                       like q[1].q[1] -> -1 or k[1].k[2] -> 5 normalize
+                       correctly.  Previously only p[i] was recognized,
+                       which rejected all the q[i]-form conventions used
+                       in SubTropica's paper examples. *)
+                    MemberQ[{"p", "q", "k", "l"}, hName] && Length[args] == 1,
+                        {Symbol[hName <> ToString[args[[1]]]], "momentum"},
                     True, {lhs, "explicit"}
                 ]
             ],
@@ -4756,23 +5119,69 @@ stNormalizeSubstitutions[subs_List] := Catch[Module[
 ]];
 stNormalizeSubstitutions[other_] := (Message[STNIntegrate::nonrule, other]; $Failed);
 
+(* One-shot deprecation flag for the "KinematicPoint" alias.  Shared across
+   parallel subkernels when they exist so the user does not see the message
+   N times during a parallel run. *)
+If[!ValueQ[$stKinPtDeprecationShown], $stKinPtDeprecationShown = False];
+If[Length[Kernels[]] > 0,
+    Quiet[SetSharedVariable[$stKinPtDeprecationShown], {SetSharedVariable::nosub}]];
+
 (* Option-reader that honours both "Substitutions" (preferred) and legacy
    "KinematicPoint".  Returns Automatic | a normalised List of rules | $Failed.
    `opts` is the options list as produced by {OptionsPattern[]} at the caller,
-   i.e. already a List of Rule objects. *)
+   i.e. already a List of Rule objects.
+
+   Fires STNIntegrate::deprKinPoint once per session when the user supplies
+   only the legacy name; suppressed when Substitutions is also present
+   (conflictsubs takes precedence) or when the two values are identical
+   (harmless echo). *)
 stReadSubstitutions[opts_List] := Module[{newVal, oldVal},
     newVal = "Substitutions"  /. opts /. "Substitutions"  -> $stSubsNotSet;
     oldVal = "KinematicPoint" /. opts /. "KinematicPoint" -> $stSubsNotSet;
     Which[
         newVal === $stSubsNotSet && oldVal === $stSubsNotSet, Automatic,
-        newVal === $stSubsNotSet,  stNormalizeSubstitutions[oldVal],
+        newVal === $stSubsNotSet,
+            (* Legacy name only -> fire once-per-session deprecation. *)
+            If[!TrueQ[$stKinPtDeprecationShown],
+                Message[STNIntegrate::deprKinPoint];
+                $stKinPtDeprecationShown = True];
+            stNormalizeSubstitutions[oldVal],
         oldVal === $stSubsNotSet,  stNormalizeSubstitutions[newVal],
+        newVal === oldVal,
+            (* Both supplied but identical (dispatcher re-emit).  Silent. *)
+            stNormalizeSubstitutions[newVal],
         True,
-            (* Both supplied.  Warn and use Substitutions. *)
+            (* Both supplied with different values.  Warn and use Substitutions. *)
             Message[STNIntegrate::conflictsubs];
             stNormalizeSubstitutions[newVal]
     ]
 ];
+
+(* Backend-handler helper: pick the kinematic-subs rule list from a raw
+   options sequence, preferring non-empty "Substitutions", else falling
+   back to "KinematicPoint".  Used by the four backend bottom-half functions
+   (stPySecDecFromQuadruple, stFIESTAEvaluate/run, stAMFlowEvaluate,
+   stFeyntropEvaluate) which receive opts via the three-arg `opts___` head.
+
+   Semantics: direct callers may pass either option name; the dispatcher
+   (graph-form STNIntegrate) passes both with "KinematicPoint" holding the
+   resolved rules and "Substitutions" -> {} (to avoid mis-applying kinematic
+   rules to STToPySecDec's integrand-level "Substitutions" semantic).  The
+   "prefer non-empty Substitutions" rule means:
+     - Direct user passing Substitutions -> {...}:  takes precedence
+     - Dispatcher path Substitutions -> {}, KinPt -> {rules}: falls through
+       to KinematicPoint
+     - Only Substitutions (possibly {}):  use it
+     - Only KinematicPoint:  use it
+     - Neither:  {} *)
+stPickKinPointOpts[optsList_List] := With[{
+    sVal = "Substitutions"  /. optsList /. "Substitutions"  -> Missing["NotSupplied"],
+    kVal = "KinematicPoint" /. optsList /. "KinematicPoint" -> Missing["NotSupplied"]},
+    Which[
+        ListQ[sVal] && sVal =!= {}, sVal,
+        ListQ[kVal],                kVal,
+        ListQ[sVal],                sVal,
+        True,                       {}]];
 
 (* Flatten a user-supplied canonical rule into backend form by appending the
    legacy "sq" suffix for external masses where needed.  Inputs: canonRules
@@ -4941,6 +5350,8 @@ Options[STNIntegrate] = {
 	"MaxEval"            -> 10^7,
 	"KinematicPoint"     -> {},           (* legacy alias of "Substitutions"; honored for back-compat *)
 	"Substitutions"      -> Automatic,    (* preferred name; Automatic = auto-generated Euclidean / Minkowski+i\[CurlyEpsilon] point *)
+	"NumSamples"         -> 1,            (* >1: re-evaluate at that many independent prime-ratio kinematic points; returned as "samples" *)
+	"Seed"               -> Automatic,    (* integer: override the default Hash[{edges,nodes}]-based seed; Automatic = graph-hash *)
 	"Verbose"            -> False,
 	"ContourDeformation" -> True,
 	"CacheDirectory"     -> Automatic,
@@ -4989,20 +5400,53 @@ STNIntegrate[g:{_List, _List}, opts:OptionsPattern[]] := Module[
 	   would error out at sector decomposition; here we return 0 cleanly. *)
 	If[stIsScalelessGraph[edges, nodes],
 		Message[STNIntegrate::scaleless, Length[nodes]];
-		Return[<|
-			"Value" -> 0, "Error" -> 0,
-			"Method" -> method, "Timing" -> AbsoluteTime[] - t0,
-			"KinematicPoint" -> OptionValue["KinematicPoint"],
-			"Scaleless" -> True,
-			"Note" -> "All internal/external masses zero with " <>
-				ToString[Length[nodes]] <>
-				" external legs - scaleless in dim-reg; not numerically integrated."|>]];
+		Module[{scalelessSubs = stReadSubstitutions[optsList]},
+			If[scalelessSubs === Automatic || scalelessSubs === $Failed,
+				scalelessSubs = {}];
+			Return[<|
+				"Value" -> 0, "Error" -> 0,
+				"Method" -> method, "Timing" -> AbsoluteTime[] - t0,
+				"Substitutions"  -> scalelessSubs,
+				"KinematicPoint" -> scalelessSubs,
+				"Scaleless" -> True,
+				"Note" -> "All internal/external masses zero with " <>
+					ToString[Length[nodes]] <>
+					" external legs - scaleless in dim-reg; not numerically integrated."|>]]];
+
+	(* Multi-sample dispatch: when NumSamples > 1 AND the user didn't pin
+	   the kinematic point, re-invoke self numSamples times with different
+	   Seed values and return the list of per-sample associations. *)
+	Module[{numSamples, userSeed, subsOpt, kinOpt, isAuto},
+		numSamples = OptionValue["NumSamples"];
+		userSeed   = OptionValue["Seed"];
+		subsOpt    = OptionValue["Substitutions"];
+		kinOpt     = OptionValue["KinematicPoint"];
+		isAuto     = (subsOpt === Automatic) &&
+			(kinOpt === {} || kinOpt === Automatic);
+		If[IntegerQ[numSamples] && numSamples > 1 && isAuto,
+			Module[{baseSeed, samples},
+				baseSeed = If[NumericQ[userSeed], userSeed,
+					Hash[{edges, nodes}, "CRC32"]];
+				samples = Table[
+					If[verbose, Print["[STNIntegrate] ---- sample ", k,
+						" / ", numSamples, " ----"]];
+					STNIntegrate[{edges, nodes}, Sequence @@ Join[
+						DeleteCases[optsList,
+							Rule[("NumSamples" | "Seed"), _]],
+						{"NumSamples" -> 1, "Seed" -> baseSeed + 1009 k}]],
+					{k, 0, numSamples - 1}];
+				Return[<|
+					"numSamples" -> numSamples,
+					"samples"    -> samples,
+					"Method"     -> method,
+					"Timing"     -> AbsoluteTime[] - t0|>]]]];
 
 	(* Resolve Substitutions / KinematicPoint to canonical + backend-expanded form.
 	   Automatic -> auto-generated verification point (Euclidean preferred). *)
 	subsRaw = stReadSubstitutions[optsList];
 	If[subsRaw === $Failed, Return[$Failed]];
-	{subsCanonical, subsExpanded} = stResolveGraphSubstitutions[subsRaw, {edges, nodes}];
+	{subsCanonical, subsExpanded} = stResolveGraphSubstitutions[subsRaw, {edges, nodes},
+		"Seed" -> OptionValue["Seed"]];
 	If[subsCanonical === $Failed, Return[$Failed]];
 	If[verbose,
 		Print["[STNIntegrate] Substitutions (canonical): ", subsCanonical];
@@ -5605,7 +6049,7 @@ stPySecDecFromQuadruple[{pref_, integrand_, xvars_List, coeffs_},
 
     order      = "Order"          /. {opts} /. "Order"          -> 0;
     verbose    = TrueQ["Verbose"  /. {opts} /. "Verbose"        -> False];
-    kinPoint   = "KinematicPoint" /. {opts} /. "KinematicPoint" -> {};
+    kinPoint   = stPickKinPointOpts[{opts}];
     integrator = "Integrator"     /. {opts} /. "Integrator"     -> Automatic;
     If[integrator === Automatic, integrator = "Qmc"];
     maxeval    = "MaxEval"        /. {opts} /. "MaxEval"        -> 10^7;
@@ -5886,7 +6330,7 @@ stNIntegrateFIESTA[{edges_List, nodes_List}, opts___] := Module[
 	verbose = TrueQ["Verbose" /. {opts} /. "Verbose" -> False];
 	order = "Order" /. {opts} /. "Order" -> 0;
 	maxeval = "MaxEval" /. {opts} /. "MaxEval" -> 10^7;
-	kinPoint = "KinematicPoint" /. {opts} /. "KinematicPoint" -> {};
+	kinPoint = stPickKinPointOpts[{opts}];
 	exponents = "Exponents" /. {opts} /. "Exponents" -> Automatic;
 	normalization = "Normalization" /. {opts} /. "Normalization" -> Automatic;
 	complexMode = "ComplexMode" /. {opts} /. "ComplexMode" -> Automatic;
@@ -6406,7 +6850,7 @@ stNIntegrateAMFlow[{edges_List, nodes_List}, opts___] := Module[
 
 	order     = "Order"            /. {opts} /. "Order"            -> 0;
 	verbose   = TrueQ["Verbose"    /. {opts} /. "Verbose"          -> False];
-	kinPoint  = "KinematicPoint"   /. {opts} /. "KinematicPoint"   -> {};
+	kinPoint  = stPickKinPointOpts[{opts}];
 	exponents = "Exponents"        /. {opts} /. "Exponents"        -> Automatic;
 	reducer   = "AMFlowIBPReducer" /. {opts} /. "AMFlowIBPReducer" -> "FiniteFlow+LiteRed";
 	precision = "AMFlowPrecision"  /. {opts} /. "AMFlowPrecision"  -> 16;
@@ -6638,7 +7082,7 @@ stNIntegrateFeyntrop[{edges_List, nodes_List}, opts___] := Module[
 
 	order     = "Order"           /. {opts} /. "Order"           -> 0;
 	verbose   = TrueQ["Verbose"   /. {opts} /. "Verbose"         -> False];
-	kinPoint  = "KinematicPoint"  /. {opts} /. "KinematicPoint"  -> {};
+	kinPoint  = stPickKinPointOpts[{opts}];
 	exponents = "Exponents"       /. {opts} /. "Exponents"       -> Automatic;
 	dim       = "Dimension"       /. {opts} /. "Dimension"       -> 4 - 2 eps;
 	nMC       = "MaxEval"         /. {opts} /. "MaxEval"         -> 10^7;
@@ -6786,7 +7230,7 @@ stNIntegrateFeyntrop[props_List, opts___] /; !MatchQ[props, {_List, _List}] :=
 (**)
 
 
-(* ::Section:: *)
+(* ::Section::Closed:: *)
 (*Tropical Geometry*)
 
 
@@ -6795,6 +7239,9 @@ stNIntegrateFeyntrop[props_List, opts___] /; !MatchQ[props, {_List, _List}] :=
 
 
 STnrmlzTriangulate[cone_,timeConstraint_:3, QuietQ_:True]:=Module[{fileNameInput,fileNameOutput,extProgScript,extProgOutput,extProgOutput2,string,file,messageFunction=PPrint,startTime,maxTime,exitStatus,cones,rays},
+(* Ensure the scratch directory exists -- paclet installs no longer ship a
+   pre-populated mathNormalizcoms/, so we create it on demand in CWD. *)
+Quiet @ CreateDirectory["mathNormalizcoms", CreateIntermediateDirectories -> True];
 fileNameInput="mathNormalizcoms/cone.in";
 fileNameOutput="mathNormalizcoms/cone.tri";
 extProgScript="mathNormalizcoms/cone.in";
@@ -6880,6 +7327,9 @@ polyInd,
 projString,preambleString,dummyDepString
 },
 	If[stRequireTool["polymake"] === $Failed, Return[$Failed]];
+	(* Ensure the scratch directory exists -- paclet installs no longer ship a
+	   pre-populated mathPolycoms/, so we create it on demand in CWD. *)
+	Quiet @ CreateDirectory["mathPolycoms", CreateIntermediateDirectories -> True];
 	If[QuietQ,messageFunction=noPrint,messageFunction=Print];
 
 	fileNameInput="mathPolycoms/poly.pl";
@@ -7212,6 +7662,8 @@ Clear[STtropicalDataFan];STtropicalDataFan[polyOriginalNames_,varsOriginalNames_
 
 If[QuietQ,messageFunction=noPrint,messageFunction=Print];
 
+(* Ensure scratch + script dir exists; paclet doesn't ship mathPolycoms/. *)
+Quiet @ CreateDirectory["mathPolycoms", CreateIntermediateDirectories -> True];
 
 fileNameInput="mathPolycoms/poly.pl";
 fileNameOutput="mathPolycoms/STtropicalData.txt";
@@ -7272,6 +7724,8 @@ Clear[STtropicalDataLegacy];STtropicalDataLegacy[polyOriginalNames_,varsOriginal
 
 If[QuietQ,messageFunction=noPrint,messageFunction=Print];
 
+(* Ensure scratch + script dir exists; paclet doesn't ship mathPolycoms/. *)
+Quiet @ CreateDirectory["mathPolycoms", CreateIntermediateDirectories -> True];
 
 fileNameInput="mathPolycoms/poly.pl";
 fileNameOutput="mathPolycoms/STtropicalData.txt";
@@ -7760,8 +8214,11 @@ continued={ FullSimplify[pri[[1]]#[[1]] ] ,#[[2]]}&/@ STcontinueRay[pri[[2]],xva
 STContinueRays[newPrefsInts,xvars,rays[[2;;]]]
 ]
 
+(* Alias requested by Giulio: STTropicalContinuation mirrors STContinueRays. *)
+STTropicalContinuation = STContinueRays;
 
-(* ::Section:: *)
+
+(* ::Section::Closed:: *)
 (*Tropical Subtractions*)
 
 
@@ -8031,6 +8488,9 @@ Print["Computing subtraction formula"];
 Monitor[Table[regularizeFace[divFaces[[face]] ],{face,1,divFaces//Length}]//Return,{face,"/",divFaces//Length}]
 ];
 
+(* Alias requested by Giulio: STTropicalSubtraction mirrors STSubtractionFormula. *)
+STTropicalSubtraction = STSubtractionFormula;
+
 
 (* ::Subsection:: *)
 (*Find NP continuation*)
@@ -8108,7 +8568,15 @@ STExpandIntegral[integrand_,vars_,coeffs_,regulators_:{eps},trDataGiven_:{},forc
 	expansions (* results *)
 	}
 	,
-	
+
+	(* Zero-variable short-circuit: an empty integration domain is trivially
+	   locally finite, with the whole integrand playing the role of prefactor.
+	   Return it in the same shape as the "Locally finite integrand" branch
+	   below so downstream consumers can process it uniformly. *)
+	If[vars === {},
+		Return[{{integrand, {{{1}, {}}}}}]
+	];
+
 	(* Extract prefactor, monomials and polynomials *)
 	{pref,mons,pols}=STtoCoeffMonPols[integrand,vars];
 	intnopref=(Times@@(vars^mons))(Times@@(pols[[1]]^pols[[2]]));
@@ -8126,7 +8594,12 @@ STExpandIntegral[integrand_,vars_,coeffs_,regulators_:{eps},trDataGiven_:{},forc
 
 	(* Check if trop = 0 on some ray*)
 	If[MemberQ[trValues,0],
-		Print[" The Euler integral is not welll defined! Aborting ... "];
+		Print[" The Euler integral is not well defined! Aborting ... "];
+		(* PROBE: Message survives runQuiet's Print->Null rebinding; if you see
+		   STExpandIntegral::notwelldef next run, the guard is confirmed as the
+		   cause of the upstream $Aborted. Then swap Abort[] -> Return[$Aborted]
+		   for the real fix. *)
+		Message[STExpandIntegral::notwelldef];
 		Abort[];
 	];
 	
@@ -8218,7 +8691,15 @@ STExpandIntegral[integrand_,vars_,coeffs_,regulators_:{eps},trDataGiven_:{},forc
 	expansions (* results *)
 	}
 	,
-	
+
+	(* Zero-variable short-circuit: an empty integration domain is trivially
+	   locally finite, with the whole integrand playing the role of prefactor.
+	   Return it in the same shape as the "Locally finite integrand" branch
+	   below so downstream consumers can process it uniformly. *)
+	If[vars === {},
+		Return[{{integrand, {{{1}, {}}}}}]
+	];
+
 	(* Extract prefactor, monomials and polynomials *)
 	{pref,mons,pols}=STtoCoeffMonPols[integrand,vars];
 	intnopref=(Times@@(vars^mons))(Times@@(pols[[1]]^pols[[2]]));
@@ -8236,7 +8717,12 @@ STExpandIntegral[integrand_,vars_,coeffs_,regulators_:{eps},trDataGiven_:{},forc
 
 	(* Check if trop = 0 on some ray*)
 	If[MemberQ[trValues,0],
-		Print[" The Euler integral is not welll defined! Aborting ... "];
+		Print[" The Euler integral is not well defined! Aborting ... "];
+		(* PROBE: Message survives runQuiet's Print->Null rebinding; if you see
+		   STExpandIntegral::notwelldef next run, the guard is confirmed as the
+		   cause of the upstream $Aborted. Then swap Abort[] -> Return[$Aborted]
+		   for the real fix. *)
+		Message[STExpandIntegral::notwelldef];
 		Abort[];
 	];
 	
@@ -9273,7 +9759,7 @@ cleanResults[id_]:=Module[
 ]*)
 
 
-(* ::Section:: *)
+(* ::Section::Closed:: *)
 (*HyperIntica*)
 
 
@@ -9956,13 +10442,16 @@ Options[STEspressoFubini] = {
 };
 
 STEspressoFubini[
-    groupPolynomials_List,
+    groupPolynomialsRaw_List,
     variables_List,
     opts : OptionsPattern[]
 ] := Module[
-    {groupMembers, rootPolynomials, rootCounter, polys, set, degree,
+    {groupPolynomials, groupMembers, rootPolynomials, rootCounter, polys, set, degree,
      ord, orders, preSTable, preOrders, size, vars, newPolys,
      fubiniResult, intersectionResult, result},
+
+    (* v1.0.421: canonicalize CenterDot -> Times (see STFasterFubini2). *)
+    groupPolynomials = groupPolynomialsRaw /. CenterDot[args__] :> Times[args];
 
     groupMembers = Length[groupPolynomials];
     rootCounter = 1;
@@ -10191,12 +10680,23 @@ Options[STFasterFubini2] = {
     Heuristic -> "LeafCountLinear"
 };
 STFasterFubini2[
-    groupPolynomials_List,
+    groupPolynomialsRaw_List,
     variables_List,
     opts : OptionsPattern[]
-] := Module[{groupMembers, rootPolynomials, rootCounter, polys, set, degree,
+] := Module[{groupPolynomials, groupMembers, rootPolynomials, rootCounter, polys, set, degree,
              ord, orders, preSTable, preOrders, size, vars, newPolys,
              fubiniResult, intersectionResult},
+
+    (* v1.0.421: canonicalize CenterDot[a, b] -> Times[a, b] in the input
+       polynomials so scalar-product coefficients like q[1]\[CenterDot]q[2]
+       (which STSymanzik emits when the user passes an ISP-style scalar
+       product numerator such as `l[1].q[2]`) don't fool the LR scoring.
+       CenterDot is opaque to Variables / Exponent so STFubiniLR flagged
+       otherwise-LR integrands as NOLR whenever CenterDot appeared in a
+       coefficient.  Scalar products are commutative for our purposes,
+       so Times is a faithful replacement. *)
+    groupPolynomials = groupPolynomialsRaw /. CenterDot[args__] :> Times[args];
+
 
     groupMembers = Length[groupPolynomials];
     rootCounter = 1;
@@ -11648,6 +12148,32 @@ STSetupKernel[nkernels_Integer:3] := Module[{currentDir, kernelsAlreadyOk,
 (*Strategy: All*)
 
 
+(* Snapshot of all HyperIntica session-state globals that affect LinearFactors /
+   HyperInt / downstream integrator behavior. Built on the main kernel at
+   dispatch time and passed through to each subkernel via the
+   STLaunchHyperInticaAllKernelIntegrator "HyperSnapshot" option; the
+   subkernel's Block rebinds every key explicitly.  This closes the
+   class of parallel-safety bug where a subkernel's default value of a
+   HyperIntica flag differs from the main kernel's current setting
+   (v1.0.402 $STFindRootsParallelSafe regression: subkernels had
+   $HyperIntroduceAlgebraicLetters = False, main had True, so
+   LinearFactors silently zeroed algebraic contributions). Adding a new
+   HyperIntica global that affects integration means adding a key here
+   and to stApplyHyperSnapshotToBlock below.  Keys drop the leading "$". *)
+stBuildHyperSnapshot[] := <|
+    "HyperIntroduceAlgebraicLetters"  -> TrueQ[HyperIntica`$HyperIntroduceAlgebraicLetters],
+    "NoAlgebraicRootsContributions"   -> TrueQ[HyperIntica`$NoAlgebraicRootsContributions],
+    "HyperAlgebraicRoots"             -> TrueQ[HyperIntica`$HyperAlgebraicRoots],
+    "HyperIgnoreNonlinearPolynomials" -> TrueQ[HyperIntica`$HyperIgnoreNonlinearPolynomials],
+    "HyperWarnZeroed"                 -> TrueQ[HyperIntica`$HyperWarnZeroed],
+    "HyperSplittingField"             -> HyperIntica`$HyperSplittingField,
+    "HyperVerbosity"                  -> HyperIntica`$HyperVerbosity,
+    "HyperInticaCheckDivergences"     -> TrueQ[HyperIntica`$HyperInticaCheckDivergences],
+    "HyperInticaAbortOnDivergence"    -> TrueQ[HyperIntica`$HyperInticaAbortOnDivergence],
+    "HyperEvaluatePeriods"            -> TrueQ[HyperIntica`$HyperEvaluatePeriods]
+|>;
+
+
 Options[STLaunchHyperInticaAllKernelIntegrator] = {
     "NumericsQ" -> False,
     "ShowIntegrands" -> False,
@@ -11656,20 +12182,33 @@ Options[STLaunchHyperInticaAllKernelIntegrator] = {
     "Integrator" -> "HyperIntica",
     "JobIndex" -> 0,      (*  0-based unique index across the ParallelMap dispatch.
                               Used to shard FindRoots letter-index space per subkernel. *)
-    "JobStride" -> 0      (*  Size of each subkernel's letter-index namespace. 0 means
+    "JobStride" -> 0,     (*  Size of each subkernel's letter-index namespace. 0 means
                               "don't shard" (legacy behaviour, caller must ensure serial). *)
+    "HyperSnapshot" -> <||>  (* Main-kernel HyperIntica session-state snapshot (see
+                                stBuildHyperSnapshot); applied via Block inside the
+                                subkernel so LinearFactors/HyperInt see the same flag
+                                values the main kernel has.  Default <||> means "leave
+                                subkernel's current values unchanged" (used for legacy
+                                direct calls; parallel dispatch always passes a real
+                                snapshot). *)
 };
 
 STLaunchHyperInticaAllKernelIntegrator[{faceDirectory_, ctId_, ctIntegrand_, LRorder_}, OptionsPattern[]] := Module[
 {result, localLetterTable = <||>, successQ, rules, showIntegrands, startTime, endTime,
  duration, jobFile, jobInfo, logFile, memThreshold, integrator,
- jobIndex, jobStride, letterBase, runIntegrator},
+ jobIndex, jobStride, letterBase, runIntegrator, hyperSnap, snapVal},
     showIntegrands = OptionValue["ShowIntegrands"];
     memThreshold   = OptionValue["ClearCachesMemoryThreshold"];
     jobIndex       = OptionValue["JobIndex"];
     jobStride      = OptionValue["JobStride"];
+    hyperSnap      = OptionValue["HyperSnapshot"];
     letterBase     = If[IntegerQ[jobIndex] && IntegerQ[jobStride] && jobStride > 0,
                         jobIndex * jobStride, 0];
+    (* Resolve a snapshot key: use the snapshot's value if present, else the
+       subkernel's current global. Keeps the Block below valid even when
+       callers pass an empty snapshot (legacy / serial path). *)
+    If[!AssociationQ[hyperSnap], hyperSnap = <||>];
+    snapVal[key_String, default_] := Lookup[hyperSnap, key, default];
     startTime = AbsoluteTime[];
 
     Print["Working on : ", faceDirectory, " counter term id: ", ctId];
@@ -11711,9 +12250,45 @@ STLaunchHyperInticaAllKernelIntegrator[{faceDirectory_, ctId_, ctIntegrand_, LRo
     	];
     );
 
+    (* Block-scope every HyperIntica flag the caller captured plus the
+       per-subkernel letter counter/table.  Without this, a subkernel's
+       default $HyperIntroduceAlgebraicLetters (False) would override the
+       main kernel's current setting (True when FindRoots is active), and
+       LinearFactors would silently zero deg-2 factors on each subkernel
+       (v1.0.402 regression, bisected on the 2-mass alternating box). *)
     Block[{
         HyperIntica`$HyperAlgebraicLetterCounter = letterBase,
-        HyperIntica`$HyperAlgebraicLetterTable   = <||>
+        HyperIntica`$HyperAlgebraicLetterTable   = <||>,
+        HyperIntica`$HyperIntroduceAlgebraicLetters =
+            snapVal["HyperIntroduceAlgebraicLetters",
+                    HyperIntica`$HyperIntroduceAlgebraicLetters],
+        HyperIntica`$NoAlgebraicRootsContributions =
+            snapVal["NoAlgebraicRootsContributions",
+                    HyperIntica`$NoAlgebraicRootsContributions],
+        HyperIntica`$HyperAlgebraicRoots =
+            snapVal["HyperAlgebraicRoots",
+                    HyperIntica`$HyperAlgebraicRoots],
+        HyperIntica`$HyperIgnoreNonlinearPolynomials =
+            snapVal["HyperIgnoreNonlinearPolynomials",
+                    HyperIntica`$HyperIgnoreNonlinearPolynomials],
+        HyperIntica`$HyperWarnZeroed =
+            snapVal["HyperWarnZeroed",
+                    HyperIntica`$HyperWarnZeroed],
+        HyperIntica`$HyperSplittingField =
+            snapVal["HyperSplittingField",
+                    HyperIntica`$HyperSplittingField],
+        HyperIntica`$HyperVerbosity =
+            snapVal["HyperVerbosity",
+                    HyperIntica`$HyperVerbosity],
+        HyperIntica`$HyperInticaCheckDivergences =
+            snapVal["HyperInticaCheckDivergences",
+                    HyperIntica`$HyperInticaCheckDivergences],
+        HyperIntica`$HyperInticaAbortOnDivergence =
+            snapVal["HyperInticaAbortOnDivergence",
+                    HyperIntica`$HyperInticaAbortOnDivergence],
+        HyperIntica`$HyperEvaluatePeriods =
+            snapVal["HyperEvaluatePeriods",
+                    HyperIntica`$HyperEvaluatePeriods]
     },
         runIntegrator[];
         localLetterTable = HyperIntica`$HyperAlgebraicLetterTable;
@@ -11856,18 +12431,35 @@ successQ, failed = {}, uiComms},
        but passing a valid index is still cheap. *)
     Module[{jobStride = $STFindRootsJobStride, indexedData},
         indexedData = MapIndexed[{#1, First[#2] - 1} &, integrandsData];
-        ctIdsOutcomes = ParallelMap[
-            STLaunchHyperInticaAllKernelIntegrator[#[[1]],
-                "NumericsQ" -> OptionValue["NumericsQ"],
-                "ShowIntegrands" -> showIntegrands,
-                "ClearCachesPerIntegrand" -> OptionValue["ClearCachesPerIntegrand"],
-                "ClearCachesMemoryThreshold" -> OptionValue["ClearCachesMemoryThreshold"],
-                "Integrator" -> OptionValue["Integrator"],
-                "JobIndex"   -> #[[2]],
-                "JobStride"  -> jobStride
-            ] &,
-            indexedData,
-            Method -> "FinestGrained"
+        (* Capture main-kernel HyperIntica state once and inline its value
+           into the ParallelMap closure via With, so each subkernel rebinds
+           its flags to these values before calling the integrator.  Using
+           a Module-local variable in the closure doesn't round-trip through
+           ParallelMap serialization (subkernels see the unbound symbol);
+           With forces the Association to be substituted literally. *)
+        With[{
+                hyperSnap = stBuildHyperSnapshot[],
+                numericsQ = OptionValue["NumericsQ"],
+                showInt   = showIntegrands,
+                clearCpi  = OptionValue["ClearCachesPerIntegrand"],
+                clearMT   = OptionValue["ClearCachesMemoryThreshold"],
+                integrat  = OptionValue["Integrator"],
+                stride    = jobStride
+            },
+            ctIdsOutcomes = ParallelMap[
+                STLaunchHyperInticaAllKernelIntegrator[#[[1]],
+                    "NumericsQ" -> numericsQ,
+                    "ShowIntegrands" -> showInt,
+                    "ClearCachesPerIntegrand" -> clearCpi,
+                    "ClearCachesMemoryThreshold" -> clearMT,
+                    "Integrator" -> integrat,
+                    "JobIndex"      -> #[[2]],
+                    "JobStride"     -> stride,
+                    "HyperSnapshot" -> hyperSnap
+                ] &,
+                indexedData,
+                Method -> "FinestGrained"
+            ];
         ];
     ];
 
@@ -12810,13 +13402,16 @@ V=Length[vertices];
 noLoop=LL=1+EE-V;
 dd=EE-LL d/2; 
 If[vertices!=Range[V]\[Or]Complement[nodes,vertices]!={},
-Echo["'ve provided incorrect arguments... the police is on their way!"];Return[]];
+"Too much Pina colada eh?! You provided incorrect arguments... the police is on their way!" // Print;
+Abort[];
+];
 P=ConstantArray[0,{V}];
 Do[P[[nodes[[i]]]]+=Subscript[p, i],{i,n}];
 L=ConstantArray[0,{V,V}];
 Do[{v1,v2}=edges[[e]];L[[v1,v1]]+=1/Subscript[\[Alpha], e];L[[v2,v2]]+=1/Subscript[\[Alpha], e];L[[v1,v2]]-=1/Subscript[\[Alpha], e];L[[v2,v1]]-=1/Subscript[\[Alpha], e];,{e,EE}];
-detL:=Det[L[[Range[V-1],Range[V-1]]]];
-Subscript[detL, i_,j_]:=If[i!=V\[And]j!=V,If[V==2,1,(-1)^(i+j) Det[L[[Complement[Range[V-1],{i}],Complement[Range[V-1],{j}]]]]],0];
+(* V==1 (tadpole / vacuum-like): reduced Laplacian is empty, Kirchhoff poly = 1 by convention. *)
+detL:=If[V==1,1,Det[L[[Range[V-1],Range[V-1]]]]];
+Subscript[detL, i_,j_]:=If[V==1,0,If[i!=V\[And]j!=V,If[V==2,1,(-1)^(i+j) Det[L[[Complement[Range[V-1],{i}],Complement[Range[V-1],{j}]]]]],0]];
 SetAttributes[CenterDot,Orderless];
 SetAttributes[\[Eta],Orderless];
 expand={(a_+b_)\[CenterDot]x_:>a\[CenterDot]x+b\[CenterDot]x,x_\[CenterDot](a_+b_):>x\[CenterDot]a+x\[CenterDot]b,a_\[CenterDot]0:>0};
@@ -12967,7 +13562,7 @@ SOLVERBOUND->100,
 Normalization->(*1*)Automatic,
 Gauge->{Global`x1->1}
 };
-SOFIASymanzik[diagram_,opts:OptionsPattern[]]:=Module[{listSym,out,tempDiagram,\[Alpha]Replacements,topSectorOnlyVal,numVal,dimVal,runSOFIAVal,solverBoundVal,subs,listPlot,kinReplacements,shifts,nodes1,nodes2,cv,UUU,FFF,GGG,listUF,finalRep,normalization,gauge},
+SOFIASymanzik[diagram_,opts:OptionsPattern[]]:=Module[{listSym,out,tempDiagram,\[Alpha]Replacements,topSectorOnlyVal,numVal,dimVal,runSOFIAVal,solverBoundVal,subs,listPlot,kinReplacements,shifts,nodes1,nodes2,cv,UUU,FFF,GGG,listUF,finalRep,normalization,gauge,saveCV={}},
 (*Extract Options*)
 topSectorOnlyVal=OptionValue[{SOFIASymanzik,opts},TopSectorOnly];
 numVal=OptionValue[{SOFIASymanzik,opts},numerator];
@@ -13504,6 +14099,7 @@ Options[STEvaluateGraph] = Join[
 
 
 STEvaluateGraph[g_, opts : OptionsPattern[]] :=
+Catch[
 Module[{
     pref, integrand, xvars, coeffs, expansion,
     verbose, showTimings, showIntegrands,
@@ -13576,6 +14172,7 @@ Module[{
         $NoAlgebraicRootsContributions = False;
         $HyperIntroduceAlgebraicLetters = True;
         ClearAlgebraicLetters[];
+        If[Length[Kernels[]] > 0, ParallelEvaluate[ClearAlgebraicLetters[]]];
         $stRootSubstitutions = {}
     ,
         (* Explicit reset: the flag is sticky if a prior FindRoots->True
@@ -13584,6 +14181,7 @@ Module[{
            force in STSetupKernel when $STFindRootsParallelSafe is off. *)
         $HyperIntroduceAlgebraicLetters = False;
         ClearAlgebraicLetters[];
+        If[Length[Kernels[]] > 0, ParallelEvaluate[ClearAlgebraicLetters[]]];
         $stRootSubstitutions = {}
     ];
     resumeFrom    = None;
@@ -13624,12 +14222,18 @@ Module[{
     Echo[problemId, "Problem ID:"];
 
     (* Early scaleless check: if STGenerateIntegrand returns 0, the integral
-       vanishes in dimensional regularization \[LongDash] skip all gauge scanning. *)
+       vanishes in dimensional regularization \[LongDash] skip all gauge scanning.
+       Use $Aborted as the CheckAbort sentinel so a downstream Abort[] (e.g.
+       STSymanzikGraph's bad-input guard) is not silently conflated with a
+       genuine scaleless 0. *)
     Module[{scalelessTest},
       scalelessTest = Quiet[CheckAbort[
         STGenerateIntegrand[g, "Gauge" -> {},
           FilterRules[DeleteCases[{opts}, "Gauge" -> _], Options[STGenerateIntegrand]]],
-        0]];
+        $Aborted]];
+      If[scalelessTest === $Aborted,
+        stSetUIStage[uiComms, "Complete", 10];
+        Return[$Failed]];
       If[scalelessTest === 0,
         Print["[SubTropica] Scaleless integral \[LongDash] vanishes in dimensional regularization."];
         stSetUIStage[uiComms, "Complete", 10];
@@ -13652,7 +14256,40 @@ Module[{
             |>,
             "result" -> sclessSeries
           |>;
-          Return[sclessSeries]]]];
+          Return[sclessSeries]]];
+      (* Trivial-integrand short-circuit: if the ungauged integrand has \[LessEqual] 1
+         Schwinger variable, the Feynman/Schwinger projective integral reduces to
+         pref \[Times] (integrand with the single \[Alpha] gauge-fixed to 1). Examples: the
+         massive tadpole e0|:01| (one self-loop, one \[Alpha]). No tropical / NP /
+         subtraction pipeline is needed (and those paths don't handle empty
+         xvars \[LongDash] Det[{}], trData["rays"]={}, etc.). *)
+      If[ListQ[scalelessTest] && Length[scalelessTest] === 4 &&
+         Length[scalelessTest[[3]]] <= 1,
+        Module[{trivPref, trivInt, trivVars, trivGauged, trivResult, trivNickel, trivOrderN},
+          {trivPref, trivInt, trivVars} = scalelessTest[[{1, 2, 3}]];
+          trivGauged = If[trivVars === {}, trivInt, trivInt /. trivVars[[1]] -> 1];
+          trivOrderN = If[ListQ[outputOrder], Max[outputOrder], outputOrder];
+          trivResult = Series[trivPref * trivGauged, {eps, 0, trivOrderN}];
+          Print["[SubTropica] Trivial Schwinger integral (", Length[trivVars],
+                " variable", If[Length[trivVars] == 1, "", "s"],
+                ") \[LongDash] pref \[Times] gauge-fixed integrand."];
+          trivNickel = Quiet @ Check[
+            computeNickelIndex[g[[1, All, 1]], g[[2, All, 1]],
+              g[[1, All, 2]], g[[2, All, 2]]], ""];
+          $integrationResult = <|
+            "uiResult" -> <|
+              "nickelIndex"  -> trivNickel,
+              "Dimension"    -> ToString[OptionValue["Dimension"], InputForm],
+              "Order"        -> outputOrder,
+              "propExponents"-> Table[1, {Length[g[[1]]]}],
+              "Substitutions"-> "",
+              "edges"        -> g[[1]],
+              "nodes"        -> g[[2]]
+            |>,
+            "result" -> trivResult
+          |>;
+          stSetUIStage[uiComms, "Complete", 10];
+          Return[trivResult]]]];
 
     (* Auto-rationalization hook. Fires only when FindRoots -> True and the
        user is on the default Automatic-gauge / Schwinger path. Probes the
@@ -14293,14 +14930,20 @@ Module[{
             ];
             , {pass, 1, 2}];
 
+            (* v1.0.420: Throw[$Failed, ...] to the Catch at the top of
+               STEvaluateGraph so callers (STIntegrate, test harnesses)
+               get a structured failure value instead of an uncatchable
+               kernel Abort.  Triggers on genuinely non-LR topologies
+               like the equal-mass 2-loop sunrise (elliptic); also on
+               numerator combinations that spuriously hit NOLR. *)
             If[AllTrue[scores, # === Infinity &],
                 Message[STEvaluateGraph::nolr];
-                Abort[];
+                Throw[$Failed, "stEvalGraphExit"];
             ];
 
             If[AllTrue[scores, (# >= 10^500 || # === Infinity) &],
                 Message[STEvaluateGraph::timebound];
-                Abort[];
+                Throw[$Failed, "stEvalGraphExit"];
             ];
 
             bestGaugeIdx = Position[scores, Min[Select[scores, # < 10^500 &]]][[1, 1]];
@@ -14598,7 +15241,29 @@ Module[{
             stStageTime["CleanZeroInf",
                 If[OptionValue["CleanOutput"] =!= False, CleanZeroInf[#], #]] & //
             stStageTime["Series-2", Series[#, {eps, 0, outputOrder}]] & //
-            stStageTime["stWrapRootSubs", stWrapRootSubs[#]] &
+            (* v1.0.443: drop bonus coefficients above outputOrder.
+               When a Gamma(\[Omega]) prefactor pole cancels (e.g. squared-ISP
+               numerators with \[Nu]_tot \[LessEqual] 0), the true leading order of the
+               integral can be at \[CurlyEpsilon]^m with m > outputOrder.  Mathematica's
+               Series returns that \[CurlyEpsilon]^m coefficient anyway, but STIntegrate
+               only computed the parametric integrand through
+               \[CurlyEpsilon]^(outputOrder + poleGamma) which is (m - outputOrder) orders
+               short of what a correct \[CurlyEpsilon]^m needs.  Reporting it would be an
+               accuracy lie.  Strictly truncate to outputOrder; if the series
+               starts above outputOrder, return an empty-sentinel SeriesData
+               so callers know "0 up through outputOrder, higher not tracked". *)
+            stStageTime["stWrapRootSubs", stWrapRootSubs[#]] & //
+            (* v1.0.443: if the reported series starts at \[CurlyEpsilon]^nmin with nmin >
+               outputOrder, Mathematica's Series left a "bonus" leading
+               coefficient that STIntegrate only partially computed (the
+               parametric integrand was truncated at \[CurlyEpsilon]^(outputOrder+poleGamma),
+               not at \[CurlyEpsilon]^(nmin+poleGamma) that the accurate bonus coefficient
+               would require).  Strip it: emit an empty-sentinel SeriesData
+               meaning "zero through \[CurlyEpsilon]^outputOrder, nothing tracked higher". *)
+            stStageTime["TruncateOutput",
+                If[Head[#] === SeriesData && #[[4]] > outputOrder && #[[3]] =!= {},
+                    SeriesData[eps, 0, {}, outputOrder + 1, outputOrder + 1, 1],
+                    #]] &
 
     , showTimings, "Overall timing:"]];
 
@@ -14647,7 +15312,7 @@ Module[{
     stEchoAlgebraicLettersSummary[result];
 
     result
-]
+], "stEvalGraphExit"]
 
 
 (* ::Subsection:: *)
@@ -14674,6 +15339,7 @@ STEvaluateEulerIntegral::invalidgauges = "Warning: Some gauge indices in Include
 STEvaluateEulerIntegral::expansionfailed = "Tropical analysis failed (STExpandIntegral returned $Aborted). A divergence may not have been regulated.";
 STEvaluateEulerIntegral::nogaugeLR = "StopAt -> \"AfterMinimalLRCheck\" requires a homogeneous integrand (or ScanGauges -> True). Non-homogeneous integrands cannot be gauge-fixed.";
 STEvaluateEulerIntegral::notprojective = "ScanGauges -> True was requested, but the integrand is not projective (not homogeneous under x_i -> lambda x_i). Gauge-fixing assumes the integrand has gauge redundancy and will silently evaluate it at the gauge point, producing a meaningless result. Use ScanGauges -> False (or Automatic, which detects homogeneity) for ad-hoc non-projective integrals.";
+STEvaluateEulerIntegral::notprojectiveAuto = "Integrand is non-homogeneous in the Feynman parameters `1` and contains no eps-dependent exponent to regulate it. The parametric pipeline would silently return 0 (e.g. SeriesData[eps, 0, {}, ...]) in this case. Lee-Pomeransky-style integrands (non-homogeneous with an eps-dependent exponent, e.g. (U+F)^(-D/2)) are not affected by this check. For a generic Riemann integral without an eps regulator, call HyperIntica directly, for example:\n  HyperIntica[integrand, {x1,0,1}, {x2,0,1}] /. GetAlgebraicBackSubRules[] /. ZeroInfPeriod :> ZeroInfPeriodAsMpl // FullSimplify";
 
 Options[STEvaluateEulerIntegral] = Join[
     {
@@ -14728,6 +15394,7 @@ Options[STEvaluateEulerIntegral] = Join[
 
 
 STEvaluateEulerIntegral[{prefArg_, integrandArg_, xvarsArg_, coeffsArg_}, opts:OptionsPattern[]] :=
+Catch[
 Module[{
     (* Convention: integrandArg is in user-facing convention (measure dx_i); multiply by Times@@xvarsArg
        here to convert to internal convention (measure dx_i/x_i) used throughout the pipeline. *)
@@ -14753,6 +15420,22 @@ Module[{
 
     uiComms = OptionValue["UIComms"];
     stSetUIStage[uiComms, "Initializing", 1];
+
+    (* Zero-variable short-circuit: if the input tuple has no Schwinger variables
+       left (e.g. a fully gauge-fixed tadpole), the "integral" is just the
+       constant pref \[Times] integrand. The tropical/NP/subtraction pipeline cannot
+       handle empty xvars (Det[{}], empty-ray STEvalRay, etc.). *)
+    If[xvarsArg === {},
+        Module[{o0, trivResult, prefLocal},
+            o0 = OptionValue["Order"];
+            o0 = If[o0 === Automatic, 0, If[ListQ[o0], Max[o0], o0]];
+            prefLocal = prefArg //. OptionValue["Substitutions"] /. A_^B_ :> Factor[A]^B;
+            trivResult = Series[prefLocal * integrand, {eps, 0, o0}];
+            Print["[SubTropica] Zero-variable Euler tuple \[LongDash] returning pref \[Times] integrand as a Series in eps."];
+            stSetUIStage[uiComms, "Complete", 10];
+            Throw[trivResult]
+        ]
+    ];
 
     STSetupKernel[OptionValue["KernelsAvailable"]];
 
@@ -14792,10 +15475,12 @@ Module[{
         $NoAlgebraicRootsContributions = False;
         $HyperIntroduceAlgebraicLetters = True;
         ClearAlgebraicLetters[];
+        If[Length[Kernels[]] > 0, ParallelEvaluate[ClearAlgebraicLetters[]]];
         $stRootSubstitutions = {}
     ,
         $HyperIntroduceAlgebraicLetters = False;
         ClearAlgebraicLetters[];
+        If[Length[Kernels[]] > 0, ParallelEvaluate[ClearAlgebraicLetters[]]];
         $stRootSubstitutions = {}
     ];
 
@@ -14866,6 +15551,20 @@ Module[{
     ];
     If[verbose, Print["ScanGauges resolved to: ", doScan,
         If[scanGauges === Automatic, " (auto-detected from homogeneity)", ""]]];
+
+    (* Non-projective + no-eps-regulator guard. A non-homogeneous integrand
+       without any eps-dependent exponent falls into the NO-SCAN path, which
+       the parametric pipeline can only return 0 for (silent wrong answer,
+       seen as SeriesData[eps, 0, {}, ...]). Lee-Pomeransky integrands are
+       non-homogeneous BUT carry an eps-dependent exponent (e.g. G^(-D/2) =
+       G^(eps-2)), so they pass this check. Restricted to ScanGauges ->
+       Automatic so explicit gauge-fixed callers (ScanGauges -> False) are
+       unaffected. Checkpoint resumes also skipped. *)
+    If[scanGauges === Automatic && !doScan && xvars =!= {} && resumeFrom === None &&
+       FreeQ[integrand, Power[_, e_ /; !FreeQ[e, eps]]],
+        Message[STEvaluateEulerIntegral::notprojectiveAuto, xvars];
+        Return[$Failed]
+    ];
     (* When resuming, always use the non-scanning path  integrand is already fixed *)
     If[resumeFrom =!= None, doScan = False];
 
@@ -15371,11 +16070,14 @@ Module[{
             ];
             , {pass, 1, 2}];
 
+            (* v1.0.420: see explanation at the mirror site in STEvaluateGraph. *)
             If[AllTrue[scores, # === Infinity &],
-                Message[STEvaluateEulerIntegral::nolr]; Abort[];
+                Message[STEvaluateEulerIntegral::nolr];
+                Throw[$Failed, "stEvalEulerExit"];
             ];
             If[AllTrue[scores, (# >= 10^500 || # === Infinity) &],
-                Message[STEvaluateEulerIntegral::timebound]; Abort[];
+                Message[STEvaluateEulerIntegral::timebound];
+                Throw[$Failed, "stEvalEulerExit"];
             ];
 
             bestGaugeIdx = Position[scores, Min[Select[scores, # < 10^500 &]]][[1, 1]];
@@ -15584,8 +16286,16 @@ Module[{
             monitorDisplay
         ];
 
+        (* Mirror STEvaluateGraph:15211: clear HyperIntica memoization caches on
+           main kernel and subkernels after integration.  Cache hits on later
+           runs would return cached expressions containing Wm[i]/Wp[i] atoms
+           without re-firing the letter-minting side effect, leaving
+           $HyperAlgebraicLetterTable empty and GetAlgebraicBackSubRules[] broken. *)
+        ForgetAllMemo[];
+        ParallelEvaluate[ForgetAllMemo[]];
+
         stSetUIStage[uiComms, "CollectingResults", If[doScan, 10, 7]];
-        (* Construct answer — each step wrapped so we can tell which one
+        (* Construct answer \[LongDash] each step wrapped so we can tell which one
            stalls on pathological inputs. *)
         stStageTime["STReadResults", pref runQuiet2[STReadResults[problemId], verbose]] //
             stStageTime["Total", Total[#]] & //
@@ -15596,7 +16306,29 @@ Module[{
             stStageTime["CleanZeroInf",
                 If[OptionValue["CleanOutput"] =!= False, CleanZeroInf[#], #]] & //
             stStageTime["Series-2", Series[#, {eps, 0, outputOrder}]] & //
-            stStageTime["stWrapRootSubs", stWrapRootSubs[#]] &
+            (* v1.0.443: drop bonus coefficients above outputOrder.
+               When a Gamma(\[Omega]) prefactor pole cancels (e.g. squared-ISP
+               numerators with \[Nu]_tot \[LessEqual] 0), the true leading order of the
+               integral can be at \[CurlyEpsilon]^m with m > outputOrder.  Mathematica's
+               Series returns that \[CurlyEpsilon]^m coefficient anyway, but STIntegrate
+               only computed the parametric integrand through
+               \[CurlyEpsilon]^(outputOrder + poleGamma) which is (m - outputOrder) orders
+               short of what a correct \[CurlyEpsilon]^m needs.  Reporting it would be an
+               accuracy lie.  Strictly truncate to outputOrder; if the series
+               starts above outputOrder, return an empty-sentinel SeriesData
+               so callers know "0 up through outputOrder, higher not tracked". *)
+            stStageTime["stWrapRootSubs", stWrapRootSubs[#]] & //
+            (* v1.0.443: if the reported series starts at \[CurlyEpsilon]^nmin with nmin >
+               outputOrder, Mathematica's Series left a "bonus" leading
+               coefficient that STIntegrate only partially computed (the
+               parametric integrand was truncated at \[CurlyEpsilon]^(outputOrder+poleGamma),
+               not at \[CurlyEpsilon]^(nmin+poleGamma) that the accurate bonus coefficient
+               would require).  Strip it: emit an empty-sentinel SeriesData
+               meaning "zero through \[CurlyEpsilon]^outputOrder, nothing tracked higher". *)
+            stStageTime["TruncateOutput",
+                If[Head[#] === SeriesData && #[[4]] > outputOrder && #[[3]] =!= {},
+                    SeriesData[eps, 0, {}, outputOrder + 1, outputOrder + 1, 1],
+                    #]] &
 
     , showTimings, "Overall timing:"]];
 
@@ -15648,7 +16380,7 @@ Module[{
     stEchoAlgebraicLettersSummary[result];
 
     result
-]
+], "stEvalEulerExit"]
 
 
 (* ::Subsection:: *)
@@ -15671,6 +16403,11 @@ STEvaluateGraphFromPropagators[propagators_List, opts:OptionsPattern[]] :=
     If[symResult === 0,
       Print["[SubTropica] Scaleless integral \[LongDash] vanishes in dimensional regularization."];
       Return[SeriesData[eps, 0, {}, 0, 1, 1]]];
+    (* Validation failure: STSymanzik's guards return $Failed (or Null from
+       older bare Return[] branches). Either way, symResult[[2]] would crash
+       with Part::partd, so bail out here with a clear failure value. *)
+    If[!MatchQ[symResult, {_, _, _List, _}],
+      Return[$Failed]];
     (* STSymanzik returns integrand in internal convention (includes Times@@xvars measure factor).
        Divide by Times@@xvars to convert to user-facing convention before passing to
        STEvaluateEulerIntegral, which multiplies by Times@@xvars at its input boundary. *)
@@ -16126,10 +16863,52 @@ STIntegrate[g:{_List, _List}, opts:OptionsPattern[]] :=
                 Return[$Failed]
         ];
         $STLastVacuumPeriod = False;
+        (* Guard: Dimension must involve eps.  The pipeline computes a
+           Laurent expansion in eps (dimensional regularization); with an
+           integer-valued Dimension, no expansion variable exists and the
+           pipeline silently returns the bare integer-D integral, which
+           is DirectedInfinity[] whenever that integral is UV-divergent
+           (e.g. D=4 tadpole). *)
+        Module[{dimOpt = "Dimension" /. {opts} /. "Dimension" -> (4 - 2 eps)},
+            If[FreeQ[dimOpt, eps],
+                Message[STIntegrate::dimNoEps, dimOpt];
+                Return[$Failed]
+            ]
+        ];
+        (* v1.0.453: guard against silently-dropped "Exponents" option.
+           STEvaluateGraph does NOT accept "Exponents"; its propagator
+           powers are all fixed to 1 (use propagator-list input or the
+           "Numerator" option for non-standard powers).  If the user
+           passes a non-trivial Exponents list to the graph form, the
+           FilterRules call silently drops it and the integral comes out
+           as if powers were {1,...,1} — same symbolic answer regardless
+           of user input, which confused downstream verification.  Emit
+           a message and fail cleanly. *)
+        Module[{expsOpt = "Exponents" /. {opts} /. "Exponents" -> Automatic},
+            If[ListQ[expsOpt] && ! AllTrue[expsOpt, # === 1 &],
+                Message[STIntegrate::graphFormExponents, expsOpt];
+                Return[$Failed]]];
         r = STEvaluateGraph[g,
             FilterRules[{opts}, Options[STEvaluateGraph]]];
         r
     ];
+
+STIntegrate::graphFormExponents = StringJoin[
+    "Graph-form STIntegrate[{edges, nodes}, ...] does not honour the ",
+    "\"Exponents\" option (got `1`).  All internal propagators are taken ",
+    "to power 1; for non-trivial powers (squared propagators, numerator ",
+    "insertions) use the propagator-list form ",
+    "STIntegrate[{prop_1, ..., prop_n}, \"Exponents\" -> {nu_1, ..., nu_n}]."];
+
+STIntegrate::dimNoEps = StringJoin[
+    "Dimension `1` does not involve eps. The pipeline computes a Laurent ",
+    "expansion in eps (dimensional regularization), which requires Dimension ",
+    "to be eps-dependent (e.g. 4 - 2 eps). For a bare integer-dimension ",
+    "Feynman integral there is no expansion variable; at integer D the ",
+    "pipeline would either return DirectedInfinity[] (UV-divergent cases) ",
+    "or the integer-D value without regulation. Use Dimension -> D - 2 eps ",
+    "with the D you intend, or call HyperIntica directly for a bare integer-D ",
+    "Feynman integral."];
 
 STIntegrate::momCons1pt = StringJoin[
     "Momentum conservation at a 1-point function forces the external ",
@@ -16146,6 +16925,13 @@ STIntegrate::momCons2pt = StringJoin[
 STIntegrate[propagators_List, opts:OptionsPattern[]] :=
     Module[{r},
         $STLastVacuumPeriod = False;
+        (* Same Dimension-must-involve-eps guard as the graph form above. *)
+        Module[{dimOpt = "Dimension" /. {opts} /. "Dimension" -> (4 - 2 eps)},
+            If[FreeQ[dimOpt, eps],
+                Message[STIntegrate::dimNoEps, dimOpt];
+                Return[$Failed]
+            ]
+        ];
         r = STEvaluateGraphFromPropagators[propagators,
             FilterRules[{opts}, Options[STEvaluateGraphFromPropagators]]];
         r
@@ -16210,12 +16996,100 @@ STIntegrate[{prefArg_, integrandArg_, xvarsArg_List, coeffsArg_, checkpointId_St
         ]
     ];
 
+(* stIntegrateBoundedEps: bounded-domain path for Form 4/5 when one or more
+   bounds are not {0, Infinity}. The parametric dim-reg pipeline in
+   STEvaluateEulerIntegral assumes (R_>=0)^n and cannot honor {0,1} / {1,Inf}
+   bounds; instead we series-expand the integrand in eps to Order and hand
+   each coefficient to HyperIntica with the user's bounds intact. Each
+   coefficient runs in its own parallel job, Block-scoped with a disjoint
+   Wm/Wp letter-counter offset (mirrors STLaunchHyperInticaAllKernelIntegrator:12243
+   so indices across coefficients never collide), and the main kernel unions
+   the per-coefficient tables before GetAlgebraicBackSubRules[] substitutes
+   the letters back to numeric roots. *)
+stIntegrateBoundedEps[integrand_, limSpecs_List, order_Integer, opts_List] := Module[
+    {seriesObj, coeffs, minPow, maxPlus1, nKernels, stride = $STFindRootsJobStride,
+     perCoeffResults, mergedLetterTable, resolvedCoeffs, failedIdxs,
+     perCoeffJob, indexedCoeffs},
+
+    $NoAlgebraicRootsContributions = False;
+    $HyperIntroduceAlgebraicLetters = True;
+    ClearAlgebraicLetters[];
+    $stRootSubstitutions = {};
+
+    (* Work from the SeriesData directly so we preserve any negative eps powers
+       (1/eps poles from the integrand).  CoefficientList would silently drop
+       them, turning a genuine pole into a finite wrong answer. *)
+    seriesObj = Series[integrand, {eps, 0, order}];
+    If[Head[seriesObj] =!= SeriesData,
+        Message[STIntegrate::boundedSeriesFailed, integrand];
+        Return[$Failed]
+    ];
+    {minPow, maxPlus1} = {seriesObj[[4]], seriesObj[[5]]};
+    coeffs = seriesObj[[3]];
+
+    nKernels = Lookup[opts, "KernelsAvailable", $ProcessorCount - 1];
+    STSetupKernel[nKernels];
+    If[Length[Kernels[]] > 0, ParallelEvaluate[ClearAlgebraicLetters[]]];
+
+    indexedCoeffs = MapIndexed[{#2[[1]] - 1, #1}&, coeffs];
+
+    perCoeffJob = Function[{indexedCoeff},
+        Module[{idx = indexedCoeff[[1]], c = indexedCoeff[[2]],
+                localRes, localTable},
+            Block[{
+                HyperIntica`$HyperAlgebraicLetterCounter = idx * stride,
+                HyperIntica`$HyperAlgebraicLetterTable = <||>,
+                HyperIntica`$HyperIntroduceAlgebraicLetters = True,
+                HyperIntica`$NoAlgebraicRootsContributions = False
+            },
+                localRes = HyperIntica[c, Sequence @@ limSpecs];
+                localTable = HyperIntica`$HyperAlgebraicLetterTable;
+            ];
+            <|"Result" -> localRes, "LetterTable" -> localTable|>
+        ]
+    ];
+
+    perCoeffResults = If[Length[Kernels[]] > 0,
+        ParallelMap[perCoeffJob, indexedCoeffs],
+        Map[perCoeffJob, indexedCoeffs]
+    ];
+
+    failedIdxs = Flatten @ Position[perCoeffResults[[All, "Result"]], $Failed];
+    If[failedIdxs =!= {},
+        Message[STIntegrate::boundedCoeffFailed, failedIdxs];
+        Return[$Failed]
+    ];
+
+    mergedLetterTable = Join @@ perCoeffResults[[All, "LetterTable"]];
+    If[Length[mergedLetterTable] > 0,
+        $HyperAlgebraicLetterTable = Join[
+            $HyperAlgebraicLetterTable, mergedLetterTable];
+        $HyperAlgebraicLetterCounter = Max[
+            $HyperAlgebraicLetterCounter, Max[Keys[mergedLetterTable]]]];
+
+    resolvedCoeffs = Map[
+        Function[res,
+            res /. GetAlgebraicBackSubRules[]
+                //. ZeroInfPeriod -> ZeroInfPeriodAsMpl
+                // FullSimplify
+        ],
+        perCoeffResults[[All, "Result"]]
+    ];
+
+    SeriesData[eps, 0, resolvedCoeffs, minPow, maxPlus1, 1]
+];
+
+STIntegrate::boundedCoeffFailed = "HyperIntica failed on the eps-coefficient(s) at position(s) `1`. The bounded-domain path requires each eps-coefficient to be linearly reducible in some ordering of the integration variables.";
+
+STIntegrate::boundedSeriesFailed = "Series[`1`, {eps, 0, Order}] did not return a SeriesData. The bounded-domain path needs an integrand that admits a Laurent expansion in eps.";
+
 (* Form 4: Mathematica-style integration limits
    STIntegrate[integrand, {x,0,1}, {y,0,Infinity}, ..., opts]
    Also accepts bare symbols: STIntegrate[integrand, x, y, ..., opts]
    which default to {0, Infinity}. *)
 STIntegrate[integrand_, args__] := Module[
-    {argList, limSpecs, opts, xvars, coeffs, limSpec, validLimits},
+    {argList, limSpecs, opts, xvars, coeffs, limSpec, validLimits,
+     boundedQ, order},
 
     argList = {args};
 
@@ -16256,8 +17130,43 @@ STIntegrate[integrand_, args__] := Module[
     (* Extract variable list *)
     xvars = limSpecs[[All, 1]];
 
-    (* Auto-compute coefficients: all symbols in integrand minus variables and eps *)
-    coeffs = Complement[Variables[integrand], xvars ~Join~ {eps}] // Sort;
+    (* Reject inputs where an integration variable is absent from the integrand.
+       Over [0, Infinity) the integral is literally divergent; the downstream
+       projective pipeline would silently gauge-fix x_i = 1 and report the
+       integrand's VALUE at that point, which is not an integral. Matches the
+       STSymanzik "unused loop momentum" guard at :1811 for the graph path. *)
+    Module[{unusedXvars = Select[xvars, FreeQ[integrand, #] &]},
+        If[unusedXvars =!= {},
+            Message[STIntegrate::xvarUnused, unusedXvars];
+            Return[$Failed]
+        ]
+    ];
+
+    (* Route to bounded-domain path when any variable has a non-(0,Infinity)
+       bound. STEvaluateEulerIntegral's parametric pipeline would silently
+       discard the bounds and integrate over (R_>=0)^n instead; the bounded
+       path series-expands in eps and defers to HyperIntica coefficient by
+       coefficient with the actual bounds honored. *)
+    boundedQ = AnyTrue[limSpecs, #[[2]] =!= 0 || #[[3]] =!= Infinity &];
+    If[boundedQ,
+        order = Lookup[opts, "Order", Automatic];
+        order = If[order === Automatic, 0, order];
+        Return[stIntegrateBoundedEps[integrand, limSpecs, order, opts]]
+    ];
+
+    (* Auto-compute coefficients: only the variables in the integrand that
+       are FreeQ of both xvars and eps. A Complement[Variables[...], ...]
+       would incorrectly pull in pseudo-atoms produced by Mathematica's
+       auto-split of base^(integer+eps) into base^integer * base^eps;
+       classifying that base^eps as a "coefficient" strips the eps regulator
+       out of the integrand and the pipeline silently returns 0. The FreeQ
+       filter only keeps genuine xvars-free and eps-free symbols (like
+       kinematic invariants s12, s23), which matches what the form-3 entry
+       point expects and what the graph path produces. *)
+    coeffs = Sort @ Select[
+        Variables[integrand],
+        FreeQ[#, Alternatives @@ (xvars ~Join~ {eps})] &
+    ];
 
     (* Delegate to STEvaluateEulerIntegral with prefactor = 1 *)
     STEvaluateEulerIntegral[
@@ -16278,8 +17187,10 @@ STIntegrate::badinput = StringJoin[
 
 STIntegrate::badlimits = "Integration bounds for variable `1` are {`2`, `3`}. Bounds must be 0, 1, or Infinity.";
 
+STIntegrate::xvarUnused = "Integration variable(s) `1` do not appear in the integrand. Over [0, Infinity) the integral is divergent; the projective gauge-fix the pipeline would otherwise apply silently evaluates the integrand at x_i = 1 and reports that value instead of an actual integral.";
 
-(* ::Section:: *)
+
+(* ::Section::Closed:: *)
 (*Benchmarking & Diagnostics*)
 
 
@@ -17197,7 +18108,7 @@ stBenchmarkWriteReport[results_List, summary_Association, path_String] := Module
 ];
 
 
-(* ::Section:: *)
+(* ::Section::Closed:: *)
 (*SubTropica*)
 
 
@@ -17231,6 +18142,13 @@ $stServerURL = None;   (* set by STIntegrate when the local Python server starts
 $stServerPort = None;
 $cacheDir = FileNameJoin[{$TemporaryDirectory, "SubTropica"}];
 $stVerbose = False;
+
+(* Gate for FeynmanIntegrate[]'s CellPrint calls.  When False (default),
+   the GUI does not add reproducible STIntegrate[...] command cells or
+   result cells to the user's main notebook.  Set to True for the
+   previous behaviour (useful when you want to keep a runnable
+   reproduction of the session).  Requested by Giulio, 2026-04-21. *)
+$stPrintCells = False;
 
 (* \[HorizontalLine]\[HorizontalLine] Logging helpers \[HorizontalLine]\[HorizontalLine] *)
 (* stLog: only prints when Verbose is True *)
@@ -19532,6 +20450,185 @@ stApplyWMap[expr_, scale_, wMap_Association] := Module[
 
 
 (* \[HorizontalLine]\[HorizontalLine] stComputeNormalizedSymbolFields: main entry point \[HorizontalLine]\[HorizontalLine] *)
+(* Truncate a long TeX string at a syntactically-safe boundary.  The older
+   version tracked only `{` / `}` depth, which meant cuts could land inside
+   `\left[...\right]` pairs, inside `\begin{aligned}...\end{aligned}`
+   environments, or between `\left(` and its matching `\right)`, producing
+   un-renderable fragments that UI-side KaTeX flags in red.
+
+   This helper tracks, in a single pass:
+     - `{` / `}` brace depth
+     - `[` / `]` and `(` / `)` paren/bracket depth
+     - `\left` / `\right` sequence-pair depth (tokens advance the cursor
+       so we don't double-count when they sit next to a `(` or `[`)
+     - `\begin{aligned}` / `\end{aligned}` environment depth
+
+   A "top-level" cut point is one where ALL four depths are 0.  We find
+   the last `+`/`-` at a top-level position within `maxChars`, truncate
+   there, then emit in order the closers that balance anything still
+   open: `}` for braces, `\right.` for unmatched `\left`s, `]`/`)` for
+   paren depth, and `\end{aligned}` for open environments.  Close in
+   reverse-open order so the nesting resolves correctly.
+
+   Returns the truncated + balanced + " + \\cdots"-appended TeX, or the
+   original string unchanged if it was already within `maxChars`. *)
+stTruncateTeX[tex_String, maxChars_Integer] := Module[
+  {s = tex, L, chars, len, i, ch, rest,
+   braceDepth = 0, parenDepth = 0, bracketDepth = 0,
+   leftDepth = 0, alignedDepth = 0,
+   leftStack = {},  (* stack of (leftDelim) chars for each unmatched \left *)
+   envStack = {},   (* stack of aligned/etc. environments opened but not closed *)
+   cutPos = 0, j, lastInBudget = 0, firstOutOfBudget = 0,
+   out, nOpenBrace, nCloseBrace},
+
+  L = StringLength[tex];
+  If[L <= maxChars, Return[tex]];
+
+  (* Scan up to a little past maxChars to find the best cut point.
+     Using Characters[] for single-character ops but also peeking ahead
+     at the remaining string for multi-char tokens like \left / \right /
+     \begin{aligned} / \end{aligned}.
+
+     We scan up to `2 * maxChars` so that if the preferred cut-point
+     (depth-0 +/- within `maxChars`) doesn't exist because the
+     expression is a single giant macro argument (e.g. one long
+     `\frac{...very long...}` at the top level), the scan can still
+     find a depth-0 boundary farther out.  Failing that, the fallback
+     below returns the full string untruncated \[LongDash] safer than cutting
+     inside a macro and producing unrenderable output. *)
+  chars = Characters[StringTake[tex, Min[2 * maxChars, L]]];
+  len = Length[chars];
+  i = 1;
+  While[i <= len,
+    ch = chars[[i]];
+
+    (* Detect multi-char tokens by peeking at the remaining substring. *)
+    rest = StringTake[tex, {i, Min[i + 30, L]}];
+
+    Which[
+      StringStartsQ[rest, "\\begin{aligned}"],
+        alignedDepth++; AppendTo[envStack, "aligned"];
+        i += StringLength["\\begin{aligned}"],
+
+      StringStartsQ[rest, "\\end{aligned}"],
+        alignedDepth = Max[alignedDepth - 1, 0];
+        If[envStack =!= {}, envStack = Most[envStack]];
+        i += StringLength["\\end{aligned}"],
+
+      StringStartsQ[rest, "\\left"] &&
+        StringLength[rest] >= 6 &&
+        !LetterQ[StringTake[rest, {6, 6}]],
+        (* \left<delim> \[LongDash] consume the token AND the delimiter that follows,
+           capturing the delim so we can emit a matching "closer" later. *)
+        leftDepth++;
+        AppendTo[leftStack, StringTake[rest, {6, 6}]];
+        i += 6,
+
+      StringStartsQ[rest, "\\right"] &&
+        StringLength[rest] >= 7 &&
+        !LetterQ[StringTake[rest, {7, 7}]],
+        leftDepth = Max[leftDepth - 1, 0];
+        If[leftStack =!= {}, leftStack = Most[leftStack]];
+        i += 7,
+
+      ch === "{", braceDepth++; i++,
+      ch === "}", braceDepth = Max[braceDepth - 1, 0]; i++,
+      ch === "(", parenDepth++; i++,
+      ch === ")", parenDepth = Max[parenDepth - 1, 0]; i++,
+      ch === "[", bracketDepth++; i++,
+      ch === "]", bracketDepth = Max[bracketDepth - 1, 0]; i++,
+
+      (ch === "+" || ch === "-") &&
+        braceDepth === 0 && parenDepth === 0 &&
+        bracketDepth === 0 && leftDepth === 0 &&
+        i > 200,
+        (* Prefer a cut at or below maxChars; fall back to the first
+           beyond-budget cut if no in-budget cut exists. *)
+        If[i <= maxChars,
+          lastInBudget = i - 1,
+          If[firstOutOfBudget === 0, firstOutOfBudget = i - 1]];
+        i++,
+
+      True, i++
+    ]
+  ];
+
+  (* Prefer the in-budget cut.  Fall back to the beyond-budget cut if
+     the expression is one giant macro with no depth-0 +/- inside
+     `maxChars`.  If neither exists (entire 2*maxChars is inside
+     nested macros), return the full string \[LongDash] safer than cutting
+     inside a macro argument and producing malformed LaTeX that no
+     cleanup can repair. *)
+  cutPos = Which[
+    lastInBudget > 0,        lastInBudget,
+    firstOutOfBudget > 0,    firstOutOfBudget,
+    True,                    Return[tex]  (* give up on truncation *)
+  ];
+  s = StringTake[tex, cutPos];
+
+  (* Reset bookkeeping and re-scan the truncated string so the stacks
+     reflect the actual unclosed state at the cut point.  (The earlier
+     scan went past `cutPos` looking for candidate cuts, so its end-of-
+     scan depths don't match what's unclosed in `s`.) *)
+  braceDepth = 0; parenDepth = 0; bracketDepth = 0; leftDepth = 0;
+  alignedDepth = 0; leftStack = {}; envStack = {};
+  i = 1; len = StringLength[s];
+  While[i <= len,
+    rest = StringTake[s, {i, Min[i + 30, len]}];
+    Which[
+      StringStartsQ[rest, "\\begin{aligned}"],
+        alignedDepth++; AppendTo[envStack, "aligned"];
+        i += StringLength["\\begin{aligned}"],
+      StringStartsQ[rest, "\\end{aligned}"],
+        alignedDepth = Max[alignedDepth - 1, 0];
+        If[envStack =!= {}, envStack = Most[envStack]];
+        i += StringLength["\\end{aligned}"],
+      StringStartsQ[rest, "\\left"] &&
+        StringLength[rest] >= 6 &&
+        !LetterQ[StringTake[rest, {6, 6}]],
+        leftDepth++; AppendTo[leftStack, StringTake[rest, {6, 6}]]; i += 6,
+      StringStartsQ[rest, "\\right"] &&
+        StringLength[rest] >= 7 &&
+        !LetterQ[StringTake[rest, {7, 7}]],
+        leftDepth = Max[leftDepth - 1, 0];
+        If[leftStack =!= {}, leftStack = Most[leftStack]];
+        i += 7,
+      StringTake[s, {i, i}] === "{", braceDepth++; i++,
+      StringTake[s, {i, i}] === "}", braceDepth = Max[braceDepth - 1, 0]; i++,
+      StringTake[s, {i, i}] === "(", parenDepth++; i++,
+      StringTake[s, {i, i}] === ")", parenDepth = Max[parenDepth - 1, 0]; i++,
+      StringTake[s, {i, i}] === "[", bracketDepth++; i++,
+      StringTake[s, {i, i}] === "]", bracketDepth = Max[bracketDepth - 1, 0]; i++,
+      True, i++
+    ]
+  ];
+
+  (* Emit closers in innermost-first order so nesting unwinds correctly.
+     Braces (macro arguments) are always innermost in SubTropica's TeX,
+     then `\left<d>` pairs, then bare brackets/parens, then the
+     `\begin{aligned}` environment as the outermost scope.  All four
+     classes are tracked as integer depths or LIFO stacks; we don't
+     have the interleaving order between classes, but emitting in
+     this class-order handles every case the generator produces.  *)
+  out = s;
+  Do[out = out <> "}", {braceDepth}];
+  (* If we closed any brace, emit an empty `{}` too.  This is harmless
+     for "regular" brace groups (an empty group renders as nothing), but
+     crucially it gives binary macros their required second argument:
+     `\frac{a}` alone trips "Expected argument" in KaTeX, but `\frac{a}{}`
+     renders as a/nothing.  Same fix for `\binom{a}`, `\overset{a}`, etc.
+     One `{}` suffices \[LongDash] the potentially-pending binary macro needs
+     exactly one extra brace group. *)
+  If[braceDepth > 0, out = out <> "{}"];
+  Do[out = out <> "\\right.", {Length[leftStack]}];
+  Do[out = out <> "]", {bracketDepth}];
+  Do[out = out <> ")", {parenDepth}];
+  Do[out = out <> "\\end{aligned}", {alignedDepth}];
+  out = out <> " + \\cdots";
+  out
+];
+
+
 (* Two-pass approach for SeriesData: first collect all letters across orders,
    then apply the global W mapping to each order.
    Returns <|"normalizedSymbolTeX"->..., "wDefinitions"->..., "normalizedAlphabet"->...,
@@ -19597,19 +20694,7 @@ stComputeNormalizedSymbolFields[result_] := Module[
           tex = If[Length[orderTexs] > 1,
             "\\begin{aligned}" <> StringRiffle[orderTexs, " \\\\ "] <> "\\end{aligned}",
             orderTexs[[1]]];
-          If[StringLength[tex] > maxChars,
-            Module[{chars, depth = 0, lastTopCut = 0, j, ch},
-              chars = Characters[StringTake[tex, Min[maxChars + 100, StringLength[tex]]]];
-              Do[ch = chars[[j]];
-                If[ch === "{", depth++]; If[ch === "}", depth = Max[depth - 1, 0]];
-                If[depth == 0 && (ch === "+" || ch === "-") && j > 200 && j <= maxChars,
-                  lastTopCut = j - 1], {j, Length[chars]}];
-              If[lastTopCut > 0, tex = StringTake[tex, lastTopCut],
-                tex = StringTake[tex, maxChars]];
-              Module[{nOpen, nClose},
-                nOpen = StringCount[tex, "{"]; nClose = StringCount[tex, "}"];
-                tex = tex <> StringJoin[Table["}", {Max[nOpen - nClose, 0]}]]];
-              tex = tex <> " + \\cdots"]];
+          tex = stTruncateTeX[tex, maxChars];
           <|"normalizedSymbolTeX" -> tex,
             "wDefinitions" -> Values[wMap],
             "normalizedAlphabet" -> Values[wMap][[All, "label"]],
@@ -19704,29 +20789,7 @@ stComputeSymbolFields[result_] := Module[
                can render it. *)
             StringReplace[orderTexs[[1]], "&\\colon" -> "\\colon"]
           ];
-          (* Truncate if too long *)
-          If[StringLength[tex] > maxChars,
-            Module[{chars, depth = 0, lastTopCut = 0, j, ch},
-              chars = Characters[StringTake[tex, Min[maxChars + 100, StringLength[tex]]]];
-              Do[
-                ch = chars[[j]];
-                If[ch === "{", depth++];
-                If[ch === "}", depth = Max[depth - 1, 0]];
-                If[depth == 0 && (ch === "+" || ch === "-") && j > 200 && j <= maxChars,
-                  lastTopCut = j - 1],
-                {j, Length[chars]}
-              ];
-              If[lastTopCut > 0,
-                tex = StringTake[tex, lastTopCut],
-                tex = StringTake[tex, maxChars]];
-              (* Balance braces *)
-              Module[{nOpen, nClose},
-                nOpen = StringCount[tex, "{"];
-                nClose = StringCount[tex, "}"];
-                tex = tex <> StringJoin[Table["}", {Max[nOpen - nClose, 0]}]]];
-              tex = tex <> " + \\cdots"
-            ]
-          ];
+          tex = stTruncateTeX[tex, maxChars];
           {tex, allAlphabet, maxWeight, totalTerms}
         ]
       ],
@@ -19735,28 +20798,7 @@ stComputeSymbolFields[result_] := Module[
       {symTex, symAlph, symWt, symNTerms} = stSymbolToTeX[result];
       If[symTex === "",
         {"", {}, 0, 0},
-        (* Truncate if too long *)
-        If[StringLength[symTex] > maxChars,
-          Module[{chars, depth = 0, lastTopCut = 0, j, ch},
-            chars = Characters[StringTake[symTex, Min[maxChars + 100, StringLength[symTex]]]];
-            Do[
-              ch = chars[[j]];
-              If[ch === "{", depth++];
-              If[ch === "}", depth = Max[depth - 1, 0]];
-              If[depth == 0 && (ch === "+" || ch === "-") && j > 200 && j <= maxChars,
-                lastTopCut = j - 1],
-              {j, Length[chars]}
-            ];
-            If[lastTopCut > 0,
-              symTex = StringTake[symTex, lastTopCut],
-              symTex = StringTake[symTex, maxChars]];
-            Module[{nOpen, nClose},
-              nOpen = StringCount[symTex, "{"];
-              nClose = StringCount[symTex, "}"];
-              symTex = symTex <> StringJoin[Table["}", {Max[nOpen - nClose, 0]}]]];
-            symTex = symTex <> " + \\cdots"
-          ]
-        ];
+        symTex = stTruncateTeX[symTex, maxChars];
         {symTex, symAlph, symWt, symNTerms}
       ]
     ],
@@ -19783,7 +20825,7 @@ stComputeSymbolFields[result_] := Module[
      plusRoot          : (-b + Sqrt[Delta]) / (2 LC)               (InputForm)
      minusRootTeX      : LaTeX of minusRoot (via $stNormMassRules)
      plusRootTeX       : LaTeX of plusRoot
-     polynomialTeX     : LaTeX of polynomial (with masses rendered as mᵢ²/M²)
+     polynomialTeX     : LaTeX of polynomial (with masses rendered as m\:1d62\.b2/M\.b2)
      discriminantTeX   : LaTeX of discriminant
 
    If deltaSigns (delta[i] -> +/-1 sign decisions from STVerify iepsilon
@@ -19870,33 +20912,16 @@ stResultToTeX[expr_, maxChars_Integer: 3000, maxTerms_Integer: 3] := Module[
   (* \[HorizontalLine]\[HorizontalLine] String-level notation cleanup \[HorizontalLine]\[HorizontalLine] *)
   tex = stTeXCleanup[tex];
 
-  (* Hard-truncate if still too long: cut only at top-level + or - (depth 0)
-     to avoid splitting inside \frac{}{} or \left(...\right) groups. *)
+  (* Hard-truncate if still too long. Routes through stTruncateTeX which
+     balances `{`/`}`, `[`/`]`, `(`/`)`, `\left`/`\right`, and
+     `\begin{aligned}`/`\end{aligned}` at once \[LongDash] so the cut can't land
+     inside a `\left[...\right]` or an aligned environment and leave
+     a dangling opener.  The old inline balance logic tracked only
+     `\left`/`\right` and produced "resultTeX ending with `... H\right.`"
+     artifacts that KaTeX rejected. *)
   If[StringLength[tex] > maxChars && !truncated,
     truncated = True;
-    Module[{chars, depth = 0, lastTopCut = 0, i, ch},
-      chars = Characters[StringTake[tex, Min[maxChars + 100, StringLength[tex]]]];
-      Do[
-        ch = chars[[i]];
-        If[ch === "{", depth++];
-        If[ch === "}", depth = Max[depth - 1, 0]];
-        If[depth == 0 && (ch === "+" || ch === "-") && i > 200 && i <= maxChars,
-          lastTopCut = i - 1 (* cut just before the + or - *)
-        ],
-        {i, Length[chars]}
-      ];
-      If[lastTopCut > 0,
-        tex = StringTake[tex, lastTopCut],
-        tex = StringTake[tex, maxChars]
-      ];
-    ];
-    (* Close any unmatched \left delimiters *)
-    Module[{nLeft, nRight},
-      nLeft  = StringCount[tex, "\\left"];
-      nRight = StringCount[tex, "\\right"];
-      tex = tex <> StringJoin[Table["\\right.", {Max[nLeft - nRight, 0]}]];
-    ];
-    tex = tex <> " \\cdots"];
+    tex = stTruncateTeX[tex, maxChars]];
 
   {tex, truncated}
 ];
@@ -19960,6 +20985,55 @@ stStripDefaultOptions[cmd_String] := Module[
     ]]];
   ToString[head[graph, Sequence @@ nonDefault], InputForm]
 ];
+
+(* \[HorizontalLine]\[HorizontalLine] handleSafeExit: normalize exported globals and signal the GUI loop to exit \[HorizontalLine]\[HorizontalLine]
+   The native viewer's window "x" button can race with handleEstimate /
+   handleIntegrate and leave $STQuadruple (and friends) partially set, so
+   when a subsequent script reads them the user sees confusing partial
+   state.  This handler ensures the exported globals are well-formed
+   before setting $uiResult, which makes FeynmanIntegrate's main loop
+   exit cleanly and kill the server + viewer.  Requested by Giulio,
+   2026-04-21. *)
+
+handleSafeExit[body_String] := Module[{parsed, silent},
+  parsed = Quiet @ ImportString[body, "RawJSON"];
+  silent = AssociationQ[parsed] && TrueQ[Lookup[parsed, "silent", False]];
+
+  (* Only reset a global if it is unset or malformed; preserve the
+     last-drawn state otherwise, so the user can still read
+     $STQuadruple etc. after the GUI closes. *)
+  If[!ValueQ[$STQuadruple] || !ListQ[$STQuadruple] || Length[$STQuadruple] =!= 4,
+    $STQuadruple = {1, 1, {}, {}}];
+  If[!ValueQ[$STEdges]        || !ListQ[$STEdges],        $STEdges = {}];
+  If[!ValueQ[$STNodes]        || !ListQ[$STNodes],        $STNodes = {}];
+  If[!ValueQ[$STGraph]        || !ListQ[$STGraph] || Length[$STGraph] =!= 2,
+    $STGraph = {$STEdges, $STNodes}];
+  If[!ValueQ[$STPropagators]  || !ListQ[$STPropagators],  $STPropagators = {}];
+  If[!ValueQ[$STPrefactor],    $STPrefactor   = 1];
+  If[!ValueQ[$STIntegrand],    $STIntegrand   = 1];
+  If[!ValueQ[$STVariables]    || !ListQ[$STVariables],    $STVariables    = {}];
+  If[!ValueQ[$STCoefficients] || !ListQ[$STCoefficients], $STCoefficients = {}];
+
+  (* Close the pre-warmed subkernel pool (FeynmanIntegrate launches
+     $ProcessorCount-1 subkernels at GUI start; without this cleanup they
+     persist in the notebook after Save-and-exit and slow subsequent work).
+     Reset the setup flags so the next FeynmanIntegrate session relaunches
+     fresh. Quiet so a close failure doesn't stall the exit. *)
+  If[Length[Kernels[]] > 0, Quiet @ CloseKernels[]];
+  $STActiveKernelCount = 0;
+  $KernelSetupQ = False;
+
+  (* Signal FeynmanIntegrate's polling loop to exit with a safeExit flag
+     so it skips the "integration result" post-processing path.  When
+     silent is True (Save-and-exit button), FeynmanIntegrate returns Null
+     instead of the usual snapshot Association, so nothing prints in the
+     notebook. *)
+  $uiResult = <|"safeExit" -> True, "silent" -> silent|>;
+
+  ExportString[<|"status" -> "ok",
+    "message" -> "safe-exit acknowledged"|>, "RawJSON"]
+];
+
 
 (* \[HorizontalLine]\[HorizontalLine] handleSendToNotebook: inject result + command into the active notebook \[HorizontalLine]\[HorizontalLine] *)
 
@@ -21354,6 +22428,7 @@ processOneRequest[reqFile_String] := Module[
     "transformResult", handleTransformResult[body],
     "decodeResult",   handleDecodeResult[body],
     "sendToNotebook", handleSendToNotebook[body],
+    "safeExit",       handleSafeExit[body],
     "syncLibrary",    handleSyncLibrary[body],
     "getContributor", handleGetContributor[body],
     "setContributor", handleSetContributor[body],
@@ -21552,9 +22627,10 @@ FeynmanIntegrate[OptionsPattern[]] := Module[{port, url, pythonCmd, scriptPath, 
               AppendTo[nonDefaultOpts, "Exponents" -> fullExps]];
             argBoxes = Riffle[ToBoxes /@ Join[{propList}, nonDefaultOpts], ","];
             boxes = RowBox[{"STIntegrate", "[", RowBox[argBoxes], "]"}];
-            CellPrint[Cell[BoxData[boxes], "Input",
-              Evaluatable -> False,
-              CellGroupingRules -> "NormalGrouping"]]
+            If[TrueQ[$stPrintCells],
+              CellPrint[Cell[BoxData[boxes], "Input",
+                Evaluatable -> False,
+                CellGroupingRules -> "NormalGrouping"]]]
           ],
           (* Graph form *)
           Module[{graphOpts, nonDefaultGraphOpts, argBoxes, boxes},
@@ -21577,9 +22653,10 @@ FeynmanIntegrate[OptionsPattern[]] := Module[{port, url, pythonCmd, scriptPath, 
               {{$integrationConfig["edges"], $integrationConfig["nodes"]}},
               nonDefaultGraphOpts], ","];
             boxes = RowBox[{"STIntegrate", "[", RowBox[argBoxes], "]"}];
-            CellPrint[Cell[BoxData[boxes], "Input",
-              Evaluatable -> False,
-              CellGroupingRules -> "NormalGrouping"]]
+            If[TrueQ[$stPrintCells],
+              CellPrint[Cell[BoxData[boxes], "Input",
+                Evaluatable -> False,
+                CellGroupingRules -> "NormalGrouping"]]]
           ]
         ]
       ];
@@ -21600,12 +22677,12 @@ FeynmanIntegrate[OptionsPattern[]] := Module[{port, url, pythonCmd, scriptPath, 
         Quiet[DeleteFile[progressJsonl]];
         Quiet[DeleteFile[resultFile]];
 
-        (* ── Structured log substrate (axes 1 + 2 of the log redesign).
+        (* \[HorizontalLine]\[HorizontalLine] Structured log substrate (axes 1 + 2 of the log redesign).
            progress.jsonl is a line-delimited JSON stream consumed by the UI's
            /api/progress_jsonl endpoint. Each record carries:
              t      - AbsoluteTime[] (Mathematica 1900 epoch)
              level  - "info" | "warn" | "error" (trace/debug reserved)
-             kind   - "message" | future event types (stage/timing/setup/…)
+             kind   - "message" | future event types (stage/timing/setup/\[Ellipsis])
              source - "wrapper" (handler code), "stPrint" / "stEcho"
                       / "stCellPrint" / "stdout" (redirected from STEvaluate)
              text   - human-readable payload
@@ -21626,7 +22703,7 @@ FeynmanIntegrate[OptionsPattern[]] := Module[{port, url, pythonCmd, scriptPath, 
           ]];
 
         (* Level-aware emitter: writes to progress.log AND progress.jsonl.
-           writeProgress[…] delegates to this with level="info"; wrapper-side
+           writeProgress[\[Ellipsis]] delegates to this with level="info"; wrapper-side
            call sites that know their level (errors, warnings) call it
            directly. *)
         writeProgressAt[level_String, source_String, args___] :=
@@ -21710,7 +22787,7 @@ FeynmanIntegrate[OptionsPattern[]] := Module[{port, url, pythonCmd, scriptPath, 
           writeProgress[""];
         ];
 
-        (* ── Structured "setup" record (axis 3 of the log redesign).
+        (* \[HorizontalLine]\[HorizontalLine] Structured "setup" record (axis 3 of the log redesign).
            Authoritative kernel-side snapshot of the integrand data: masses,
            propagator exponents, numerator insertions, topology counters,
            Nickel index, and the fully-resolved STEvaluate[...] command with
@@ -22089,7 +23166,9 @@ FeynmanIntegrate[OptionsPattern[]] := Module[{port, url, pythonCmd, scriptPath, 
           "result" -> result|>;
 
         (* Print result to notebook immediately (before user clicks Back) *)
-        If[result =!= $Failed && result =!= $Aborted && !TrueQ[$integrationConfig["suppressCommand"]],
+        If[TrueQ[$stPrintCells] &&
+           result =!= $Failed && result =!= $Aborted &&
+           !TrueQ[$integrationConfig["suppressCommand"]],
           CellPrint[ExpressionCell[result, "Output",
             GeneratedCell -> True, CellAutoOverwrite -> False]]];
 
@@ -22300,6 +23379,20 @@ FeynmanIntegrate[OptionsPattern[]] := Module[{port, url, pythonCmd, scriptPath, 
   stLog["[SubTropica] $diagramImage type: ", Head[$diagramImage]];
   If[AssociationQ[$uiResult], stLog["[SubTropica] $uiResult keys: ", Keys[$uiResult]]];
 
+  (* Safe-exit path: user asked to close the GUI cleanly.  The handler
+     (handleSafeExit) already sanitized the exported globals and flagged
+     $uiResult.  Return a snapshot Association so the caller can inspect
+     what survived.  Requested by Giulio, 2026-04-21.
+     When silent is set (Save-and-exit button), return Null so no Out[]
+     cell prints \[LongDash] the user still has $STGraph / $STQuadruple / etc. set. *)
+  If[AssociationQ[$uiResult] && TrueQ[$uiResult["safeExit"]],
+    stLog["[SubTropica] Safe-exit requested; kernel globals normalized."];
+    If[TrueQ[$uiResult["silent"]], Return[Null]];
+    Return[<|"safeExit" -> True,
+      "STQuadruple"    -> $STQuadruple,
+      "STGraph"        -> $STGraph,
+      "STPropagators"  -> $STPropagators|>]];
+
   (* If integration was already performed via the UI, return stored result *)
   If[AssociationQ[$uiResult] && KeyExistsQ[$uiResult, "result"],
     Module[{ir = $uiResult, uiParams, edges, nodes, diagramName,
@@ -22368,9 +23461,10 @@ FeynmanIntegrate[OptionsPattern[]] := Module[{port, url, pythonCmd, scriptPath, 
                 AppendTo[nonDefaultOpts, "Exponents" -> fullExps]];
               argBoxes = Riffle[ToBoxes /@ Join[{propList}, nonDefaultOpts], ","];
               boxes = RowBox[{"STIntegrate", "[", RowBox[argBoxes], "]"}];
+              If[TrueQ[$stPrintCells],
               CellPrint[Cell[BoxData[boxes], "Input",
-              Evaluatable -> False,
-              CellGroupingRules -> "NormalGrouping"]]
+                Evaluatable -> False,
+                CellGroupingRules -> "NormalGrouping"]]]
             ],
             (* Graph form: STIntegrate[{edges, nodes}, opts] *)
             Module[{graphOpts, nonDefaultGraphOpts, argBoxes, boxes},
@@ -22387,9 +23481,10 @@ FeynmanIntegrate[OptionsPattern[]] := Module[{port, url, pythonCmd, scriptPath, 
                 {{edges, nodes}},
                 nonDefaultGraphOpts], ","];
               boxes = RowBox[{"STIntegrate", "[", RowBox[argBoxes], "]"}];
+              If[TrueQ[$stPrintCells],
               CellPrint[Cell[BoxData[boxes], "Input",
-              Evaluatable -> False,
-              CellGroupingRules -> "NormalGrouping"]]
+                Evaluatable -> False,
+                CellGroupingRules -> "NormalGrouping"]]]
             ]
           ];
         ]
@@ -22468,9 +23563,10 @@ FeynmanIntegrate[OptionsPattern[]] := Module[{port, url, pythonCmd, scriptPath, 
                 AppendTo[nonDefaultOpts, "Exponents" -> fullExps2]];
               argBoxes = Riffle[ToBoxes /@ Join[{propList}, nonDefaultOpts], ","];
               boxes = RowBox[{"STIntegrate", "[", RowBox[argBoxes], "]"}];
+              If[TrueQ[$stPrintCells],
               CellPrint[Cell[BoxData[boxes], "Input",
-              Evaluatable -> False,
-              CellGroupingRules -> "NormalGrouping"]]
+                Evaluatable -> False,
+                CellGroupingRules -> "NormalGrouping"]]]
             ],
             (* Graph form *)
             Module[{nonDefaultGraphOpts, argBoxes, boxes},
@@ -22484,9 +23580,10 @@ FeynmanIntegrate[OptionsPattern[]] := Module[{port, url, pythonCmd, scriptPath, 
                 {{edges, nodes}},
                 nonDefaultGraphOpts], ","];
               boxes = RowBox[{"STIntegrate", "[", RowBox[argBoxes], "]"}];
+              If[TrueQ[$stPrintCells],
               CellPrint[Cell[BoxData[boxes], "Input",
-              Evaluatable -> False,
-              CellGroupingRules -> "NormalGrouping"]]
+                Evaluatable -> False,
+                CellGroupingRules -> "NormalGrouping"]]]
             ]
           ];
         ]
@@ -22730,14 +23827,11 @@ STSaveResult[ir_Association, opts:OptionsPattern[]] := Module[
     |>;
 
     (* FindRoots algebraic letters: structured metadata per surviving index.
-       The list is empty when no Wm/Wp atoms appear in `result`. *)
+       The list is empty when no Wm/Wp atoms appear in `result`.  Legacy
+       rootSubstitutions string dual-write was removed in v1.0.455. *)
     Module[{algLetters = stExtractAlgebraicLetters[]},
       If[algLetters =!= {} && !FreeQ[result, (Wm | Wp)[_Integer]],
-        newRecord["algebraicLetters"] = algLetters;
-        (* Legacy compat: keep `rootSubstitutions` for STVerify code paths
-           that predate Phase 3. Drops in Phase 6. *)
-        newRecord["rootSubstitutions"] = ToString[
-          GetAlgebraicBackSubRules[], InputForm]]];
+        newRecord["algebraicLetters"] = algLetters]];
 
     (* Compute symbol and alphabet *)
     Module[{sf = stComputeSymbolFields[result]},
@@ -23026,12 +24120,11 @@ STSubmitResult[ir_Association] := Module[
         "propagators" -> $ne,
         "massScales" -> stCountScales[config]
     |>;
-    (* FindRoots algebraic letters (structured); legacy rootSubstitutions for compat *)
+    (* FindRoots algebraic letters (structured).  Legacy rootSubstitutions
+       string dual-write was removed in v1.0.455. *)
     Module[{algLetters = stExtractAlgebraicLetters[]},
       If[algLetters =!= {} && !FreeQ[result, (Wm | Wp)[_Integer]],
-        payload["algebraicLetters"] = algLetters;
-        payload["rootSubstitutions"] = ToString[
-          GetAlgebraicBackSubRules[], InputForm]]];
+        payload["algebraicLetters"] = algLetters]];
     (* Add symbol and alphabet *)
     Module[{sf = stComputeSymbolFields[result]},
       payload["symbolTeX"] = sf[[1]];
@@ -23168,7 +24261,6 @@ STBuildLibraryJSON[outputPath_String : Automatic] := Module[
                                 "internalMasses" -> Lookup[r, "internalMasses", {}],
                                 "externalMasses" -> Lookup[r, "externalMasses", {}],
                                 "substitutions" -> Lookup[r, "substitutions", ""],
-                                "rootSubstitutions" -> Lookup[r, "rootSubstitutions", ""],
                                 "normalization" -> Lookup[r, "normalization", ""],
                                 "stVersion" -> Lookup[r, "stVersion", ""],
                                 "stCommand" -> Lookup[r, "stCommand", ""],
@@ -23286,11 +24378,11 @@ STBuildLibraryJSON[outputPath_String : Automatic] := Module[
                 "configCount" -> configCount,
                 "sourceDir" -> "library-bundled",
                 "builtAt" -> DateString[],
-                "schemaVersion" -> 2,
-                "schemaChangelog" -> "v2 (1.0.389+): structured algebraicLetters, wDefinitions with kind+pairIndex",
+                "schemaVersion" -> 3,
+                "schemaChangelog" -> "v3 (1.0.455+): legacy rootSubstitutions string dropped; use algebraicLetters. v2 (1.0.389+): structured algebraicLetters, wDefinitions with kind+pairIndex",
                 "license" -> "CC BY-NC-SA 4.0",
                 "licenseURL" -> "https://creativecommons.org/licenses/by-nc-sa/4.0/",
-                "citation" -> "S. Mizera, M. Giroux, G. Salvatori, \"SubTropica\" (2025), https://subtropica.org"
+                "citation" -> "S. Mizera, M. Giroux, G. Salvatori, \"SubTropica\" (2025), https://subtropi.ca"
             |>, statsData]
         |>, "RawJSON"];
     ];
@@ -23424,6 +24516,27 @@ STReview[] := Module[{reviewURL, ensured},
     Print["[SubTropica] Localhost-only \[LongDash] not exposed publicly. Call STStop[] when done."];
     SystemOpen[reviewURL];
     reviewURL
+];
+
+
+(* \[HorizontalLine]\[HorizontalLine] STBrowser \[HorizontalLine]\[HorizontalLine]
+   User-facing wrapper around stEnsureServer[].  Starts the local Python
+   server (without the native viewer, parallel kernels, or the main polling
+   loop) and opens the URL in the default system browser.  The evaluation
+   cell returns immediately and prints nothing on success; $Failed is still
+   surfaced on error so scripts can branch on it.  The URL is available as
+   $stServerURL for callers that need it.
+*)
+
+STBrowser[] := Module[{url},
+    (* Silence stEnsureServer's "Server running at ..." print; the browser
+       window opening is enough feedback. *)
+    Block[{Print = (Null &)}, url = stEnsureServer[]];
+    If[url === $Failed, Return[$Failed]];
+    SystemOpen[url];
+    (* Return Null on success so the notebook cell stays clean. $Failed is
+       still surfaced on error so scripts can branch on it. *)
+    Null
 ];
 
 
@@ -24670,7 +25783,7 @@ wrapper, integrands
 ]
 
 
-(* ::Section:: *)
+(* ::Section::Closed:: *)
 (*End*)
 
 

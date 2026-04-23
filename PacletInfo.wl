@@ -1,10 +1,10 @@
 PacletObject[<|
     "Name" -> "SubTropica",
-    "Version" -> "1.1.0",
+    "Version" -> "1.1.1",
     "WolframVersion" -> "13.1+",
     "Description" -> "Feynman integral evaluation via tropical geometry",
     "Creator" -> "Mathieu Giroux, Sebastian Mizera, Giulio Salvatori",
-    "URL" -> "https://subtropica.org",
+    "URL" -> "https://subtropi.ca",
     "License" -> "MIT",
     "Extensions" -> {
         {"Kernel", "Root" -> ".", "Context" -> "SubTropica`"},

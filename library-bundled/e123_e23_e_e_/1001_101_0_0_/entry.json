@@ -1,156 +1,155 @@
 {
-  "CNickelIndex": "e123|e23|e|e|:1001|101|0|0|",
-  "MassScales": 3,
-  "FunctionClass": "MPL",
-  "EpsilonOrder": "1",
-  "References": [
-    "arXiv:1306.3504 (JHEP 10 (037), 2013)"
-  ],
-  "Records": [
-    {
-      "reference": "arXiv:1306.3504 (JHEP 10 (037), 2013)",
-      "authors": "von Manteuffel, Andreas, Studerus, Cedric",
-      "description": "Planar double box sector for light $N_f$ two-loop corrections to $gg \\to t\\bar{t}$. Two master integrals with propagator powers $\\{0,1,1,0,1,1,0,1,0\\}$ and $\\{0,1,1,0,1,1,0,2,0\\}$. Contains a triangle-bubble substructure with crossed external legs relative to sector 174. The second propagator $D(k_1-k_2)$ appears without explicit mass subscript in the paper (likely massless). Results in GPLs with argument $z$ and weights $\\{-1, 0, -2-y, 1/y\\}$ or argument $y$ and weights $\\{-2, -1, 0\\}$.",
-      "epsOrders": "1",
-      "familyName": "tt2pD:5:182",
-      "method": "DE, Mellin-Barnes",
-      "tools": [
-        "Reduze 2",
-        "QGRAF",
-        "Ambre",
-        "MB.m",
-        "GiNaC"
-      ],
-      "ancillaryFiles": true,
-      "doi": "10.1007/JHEP10(2013)037",
-      "texkey": "vonManteuffel:2013uoa",
-      "masterCount": 2,
-      "dimScheme": "d=4-2*eps",
-      "computationLevel": "full",
-      "location": "Eq.(2.5)-(2.6), Section 3",
-      "recordId": "bx_c4d7ce9931ff",
-      "verified": false,
-      "verifiedAt": ""
-    }
-  ],
-  "Names": [
-    "tt2pD:5:182"
-  ],
-  "Source": [
-    "arXiv"
-  ],
-  "Loops": 2,
-  "NumPropagators": 5,
-  "Results": [
-    {
-      "resultCompressed": "1:eJztXE2O0zAUDk2mQogVq9lyA+is2bFgMYtq4AJFSkeR2gmaFJA4HwfgAByAA7BALID8TOPasRM71PHnPHeRyq1rP3/f956f7aTP3+c322UURcWT8vI2vc/S4vXmsCnisph+KLLyLdouqgpJebnOikNTuigv77J9WrDiOv+c3m/jY9317mMh1M3qYnXZ78Wv/pavutfi5Ur93eqqLmwfd3upSm92+W32qDI5PjX5ZBRtox0zGvMXpw1rmNqYE3crGLa0ujIC8k/1w6bNoyU8QEOQqE0ei8VDz22B9RmA4YYDh0mDgsyteZz6wsDM3akaf/3JdX7rbOQqJugpNvDhDx/GyJ8Fq1HMWc8TtGGSNsUTcB6YEglMUznXIBptBw9N8jLBAzOWGFFlqjebQ5bfbXbNbPuUE9k5vO8V9+u4+2sZnOusTsfDRN8XNhhCI8EjOBcI9V8ocEpOcaojL9VlGqv/UzFLdbGyCRNlBr7pMDDN4hl6BW2oWdfbDWSiLZB+8cCSbXSA6JcqJUTZwCNC6hsY0QQULKlH/VAg1nZH9DzidLF+7HwMdGTjpDcA4mHXoKABoGqpGpw3crHbzjbKBumgJ2pXpKgSND7IWLQneB6I59mfivtdmxopWrNTyI8okoLHRzfnIhe+8EgBtMhPheAROF/NTqWQhK+gWky3H9E7G5etoB2xc6nwX54d4t4yNUcCGksdjlBzfKGxiSBsbioR0HimpXVSkQiIHdV+CPlI5JIjYbZQZXteRCJP7sbUdAsuwQ57t5Y4VSwX9PZure8gEXU0BSnomxXBC2fphYB84Fnkp0LwCJyvZqdSiJDRhlUHbrbsPFkIaTXqU4gYuZ6HCTgGfRiHvR6ewAf6kOPm4Fk9Bn0YwROPPkCL5q4lPKrnq248LYWzaHPmNM6iMdj8zuEW2ERaWWPMHXp3BhFUiNAYHJHS83v9B/aE/0KselYuxeQeMVLo0oHxRFgR+tcx0DgOCq6wMpARe3YUflQGp/hn8wtPoDHYibXoF5RdLuGwnfYuoxhToxd8hUvRSo0sHOmeIjyAlcdw00twoSVBzwFeDgzSTjDVzF97sdXkx3UQrQOZSwWbgj41YNIbSieV5X/6uB8AC7L8rUg8248sJJ7sX21kw19E8nxPYhHwypzVHxyLTUnjISRYNM/J1ctQYPAYke3cgEBswBNF//AS0VEVzf4amElpLZ3n8UDM/ssnacTQGh2t6W0Qs3CooY2c7PiXbmQZVBabv+EzD73IAmc8b3f1zjbS68s/F+C64Q==",
-      "resultTeX": "\\frac{H\\left(0,\\frac{m^2}{m^2-s_{12}},-\\frac{m^2-s_{23}}{-2 m^2+s_{12}+s_{23}}\\,;1\\right)+H\\left(-\\frac{s_{23}}{m^2-s_{23}},1,-\\frac{m^2-s_{23}}{-2 m^2+s_{12}+s_{23}}\\,;1\\right)+H\\left(-\\frac{s_{23}}{m^2-s_{23}},-\\frac{m^2-s_{23}}{-2 m^2+s_{12}+s_{23}},1\\,;1\\right)-\\log \\left(\\frac{s_{12}-m^2}{m^2-s_{23}}\\right) H\\left(0,\\frac{m^2}{m^2-s_{12}}\\,;1\\right)+\\log \\left(\\frac{m^2}{m^2-s_{12}}\\right) H\\left(\\frac{m^2}{m^2-s_{12}},-\\frac{m^2-s_{23}}{-2 m^2+s_{12}+s_{23}}\\,;1\\right)-\\log \\left(\\frac{m^2}{m^2-s_{12}}\\right) H\\left(-\\frac{s_{23}}{m^2-s_{23}},-\\frac{m^2-s_{23}}{-2 m^2+s_{12}+s_{23}}\\,;1\\right)-\\log \\left(\\frac{m^2-s_{12}}{m^2-s_{23}}\\right) H\\left(-\\frac{s_{23}}{m^2-s_{23}},-\\frac{m^2-s_{23}}{-2 m^2+s_{12}+s_{23}}\\,;1\\right)-\\log \\left(\\frac{m^2}{m^2-s_{12}}\\right) \\log \\left(\\frac{s_{12}}{m^2}\\right) \\log \\left(\\frac{s_{12}-m^2}{m^2-s_{23}}\\right)}{\\varepsilon (2 m^2-s_{12}-s_{23})} \\cdots",
-      "dimension": "4 - 2*eps",
-      "epsOrder": "0",
-      "epsOrders": "0",
-      "propExponents": [
-        1,
-        1,
-        1,
-        1,
-        1
-      ],
-      "propagators": [],
-      "numerators": [],
-      "internalMasses": [],
-      "externalMasses": [],
-      "substitutions": "",
-      "rootSubstitutions": "{}",
-      "normalization": "Automatic",
-      "stVersion": "SubTropica v1.0.300",
-      "stCommand": "",
-      "contributor": "Sebastian Mizera",
-      "timestamp": "2026-04-17T00:07:40",
-      "verifiedAt": "2026-04-17T00:07:40",
-      "verified": true,
-      "method": "direct_integration",
-      "tools": [
-        "SubTropica"
-      ],
-      "methodLR": "Lungo",
-      "byteCount": 84608,
-      "symbolTeX": "\\begin{aligned}\\varepsilon^{-1}&\\colon\\;\\frac{2}{2 m^2-s_{12}-s_{23}}\\,(m^2-s_{12} \\otimes s_{12} \\otimes m^2-s_{12}) + \\frac{1}{2 m^2-s_{12}-s_{23}}\\,(m^2 \\otimes m^2-s_{23} \\otimes m^2-s_{12}) + \\frac{1}{-2 m^2+s_{12}+s_{23}}\\,(m^2 \\otimes m^2-s_{23} \\otimes m^2-s_{23}) + \\frac{1}{-2 m^2+s_{12}+s_{23}}\\,(2 m^2-s_{12}-s_{23} \\otimes m^2-s_{23} \\otimes m^2-s_{23}) + \\frac{1}{2 m^2-s_{12}-s_{23}}\\,(m^4-s_{12} s_{23} \\otimes m^2-s_{23} \\otimes m^2-s_{23}) + \\frac{2}{2 m^2-s_{12}-s_{23}}\\,(m^2-s_{12} \\otimes m^2 \\otimes m^2) + \\frac{2}{2 m^2-s_{12}-s_{23}}\\,(m^2-s_{23} \\otimes m^2 \\otimes m^2) - \\frac{2}{2 m^2-s_{12}-s_{23}}\\,(m^4-s_{12} s_{23} \\otimes m^2 \\otimes m^2) + \\frac{1}{2 m^2-s_{12}-s_{23}}\\,(m^4-s_{12} s_{23} \\otimes m^2-s_{12} \\otimes m^2) - \\frac{2}{2 m^2-s_{12}-s_{23}}\\,(m^2-s_{12} \\otimes m^2 \\otimes m^2-s_{12}) - \\frac{2}{2 m^2-s_{12}-s_{23}}\\,(m^2-s_{23} \\otimes m^2 \\otimes m^2-s_{23}) + \\frac{1}{-2 m^2+s_{12}+s_{23}}\\,(2 m^2-s_{12}-s_{23} \\otimes m^2 \\otimes m^2-s_{12}) + \\frac{1}{2 m^2-s_{12}-s_{23}}\\,(2 m^2-s_{12}-s_{23} \\otimes m^2 \\otimes m^2-s_{23}) + \\frac{1}{2 m^2-s_{12}-s_{23}}\\,(2 m^2-s_{12}-s_{23} \\otimes m^2-s_{23} \\otimes m^2) + \\frac{1}{-2 m^2+s_{12}+s_{23}}\\,(m^2 \\otimes m^2-s_{12} \\otimes m^2-s_{12}) + \\frac{1}{2 m^2-s_{12}-s_{23}}\\,(m^2 \\otimes m^2-s_{12} \\otimes m^2-s_{23}) + \\frac{1}{2 m^2-s_{12}-s_{23}}\\,(2 m^2-s_{12}-s_{23} \\otimes m^2-s_{12} \\otimes m^2-s_{12}) + \\frac{1}{-2 m^2+s_{12}+s_{23}}\\,(m^4-s_{12} s_{23} \\otimes m^2-s_{12} \\otimes m^2-s_{12}) + \\frac{1}{-2 m^2+s_{12}+s_{23}}\\,(m^4-s_{12} s_{23} \\otimes m^2-s_{23} \\otimes m^2) + \\frac{1}{2 m^2-s_{12}-s_{23}}\\,(-2 m^2+s_{12}+s_{23} \\otimes m^2-s_{12} \\otimes m^2) - \\frac{2}{2 m^2-s_{12}-s_{23}}\\,(-2 m^2+s_{12}+s_{23} \\otimes m^2-s_{12} \\otimes m^2-s_{12}) + \\frac{1}{-2 m^2+s_{12}+s_{23}}\\,(-2 m^2+s_{12}+s_{23} \\otimes m^2-s_{23} \\otimes m^2) + \\frac{1}{2 m^2-s_{12}-s_{23}}\\,(-2 m^2+s_{12}+s_{23} \\otimes m^2-s_{23} \\otimes m^2-s_{12}) + \\frac{1}{-2 m^2+s_{12}+s_{23}}\\,(s_{12} s_{23}-m^4 \\otimes m^2-s_{12} \\otimes m^2) + \\frac{2}{2 m^2-s_{12}-s_{23}}\\,(s_{12} s_{23}-m^4 \\otimes m^2-s_{12} \\otimes m^2-s_{12}) + \\frac{1}{2 m^2-s_{12}-s_{23}}\\,(s_{12} s_{23}-m^4 \\otimes m^2-s_{23} \\otimes m^2) + \\frac{1}{-2 m^2+s_{12}+s_{23}}\\,(s_{12} s_{23}-m^4 \\otimes m^2-s_{23} \\otimes m^2-s_{12}) + \\frac{1}{2 m^2-s_{12}-s_{23}}\\,(-2 m^2+s_{12}+s_{23} \\otimes m^2 \\otimes m^2-s_{12}) + \\frac{1}{-2 m^2+s_{12}+s_{23}}\\,(-2 m^2+s_{12}+s_{23} \\otimes m^2 \\otimes m^2-s_{23}) + \\frac{1}{2 m^2-s_{12}-s_{23}}\\,(-2 m^2+s_{12}+s_{23} \\otimes m^2-s_{12} \\otimes m^2-s_{23}) + \\frac{1}{-2 m^2+s_{12}+s_{23}}\\,(s_{12} s_{23}-m^4 \\otimes m^2 \\otimes m^2-s_{12}) + \\frac{1}{2 m^2-s_{12}-s_{23}}\\,(s_{12} s_{23}-m^4 \\otimes m^2 \\otimes m^2-s_{23}) + \\frac{1}{-2 m^2+s_{12}+s_{23}}\\,(s_{12} s_{23}-m^4 \\otimes m^2-s_{12} \\otimes m^2-s_{23}) - \\frac{2}{2 m^2-s_{12}-s_{23}}\\,(m^2-s_{12} \\otimes s_{12} \\otimes m^2) + \\frac{2}{2 m^2-s_{12}-s_{23}}\\,(m^4-s_{12} s_{23} \\otimes m^2 \\otimes m^2-s_{12}) + \\frac{1}{2 m^2-s_{12}-s_{23}}\\,(m^4-s_{12} s_{23} \\otimes s_{12} \\otimes m^2) + \\frac{1}{-2 m^2+s_{12}+s_{23}}\\,(m^4-s_{12} s_{23} \\otimes s_{12} \\otimes m^2-s_{12}) + \\frac{1}{-2 m^2+s_{12}+s_{23}}\\,(2 m^2-s_{12}-s_{23} \\otimes m^2-s_{12} \\otimes m^2) - \\frac{2}{2 m^2-s_{12}-s_{23}}\\,(m^2-s_{23} \\otimes s_{23} \\otimes m^2) + \\frac{1}{2 m^2-s_{12}-s_{23}}\\,(m^4-s_{12} s_{23} \\otimes s_{23} \\otimes m^2) + \\frac{2}{2 m^2-s_{12}-s_{23}}\\,(m^2-s_{23} \\otimes s_{23} \\otimes m^2-s_{23}) + \\frac{1}{-2 m^2+s_{12}+s_{23}}\\,(m^4-s_{12} s_{23} \\otimes s_{23} \\otimes m^2-s_{23}) \\\\ \\varepsilon^{0}&\\colon\\;-\\frac{6}{2 m^2-s_{12}-s_{23}}\\,(m^2 \\otimes m^2-s_{12} \\otimes s_{12} \\otimes m^2-s_{12}) - \\frac{6}{2 m^2-s_{12}-s_{23}}\\,(m^2-s_{12} \\otimes m^2 \\otimes s_{12} \\otimes m^2-s_{12}) - \\frac{2}{2 m^2-s_{12}-s_{23}}\\,(m^2 \\otimes m^2-s_{12} \\otimes m^2-s_{12} \\otimes m^2) + \\frac{2}{2 m^2-s_{12}-s_{23}}\\,(m^2 \\otimes m^2-s_{12} \\otimes m^2-s_{23} \\otimes m^2) - \\frac{4}{2 m^2-s_{12}-s_{23}}\\,(m^2-s_{12} \\otimes m^2 \\otimes m^2-s_{12} \\otimes m^2) + \\frac{1}{-2 m^2+s_{12}+s_{23}}\\,(m^2 \\otimes m^2 \\otimes m^2-s_{23} \\otimes m^2-s_{12}) + \\frac{1}{2 m^2-s_{12}-s_{23}}\\,(m^2 \\otimes m^2 \\otimes m^2-s_{23} \\otimes m^2-s_{23}) + \\frac{4}{2 m^2-s_{12}-s_{23}}\\,(m^2 \\otimes 2 m^2-s_{12}-s_{23} \\otimes m^2-s_{23} \\otimes m^2-s_{12}) + \\frac{1}{-2 m^2+s_{12}+s_{23}}\\,(m^2 \\otimes 2 m^2-s_{12}-s_{23} \\otimes m^2-s_{23} \\otimes m^2-s_{23}) - \\frac{3}{2 m^2-s_{12}-s_{23}}\\,(m^2 \\otimes m^4-s_{12} s_{23} \\otimes m^2-s_{23} \\otimes m^2-s_{23}) - \\frac{6}{2 m^2-s_{12}-s_{23}}\\,(m^2 \\otimes m^2-s_{12} \\otimes m^2 \\otimes m^2) - \\frac{6}{2 m^2-s_{12}-s_{23}}\\,(m^2 \\otimes m^2-s_{23} \\otimes m^2 \\otimes m^2) + \\frac{2}{2 m^2-s_{12}-s_{23}}\\,(m^2 \\otimes m^2-s_{23} \\otimes m^2-s_{12} \\otimes m^2) + \\frac{6}{2 m^2-s_{12}-s_{23}}\\,(m^2 \\otimes m^4-s_{12} s_{23} \\otimes m^2 \\otimes m^2) - \\frac{3}{2 m^2-s_{12}-s_{23}}\\,(m^2 \\otimes m^4-s_{12} s_{23} \\otimes m^2-s_{12} \\otimes m^2)  + \\cdots",
-      "alphabet": [
-        "m^2-s_{12}",
-        "s_{12}",
-        "m^2",
-        "m^2-s_{23}",
-        "2 m^2-s_{12}-s_{23}",
-        "m^4-s_{12} s_{23}",
-        "-2 m^2+s_{12}+s_{23}",
-        "s_{12} s_{23}-m^4",
-        "s_{23}"
-      ],
-      "symbolWeight": 4,
-      "symbolTerms": 318,
-      "normalizedSymbolTeX": "\\begin{aligned}\\varepsilon^{-1}&\\colon\\;\\frac{1}{2 m^2-s_{12}-s_{23}}\\!\\left[2\\,(W_1 \\otimes W_2 \\otimes W_1) - (W_4 \\otimes W_3 \\otimes W_3) + (W_5 \\otimes W_3 \\otimes W_3) + (W_4 \\otimes W_1 \\otimes W_1) - (W_5 \\otimes W_1 \\otimes W_1) - 2\\,(W_4 \\otimes W_1 \\otimes W_1) + (W_4 \\otimes W_3 \\otimes W_1) + 2\\,(W_5 \\otimes W_1 \\otimes W_1) - (W_5 \\otimes W_3 \\otimes W_1) + (W_4 \\otimes W_1 \\otimes W_3) - (W_5 \\otimes W_1 \\otimes W_3) - (W_5 \\otimes W_2 \\otimes W_1) + 2\\,(W_3 \\otimes W_6 \\otimes W_3) - (W_5 \\otimes W_6 \\otimes W_3)\\right] \\\\ \\varepsilon^{0}&\\colon\\;\\frac{1}{2 m^2-s_{12}-s_{23}}\\!\\left[-4\\,(W_4 \\otimes W_3 \\otimes W_3 \\otimes W_1) + 8\\,(W_4 \\otimes W_3 \\otimes W_3 \\otimes W_3) + 4\\,(W_4 \\otimes W_4 \\otimes W_3 \\otimes W_1) - 3\\,(W_4 \\otimes W_4 \\otimes W_3 \\otimes W_3) + 4\\,(W_5 \\otimes W_3 \\otimes W_3 \\otimes W_1) - 8\\,(W_5 \\otimes W_3 \\otimes W_3 \\otimes W_3) - 4\\,(W_5 \\otimes W_4 \\otimes W_3 \\otimes W_1) + 3\\,(W_5 \\otimes W_4 \\otimes W_3 \\otimes W_3) + 2\\,(W_1 \\otimes W_2 \\otimes W_2 \\otimes W_1) - (W_4 \\otimes W_1 \\otimes W_2 \\otimes W_1) + (W_5 \\otimes W_1 \\otimes W_2 \\otimes W_1) - (W_4 \\otimes W_5 \\otimes W_3 \\otimes W_3) + (W_5 \\otimes W_5 \\otimes W_3 \\otimes W_3) - 5\\,(W_4 \\otimes W_4 \\otimes W_1 \\otimes W_1) + 4\\,(W_4 \\otimes W_4 \\otimes W_1 \\otimes W_3) + (W_4 \\otimes W_5 \\otimes W_1 \\otimes W_1) + 5\\,(W_5 \\otimes W_4 \\otimes W_1 \\otimes W_1) - 4\\,(W_5 \\otimes W_4 \\otimes W_1 \\otimes W_3) - (W_5 \\otimes W_5 \\otimes W_1 \\otimes W_1) - 4\\,(W_4 \\otimes W_1 \\otimes W_1 \\otimes W_1) + 4\\,(W_5 \\otimes W_1 \\otimes W_1 \\otimes W_1) - 8\\,(W_1 \\otimes W_2 \\otimes W_1 \\otimes W_1) + 4\\,(W_4 \\otimes W_3 \\otimes W_1 \\otimes W_1) - 4\\,(W_5 \\otimes W_3 \\otimes W_1 \\otimes W_1) - 4\\,(W_4 \\otimes W_3 \\otimes W_1 \\otimes W_3) + 4\\,(W_5 \\otimes W_3 \\otimes W_1 \\otimes W_3) + 2\\,(W_4 \\otimes W_2 \\otimes W_1 \\otimes W_1) - (W_4 \\otimes W_2 \\otimes W_3 \\otimes W_1) + 2\\,(W_4 \\otimes W_4 \\otimes W_1 \\otimes W_1) - (W_4 \\otimes W_4 \\otimes W_3 \\otimes W_1) - 2\\,(W_4 \\otimes W_5 \\otimes W_1 \\otimes W_1) + (W_4 \\otimes W_5 \\otimes W_3 \\otimes W_1) + 2\\,(W_5 \\otimes W_2 \\otimes W_1 \\otimes W_1) + (W_5 \\otimes W_2 \\otimes W_3 \\otimes W_1) - 2\\,(W_5 \\otimes W_4 \\otimes W_1 \\otimes W_1) + (W_5 \\otimes W_4 \\otimes W_3 \\otimes W_1) + 2\\,(W_5 \\otimes W_5 \\otimes W_1 \\otimes W_1) - (W_5 \\otimes W_5 \\otimes W_3 \\otimes W_1) - (W_4 \\otimes W_2 \\otimes W_1 \\otimes W_3) - (W_4 \\otimes W_4 \\otimes W_1 \\otimes W_3) + (W_4 \\otimes W_5 \\otimes W_1 \\otimes W_3) + (W_5 \\otimes W_2 \\otimes W_1 \\otimes W_3) + (W_5 \\otimes W_4 \\otimes W_1 \\otimes W_3) - (W_5 \\otimes W_5 \\otimes W_1 \\otimes W_3) - (W_4 \\otimes W_3 \\otimes W_2 \\otimes W_1) + (W_4 \\otimes W_5 \\otimes W_2 \\otimes W_1) + (W_5 \\otimes W_3 \\otimes W_2 \\otimes W_1) - (W_5 \\otimes W_5 \\otimes W_2 \\otimes W_1) - (W_5 \\otimes W_2 \\otimes W_2 \\otimes W_1) + 12\\,(W_4 \\otimes W_1 \\otimes W_1 \\otimes W_1) - 4\\,(W_4 \\otimes W_3 \\otimes W_1 \\otimes W_1) - 12\\,(W_5 \\otimes W_1 \\otimes W_1 \\otimes W_1) + 4\\,(W_5 \\otimes W_3 \\otimes W_1 \\otimes W_1) - 4\\,(W_4 \\otimes W_1 \\otimes W_3 \\otimes W_1) + 4\\,(W_5 \\otimes W_1 \\otimes W_3 \\otimes W_1) - 4\\,(W_4 \\otimes W_1 \\otimes W_1 \\otimes W_3) + 4\\,(W_5 \\otimes W_1 \\otimes W_1 \\otimes W_3) - 8\\,(W_3 \\otimes W_6 \\otimes W_3 \\otimes W_3) + 2\\,(W_3 \\otimes W_6 \\otimes W_6 \\otimes W_3) + 2\\,(W_5 \\otimes W_3 \\otimes W_6 \\otimes W_3) - (W_5 \\otimes W_6 \\otimes W_6 \\otimes W_3) - 2\\,(W_4 \\otimes W_3 \\otimes W_6 \\otimes W_3) + (W_4 \\otimes W_5 \\otimes W_6 \\otimes W_3) - (W_5 \\otimes W_5 \\otimes W_6 \\otimes W_3) + 4\\,(W_5 \\otimes W_6 \\otimes W_3 \\otimes W_3) - 2\\,(W_4 \\otimes W_2 \\otimes W_1 \\otimes W_1) + (W_4 \\otimes W_2 \\otimes W_1 \\otimes W_3) + 2\\,(W_5 \\otimes W_2 \\otimes W_1 \\otimes W_1) - (W_5 \\otimes W_2 \\otimes W_1 \\otimes W_3) + (W_4 \\otimes W_2 \\otimes W_3 \\otimes W_1) - (W_5 \\otimes W_2 \\otimes W_3 \\otimes W_1) - (W_4 \\otimes W_1 \\otimes W_2 \\otimes W_1) + (W_4 \\otimes W_3 \\otimes W_2 \\otimes W_1) + (W_5 \\otimes W_1 \\otimes W_2 \\otimes W_1) - (W_5 \\otimes W_3 \\otimes W_2 \\otimes W_1)\\right]\\end{aligned}",
-      "wDefinitions": [
-        {
-          "label": "W_1",
-          "definition": "\\frac{-s_{12}+m^2}{m^2}",
-          "originalLetter": "m^2-s_{12}"
-        },
-        {
-          "label": "W_2",
-          "definition": "\\frac{s_{12}}{m^2}",
-          "originalLetter": "s_{12}"
-        },
-        {
-          "label": "W_3",
-          "definition": "\\frac{-s_{23}+m^2}{m^2}",
-          "originalLetter": "m^2-s_{23}"
-        },
-        {
-          "label": "W_4",
-          "definition": "\\frac{-s_{12}-s_{23}+2 m^2}{m^2}",
-          "originalLetter": "2 m^2-s_{12}-s_{23}"
-        },
-        {
-          "label": "W_5",
-          "definition": "\\frac{-s_{12} s_{23}+m^4}{m^2}",
-          "originalLetter": "m^4-s_{12} s_{23}"
-        },
-        {
-          "label": "W_6",
-          "definition": "\\frac{s_{23}}{m^2}",
-          "originalLetter": "s_{23}"
-        }
-      ],
-      "normalizedAlphabet": [
-        "W_1",
-        "W_2",
-        "W_3",
-        "W_4",
-        "W_5",
-        "W_6"
-      ],
-      "symbolScale": "m^2",
-      "normalizedSymbolTerms": 89,
-      "legOrder": []
-    }
-  ],
-  "edges": "{{{1, 2}, 0}, {{1, 3}, 0}, {{1, 4}, m}, {{2, 3}, 0}, {{2, 4}, m}}",
-  "nodes": "{{1, m}, {4, 0}, {2, m}, {3, 0}}",
-  "CanonicalName": "Double triangle, 2 massive propagators (a-b)",
-  "MassConfig": {
-    "numEdges": 5,
-    "numMassiveEdges": 2,
-    "numMasslessEdges": 3,
-    "distinctInternalMasses": 1,
-    "internalMassLabels": [
-      "m"
-    ],
-    "edgeMassPattern": "00101",
-    "numExtLegs": 4,
-    "numOnshellMassiveExtLegs": 2,
-    "numMasslessExtLegs": 2,
-    "extLegSignature": "M0M0"
-  },
-  "Subsectors": [],
-  "ParentSectors": []
+	"CNickelIndex": "e123|e23|e|e|:1001|101|0|0|",
+	"MassScales": 3,
+	"FunctionClass": "MPL",
+	"EpsilonOrder": "1",
+	"References": [
+		"arXiv:1306.3504 (JHEP 10 (037), 2013)"
+	],
+	"Records": [
+		{
+			"reference": "arXiv:1306.3504 (JHEP 10 (037), 2013)",
+			"authors": "von Manteuffel, Andreas, Studerus, Cedric",
+			"description": "Planar double box sector for light $N_f$ two-loop corrections to $gg \\to t\\bar{t}$. Two master integrals with propagator powers $\\{0,1,1,0,1,1,0,1,0\\}$ and $\\{0,1,1,0,1,1,0,2,0\\}$. Contains a triangle-bubble substructure with crossed external legs relative to sector 174. The second propagator $D(k_1-k_2)$ appears without explicit mass subscript in the paper (likely massless). Results in GPLs with argument $z$ and weights $\\{-1, 0, -2-y, 1/y\\}$ or argument $y$ and weights $\\{-2, -1, 0\\}$.",
+			"epsOrders": "1",
+			"familyName": "tt2pD:5:182",
+			"method": "DE, Mellin-Barnes",
+			"tools": [
+				"Reduze 2",
+				"QGRAF",
+				"Ambre",
+				"MB.m",
+				"GiNaC"
+			],
+			"ancillaryFiles": true,
+			"doi": "10.1007/JHEP10(2013)037",
+			"texkey": "vonManteuffel:2013uoa",
+			"masterCount": 2,
+			"dimScheme": "d=4-2*eps",
+			"computationLevel": "full",
+			"location": "Eq.(2.5)-(2.6), Section 3",
+			"recordId": "bx_c4d7ce9931ff",
+			"verified": false,
+			"verifiedAt": ""
+		}
+	],
+	"Names": [
+		"tt2pD:5:182"
+	],
+	"Source": [
+		"arXiv"
+	],
+	"Loops": 2,
+	"NumPropagators": 5,
+	"Results": [
+		{
+			"resultCompressed": "1:eJztXE2O0zAUDk2mQogVq9lyA+is2bFgMYtq4AJFSkeR2gmaFJA4HwfgAByAA7BALID8TOPasRM71PHnPHeRyq1rP3/f956f7aTP3+c322UURcWT8vI2vc/S4vXmsCnisph+KLLyLdouqgpJebnOikNTuigv77J9WrDiOv+c3m/jY9317mMh1M3qYnXZ78Wv/pavutfi5Ur93eqqLmwfd3upSm92+W32qDI5PjX5ZBRtox0zGvMXpw1rmNqYE3crGLa0ujIC8k/1w6bNoyU8QEOQqE0ei8VDz22B9RmA4YYDh0mDgsyteZz6wsDM3akaf/3JdX7rbOQqJugpNvDhDx/GyJ8Fq1HMWc8TtGGSNsUTcB6YEglMUznXIBptBw9N8jLBAzOWGFFlqjebQ5bfbXbNbPuUE9k5vO8V9+u4+2sZnOusTsfDRN8XNhhCI8EjOBcI9V8ocEpOcaojL9VlGqv/UzFLdbGyCRNlBr7pMDDN4hl6BW2oWdfbDWSiLZB+8cCSbXSA6JcqJUTZwCNC6hsY0QQULKlH/VAg1nZH9DzidLF+7HwMdGTjpDcA4mHXoKABoGqpGpw3crHbzjbKBumgJ2pXpKgSND7IWLQneB6I59mfivtdmxopWrNTyI8okoLHRzfnIhe+8EgBtMhPheAROF/NTqWQhK+gWky3H9E7G5etoB2xc6nwX54d4t4yNUcCGksdjlBzfKGxiSBsbioR0HimpXVSkQiIHdV+CPlI5JIjYbZQZXteRCJP7sbUdAsuwQ57t5Y4VSwX9PZure8gEXU0BSnomxXBC2fphYB84Fnkp0LwCJyvZqdSiJDRhlUHbrbsPFkIaTXqU4gYuZ6HCTgGfRiHvR6ewAf6kOPm4Fk9Bn0YwROPPkCL5q4lPKrnq248LYWzaHPmNM6iMdj8zuEW2ERaWWPMHXp3BhFUiNAYHJHS83v9B/aE/0KselYuxeQeMVLo0oHxRFgR+tcx0DgOCq6wMpARe3YUflQGp/hn8wtPoDHYibXoF5RdLuGwnfYuoxhToxd8hUvRSo0sHOmeIjyAlcdw00twoSVBzwFeDgzSTjDVzF97sdXkx3UQrQOZSwWbgj41YNIbSieV5X/6uB8AC7L8rUg8248sJJ7sX21kw19E8nxPYhHwypzVHxyLTUnjISRYNM/J1ctQYPAYke3cgEBswBNF//AS0VEVzf4amElpLZ3n8UDM/ssnacTQGh2t6W0Qs3CooY2c7PiXbmQZVBabv+EzD73IAmc8b3f1zjbS68s/F+C64Q==",
+			"resultTeX": "\\frac{H\\left(0,\\frac{m^2}{m^2-s_{12}},-\\frac{m^2-s_{23}}{-2 m^2+s_{12}+s_{23}}\\,;1\\right)+H\\left(-\\frac{s_{23}}{m^2-s_{23}},1,-\\frac{m^2-s_{23}}{-2 m^2+s_{12}+s_{23}}\\,;1\\right)+H\\left(-\\frac{s_{23}}{m^2-s_{23}},-\\frac{m^2-s_{23}}{-2 m^2+s_{12}+s_{23}},1\\,;1\\right)-\\log \\left(\\frac{s_{12}-m^2}{m^2-s_{23}}\\right) H\\left(0,\\frac{m^2}{m^2-s_{12}}\\,;1\\right)+\\log \\left(\\frac{m^2}{m^2-s_{12}}\\right) H\\left(\\frac{m^2}{m^2-s_{12}},-\\frac{m^2-s_{23}}{-2 m^2+s_{12}+s_{23}}\\,;1\\right)-\\log \\left(\\frac{m^2}{m^2-s_{12}}\\right) H\\left(-\\frac{s_{23}}{m^2-s_{23}},-\\frac{m^2-s_{23}}{-2 m^2+s_{12}+s_{23}}\\,;1\\right)-\\log \\left(\\frac{m^2-s_{12}}{m^2-s_{23}}\\right) H\\left(-\\frac{s_{23}}{m^2-s_{23}},-\\frac{m^2-s_{23}}{-2 m^2+s_{12}+s_{23}}\\,;1\\right)-\\log \\left(\\frac{m^2}{m^2-s_{12}}\\right) \\log \\left(\\frac{s_{12}}{m^2}\\right) \\log \\left(\\frac{s_{12}-m^2}{m^2-s_{23}}\\right)}{\\varepsilon (2 m^2-s_{12}-s_{23})} + \\cdots",
+			"dimension": "4 - 2*eps",
+			"epsOrder": "0",
+			"epsOrders": "0",
+			"propExponents": [
+				1,
+				1,
+				1,
+				1,
+				1
+			],
+			"propagators": [],
+			"numerators": [],
+			"internalMasses": [],
+			"externalMasses": [],
+			"substitutions": "",
+			"normalization": "Automatic",
+			"stVersion": "SubTropica v1.0.300",
+			"stCommand": "",
+			"contributor": "Sebastian Mizera",
+			"timestamp": "2026-04-17T00:07:40",
+			"verifiedAt": "2026-04-17T00:07:40",
+			"verified": true,
+			"method": "direct_integration",
+			"tools": [
+				"SubTropica"
+			],
+			"methodLR": "Lungo",
+			"byteCount": 84608,
+			"symbolTeX": "\\begin{aligned}\\varepsilon^{-1}&\\colon\\;\\frac{2}{2 m^2-s_{12}-s_{23}}\\,(m^2-s_{12} \\otimes s_{12} \\otimes m^2-s_{12}) + \\frac{1}{2 m^2-s_{12}-s_{23}}\\,(m^2 \\otimes m^2-s_{23} \\otimes m^2-s_{12}) + \\frac{1}{-2 m^2+s_{12}+s_{23}}\\,(m^2 \\otimes m^2-s_{23} \\otimes m^2-s_{23}) + \\frac{1}{-2 m^2+s_{12}+s_{23}}\\,(2 m^2-s_{12}-s_{23} \\otimes m^2-s_{23} \\otimes m^2-s_{23}) + \\frac{1}{2 m^2-s_{12}-s_{23}}\\,(m^4-s_{12} s_{23} \\otimes m^2-s_{23} \\otimes m^2-s_{23}) + \\frac{2}{2 m^2-s_{12}-s_{23}}\\,(m^2-s_{12} \\otimes m^2 \\otimes m^2) + \\frac{2}{2 m^2-s_{12}-s_{23}}\\,(m^2-s_{23} \\otimes m^2 \\otimes m^2) - \\frac{2}{2 m^2-s_{12}-s_{23}}\\,(m^4-s_{12} s_{23} \\otimes m^2 \\otimes m^2) + \\frac{1}{2 m^2-s_{12}-s_{23}}\\,(m^4-s_{12} s_{23} \\otimes m^2-s_{12} \\otimes m^2) - \\frac{2}{2 m^2-s_{12}-s_{23}}\\,(m^2-s_{12} \\otimes m^2 \\otimes m^2-s_{12}) - \\frac{2}{2 m^2-s_{12}-s_{23}}\\,(m^2-s_{23} \\otimes m^2 \\otimes m^2-s_{23}) + \\frac{1}{-2 m^2+s_{12}+s_{23}}\\,(2 m^2-s_{12}-s_{23} \\otimes m^2 \\otimes m^2-s_{12}) + \\frac{1}{2 m^2-s_{12}-s_{23}}\\,(2 m^2-s_{12}-s_{23} \\otimes m^2 \\otimes m^2-s_{23}) + \\frac{1}{2 m^2-s_{12}-s_{23}}\\,(2 m^2-s_{12}-s_{23} \\otimes m^2-s_{23} \\otimes m^2) + \\frac{1}{-2 m^2+s_{12}+s_{23}}\\,(m^2 \\otimes m^2-s_{12} \\otimes m^2-s_{12}) + \\frac{1}{2 m^2-s_{12}-s_{23}}\\,(m^2 \\otimes m^2-s_{12} \\otimes m^2-s_{23}) + \\frac{1}{2 m^2-s_{12}-s_{23}}\\,(2 m^2-s_{12}-s_{23} \\otimes m^2-s_{12} \\otimes m^2-s_{12}) + \\frac{1}{-2 m^2+s_{12}+s_{23}}\\,(m^4-s_{12} s_{23} \\otimes m^2-s_{12} \\otimes m^2-s_{12}) + \\frac{1}{-2 m^2+s_{12}+s_{23}}\\,(m^4-s_{12} s_{23} \\otimes m^2-s_{23} \\otimes m^2) + \\frac{1}{2 m^2-s_{12}-s_{23}}\\,(-2 m^2+s_{12}+s_{23} \\otimes m^2-s_{12} \\otimes m^2) - \\frac{2}{2 m^2-s_{12}-s_{23}}\\,(-2 m^2+s_{12}+s_{23} \\otimes m^2-s_{12} \\otimes m^2-s_{12}) + \\frac{1}{-2 m^2+s_{12}+s_{23}}\\,(-2 m^2+s_{12}+s_{23} \\otimes m^2-s_{23} \\otimes m^2) + \\frac{1}{2 m^2-s_{12}-s_{23}}\\,(-2 m^2+s_{12}+s_{23} \\otimes m^2-s_{23} \\otimes m^2-s_{12}) + \\frac{1}{-2 m^2+s_{12}+s_{23}}\\,(s_{12} s_{23}-m^4 \\otimes m^2-s_{12} \\otimes m^2) + \\frac{2}{2 m^2-s_{12}-s_{23}}\\,(s_{12} s_{23}-m^4 \\otimes m^2-s_{12} \\otimes m^2-s_{12}) + \\frac{1}{2 m^2-s_{12}-s_{23}}\\,(s_{12} s_{23}-m^4 \\otimes m^2-s_{23} \\otimes m^2) + \\frac{1}{-2 m^2+s_{12}+s_{23}}\\,(s_{12} s_{23}-m^4 \\otimes m^2-s_{23} \\otimes m^2-s_{12}) + \\frac{1}{2 m^2-s_{12}-s_{23}}\\,(-2 m^2+s_{12}+s_{23} \\otimes m^2 \\otimes m^2-s_{12}) + \\frac{1}{-2 m^2+s_{12}+s_{23}}\\,(-2 m^2+s_{12}+s_{23} \\otimes m^2 \\otimes m^2-s_{23}) + \\frac{1}{2 m^2-s_{12}-s_{23}}\\,(-2 m^2+s_{12}+s_{23} \\otimes m^2-s_{12} \\otimes m^2-s_{23}) + \\frac{1}{-2 m^2+s_{12}+s_{23}}\\,(s_{12} s_{23}-m^4 \\otimes m^2 \\otimes m^2-s_{12}) + \\frac{1}{2 m^2-s_{12}-s_{23}}\\,(s_{12} s_{23}-m^4 \\otimes m^2 \\otimes m^2-s_{23}) + \\frac{1}{-2 m^2+s_{12}+s_{23}}\\,(s_{12} s_{23}-m^4 \\otimes m^2-s_{12} \\otimes m^2-s_{23}) - \\frac{2}{2 m^2-s_{12}-s_{23}}\\,(m^2-s_{12} \\otimes s_{12} \\otimes m^2) + \\frac{2}{2 m^2-s_{12}-s_{23}}\\,(m^4-s_{12} s_{23} \\otimes m^2 \\otimes m^2-s_{12}) + \\frac{1}{2 m^2-s_{12}-s_{23}}\\,(m^4-s_{12} s_{23} \\otimes s_{12} \\otimes m^2) + \\frac{1}{-2 m^2+s_{12}+s_{23}}\\,(m^4-s_{12} s_{23} \\otimes s_{12} \\otimes m^2-s_{12}) + \\frac{1}{-2 m^2+s_{12}+s_{23}}\\,(2 m^2-s_{12}-s_{23} \\otimes m^2-s_{12} \\otimes m^2) - \\frac{2}{2 m^2-s_{12}-s_{23}}\\,(m^2-s_{23} \\otimes s_{23} \\otimes m^2) + \\frac{1}{2 m^2-s_{12}-s_{23}}\\,(m^4-s_{12} s_{23} \\otimes s_{23} \\otimes m^2) + \\frac{2}{2 m^2-s_{12}-s_{23}}\\,(m^2-s_{23} \\otimes s_{23} \\otimes m^2-s_{23}) + \\frac{1}{-2 m^2+s_{12}+s_{23}}\\,(m^4-s_{12} s_{23} \\otimes s_{23} \\otimes m^2-s_{23}) \\\\ \\varepsilon^{0}&\\colon\\;-\\frac{6}{2 m^2-s_{12}-s_{23}}\\,(m^2 \\otimes m^2-s_{12} \\otimes s_{12} \\otimes m^2-s_{12}) - \\frac{6}{2 m^2-s_{12}-s_{23}}\\,(m^2-s_{12} \\otimes m^2 \\otimes s_{12} \\otimes m^2-s_{12}) - \\frac{2}{2 m^2-s_{12}-s_{23}}\\,(m^2 \\otimes m^2-s_{12} \\otimes m^2-s_{12} \\otimes m^2) + \\frac{2}{2 m^2-s_{12}-s_{23}}\\,(m^2 \\otimes m^2-s_{12} \\otimes m^2-s_{23} \\otimes m^2) - \\frac{4}{2 m^2-s_{12}-s_{23}}\\,(m^2-s_{12} \\otimes m^2 \\otimes m^2-s_{12} \\otimes m^2) + \\frac{1}{-2 m^2+s_{12}+s_{23}}\\,(m^2 \\otimes m^2 \\otimes m^2-s_{23} \\otimes m^2-s_{12}) + \\frac{1}{2 m^2-s_{12}-s_{23}}\\,(m^2 \\otimes m^2 \\otimes m^2-s_{23} \\otimes m^2-s_{23}) + \\frac{4}{2 m^2-s_{12}-s_{23}}\\,(m^2 \\otimes 2 m^2-s_{12}-s_{23} \\otimes m^2-s_{23} \\otimes m^2-s_{12}) + \\frac{1}{-2 m^2+s_{12}+s_{23}}\\,(m^2 \\otimes 2 m^2-s_{12}-s_{23} \\otimes m^2-s_{23} \\otimes m^2-s_{23}) - \\frac{3}{2 m^2-s_{12}-s_{23}}\\,(m^2 \\otimes m^4-s_{12} s_{23} \\otimes m^2-s_{23} \\otimes m^2-s_{23}) - \\frac{6}{2 m^2-s_{12}-s_{23}}\\,(m^2 \\otimes m^2-s_{12} \\otimes m^2 \\otimes m^2) - \\frac{6}{2 m^2-s_{12}-s_{23}}\\,(m^2 \\otimes m^2-s_{23} \\otimes m^2 \\otimes m^2) + \\frac{2}{2 m^2-s_{12}-s_{23}}\\,(m^2 \\otimes m^2-s_{23} \\otimes m^2-s_{12} \\otimes m^2) + \\frac{6}{2 m^2-s_{12}-s_{23}}\\,(m^2 \\otimes m^4-s_{12} s_{23} \\otimes m^2 \\otimes m^2) - \\frac{3}{2 m^2-s_{12}-s_{23}}\\,(m^2 \\otimes m^4-s_{12} s_{23} \\otimes m^2-s_{12} \\otimes m^2)  + \\cdots",
+			"alphabet": [
+				"m^2-s_{12}",
+				"s_{12}",
+				"m^2",
+				"m^2-s_{23}",
+				"2 m^2-s_{12}-s_{23}",
+				"m^4-s_{12} s_{23}",
+				"-2 m^2+s_{12}+s_{23}",
+				"s_{12} s_{23}-m^4",
+				"s_{23}"
+			],
+			"symbolWeight": 4,
+			"symbolTerms": 318,
+			"normalizedSymbolTeX": "\\begin{aligned}\\varepsilon^{-1}&\\colon\\;\\frac{1}{2 m^2-s_{12}-s_{23}}\\!\\left[2\\,(W_1 \\otimes W_2 \\otimes W_1) - (W_4 \\otimes W_3 \\otimes W_3) + (W_5 \\otimes W_3 \\otimes W_3) + (W_4 \\otimes W_1 \\otimes W_1) - (W_5 \\otimes W_1 \\otimes W_1) - 2\\,(W_4 \\otimes W_1 \\otimes W_1) + (W_4 \\otimes W_3 \\otimes W_1) + 2\\,(W_5 \\otimes W_1 \\otimes W_1) - (W_5 \\otimes W_3 \\otimes W_1) + (W_4 \\otimes W_1 \\otimes W_3) - (W_5 \\otimes W_1 \\otimes W_3) - (W_5 \\otimes W_2 \\otimes W_1) + 2\\,(W_3 \\otimes W_6 \\otimes W_3) - (W_5 \\otimes W_6 \\otimes W_3)\\right] \\\\ \\varepsilon^{0}&\\colon\\;\\frac{1}{2 m^2-s_{12}-s_{23}}\\!\\left[-4\\,(W_4 \\otimes W_3 \\otimes W_3 \\otimes W_1) + 8\\,(W_4 \\otimes W_3 \\otimes W_3 \\otimes W_3) + 4\\,(W_4 \\otimes W_4 \\otimes W_3 \\otimes W_1) - 3\\,(W_4 \\otimes W_4 \\otimes W_3 \\otimes W_3) + 4\\,(W_5 \\otimes W_3 \\otimes W_3 \\otimes W_1) - 8\\,(W_5 \\otimes W_3 \\otimes W_3 \\otimes W_3) - 4\\,(W_5 \\otimes W_4 \\otimes W_3 \\otimes W_1) + 3\\,(W_5 \\otimes W_4 \\otimes W_3 \\otimes W_3) + 2\\,(W_1 \\otimes W_2 \\otimes W_2 \\otimes W_1) - (W_4 \\otimes W_1 \\otimes W_2 \\otimes W_1) + (W_5 \\otimes W_1 \\otimes W_2 \\otimes W_1) - (W_4 \\otimes W_5 \\otimes W_3 \\otimes W_3) + (W_5 \\otimes W_5 \\otimes W_3 \\otimes W_3) - 5\\,(W_4 \\otimes W_4 \\otimes W_1 \\otimes W_1) + 4\\,(W_4 \\otimes W_4 \\otimes W_1 \\otimes W_3) + (W_4 \\otimes W_5 \\otimes W_1 \\otimes W_1) + 5\\,(W_5 \\otimes W_4 \\otimes W_1 \\otimes W_1) - 4\\,(W_5 \\otimes W_4 \\otimes W_1 \\otimes W_3) - (W_5 \\otimes W_5 \\otimes W_1 \\otimes W_1) - 4\\,(W_4 \\otimes W_1 \\otimes W_1 \\otimes W_1) + 4\\,(W_5 \\otimes W_1 \\otimes W_1 \\otimes W_1) - 8\\,(W_1 \\otimes W_2 \\otimes W_1 \\otimes W_1) + 4\\,(W_4 \\otimes W_3 \\otimes W_1 \\otimes W_1) - 4\\,(W_5 \\otimes W_3 \\otimes W_1 \\otimes W_1) - 4\\,(W_4 \\otimes W_3 \\otimes W_1 \\otimes W_3) + 4\\,(W_5 \\otimes W_3 \\otimes W_1 \\otimes W_3) + 2\\,(W_4 \\otimes W_2 \\otimes W_1 \\otimes W_1) - (W_4 \\otimes W_2 \\otimes W_3 \\otimes W_1) + 2\\,(W_4 \\otimes W_4 \\otimes W_1 \\otimes W_1) - (W_4 \\otimes W_4 \\otimes W_3 \\otimes W_1) - 2\\,(W_4 \\otimes W_5 \\otimes W_1 \\otimes W_1) + (W_4 \\otimes W_5 \\otimes W_3 \\otimes W_1) + 2\\,(W_5 \\otimes W_2 \\otimes W_1 \\otimes W_1) + (W_5 \\otimes W_2 \\otimes W_3 \\otimes W_1) - 2\\,(W_5 \\otimes W_4 \\otimes W_1 \\otimes W_1) + (W_5 \\otimes W_4 \\otimes W_3 \\otimes W_1) + 2\\,(W_5 \\otimes W_5 \\otimes W_1 \\otimes W_1) - (W_5 \\otimes W_5 \\otimes W_3 \\otimes W_1) - (W_4 \\otimes W_2 \\otimes W_1 \\otimes W_3) - (W_4 \\otimes W_4 \\otimes W_1 \\otimes W_3) + (W_4 \\otimes W_5 \\otimes W_1 \\otimes W_3) + (W_5 \\otimes W_2 \\otimes W_1 \\otimes W_3) + (W_5 \\otimes W_4 \\otimes W_1 \\otimes W_3) - (W_5 \\otimes W_5 \\otimes W_1 \\otimes W_3) - (W_4 \\otimes W_3 \\otimes W_2 \\otimes W_1) + (W_4 \\otimes W_5 \\otimes W_2 \\otimes W_1) + (W_5 \\otimes W_3 \\otimes W_2 \\otimes W_1) - (W_5 \\otimes W_5 \\otimes W_2 \\otimes W_1) - (W_5 \\otimes W_2 \\otimes W_2 \\otimes W_1) + 12\\,(W_4 \\otimes W_1 \\otimes W_1 \\otimes W_1) - 4\\,(W_4 \\otimes W_3 \\otimes W_1 \\otimes W_1) - 12\\,(W_5 \\otimes W_1 \\otimes W_1 \\otimes W_1) + 4\\,(W_5 \\otimes W_3 \\otimes W_1 \\otimes W_1) - 4\\,(W_4 \\otimes W_1 \\otimes W_3 \\otimes W_1) + 4\\,(W_5 \\otimes W_1 \\otimes W_3 \\otimes W_1) - 4\\,(W_4 \\otimes W_1 \\otimes W_1 \\otimes W_3) + 4\\,(W_5 \\otimes W_1 \\otimes W_1 \\otimes W_3) - 8\\,(W_3 \\otimes W_6 \\otimes W_3 \\otimes W_3) + 2\\,(W_3 \\otimes W_6 \\otimes W_6 \\otimes W_3) + 2\\,(W_5 \\otimes W_3 \\otimes W_6 \\otimes W_3) - (W_5 \\otimes W_6 \\otimes W_6 \\otimes W_3) - 2\\,(W_4 \\otimes W_3 \\otimes W_6 \\otimes W_3) + (W_4 \\otimes W_5 \\otimes W_6 \\otimes W_3) - (W_5 \\otimes W_5 \\otimes W_6 \\otimes W_3) + 4\\,(W_5 \\otimes W_6 \\otimes W_3 \\otimes W_3) - 2\\,(W_4 \\otimes W_2 \\otimes W_1 \\otimes W_1) + (W_4 \\otimes W_2 \\otimes W_1 \\otimes W_3) + 2\\,(W_5 \\otimes W_2 \\otimes W_1 \\otimes W_1) - (W_5 \\otimes W_2 \\otimes W_1 \\otimes W_3) + (W_4 \\otimes W_2 \\otimes W_3 \\otimes W_1) - (W_5 \\otimes W_2 \\otimes W_3 \\otimes W_1) - (W_4 \\otimes W_1 \\otimes W_2 \\otimes W_1) + (W_4 \\otimes W_3 \\otimes W_2 \\otimes W_1) + (W_5 \\otimes W_1 \\otimes W_2 \\otimes W_1) - (W_5 \\otimes W_3 \\otimes W_2 \\otimes W_1)\\right]\\end{aligned}",
+			"wDefinitions": [
+				{
+					"label": "W_1",
+					"definition": "\\frac{-s_{12}+m^2}{m^2}",
+					"originalLetter": "m^2-s_{12}"
+				},
+				{
+					"label": "W_2",
+					"definition": "\\frac{s_{12}}{m^2}",
+					"originalLetter": "s_{12}"
+				},
+				{
+					"label": "W_3",
+					"definition": "\\frac{-s_{23}+m^2}{m^2}",
+					"originalLetter": "m^2-s_{23}"
+				},
+				{
+					"label": "W_4",
+					"definition": "\\frac{-s_{12}-s_{23}+2 m^2}{m^2}",
+					"originalLetter": "2 m^2-s_{12}-s_{23}"
+				},
+				{
+					"label": "W_5",
+					"definition": "\\frac{-s_{12} s_{23}+m^4}{m^2}",
+					"originalLetter": "m^4-s_{12} s_{23}"
+				},
+				{
+					"label": "W_6",
+					"definition": "\\frac{s_{23}}{m^2}",
+					"originalLetter": "s_{23}"
+				}
+			],
+			"normalizedAlphabet": [
+				"W_1",
+				"W_2",
+				"W_3",
+				"W_4",
+				"W_5",
+				"W_6"
+			],
+			"symbolScale": "m^2",
+			"normalizedSymbolTerms": 89,
+			"legOrder": []
+		}
+	],
+	"edges": "{{{1, 2}, 0}, {{1, 3}, 0}, {{1, 4}, m}, {{2, 3}, 0}, {{2, 4}, m}}",
+	"nodes": "{{1, m}, {4, 0}, {2, m}, {3, 0}}",
+	"CanonicalName": "Double triangle, 2 massive propagators (a-b)",
+	"MassConfig": {
+		"numEdges": 5,
+		"numMassiveEdges": 2,
+		"numMasslessEdges": 3,
+		"distinctInternalMasses": 1,
+		"internalMassLabels": [
+			"m"
+		],
+		"edgeMassPattern": "00101",
+		"numExtLegs": 4,
+		"numOnshellMassiveExtLegs": 2,
+		"numMasslessExtLegs": 2,
+		"extLegSignature": "M0M0"
+	},
+	"Subsectors": [],
+	"ParentSectors": []
 }

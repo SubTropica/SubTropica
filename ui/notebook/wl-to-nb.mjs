@@ -104,8 +104,18 @@ function parseCells(wl) {
   return cells;
 }
 
+// Styles whose cells should fire on Shift-Enter. The Input/Code styles are
+// Evaluatable by default in Mathematica's Default.nb, but we set it explicitly
+// so the behavior survives any custom stylesheet (including our Terra Verde
+// sheet below) without relying on style inheritance.
+const EVALUATABLE_STYLES = new Set(['Input', 'Code']);
+
 function cellToExpr(cell) {
-  return `Cell["${escapeForMmaString(cell.text)}", "${cell.style}"]`;
+  const base = `Cell["${escapeForMmaString(cell.text)}", "${cell.style}"`;
+  if (EVALUATABLE_STYLES.has(cell.style)) {
+    return `${base}, Evaluatable->True]`;
+  }
+  return `${base}]`;
 }
 
 // SubTropica "Terra Verde" theme, ported from ui/style.css. Inlined in each
@@ -160,7 +170,7 @@ Cell[StyleData["Program"],
 }, StyleDefinitions->"Default.nb"]`;
 
 export function wlToNb(wl, {
-  creator = 'subtropica.org notebook generator',
+  creator = 'subtropi.ca notebook generator',
   theme = 'terra-verde',
 } = {}) {
   const cells = parseCells(wl);

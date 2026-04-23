@@ -338,6 +338,10 @@ html, body {
   color: #fff !important;
   background: rgba(255,255,255,0.2) !important;
 }
+/* The app-title carries two badges — "Online" for desktop and "Mobile" for
+   phones — and CSS decides which one renders. Keeping both in the DOM
+   avoids a JS round-trip for a trivial copy swap. */
+.title-badge-mobile { display: none; }
 
 .toolbar-group { display: flex; align-items: center; gap: 4px; flex-shrink: 0; }
 .toolbar-sep {
@@ -1855,10 +1859,16 @@ body:not(.mode-full) .export-full-only { display: none; }
   transform-origin: center center;
   touch-action: none;
 }
-/* Parallax depth when panels overlay the canvas */
+/* Parallax depth when panels overlay the canvas.
+   The Kinematics tab (.canvas-on-kinematics) keeps the canvas sharp: the
+   user needs to read edge labels / momentum arrows while choosing loop
+   momenta or external masses, and a 1.5px blur would make those unreadable. */
 .canvas-recessed #draw-canvas {
   transform: scale(0.98);
   filter: blur(1.5px) brightness(0.97);
+}
+.canvas-recessed.canvas-on-kinematics #draw-canvas {
+  filter: none;
 }
 #draw-canvas.mode-delete { cursor: not-allowed; }
 
@@ -2210,6 +2220,149 @@ body:not(.mode-full) .export-full-only { display: none; }
 }
 
 /* ═══════════════════════════════════════════════════════════════
+   MOBILE NOTIFICATION CHIP + BOTTOM SHEET
+   (hidden on desktop; activated inside ≤768px media block below)
+   ═══════════════════════════════════════════════════════════════ */
+
+.notif-chip {
+  display: none;
+  position: fixed;
+  top: calc(var(--toolbar-h, 44px) + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+  max-width: calc(100vw - 24px);
+  padding: 6px 10px 6px 12px;
+  background: var(--surface);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  box-shadow: var(--shadow);
+  font: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  z-index: 140;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  animation: notifChipIn 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.notif-chip[hidden] { display: none !important; }
+.notif-chip:active { transform: translateX(-50%) scale(0.97); }
+.notif-chip-dot {
+  flex-shrink: 0;
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+.notif-chip.has-config .notif-chip-dot { background: var(--green); }
+.notif-chip-label {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.notif-chip-count {
+  flex-shrink: 0;
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 1;
+  padding: 2px 6px;
+  border-radius: 999px;
+  background: var(--bg-warm);
+  color: var(--text-mid);
+}
+.notif-chip-caret {
+  flex-shrink: 0;
+  width: 14px; height: 14px;
+  stroke: var(--text-muted);
+  stroke-width: 2;
+  fill: none;
+  transition: transform 0.2s;
+}
+.notif-chip[aria-expanded="true"] .notif-chip-caret { transform: rotate(180deg); }
+
+.notif-sheet-backdrop {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.25);
+  z-index: 141;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+.notif-sheet-backdrop.open { opacity: 1; }
+.notif-sheet-backdrop[hidden] { display: none !important; }
+
+.notif-sheet {
+  display: none;
+  position: fixed;
+  left: 0; right: 0; bottom: 0;
+  max-height: min(70vh, calc(100vh - 80px));
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+  border-radius: 16px 16px 0 0;
+  box-shadow: 0 -4px 24px rgba(0,0,0,0.18);
+  z-index: 142;
+  transform: translateY(100%);
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  flex-direction: column;
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+  touch-action: pan-y;
+}
+.notif-sheet[hidden] { display: none !important; }
+.notif-sheet.open { transform: translateY(0); }
+.notif-sheet-handle {
+  align-self: center;
+  width: 44px; height: 4px;
+  margin: 8px 0 4px;
+  background: var(--border);
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+.notif-sheet-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 4px 16px 8px;
+  flex-shrink: 0;
+}
+.notif-sheet-title {
+  font-family: var(--font-display);
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text);
+}
+.notif-sheet-close {
+  background: none; border: none;
+  font-size: 22px; line-height: 1;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 4px 8px;
+}
+.notif-sheet-body {
+  overflow-y: auto;
+  padding: 0 12px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1 1 auto;
+}
+/* Toasts inside the sheet: no slide-from-right animation, no hover-shift */
+.notif-sheet-body .notif-toast {
+  animation: none;
+  transform: none !important;
+}
+.notif-sheet-body .notif-toast:hover { transform: none; }
+
+@keyframes notifChipIn {
+  from { opacity: 0; transform: translate(-50%, -8px); }
+  to   { opacity: 1; transform: translate(-50%, 0); }
+}
+
+/* ═══════════════════════════════════════════════════════════════
    DETAIL POPUP (centered modal)
    ═══════════════════════════════════════════════════════════════ */
 
@@ -2312,6 +2465,25 @@ body:not(.mode-full) .export-full-only { display: none; }
 .popup-load-inline {
   margin-left: auto;
   align-self: flex-end;
+}
+/* Mobile-only sticky CTA below the detail-popup scroll area. Hidden on
+   desktop; the ≤480px media block overrides display:block. */
+.detail-mobile-cta { display: none; }
+
+/* Action cluster top-right of the popup hero — holds diagram-level
+   external links (Loopedia, QCDLoop) + the "Load to editor" button */
+.popup-hero-actions {
+  margin-left: auto;
+  align-self: flex-start;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+.popup-hero-actions .detail-link {
+  font-size: 11px;
+  padding: 4px 8px;
 }
 
 .popup-close {
@@ -2538,17 +2710,43 @@ body:not(.mode-full) .config-footer { display: none; }
 /* ── External momenta drag-to-reorder ── */
 .ext-drag-grip {
   color: var(--text-muted);
-  font-size: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1;
   cursor: grab;
   user-select: none;
   touch-action: none;
-  padding: 2px 3px;
+  padding: 3px 4px;
   border-radius: 3px;
   transition: color 0.15s, background 0.15s;
   text-align: center;
-  width: 16px;
+  width: 20px;
+  opacity: 0.75;
 }
-.ext-drag-grip:hover { color: var(--text); background: var(--surface-alt, var(--bg)); }
+.ext-drag-grip:hover {
+  color: var(--accent);
+  background: var(--surface-alt, var(--bg));
+  opacity: 1;
+}
+.ext-drag-grip:active { cursor: grabbing; }
+
+.ext-mass-hint {
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-top: 6px;
+  line-height: 1.45;
+}
+.ext-mass-hint code {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  padding: 0 3px;
+  background: var(--surface-alt, var(--bg));
+  border-radius: 2px;
+}
+.ext-mass-hint-grip {
+  color: var(--accent);
+  font-weight: 700;
+}
 .ext-drag-row {
   transition: transform 0.2s ease, background 0.2s ease;
   position: relative;
@@ -3410,6 +3608,36 @@ body.dark .badge-purple { background: #271230; color: #bc8cff; }
   color: var(--text);
   padding: 4px 0;
 }
+/* Collapse the preview box when the input is empty so the next
+   section title doesn't float in reserved whitespace. */
+.picker-label-preview:empty {
+  min-height: 0;
+  padding: 0;
+}
+
+.picker-swap-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-top: 2px;
+}
+.picker-swap-chip {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  padding: 3px 7px;
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  background: var(--surface);
+  color: var(--text);
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
+}
+.picker-swap-chip:hover {
+  background: var(--surface-alt, var(--bg));
+  border-color: var(--accent);
+  color: var(--accent);
+}
+.picker-swap-chip:active { transform: translateY(1px); }
 
 /* ═══════════════════════════════════════════════════════════════
    MASS LEGEND
@@ -3907,9 +4135,63 @@ body.dark .badge-purple { background: #271230; color: #bc8cff; }
 }
 .library-fab svg { width: 22px; height: 22px; }
 
+/* ── Mobile tab bar (≤480px only) ── */
+/* Persistent 4-tab nav for phones. Hidden at base; activated inside the
+   ≤480px media block. Total height = 56px + safe-area-inset-bottom. */
+.mobile-tabbar {
+  display: none;
+  position: fixed;
+  left: 0; right: 0; bottom: 0;
+  height: 56px;
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+  box-shadow: 0 -2px 12px rgba(0, 0, 0, 0.08);
+  z-index: 105;  /* above bottom-bar (80), below notif-chip (140) + overlays */
+}
+.mobile-tab {
+  flex: 1 1 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  padding: 6px 4px;
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font: inherit;
+  font-size: 10px;
+  font-weight: 500;
+  cursor: pointer;
+  min-width: 0;
+  -webkit-tap-highlight-color: transparent;
+  transition: color 0.15s;
+}
+.mobile-tab:active { background: rgba(0, 0, 0, 0.04); }
+[data-theme="dark"] .mobile-tab:active { background: rgba(255, 255, 255, 0.06); }
+.mobile-tab-icon {
+  width: 22px; height: 22px;
+  stroke-width: 1.8;
+}
+.mobile-tab-label {
+  letter-spacing: 0.02em;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.mobile-tab.mobile-tab-active {
+  color: var(--accent);
+}
+
 /* ── Overflow (⋯) menu — mobile only ── */
 .overflow-dropdown { position: relative; display: none; }
 .overflow-btn { padding: 4px 6px; }
+/* Hide the mobile notif-chip while the overflow menu is open, so it doesn't
+   paint above the menu items. The toolbar establishes a z:100 stacking
+   context, trapping the dropdown's inner z:200 beneath the chip (z:140). */
+body.overflow-open .notif-chip { display: none !important; }
 .overflow-menu {
   position: absolute; top: calc(100% + 4px); right: 0;
   min-width: 220px; max-width: calc(100vw - 24px);
@@ -3938,6 +4220,21 @@ body.dark .badge-purple { background: #271230; color: #bc8cff; }
 [data-theme="dark"] .overflow-item:hover, [data-theme="dark"] .overflow-item:active { background: rgba(255,255,255,0.08); }
 .overflow-item.overflow-danger { color: #c0392b; }
 .overflow-sep { height: 1px; background: var(--border); margin: 4px 0; }
+/* Active mode indicator: a leading dot so the user can see whether Draw
+   or Delete is currently active at a glance. */
+.overflow-mode-item::before {
+  content: '○';
+  display: inline-block;
+  width: 14px;
+  color: var(--text-muted);
+  font-size: 10px;
+  vertical-align: 1px;
+}
+.overflow-mode-item.overflow-mode-active::before {
+  content: '●';
+  color: var(--accent);
+}
+.overflow-mode-item.overflow-mode-active { color: var(--accent); font-weight: 600; }
 
 /* ── Narrow screens (≤768px) ── */
 @media (max-width: 768px) {
@@ -3954,23 +4251,50 @@ body.dark .badge-purple { background: #271230; color: #bc8cff; }
 
   /* Library moves from toolbar to FAB on mobile (bottom-left) */
   #browse-btn { display: none; }
-  .library-fab { display: flex; }
+  .library-fab { display: flex; bottom: calc(16px + env(safe-area-inset-bottom, 0px)); }
 
   .nickel-readout { padding: 3px 7px; }
   .nickel-label { display: none; }
   .nickel-value { font-size: 11px; }
 
   .app-title { font-size: 15px; }
+  .title-badge-desktop { display: none; }
+  .title-badge-mobile { display: inline; }
 
-  /* Bottom bar: more compact */
-  .bottom-bar { gap: 4px; padding: 5px 8px; }
+  /* Bottom bar: more compact; safe-area for notched devices */
+  .bottom-bar {
+    gap: 4px; padding: 5px 8px;
+    bottom: calc(24px + env(safe-area-inset-bottom, 0px));
+  }
   .bottom-sep { margin: 0 2px; }
   .bottom-btn { width: 28px; height: 28px; }
   .bottom-snap span { font-size: 0; width: 0; overflow: hidden; }
 
-  /* Integral card: smaller */
-  .integral-card { bottom: 16px; right: 16px; max-width: min(340px, calc(100vw - 32px)); }
+  /* Integral card on phones: parked above the centered .bottom-bar so the
+     zoom/snap controls stay tappable. Collapsed = compact Integrate FAB at
+     bottom-right. Expanded = full-width pane above the bar, formula legible. */
+  .integral-card {
+    right: 16px;
+    left: auto;
+    bottom: calc(16px + env(safe-area-inset-bottom, 0px) + 52px);
+    max-width: calc(100vw - 32px);
+  }
+  .integral-card:not(.collapsed) {
+    left: 16px;
+    right: 16px;
+  }
+  .integral-card-preview {
+    max-height: 45vh;
+    overflow-y: auto;
+  }
   .integrate-fab { padding: 10px 16px; font-size: 14px; }
+
+  /* Mass legend: lift above the Library FAB (52px + 16px bottom offset) so
+     they don't stack at bottom-left. Don't shift horizontally when the
+     config sheet is open (mobile config is a bottom sheet, not a side panel). */
+  .mass-legend {
+    bottom: calc(20px + 68px + env(safe-area-inset-bottom, 0px));
+  }
 
   /* Config panel becomes a bottom sheet on mobile */
   .config-panel {
@@ -3988,6 +4312,7 @@ body.dark .badge-purple { background: #271230; color: #bc8cff; }
   .config-tab-pull, .config-resize { display: none !important; }
   .config-sheet-handle { display: flex; }
   .config-sheet-close { display: flex; }
+  .config-footer { padding-bottom: calc(12px + env(safe-area-inset-bottom, 0px)); }
   /* Don't slide mass legend horizontally — bottom sheet doesn't push it */
   .mass-legend.config-shifted { transform: none; }
 
@@ -4013,6 +4338,29 @@ body.dark .badge-purple { background: #271230; color: #bc8cff; }
 
   /* Help modal: stack into single column */
   .help-body { padding: 18px 20px 16px; }
+
+  /* Mobile notification chip replaces the right-side toast stack */
+  .notif-stack { display: none !important; }
+  .notif-chip:not([hidden]) { display: inline-flex; }
+  .notif-sheet-backdrop:not([hidden]) { display: block; }
+  .notif-sheet:not([hidden]) { display: flex; }
+
+  /* Phase 6 — gesture isolation. touch-action: pan-y limits the browser to
+     vertical scroll inside these sheets; pinch/horizontal gestures do not
+     propagate to the canvas below. The canvas element itself keeps its
+     default touch behaviour so pinch-zoom still works when finger-downs
+     start on the canvas. */
+  .config-panel,
+  .detail-popup,
+  .detail-scroll,
+  .browser-panel,
+  .browser-body,
+  .notif-sheet,
+  .notif-sheet-body,
+  .integral-card-preview {
+    touch-action: pan-y;
+    overscroll-behavior: contain;
+  }
 }
 
 /* ── Phone screens (≤480px) ── */
@@ -4027,12 +4375,90 @@ body.dark .badge-purple { background: #271230; color: #bc8cff; }
   .app-title { font-size: 14px; }
   .title-badge { font-size: 9px; padding: 0 4px; }
 
+  /* Free toolbar space on phones:
+      - Nickel readout is still accessible inside the detail popup and as the
+        chip subtitle; hide the inline readout (not just its label).
+        !important beats the inline `style.display='flex'` set in app.js
+        when a diagram is drawn.
+      - Delete mode is accessible through the overflow menu ("Delete mode"
+        item) on phones where the toolbar button is hidden.                    */
+  .nickel-readout { display: none !important; }
+  #mode-delete { display: none; }
+
   /* Bottom bar: hide transform icons, keep zoom + snap */
   #rotate-cw-btn, #rotate-ccw-btn, #flip-h-btn, #flip-v-btn { display: none; }
 
-  /* Integral card: compact, default collapsed */
-  .integral-card { bottom: 12px; right: 12px; max-width: min(300px, calc(100vw - 24px)); }
+  /* Tighter horizontal insets at iPhone SE width. Vertical placement below
+     accounts for the mobile tab bar (56px) + safe-area + bottom-bar lift. */
+  .integral-card { right: 12px; }
+  .integral-card:not(.collapsed) { left: 12px; right: 12px; }
   .integrate-fab { padding: 10px 14px; font-size: 13px; }
+  /* Difficulty stars: absolute-positioned inside the preview pane. Hide on
+     phones where space is tight and the hover tooltip can't fire from touch. */
+  .difficulty-stars { display: none; }
+
+  /* ── Phase 7: persistent bottom tab bar ───────────────────────────────
+     Tab bar occupies the bottom 56 px + safe-area. Everything previously
+     pinned to the viewport bottom shifts up by that amount:
+       - .bottom-bar       (zoom/snap controls)
+       - .integral-card    (collapsed FAB pill)
+       - .mass-legend      (no longer needs to clear the FAB — only the bar)
+     Export moves into the tab bar, so the top toolbar can shed it.
+     Library FAB is subsumed by the Library tab; the top-toolbar Export
+     button is subsumed by the Export tab. */
+  .mobile-tabbar { display: flex; }
+
+  /* The tab bar occupies 56 px + safe-area; lift everything it would cover. */
+  .bottom-bar {
+    bottom: calc(24px + 56px + env(safe-area-inset-bottom, 0px));
+  }
+  .integral-card {
+    bottom: calc(16px + 56px + 52px + env(safe-area-inset-bottom, 0px));
+  }
+  /* Mass legend: no FAB to clear anymore, just the tab bar. */
+  .mass-legend {
+    bottom: calc(12px + 56px + env(safe-area-inset-bottom, 0px));
+  }
+
+  /* Library FAB and Export button are now in the tab bar. */
+  .library-fab { display: none !important; }
+  #export-menu-btn { display: none; }
+
+  /* Shift the export dropdown to anchor on the Export tab instead of the
+     (hidden) top-toolbar Export button. */
+  .export-dropdown {
+    top: auto;
+    bottom: calc(56px + env(safe-area-inset-bottom, 0px) + 4px);
+    right: 8px;
+  }
+
+  /* Raise the tab bar above every foreground overlay (config 131, browser
+     overlay 130, detail popup 150, notif sheet 142) so taps on tabs work
+     as a persistent nav while a sheet is open. Overlays also get a bottom
+     safe-zone so their header/content doesn't sit under the opaque bar. */
+  .mobile-tabbar { z-index: 160; }
+  .config-panel.open,
+  .browser-overlay.visible .browser-panel,
+  .detail-popup.open,
+  .notif-sheet.open {
+    /* Reserve the bottom 56 px for the tab bar so content doesn't render
+       beneath it. Margin sets on the panel itself; for fixed-positioned
+       panels we shift the bottom origin. */
+  }
+  .config-panel.open {
+    bottom: calc(56px + env(safe-area-inset-bottom, 0px));
+    height: min(70vh, calc(100vh - 60px - 56px));
+  }
+  .browser-panel {
+    max-height: calc(100vh - 16px - 56px - env(safe-area-inset-bottom, 0px));
+  }
+  .detail-popup.open {
+    bottom: calc(56px + env(safe-area-inset-bottom, 0px));
+  }
+  .notif-sheet.open {
+    bottom: calc(56px + env(safe-area-inset-bottom, 0px));
+    padding-bottom: 0;
+  }
 
   .browser-header-top { flex-wrap: wrap; }
   .browser-search { width: 100%; order: 10; }
@@ -4043,12 +4469,53 @@ body.dark .badge-purple { background: #271230; color: #bc8cff; }
   .popup-thumb { width: 100px; height: 100px; }
   .popup-name { font-size: 16px; }
 
+  /* Detail popup: fullscreen bottom-sheet on phones.
+     Slide-from-bottom animation replaces the scale-in transition on desktop.
+     Keeps the existing header (close button) at top and adds a sticky CTA
+     at the bottom of .detail-scroll (see .detail-mobile-cta below). */
+  .detail-popup {
+    top: 0; left: 0; right: 0; bottom: 0;
+    width: 100vw; max-width: 100vw;
+    max-height: 100vh; min-width: 0;
+    transform: translateY(100%);
+    border-radius: 0;
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.2s ease;
+  }
+  .detail-popup.open {
+    transform: translateY(0);
+  }
+  .detail-scroll {
+    padding: 16px 16px calc(16px + env(safe-area-inset-bottom, 0px));
+  }
+  /* Sticky "Load to editor" at the bottom of the scroll area. Only rendered
+     into the DOM when a config has a load handler; display rule here toggles
+     desktop off by default (see base rule below the media block). */
+  .detail-mobile-cta {
+    display: block;
+    position: sticky;
+    bottom: -16px;  /* hug the .detail-scroll bottom padding */
+    margin: 12px -16px -16px;
+    padding: 10px 16px calc(10px + env(safe-area-inset-bottom, 0px));
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.05);
+    z-index: 2;
+  }
+  .detail-mobile-cta-btn {
+    width: 100%;
+    padding: 12px 16px;
+    font-size: 14px;
+    font-weight: 600;
+  }
+  /* Hide the in-hero Load button on phones — the sticky CTA replaces it. */
+  .popup-hero-actions .popup-load-btn { display: none; }
+
   .draw-hint { font-size: 11px; padding: 6px 12px; }
 }
 
 /* ═══════════ REVIEW MODE ═══════════
    Review-only chrome. Only displayed when ?review=1 and backendMode === 'full'.
-   Never visible on subtropica.org.
+   Never visible on subtropi.ca.
 */
 .review-toolbar {
   position: fixed;
@@ -4995,4 +5462,158 @@ body.review-mode.review-has-pdf .review-save-bar { left: var(--review-pdf-w, 480
 .verified-checkmark::before {
   content: '\2713';
   font-weight: 700;
+}
+
+/* ── Correction-report modal ──────────────────────────────────────── */
+.correction-panel {
+  width: 520px;
+  max-width: 92vw;
+  position: relative;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+.correction-panel .detail-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+}
+.correction-body {
+  padding: 28px 28px 24px;
+}
+.correction-title {
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text);
+  margin: 0 0 4px 0;
+}
+.correction-subtitle {
+  font-size: 12px;
+  color: var(--text-muted);
+  line-height: 1.5;
+  margin-bottom: 16px;
+}
+.correction-target {
+  background: var(--surface-alt, rgba(0,0,0,0.03));
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 10px 12px;
+  font-size: 12px;
+  color: var(--text-mid);
+  margin-bottom: 16px;
+  line-height: 1.55;
+}
+.correction-target .correction-target-row { display: block; }
+.correction-target code {
+  font-size: 11px;
+  color: var(--text);
+  background: transparent;
+  padding: 0;
+  word-break: break-all;
+}
+.correction-target a { color: var(--link); text-decoration: none; }
+.correction-target a:hover { text-decoration: underline; }
+.correction-row {
+  margin-bottom: 14px;
+}
+.correction-label {
+  display: block;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-mid);
+  margin-bottom: 4px;
+}
+.correction-required { color: #d73a4a; }
+.correction-optional { color: var(--text-muted); font-weight: 400; }
+.correction-select,
+.correction-input,
+.correction-textarea {
+  width: 100%;
+  padding: 7px 10px;
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  background: var(--surface);
+  color: var(--text);
+  font-size: 12px;
+  font-family: inherit;
+  box-sizing: border-box;
+}
+.correction-textarea {
+  resize: vertical;
+  line-height: 1.5;
+  font-family: inherit;
+}
+.correction-select:focus,
+.correction-input:focus,
+.correction-textarea:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+.correction-counter {
+  font-size: 10px;
+  color: var(--text-muted);
+  text-align: right;
+  margin-top: 2px;
+}
+.correction-contrib .correction-anon {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 6px;
+  font-size: 11px;
+  color: var(--text-mid);
+  cursor: pointer;
+}
+.correction-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 20px;
+}
+.correction-btn {
+  padding: 7px 16px;
+  border-radius: 5px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text);
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+}
+.correction-btn:hover:not(:disabled) { border-color: var(--accent); }
+.correction-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+.correction-btn-submit {
+  background: var(--accent, #4a6fa5);
+  color: #fff;
+  border-color: var(--accent, #4a6fa5);
+}
+.correction-btn-submit:hover:not(:disabled) { filter: brightness(1.08); }
+.correction-status {
+  margin-top: 10px;
+  font-size: 11px;
+  color: var(--text-muted);
+  min-height: 16px;
+  text-align: right;
+}
+.correction-status.error { color: #d73a4a; }
+.correction-status.ok    { color: #2ea043; }
+
+/* Inline "Report issue" trigger in the record-card link row */
+.report-issue-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: none;
+  border: 1px solid var(--border);
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-size: 10px;
+  color: var(--text-muted);
+  cursor: pointer;
+  line-height: 1.4;
+  font-family: inherit;
+}
+.report-issue-link:hover {
+  color: var(--text-mid);
+  border-color: var(--text-muted);
 }

@@ -1,288 +1,254 @@
 {
-  "CNickelIndex": "e12|e3|e3|e|:101|11|10|1|",
-  "MassScales": 3,
-  "FunctionClass": "MPL",
-  "EpsilonOrder": "-1,0,1,2",
-  "References": [
-    "arXiv:1401.4361 (JHEP 03 (071), 2014)",
-    "arXiv:1307.4083",
-    "arXiv:2305.01585 (JHEP 11 (202), 2023)",
-    "arXiv:2405.18178 (JHEP 09 (018), 2024)",
-    "arXiv:1401.2979 (JHEP 03 (082), 2014)"
-  ],
-  "Records": [
-    {
-      "dimScheme": "d=4-2*eps",
-      "recordId": "bf_d5d9c6795a48",
-      "familyName": "box_2mass_opposite",
-      "verified": false,
-      "verifiedAt": "",
-      "authors": "Panzer, Erik",
-      "texkey": "Panzer:2014gra",
-      "computationLevel": "full",
-      "masterCount": 0,
-      "location": "Section 5.1, Eq.(5.2)",
-      "method": [],
-      "reference": "arXiv:1401.4361, JHEP 03 (071), 2014",
-      "ancillaryFiles": [],
-      "description": "One-loop box with two opposite internal masses, on-shell legs $p_i^2=-m^2$. Not linearly reducible in Schwinger parameters; restored by change of variables.",
-      "epsOrders": "-1,0,1,2",
-      "tools": [
-        "HyperInt"
-      ],
-      "doi": "10.1007/JHEP03(2014)071"
-    },
-    {
-      "dimScheme": "d=4-2*eps",
-      "recordId": "bf_631e393df3c5",
-      "verified": false,
-      "verifiedAt": "",
-      "authors": "Henn, Johannes M., Smirnov, Vladimir A.",
-      "computationLevel": "full",
-      "texkey": "",
-      "masterCount": 5,
-      "reference": "arXiv:1307.4083",
-      "ancillaryFiles": [],
-      "description": "One-loop box for Bhabha scattering with alternating massive/massless propagators. 5 MIs to all orders in $\\varepsilon$ via canonical DEs in 2dHPLs.",
-      "familyName": "Bhabha 1-loop",
-      "location": "Eq. (3), Section 2.1",
-      "method": [],
-      "epsOrders": "all orders",
-      "tools": [
-        "FIRE"
-      ],
-      "doi": ""
-    },
-    {
-      "reference": "arXiv:1401.2979 (JHEP 03 (082), 2014)",
-      "authors": "Argeri, Mario, Di Vita, Stefano, Mastrolia, Pierpaolo, Mirabella, Edoardo, Schlenk, Johannes, Schubert, Ulrich, Tancredi, Lorenzo",
-      "description": "One-loop massive Bhabha scattering family with 5 master integrals (tadpole $T_1$, two bubbles $T_2(t)$ and $T_3(s)$, one vertex $T_4(t)$, one box $T_5(s,t)$). Massive electron line, massless photon exchange. Canonical UT basis $g_1..g_5$ constructed via Magnus exponential of the $\\varepsilon^0$ part of the DE matrix; the resulting canonical system $d g = \\varepsilon d \\hat{A}_1 g$ is logarithmic in Landau variables $x,y$ defined by $s=-m^2(1-x)^2/x$ and $t=-m^2(1-y)^2/y$, with seven letters $\\{x,1+x,y,1+y,1-y,x+y,1+xy\\}$. Same MIs are reused as one-loop x one-loop subtopologies of the two-loop QED vertex family. Cross-checked against Henn-Smirnov 1307.4083.",
-      "epsOrders": "4",
-      "familyName": "One-Loop Bhabha scattering",
-      "method": "IBP, DE",
-      "tools": [
-        "Reduze",
-        "HPL"
-      ],
-      "ancillaryFiles": false,
-      "doi": "10.1007/JHEP03(2014)082",
-      "texkey": "Argeri:2014qva",
-      "masterCount": 5,
-      "dimScheme": "d=4-2*eps",
-      "computationLevel": "full",
-      "location": "Section 4 (bhabha1L.tex), Eqs. (4.1)-(4.5), Figs. Diagrams1, Masters1",
-      "recordId": "bx_fd309c297925",
-      "verified": false,
-      "verifiedAt": ""
-    },
-    {
-      "authors": "Chestnov, Vsevolod, Matsubara-Heo, Saiei J., Munch, Henrik J., Takayama, Nobuki",
-      "texkey": "Chestnov:2023kww",
-      "verified": false,
-      "verifiedAt": "",
-      "reference": "arXiv:2305.01585, JHEP 11 (202), 2023",
-      "ancillaryFiles": [],
-      "recordId": "bf_c57fd55e0253",
-      "masterCount": 5,
-      "computationLevel": "DE_only",
-      "doi": "10.1007/JHEP11(2023)202",
-      "tools": [
-        "LiteRed",
-        "AMFlow",
-        "Mathematica"
-      ],
-      "description": "One-loop box integral family contributing to Bhabha scattering in $d=4-2\\varepsilon$ dimensions. Two massive propagators ($D_1, D_3$ with electron mass $m$) and two massless propagators ($D_2, D_4$). All four external legs on-shell at $p_i^2=m^2$. Used to illustrate the logarithmic restriction algorithm: the small-mass expansion $m\\to 0$ is computed as a restriction $z_1=m^2/(-s)\\to 0$. The residue matrix eigenvalues $\\{0, -\\varepsilon\\}$ split the solution into a holomorphic piece (rank 3, eigenvalue 0) with a logarithmic correction (rank 2, eigenvalue $-\\varepsilon$). Both restricted subsystems are derived and solved.",
-      "epsOrders": "",
-      "method": [],
-      "dimScheme": "d = 4 - 2*epsilon",
-      "location": "Section 5.2 (sec:1L_bhabha); eq. 1L_bhabha_pfaffian_system, eq:bhabha_kinematics, eq:final_pfaffian",
-      "familyName": "1L Bhabha box"
-    },
-    {
-      "authors": "Crisanti, Giulio, Smith, Sid",
-      "texkey": "Crisanti:2024onv",
-      "verified": false,
-      "verifiedAt": "",
-      "reference": "arXiv:2405.18178, JHEP 09 (018), 2024",
-      "ancillaryFiles": [],
-      "recordId": "bf_2b04323d9add",
-      "masterCount": 4,
-      "computationLevel": "C-matrix",
-      "doi": "10.1007/JHEP09(2024)018",
-      "tools": [
-        "Mathematica",
-        "LiteRed",
-        "FiniteFlow"
-      ],
-      "description": "One-loop box integral family for Bhabha scattering with two massive and two massless internal propagators and four equal-mass external legs. Used as a primary example to demonstrate the diagonal basis prescription for intersection numbers. On the double cut $\\{z_2, z_4\\}$, the Baikov polynomial is explicitly given and the C-matrix is computed in both the standard and diagonal prescriptions, yielding a $4\\times 4$ diagonal C-matrix. Also studied on a single cut $\\{z_1\\}$ where the massless propagators require a modification to the diagonal basis prescription.",
-      "epsOrders": "",
-      "method": [],
-      "dimScheme": "d",
-      "location": "Section 3.3.1, Eqs. around (3.24)-(3.37); Section 3.3.3, Eq. (3.52)",
-      "familyName": "one-loop two-mass Bhabha box"
-    }
-  ],
-  "Names": [
-    "2-opposite-mass box",
-    "Box",
-    "D0",
-    "box_2mass_opposite",
-    "Bhabha 1-loop",
-    "1L Bhabha box",
-    "one-loop two-mass Bhabha box",
-    "One-Loop Bhabha scattering"
-  ],
-  "Source": [
-    "arXiv",
-    "Loopedia"
-  ],
-  "Loops": 1,
-  "NumPropagators": 4,
-  "edges": "{{{1, 2}, 0}, {{1, 3}, m}, {{2, 4}, m}, {{3, 4}, 0}}",
-  "nodes": "{{1, m}, {2, m}, {4, m}, {3, m}}",
-  "quadruple": "{E^(eps*EulerGamma)*Gamma[2 + eps], (x1 + x2 + x3 + x4)^(2*eps)*(-(mm*x2^2) - 2*mm*x2*x3 + s12*x2*x3 - mm*x3^2 + 4*mm*x1*x4 - s12*x1*x4 - s23*x1*x4)^(-2 - eps), {x1, x2, x3, x4}, {mm, s12, s23}}",
-  "CanonicalName": "Box, 2 massive propagators (d)",
-  "MassConfig": {
-    "numEdges": 4,
-    "numMassiveEdges": 2,
-    "numMasslessEdges": 2,
-    "distinctInternalMasses": 1,
-    "internalMassLabels": [
-      "m"
-    ],
-    "edgeMassPattern": "0110",
-    "numExtLegs": 4,
-    "numOnshellMassiveExtLegs": 4,
-    "numMasslessExtLegs": 0,
-    "extLegSignature": "MMMM"
-  },
-  "commonNames": [
-    "D₀(2×m)",
-    "L1"
-  ],
-  "Subsectors": [
-    "e12|e2|e|:100|22|2|"
-  ],
-  "ParentSectors": [],
-  "Results": [
-    {
-      "resultCompressed": "1:eJxTTMoPSmNjYGAo5gISwalFmanFLoklicXMQG5qQXEmkGJIYwIpYAESPpnFJWkgRjErkAjJzE0thkiCuAH55alFxSBubm7mfyBAlwKZWWxkjCQHMiogpxTJELCZEBWMIDGQHp/8dNwKQBLhuZkgNik6CiA6UF2I5igM84kxEiLKSoMwQvYd1AjC4caMqQBDL0k2ExcTFMYnbWMHQoC5IAIAtbrDxw==",
-      "resultTeX": "\\frac{\\log \\left(-W_1^+\\right)-\\log \\left(-W_1^-\\right)}{\\varepsilon m^2 s_{23} \\left(W_1^--W_1^+\\right)}+\\frac{\\left(\\log (m^2)-\\log \\left(-\\frac{m^2}{s_{23}}\\right)\\right) \\left(\\log \\left(-W_1^-\\right)-\\log \\left(-W_1^+\\right)\\right)}{m^2 s_{23} \\left(W_1^--W_1^+\\right)}+O\\left(\\varepsilon^1\\right)",
-      "dimension": "4 - 2*eps",
-      "epsOrder": "0",
-      "epsOrders": "0",
-      "propExponents": [
-        1,
-        1,
-        1,
-        1
-      ],
-      "propagators": [],
-      "numerators": [],
-      "internalMasses": [],
-      "externalMasses": [],
-      "substitutions": "",
-      "rootSubstitutions": "{Wm[1] -> (-2*mm + s12 - Sqrt[-((4*mm - s12)*s12)])/(2*mm), Wp[1] -> (-2*mm + s12 + Sqrt[-((4*mm - s12)*s12)])/(2*mm)}",
-      "normalization": "Automatic",
-      "stVersion": "SubTropica v1.0.395",
-      "stCommand": "",
-      "contributor": "Sebastian Mizera",
-      "timestamp": "2026-04-19T22:30:31",
-      "verifiedAt": "2026-04-19T22:30:31",
-      "verified": true,
-      "method": "direct_integration",
-      "tools": [
-        "SubTropica"
-      ],
-      "methodLR": "Lungo",
-      "byteCount": 2672,
-      "symbolTeX": "\\begin{aligned}\\varepsilon^{-1}&\\colon\\;-\\frac{m^{-2}}{s_{23} \\left(W_1^--W_1^+\\right)}\\,(W_1^-) + \\frac{m^{-2}}{s_{23} \\left(W_1^--W_1^+\\right)}\\,(W_1^+) \\\\ \\varepsilon^{0}&\\colon\\;\\frac{m^{-2}}{s_{23} \\left(W_1^--W_1^+\\right)}\\,(s_{23} \\otimes W_1^-) + \\frac{m^{-2}}{s_{23} \\left(W_1^--W_1^+\\right)}\\,(W_1^- \\otimes s_{23}) - \\frac{m^{-2}}{s_{23} \\left(W_1^--W_1^+\\right)}\\,(s_{23} \\otimes W_1^+) - \\frac{m^{-2}}{s_{23} \\left(W_1^--W_1^+\\right)}\\,(W_1^+ \\otimes s_{23})\\end{aligned}",
-      "alphabet": [
-        "W_1^-",
-        "W_1^+",
-        "s_{23}"
-      ],
-      "symbolWeight": 2,
-      "symbolTerms": 6,
-      "normalizedSymbolTeX": "\\varepsilon^{-1}&\\colon\\;\\frac{m^{-2}}{s_{23} \\left(W_1^--W_1^+\\right)}\\!\\left[-(W^-_1) + (W^+_1)\\right]",
-      "wDefinitions": [
-        {
-          "label": "W^-_1",
-          "kind": "algebraic",
-          "pairIndex": 1,
-          "definition": "\\frac{1}{2} m^{-2} \\left(-\\sqrt{-s_{12} \\left(4 m^2-s_{12}\\right)}-2 m^2+s_{12}\\right)",
-          "originalLetter": "W_1^-",
-          "polynomialTeX": "x_{3}^2 m^2+2 x_{3} m^2+m^2-s_{12} x_{3}",
-          "discriminantTeX": "\\left(2 m^2-s_{12}\\right)^2-4 m^4"
-        },
-        {
-          "label": "W^+_1",
-          "kind": "algebraic",
-          "pairIndex": 1,
-          "definition": "\\frac{1}{2} m^{-2} \\left(\\sqrt{-s_{12} \\left(4 m^2-s_{12}\\right)}-2 m^2+s_{12}\\right)",
-          "originalLetter": "W_1^+",
-          "polynomialTeX": "x_{3}^2 m^2+2 x_{3} m^2+m^2-s_{12} x_{3}",
-          "discriminantTeX": "\\left(2 m^2-s_{12}\\right)^2-4 m^4"
-        }
-      ],
-      "normalizedAlphabet": [
-        "W^-_1",
-        "W^+_1"
-      ],
-      "symbolScale": "s_{23}",
-      "normalizedSymbolTerms": 2,
-      "legOrder": [],
-      "findRoots": true,
-      "algebraicLetters": [
-        {
-          "index": 1,
-          "variable": "x3",
-          "polynomial": "mm + 2*mm*x3 - s12*x3 + mm*x3^2",
-          "LC": "mm",
-          "sum": "(-2*mm + s12)/mm",
-          "product": "1",
-          "discriminant": "-4*mm^2 + (2*mm - s12)^2",
-          "minusRoot": "(-2*mm + s12 - Sqrt[-((4*mm - s12)*s12)])/(2*mm)",
-          "plusRoot": "(-2*mm + s12 + Sqrt[-((4*mm - s12)*s12)])/(2*mm)",
-          "polynomialTeX": "x_{3}^2 m^2+2 x_{3} m^2+m^2-s_{12} x_{3}",
-          "discriminantTeX": "\\left(2 m^2-s_{12}\\right)^2-4 m^4",
-          "minusRootTeX": "\\frac{1}{2} m^{-2} \\left(-\\sqrt{-s_{12} \\left(4 m^2-s_{12}\\right)}-2 m^2+s_{12}\\right)",
-          "plusRootTeX": "\\frac{1}{2} m^{-2} \\left(\\sqrt{-s_{12} \\left(4 m^2-s_{12}\\right)}-2 m^2+s_{12}\\right)"
-        }
-      ]
-    },
-    {
-      "resultCompressed": "1:eJzNU80OwUAQrpZGvIVHwBNIHBx6kJI4L3Zlk61tTMXLC3Y6itptQ0S0h9nO7Hzf/G5/pWPR8jwP2kZMtdoIH7WeETFPFVvzsVIiLGxzvpccJixjEBiVpyDN4REIKSIJmeighmIhEw7yYj7yQNtMH/keUE0S15UICq6ZOsDjkrhOBnAD5xnAYEjncPREVoXOPfJyERPpbbUDXiwTif+fIFJCvJRUTsrif4eSrGFjOvvckxvs025bsN9m+d6sv9yY386fRK4+gPdnd9fig+J2lKAUhby76M0yqXdMEa9vp19aqdrpnO3pOItzTdzlUhWnXdTmXrryZhQ51NXq6FrajK79v0NXikeBTw==",
-      "resultTeX": "\\text{Hold}\\left[-\\frac{\\log \\left(-W_1^+\\right)-\\log \\left(-W_1^-\\right)}{m^2 (-4 m^2+s_{12}+s_{23}) \\left(W_1^--W_1^+\\right) \\varepsilon}-\\frac{\\left(\\log (m^2)-\\log \\left(\\frac{m^2}{-4 m^2+s_{12}+s_{23}}\\right)\\right) \\left(\\log \\left(-W_1^-\\right)-\\log \\left(-W_1^+\\right)\\right)}{m^2 (-4 m^2+s_{12}+s_{23}) \\left(W_1^--W_1^+\\right)}+O\\left(\\varepsilon^1\\right)\\text{/.}\\, \\left\\{W_1^-\\to \\frac{-\\sqrt{-(s_{12} (4 m^2-s_{12}))}-2 m^2+s_{12}}{2 m^2},W_1^+\\to \\frac{\\sqrt{-(s_{12} (4 m^2-s_{12}))}-2 m^2+s_{12}}{2 m^2}\\right\\}\\right]",
-      "dimension": "4 - 2*eps",
-      "epsOrder": 0,
-      "propExponents": [
-        1,
-        1,
-        1,
-        1
-      ],
-      "propagators": [],
-      "numerators": [],
-      "internalMasses": [],
-      "externalMasses": [],
-      "substitutions": "{}",
-      "normalization": "Automatic",
-      "stVersion": "SubTropica v1.0.379",
-      "stCommand": "STIntegrate[{{{{1, 3}, m}, {{1, 2}, 0}, {{2, 4}, m}, {{3, 4}, 0}}, {{1, m}, {2, m}, {3, m}, {4, m}}}, Dimension -> \"4 - 2*eps\", Order -> 0]",
-      "contributor": "SM",
-      "timestamp": "2026-04-19T19:02:15",
-      "byteCount": 5016,
-      "symbolTeX": "",
-      "alphabet": [],
-      "symbolWeight": 0,
-      "symbolTerms": 0,
-      "legOrder": [
-        1,
-        2,
-        3,
-        4
-      ]
-    }
-  ]
+	"CNickelIndex": "e12|e3|e3|e|:101|11|10|1|",
+	"MassScales": 3,
+	"FunctionClass": "MPL",
+	"EpsilonOrder": "-1,0,1,2",
+	"References": [
+		"arXiv:1401.4361 (JHEP 03 (071), 2014)",
+		"arXiv:1307.4083",
+		"arXiv:2305.01585 (JHEP 11 (202), 2023)",
+		"arXiv:2405.18178 (JHEP 09 (018), 2024)",
+		"arXiv:1401.2979 (JHEP 03 (082), 2014)"
+	],
+	"Records": [
+		{
+			"dimScheme": "d=4-2*eps",
+			"recordId": "bf_d5d9c6795a48",
+			"familyName": "box_2mass_opposite",
+			"verified": false,
+			"verifiedAt": "",
+			"authors": "Panzer, Erik",
+			"texkey": "Panzer:2014gra",
+			"computationLevel": "full",
+			"masterCount": 0,
+			"location": "Section 5.1, Eq.(5.2)",
+			"method": [],
+			"reference": "arXiv:1401.4361, JHEP 03 (071), 2014",
+			"ancillaryFiles": [],
+			"description": "One-loop box with two opposite internal masses, on-shell legs $p_i^2=-m^2$. Not linearly reducible in Schwinger parameters; restored by change of variables.",
+			"epsOrders": "-1,0,1,2",
+			"tools": [
+				"HyperInt"
+			],
+			"doi": "10.1007/JHEP03(2014)071"
+		},
+		{
+			"dimScheme": "d=4-2*eps",
+			"recordId": "bf_631e393df3c5",
+			"verified": false,
+			"verifiedAt": "",
+			"authors": "Henn, Johannes M., Smirnov, Vladimir A.",
+			"computationLevel": "full",
+			"texkey": "",
+			"masterCount": 5,
+			"reference": "arXiv:1307.4083",
+			"ancillaryFiles": [],
+			"description": "One-loop box for Bhabha scattering with alternating massive/massless propagators. 5 MIs to all orders in $\\varepsilon$ via canonical DEs in 2dHPLs.",
+			"familyName": "Bhabha 1-loop",
+			"location": "Eq. (3), Section 2.1",
+			"method": [],
+			"epsOrders": "all orders",
+			"tools": [
+				"FIRE"
+			],
+			"doi": ""
+		},
+		{
+			"reference": "arXiv:1401.2979 (JHEP 03 (082), 2014)",
+			"authors": "Argeri, Mario, Di Vita, Stefano, Mastrolia, Pierpaolo, Mirabella, Edoardo, Schlenk, Johannes, Schubert, Ulrich, Tancredi, Lorenzo",
+			"description": "One-loop massive Bhabha scattering family with 5 master integrals (tadpole $T_1$, two bubbles $T_2(t)$ and $T_3(s)$, one vertex $T_4(t)$, one box $T_5(s,t)$). Massive electron line, massless photon exchange. Canonical UT basis $g_1..g_5$ constructed via Magnus exponential of the $\\varepsilon^0$ part of the DE matrix; the resulting canonical system $d g = \\varepsilon d \\hat{A}_1 g$ is logarithmic in Landau variables $x,y$ defined by $s=-m^2(1-x)^2/x$ and $t=-m^2(1-y)^2/y$, with seven letters $\\{x,1+x,y,1+y,1-y,x+y,1+xy\\}$. Same MIs are reused as one-loop x one-loop subtopologies of the two-loop QED vertex family. Cross-checked against Henn-Smirnov 1307.4083.",
+			"epsOrders": "4",
+			"familyName": "One-Loop Bhabha scattering",
+			"method": "IBP, DE",
+			"tools": [
+				"Reduze",
+				"HPL"
+			],
+			"ancillaryFiles": false,
+			"doi": "10.1007/JHEP03(2014)082",
+			"texkey": "Argeri:2014qva",
+			"masterCount": 5,
+			"dimScheme": "d=4-2*eps",
+			"computationLevel": "full",
+			"location": "Section 4 (bhabha1L.tex), Eqs. (4.1)-(4.5), Figs. Diagrams1, Masters1",
+			"recordId": "bx_fd309c297925",
+			"verified": false,
+			"verifiedAt": ""
+		},
+		{
+			"authors": "Chestnov, Vsevolod, Matsubara-Heo, Saiei J., Munch, Henrik J., Takayama, Nobuki",
+			"texkey": "Chestnov:2023kww",
+			"verified": false,
+			"verifiedAt": "",
+			"reference": "arXiv:2305.01585, JHEP 11 (202), 2023",
+			"ancillaryFiles": [],
+			"recordId": "bf_c57fd55e0253",
+			"masterCount": 5,
+			"computationLevel": "DE_only",
+			"doi": "10.1007/JHEP11(2023)202",
+			"tools": [
+				"LiteRed",
+				"AMFlow",
+				"Mathematica"
+			],
+			"description": "One-loop box integral family contributing to Bhabha scattering in $d=4-2\\varepsilon$ dimensions. Two massive propagators ($D_1, D_3$ with electron mass $m$) and two massless propagators ($D_2, D_4$). All four external legs on-shell at $p_i^2=m^2$. Used to illustrate the logarithmic restriction algorithm: the small-mass expansion $m\\to 0$ is computed as a restriction $z_1=m^2/(-s)\\to 0$. The residue matrix eigenvalues $\\{0, -\\varepsilon\\}$ split the solution into a holomorphic piece (rank 3, eigenvalue 0) with a logarithmic correction (rank 2, eigenvalue $-\\varepsilon$). Both restricted subsystems are derived and solved.",
+			"epsOrders": "",
+			"method": [],
+			"dimScheme": "d = 4 - 2*epsilon",
+			"location": "Section 5.2 (sec:1L_bhabha); eq. 1L_bhabha_pfaffian_system, eq:bhabha_kinematics, eq:final_pfaffian",
+			"familyName": "1L Bhabha box"
+		},
+		{
+			"authors": "Crisanti, Giulio, Smith, Sid",
+			"texkey": "Crisanti:2024onv",
+			"verified": false,
+			"verifiedAt": "",
+			"reference": "arXiv:2405.18178, JHEP 09 (018), 2024",
+			"ancillaryFiles": [],
+			"recordId": "bf_2b04323d9add",
+			"masterCount": 4,
+			"computationLevel": "C-matrix",
+			"doi": "10.1007/JHEP09(2024)018",
+			"tools": [
+				"Mathematica",
+				"LiteRed",
+				"FiniteFlow"
+			],
+			"description": "One-loop box integral family for Bhabha scattering with two massive and two massless internal propagators and four equal-mass external legs. Used as a primary example to demonstrate the diagonal basis prescription for intersection numbers. On the double cut $\\{z_2, z_4\\}$, the Baikov polynomial is explicitly given and the C-matrix is computed in both the standard and diagonal prescriptions, yielding a $4\\times 4$ diagonal C-matrix. Also studied on a single cut $\\{z_1\\}$ where the massless propagators require a modification to the diagonal basis prescription.",
+			"epsOrders": "",
+			"method": [],
+			"dimScheme": "d",
+			"location": "Section 3.3.1, Eqs. around (3.24)-(3.37); Section 3.3.3, Eq. (3.52)",
+			"familyName": "one-loop two-mass Bhabha box"
+		}
+	],
+	"Names": [
+		"2-opposite-mass box",
+		"Box",
+		"D0",
+		"box_2mass_opposite",
+		"Bhabha 1-loop",
+		"1L Bhabha box",
+		"one-loop two-mass Bhabha box",
+		"One-Loop Bhabha scattering"
+	],
+	"Source": [
+		"arXiv",
+		"Loopedia"
+	],
+	"Loops": 1,
+	"NumPropagators": 4,
+	"edges": "{{{1, 2}, 0}, {{1, 3}, m}, {{2, 4}, m}, {{3, 4}, 0}}",
+	"nodes": "{{1, m}, {2, m}, {4, m}, {3, m}}",
+	"quadruple": "{E^(eps*EulerGamma)*Gamma[2 + eps], (x1 + x2 + x3 + x4)^(2*eps)*(-(mm*x2^2) - 2*mm*x2*x3 + s12*x2*x3 - mm*x3^2 + 4*mm*x1*x4 - s12*x1*x4 - s23*x1*x4)^(-2 - eps), {x1, x2, x3, x4}, {mm, s12, s23}}",
+	"CanonicalName": "Box, 2 massive propagators (d)",
+	"MassConfig": {
+		"numEdges": 4,
+		"numMassiveEdges": 2,
+		"numMasslessEdges": 2,
+		"distinctInternalMasses": 1,
+		"internalMassLabels": [
+			"m"
+		],
+		"edgeMassPattern": "0110",
+		"numExtLegs": 4,
+		"numOnshellMassiveExtLegs": 4,
+		"numMasslessExtLegs": 0,
+		"extLegSignature": "MMMM"
+	},
+	"commonNames": [
+		"D₀(2×m)",
+		"L1"
+	],
+	"Subsectors": [
+		"e12|e2|e|:100|22|2|"
+	],
+	"ParentSectors": [],
+	"Results": [
+		{
+			"resultCompressed": "1:eJxTTMoPSmNjYGAo5gISwalFmanFLoklicXMQG5qQXEmkGJIYwIpYAESPpnFJWkgRjErkAjJzE0thkiCuAH55alFxSBubm7mfyBAlwKZWWxkjCQHMiogpxTJELCZEBWMIDGQHp/8dNwKQBLhuZkgNik6CiA6UF2I5igM84kxEiLKSoMwQvYd1AjC4caMqQBDL0k2ExcTFMYnbWMHQoC5IAIAtbrDxw==",
+			"resultTeX": "\\frac{\\log \\left(-W_1^+\\right)-\\log \\left(-W_1^-\\right)}{\\varepsilon m^2 s_{23} \\left(W_1^--W_1^+\\right)}+\\frac{\\left(\\log (m^2)-\\log \\left(-\\frac{m^2}{s_{23}}\\right)\\right) \\left(\\log \\left(-W_1^-\\right)-\\log \\left(-W_1^+\\right)\\right)}{m^2 s_{23} \\left(W_1^--W_1^+\\right)}+O\\left(\\varepsilon^1\\right)",
+			"dimension": "4 - 2*eps",
+			"epsOrder": "0",
+			"epsOrders": "0",
+			"propExponents": [
+				1,
+				1,
+				1,
+				1
+			],
+			"propagators": [],
+			"numerators": [],
+			"internalMasses": [],
+			"externalMasses": [],
+			"substitutions": "",
+			"normalization": "Automatic",
+			"stVersion": "SubTropica v1.0.395",
+			"stCommand": "",
+			"contributor": "Sebastian Mizera",
+			"timestamp": "2026-04-19T22:30:31",
+			"verifiedAt": "2026-04-19T22:30:31",
+			"verified": true,
+			"method": "direct_integration",
+			"tools": [
+				"SubTropica"
+			],
+			"methodLR": "Lungo",
+			"byteCount": 2672,
+			"symbolTeX": "\\begin{aligned}\\varepsilon^{-1}&\\colon\\;-\\frac{m^{-2}}{s_{23} \\left(W_1^--W_1^+\\right)}\\,(W_1^-) + \\frac{m^{-2}}{s_{23} \\left(W_1^--W_1^+\\right)}\\,(W_1^+) \\\\ \\varepsilon^{0}&\\colon\\;\\frac{m^{-2}}{s_{23} \\left(W_1^--W_1^+\\right)}\\,(s_{23} \\otimes W_1^-) + \\frac{m^{-2}}{s_{23} \\left(W_1^--W_1^+\\right)}\\,(W_1^- \\otimes s_{23}) - \\frac{m^{-2}}{s_{23} \\left(W_1^--W_1^+\\right)}\\,(s_{23} \\otimes W_1^+) - \\frac{m^{-2}}{s_{23} \\left(W_1^--W_1^+\\right)}\\,(W_1^+ \\otimes s_{23})\\end{aligned}",
+			"alphabet": [
+				"W_1^-",
+				"W_1^+",
+				"s_{23}"
+			],
+			"symbolWeight": 2,
+			"symbolTerms": 6,
+			"normalizedSymbolTeX": "\\varepsilon^{-1}&\\colon\\;\\frac{m^{-2}}{s_{23} \\left(W_1^--W_1^+\\right)}\\!\\left[-(W^-_1) + (W^+_1)\\right]",
+			"wDefinitions": [
+				{
+					"label": "W^-_1",
+					"kind": "algebraic",
+					"pairIndex": 1,
+					"definition": "\\frac{1}{2} m^{-2} \\left(-\\sqrt{-s_{12} \\left(4 m^2-s_{12}\\right)}-2 m^2+s_{12}\\right)",
+					"originalLetter": "W_1^-",
+					"polynomialTeX": "x_{3}^2 m^2+2 x_{3} m^2+m^2-s_{12} x_{3}",
+					"discriminantTeX": "\\left(2 m^2-s_{12}\\right)^2-4 m^4"
+				},
+				{
+					"label": "W^+_1",
+					"kind": "algebraic",
+					"pairIndex": 1,
+					"definition": "\\frac{1}{2} m^{-2} \\left(\\sqrt{-s_{12} \\left(4 m^2-s_{12}\\right)}-2 m^2+s_{12}\\right)",
+					"originalLetter": "W_1^+",
+					"polynomialTeX": "x_{3}^2 m^2+2 x_{3} m^2+m^2-s_{12} x_{3}",
+					"discriminantTeX": "\\left(2 m^2-s_{12}\\right)^2-4 m^4"
+				}
+			],
+			"normalizedAlphabet": [
+				"W^-_1",
+				"W^+_1"
+			],
+			"symbolScale": "s_{23}",
+			"normalizedSymbolTerms": 2,
+			"legOrder": [],
+			"findRoots": true,
+			"algebraicLetters": [
+				{
+					"index": 1,
+					"variable": "x3",
+					"polynomial": "mm + 2*mm*x3 - s12*x3 + mm*x3^2",
+					"LC": "mm",
+					"sum": "(-2*mm + s12)/mm",
+					"product": "1",
+					"discriminant": "-4*mm^2 + (2*mm - s12)^2",
+					"minusRoot": "(-2*mm + s12 - Sqrt[-((4*mm - s12)*s12)])/(2*mm)",
+					"plusRoot": "(-2*mm + s12 + Sqrt[-((4*mm - s12)*s12)])/(2*mm)",
+					"polynomialTeX": "x_{3}^2 m^2+2 x_{3} m^2+m^2-s_{12} x_{3}",
+					"discriminantTeX": "\\left(2 m^2-s_{12}\\right)^2-4 m^4",
+					"minusRootTeX": "\\frac{1}{2} m^{-2} \\left(-\\sqrt{-s_{12} \\left(4 m^2-s_{12}\\right)}-2 m^2+s_{12}\\right)",
+					"plusRootTeX": "\\frac{1}{2} m^{-2} \\left(\\sqrt{-s_{12} \\left(4 m^2-s_{12}\\right)}-2 m^2+s_{12}\\right)"
+				}
+			]
+		}
+	]
 }

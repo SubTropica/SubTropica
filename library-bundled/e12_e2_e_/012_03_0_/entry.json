@@ -1,147 +1,146 @@
 {
-  "CNickelIndex": "e12|e2|e|:012|03|0|",
-  "MassScales": 3,
-  "FunctionClass": "rational",
-  "EpsilonOrder": "",
-  "References": [
-    "arXiv:2209.10962 (Lett.Math.Phys. 113 (37), 2023)",
-    "arXiv:2012.15646 (Phys.Rev.D 103 (), 2021)"
-  ],
-  "Records": [
-    {
-      "reference": "arXiv:2209.10962 (Lett.Math.Phys. 113 (37), 2023)",
-      "authors": "Lairez, Pierre, Vanhove, Pierre",
-      "description": "One-loop triangle in $D=2$ with 3 generic masses and 3 external momenta. Picard-Fuchs operator is order 1 with regular certificate. Certificate with extra poles leads to subtleties.",
-      "epsOrders": "",
-      "familyName": "zero-scoop ice-cream cone (triangle)",
-      "method": "DE",
-      "tools": [],
-      "ancillaryFiles": true,
-      "doi": "10.1007/s11005-023-01661-3",
-      "texkey": "Lairez:2022zkj",
-      "masterCount": 0,
-      "dimScheme": "d=2",
-      "computationLevel": "DE_only",
-      "location": "Section 4.1",
-      "recordId": "bx_4ad58549a583",
-      "verified": false,
-      "verifiedAt": ""
-    },
-    {
-      "reference": "arXiv:2012.15646 (Phys.Rev.D 103 (), 2021)",
-      "authors": "Ananthanarayan, B., Banik, Sumit, Friot, Samuel, Ghosh, Shayan",
-      "description": "Massive one-loop conformal 3-point (triangle) Feynman integral in dual-coordinate (x-space) representation with three distinct internal masses $m_1, m_2, m_3$ and generic (noninteger) propagator powers $a_1, a_2, a_3$ subject to the conformal constraint $a_1+a_2+a_3=D$. Evaluated via a threefold Mellin-Barnes representation using the conic hull method. Two sets of conformal variables (Set 1: $u,v,w$ for region A; Set 2: $u',v',w'$ for region B) yield 14 analytic continuation series representations each, built from 17 building blocks. Set 1 gives the Srivastava $H_C$ triple hypergeometric series and its analytic continuations in terms of $G_C$ and other triple series. Set 2 gives an alternative form involving half-integer arguments and Srivastava $H_B$ via a new quadratic transformation of $H_C$. Five independent series representations $S_1$-$S_5$ (resp. $S'_1$-$S'_5$) with explicit convergence regions $R_1$-$R_5$ (resp. $R'_1$-$R'_5$) are tabulated. Twelve spurious zeros of the Yangian bootstrap approach are identified and removed.",
-      "epsOrders": "",
-      "familyName": "massive_conformal_triangle / massive_conformal_triangle_unit",
-      "method": "Mellin-Barnes",
-      "tools": [
-        "MultivariateResidues"
-      ],
-      "ancillaryFiles": true,
-      "doi": "10.1103/PhysRevD.103.096008",
-      "texkey": "Ananthanarayan:2020xpd",
-      "masterCount": 0,
-      "dimScheme": "",
-      "computationLevel": "full",
-      "location": "Eq.(3), Eqs.(6)-(9), Sec.3-4, Appendix A.1-A.2",
-      "recordId": "bx_f265ca311442",
-      "verified": false,
-      "verifiedAt": ""
-    }
-  ],
-  "Names": [
-    "zero-scoop ice-cream cone (triangle)",
-    "massive_conformal_triangle",
-    "massive_conformal_triangle_unit"
-  ],
-  "Source": [
-    "arXiv"
-  ],
-  "Loops": 1,
-  "NumPropagators": 3,
-  "Results": [
-    {
-      "resultCompressed": "1:eJxTTMoPSmNjYGAo5gISwalFmanFLoklicXMQG5qQXEmkGJIYwQpYAESPpnFJWksMF5ATmlxGjuIxwokQjJzU4sz/wMBRD3IBJ/89DQmFAUQOZBYbm4miI2QD8gvTy1CkQdRSCbi0cWE4ibcqtEdidciJupbxAy3iGhzmUgzlw1LcFMhKhAW0C0qhlrIo4vSKipoFULDKBNgRAUtSykyvDPS4wNcrYAdByYApZZ2LA==",
-      "resultTeX": "\\left(\\frac{m_3^2 m_2^2 \\log \\left(m_1^2 m_2^{-2}\\right)}{\\left(m_1^2-m_2^2\\right) \\left(m_1^2-m_3^2\\right) \\left(m_2^2-m_3^2\\right)}-\\frac{m_3^2 m_2^2 \\log \\left(m_1^2 m_3^{-2}\\right)}{\\left(m_1^2-m_2^2\\right) \\left(m_1^2-m_3^2\\right) \\left(m_2^2-m_3^2\\right)}-\\frac{m_1^2 m_2^2 \\log \\left(m_1^2 m_2^{-2}\\right)}{\\left(m_1^2-m_2^2\\right) \\left(m_1^2-m_3^2\\right) \\left(m_2^2-m_3^2\\right)}+\\frac{m_1^2 m_3^2 \\log \\left(m_1^2 m_3^{-2}\\right)}{\\left(m_1^2-m_2^2\\right) \\left(m_1^2-m_3^2\\right) \\left(m_2^2-m_3^2\\right)}\\right)+O\\left(\\varepsilon^1\\right)",
-      "dimension": "4 - 2*eps",
-      "epsOrder": "0",
-      "epsOrders": "0",
-      "propExponents": [
-        1,
-        1,
-        1
-      ],
-      "propagators": [],
-      "numerators": [],
-      "internalMasses": [],
-      "externalMasses": [],
-      "substitutions": "",
-      "rootSubstitutions": "{}",
-      "normalization": "Automatic",
-      "stVersion": "SubTropica v1.0.280",
-      "stCommand": "",
-      "contributor": "Sebastian Mizera",
-      "timestamp": "2026-04-14T11:06:16",
-      "verifiedAt": "2026-04-14T11:06:16",
-      "verified": true,
-      "method": "direct_integration",
-      "tools": [
-        "SubTropica"
-      ],
-      "methodLR": "Lungo",
-      "byteCount": 6336,
-      "symbolTeX": "\\varepsilon^{0}\\colon\\;-\\frac{m_1^2}{\\left(m_1^2-m_2^2\\right) \\left(m_1^2-m_3^2\\right)}\\,(m_1^2) + \\frac{m_2^2}{\\left(m_1^2-m_2^2\\right) \\left(m_2^2-m_3^2\\right)}\\,(m_2^2) + \\frac{m_3^2}{\\left(m_1^2-m_3^2\\right) \\left(m_3^2-m_2^2\\right)}\\,(m_3^2)",
-      "alphabet": [
-        "m_1^2",
-        "m_2^2",
-        "m_3^2"
-      ],
-      "symbolWeight": 1,
-      "symbolTerms": 3,
-      "normalizedSymbolTeX": "\\varepsilon^{0}&\\colon\\;\\frac{1}{\\left(m_1^2-m_2^2\\right) \\left(m_1^2-m_3^2\\right) \\left(m_2^2-m_3^2\\right)}\\!\\left[m_2^2 \\left(m_1^2-m_3^2\\right)\\,(W_1) - \\left(\\left(m_1^2-m_2^2\\right) m_3^2\\right)\\,(W_2)\\right]",
-      "wDefinitions": [
-        {
-          "label": "W_1",
-          "definition": "\\frac{m_2^2}{m_1^2}",
-          "originalLetter": "m_2^2"
-        },
-        {
-          "label": "W_2",
-          "definition": "\\frac{m_3^2}{m_1^2}",
-          "originalLetter": "m_3^2"
-        }
-      ],
-      "normalizedAlphabet": [
-        "W_1",
-        "W_2"
-      ],
-      "symbolScale": "m_1^2",
-      "normalizedSymbolTerms": 2,
-      "legOrder": []
-    }
-  ],
-  "edges": "{{{1, 2}, m[1]}, {{1, 3}, m[2]}, {{2, 3}, m[3]}}",
-  "nodes": "{{1, 0}, {2, 0}, {3, 0}}",
-  "CanonicalName": "3-mass triangle (a)",
-  "MassConfig": {
-    "numEdges": 3,
-    "numMassiveEdges": 3,
-    "numMasslessEdges": 0,
-    "distinctInternalMasses": 3,
-    "internalMassLabels": [
-      "m[1]",
-      "m[2]",
-      "m[3]"
-    ],
-    "edgeMassPattern": "123",
-    "numExtLegs": 3,
-    "numOnshellMassiveExtLegs": 0,
-    "numMasslessExtLegs": 3,
-    "extLegSignature": "000"
-  },
-  "commonNames": [
-    "C₀(3 masses)"
-  ],
-  "Subsectors": [],
-  "ParentSectors": []
+	"CNickelIndex": "e12|e2|e|:012|03|0|",
+	"MassScales": 3,
+	"FunctionClass": "rational",
+	"EpsilonOrder": "",
+	"References": [
+		"arXiv:2209.10962 (Lett.Math.Phys. 113 (37), 2023)",
+		"arXiv:2012.15646 (Phys.Rev.D 103 (), 2021)"
+	],
+	"Records": [
+		{
+			"reference": "arXiv:2209.10962 (Lett.Math.Phys. 113 (37), 2023)",
+			"authors": "Lairez, Pierre, Vanhove, Pierre",
+			"description": "One-loop triangle in $D=2$ with 3 generic masses and 3 external momenta. Picard-Fuchs operator is order 1 with regular certificate. Certificate with extra poles leads to subtleties.",
+			"epsOrders": "",
+			"familyName": "zero-scoop ice-cream cone (triangle)",
+			"method": "DE",
+			"tools": [],
+			"ancillaryFiles": true,
+			"doi": "10.1007/s11005-023-01661-3",
+			"texkey": "Lairez:2022zkj",
+			"masterCount": 0,
+			"dimScheme": "d=2",
+			"computationLevel": "DE_only",
+			"location": "Section 4.1",
+			"recordId": "bx_4ad58549a583",
+			"verified": false,
+			"verifiedAt": ""
+		},
+		{
+			"reference": "arXiv:2012.15646 (Phys.Rev.D 103 (), 2021)",
+			"authors": "Ananthanarayan, B., Banik, Sumit, Friot, Samuel, Ghosh, Shayan",
+			"description": "Massive one-loop conformal 3-point (triangle) Feynman integral in dual-coordinate (x-space) representation with three distinct internal masses $m_1, m_2, m_3$ and generic (noninteger) propagator powers $a_1, a_2, a_3$ subject to the conformal constraint $a_1+a_2+a_3=D$. Evaluated via a threefold Mellin-Barnes representation using the conic hull method. Two sets of conformal variables (Set 1: $u,v,w$ for region A; Set 2: $u',v',w'$ for region B) yield 14 analytic continuation series representations each, built from 17 building blocks. Set 1 gives the Srivastava $H_C$ triple hypergeometric series and its analytic continuations in terms of $G_C$ and other triple series. Set 2 gives an alternative form involving half-integer arguments and Srivastava $H_B$ via a new quadratic transformation of $H_C$. Five independent series representations $S_1$-$S_5$ (resp. $S'_1$-$S'_5$) with explicit convergence regions $R_1$-$R_5$ (resp. $R'_1$-$R'_5$) are tabulated. Twelve spurious zeros of the Yangian bootstrap approach are identified and removed.",
+			"epsOrders": "",
+			"familyName": "massive_conformal_triangle / massive_conformal_triangle_unit",
+			"method": "Mellin-Barnes",
+			"tools": [
+				"MultivariateResidues"
+			],
+			"ancillaryFiles": true,
+			"doi": "10.1103/PhysRevD.103.096008",
+			"texkey": "Ananthanarayan:2020xpd",
+			"masterCount": 0,
+			"dimScheme": "",
+			"computationLevel": "full",
+			"location": "Eq.(3), Eqs.(6)-(9), Sec.3-4, Appendix A.1-A.2",
+			"recordId": "bx_f265ca311442",
+			"verified": false,
+			"verifiedAt": ""
+		}
+	],
+	"Names": [
+		"zero-scoop ice-cream cone (triangle)",
+		"massive_conformal_triangle",
+		"massive_conformal_triangle_unit"
+	],
+	"Source": [
+		"arXiv"
+	],
+	"Loops": 1,
+	"NumPropagators": 3,
+	"Results": [
+		{
+			"resultCompressed": "1:eJxTTMoPSmNjYGAo5gISwalFmanFLoklicXMQG5qQXEmkGJIYwQpYAESPpnFJWksMF5ATmlxGjuIxwokQjJzU4sz/wMBRD3IBJ/89DQmFAUQOZBYbm4miI2QD8gvTy1CkQdRSCbi0cWE4ibcqtEdidciJupbxAy3iGhzmUgzlw1LcFMhKhAW0C0qhlrIo4vSKipoFULDKBNgRAUtSykyvDPS4wNcrYAdByYApZZ2LA==",
+			"resultTeX": "\\left(\\frac{m_3^2 m_2^2 \\log \\left(m_1^2 m_2^{-2}\\right)}{\\left(m_1^2-m_2^2\\right) \\left(m_1^2-m_3^2\\right) \\left(m_2^2-m_3^2\\right)}-\\frac{m_3^2 m_2^2 \\log \\left(m_1^2 m_3^{-2}\\right)}{\\left(m_1^2-m_2^2\\right) \\left(m_1^2-m_3^2\\right) \\left(m_2^2-m_3^2\\right)}-\\frac{m_1^2 m_2^2 \\log \\left(m_1^2 m_2^{-2}\\right)}{\\left(m_1^2-m_2^2\\right) \\left(m_1^2-m_3^2\\right) \\left(m_2^2-m_3^2\\right)}+\\frac{m_1^2 m_3^2 \\log \\left(m_1^2 m_3^{-2}\\right)}{\\left(m_1^2-m_2^2\\right) \\left(m_1^2-m_3^2\\right) \\left(m_2^2-m_3^2\\right)}\\right)+O\\left(\\varepsilon^1\\right)",
+			"dimension": "4 - 2*eps",
+			"epsOrder": "0",
+			"epsOrders": "0",
+			"propExponents": [
+				1,
+				1,
+				1
+			],
+			"propagators": [],
+			"numerators": [],
+			"internalMasses": [],
+			"externalMasses": [],
+			"substitutions": "",
+			"normalization": "Automatic",
+			"stVersion": "SubTropica v1.0.280",
+			"stCommand": "",
+			"contributor": "Sebastian Mizera",
+			"timestamp": "2026-04-14T11:06:16",
+			"verifiedAt": "2026-04-14T11:06:16",
+			"verified": true,
+			"method": "direct_integration",
+			"tools": [
+				"SubTropica"
+			],
+			"methodLR": "Lungo",
+			"byteCount": 6336,
+			"symbolTeX": "\\varepsilon^{0}\\colon\\;-\\frac{m_1^2}{\\left(m_1^2-m_2^2\\right) \\left(m_1^2-m_3^2\\right)}\\,(m_1^2) + \\frac{m_2^2}{\\left(m_1^2-m_2^2\\right) \\left(m_2^2-m_3^2\\right)}\\,(m_2^2) + \\frac{m_3^2}{\\left(m_1^2-m_3^2\\right) \\left(m_3^2-m_2^2\\right)}\\,(m_3^2)",
+			"alphabet": [
+				"m_1^2",
+				"m_2^2",
+				"m_3^2"
+			],
+			"symbolWeight": 1,
+			"symbolTerms": 3,
+			"normalizedSymbolTeX": "\\varepsilon^{0}&\\colon\\;\\frac{1}{\\left(m_1^2-m_2^2\\right) \\left(m_1^2-m_3^2\\right) \\left(m_2^2-m_3^2\\right)}\\!\\left[m_2^2 \\left(m_1^2-m_3^2\\right)\\,(W_1) - \\left(\\left(m_1^2-m_2^2\\right) m_3^2\\right)\\,(W_2)\\right]",
+			"wDefinitions": [
+				{
+					"label": "W_1",
+					"definition": "\\frac{m_2^2}{m_1^2}",
+					"originalLetter": "m_2^2"
+				},
+				{
+					"label": "W_2",
+					"definition": "\\frac{m_3^2}{m_1^2}",
+					"originalLetter": "m_3^2"
+				}
+			],
+			"normalizedAlphabet": [
+				"W_1",
+				"W_2"
+			],
+			"symbolScale": "m_1^2",
+			"normalizedSymbolTerms": 2,
+			"legOrder": []
+		}
+	],
+	"edges": "{{{1, 2}, m[1]}, {{1, 3}, m[2]}, {{2, 3}, m[3]}}",
+	"nodes": "{{1, 0}, {2, 0}, {3, 0}}",
+	"CanonicalName": "3-mass triangle (a)",
+	"MassConfig": {
+		"numEdges": 3,
+		"numMassiveEdges": 3,
+		"numMasslessEdges": 0,
+		"distinctInternalMasses": 3,
+		"internalMassLabels": [
+			"m[1]",
+			"m[2]",
+			"m[3]"
+		],
+		"edgeMassPattern": "123",
+		"numExtLegs": 3,
+		"numOnshellMassiveExtLegs": 0,
+		"numMasslessExtLegs": 3,
+		"extLegSignature": "000"
+	},
+	"commonNames": [
+		"C₀(3 masses)"
+	],
+	"Subsectors": [],
+	"ParentSectors": []
 }

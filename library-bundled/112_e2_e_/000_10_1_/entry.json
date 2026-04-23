@@ -1,103 +1,102 @@
 {
-  "CNickelIndex": "112|e2|e|:000|10|1|",
-  "MassScales": 0,
-  "FunctionClass": "MPL",
-  "EpsilonOrder": "",
-  "References": [
-    "arXiv:2407.18051 (JHEP 09 (213), 2025)"
-  ],
-  "Records": [
-    {
-      "reference": "arXiv:2407.18051 (JHEP 09 (213), 2025)",
-      "authors": "Kermanschah, Dario, Vicini, Matilde",
-      "description": "Two-loop massless triangle master integral $\\operatorname{Tri}(p^2)$. A massless bubble subgraph ($l$-loop) inserted into a one-loop bubble ($k$-loop). Used in integrated two-loop $N_f$ IR counterterms.",
-      "epsOrders": "",
-      "familyName": "Tri",
-      "method": "direct_integration",
-      "tools": [],
-      "ancillaryFiles": true,
-      "doi": "10.1007/JHEP09(2025)213",
-      "texkey": "Kermanschah:2024utt",
-      "masterCount": 0,
-      "dimScheme": "d=4-2*eps",
-      "computationLevel": "full",
-      "location": "eq. (A.7)",
-      "recordId": "bx_4b8dc920a44c",
-      "verified": false,
-      "verifiedAt": ""
-    }
-  ],
-  "Names": [
-    "Tri"
-  ],
-  "Source": [
-    "arXiv"
-  ],
-  "Loops": 2,
-  "NumPropagators": 4,
-  "Results": [
-    {
-      "resultCompressed": "1:eJyVUdEKwjAMrJs68dUv8Fv0cYMx/YEKrQQ2O5ZNxV8X1CSWwaQy7cOVS66Xa7s+uMLOlVK4JNiZBgxudasxJmpqBNqUZYJTghSwtRGzBUGhW3AnXcKECEQDZV52GFDOeqX0mO6hMl6aEGxcVZfmKoPhSQu5lcPHAWlZHixRU3cUXZbZZCTC6r8I95EIfS13F9N4ZchfnIKJ419ySNXnCJkMc4Qk3y89eB++1Vvae1S3s1TgwT35bYYXd5N+DA==",
-      "resultTeX": "\\frac{1}{2 \\varepsilon^2}+\\frac{-\\log \\left(M^2\\right)-i \\pi +\\frac{5}{2}}{\\varepsilon}+\\left(\\log ^2\\left(M^2\\right)+2 i \\pi  \\log \\left(M^2\\right)-5 \\log \\left(M^2\\right)-\\frac{\\zeta(2)}{2}-\\pi ^2-5 i \\pi +\\frac{19}{2}\\right)+O\\left(\\varepsilon^1\\right)",
-      "dimension": "4 - 2*eps",
-      "epsOrder": "0",
-      "epsOrders": "0",
-      "propExponents": [
-        1,
-        1,
-        1,
-        1
-      ],
-      "propagators": [],
-      "numerators": [],
-      "internalMasses": [],
-      "externalMasses": [],
-      "substitutions": "",
-      "rootSubstitutions": "{}",
-      "normalization": "Automatic",
-      "stVersion": "SubTropica v1.0.293",
-      "stCommand": "",
-      "contributor": "Sebastian Mizera",
-      "timestamp": "2026-04-15T15:55:59",
-      "verifiedAt": "2026-04-15T15:55:59",
-      "verified": true,
-      "method": "direct_integration",
-      "tools": [
-        "SubTropica"
-      ],
-      "methodLR": "Lungo",
-      "findRoots": false,
-      "byteCount": 1616
-    }
-  ],
-  "edges": "{{{1, 2}, 0}, {{1, 2}, 0}, {{1, 3}, 0}, {{2, 3}, 0}}",
-  "nodes": "{{2, M}, {3, M}}",
-  "CanonicalName": "Massless parachute",
-  "MassConfig": {
-    "numEdges": 4,
-    "numMassiveEdges": 0,
-    "numMasslessEdges": 4,
-    "distinctInternalMasses": 0,
-    "internalMassLabels": [],
-    "edgeMassPattern": "0000",
-    "numExtLegs": 2,
-    "numOnshellMassiveExtLegs": 2,
-    "numMasslessExtLegs": 0,
-    "extLegSignature": "MM"
-  },
-  "commonNames": [
-    "U"
-  ],
-  "Subsectors": [
-    "e111|e|:1000|1|",
-    "e11|e|:100|1|"
-  ],
-  "ParentSectors": [
-    "1122|3|e3|e|:0000|0|10|1|",
-    "1123|e|33|e|:0000|1|00|1|",
-    "112|3|e3|e|:000|0|10|1|",
-    "112|e23|3|e|:000|100|0|1|",
-    "112|e3|33|e|:000|10|00|1|",
-    "123|23|e|e|:000|00|1|1|"
-  ]
+	"CNickelIndex": "112|e2|e|:000|10|1|",
+	"MassScales": 0,
+	"FunctionClass": "MPL",
+	"EpsilonOrder": "",
+	"References": [
+		"arXiv:2407.18051 (JHEP 09 (213), 2025)"
+	],
+	"Records": [
+		{
+			"reference": "arXiv:2407.18051 (JHEP 09 (213), 2025)",
+			"authors": "Kermanschah, Dario, Vicini, Matilde",
+			"description": "Two-loop massless triangle master integral $\\operatorname{Tri}(p^2)$. A massless bubble subgraph ($l$-loop) inserted into a one-loop bubble ($k$-loop). Used in integrated two-loop $N_f$ IR counterterms.",
+			"epsOrders": "",
+			"familyName": "Tri",
+			"method": "direct_integration",
+			"tools": [],
+			"ancillaryFiles": true,
+			"doi": "10.1007/JHEP09(2025)213",
+			"texkey": "Kermanschah:2024utt",
+			"masterCount": 0,
+			"dimScheme": "d=4-2*eps",
+			"computationLevel": "full",
+			"location": "eq. (A.7)",
+			"recordId": "bx_4b8dc920a44c",
+			"verified": false,
+			"verifiedAt": ""
+		}
+	],
+	"Names": [
+		"Tri"
+	],
+	"Source": [
+		"arXiv"
+	],
+	"Loops": 2,
+	"NumPropagators": 4,
+	"Results": [
+		{
+			"resultCompressed": "1:eJyVUdEKwjAMrJs68dUv8Fv0cYMx/YEKrQQ2O5ZNxV8X1CSWwaQy7cOVS66Xa7s+uMLOlVK4JNiZBgxudasxJmpqBNqUZYJTghSwtRGzBUGhW3AnXcKECEQDZV52GFDOeqX0mO6hMl6aEGxcVZfmKoPhSQu5lcPHAWlZHixRU3cUXZbZZCTC6r8I95EIfS13F9N4ZchfnIKJ419ySNXnCJkMc4Qk3y89eB++1Vvae1S3s1TgwT35bYYXd5N+DA==",
+			"resultTeX": "\\frac{1}{2 \\varepsilon^2}+\\frac{-\\log \\left(M^2\\right)-i \\pi +\\frac{5}{2}}{\\varepsilon}+\\left(\\log ^2\\left(M^2\\right)+2 i \\pi  \\log \\left(M^2\\right)-5 \\log \\left(M^2\\right)-\\frac{\\zeta(2)}{2}-\\pi ^2-5 i \\pi +\\frac{19}{2}\\right)+O\\left(\\varepsilon^1\\right)",
+			"dimension": "4 - 2*eps",
+			"epsOrder": "0",
+			"epsOrders": "0",
+			"propExponents": [
+				1,
+				1,
+				1,
+				1
+			],
+			"propagators": [],
+			"numerators": [],
+			"internalMasses": [],
+			"externalMasses": [],
+			"substitutions": "",
+			"normalization": "Automatic",
+			"stVersion": "SubTropica v1.0.293",
+			"stCommand": "",
+			"contributor": "Sebastian Mizera",
+			"timestamp": "2026-04-15T15:55:59",
+			"verifiedAt": "2026-04-15T15:55:59",
+			"verified": true,
+			"method": "direct_integration",
+			"tools": [
+				"SubTropica"
+			],
+			"methodLR": "Lungo",
+			"findRoots": false,
+			"byteCount": 1616
+		}
+	],
+	"edges": "{{{1, 2}, 0}, {{1, 2}, 0}, {{1, 3}, 0}, {{2, 3}, 0}}",
+	"nodes": "{{2, M}, {3, M}}",
+	"CanonicalName": "Massless parachute",
+	"MassConfig": {
+		"numEdges": 4,
+		"numMassiveEdges": 0,
+		"numMasslessEdges": 4,
+		"distinctInternalMasses": 0,
+		"internalMassLabels": [],
+		"edgeMassPattern": "0000",
+		"numExtLegs": 2,
+		"numOnshellMassiveExtLegs": 2,
+		"numMasslessExtLegs": 0,
+		"extLegSignature": "MM"
+	},
+	"commonNames": [
+		"U"
+	],
+	"Subsectors": [
+		"e111|e|:1000|1|",
+		"e11|e|:100|1|"
+	],
+	"ParentSectors": [
+		"1122|3|e3|e|:0000|0|10|1|",
+		"1123|e|33|e|:0000|1|00|1|",
+		"112|3|e3|e|:000|0|10|1|",
+		"112|e23|3|e|:000|100|0|1|",
+		"112|e3|33|e|:000|10|00|1|",
+		"123|23|e|e|:000|00|1|1|"
+	]
 }

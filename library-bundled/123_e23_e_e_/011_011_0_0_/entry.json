@@ -1,137 +1,136 @@
 {
-  "CNickelIndex": "123|e23|e|e|:011|011|0|0|",
-  "MassScales": 1,
-  "FunctionClass": "hypergeometric",
-  "EpsilonOrder": "",
-  "References": [
-    "arXiv:1901.11510 (JHEP 05 (153), 2019)",
-    "arXiv:2008.03045 (Phys.Lett.B 814 (), 2021)"
-  ],
-  "Records": [
-    {
-      "reference": "arXiv:1901.11510 (JHEP 05 (153), 2019)",
-      "authors": "Frellesvig, Hjalte, Gasparotto, Federico, Laporta, Stefano, Mandal, Manoj K., Mastrolia, Pierpaolo, Mattiazzi, Luca, Mizera, Sebastian",
-      "description": "Planar two-loop double-triangle with four equal-mass and one massless propagator, two on-shell external legs $p_1, p_2$. The loop-by-loop Baikov $u$ contains an integer power of $z$ that is regularised via $z^{-1} \\to z^{\\rho-1}$ ($\\rho \\to 0$). On the penta-cut there are 2 masters; reduction of dotted integrals such as $I_{1,1,1,1,1;-2} = -(s/2) I_{1,1,1,1,1;-1}$ is obtained from a mixed monomial/dlog basis via intersection numbers, in agreement with LiteRed.",
-      "epsOrders": "",
-      "familyName": "Planar Double Triangle",
-      "method": "intersection",
-      "tools": [
-        "LiteRed"
-      ],
-      "ancillaryFiles": false,
-      "doi": "10.1007/JHEP05(2019)153",
-      "texkey": "Frellesvig:2019kgj",
-      "masterCount": 2,
-      "dimScheme": "d=D",
-      "computationLevel": "maximal_cut",
-      "location": "Section 11, Eqs. (11.1)-(11.16), Fig. 10",
-      "recordId": "bx_4dad6d5ccfba",
-      "verified": false,
-      "verifiedAt": ""
-    },
-    {
-      "reference": "arXiv:2008.03045 (Phys.Lett.B 814 (), 2021)",
-      "authors": [
-        {
-          "full_name": "Chen, Jiaqi",
-          "inspire_id": 1849049
-        },
-        {
-          "full_name": "Jiang, Xuhang",
-          "inspire_id": 1849050
-        },
-        {
-          "full_name": "Xu, Xiaofeng",
-          "inspire_id": 1764994
-        },
-        {
-          "full_name": "Yang, Li Lin",
-          "inspire_id": 1031254
-        }
-      ],
-      "description": "Two-loop triangle with 7 propagators (5 active in top topology). Internal mass $m$, external masses $m_1^2, m_2^2$. Canonical basis constructed via dlog integrals and intersection theory.",
-      "epsOrders": "",
-      "familyName": "Two-loop four-scale triangle",
-      "method": "intersection, DE",
-      "tools": [],
-      "ancillaryFiles": false,
-      "doi": "10.1016/j.physletb.2021.136085",
-      "texkey": "",
-      "masterCount": 4,
-      "dimScheme": "d=4-2*eps",
-      "computationLevel": "basis",
-      "location": "Sec. 3-4, Supplemental Sec. S3",
-      "recordId": "bx_02ac4740e8d6",
-      "verified": false,
-      "verifiedAt": ""
-    }
-  ],
-  "Names": [
-    "planar double triangle",
-    "Two-loop four-scale triangle"
-  ],
-  "Source": [
-    "arXiv"
-  ],
-  "Loops": 2,
-  "NumPropagators": 5,
-  "Results": [
-    {
-      "resultCompressed": "1:eJxTTMoPSmNjYGAo5gISwalFmanFLoklicXMQG5qQXEmkGJIYwQpYAESPpnFJWlMIB4rkAjJzE0tzvwPBAixgPzy1KJiEDc3FywFNiGTEUYAAO8LG9k=",
-      "resultTeX": "-\\frac{1}{m^2}+O\\left(\\varepsilon^1\\right)",
-      "dimension": "4 - 2*eps",
-      "epsOrder": "0",
-      "epsOrders": "0",
-      "propExponents": [
-        1,
-        1,
-        1,
-        1,
-        1
-      ],
-      "propagators": [],
-      "numerators": [],
-      "internalMasses": [],
-      "externalMasses": [],
-      "substitutions": "",
-      "rootSubstitutions": "{}",
-      "normalization": "Automatic",
-      "stVersion": "SubTropica v1.0.293",
-      "stCommand": "",
-      "contributor": "Sebastian Mizera",
-      "timestamp": "2026-04-15T16:19:20",
-      "verifiedAt": "2026-04-15T16:19:20",
-      "verified": true,
-      "method": "direct_integration",
-      "tools": [
-        "SubTropica"
-      ],
-      "methodLR": "Lungo",
-      "findRoots": false,
-      "byteCount": 344
-    }
-  ],
-  "edges": "{{{1, 2}, 0}, {{1, 3}, m}, {{1, 4}, m}, {{2, 3}, m}, {{2, 4}, m}}",
-  "nodes": "{{2, 0}, {3, 0}, {4, 0}}",
-  "CanonicalName": "Double triangle, 4 massive propagators (b-a)",
-  "MassConfig": {
-    "numEdges": 5,
-    "numMassiveEdges": 4,
-    "numMasslessEdges": 1,
-    "distinctInternalMasses": 1,
-    "internalMassLabels": [
-      "m"
-    ],
-    "edgeMassPattern": "01111",
-    "numExtLegs": 3,
-    "numOnshellMassiveExtLegs": 0,
-    "numMasslessExtLegs": 3,
-    "extLegSignature": "000"
-  },
-  "Subsectors": [],
-  "ParentSectors": [
-    "123|24|e|e4|e|:011|11|0|01|0|",
-    "123|e4|e4|e4||:011|00|01|01||",
-    "123|e4|e4|e4||:011|00|01|02||"
-  ]
+	"CNickelIndex": "123|e23|e|e|:011|011|0|0|",
+	"MassScales": 1,
+	"FunctionClass": "hypergeometric",
+	"EpsilonOrder": "",
+	"References": [
+		"arXiv:1901.11510 (JHEP 05 (153), 2019)",
+		"arXiv:2008.03045 (Phys.Lett.B 814 (), 2021)"
+	],
+	"Records": [
+		{
+			"reference": "arXiv:1901.11510 (JHEP 05 (153), 2019)",
+			"authors": "Frellesvig, Hjalte, Gasparotto, Federico, Laporta, Stefano, Mandal, Manoj K., Mastrolia, Pierpaolo, Mattiazzi, Luca, Mizera, Sebastian",
+			"description": "Planar two-loop double-triangle with four equal-mass and one massless propagator, two on-shell external legs $p_1, p_2$. The loop-by-loop Baikov $u$ contains an integer power of $z$ that is regularised via $z^{-1} \\to z^{\\rho-1}$ ($\\rho \\to 0$). On the penta-cut there are 2 masters; reduction of dotted integrals such as $I_{1,1,1,1,1;-2} = -(s/2) I_{1,1,1,1,1;-1}$ is obtained from a mixed monomial/dlog basis via intersection numbers, in agreement with LiteRed.",
+			"epsOrders": "",
+			"familyName": "Planar Double Triangle",
+			"method": "intersection",
+			"tools": [
+				"LiteRed"
+			],
+			"ancillaryFiles": false,
+			"doi": "10.1007/JHEP05(2019)153",
+			"texkey": "Frellesvig:2019kgj",
+			"masterCount": 2,
+			"dimScheme": "d=D",
+			"computationLevel": "maximal_cut",
+			"location": "Section 11, Eqs. (11.1)-(11.16), Fig. 10",
+			"recordId": "bx_4dad6d5ccfba",
+			"verified": false,
+			"verifiedAt": ""
+		},
+		{
+			"reference": "arXiv:2008.03045 (Phys.Lett.B 814 (), 2021)",
+			"authors": [
+				{
+					"full_name": "Chen, Jiaqi",
+					"inspire_id": 1849049
+				},
+				{
+					"full_name": "Jiang, Xuhang",
+					"inspire_id": 1849050
+				},
+				{
+					"full_name": "Xu, Xiaofeng",
+					"inspire_id": 1764994
+				},
+				{
+					"full_name": "Yang, Li Lin",
+					"inspire_id": 1031254
+				}
+			],
+			"description": "Two-loop triangle with 7 propagators (5 active in top topology). Internal mass $m$, external masses $m_1^2, m_2^2$. Canonical basis constructed via dlog integrals and intersection theory.",
+			"epsOrders": "",
+			"familyName": "Two-loop four-scale triangle",
+			"method": "intersection, DE",
+			"tools": [],
+			"ancillaryFiles": false,
+			"doi": "10.1016/j.physletb.2021.136085",
+			"texkey": "",
+			"masterCount": 4,
+			"dimScheme": "d=4-2*eps",
+			"computationLevel": "basis",
+			"location": "Sec. 3-4, Supplemental Sec. S3",
+			"recordId": "bx_02ac4740e8d6",
+			"verified": false,
+			"verifiedAt": ""
+		}
+	],
+	"Names": [
+		"planar double triangle",
+		"Two-loop four-scale triangle"
+	],
+	"Source": [
+		"arXiv"
+	],
+	"Loops": 2,
+	"NumPropagators": 5,
+	"Results": [
+		{
+			"resultCompressed": "1:eJxTTMoPSmNjYGAo5gISwalFmanFLoklicXMQG5qQXEmkGJIYwQpYAESPpnFJWlMIB4rkAjJzE0tzvwPBAixgPzy1KJiEDc3FywFNiGTEUYAAO8LG9k=",
+			"resultTeX": "-\\frac{1}{m^2}+O\\left(\\varepsilon^1\\right)",
+			"dimension": "4 - 2*eps",
+			"epsOrder": "0",
+			"epsOrders": "0",
+			"propExponents": [
+				1,
+				1,
+				1,
+				1,
+				1
+			],
+			"propagators": [],
+			"numerators": [],
+			"internalMasses": [],
+			"externalMasses": [],
+			"substitutions": "",
+			"normalization": "Automatic",
+			"stVersion": "SubTropica v1.0.293",
+			"stCommand": "",
+			"contributor": "Sebastian Mizera",
+			"timestamp": "2026-04-15T16:19:20",
+			"verifiedAt": "2026-04-15T16:19:20",
+			"verified": true,
+			"method": "direct_integration",
+			"tools": [
+				"SubTropica"
+			],
+			"methodLR": "Lungo",
+			"findRoots": false,
+			"byteCount": 344
+		}
+	],
+	"edges": "{{{1, 2}, 0}, {{1, 3}, m}, {{1, 4}, m}, {{2, 3}, m}, {{2, 4}, m}}",
+	"nodes": "{{2, 0}, {3, 0}, {4, 0}}",
+	"CanonicalName": "Double triangle, 4 massive propagators (b-a)",
+	"MassConfig": {
+		"numEdges": 5,
+		"numMassiveEdges": 4,
+		"numMasslessEdges": 1,
+		"distinctInternalMasses": 1,
+		"internalMassLabels": [
+			"m"
+		],
+		"edgeMassPattern": "01111",
+		"numExtLegs": 3,
+		"numOnshellMassiveExtLegs": 0,
+		"numMasslessExtLegs": 3,
+		"extLegSignature": "000"
+	},
+	"Subsectors": [],
+	"ParentSectors": [
+		"123|24|e|e4|e|:011|11|0|01|0|",
+		"123|e4|e4|e4||:011|00|01|01||",
+		"123|e4|e4|e4||:011|00|01|02||"
+	]
 }

@@ -1,123 +1,122 @@
 {
-  "CNickelIndex": "e12|e2|e|:000|01|1|",
-  "MassScales": 1,
-  "FunctionClass": "MPL",
-  "EpsilonOrder": "",
-  "References": [
-    "arXiv:1806.04920 (Phys.Rev.Lett. 121 (), 2018)",
-    "arXiv:1502.06595 (Comput.Phys.Commun. 196 (470), 2015)"
-  ],
-  "Records": [
-    {
-      "reference": "arXiv:1806.04920 (Phys.Rev.Lett. 121 (), 2018)",
-      "authors": "Bjerrum-Bohr, N.E. J., Damgaard, Poul H., Festuccia, Guido, Planté, Ludovic, Vanhove, Pierre",
-      "description": "One-loop scalar triangle integral with one massive propagator (mass $m_1=\\sqrt{p_1^2}$) and two massless propagators, finite in $d=4$. Defined in the main text (line 168) as the building block for the classical part of the one-loop two-graviton scattering amplitude $M_2$ in Eq. (e:one). Fully evaluated in closed form in Appendix A using a Feynman parametric representation: integration over $x_1$ yields a logarithmic integrand, and integration over $x_2$ gives a result expressed via dilogarithms $\\operatorname{Li}_2$ and logarithms involving the variables $\\rho_\\pm = -1/2 \\pm (1/2)\\sqrt{1 - 4 p_1^2/q^2}$. The large-mass limit $|q^2|/|p_1^2| \\ll 1$ gives $I = (i/(32 q^2))\\sqrt{-q^2/p_1^2} + \\mathcal{O}(q^2/p_1^2)$, reproducing the leading classical contribution to general relativity through Eq. (e:Triresult).",
-      "epsOrders": "",
-      "familyName": "I_triangleright (one-loop massive triangle)",
-      "method": "direct_integration",
-      "tools": [],
-      "ancillaryFiles": false,
-      "doi": "10.1103/PhysRevLett.121.171601",
-      "texkey": "Bjerrum-Bohr:2018xdl",
-      "masterCount": 1,
-      "dimScheme": "d=4",
-      "computationLevel": "full",
-      "location": "Eq. between (1)-(2) at line 168 (main text) and Appendix A (Eqs. (A.1)-(A.5))",
-      "recordId": "bx_3654178b57bb",
-      "verified": false,
-      "verifiedAt": ""
-    },
-    {
-      "reference": "arXiv:1502.06595 (Comput.Phys.Commun. 196 (470), 2015)",
-      "authors": "Borowka, S., Heinrich, G., Jones, S.P., Kerner, M., Schlenk, J., Zirke, T.",
-      "description": "One-loop three-point function with one massive propagator and one off-shell leg ($p_3^2=s$). Demonstrates the user-defined integrand setup of SecDec-3.0 by feeding the three primary-sector parametric integrands $G_{i,user}(z_1,z_2)$ of Eqs. (17a-c) directly via functionlist, bypassing the standard Feynman-parameter pipeline. Total runtime 7 s.",
-      "epsOrders": "0",
-      "familyName": "10_userdefined_triangle_1L",
-      "method": "sector_decomposition, direct_integration",
-      "tools": [
-        "SecDec"
-      ],
-      "ancillaryFiles": false,
-      "doi": "10.1016/j.cpc.2015.05.022",
-      "texkey": "Borowka:2015mxa",
-      "masterCount": 0,
-      "dimScheme": "d=4-2*eps",
-      "computationLevel": "numerical",
-      "location": "Section 5.10, Fig. 14, Eqs. (17a-c)",
-      "recordId": "bx_cc067a5017a6",
-      "verified": false,
-      "verifiedAt": ""
-    }
-  ],
-  "Names": [
-    "I_triangleright (one-loop massive triangle)",
-    "10_userdefined_triangle_1L"
-  ],
-  "Source": [
-    "arXiv"
-  ],
-  "Loops": 1,
-  "NumPropagators": 3,
-  "Results": [
-    {
-      "resultCompressed": "1:eJxTTMoPSmNjYGAo5gISwalFmanFLoklicXMQG5qQXEmkGJIA3GKWYCET2ZxSRoTiMcKJEIyc1OLIVwOIBGUWJKZn5eYk/kfCDJBwgilAfnlqUXFIG5uLlgeYiY+UxiBHIKmgBSB3eqTnw6VINJkCQImM8H8HJBTWozmZyQVqJoDMtFcDFH+C1M5NpeD9Wb+A4Ue2IkgAgDnyGTm",
-      "resultTeX": "-\\frac{1}{2 \\varepsilon^2 m^2}+\\frac{\\log (m^2)}{2 \\varepsilon m^2}+\\frac{-6 \\log ^2(m^2)-\\pi ^2}{24 m^2}+O\\left(\\varepsilon^1\\right)",
-      "dimension": "4 - 2*eps",
-      "epsOrder": "0",
-      "epsOrders": "0",
-      "propExponents": [
-        1,
-        1,
-        1
-      ],
-      "propagators": [],
-      "numerators": [],
-      "internalMasses": [],
-      "externalMasses": [],
-      "substitutions": "",
-      "rootSubstitutions": "{}",
-      "normalization": "Automatic",
-      "stVersion": "SubTropica v1.0.298",
-      "stCommand": "",
-      "contributor": "Sebastian Mizera",
-      "timestamp": "2026-04-16T19:46:46",
-      "verifiedAt": "2026-04-16T19:46:46",
-      "verified": true,
-      "method": "direct_integration",
-      "tools": [
-        "SubTropica"
-      ],
-      "methodLR": "Lungo",
-      "byteCount": 1224,
-      "symbolTeX": "\\begin{aligned}\\varepsilon^{-1}&\\colon\\;\\frac{m^{-2}}{2}\\,(m^2) \\\\ \\varepsilon^{0}&\\colon\\;-\\frac{m^{-2}}{2}\\,(m^2 \\otimes m^2)\\end{aligned}",
-      "alphabet": [
-        "m^2"
-      ],
-      "symbolWeight": 2,
-      "symbolTerms": 2,
-      "legOrder": []
-    }
-  ],
-  "edges": "{{{1, 2}, 0}, {{1, 3}, 0}, {{2, 3}, m}}",
-  "nodes": "{{1, 0}, {2, 0}, {3, m}}",
-  "CanonicalName": "Triangle, 1 massive propagator (b)",
-  "MassConfig": {
-    "numEdges": 3,
-    "numMassiveEdges": 1,
-    "numMasslessEdges": 2,
-    "distinctInternalMasses": 1,
-    "internalMassLabels": [
-      "m"
-    ],
-    "edgeMassPattern": "001",
-    "numExtLegs": 3,
-    "numOnshellMassiveExtLegs": 1,
-    "numMasslessExtLegs": 2,
-    "extLegSignature": "00M"
-  },
-  "commonNames": [
-    "C₀(1×m)"
-  ],
-  "Subsectors": [],
-  "ParentSectors": []
+	"CNickelIndex": "e12|e2|e|:000|01|1|",
+	"MassScales": 1,
+	"FunctionClass": "MPL",
+	"EpsilonOrder": "",
+	"References": [
+		"arXiv:1806.04920 (Phys.Rev.Lett. 121 (), 2018)",
+		"arXiv:1502.06595 (Comput.Phys.Commun. 196 (470), 2015)"
+	],
+	"Records": [
+		{
+			"reference": "arXiv:1806.04920 (Phys.Rev.Lett. 121 (), 2018)",
+			"authors": "Bjerrum-Bohr, N.E. J., Damgaard, Poul H., Festuccia, Guido, Planté, Ludovic, Vanhove, Pierre",
+			"description": "One-loop scalar triangle integral with one massive propagator (mass $m_1=\\sqrt{p_1^2}$) and two massless propagators, finite in $d=4$. Defined in the main text (line 168) as the building block for the classical part of the one-loop two-graviton scattering amplitude $M_2$ in Eq. (e:one). Fully evaluated in closed form in Appendix A using a Feynman parametric representation: integration over $x_1$ yields a logarithmic integrand, and integration over $x_2$ gives a result expressed via dilogarithms $\\operatorname{Li}_2$ and logarithms involving the variables $\\rho_\\pm = -1/2 \\pm (1/2)\\sqrt{1 - 4 p_1^2/q^2}$. The large-mass limit $|q^2|/|p_1^2| \\ll 1$ gives $I = (i/(32 q^2))\\sqrt{-q^2/p_1^2} + \\mathcal{O}(q^2/p_1^2)$, reproducing the leading classical contribution to general relativity through Eq. (e:Triresult).",
+			"epsOrders": "",
+			"familyName": "I_triangleright (one-loop massive triangle)",
+			"method": "direct_integration",
+			"tools": [],
+			"ancillaryFiles": false,
+			"doi": "10.1103/PhysRevLett.121.171601",
+			"texkey": "Bjerrum-Bohr:2018xdl",
+			"masterCount": 1,
+			"dimScheme": "d=4",
+			"computationLevel": "full",
+			"location": "Eq. between (1)-(2) at line 168 (main text) and Appendix A (Eqs. (A.1)-(A.5))",
+			"recordId": "bx_3654178b57bb",
+			"verified": false,
+			"verifiedAt": ""
+		},
+		{
+			"reference": "arXiv:1502.06595 (Comput.Phys.Commun. 196 (470), 2015)",
+			"authors": "Borowka, S., Heinrich, G., Jones, S.P., Kerner, M., Schlenk, J., Zirke, T.",
+			"description": "One-loop three-point function with one massive propagator and one off-shell leg ($p_3^2=s$). Demonstrates the user-defined integrand setup of SecDec-3.0 by feeding the three primary-sector parametric integrands $G_{i,user}(z_1,z_2)$ of Eqs. (17a-c) directly via functionlist, bypassing the standard Feynman-parameter pipeline. Total runtime 7 s.",
+			"epsOrders": "0",
+			"familyName": "10_userdefined_triangle_1L",
+			"method": "sector_decomposition, direct_integration",
+			"tools": [
+				"SecDec"
+			],
+			"ancillaryFiles": false,
+			"doi": "10.1016/j.cpc.2015.05.022",
+			"texkey": "Borowka:2015mxa",
+			"masterCount": 0,
+			"dimScheme": "d=4-2*eps",
+			"computationLevel": "numerical",
+			"location": "Section 5.10, Fig. 14, Eqs. (17a-c)",
+			"recordId": "bx_cc067a5017a6",
+			"verified": false,
+			"verifiedAt": ""
+		}
+	],
+	"Names": [
+		"I_triangleright (one-loop massive triangle)",
+		"10_userdefined_triangle_1L"
+	],
+	"Source": [
+		"arXiv"
+	],
+	"Loops": 1,
+	"NumPropagators": 3,
+	"Results": [
+		{
+			"resultCompressed": "1:eJxTTMoPSmNjYGAo5gISwalFmanFLoklicXMQG5qQXEmkGJIA3GKWYCET2ZxSRoTiMcKJEIyc1OLIVwOIBGUWJKZn5eYk/kfCDJBwgilAfnlqUXFIG5uLlgeYiY+UxiBHIKmgBSB3eqTnw6VINJkCQImM8H8HJBTWozmZyQVqJoDMtFcDFH+C1M5NpeD9Wb+A4Ue2IkgAgDnyGTm",
+			"resultTeX": "-\\frac{1}{2 \\varepsilon^2 m^2}+\\frac{\\log (m^2)}{2 \\varepsilon m^2}+\\frac{-6 \\log ^2(m^2)-\\pi ^2}{24 m^2}+O\\left(\\varepsilon^1\\right)",
+			"dimension": "4 - 2*eps",
+			"epsOrder": "0",
+			"epsOrders": "0",
+			"propExponents": [
+				1,
+				1,
+				1
+			],
+			"propagators": [],
+			"numerators": [],
+			"internalMasses": [],
+			"externalMasses": [],
+			"substitutions": "",
+			"normalization": "Automatic",
+			"stVersion": "SubTropica v1.0.298",
+			"stCommand": "",
+			"contributor": "Sebastian Mizera",
+			"timestamp": "2026-04-16T19:46:46",
+			"verifiedAt": "2026-04-16T19:46:46",
+			"verified": true,
+			"method": "direct_integration",
+			"tools": [
+				"SubTropica"
+			],
+			"methodLR": "Lungo",
+			"byteCount": 1224,
+			"symbolTeX": "\\begin{aligned}\\varepsilon^{-1}&\\colon\\;\\frac{m^{-2}}{2}\\,(m^2) \\\\ \\varepsilon^{0}&\\colon\\;-\\frac{m^{-2}}{2}\\,(m^2 \\otimes m^2)\\end{aligned}",
+			"alphabet": [
+				"m^2"
+			],
+			"symbolWeight": 2,
+			"symbolTerms": 2,
+			"legOrder": []
+		}
+	],
+	"edges": "{{{1, 2}, 0}, {{1, 3}, 0}, {{2, 3}, m}}",
+	"nodes": "{{1, 0}, {2, 0}, {3, m}}",
+	"CanonicalName": "Triangle, 1 massive propagator (b)",
+	"MassConfig": {
+		"numEdges": 3,
+		"numMassiveEdges": 1,
+		"numMasslessEdges": 2,
+		"distinctInternalMasses": 1,
+		"internalMassLabels": [
+			"m"
+		],
+		"edgeMassPattern": "001",
+		"numExtLegs": 3,
+		"numOnshellMassiveExtLegs": 1,
+		"numMasslessExtLegs": 2,
+		"extLegSignature": "00M"
+	},
+	"commonNames": [
+		"C₀(1×m)"
+	],
+	"Subsectors": [],
+	"ParentSectors": []
 }

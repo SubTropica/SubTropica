@@ -1,136 +1,135 @@
 {
-  "CNickelIndex": "123|e4|e4|e4||:011|00|01|01||",
-  "MassScales": 1,
-  "FunctionClass": "elliptic",
-  "EpsilonOrder": "",
-  "References": [
-    "arXiv:2305.14090",
-    "arXiv:2110.07968 (JHEP 03 (079), 2022)"
-  ],
-  "Records": [
-    {
-      "reference": "arXiv:2305.14090",
-      "authors": [
-        {
-          "full_name": "Görges, Lennard",
-          "inspire_id": 2661968
-        },
-        {
-          "full_name": "Nega, Christoph",
-          "inspire_id": 1969299
-        },
-        {
-          "full_name": "Tancredi, Lorenzo",
-          "inspire_id": 1284289
-        },
-        {
-          "full_name": "Wagner, Fabian J.",
-          "inspire_id": 2606401
-        }
-      ],
-      "description": "Two-loop non-planar triangle with four massive and two massless propagators. Single dimensionless variable $z=-m^2/s$. Elliptic curve geometry in top sector. 9 polylogarithmic and 2 elliptic master integrals. No extra function $G$ needed for $\\varepsilon$-factorisation; only $\\varpi_0$ appears in the GM connection (not its derivative).",
-      "epsOrders": "",
-      "familyName": "non-planar triangle 1 (single-scale)",
-      "method": "DE",
-      "tools": [],
-      "ancillaryFiles": true,
-      "doi": "",
-      "texkey": "",
-      "masterCount": 11,
-      "dimScheme": "d=4-2*eps",
-      "computationLevel": "DE_only",
-      "location": "Section 3.1 (Sec3_Applications.tex), eq. (3.1)-(3.12)",
-      "recordId": "bx_4bf34f69050d",
-      "verified": false,
-      "verifiedAt": ""
-    },
-    {
-      "reference": "arXiv:2110.07968 (JHEP 03 (079), 2022)",
-      "authors": "Frellesvig, Hjalte",
-      "description": "Nonplanar double triangle with internal mass $m$ on four propagators, two massless propagators. 6 genuine propagators, 1 ISP. 11 master integrals total, 2 in the highest elliptic sector. $\\varepsilon$-factorized differential equations obtained with complete elliptic integrals $K$ and $E$.",
-      "epsOrders": "",
-      "familyName": "elliptic nonplanar double triangle",
-      "method": "IBP, DE",
-      "tools": [
-        "Kira"
-      ],
-      "ancillaryFiles": true,
-      "doi": "10.1007/JHEP03(2022)079",
-      "texkey": "Frellesvig:2021hkr",
-      "masterCount": 11,
-      "dimScheme": "d=4-2*eps",
-      "computationLevel": "full",
-      "location": "sec. 4.2",
-      "recordId": "bx_7ae328e426ab",
-      "verified": false,
-      "verifiedAt": ""
-    }
-  ],
-  "Names": [
-    "non-planar triangle 1 (single-scale)",
-    "elliptic nonplanar double triangle"
-  ],
-  "Source": [
-    "arXiv"
-  ],
-  "Loops": 2,
-  "NumPropagators": 6,
-  "Results": [
-    {
-      "resultCompressed": "1:eJyFj0EOwjAMBAOFCvgFf+HYQ1X4QJActFJDUB3E74F1KiJu9WGidey1fbymIbTOOT0QZ5kgevLZa0MpDwUfF9ZWsCE6aJ7Vlrggis5yRww+I939iA8DbW200j69ZFKTMeLN/9AsuawosF9wqZv141P/UtUYNieYVzmpS7dff9myDDF8AT+DQmA=",
-      "resultTeX": "-\\frac{1}{6 \\varepsilon m^2^2}+\\frac{3 \\log (m^2)-2}{9 m^2^2}+O\\left(\\varepsilon^1\\right)",
-      "dimension": "4 - 2*eps",
-      "epsOrder": "0",
-      "epsOrders": "0",
-      "propExponents": [
-        1,
-        1,
-        1,
-        1,
-        1,
-        1
-      ],
-      "propagators": [],
-      "numerators": [],
-      "internalMasses": [],
-      "externalMasses": [],
-      "substitutions": "",
-      "rootSubstitutions": "{}",
-      "normalization": "Automatic",
-      "stVersion": "SubTropica v1.0.293",
-      "stCommand": "",
-      "contributor": "Sebastian Mizera",
-      "timestamp": "2026-04-15T17:01:17",
-      "verifiedAt": "2026-04-15T17:01:17",
-      "verified": true,
-      "method": "direct_integration",
-      "tools": [
-        "SubTropica"
-      ],
-      "methodLR": "Lungo",
-      "findRoots": false,
-      "byteCount": 776
-    }
-  ],
-  "edges": "{{{1, 2}, 0}, {{1, 3}, m}, {{1, 4}, m}, {{2, 5}, 0}, {{3, 5}, m}, {{4, 5}, m}}",
-  "nodes": "{{2, 0}, {3, 0}, {4, 0}}",
-  "CanonicalName": "Non-planar double box, 4 massive propagators (a)",
-  "MassConfig": {
-    "numEdges": 6,
-    "numMassiveEdges": 4,
-    "numMasslessEdges": 2,
-    "distinctInternalMasses": 1,
-    "internalMassLabels": [
-      "m"
-    ],
-    "edgeMassPattern": "011011",
-    "numExtLegs": 3,
-    "numOnshellMassiveExtLegs": 0,
-    "numMasslessExtLegs": 3,
-    "extLegSignature": "000"
-  },
-  "Subsectors": [
-    "123|e23|e|e|:011|011|0|0|"
-  ],
-  "ParentSectors": []
+	"CNickelIndex": "123|e4|e4|e4||:011|00|01|01||",
+	"MassScales": 1,
+	"FunctionClass": "elliptic",
+	"EpsilonOrder": "",
+	"References": [
+		"arXiv:2305.14090",
+		"arXiv:2110.07968 (JHEP 03 (079), 2022)"
+	],
+	"Records": [
+		{
+			"reference": "arXiv:2305.14090",
+			"authors": [
+				{
+					"full_name": "Görges, Lennard",
+					"inspire_id": 2661968
+				},
+				{
+					"full_name": "Nega, Christoph",
+					"inspire_id": 1969299
+				},
+				{
+					"full_name": "Tancredi, Lorenzo",
+					"inspire_id": 1284289
+				},
+				{
+					"full_name": "Wagner, Fabian J.",
+					"inspire_id": 2606401
+				}
+			],
+			"description": "Two-loop non-planar triangle with four massive and two massless propagators. Single dimensionless variable $z=-m^2/s$. Elliptic curve geometry in top sector. 9 polylogarithmic and 2 elliptic master integrals. No extra function $G$ needed for $\\varepsilon$-factorisation; only $\\varpi_0$ appears in the GM connection (not its derivative).",
+			"epsOrders": "",
+			"familyName": "non-planar triangle 1 (single-scale)",
+			"method": "DE",
+			"tools": [],
+			"ancillaryFiles": true,
+			"doi": "",
+			"texkey": "",
+			"masterCount": 11,
+			"dimScheme": "d=4-2*eps",
+			"computationLevel": "DE_only",
+			"location": "Section 3.1 (Sec3_Applications.tex), eq. (3.1)-(3.12)",
+			"recordId": "bx_4bf34f69050d",
+			"verified": false,
+			"verifiedAt": ""
+		},
+		{
+			"reference": "arXiv:2110.07968 (JHEP 03 (079), 2022)",
+			"authors": "Frellesvig, Hjalte",
+			"description": "Nonplanar double triangle with internal mass $m$ on four propagators, two massless propagators. 6 genuine propagators, 1 ISP. 11 master integrals total, 2 in the highest elliptic sector. $\\varepsilon$-factorized differential equations obtained with complete elliptic integrals $K$ and $E$.",
+			"epsOrders": "",
+			"familyName": "elliptic nonplanar double triangle",
+			"method": "IBP, DE",
+			"tools": [
+				"Kira"
+			],
+			"ancillaryFiles": true,
+			"doi": "10.1007/JHEP03(2022)079",
+			"texkey": "Frellesvig:2021hkr",
+			"masterCount": 11,
+			"dimScheme": "d=4-2*eps",
+			"computationLevel": "full",
+			"location": "sec. 4.2",
+			"recordId": "bx_7ae328e426ab",
+			"verified": false,
+			"verifiedAt": ""
+		}
+	],
+	"Names": [
+		"non-planar triangle 1 (single-scale)",
+		"elliptic nonplanar double triangle"
+	],
+	"Source": [
+		"arXiv"
+	],
+	"Loops": 2,
+	"NumPropagators": 6,
+	"Results": [
+		{
+			"resultCompressed": "1:eJyFj0EOwjAMBAOFCvgFf+HYQ1X4QJActFJDUB3E74F1KiJu9WGidey1fbymIbTOOT0QZ5kgevLZa0MpDwUfF9ZWsCE6aJ7Vlrggis5yRww+I939iA8DbW200j69ZFKTMeLN/9AsuawosF9wqZv141P/UtUYNieYVzmpS7dff9myDDF8AT+DQmA=",
+			"resultTeX": "-\\frac{1}{6 \\varepsilon m^2^2}+\\frac{3 \\log (m^2)-2}{9 m^2^2}+O\\left(\\varepsilon^1\\right)",
+			"dimension": "4 - 2*eps",
+			"epsOrder": "0",
+			"epsOrders": "0",
+			"propExponents": [
+				1,
+				1,
+				1,
+				1,
+				1,
+				1
+			],
+			"propagators": [],
+			"numerators": [],
+			"internalMasses": [],
+			"externalMasses": [],
+			"substitutions": "",
+			"normalization": "Automatic",
+			"stVersion": "SubTropica v1.0.293",
+			"stCommand": "",
+			"contributor": "Sebastian Mizera",
+			"timestamp": "2026-04-15T17:01:17",
+			"verifiedAt": "2026-04-15T17:01:17",
+			"verified": true,
+			"method": "direct_integration",
+			"tools": [
+				"SubTropica"
+			],
+			"methodLR": "Lungo",
+			"findRoots": false,
+			"byteCount": 776
+		}
+	],
+	"edges": "{{{1, 2}, 0}, {{1, 3}, m}, {{1, 4}, m}, {{2, 5}, 0}, {{3, 5}, m}, {{4, 5}, m}}",
+	"nodes": "{{2, 0}, {3, 0}, {4, 0}}",
+	"CanonicalName": "Non-planar double box, 4 massive propagators (a)",
+	"MassConfig": {
+		"numEdges": 6,
+		"numMassiveEdges": 4,
+		"numMasslessEdges": 2,
+		"distinctInternalMasses": 1,
+		"internalMassLabels": [
+			"m"
+		],
+		"edgeMassPattern": "011011",
+		"numExtLegs": 3,
+		"numOnshellMassiveExtLegs": 0,
+		"numMasslessExtLegs": 3,
+		"extLegSignature": "000"
+	},
+	"Subsectors": [
+		"123|e23|e|e|:011|011|0|0|"
+	],
+	"ParentSectors": []
 }

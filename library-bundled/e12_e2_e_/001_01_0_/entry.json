@@ -1,96 +1,95 @@
 {
-  "CNickelIndex": "e12|e2|e|:001|01|0|",
-  "MassScales": 1,
-  "FunctionClass": "MPL",
-  "EpsilonOrder": "-2,-1,0",
-  "References": [
-    "arXiv:2002.03262 (JHEP 04 (055), 2020)"
-  ],
-  "Records": [
-    {
-      "dimScheme": "d=4-2*eps",
-      "recordId": "bf_be4e459d3a8c",
-      "familyName": "Q8g dipole triangle",
-      "verified": false,
-      "verifiedAt": "",
-      "authors": "Bell, Guido, Beneke, Martin, Huber, Tobias, Li, Xin-Qiang",
-      "texkey": "Bell:2020qus",
-      "computationLevel": "full",
-      "masterCount": 1,
-      "location": "Eq. (3.10)",
-      "transcendentalWeight": 2,
-      "method": [],
-      "reference": "arXiv:2002.03262, JHEP 04 (055), 2020",
-      "ancillaryFiles": [],
-      "description": "One-loop triangle from chromomagnetic dipole operator $Q_{8g}$. 3 propagators (2 massive with $m_b$). 1 MI, weight 2.",
-      "epsOrders": "-2,-1,0",
-      "tools": [],
-      "doi": "10.1007/JHEP04(2020)055"
-    }
-  ],
-  "Names": [
-    "Q8g dipole triangle"
-  ],
-  "Source": [
-    "arXiv"
-  ],
-  "Loops": 1,
-  "NumPropagators": 3,
-  "Results": [
-    {
-      "resultCompressed": "1:eJxTTMoPSmNjYGAo5gISwalFmanFLoklicXMQG5qQXEmkGJIYwQpYAESPpnFJWlMIB4rkAjJzE0tzvwPBAixgPzy1KJiEDc3FywFNiGTEUYAAO8LG9k=",
-      "resultTeX": "-\\frac{1}{m^2}+O\\left(\\varepsilon^1\\right)",
-      "dimension": "4 - 2*eps",
-      "epsOrder": "0",
-      "epsOrders": "0",
-      "propExponents": [
-        1,
-        1,
-        1
-      ],
-      "propagators": [],
-      "numerators": [],
-      "internalMasses": [],
-      "externalMasses": [],
-      "substitutions": "",
-      "rootSubstitutions": "{}",
-      "normalization": "Automatic",
-      "stVersion": "SubTropica v1.0.293",
-      "stCommand": "",
-      "contributor": "Sebastian Mizera",
-      "timestamp": "2026-04-15T15:51:36",
-      "verifiedAt": "2026-04-15T15:51:36",
-      "verified": true,
-      "method": "direct_integration",
-      "tools": [
-        "SubTropica"
-      ],
-      "methodLR": "Lungo",
-      "findRoots": false,
-      "byteCount": 344
-    }
-  ],
-  "edges": "{{{1, 2}, 0}, {{1, 3}, m}, {{2, 3}, m}}",
-  "nodes": "{{1, 0}, {2, 0}, {3, 0}}",
-  "quadruple": "{E^(eps*EulerGamma)*Gamma[1 + eps], (x1 + x2 + x3)^(-1 + 2*eps)*(-(mm*(x2 + x3)*(x1 + x2 + x3)))^(-1 - eps), {x1, x2, x3}, {mm}}",
-  "CanonicalName": "Triangle, 2 massive propagators (a)",
-  "MassConfig": {
-    "numEdges": 3,
-    "numMassiveEdges": 2,
-    "numMasslessEdges": 1,
-    "distinctInternalMasses": 1,
-    "internalMassLabels": [
-      "m"
-    ],
-    "edgeMassPattern": "011",
-    "numExtLegs": 3,
-    "numOnshellMassiveExtLegs": 0,
-    "numMasslessExtLegs": 3,
-    "extLegSignature": "000"
-  },
-  "commonNames": [
-    "C₀(2×m)"
-  ],
-  "Subsectors": [],
-  "ParentSectors": []
+	"CNickelIndex": "e12|e2|e|:001|01|0|",
+	"MassScales": 1,
+	"FunctionClass": "MPL",
+	"EpsilonOrder": "-2,-1,0",
+	"References": [
+		"arXiv:2002.03262 (JHEP 04 (055), 2020)"
+	],
+	"Records": [
+		{
+			"dimScheme": "d=4-2*eps",
+			"recordId": "bf_be4e459d3a8c",
+			"familyName": "Q8g dipole triangle",
+			"verified": false,
+			"verifiedAt": "",
+			"authors": "Bell, Guido, Beneke, Martin, Huber, Tobias, Li, Xin-Qiang",
+			"texkey": "Bell:2020qus",
+			"computationLevel": "full",
+			"masterCount": 1,
+			"location": "Eq. (3.10)",
+			"transcendentalWeight": 2,
+			"method": [],
+			"reference": "arXiv:2002.03262, JHEP 04 (055), 2020",
+			"ancillaryFiles": [],
+			"description": "One-loop triangle from chromomagnetic dipole operator $Q_{8g}$. 3 propagators (2 massive with $m_b$). 1 MI, weight 2.",
+			"epsOrders": "-2,-1,0",
+			"tools": [],
+			"doi": "10.1007/JHEP04(2020)055"
+		}
+	],
+	"Names": [
+		"Q8g dipole triangle"
+	],
+	"Source": [
+		"arXiv"
+	],
+	"Loops": 1,
+	"NumPropagators": 3,
+	"Results": [
+		{
+			"resultCompressed": "1:eJxTTMoPSmNjYGAo5gISwalFmanFLoklicXMQG5qQXEmkGJIYwQpYAESPpnFJWlMIB4rkAjJzE0tzvwPBAixgPzy1KJiEDc3FywFNiGTEUYAAO8LG9k=",
+			"resultTeX": "-\\frac{1}{m^2}+O\\left(\\varepsilon^1\\right)",
+			"dimension": "4 - 2*eps",
+			"epsOrder": "0",
+			"epsOrders": "0",
+			"propExponents": [
+				1,
+				1,
+				1
+			],
+			"propagators": [],
+			"numerators": [],
+			"internalMasses": [],
+			"externalMasses": [],
+			"substitutions": "",
+			"normalization": "Automatic",
+			"stVersion": "SubTropica v1.0.293",
+			"stCommand": "",
+			"contributor": "Sebastian Mizera",
+			"timestamp": "2026-04-15T15:51:36",
+			"verifiedAt": "2026-04-15T15:51:36",
+			"verified": true,
+			"method": "direct_integration",
+			"tools": [
+				"SubTropica"
+			],
+			"methodLR": "Lungo",
+			"findRoots": false,
+			"byteCount": 344
+		}
+	],
+	"edges": "{{{1, 2}, 0}, {{1, 3}, m}, {{2, 3}, m}}",
+	"nodes": "{{1, 0}, {2, 0}, {3, 0}}",
+	"quadruple": "{E^(eps*EulerGamma)*Gamma[1 + eps], (x1 + x2 + x3)^(-1 + 2*eps)*(-(mm*(x2 + x3)*(x1 + x2 + x3)))^(-1 - eps), {x1, x2, x3}, {mm}}",
+	"CanonicalName": "Triangle, 2 massive propagators (a)",
+	"MassConfig": {
+		"numEdges": 3,
+		"numMassiveEdges": 2,
+		"numMasslessEdges": 1,
+		"distinctInternalMasses": 1,
+		"internalMassLabels": [
+			"m"
+		],
+		"edgeMassPattern": "011",
+		"numExtLegs": 3,
+		"numOnshellMassiveExtLegs": 0,
+		"numMasslessExtLegs": 3,
+		"extLegSignature": "000"
+	},
+	"commonNames": [
+		"C₀(2×m)"
+	],
+	"Subsectors": [],
+	"ParentSectors": []
 }

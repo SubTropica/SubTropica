@@ -1,308 +1,307 @@
 {
-  "CNickelIndex": "e12|e3|e4|e4|e|:000|00|00|00|1|",
-  "MassScales": 6,
-  "FunctionClass": "MPL",
-  "EpsilonOrder": "0",
-  "References": [
-    "arXiv:2005.04195",
-    "arXiv:hep-ph/0106243",
-    "arXiv:2204.12983"
-  ],
-  "Records": [
-    {
-      "ancillaryPaths": [
-        "anc/1loop/pureBasis-1loop.m"
-      ],
-      "dimScheme": "d=4-2*eps",
-      "recordId": "bf_eb1ba5fc5427",
-      "familyName": "1loop pentagon",
-      "verified": false,
-      "verifiedAt": "",
-      "authors": "Abreu, Samuel, Ita, Harald, Moriello, Francesco, Page, Ben, Tschernow, Wladimir, Zeng, Mao",
-      "computationLevel": "full",
-      "texkey": "",
-      "masterCount": 13,
-      "location": "Section 2, ancillary file anc/1loop/",
-      "transcendentalWeight": 4,
-      "method": [],
-      "reference": "arXiv:2005.04195",
-      "ancillaryFiles": [],
-      "description": "One-loop massless pentagon for five-point one-mass kinematics. 5 massless propagators, 13 MIs. Captures bubble-pentagon factorized contributions.",
-      "epsOrders": "-1,0,1,2,3,4",
-      "tools": [
-        "Kira",
-        "pySecDec"
-      ],
-      "doi": ""
-    },
-    {
-      "reference": "arXiv:hep-ph/0106243",
-      "authors": [
-        {
-          "full_name": "Binoth, T.",
-          "inspire_id": 1016306
-        },
-        {
-          "full_name": "Guillet, J.P.",
-          "inspire_id": 1007287
-        },
-        {
-          "full_name": "Heinrich, G.",
-          "inspire_id": 1006298
-        },
-        {
-          "full_name": "Schubert, C.",
-          "inspire_id": 989669
-        }
-      ],
-      "description": "One-loop scalar pentagon with five massless internal lines and one off-shell external leg, $I_5^n(p_{12},p_3,p_4,p_5,p_6)$. Explicit pole and finite parts through $\\mathcal{O}(\\varepsilon^0)$ given in terms of dilogarithms. Reduction (red5) expresses it as a combination of 1-mass and 2-mass boxes.",
-      "epsOrders": "0",
-      "familyName": "massless 1-loop pentagon with one off-shell leg",
-      "method": "direct_integration",
-      "tools": [],
-      "ancillaryFiles": false,
-      "doi": "",
-      "texkey": "",
-      "masterCount": 0,
-      "dimScheme": "d=4-2*eps",
-      "computationLevel": "full",
-      "location": "Appendix Eqs. (red5), (pentapole)",
-      "recordId": "bx_82ba4fc957cd",
-      "verified": false,
-      "verifiedAt": ""
-    },
-    {
-      "reference": "arXiv:2204.12983",
-      "authors": [
-        {
-          "full_name": "Chestnov, Vsevolod",
-          "inspire_id": 1760381
-        },
-        {
-          "full_name": "Gasparotto, Federico",
-          "inspire_id": 1945756
-        },
-        {
-          "full_name": "Mandal, Manoj K.",
-          "inspire_id": 1247611
-        },
-        {
-          "full_name": "Mastrolia, Pierpaolo",
-          "inspire_id": 1025886
-        },
-        {
-          "full_name": "Matsubara-Heo, Saiei J.",
-          "inspire_id": 2016791
-        },
-        {
-          "full_name": "Munch, Henrik J.",
-          "inspire_id": 2000628
-        },
-        {
-          "full_name": "Takayama, Nobuki",
-          "inspire_id": 2072902
-        }
-      ],
-      "description": "One-loop massless pentagon with one off-shell external leg $p_5^2 = p^2$. Lee-Pomeransky polynomial has 11 terms corresponding to $A_5$ matrix ($6\\times 11$). After using homogeneity to fix 6 variables, 5 independent GKZ variables remain (ratios of Mandelstam invariants). GKZ rank 13 matching number of master integrals. Pfaffian matrices verified against LiteRed.",
-      "epsOrders": "",
-      "familyName": "one-loop one-mass pentagon",
-      "method": "Macaulay-matrix, Pfaffian-system, canonical-basis",
-      "tools": [
-        "Risa/Asir",
-        "FiniteFlow",
-        "LiteRed"
-      ],
-      "ancillaryFiles": true,
-      "doi": "",
-      "texkey": "",
-      "masterCount": 13,
-      "dimScheme": "",
-      "computationLevel": "full",
-      "location": "Section 5.3, eq. (5.35)-(5.42)",
-      "recordId": "bx_8f76eef366ea",
-      "verified": false,
-      "verifiedAt": ""
-    }
-  ],
-  "Source": [
-    "SubTropica",
-    "arXiv"
-  ],
-  "Results": [
-    {
-      "resultCompressed": "1:eJztXEtO3EAQHWCGRBEHiLLLEfjdIIssQEIkF5hIA7I0ZCJMEim73JYDZMUiiT+06U+1/bpd/cEMi0Eej6te1+d1dbnt9182l1f7s9msfFN9fFrdFqvyw/JuWe5Vh6tvZVH9m13VB+W8+jgryrv254vq43NxsyqvdsXhxebn6ra5sDw8Kv5Vf/S5U/u5o2P7ueMT+7mTR5kd0Iv1dwlZA1RoENLI04enQiB5+vikO/0qXyuo59pDm1Hqw/Nzgbc1YHe2EaePvNXxThG6T1ymSjasv1P/rw/ONtcaKEltBQmVLbmOXbbkd1j2nIw+m1N3hdjROoQd5AhXg6T+GtehhkQffh59vLHUl5jCXoFcBanmje5hldWwwgQNpJoarcWpyHC7mOljyjDOhVQv1Ev8/dqFS582XjKDVC4IlUzxBOkPz02slvdL4laSMhfrkUVqwfyMaBtMWzeVvbkjCowwLAWpBtIWm3x6yUZoC5G2AyqtacvFiwP6Y6Utk+X9Kg0jkSrD9aWt29SHaHtNXFF/d7m8KzZfl+vm18WBzcxTXr78VoTaA4Ey80UhZQMRIwzSpImCQZoUUSqrDkoA+cBRKkjj/SwhSfUmEM22bwk/qOFnWN4eZ08XflxvroudDovoo7StFTKee1MAwEDS29PohFc7icakaBuW8/CIhOwfHACltza5B2qvoND1xhEOvXHQwMyfC/QFAd0lt3MZh8pcTfR4s0kuY0LDSm+FpuAqSyl2jzQGcgNNTR/Z0OYjZkslKhs8gwR2GAdK/87B7gddLpgcoR/Y8jRS9IyFnjLyWbF7U0147AsbdrBQz3Qcf3JiH5dxzM1xZFk+ZEFLKgLudb1uhT0H8dpZfcIAtJMFgRTWY2lxazuuCnCKtoszLbxgO7JOS9O3Y/xpcfo2pfhx5LQcoZh4cX5hWQptHRPDMR4FxdYx/LPsU6XHVK1snRTSSUyl0NZJ/HWW9U4+R521dRj/nPRgK+KoXeotanQbLXmD26qP2vYeUp/dK276NJbaFxc7TSXsyl0o0lf53FQ+LvV9gajPQdjXJe5b/9k3Vzv3RVIBbQ7ZeAFBQEb0g1dlxoxJiy9rO5prg7ybN1sk0uWVpaiMIKH67fSLBdnfyKps5mcGnJtyqYBak9hrskUQDCQx+7SEYxpMCbfNr3DsmwXc8O79JLMEBJQ3S8fyig9kqDuWI2Y+M1P0GyIwGK0cAjLazvYiSwQBuWDBu7dhcTwgBBkCR7wFFY6JNx+VJczoJ79QSvZ5gJj5qTTnFl40oFrQjWpjpbIub7WHIIjQccFhxCs6cUxpWiQ4vkwWXcbsXrmKuWxjxRa0pwkAIPNOav5xFA4wDObKj6fGG74DG2/l7gPUrL7CVYGPEGJ3lHFMaPXl82qXsQ/wJq2+3B4udr7LHQ1ontWXm+dHRiVPWyFqsKaAnEf3Jl3epcUf4xU9DPgj0Umy+OdjGaOoQyqZpCQTATE3x4SAHJFiosLnZ5gQ8BMRTARP8G4HQhDY17IDpBEBBv70FDMO6yosUA/cA5PfkynMmLT+Wh290fprCL5MdiYZxGG8PBbbmx4LW1BSAgCA/bVRN8RgGGgFGKg42SND32b35rDb0ape2ypRoZOZpW9ZTX1v+TmYgPnVbRmaIOAemUmZI0EJnYE5tOpk1POeEzMN74LcVE3cmc7cBGNX+NO0QYAXX+dmg4Btk2nZI/BrjnO1B7HGDTGLPEvbMG/zST+iMLsons24HFevuYxLS1HWB4SyHyNDqy2XMcbaGpfLeNF3mlGtwJtfP9yEUPv1bEKQd/5iSIZo00NKX03aSdHS5d6VEhwkutZFnUTOt/wa0ou/dZjVXzcf/wF+ei6g",
-      "resultTeX": "\\frac{s_{15} s_{45}+s_{23} s_{34}+s_{34} s_{45}}{\\varepsilon^2 s_{12} s_{15} s_{23} s_{34} s_{45}}+\\frac{-s_{12} s_{23} s_{34} M^2 \\log \\left(\\frac{s_{15}}{s_{12}}\\right)-s_{12} s_{15} s_{45} M^2 \\log \\left(\\frac{s_{23}}{s_{12}}\\right)+s_{12} s_{15} s_{34} s_{45} \\log \\left(s_{34} M^{-2}\\right)-s_{12} s_{34} s_{45} M^2 \\log \\left(\\frac{s_{15}}{s_{34}}\\right)+s_{12} s_{15} s_{45} M^2 \\log \\left(\\frac{s_{15}}{s_{34}}\\right)-s_{12} s_{15} s_{45} M^2 \\log \\left(s_{34} M^{-2}\\right)-s_{12} s_{15} s_{45} M^2 \\log (-s_{12})+s_{12} s_{23} s_{34} s_{45} \\log \\left(s_{45} M^{-2}\\right)+s_{12} s_{23} s_{34} M^2 \\log \\left(\\frac{s_{23}}{s_{45}}\\right)-s_{12} s_{34} s_{45} M^2 \\log \\left(\\frac{s_{23}}{s_{45}}\\right)-s_{12} s_{23} s_{34} M^2 \\log \\left(s_{45} M^{-2}\\right)-s_{12} s_{23} s_{34} M^2 \\log (-s_{12})-s_{12} s_{34} s_{45} M^2 \\log (-s_{12})+s_{23} s_{34}^2 s_{45} \\log \\left(\\frac{s_{15}}{s_{12}}\\right)+s_{15} s_{34} s_{45}^2 \\log \\left(\\frac{s_{23}}{s_{12}}\\right)+s_{15} s_{34} s_{45}^2 \\log (-s_{12})+s_{15} s_{34} s_{45}^2 \\log \\left(\\frac{s_{12}}{s_{45}}\\right)-s_{12} s_{15} s_{34} s_{45} \\log \\left(\\frac{s_{12}}{s_{45}}\\right)+s_{23} s_{34}^2 s_{45} \\log (-s_{12})+s_{23} s_{34}^2 s_{45} \\log \\left(\\frac{s_{12}}{s_{34}}\\right)-s_{12} s_{23} s_{34} s_{45} \\log \\left(\\frac{s_{12}}{s_{34}}\\right)+s_{34}^2 s_{45}^2 \\log (-s_{12})+s_{34}^2 s_{45}^2 \\log \\left(\\frac{s_{15}}{s_{34}}\\right)-s_{15} s_{34} s_{45}^2 \\log \\left(\\frac{s_{15}}{s_{34}}\\right)+s_{34}^2 s_{45}^2 \\log \\left(\\frac{s_{23}}{s_{45}}\\right)-s_{23} s_{34}^2 s_{45} \\log \\left(\\frac{s_{23}}{s_{45}}\\right)}{\\varepsilon s_{12} s_{15} s_{23} s_{34} s_{45} \\left(s_{12} M^2-s_{34} s_{45}\\right)} \\cdots",
-      "dimension": "4 - 2*eps",
-      "epsOrder": "0",
-      "epsOrders": "0",
-      "propExponents": [
-        1,
-        1,
-        1,
-        1,
-        1
-      ],
-      "propagators": [],
-      "numerators": [],
-      "internalMasses": [],
-      "externalMasses": [],
-      "substitutions": "",
-      "rootSubstitutions": "{}",
-      "normalization": "Automatic",
-      "stVersion": "SubTropica v1.0.277",
-      "stCommand": "",
-      "contributor": "Sebastian Mizera",
-      "timestamp": "2026-04-14T02:34:32",
-      "verifiedAt": "2026-04-14T02:34:32",
-      "verified": true,
-      "method": "direct_integration",
-      "tools": [
-        "SubTropica"
-      ],
-      "methodLR": "Lungo",
-      "byteCount": 76656,
-      "symbolTeX": "\\begin{aligned}\\varepsilon^{-1}&\\colon\\;\\frac{-s_{12} M^2-s_{12} s_{15}-s_{12} s_{23}+s_{15} s_{45}+s_{23} s_{34}+s_{34} s_{45}}{s_{12} s_{15} s_{23} \\left(s_{12} M^2-s_{34} s_{45}\\right)}\\,(s_{12}) + \\frac{s_{15} s_{45}-s_{23} s_{34}-s_{34} s_{45}}{s_{12} s_{15} s_{23} s_{34} s_{45}}\\,(s_{15}) + \\frac{-s_{15} s_{45}+s_{23} s_{34}-s_{34} s_{45}}{s_{12} s_{15} s_{23} s_{34} s_{45}}\\,(s_{23}) + \\frac{-2 s_{12} s_{15} M^2+s_{12} s_{34} M^2+s_{12} s_{15} s_{34}+s_{12} s_{23} s_{34}+s_{15} s_{34} s_{45}-s_{23} s_{34}^2-s_{34}^2 s_{45}}{s_{12} s_{15} s_{23} s_{34} \\left(s_{12} M^2-s_{34} s_{45}\\right)}\\,(s_{34}) - \\frac{s_{15} s_{45} M^2+s_{23} s_{34} M^2-s_{15} s_{34} s_{45}-s_{23} s_{34} s_{45}}{s_{15} s_{23} s_{34} s_{45} \\left(s_{34} s_{45}-s_{12} M^2\\right)}\\,(M^2) + \\frac{-2 s_{12} s_{23} M^2+s_{12} s_{45} M^2+s_{12} s_{15} s_{45}+s_{12} s_{23} s_{45}-s_{15} s_{45}^2+s_{23} s_{34} s_{45}-s_{34} s_{45}^2}{s_{12} s_{15} s_{23} s_{45} \\left(s_{12} M^2-s_{34} s_{45}\\right)}\\,(s_{45}) \\\\ \\varepsilon^{0}&\\colon\\;-\\frac{-s_{15} s_{45} M^2-s_{23} s_{34} M^2+s_{15} s_{34} s_{45}+s_{23} s_{34} s_{45}}{s_{15} s_{23} s_{34} s_{45} \\left(s_{34} s_{45}-s_{12} M^2\\right)}\\,(M^2 \\otimes M^2) + 0\\,(M^2 \\otimes s_{34}) + \\frac{2 \\left(M^2-s_{34}\\right)}{s_{23} s_{34} \\left(s_{12} M^2-s_{34} s_{45}\\right)}\\,(M^2-s_{34} \\otimes M^2) - \\frac{2 \\left(M^2-s_{34}\\right)}{s_{23} s_{34} \\left(s_{12} M^2-s_{34} s_{45}\\right)}\\,(M^2-s_{34} \\otimes s_{34}) - \\frac{2 (s_{12}-s_{34})}{s_{12} s_{15} \\left(s_{12} M^2-s_{34} s_{45}\\right)}\\,(s_{12}-s_{34} \\otimes s_{12}) + \\frac{2 (s_{12}-s_{34})}{s_{12} s_{15} \\left(s_{12} M^2-s_{34} s_{45}\\right)}\\,(s_{12}-s_{34} \\otimes s_{34}) + 0\\,(s_{34} \\otimes s_{12}) + \\frac{2 \\left(2 s_{12} s_{15} M^2-s_{12} s_{34} M^2-s_{12} s_{15} s_{34}-s_{15} s_{34} s_{45}+s_{34}^2 s_{45}\\right)}{s_{12} s_{15} s_{23} s_{34} \\left(s_{12} M^2-s_{34} s_{45}\\right)}\\,(s_{34} \\otimes s_{34}) + \\frac{2 (s_{15}-s_{34})}{s_{12} s_{15} s_{23} s_{34}}\\,(s_{15}-s_{34} \\otimes s_{15}) - \\frac{2 (s_{15}-s_{34})}{s_{12} s_{15} s_{23} s_{34}}\\,(s_{15}-s_{34} \\otimes s_{34}) + \\frac{-2 s_{12} s_{15} M^2+s_{12} s_{34} M^2+s_{12} s_{15} s_{34}-s_{12} s_{23} s_{34}+s_{15} s_{34} s_{45}+s_{23} s_{34}^2-s_{34}^2 s_{45}}{s_{12} s_{15} s_{23} s_{34} \\left(s_{12} M^2-s_{34} s_{45}\\right)}\\,(s_{34} \\otimes s_{15}) + 0\\,(M^2 \\otimes s_{45}) + \\frac{2 \\left(M^2-s_{45}\\right)}{s_{15} s_{45} \\left(s_{12} M^2-s_{34} s_{45}\\right)}\\,(M^2-s_{45} \\otimes M^2) - \\frac{2 \\left(M^2-s_{45}\\right)}{s_{15} s_{45} \\left(s_{12} M^2-s_{34} s_{45}\\right)}\\,(M^2-s_{45} \\otimes s_{45}) - \\frac{2 (s_{12}-s_{45})}{s_{12} s_{23} \\left(s_{12} M^2-s_{34} s_{45}\\right)}\\,(s_{12}-s_{45} \\otimes s_{12}) + \\frac{2 (s_{12}-s_{45})}{s_{12} s_{23} \\left(s_{12} M^2-s_{34} s_{45}\\right)}\\,(s_{12}-s_{45} \\otimes s_{45}) + 0\\,(s_{45} \\otimes s_{12}) + \\frac{2 \\left(2 s_{12} s_{23} M^2-s_{12} s_{45} M^2-s_{12} s_{23} s_{45}-s_{23} s_{34} s_{45}+s_{34} s_{45}^2\\right)}{s_{12} s_{15} s_{23} s_{45} \\left(s_{12} M^2-s_{34} s_{45}\\right)}\\,(s_{45} \\otimes s_{45}) + \\frac{2 (s_{23}-s_{45})}{s_{12} s_{15} s_{23} s_{45}}\\,(s_{23}-s_{45} \\otimes s_{23}) - \\frac{2 (s_{23}-s_{45})}{s_{12} s_{15} s_{23} s_{45}}\\,(s_{23}-s_{45} \\otimes s_{45}) + \\frac{-2 s_{12} s_{23} M^2+s_{12} s_{45} M^2-s_{12} s_{15} s_{45}+s_{12} s_{23} s_{45}+s_{15} s_{45}^2+s_{23} s_{34} s_{45}-s_{34} s_{45}^2}{s_{12} s_{15} s_{23} s_{45} \\left(s_{12} M^2-s_{34} s_{45}\\right)}\\,(s_{45} \\otimes s_{23}) + 0\\,(s_{12} M^2-s_{34} s_{45} \\otimes s_{23}) + \\frac{s_{12} M^2-s_{12} s_{15}-s_{12} s_{23}+s_{15} s_{45}+s_{23} s_{34}-s_{34} s_{45}}{s_{12} s_{15} s_{23} \\left(s_{12} M^2-s_{34} s_{45}\\right)}\\,(s_{12} M^2-s_{34} s_{45} \\otimes s_{34}) + \\frac{-s_{12} M^2+s_{12} s_{15}+s_{12} s_{23}-s_{15} s_{45}-s_{23} s_{34}+s_{34} s_{45}}{s_{12} s_{15} s_{23} \\left(s_{12} M^2-s_{34} s_{45}\\right)}\\,(s_{12} M^2-s_{34} s_{45} \\otimes s_{34} s_{45}-s_{12} M^2) + 0\\,(s_{12} M^2+s_{23} s_{34}-s_{34} s_{45} \\otimes s_{23}) + 0\\,(s_{12} M^2+s_{23} s_{34}-s_{34} s_{45} \\otimes s_{34}) + 0\\,(s_{12} M^2+s_{23} s_{34}-s_{34} s_{45} \\otimes s_{34} s_{45}-s_{12} M^2) - \\frac{-s_{15} s_{45} M^2+s_{23} s_{34} M^2+s_{15} s_{34} s_{45}-s_{23} s_{34} s_{45}}{s_{15} s_{23} s_{34} s_{45} \\left(s_{34} s_{45}-s_{12} M^2\\right)}\\,(M^2 \\otimes s_{23}) + 0\\,(M^2 \\otimes s_{34} s_{45}-s_{12} M^2) + \\frac{s_{12} M^2+s_{12} s_{15}-s_{12} s_{23}-s_{15} s_{45}+s_{23} s_{34}-s_{34} s_{45}}{s_{12} s_{15} s_{23} \\left(s_{12} M^2-s_{34} s_{45}\\right)}\\,(s_{12} \\otimes s_{23}) + \\frac{-s_{12} M^2+s_{12} s_{15}-s_{12} s_{23}-s_{15} s_{45}+s_{23} s_{34}+s_{34} s_{45}}{s_{12} s_{15} s_{23} \\left(s_{12} M^2-s_{34} s_{45}\\right)}\\,(s_{12} \\otimes s_{34}) + \\frac{-s_{12} M^2-s_{12} s_{15}+s_{12} s_{23}+s_{15} s_{45}-s_{23} s_{34}+s_{34} s_{45}}{s_{12} s_{15} s_{23} \\left(s_{12} M^2-s_{34} s_{45}\\right)}\\,(s_{12} \\otimes s_{45}) + \\frac{s_{15} s_{45}-s_{23} s_{34}+s_{34} s_{45}}{s_{12} s_{15} s_{23} s_{34} s_{45}}\\,(s_{23} \\otimes s_{23})  + \\cdots",
-      "alphabet": [
-        "s_{12}",
-        "s_{15}",
-        "s_{23}",
-        "s_{34}",
-        "M^2",
-        "s_{45}",
-        "M^2-s_{34}",
-        "s_{12}-s_{34}",
-        "s_{15}-s_{34}",
-        "M^2-s_{45}",
-        "s_{12}-s_{45}",
-        "s_{23}-s_{45}",
-        "s_{12} M^2-s_{34} s_{45}",
-        "s_{34} s_{45}-s_{12} M^2",
-        "s_{12} M^2+s_{23} s_{34}-s_{34} s_{45}"
-      ],
-      "symbolWeight": 2,
-      "symbolTerms": 63,
-      "normalizedSymbolTeX": "\\begin{aligned}\\varepsilon^{-1}&\\colon\\;\\frac{1}{s_{12} s_{15} s_{23} s_{34} s_{45} \\left(s_{12} M^2-s_{34} s_{45}\\right)}\\!\\left[s_{34} s_{45} \\left(-s_{12} M^2-s_{12} s_{15}-s_{12} s_{23}+s_{15} s_{45}+s_{23} s_{34}+s_{34} s_{45}\\right)\\,(W_1) - \\left((-s_{15} s_{45}+s_{23} s_{34}+s_{34} s_{45}) \\left(s_{12} M^2-s_{34} s_{45}\\right)\\right)\\,(W_2) - \\left((s_{15} s_{45}-s_{23} s_{34}+s_{34} s_{45}) \\left(s_{12} M^2-s_{34} s_{45}\\right)\\right)\\,(W_3) + s_{45} \\left(-2 s_{12} s_{15} M^2+s_{12} s_{34} M^2+s_{12} s_{15} s_{34}+s_{12} s_{23} s_{34}+s_{15} s_{34} s_{45}-s_{23} s_{34}^2-s_{34}^2 s_{45}\\right)\\,(W_4) + s_{34} \\left(-2 s_{12} s_{23} M^2+s_{12} s_{45} M^2+s_{12} s_{15} s_{45}+s_{12} s_{23} s_{45}-s_{15} s_{45}^2+s_{23} s_{34} s_{45}-s_{34} s_{45}^2\\right)\\,(W_5)\\right] \\\\ \\varepsilon^{0}&\\colon\\;\\frac{1}{s_{12} s_{15} s_{23} s_{34} s_{45} \\left(s_{12} M^2-s_{34} s_{45}\\right)}\\!\\left[-2 s_{12} s_{15} s_{45} \\left(M^2-s_{34}\\right)\\,(W_6 \\otimes W_4) - 2 s_{23} s_{34} s_{45} (s_{12}-s_{34})\\,(W_7 \\otimes W_1) + 2 s_{23} s_{34} s_{45} (s_{12}-s_{34})\\,(W_7 \\otimes W_4) + 0\\,(W_4 \\otimes W_1) - 2 s_{45} \\left(-2 s_{12} s_{15} M^2+s_{12} s_{34} M^2+s_{12} s_{15} s_{34}+s_{15} s_{34} s_{45}+s_{34}^2 (-s_{45})\\right)\\,(W_4 \\otimes W_4) - 2 s_{45} (s_{15}-s_{34}) \\left(s_{34} s_{45}-s_{12} M^2\\right)\\,(W_8 \\otimes W_2) + 2 s_{45} (s_{15}-s_{34}) \\left(s_{34} s_{45}-s_{12} M^2\\right)\\,(W_8 \\otimes W_4) + s_{45} \\left(-2 s_{12} s_{15} M^2+s_{12} s_{34} M^2+s_{12} s_{15} s_{34}-s_{12} s_{23} s_{34}+s_{15} s_{34} s_{45}+s_{23} s_{34}^2-s_{34}^2 s_{45}\\right)\\,(W_4 \\otimes W_2) - 2 s_{12} s_{23} s_{34} \\left(M^2-s_{45}\\right)\\,(W_9 \\otimes W_5) - 2 s_{15} s_{34} s_{45} (s_{12}-s_{45})\\,(W_{10} \\otimes W_1) + 2 s_{15} s_{34} s_{45} (s_{12}-s_{45})\\,(W_{10} \\otimes W_5) + 0\\,(W_5 \\otimes W_1) - 2 s_{34} \\left(-2 s_{12} s_{23} M^2+s_{12} s_{45} M^2+s_{12} s_{23} s_{45}+s_{23} s_{34} s_{45}-s_{34} s_{45}^2\\right)\\,(W_5 \\otimes W_5) - 2 s_{34} (s_{23}-s_{45}) \\left(s_{34} s_{45}-s_{12} M^2\\right)\\,(W_{11} \\otimes W_3) + 2 s_{34} (s_{23}-s_{45}) \\left(s_{34} s_{45}-s_{12} M^2\\right)\\,(W_{11} \\otimes W_5) + s_{34} \\left(-2 s_{12} s_{23} M^2+s_{12} s_{45} M^2-s_{12} s_{15} s_{45}+s_{12} s_{23} s_{45}+s_{15} s_{45}^2+s_{23} s_{34} s_{45}-s_{34} s_{45}^2\\right)\\,(W_5 \\otimes W_3) + 0\\,(W_{12} \\otimes W_3) - s_{34} s_{45} \\left(-s_{12} M^2+s_{12} s_{15}+s_{12} s_{23}-s_{15} s_{45}-s_{23} s_{34}+s_{34} s_{45}\\right)\\,(W_{12} \\otimes W_4) + s_{34} s_{45} \\left(-s_{12} M^2+s_{12} s_{15}+s_{12} s_{23}-s_{15} s_{45}-s_{23} s_{34}+s_{34} s_{45}\\right)\\,(W_{12} \\otimes W_{12}) + 0\\,(W_{13} \\otimes W_3) + 0\\,(W_{13} \\otimes W_4) + 0\\,(W_{13} \\otimes W_{12}) - s_{34} s_{45} \\left(-s_{12} M^2-s_{12} s_{15}+s_{12} s_{23}+s_{15} s_{45}-s_{23} s_{34}+s_{34} s_{45}\\right)\\,(W_1 \\otimes W_3) + s_{34} s_{45} \\left(-s_{12} M^2+s_{12} s_{15}-s_{12} s_{23}-s_{15} s_{45}+s_{23} s_{34}+s_{34} s_{45}\\right)\\,(W_1 \\otimes W_4) + s_{34} s_{45} \\left(-s_{12} M^2-s_{12} s_{15}+s_{12} s_{23}+s_{15} s_{45}-s_{23} s_{34}+s_{34} s_{45}\\right)\\,(W_1 \\otimes W_5) + (s_{15} s_{45}-s_{23} s_{34}+s_{34} s_{45}) \\left(s_{12} M^2-s_{34} s_{45}\\right)\\,(W_3 \\otimes W_3) + s_{34} s_{45} \\left(-s_{12} M^2-s_{12} s_{15}+s_{12} s_{23}+s_{15} s_{45}-s_{23} s_{34}+s_{34} s_{45}\\right)\\,(W_3 \\otimes W_5) - s_{34} s_{45} \\left(-s_{12} M^2+s_{12} s_{15}+s_{12} s_{23}-s_{15} s_{45}-s_{23} s_{34}+s_{34} s_{45}\\right)\\,(W_{12} \\otimes W_5) - s_{34} s_{45} \\left(-s_{12} M^2-s_{12} s_{15}-s_{12} s_{23}+s_{15} s_{45}+s_{23} s_{34}+s_{34} s_{45}\\right)\\,(W_1 \\otimes W_1) - s_{34} s_{45} \\left(-s_{12} M^2+s_{12} s_{15}-s_{12} s_{23}-s_{15} s_{45}+s_{23} s_{34}+s_{34} s_{45}\\right)\\,(W_2 \\otimes W_1) + (-s_{15} s_{45}+s_{23} s_{34}+s_{34} s_{45}) \\left(s_{12} M^2-s_{34} s_{45}\\right)\\,(W_2 \\otimes W_2) - s_{34} s_{45} \\left(-s_{12} M^2+s_{12} s_{15}-s_{12} s_{23}-s_{15} s_{45}+s_{23} s_{34}+s_{34} s_{45}\\right)\\,(W_1 \\otimes W_2) + (-s_{15} s_{45}-s_{23} s_{34}+s_{34} s_{45}) \\left(s_{12} M^2-s_{34} s_{45}\\right)\\,(W_2 \\otimes W_3) - s_{34} s_{45} \\left(-s_{12} M^2-s_{12} s_{15}+s_{12} s_{23}+s_{15} s_{45}-s_{23} s_{34}+s_{34} s_{45}\\right)\\,(W_3 \\otimes W_1) + (-s_{15} s_{45}-s_{23} s_{34}+s_{34} s_{45}) \\left(s_{12} M^2-s_{34} s_{45}\\right)\\,(W_3 \\otimes W_2) + s_{34} s_{45} \\left(-s_{12} M^2+s_{12} s_{15}-s_{12} s_{23}-s_{15} s_{45}+s_{23} s_{34}+s_{34} s_{45}\\right)\\,(W_2 \\otimes W_4) - s_{45} \\left(-2 s_{12} s_{15} M^2+s_{12} s_{34} M^2+s_{12} s_{15} s_{34}-s_{12} s_{23} s_{34}+s_{15} s_{34} s_{45}+s_{23} s_{34}^2-s_{34}^2 s_{45}\\right)\\,(W_3 \\otimes W_4) - s_{45} \\left(-2 s_{12} s_{15} M^2+s_{12} s_{34} M^2+s_{12} s_{15} s_{34}-s_{12} s_{23} s_{34}+s_{15} s_{34} s_{45}+s_{23} s_{34}^2-s_{34}^2 s_{45}\\right)\\,(W_4 \\otimes W_3) - s_{34} \\left(-2 s_{12} s_{23} M^2+s_{12} s_{45} M^2-s_{12} s_{15} s_{45}+s_{12} s_{23} s_{45}+s_{15} s_{45}^2+s_{23} s_{34} s_{45}-s_{34} s_{45}^2\\right)\\,(W_2 \\otimes W_5) - s_{34} \\left(-2 s_{12} s_{23} M^2+s_{12} s_{45} M^2 + \\cdots",
-      "wDefinitions": [
-        {
-          "label": "W_1",
-          "definition": "\\frac{s_{12}}{M^2}",
-          "originalLetter": "s_{12}"
-        },
-        {
-          "label": "W_2",
-          "definition": "\\frac{s_{15}}{M^2}",
-          "originalLetter": "s_{15}"
-        },
-        {
-          "label": "W_3",
-          "definition": "\\frac{s_{23}}{M^2}",
-          "originalLetter": "s_{23}"
-        },
-        {
-          "label": "W_4",
-          "definition": "\\frac{s_{34}}{M^2}",
-          "originalLetter": "s_{34}"
-        },
-        {
-          "label": "W_5",
-          "definition": "\\frac{s_{45}}{M^2}",
-          "originalLetter": "s_{45}"
-        },
-        {
-          "label": "W_6",
-          "definition": "\\frac{-s_{34}+M^2}{M^2}",
-          "originalLetter": "M^2-s_{34}"
-        },
-        {
-          "label": "W_7",
-          "definition": "\\frac{s_{12}-s_{34}}{M^2}",
-          "originalLetter": "s_{12}-s_{34}"
-        },
-        {
-          "label": "W_8",
-          "definition": "\\frac{s_{15}-s_{34}}{M^2}",
-          "originalLetter": "s_{15}-s_{34}"
-        },
-        {
-          "label": "W_9",
-          "definition": "\\frac{-s_{45}+M^2}{M^2}",
-          "originalLetter": "M^2-s_{45}"
-        },
-        {
-          "label": "W_{10}",
-          "definition": "\\frac{s_{12}-s_{45}}{M^2}",
-          "originalLetter": "s_{12}-s_{45}"
-        },
-        {
-          "label": "W_{11}",
-          "definition": "\\frac{s_{23}-s_{45}}{M^2}",
-          "originalLetter": "s_{23}-s_{45}"
-        },
-        {
-          "label": "W_{12}",
-          "definition": "\\frac{-s_{34} s_{45}+s_{12} M^2}{M^2}",
-          "originalLetter": "s_{12} M^2-s_{34} s_{45}"
-        },
-        {
-          "label": "W_{13}",
-          "definition": "\\frac{s_{23} s_{34}-s_{34} s_{45}+s_{12} M^2}{M^2}",
-          "originalLetter": "s_{12} M^2+s_{23} s_{34}-s_{34} s_{45}"
-        }
-      ],
-      "normalizedAlphabet": [
-        "W_1",
-        "W_2",
-        "W_3",
-        "W_4",
-        "W_5",
-        "W_6",
-        "W_7",
-        "W_8",
-        "W_9",
-        "W_{10}",
-        "W_{11}",
-        "W_{12}",
-        "W_{13}"
-      ],
-      "symbolScale": "M^2",
-      "normalizedSymbolTerms": 49,
-      "legOrder": []
-    }
-  ],
-  "Names": [
-    "1loop pentagon",
-    "massless 1-loop pentagon with one off-shell leg",
-    "one-loop one-mass pentagon"
-  ],
-  "edges": "{{{1, 2}, 0}, {{1, 3}, 0}, {{2, 4}, 0}, {{3, 5}, 0}, {{4, 5}, 0}}",
-  "nodes": "{{1, 0}, {2, 0}, {4, 0}, {5, M}, {3, 0}}",
-  "quadruple": "{E^(eps*EulerGamma)*Gamma[3 + eps], (x1 + x2 + x3 + x4 + x5)^(1 + 2*eps)*(s12*x2*x3 - s12*x1*x4 - s23*x1*x4 + s45*x1*x4 + s45*x3*x4 + MM*x1*x5 + s15*x1*x5 - s23*x1*x5 - s34*x1*x5 + MM*x2*x5 + s12*x2*x5 - s34*x2*x5 - s45*x2*x5 + MM*x3*x5)^(-3 - eps), {x1, x2, x3, x4, x5}, {MM, s12, s15, s23, s34, s45}}",
-  "Loops": 1,
-  "NumPropagators": 5,
-  "CanonicalName": "1-mass pentagon",
-  "MassConfig": {
-    "numEdges": 5,
-    "numMassiveEdges": 0,
-    "numMasslessEdges": 5,
-    "distinctInternalMasses": 0,
-    "internalMassLabels": [],
-    "edgeMassPattern": "00000",
-    "numExtLegs": 5,
-    "numOnshellMassiveExtLegs": 1,
-    "numMasslessExtLegs": 4,
-    "extLegSignature": "000M0"
-  },
-  "commonNames": [
-    "E₀"
-  ],
-  "Subsectors": [
-    "e12|e3|e3|e|:000|00|00|1|",
-    "e12|e3|e3|e|:000|00|10|2|",
-    "e12|e3|e3|e|:000|10|20|0|"
-  ],
-  "ParentSectors": [
-    "e112|e3|e4|e5|e5|e|:0000|00|00|00|00|0|",
-    "e12|e3|e4|e5|e5|e|:000|00|00|00|00|0|",
-    "e12|e3|e4|e5|e5|e|:000|00|00|00|00|1|"
-  ]
+	"CNickelIndex": "e12|e3|e4|e4|e|:000|00|00|00|1|",
+	"MassScales": 6,
+	"FunctionClass": "MPL",
+	"EpsilonOrder": "0",
+	"References": [
+		"arXiv:2005.04195",
+		"arXiv:hep-ph/0106243",
+		"arXiv:2204.12983"
+	],
+	"Records": [
+		{
+			"ancillaryPaths": [
+				"anc/1loop/pureBasis-1loop.m"
+			],
+			"dimScheme": "d=4-2*eps",
+			"recordId": "bf_eb1ba5fc5427",
+			"familyName": "1loop pentagon",
+			"verified": false,
+			"verifiedAt": "",
+			"authors": "Abreu, Samuel, Ita, Harald, Moriello, Francesco, Page, Ben, Tschernow, Wladimir, Zeng, Mao",
+			"computationLevel": "full",
+			"texkey": "",
+			"masterCount": 13,
+			"location": "Section 2, ancillary file anc/1loop/",
+			"transcendentalWeight": 4,
+			"method": [],
+			"reference": "arXiv:2005.04195",
+			"ancillaryFiles": [],
+			"description": "One-loop massless pentagon for five-point one-mass kinematics. 5 massless propagators, 13 MIs. Captures bubble-pentagon factorized contributions.",
+			"epsOrders": "-1,0,1,2,3,4",
+			"tools": [
+				"Kira",
+				"pySecDec"
+			],
+			"doi": ""
+		},
+		{
+			"reference": "arXiv:hep-ph/0106243",
+			"authors": [
+				{
+					"full_name": "Binoth, T.",
+					"inspire_id": 1016306
+				},
+				{
+					"full_name": "Guillet, J.P.",
+					"inspire_id": 1007287
+				},
+				{
+					"full_name": "Heinrich, G.",
+					"inspire_id": 1006298
+				},
+				{
+					"full_name": "Schubert, C.",
+					"inspire_id": 989669
+				}
+			],
+			"description": "One-loop scalar pentagon with five massless internal lines and one off-shell external leg, $I_5^n(p_{12},p_3,p_4,p_5,p_6)$. Explicit pole and finite parts through $\\mathcal{O}(\\varepsilon^0)$ given in terms of dilogarithms. Reduction (red5) expresses it as a combination of 1-mass and 2-mass boxes.",
+			"epsOrders": "0",
+			"familyName": "massless 1-loop pentagon with one off-shell leg",
+			"method": "direct_integration",
+			"tools": [],
+			"ancillaryFiles": false,
+			"doi": "",
+			"texkey": "",
+			"masterCount": 0,
+			"dimScheme": "d=4-2*eps",
+			"computationLevel": "full",
+			"location": "Appendix Eqs. (red5), (pentapole)",
+			"recordId": "bx_82ba4fc957cd",
+			"verified": false,
+			"verifiedAt": ""
+		},
+		{
+			"reference": "arXiv:2204.12983",
+			"authors": [
+				{
+					"full_name": "Chestnov, Vsevolod",
+					"inspire_id": 1760381
+				},
+				{
+					"full_name": "Gasparotto, Federico",
+					"inspire_id": 1945756
+				},
+				{
+					"full_name": "Mandal, Manoj K.",
+					"inspire_id": 1247611
+				},
+				{
+					"full_name": "Mastrolia, Pierpaolo",
+					"inspire_id": 1025886
+				},
+				{
+					"full_name": "Matsubara-Heo, Saiei J.",
+					"inspire_id": 2016791
+				},
+				{
+					"full_name": "Munch, Henrik J.",
+					"inspire_id": 2000628
+				},
+				{
+					"full_name": "Takayama, Nobuki",
+					"inspire_id": 2072902
+				}
+			],
+			"description": "One-loop massless pentagon with one off-shell external leg $p_5^2 = p^2$. Lee-Pomeransky polynomial has 11 terms corresponding to $A_5$ matrix ($6\\times 11$). After using homogeneity to fix 6 variables, 5 independent GKZ variables remain (ratios of Mandelstam invariants). GKZ rank 13 matching number of master integrals. Pfaffian matrices verified against LiteRed.",
+			"epsOrders": "",
+			"familyName": "one-loop one-mass pentagon",
+			"method": "Macaulay-matrix, Pfaffian-system, canonical-basis",
+			"tools": [
+				"Risa/Asir",
+				"FiniteFlow",
+				"LiteRed"
+			],
+			"ancillaryFiles": true,
+			"doi": "",
+			"texkey": "",
+			"masterCount": 13,
+			"dimScheme": "",
+			"computationLevel": "full",
+			"location": "Section 5.3, eq. (5.35)-(5.42)",
+			"recordId": "bx_8f76eef366ea",
+			"verified": false,
+			"verifiedAt": ""
+		}
+	],
+	"Source": [
+		"SubTropica",
+		"arXiv"
+	],
+	"Results": [
+		{
+			"resultCompressed": "1:eJztXEtO3EAQHWCGRBEHiLLLEfjdIIssQEIkF5hIA7I0ZCJMEim73JYDZMUiiT+06U+1/bpd/cEMi0Eej6te1+d1dbnt9182l1f7s9msfFN9fFrdFqvyw/JuWe5Vh6tvZVH9m13VB+W8+jgryrv254vq43NxsyqvdsXhxebn6ra5sDw8Kv5Vf/S5U/u5o2P7ueMT+7mTR5kd0Iv1dwlZA1RoENLI04enQiB5+vikO/0qXyuo59pDm1Hqw/Nzgbc1YHe2EaePvNXxThG6T1ymSjasv1P/rw/ONtcaKEltBQmVLbmOXbbkd1j2nIw+m1N3hdjROoQd5AhXg6T+GtehhkQffh59vLHUl5jCXoFcBanmje5hldWwwgQNpJoarcWpyHC7mOljyjDOhVQv1Ev8/dqFS582XjKDVC4IlUzxBOkPz02slvdL4laSMhfrkUVqwfyMaBtMWzeVvbkjCowwLAWpBtIWm3x6yUZoC5G2AyqtacvFiwP6Y6Utk+X9Kg0jkSrD9aWt29SHaHtNXFF/d7m8KzZfl+vm18WBzcxTXr78VoTaA4Ey80UhZQMRIwzSpImCQZoUUSqrDkoA+cBRKkjj/SwhSfUmEM22bwk/qOFnWN4eZ08XflxvroudDovoo7StFTKee1MAwEDS29PohFc7icakaBuW8/CIhOwfHACltza5B2qvoND1xhEOvXHQwMyfC/QFAd0lt3MZh8pcTfR4s0kuY0LDSm+FpuAqSyl2jzQGcgNNTR/Z0OYjZkslKhs8gwR2GAdK/87B7gddLpgcoR/Y8jRS9IyFnjLyWbF7U0147AsbdrBQz3Qcf3JiH5dxzM1xZFk+ZEFLKgLudb1uhT0H8dpZfcIAtJMFgRTWY2lxazuuCnCKtoszLbxgO7JOS9O3Y/xpcfo2pfhx5LQcoZh4cX5hWQptHRPDMR4FxdYx/LPsU6XHVK1snRTSSUyl0NZJ/HWW9U4+R521dRj/nPRgK+KoXeotanQbLXmD26qP2vYeUp/dK276NJbaFxc7TSXsyl0o0lf53FQ+LvV9gajPQdjXJe5b/9k3Vzv3RVIBbQ7ZeAFBQEb0g1dlxoxJiy9rO5prg7ybN1sk0uWVpaiMIKH67fSLBdnfyKps5mcGnJtyqYBak9hrskUQDCQx+7SEYxpMCbfNr3DsmwXc8O79JLMEBJQ3S8fyig9kqDuWI2Y+M1P0GyIwGK0cAjLazvYiSwQBuWDBu7dhcTwgBBkCR7wFFY6JNx+VJczoJ79QSvZ5gJj5qTTnFl40oFrQjWpjpbIub7WHIIjQccFhxCs6cUxpWiQ4vkwWXcbsXrmKuWxjxRa0pwkAIPNOav5xFA4wDObKj6fGG74DG2/l7gPUrL7CVYGPEGJ3lHFMaPXl82qXsQ/wJq2+3B4udr7LHQ1ontWXm+dHRiVPWyFqsKaAnEf3Jl3epcUf4xU9DPgj0Umy+OdjGaOoQyqZpCQTATE3x4SAHJFiosLnZ5gQ8BMRTARP8G4HQhDY17IDpBEBBv70FDMO6yosUA/cA5PfkynMmLT+Wh290fprCL5MdiYZxGG8PBbbmx4LW1BSAgCA/bVRN8RgGGgFGKg42SND32b35rDb0ape2ypRoZOZpW9ZTX1v+TmYgPnVbRmaIOAemUmZI0EJnYE5tOpk1POeEzMN74LcVE3cmc7cBGNX+NO0QYAXX+dmg4Btk2nZI/BrjnO1B7HGDTGLPEvbMG/zST+iMLsons24HFevuYxLS1HWB4SyHyNDqy2XMcbaGpfLeNF3mlGtwJtfP9yEUPv1bEKQd/5iSIZo00NKX03aSdHS5d6VEhwkutZFnUTOt/wa0ou/dZjVXzcf/wF+ei6g",
+			"resultTeX": "\\frac{s_{15} s_{45}+s_{23} s_{34}+s_{34} s_{45}}{\\varepsilon^2 s_{12} s_{15} s_{23} s_{34} s_{45}}+\\frac{-s_{12} s_{23} s_{34} M^2 \\log \\left(\\frac{s_{15}}{s_{12}}\\right)-s_{12} s_{15} s_{45} M^2 \\log \\left(\\frac{s_{23}}{s_{12}}\\right)+s_{12} s_{15} s_{34} s_{45} \\log \\left(s_{34} M^{-2}\\right)-s_{12} s_{34} s_{45} M^2 \\log \\left(\\frac{s_{15}}{s_{34}}\\right)+s_{12} s_{15} s_{45} M^2 \\log \\left(\\frac{s_{15}}{s_{34}}\\right)-s_{12} s_{15} s_{45} M^2 \\log \\left(s_{34} M^{-2}\\right)-s_{12} s_{15} s_{45} M^2 \\log (-s_{12})+s_{12} s_{23} s_{34} s_{45} \\log \\left(s_{45} M^{-2}\\right)+s_{12} s_{23} s_{34} M^2 \\log \\left(\\frac{s_{23}}{s_{45}}\\right)-s_{12} s_{34} s_{45} M^2 \\log \\left(\\frac{s_{23}}{s_{45}}\\right)-s_{12} s_{23} s_{34} M^2 \\log \\left(s_{45} M^{-2}\\right)-s_{12} s_{23} s_{34} M^2 \\log (-s_{12})-s_{12} s_{34} s_{45} M^2 \\log (-s_{12})+s_{23} s_{34}^2 s_{45} \\log \\left(\\frac{s_{15}}{s_{12}}\\right)+s_{15} s_{34} s_{45}^2 \\log \\left(\\frac{s_{23}}{s_{12}}\\right)+s_{15} s_{34} s_{45}^2 \\log (-s_{12})+s_{15} s_{34} s_{45}^2 \\log \\left(\\frac{s_{12}}{s_{45}}\\right)-s_{12} s_{15} s_{34} s_{45} \\log \\left(\\frac{s_{12}}{s_{45}}\\right)+s_{23} s_{34}^2 s_{45} \\log (-s_{12})+s_{23} s_{34}^2 s_{45} \\log \\left(\\frac{s_{12}}{s_{34}}\\right)-s_{12} s_{23} s_{34} s_{45} \\log \\left(\\frac{s_{12}}{s_{34}}\\right)+s_{34}^2 s_{45}^2 \\log (-s_{12})+s_{34}^2 s_{45}^2 \\log \\left(\\frac{s_{15}}{s_{34}}\\right)-s_{15} s_{34} s_{45}^2 \\log \\left(\\frac{s_{15}}{s_{34}}\\right)+s_{34}^2 s_{45}^2 \\log \\left(\\frac{s_{23}}{s_{45}}\\right)-s_{23} s_{34}^2 s_{45} \\log \\left(\\frac{s_{23}}{s_{45}}\\right)}{\\varepsilon s_{12} s_{15} s_{23} s_{34} s_{45} \\left(s_{12} M^2-s_{34} s_{45}\\right)} + \\cdots",
+			"dimension": "4 - 2*eps",
+			"epsOrder": "0",
+			"epsOrders": "0",
+			"propExponents": [
+				1,
+				1,
+				1,
+				1,
+				1
+			],
+			"propagators": [],
+			"numerators": [],
+			"internalMasses": [],
+			"externalMasses": [],
+			"substitutions": "",
+			"normalization": "Automatic",
+			"stVersion": "SubTropica v1.0.277",
+			"stCommand": "",
+			"contributor": "Sebastian Mizera",
+			"timestamp": "2026-04-14T02:34:32",
+			"verifiedAt": "2026-04-14T02:34:32",
+			"verified": true,
+			"method": "direct_integration",
+			"tools": [
+				"SubTropica"
+			],
+			"methodLR": "Lungo",
+			"byteCount": 76656,
+			"symbolTeX": "\\begin{aligned}\\varepsilon^{-1}&\\colon\\;\\frac{-s_{12} M^2-s_{12} s_{15}-s_{12} s_{23}+s_{15} s_{45}+s_{23} s_{34}+s_{34} s_{45}}{s_{12} s_{15} s_{23} \\left(s_{12} M^2-s_{34} s_{45}\\right)}\\,(s_{12}) + \\frac{s_{15} s_{45}-s_{23} s_{34}-s_{34} s_{45}}{s_{12} s_{15} s_{23} s_{34} s_{45}}\\,(s_{15}) + \\frac{-s_{15} s_{45}+s_{23} s_{34}-s_{34} s_{45}}{s_{12} s_{15} s_{23} s_{34} s_{45}}\\,(s_{23}) + \\frac{-2 s_{12} s_{15} M^2+s_{12} s_{34} M^2+s_{12} s_{15} s_{34}+s_{12} s_{23} s_{34}+s_{15} s_{34} s_{45}-s_{23} s_{34}^2-s_{34}^2 s_{45}}{s_{12} s_{15} s_{23} s_{34} \\left(s_{12} M^2-s_{34} s_{45}\\right)}\\,(s_{34}) - \\frac{s_{15} s_{45} M^2+s_{23} s_{34} M^2-s_{15} s_{34} s_{45}-s_{23} s_{34} s_{45}}{s_{15} s_{23} s_{34} s_{45} \\left(s_{34} s_{45}-s_{12} M^2\\right)}\\,(M^2) + \\frac{-2 s_{12} s_{23} M^2+s_{12} s_{45} M^2+s_{12} s_{15} s_{45}+s_{12} s_{23} s_{45}-s_{15} s_{45}^2+s_{23} s_{34} s_{45}-s_{34} s_{45}^2}{s_{12} s_{15} s_{23} s_{45} \\left(s_{12} M^2-s_{34} s_{45}\\right)}\\,(s_{45}) \\\\ \\varepsilon^{0}&\\colon\\;-\\frac{-s_{15} s_{45} M^2-s_{23} s_{34} M^2+s_{15} s_{34} s_{45}+s_{23} s_{34} s_{45}}{s_{15} s_{23} s_{34} s_{45} \\left(s_{34} s_{45}-s_{12} M^2\\right)}\\,(M^2 \\otimes M^2) + 0\\,(M^2 \\otimes s_{34}) + \\frac{2 \\left(M^2-s_{34}\\right)}{s_{23} s_{34} \\left(s_{12} M^2-s_{34} s_{45}\\right)}\\,(M^2-s_{34} \\otimes M^2) - \\frac{2 \\left(M^2-s_{34}\\right)}{s_{23} s_{34} \\left(s_{12} M^2-s_{34} s_{45}\\right)}\\,(M^2-s_{34} \\otimes s_{34}) - \\frac{2 (s_{12}-s_{34})}{s_{12} s_{15} \\left(s_{12} M^2-s_{34} s_{45}\\right)}\\,(s_{12}-s_{34} \\otimes s_{12}) + \\frac{2 (s_{12}-s_{34})}{s_{12} s_{15} \\left(s_{12} M^2-s_{34} s_{45}\\right)}\\,(s_{12}-s_{34} \\otimes s_{34}) + 0\\,(s_{34} \\otimes s_{12}) + \\frac{2 \\left(2 s_{12} s_{15} M^2-s_{12} s_{34} M^2-s_{12} s_{15} s_{34}-s_{15} s_{34} s_{45}+s_{34}^2 s_{45}\\right)}{s_{12} s_{15} s_{23} s_{34} \\left(s_{12} M^2-s_{34} s_{45}\\right)}\\,(s_{34} \\otimes s_{34}) + \\frac{2 (s_{15}-s_{34})}{s_{12} s_{15} s_{23} s_{34}}\\,(s_{15}-s_{34} \\otimes s_{15}) - \\frac{2 (s_{15}-s_{34})}{s_{12} s_{15} s_{23} s_{34}}\\,(s_{15}-s_{34} \\otimes s_{34}) + \\frac{-2 s_{12} s_{15} M^2+s_{12} s_{34} M^2+s_{12} s_{15} s_{34}-s_{12} s_{23} s_{34}+s_{15} s_{34} s_{45}+s_{23} s_{34}^2-s_{34}^2 s_{45}}{s_{12} s_{15} s_{23} s_{34} \\left(s_{12} M^2-s_{34} s_{45}\\right)}\\,(s_{34} \\otimes s_{15}) + 0\\,(M^2 \\otimes s_{45}) + \\frac{2 \\left(M^2-s_{45}\\right)}{s_{15} s_{45} \\left(s_{12} M^2-s_{34} s_{45}\\right)}\\,(M^2-s_{45} \\otimes M^2) - \\frac{2 \\left(M^2-s_{45}\\right)}{s_{15} s_{45} \\left(s_{12} M^2-s_{34} s_{45}\\right)}\\,(M^2-s_{45} \\otimes s_{45}) - \\frac{2 (s_{12}-s_{45})}{s_{12} s_{23} \\left(s_{12} M^2-s_{34} s_{45}\\right)}\\,(s_{12}-s_{45} \\otimes s_{12}) + \\frac{2 (s_{12}-s_{45})}{s_{12} s_{23} \\left(s_{12} M^2-s_{34} s_{45}\\right)}\\,(s_{12}-s_{45} \\otimes s_{45}) + 0\\,(s_{45} \\otimes s_{12}) + \\frac{2 \\left(2 s_{12} s_{23} M^2-s_{12} s_{45} M^2-s_{12} s_{23} s_{45}-s_{23} s_{34} s_{45}+s_{34} s_{45}^2\\right)}{s_{12} s_{15} s_{23} s_{45} \\left(s_{12} M^2-s_{34} s_{45}\\right)}\\,(s_{45} \\otimes s_{45}) + \\frac{2 (s_{23}-s_{45})}{s_{12} s_{15} s_{23} s_{45}}\\,(s_{23}-s_{45} \\otimes s_{23}) - \\frac{2 (s_{23}-s_{45})}{s_{12} s_{15} s_{23} s_{45}}\\,(s_{23}-s_{45} \\otimes s_{45}) + \\frac{-2 s_{12} s_{23} M^2+s_{12} s_{45} M^2-s_{12} s_{15} s_{45}+s_{12} s_{23} s_{45}+s_{15} s_{45}^2+s_{23} s_{34} s_{45}-s_{34} s_{45}^2}{s_{12} s_{15} s_{23} s_{45} \\left(s_{12} M^2-s_{34} s_{45}\\right)}\\,(s_{45} \\otimes s_{23}) + 0\\,(s_{12} M^2-s_{34} s_{45} \\otimes s_{23}) + \\frac{s_{12} M^2-s_{12} s_{15}-s_{12} s_{23}+s_{15} s_{45}+s_{23} s_{34}-s_{34} s_{45}}{s_{12} s_{15} s_{23} \\left(s_{12} M^2-s_{34} s_{45}\\right)}\\,(s_{12} M^2-s_{34} s_{45} \\otimes s_{34}) + \\frac{-s_{12} M^2+s_{12} s_{15}+s_{12} s_{23}-s_{15} s_{45}-s_{23} s_{34}+s_{34} s_{45}}{s_{12} s_{15} s_{23} \\left(s_{12} M^2-s_{34} s_{45}\\right)}\\,(s_{12} M^2-s_{34} s_{45} \\otimes s_{34} s_{45}-s_{12} M^2) + 0\\,(s_{12} M^2+s_{23} s_{34}-s_{34} s_{45} \\otimes s_{23}) + 0\\,(s_{12} M^2+s_{23} s_{34}-s_{34} s_{45} \\otimes s_{34}) + 0\\,(s_{12} M^2+s_{23} s_{34}-s_{34} s_{45} \\otimes s_{34} s_{45}-s_{12} M^2) - \\frac{-s_{15} s_{45} M^2+s_{23} s_{34} M^2+s_{15} s_{34} s_{45}-s_{23} s_{34} s_{45}}{s_{15} s_{23} s_{34} s_{45} \\left(s_{34} s_{45}-s_{12} M^2\\right)}\\,(M^2 \\otimes s_{23}) + 0\\,(M^2 \\otimes s_{34} s_{45}-s_{12} M^2) + \\frac{s_{12} M^2+s_{12} s_{15}-s_{12} s_{23}-s_{15} s_{45}+s_{23} s_{34}-s_{34} s_{45}}{s_{12} s_{15} s_{23} \\left(s_{12} M^2-s_{34} s_{45}\\right)}\\,(s_{12} \\otimes s_{23}) + \\frac{-s_{12} M^2+s_{12} s_{15}-s_{12} s_{23}-s_{15} s_{45}+s_{23} s_{34}+s_{34} s_{45}}{s_{12} s_{15} s_{23} \\left(s_{12} M^2-s_{34} s_{45}\\right)}\\,(s_{12} \\otimes s_{34}) + \\frac{-s_{12} M^2-s_{12} s_{15}+s_{12} s_{23}+s_{15} s_{45}-s_{23} s_{34}+s_{34} s_{45}}{s_{12} s_{15} s_{23} \\left(s_{12} M^2-s_{34} s_{45}\\right)}\\,(s_{12} \\otimes s_{45}) + \\frac{s_{15} s_{45}-s_{23} s_{34}+s_{34} s_{45}}{s_{12} s_{15} s_{23} s_{34} s_{45}}\\,(s_{23} \\otimes s_{23})  + \\cdots",
+			"alphabet": [
+				"s_{12}",
+				"s_{15}",
+				"s_{23}",
+				"s_{34}",
+				"M^2",
+				"s_{45}",
+				"M^2-s_{34}",
+				"s_{12}-s_{34}",
+				"s_{15}-s_{34}",
+				"M^2-s_{45}",
+				"s_{12}-s_{45}",
+				"s_{23}-s_{45}",
+				"s_{12} M^2-s_{34} s_{45}",
+				"s_{34} s_{45}-s_{12} M^2",
+				"s_{12} M^2+s_{23} s_{34}-s_{34} s_{45}"
+			],
+			"symbolWeight": 2,
+			"symbolTerms": 63,
+			"normalizedSymbolTeX": "\\begin{aligned}\\varepsilon^{-2}&\\colon\\;\\frac{s_{15} s_{45}+s_{23} s_{34}+s_{34} s_{45}}{s_{12} s_{15} s_{23} s_{34} s_{45}} \\\\ \\varepsilon^{-1}&\\colon\\;\\frac{1}{s_{12} s_{15} s_{23} s_{34} s_{45} \\left(s_{12} M^2-s_{34} s_{45}\\right)}\\!\\left[s_{34} s_{45} \\left(-s_{12} M^2-s_{12} s_{15}-s_{12} s_{23}+s_{15} s_{45}+s_{23} s_{34}+s_{34} s_{45}\\right)\\,(W_1) - \\left((-s_{15} s_{45}+s_{23} s_{34}+s_{34} s_{45}) \\left(s_{12} M^2-s_{34} s_{45}\\right)\\right)\\,(W_2) - \\left((s_{15} s_{45}-s_{23} s_{34}+s_{34} s_{45}) \\left(s_{12} M^2-s_{34} s_{45}\\right)\\right)\\,(W_3) + s_{45} \\left(-2 s_{12} s_{15} M^2+s_{12} s_{34} M^2+s_{12} s_{15} s_{34}+s_{12} s_{23} s_{34}+s_{15} s_{34} s_{45}-s_{23} s_{34}^2-s_{34}^2 s_{45}\\right)\\,(W_4) + s_{34} \\left(-2 s_{12} s_{23} M^2+s_{12} s_{45} M^2+s_{12} s_{15} s_{45}+s_{12} s_{23} s_{45}-s_{15} s_{45}^2+s_{23} s_{34} s_{45}-s_{34} s_{45}^2\\right)\\,(W_5)\\right] \\\\ \\varepsilon^{0}&\\colon\\;\\frac{1}{s_{12} s_{15} s_{23} s_{34} s_{45} \\left(s_{12} M^2-s_{34} s_{45}\\right)}\\!\\left[-2 s_{12} s_{15} s_{45} \\left(M^2-s_{34}\\right)\\,(W_6 \\otimes W_4) - 2 s_{23} s_{34} s_{45} (s_{12}-s_{34})\\,(W_7 \\otimes W_1) + 2 s_{23} s_{34} s_{45} (s_{12}-s_{34})\\,(W_7 \\otimes W_4) + 0\\,(W_4 \\otimes W_1) - 2 s_{45} \\left(-2 s_{12} s_{15} M^2+s_{12} s_{34} M^2+s_{12} s_{15} s_{34}+s_{15} s_{34} s_{45}+s_{34}^2 (-s_{45})\\right)\\,(W_4 \\otimes W_4) - 2 s_{45} (s_{15}-s_{34}) \\left(s_{34} s_{45}-s_{12} M^2\\right)\\,(W_8 \\otimes W_2) + 2 s_{45} (s_{15}-s_{34}) \\left(s_{34} s_{45}-s_{12} M^2\\right)\\,(W_8 \\otimes W_4) + s_{45} \\left(-2 s_{12} s_{15} M^2+s_{12} s_{34} M^2+s_{12} s_{15} s_{34}-s_{12} s_{23} s_{34}+s_{15} s_{34} s_{45}+s_{23} s_{34}^2-s_{34}^2 s_{45}\\right)\\,(W_4 \\otimes W_2) - 2 s_{12} s_{23} s_{34} \\left(M^2-s_{45}\\right)\\,(W_9 \\otimes W_5) - 2 s_{15} s_{34} s_{45} (s_{12}-s_{45})\\,(W_{10} \\otimes W_1) + 2 s_{15} s_{34} s_{45} (s_{12}-s_{45})\\,(W_{10} \\otimes W_5) + 0\\,(W_5 \\otimes W_1) - 2 s_{34} \\left(-2 s_{12} s_{23} M^2+s_{12} s_{45} M^2+s_{12} s_{23} s_{45}+s_{23} s_{34} s_{45}-s_{34} s_{45}^2\\right)\\,(W_5 \\otimes W_5) - 2 s_{34} (s_{23}-s_{45}) \\left(s_{34} s_{45}-s_{12} M^2\\right)\\,(W_{11} \\otimes W_3) + 2 s_{34} (s_{23}-s_{45}) \\left(s_{34} s_{45}-s_{12} M^2\\right)\\,(W_{11} \\otimes W_5) + s_{34} \\left(-2 s_{12} s_{23} M^2+s_{12} s_{45} M^2-s_{12} s_{15} s_{45}+s_{12} s_{23} s_{45}+s_{15} s_{45}^2+s_{23} s_{34} s_{45}-s_{34} s_{45}^2\\right)\\,(W_5 \\otimes W_3) + 0\\,(W_{12} \\otimes W_3) - s_{34} s_{45} \\left(-s_{12} M^2+s_{12} s_{15}+s_{12} s_{23}-s_{15} s_{45}-s_{23} s_{34}+s_{34} s_{45}\\right)\\,(W_{12} \\otimes W_4) + s_{34} s_{45} \\left(-s_{12} M^2+s_{12} s_{15}+s_{12} s_{23}-s_{15} s_{45}-s_{23} s_{34}+s_{34} s_{45}\\right)\\,(W_{12} \\otimes W_{12}) + 0\\,(W_{13} \\otimes W_3) + 0\\,(W_{13} \\otimes W_4) + 0\\,(W_{13} \\otimes W_{12}) - s_{34} s_{45} \\left(-s_{12} M^2-s_{12} s_{15}+s_{12} s_{23}+s_{15} s_{45}-s_{23} s_{34}+s_{34} s_{45}\\right)\\,(W_1 \\otimes W_3) + s_{34} s_{45} \\left(-s_{12} M^2+s_{12} s_{15}-s_{12} s_{23}-s_{15} s_{45}+s_{23} s_{34}+s_{34} s_{45}\\right)\\,(W_1 \\otimes W_4) + s_{34} s_{45} \\left(-s_{12} M^2-s_{12} s_{15}+s_{12} s_{23}+s_{15} s_{45}-s_{23} s_{34}+s_{34} s_{45}\\right)\\,(W_1 \\otimes W_5) + (s_{15} s_{45}-s_{23} s_{34}+s_{34} s_{45}) \\left(s_{12} M^2-s_{34} s_{45}\\right)\\,(W_3 \\otimes W_3) + s_{34} s_{45} \\left(-s_{12} M^2-s_{12} s_{15}+s_{12} s_{23}+s_{15} s_{45}-s_{23} s_{34}+s_{34} s_{45}\\right)\\,(W_3 \\otimes W_5) - s_{34} s_{45} \\left(-s_{12} M^2+s_{12} s_{15}+s_{12} s_{23}-s_{15} s_{45}-s_{23} s_{34}+s_{34} s_{45}\\right)\\,(W_{12} \\otimes W_5) - s_{34} s_{45} \\left(-s_{12} M^2-s_{12} s_{15}-s_{12} s_{23}+s_{15} s_{45}+s_{23} s_{34}+s_{34} s_{45}\\right)\\,(W_1 \\otimes W_1) - s_{34} s_{45} \\left(-s_{12} M^2+s_{12} s_{15}-s_{12} s_{23}-s_{15} s_{45}+s_{23} s_{34}+s_{34} s_{45}\\right)\\,(W_2 \\otimes W_1) + (-s_{15} s_{45}+s_{23} s_{34}+s_{34} s_{45}) \\left(s_{12} M^2-s_{34} s_{45}\\right)\\,(W_2 \\otimes W_2) - s_{34} s_{45} \\left(-s_{12} M^2+s_{12} s_{15}-s_{12} s_{23}-s_{15} s_{45}+s_{23} s_{34}+s_{34} s_{45}\\right)\\,(W_1 \\otimes W_2) + (-s_{15} s_{45}-s_{23} s_{34}+s_{34} s_{45}) \\left(s_{12} M^2-s_{34} s_{45}\\right)\\,(W_2 \\otimes W_3) - s_{34} s_{45} \\left(-s_{12} M^2-s_{12} s_{15}+s_{12} s_{23}+s_{15} s_{45}-s_{23} s_{34}+s_{34} s_{45}\\right)\\,(W_3 \\otimes W_1) + (-s_{15} s_{45}-s_{23} s_{34}+s_{34} s_{45}) \\left(s_{12} M^2-s_{34} s_{45}\\right)\\,(W_3 \\otimes W_2) + s_{34} s_{45} \\left(-s_{12} M^2+s_{12} s_{15}-s_{12} s_{23}-s_{15} s_{45}+s_{23} s_{34}+s_{34} s_{45}\\right)\\,(W_2 \\otimes W_4) - s_{45} \\left(-2 s_{12} s_{15} M^2+s_{12} s_{34} M^2+s_{12} s_{15} s_{34}-s_{12} s_{23} s_{34}+s_{15} s_{34} s_{45}+s_{23} s_{34}^2-s_{34}^2 s_{45}\\right)\\,(W_3 \\otimes W_4) - s_{45} \\left(-2 s_{12} s_{15} M^2+s_{12} s_{34} M^2+s_{12} s_{15} s_{34}-s_{12} s_{23} s_{34}+s_{15} s_{34} s_{45}+s_{23} s_{34}^2-s_{34}^2 s_{45}\\right)\\,(W_4 \\otimes W_3) - s_{34} \\left(-2 s_{12} s_{23} M^2+s_{12} s_{45} M^2-s_{12} s_{15} s_{45}+s_{12} s_{23} s_{45}+s_{15} s_{45}^2+s_{23} s_{34} s_{45}-s_{34} s_{45}^2\\right)\\,(W_2 \\otimes W_5) - s_{34} \\left(-2 s_{12} s_{23} M^2+s_{12} s_{45} M^2-s_{12} s_{15} s_{45}+s_{12} s_{23} s_{45}+s_{15} s_{45}^2+s_{23} s_{34} s_{45}-s_{34} s_{45}^2\\right)\\,(W_5 \\otimes W_2) + 0\\,(W_3 \\otimes W_{12}) + 0\\,(W_{12} \\otimes W_3) + s_{34} s_{45} \\left(-s_{12} M^2+s_{12} s_{15}+s_{12} s_{23}-s_{15} s_{45}-s_{23} s_{34}+s_{34} s_{45}\\right)\\,(W_{12} \\otimes W_1) - s_{34} s_{45} \\left(-s_{12} M^2+s_{12} s_{15}+s_{12} s_{23}-s_{15} s_{45}-s_{23} s_{34}+s_{34} s_{45}\\right)\\,(W_{12} \\otimes W_{12})\\right]\\end{aligned}",
+			"wDefinitions": [
+				{
+					"label": "W_1",
+					"definition": "\\frac{s_{12}}{M^2}",
+					"originalLetter": "s_{12}"
+				},
+				{
+					"label": "W_2",
+					"definition": "\\frac{s_{15}}{M^2}",
+					"originalLetter": "s_{15}"
+				},
+				{
+					"label": "W_3",
+					"definition": "\\frac{s_{23}}{M^2}",
+					"originalLetter": "s_{23}"
+				},
+				{
+					"label": "W_4",
+					"definition": "\\frac{s_{34}}{M^2}",
+					"originalLetter": "s_{34}"
+				},
+				{
+					"label": "W_5",
+					"definition": "\\frac{s_{45}}{M^2}",
+					"originalLetter": "s_{45}"
+				},
+				{
+					"label": "W_6",
+					"definition": "\\frac{-s_{34}+M^2}{M^2}",
+					"originalLetter": "M^2-s_{34}"
+				},
+				{
+					"label": "W_7",
+					"definition": "\\frac{s_{12}-s_{34}}{M^2}",
+					"originalLetter": "s_{12}-s_{34}"
+				},
+				{
+					"label": "W_8",
+					"definition": "\\frac{s_{15}-s_{34}}{M^2}",
+					"originalLetter": "s_{15}-s_{34}"
+				},
+				{
+					"label": "W_9",
+					"definition": "\\frac{-s_{45}+M^2}{M^2}",
+					"originalLetter": "M^2-s_{45}"
+				},
+				{
+					"label": "W_{10}",
+					"definition": "\\frac{s_{12}-s_{45}}{M^2}",
+					"originalLetter": "s_{12}-s_{45}"
+				},
+				{
+					"label": "W_{11}",
+					"definition": "\\frac{s_{23}-s_{45}}{M^2}",
+					"originalLetter": "s_{23}-s_{45}"
+				},
+				{
+					"label": "W_{12}",
+					"definition": "\\frac{-s_{34} s_{45}+s_{12} M^2}{M^2}",
+					"originalLetter": "s_{12} M^2-s_{34} s_{45}"
+				},
+				{
+					"label": "W_{13}",
+					"definition": "\\frac{s_{23} s_{34}-s_{34} s_{45}+s_{12} M^2}{M^2}",
+					"originalLetter": "s_{12} M^2+s_{23} s_{34}-s_{34} s_{45}"
+				}
+			],
+			"normalizedAlphabet": [
+				"W_1",
+				"W_2",
+				"W_3",
+				"W_4",
+				"W_5",
+				"W_6",
+				"W_7",
+				"W_8",
+				"W_9",
+				"W_{10}",
+				"W_{11}",
+				"W_{12}",
+				"W_{13}"
+			],
+			"symbolScale": "M^2",
+			"normalizedSymbolTerms": 49,
+			"legOrder": []
+		}
+	],
+	"Names": [
+		"1loop pentagon",
+		"massless 1-loop pentagon with one off-shell leg",
+		"one-loop one-mass pentagon"
+	],
+	"edges": "{{{1, 2}, 0}, {{1, 3}, 0}, {{2, 4}, 0}, {{3, 5}, 0}, {{4, 5}, 0}}",
+	"nodes": "{{1, 0}, {2, 0}, {4, 0}, {5, M}, {3, 0}}",
+	"quadruple": "{E^(eps*EulerGamma)*Gamma[3 + eps], (x1 + x2 + x3 + x4 + x5)^(1 + 2*eps)*(s12*x2*x3 - s12*x1*x4 - s23*x1*x4 + s45*x1*x4 + s45*x3*x4 + MM*x1*x5 + s15*x1*x5 - s23*x1*x5 - s34*x1*x5 + MM*x2*x5 + s12*x2*x5 - s34*x2*x5 - s45*x2*x5 + MM*x3*x5)^(-3 - eps), {x1, x2, x3, x4, x5}, {MM, s12, s15, s23, s34, s45}}",
+	"Loops": 1,
+	"NumPropagators": 5,
+	"CanonicalName": "1-mass pentagon",
+	"MassConfig": {
+		"numEdges": 5,
+		"numMassiveEdges": 0,
+		"numMasslessEdges": 5,
+		"distinctInternalMasses": 0,
+		"internalMassLabels": [],
+		"edgeMassPattern": "00000",
+		"numExtLegs": 5,
+		"numOnshellMassiveExtLegs": 1,
+		"numMasslessExtLegs": 4,
+		"extLegSignature": "000M0"
+	},
+	"commonNames": [
+		"E₀"
+	],
+	"Subsectors": [
+		"e12|e3|e3|e|:000|00|00|1|",
+		"e12|e3|e3|e|:000|00|10|2|",
+		"e12|e3|e3|e|:000|10|20|0|"
+	],
+	"ParentSectors": [
+		"e112|e3|e4|e5|e5|e|:0000|00|00|00|00|0|",
+		"e12|e3|e4|e5|e5|e|:000|00|00|00|00|0|",
+		"e12|e3|e4|e5|e5|e|:000|00|00|00|00|1|"
+	]
 }

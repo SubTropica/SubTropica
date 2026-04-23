@@ -104,6 +104,24 @@ function alphabetToWL(alphabet) {
   return '{\n' + rows.join(',\n') + '\n}';
 }
 
+// Derive a Mathematica substitution-rule string
+//   {Wm[i] -> minusRoot, Wp[i] -> plusRoot, [delta[i] -> deltaSign], ...}
+// from the structured `algebraicLetters` field (schema v3, v1.0.455+).
+// Supersedes the dropped `rootSubstitutions` InputForm string.
+function algebraicLettersToRulesWL(algebraicLetters) {
+  if (!algebraicLetters || algebraicLetters.length === 0) return '{}';
+  const rules = [];
+  for (const letter of algebraicLetters) {
+    const i = letter.index;
+    if (letter.minusRoot) rules.push(`Wm[${i}] -> ${letter.minusRoot}`);
+    if (letter.plusRoot)  rules.push(`Wp[${i}] -> ${letter.plusRoot}`);
+    if (letter.deltaSign === 1 || letter.deltaSign === -1) {
+      rules.push(`delta[${i}] -> ${letter.deltaSign}`);
+    }
+  }
+  return rules.length === 0 ? '{}' : '{' + rules.join(', ') + '}';
+}
+
 function referencesBlock(refs) {
   if (!refs || refs.length === 0) return '';
   return refs.map((r, i) => `  [${i + 1}] ${r}`).join('\n');
@@ -150,29 +168,6 @@ async function bibtexBlock(records, opts = {}) {
   return entries.join('\n\n');
 }
 
-function kinematicPointWL(entry) {
-  const edgesRaw = entry.edges || '{}';
-  const nodesRaw = entry.nodes || '{}';
-  const rules = [];
-
-  const internalMasses = new Set();
-  const mIndex = [...edgesRaw.matchAll(/m\[(\d+)\]/g)].map(m => Number(m[1]));
-  mIndex.forEach(i => internalMasses.add(`mm[${i}]`));
-  if (/\bm\b(?!\[)/.test(edgesRaw) && internalMasses.size === 0) {
-    internalMasses.add('mm');
-  }
-
-  const extMasses = new Set();
-  const MIndex = [...nodesRaw.matchAll(/\bM(\d*)\b/g)].map(m => m[1]);
-  MIndex.forEach(i => extMasses.add(i ? `MM${i}` : 'MM'));
-
-  [...internalMasses].sort().forEach(s => rules.push(`${s} -> 1`));
-  [...extMasses].sort().forEach(s => rules.push(`${s} -> -1`));
-
-  if (rules.length === 0) return '{}  (* scaleless or missing — adjust manually *)';
-  return '{' + rules.join(', ') + '}';
-}
-
 function displayName(entry, record) {
   if (record && record.familyName) return record.familyName;
   if (entry.Names && entry.Names.length > 0) return entry.Names[0];
@@ -190,7 +185,12 @@ export async function buildTokens(entry, recordIdx = 0, opts = {}) {
   const result = pickResult(entry, recordIdx);
 
   const propExponents = result?.propExponents ?? Array(entry.NumPropagators || 0).fill(1);
-  const dim = result?.dimension ?? record?.dimScheme ?? '4 - 2*eps';
+  const dimRaw = result?.dimension ?? record?.dimScheme ?? '4 - 2*eps';
+  // Library stores human-readable dimScheme strings like "d=4-2*eps".
+  // Strip the leading "d=" (or "D=") so the emitted STIntegrate option is an
+  // expression, not `"Dimension" -> d=4-2*eps` (parses as `(Dimension->d) = 4-2*eps`
+  // and trips Set::write on the Protected Rule tag).
+  const dim = dimRaw.replace(/^\s*[dD]\s*=\s*/, '');
   const epsOrder = result?.epsOrder ?? record?.epsOrders?.split(',').pop() ?? '0';
 
   // Non-default option rules for STIntegrate. Defaults are d = 4 - 2 eps,
@@ -204,7 +204,7 @@ export async function buildTokens(entry, recordIdx = 0, opts = {}) {
   const expsAreDefault = propExponents.every(n => n === 1);
   if (!expsAreDefault) integrateOpts.push(`"Exponents" -> ${wlList(propExponents)}`);
   const methodLR = result?.methodLR;
-  if (methodLR && methodLR !== '' && methodLR !== 'Espresso') {
+  if (methodLR && methodLR !== '' && methodLR !== 'Lungo') {
     integrateOpts.push(`"MethodLR" -> "${methodLR}"`);
   }
   const integrateExtraOpts = integrateOpts.length
@@ -218,10 +218,6 @@ export async function buildTokens(entry, recordIdx = 0, opts = {}) {
     DISPLAY_NAME: displayName(entry, record),
     GENERATED_AT: new Date().toISOString(),
     GEN_VERSION,
-    // Current paclet version for the install cell. Passed in by the caller
-    // (app.js reads the live ST_VERSION); falls back to "latest" so the
-    // notebook still says something meaningful when rendered offline.
-    CURRENT_ST_VERSION: opts.stVersion || 'latest',
 
     EDGES: entry.edges || '{}',
     NODES: entry.nodes || '{}',
@@ -229,8 +225,6 @@ export async function buildTokens(entry, recordIdx = 0, opts = {}) {
     PROP_EXPONENTS: wlList(propExponents),
     DIM: /eps|Eps|\*/.test(dim) ? dim : `"${dim}"`,
     EPS_ORDER: epsOrder,
-
-    KINEMATIC_POINT_WL: kinematicPointWL(entry),
 
     RECORD_ID: record.recordId || '',
     FAMILY_ID: (record.recordId || 'custom').replace(/[^A-Za-z0-9]/g, ''),
@@ -247,7 +241,7 @@ export async function buildTokens(entry, recordIdx = 0, opts = {}) {
     tokens.SYMBOL_TERMS = result.symbolTerms ?? '';
     tokens.ALPHABET_WL = alphabetToWL(result.normalizedAlphabet?.length ? result.normalizedAlphabet : result.alphabet);
     tokens.W_DEFS_WL = wDefinitionsToWL(result.wDefinitions);
-    tokens.ROOT_SUBS_WL = result.rootSubstitutions || '{}';
+    tokens.ROOT_SUBS_WL = algebraicLettersToRulesWL(result.algebraicLetters);
   }
 
   tokens.REFERENCES_BLOCK = referencesBlock(entry.References);
@@ -260,11 +254,16 @@ export async function buildTokens(entry, recordIdx = 0, opts = {}) {
     ? 'This graph is not yet in the SubTropica library.'
     : 'This library entry does not yet have a computed result.';
 
+  const hasAlphabet =
+    (result?.normalizedAlphabet?.length ?? 0) > 0 ||
+    (result?.alphabet?.length ?? 0) > 0;
+
   const flags = {
     CASE_I: caseId === 'i',
     LIBRARY_ENTRY: caseId !== 'i',
     RESULT: Boolean(result),
     NO_RESULT: !result,
+    ALPHABET: hasAlphabet,
     W_DEFS: Boolean(result?.wDefinitions?.length),
     REFERENCES: Boolean(entry.References?.length),
     BIBTEX: Boolean(bib),

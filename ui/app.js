@@ -85,7 +85,32 @@ document.addEventListener('click', _hideTip, true);
 const TOUR_STORAGE_KEY = 'subtropica.tour.seen';
 
 let _tourDrawPromise = null;
+// Abort flag checked between awaits in animateDoubleBox — without it, Skip
+// only hides the overlay while the demo keeps pushing vertices/edges into
+// state for the remaining ~6 s of scripted gestures. _tourDrewDemo records
+// whether the tour actually drew (vs. finding the canvas already populated),
+// so close knows whether it is safe to wipe the canvas.
+let _tourAborted = false;
+let _tourDrewDemo = false;
+// Edge index chosen by the "Edit an edge" step — the follow-up "Set the
+// mass" step reads this so the two phases target the same leg without
+// repeating the position search.
+let _tourMassEdgeIdx = -1;
 function _tourSleep(ms) { return new Promise(r => setTimeout(r, ms)); }
+
+// Tour layout pivots on mobile vs desktop: several elements the desktop
+// tour points at (Nickel readout, top-toolbar Export button, Library FAB,
+// right-side toast stack) are hidden on phones; others (chip, tab bar,
+// overflow menu) take their place. Each step may declare a `mobile` object
+// that overrides { selector, title, body, placement, prepare, skip } when
+// _isMobileTour() is true; _tourStepProp reads through the override.
+function _isMobileTour() {
+  return typeof matchMedia === 'function' && matchMedia('(max-width: 768px)').matches;
+}
+function _tourStepProp(step, name) {
+  if (_isMobileTour() && step.mobile && step.mobile[name] !== undefined) return step.mobile[name];
+  return step[name];
+}
 
 // ── Ghost cursor ──────────────────────────────────────────────────────
 // A small marker that tweens across the canvas during the honest-draw demo,
@@ -137,6 +162,28 @@ function _tourGhostTo(svgPt, dur = 320) {
     requestAnimationFrame(tick);
   });
 }
+// Screen-space tween for HTML targets (mass-picker buttons, panel rows) —
+// the SVG→screen conversion in _tourGhostTo is wrong for these since they
+// don't live in the canvas coordinate system.
+function _tourGhostToScreen(screenPt, dur = 320) {
+  return new Promise(resolve => {
+    const g = _tourGhostEl; if (!g) { resolve(); return; }
+    const fX = parseFloat(g.style.left);
+    const fY = parseFloat(g.style.top);
+    const fromX = Number.isFinite(fX) ? fX : screenPt.x;
+    const fromY = Number.isFinite(fY) ? fY : screenPt.y;
+    const t0 = performance.now();
+    const tick = now => {
+      const t = Math.min((now - t0) / dur, 1);
+      const e = _tourEase(t);
+      g.style.left = (fromX + (screenPt.x - fromX) * e) + 'px';
+      g.style.top  = (fromY + (screenPt.y - fromY) * e) + 'px';
+      if (t < 1) requestAnimationFrame(tick);
+      else resolve();
+    };
+    requestAnimationFrame(tick);
+  });
+}
 function _tourGhostPress(on) {
   const g = _tourGhostEl; if (!g) return;
   g.classList.toggle('pressed', !!on);
@@ -176,6 +223,7 @@ function _tourDragTween(svgFrom, svgTo, dur = 220) {
 async function animateDoubleBox() {
   if (!state || !Array.isArray(state.vertices)) return;
   if (state.vertices.length > 0) return; // don't stomp on user's work
+  _tourDrewDemo = true;
 
   const V = {
     TL: { x: -2.4, y: -1.2 }, TM: { x: 0.0, y: -1.2 }, TR: { x: 2.4, y: -1.2 },
@@ -199,8 +247,11 @@ async function animateDoubleBox() {
 
   // Place the first vertex with a single click.
   const placeFirst = async () => {
+    if (_tourAborted) return;
     await _tourGhostTo(V.TL, 360);
+    if (_tourAborted) return;
     _tourGhostPress(true); await _tourSleep(70);
+    if (_tourAborted) return;
     state.vertices.push(V.TL);
     state.newVertexIdx = 0;
     render();
@@ -212,9 +263,13 @@ async function animateDoubleBox() {
   // edge preview line tracks the ghost cursor in real time, mirroring how
   // a real drag looks (uses the same renderEdgePreview as the user does).
   const drag = async (fromIdx, opts) => {
+    if (_tourAborted) return;
     const fromPos = state.vertices[fromIdx];
+    if (!fromPos) return; // state cleared by abort between awaits
     await _tourGhostTo(fromPos, 170);
+    if (_tourAborted) return;
     _tourGhostPress(true); await _tourSleep(50);
+    if (_tourAborted) return;
 
     // Engage the live edge preview (renders to previewLayer each frame).
     state.edgeDragFrom = fromIdx;
@@ -223,6 +278,7 @@ async function animateDoubleBox() {
 
     const toSvg = opts.toNew || state.vertices[opts.toExisting];
     await _tourDragTween(fromPos, toSvg, 210);
+    if (_tourAborted) return;
 
     // Commit: tear down the preview, then push the real edge / vertex.
     state.edgeDragFrom = null;
@@ -259,8 +315,11 @@ async function animateDoubleBox() {
   // This gives the visual impression of drawing outside-to-inside —
   // matching how one draws an external leg in practice.
   const placeExt = async (pos) => {
+    if (_tourAborted) return;
     await _tourGhostTo(pos, 320);
+    if (_tourAborted) return;
     _tourGhostPress(true); await _tourSleep(70);
+    if (_tourAborted) return;
     state.vertices.push({ x: pos.x, y: pos.y });
     state.newVertexIdx = state.vertices.length - 1;
     render();
@@ -313,43 +372,174 @@ const TOUR_STEPS = [
     body: 'Watch \u2014 I\u2019m tracing out a <strong>double-box diagram</strong>. In your own work you\u2019d <strong>click</strong> in empty space to place a vertex and <strong>drag</strong> from a vertex to extend an edge. External legs come from dragging a vertex into empty space.',
   },
   {
-    // Wait for the drawing to finish so edge bubbles actually exist before
-    // we try to position the spotlight over one.
-    prepare: () => _tourDrawPromise,
+    // Phase 1 of the mass-picker demo: ghost-click the top-right external
+    // leg's bubble so the popup appears. The card then explains what the
+    // picker is. The actual M-option click happens in the NEXT step so the
+    // user has time to read before the mass is applied.
+    prepare: async () => {
+      await _tourDrawPromise;
+      if (_tourAborted) return;
+
+      // Stash the chosen edge index on the state so the follow-up step can
+      // find it without repeating the position search.
+      const near = (v, x, y) => v && Math.abs(v.x - x) < 0.4 && Math.abs(v.y - y) < 0.4;
+      const edgeIdx = state.edges.findIndex(e => {
+        const va = state.vertices[e.a], vb = state.vertices[e.b];
+        return (near(va, 4.5, -2.8) && near(vb, 2.4, -1.2)) ||
+               (near(vb, 4.5, -2.8) && near(va, 2.4, -1.2));
+      });
+      if (edgeIdx < 0) return;
+      _tourMassEdgeIdx = edgeIdx;
+      const ed = state.edges[edgeIdx];
+      const va = state.vertices[ed.a], vb = state.vertices[ed.b];
+      const mid = { x: (va.x + vb.x) / 2, y: (va.y + vb.y) / 2 };
+
+      // If the picker is already visible (e.g., user is navigating Back
+      // from the next step), skip the ghost animation — it would feel
+      // redundant to replay the bubble-click tween.
+      const picker = document.getElementById('mass-picker');
+      if (picker && picker.classList.contains('visible')) return;
+
+      _tourMakeGhost();
+      if (!_tourGhostEl.style.left) _tourGhostSet({ x: 4.5, y: -2.8 });
+      _tourGhostEl.classList.add('visible');
+      await _tourSleep(80);
+      if (_tourAborted) return;
+
+      await _tourGhostTo(mid, 500);
+      if (_tourAborted) return;
+      _tourGhostPress(true); await _tourSleep(90);
+      _tourGhostPress(false);
+
+      openMassPicker(edgeIdx, mid.x, mid.y);
+      // Let the picker render so its buttons have layout before we measure.
+      await _tourSleep(260);
+      if (_tourAborted) { closeMassPicker(); return; }
+
+      if (_tourGhostEl) _tourGhostEl.classList.remove('visible');
+    },
     awaitPrepare: true,
-    selector: 'g.edge-bubble', placement: 'above',
+    selector: '#mass-picker',
     title: 'Edit an edge',
-    body: 'Every edge has a small circle at its midpoint. <strong>Click it</strong> to set the mass, style, propagator exponent, momentum label, or to reverse the arrow on an external leg.',
+    body: 'Every edge has a small circle at its midpoint — <strong>click it</strong> to open this popup. From here you set the edge’s <strong>mass</strong>, <strong>style</strong>, <strong>propagator exponent</strong>, <strong>momentum label</strong>, or reverse the arrow on an external leg. External legs default to the <strong>M</strong> family; internal edges to <strong>m</strong>.',
+  },
+  {
+    // Phase 2: ghost-click the "new M" option. This commits the mass and
+    // makes the diagram a 1-mass double box — downstream steps (toast
+    // matching, detail popup, first-paper preview) all resolve against
+    // that config.
+    prepare: async () => {
+      if (_tourAborted) return;
+      const edgeIdx = _tourMassEdgeIdx;
+      if (edgeIdx == null || edgeIdx < 0) return;
+
+      // Ensure the picker is open — if the user navigated back from a later
+      // step, _tourShow's transition rule closed it; reopen without the
+      // ghost bubble tween so the flow still makes sense.
+      let picker = document.getElementById('mass-picker');
+      if (!picker || !picker.classList.contains('visible')) {
+        const ed = state.edges[edgeIdx];
+        if (!ed) return;
+        const va = state.vertices[ed.a], vb = state.vertices[ed.b];
+        const mid = { x: (va.x + vb.x) / 2, y: (va.y + vb.y) / 2 };
+        openMassPicker(edgeIdx, mid.x, mid.y);
+        await _tourSleep(260);
+        if (_tourAborted) { closeMassPicker(); return; }
+        picker = document.getElementById('mass-picker');
+      }
+
+      // On an external leg, kind 'M' is primary and the first
+      // `.mass-option-new` button is the new-M slot we want.
+      const mBtn = picker && picker.querySelector('.mass-option-new');
+      if (!mBtn) { setEdgeMass(edgeIdx, 1, 'M'); return; }
+
+      _tourMakeGhost();
+      const r = mBtn.getBoundingClientRect();
+      const targetScreen = { x: r.left + r.width / 2, y: r.top + r.height / 2 };
+      // If the ghost was hidden/removed, seed its position near the picker
+      // so the inbound tween is visible rather than materialising on top
+      // of the target.
+      if (!_tourGhostEl.style.left) {
+        _tourGhostEl.style.left = (targetScreen.x - 80) + 'px';
+        _tourGhostEl.style.top  = (targetScreen.y - 40) + 'px';
+      }
+      _tourGhostEl.classList.add('visible');
+      await _tourSleep(80);
+      if (_tourAborted) { closeMassPicker(); return; }
+
+      await _tourGhostToScreen(targetScreen, 420);
+      if (_tourAborted) { closeMassPicker(); return; }
+      _tourGhostPress(true); await _tourSleep(90);
+      _tourGhostPress(false);
+      mBtn.click();
+      await _tourSleep(180);
+
+      if (_tourGhostEl) _tourGhostEl.classList.remove('visible');
+    },
+    awaitPrepare: true,
+    selector: '#mass-picker',
+    title: 'Set the mass',
+    body: 'Watch — I’m clicking the <strong>M</strong> option. For an external leg this means <em>p² = M²</em>, turning the diagram into a <strong>1-mass double box</strong>. A mass name input appears below once a slot is selected, so you can rename <code>M</code> to, e.g., <code>M_H</code>.',
   },
   {
     prepare: () => _tourDrawPromise, awaitPrepare: true,
     selector: '#mode-segment', placement: 'below',
     title: 'Draw vs delete',
     body: 'Toggle between draw and delete modes here. In delete mode, clicking a vertex or an edge removes it (the app keeps the graph connected).',
+    mobile: {
+      // On phones the mode toggle lives inside the overflow (\u22ef) menu along
+      // with rotate / flip / auto-arrange / clear. Spotlight the \u22ef button
+      // as the common entry point. Skip the draw-promise await (no reason
+      // to wait ~6s for the demo animation to finish on mobile \u2014 the \u22ef
+      // button exists from page load).
+      prepare: () => {}, awaitPrepare: false,
+      selector: '#overflow-btn', placement: 'below',
+      title: 'Actions menu',
+      body: 'Tap <strong>\u22ef</strong> for everything that doesn\u2019t fit in a four-tab nav: <strong>Draw / Delete mode</strong>, <strong>rotate</strong>, <strong>flip</strong>, <strong>auto-arrange</strong>, <strong>clear canvas</strong>.',
+    },
   },
   {
     prepare: () => _tourDrawPromise, awaitPrepare: true,
     selector: '#rebalance-btn', placement: 'above',
     title: 'Auto-arrange',
     body: 'Force-directed re-layout \u2014 handy when your diagram gets tangled after editing. The icons to the left rotate and flip the drawing; hit <code>L</code> as a keyboard shortcut.',
+    // Covered by the Actions-menu step on mobile; skip the dedicated
+    // rebalance spotlight.
+    mobile: { skip: true },
   },
   {
     prepare: () => _tourDrawPromise, awaitPrepare: true,
     selector: '#zoom-display', placement: 'above',
     title: 'Zoom',
     body: 'Zoom in and out of the canvas. The scroll wheel works too, and you can pan by dragging empty space.',
+    mobile: {
+      // No need to wait for the draw animation; zoom-display is always there.
+      prepare: () => {}, awaitPrepare: false,
+      body: 'Zoom in and out; <strong>pinch</strong> on the canvas does the same, and you can <strong>pan</strong> by dragging an empty area with one finger.',
+    },
   },
   {
     prepare: () => _tourDrawPromise, awaitPrepare: true,
     selector: '#nickel-readout', placement: 'below',
     title: 'Topology fingerprint',
     body: 'Whenever your drawing is connected, its canonical <strong>Nickel index</strong> appears here. Hover it for the full definition \u2014 this is how SubTropica matches your diagram against the library.',
+    // Nickel readout is hidden on \u2264480px; it still appears inside the
+    // library detail popup. Not worth a dedicated step on phones.
+    mobile: { skip: true },
   },
   {
     prepare: () => _tourDrawPromise, awaitPrepare: true,
     selector: '#export-menu-btn', placement: 'below',
     title: 'Export',
     body: 'Save the drawing as <strong>SVG, PNG, PDF, or TikZ</strong>, or copy a shareable link that encodes the diagram in the URL.',
+    mobile: {
+      // Export lives in the bottom tab bar on phones. Skip the draw-promise
+      // await — the tab is present from page load.
+      prepare: () => {}, awaitPrepare: false,
+      selector: '[data-tab="export"]', placement: 'above',
+      title: 'Export',
+      body: 'Tap <strong>Export</strong> in the bottom bar to save as <strong>SVG, PNG, PDF, or TikZ</strong>, or copy a shareable link that encodes the diagram in the URL.',
+    },
   },
   {
     prepare: async () => {
@@ -360,6 +550,12 @@ const TOUR_STEPS = [
     selector: '#browse-btn', placement: 'below',
     title: 'Browse the library',
     body: 'Several hundred topologies with masses and precomputed results. If your current diagram matches one, it lights up in the list.',
+    mobile: {
+      prepare: () => { try { closeBrowser(); } catch {} }, awaitPrepare: false,
+      selector: '[data-tab="library"]', placement: 'above',
+      title: 'Library tab',
+      body: 'Tap <strong>Library</strong> in the bottom bar to browse several hundred topologies with masses and precomputed results. If your current diagram matches one, it lights up in the list.',
+    },
   },
   {
     // Open the library overlay so users can see what they\u2019re browsing
@@ -421,6 +617,27 @@ const TOUR_STEPS = [
     selector: '#notif-stack .notif-toast.notif-config',
     title: 'Library matches',
     body: 'After every edit, SubTropica matches your drawing against the library. The cards on the right are the hits \u2014 each one is a specific mass configuration of the matching topology, with badges for \u03B5-orders, mass scales, and reference count.',
+    mobile: {
+      // Mobile collapses the toast stack to a single chip at top-center.
+      prepare: async () => {
+        await _tourDrawPromise;
+        try { closeBrowser(); } catch {}
+        closeDetailPanel();
+        await new Promise(r => {
+          const start = performance.now();
+          const tick = () => {
+            const chip = document.getElementById('notif-chip');
+            if (chip && !chip.hidden) return r();
+            if (performance.now() - start > 3000) return r();
+            requestAnimationFrame(tick);
+          };
+          tick();
+        });
+      },
+      selector: '#notif-chip', placement: 'below',
+      title: 'Library matches',
+      body: 'After every edit, SubTropica matches your drawing against the library. The chip at the top shows the matched <strong>topology</strong> and best <strong>mass configuration</strong>. Tap it to see every match.',
+    },
   },
   {
     // Now actually click that toast and spotlight the detail popup that opens.
@@ -444,18 +661,45 @@ const TOUR_STEPS = [
     selector: '#detail-panel',
     title: 'Library entry details',
     body: '<strong>Clicking a card</strong> \u2014 like this \u2014 opens the full entry: every cited paper, mass-scale information, precomputed \u03B5-expansions, and a paper preview link for each reference.',
+    mobile: {
+      // Two-tap path on mobile: chip opens the sheet, then the first config
+      // toast inside opens the (fullscreen) detail popup.
+      prepare: async () => {
+        await _tourDrawPromise;
+        const chip = document.getElementById('notif-chip');
+        if (chip && !chip.hidden) chip.click();
+        await new Promise(r => setTimeout(r, 350));
+        const cfgToast = document.querySelector('#notif-sheet-body .notif-toast.notif-config')
+                      || document.querySelector('#notif-sheet-body .notif-toast');
+        if (cfgToast) cfgToast.click();
+        await new Promise(r => {
+          const start = performance.now();
+          const tick = () => {
+            const dp = document.getElementById('detail-panel');
+            if (dp && dp.classList.contains('open')) return r();
+            if (performance.now() - start > 1500) return r();
+            requestAnimationFrame(tick);
+          };
+          tick();
+        });
+      },
+      title: 'Library entry details',
+      body: 'A match opens the full entry fullscreen: every cited paper, mass-scale info, precomputed \u03B5-expansions, a PDF preview for each reference. The <strong>Load to editor</strong> bar at the bottom drops the diagram onto the canvas.',
+    },
   },
   {
-    // Open the PDF preview panel for a known reference of the planar
-    // double-box. openPdfPanel slides the config panel in from the left and
-    // switches to the paper-preview tab. Close the detail popup first so the
-    // PDF panel isn't competing for attention.
+    // Click the first paper reference in the detail popup — the app's own
+    // thumbnail-click handler calls openPdfPanel with whatever arXiv ID
+    // that row is wired to, so the tour self-corrects if the library's
+    // reference ordering changes. Close the detail popup afterwards so the
+    // PDF preview has the stage to itself.
     prepare: async () => {
       await _tourDrawPromise;
+      const firstThumb = document.querySelector('#detail-panel .popup-record-pdf-thumb');
+      if (firstThumb) firstThumb.click();
       closeDetailPanel();
-      try { await openPdfPanel('hep-ph/9905323', null); } catch {}
       // Allow the slide-in transition + first PDF page to start rendering.
-      await new Promise(r => setTimeout(r, 350));
+      await new Promise(r => setTimeout(r, 450));
     },
     awaitPrepare: true,
     selector: '#config-panel',
@@ -571,14 +815,23 @@ function _tourShow(idx) {
   if (!_tourEls) _tourBuild();
   if (idx < 0 || idx >= TOUR_STEPS.length) { _tourClose(); return; }
   // Skip steps gated by includeIf() (used to hide full-mode-only steps in
-  // the online demo). Direction of travel is inferred from the current idx.
+  // the online demo) and by mobile.skip (desktop-only steps on mobile).
+  // Direction of travel is inferred from the current idx.
   const dir = idx >= _tourIdx ? 1 : -1;
   while (idx >= 0 && idx < TOUR_STEPS.length) {
     const s = TOUR_STEPS[idx];
     if (typeof s.includeIf === 'function' && !s.includeIf()) { idx += dir; continue; }
+    if (_isMobileTour() && s.mobile && s.mobile.skip) { idx += dir; continue; }
     break;
   }
   if (idx < 0 || idx >= TOUR_STEPS.length) { _tourClose(); return; }
+  // Close the mass picker on step transitions, UNLESS the incoming step is
+  // one of the mass-picker steps — the two phases of the mass demo both
+  // want the popup to stay open, and reopening it between them would make
+  // the picker flash (openMassPicker re-renders the body from scratch).
+  if (_tourStepProp(TOUR_STEPS[idx], 'selector') !== '#mass-picker') {
+    try { closeMassPicker(); } catch {}
+  }
   _tourIdx = idx;
   const step = TOUR_STEPS[idx];
   const { overlay, spot, card } = _tourEls;
@@ -591,16 +844,19 @@ function _tourShow(idx) {
   // double-box animation itself: we want the card visible immediately while
   // the drawing unfolds behind it).
   const preparePromise = (() => {
-    if (typeof step.prepare !== 'function') return Promise.resolve();
-    try { return Promise.resolve(step.prepare()); }
+    const pFn = _tourStepProp(step, 'prepare');
+    if (typeof pFn !== 'function') return Promise.resolve();
+    try { return Promise.resolve(pFn()); }
     catch (_) { return Promise.resolve(); }
   })();
-  const waitForPrepare = step.awaitPrepare !== false;
+  const waitForPrepare = _tourStepProp(step, 'awaitPrepare') !== false;
 
   // Cross-fade: slide the old card out, swap contents, slide the new in.
   const fill = () => {
-    card.querySelector('.tour-card-title').innerHTML = typeof step.title === 'function' ? step.title() : step.title;
-    card.querySelector('.tour-card-body').innerHTML = typeof step.body === 'function' ? step.body() : step.body;
+    const titleVal = _tourStepProp(step, 'title');
+    const bodyVal  = _tourStepProp(step, 'body');
+    card.querySelector('.tour-card-title').innerHTML = typeof titleVal === 'function' ? titleVal() : titleVal;
+    card.querySelector('.tour-card-body').innerHTML  = typeof bodyVal  === 'function' ? bodyVal()  : bodyVal;
     card.querySelector('.tour-card-progress').textContent = (idx + 1) + ' / ' + TOUR_STEPS.length;
     const prevBtn = card.querySelector('.tour-prev');
     prevBtn.textContent = idx === 0 ? 'Skip' : 'Back';
@@ -609,7 +865,8 @@ function _tourShow(idx) {
     card.querySelector('.tour-next').textContent = idx === TOUR_STEPS.length - 1 ? 'Finish' : 'Next';
   };
   const place = () => {
-    const target = step.selector ? document.querySelector(step.selector) : null;
+    const selVal = _tourStepProp(step, 'selector');
+    const target = selVal ? document.querySelector(selVal) : null;
     const r = _visibleRect(target);
     if (!r) {
       // Target not found or not visible — fall back to a centered card and
@@ -636,7 +893,7 @@ function _tourShow(idx) {
     const cardW = cr.width || 340, cardH = cr.height || 180;
     let top, left;
     const gap = 16;
-    switch (step.placement) {
+    switch (_tourStepProp(step, 'placement')) {
       case 'below':
         top = r.bottom + gap;
         left = Math.max(12, Math.min(r.left + r.width / 2 - cardW / 2, window.innerWidth - cardW - 12));
@@ -729,10 +986,47 @@ function _tourPrev() { _tourShow(_tourIdx - 1); }
 function _tourClose() {
   if (!_tourEls) return;
   const { overlay, spot, card } = _tourEls;
-  card.classList.remove('visible');
-  spot.classList.remove('visible');
-  overlay.classList.remove('visible', 'dim');
+  _tourAborted = true;
+
+  // Close any side panels/overlays a step may have opened. The tour drives
+  // real UI surfaces (browser, detail popup, config panel, mass picker), so
+  // Skip must undo them or the user is left staring at leftover state they
+  // never opened themselves.
+  try { closeBrowser(); } catch {}
+  try { closeConfigPanel(); } catch {}
+  try { closeDetailPanel(); } catch {}
+  try { closeMassPicker(); } catch {}
+
+  // Wipe the demo double-box if (and only if) the tour drew it — never touch
+  // a drawing the user started before the tour ran.
+  if (_tourDrewDemo && state) {
+    state.vertices = [];
+    state.edges = [];
+    state.newVertexIdx = -1;
+    state.newEdgeIdx = -1;
+    state.edgeDragFrom = null;
+    state.edgeDragPos = null;
+    try { if (typeof renderEdgePreview === 'function') renderEdgePreview(); } catch {}
+    try { if (typeof render === 'function') render(); } catch {}
+    try { if (typeof onGraphChanged === 'function') onGraphChanged(); } catch {}
+  }
+
   _tourRemoveGhost();
+  document.removeEventListener('keydown', _tourKey);
+
+  // Detach the tour DOM entirely — fading to opacity:0 leaves three z-index
+  // 9999+ nodes parked in document.body, which is the literal "ghost" users
+  // were reporting.
+  try { overlay.remove(); } catch {}
+  try { spot.remove(); } catch {}
+  try { card.remove(); } catch {}
+
+  _tourEls = null;
+  _tourIdx = 0;
+  _tourDrawPromise = null;
+  _tourDrewDemo = false;
+  _tourMassEdgeIdx = -1;
+
   try { localStorage.setItem(TOUR_STORAGE_KEY, '1'); } catch {}
 }
 
@@ -742,6 +1036,9 @@ function startTour() {
   // promise, and wipe the canvas so the double-box animation replays.
   if (_tourEls) _tourEls.card.classList.remove('visible');
   _tourDrawPromise = null;
+  _tourAborted = false;
+  _tourDrewDemo = false;
+  _tourMassEdgeIdx = -1;
   _tourRemoveGhost();
   if (state) {
     state.vertices = [];
@@ -765,7 +1062,7 @@ window.addEventListener('load', () => {
   setTimeout(startTour, 1200);
 });
 
-const ST_VERSION = '1.0.347';
+const ST_VERSION = '1.0.445';
 
 // ─── Library ─────────────────────────────────────────────────────────
 
@@ -870,6 +1167,11 @@ async function detectBackendMode() {
 
 // ─── Constants ───────────────────────────────────────────────────────
 
+// Cloudflare Worker base URL — shared by the submission / correction /
+// PDF-proxy routes.  Hardcoded (not an env var) because the UI is a
+// static bundle deployed without a build step.
+const SUBMIT_WORKER_BASE = 'https://subtropica-submit.subtropica.workers.dev';
+
 const SVG_NS = 'http://www.w3.org/2000/svg';
 const VERTEX_RADIUS = 0.07;
 const HIT_RADIUS = 0.25;
@@ -890,9 +1192,20 @@ const MASS_PALETTE = [
   '#8b5c2a',  // m₈ driftwood brown
 ];
 
-function massColor(m) {
-  if (!m || m === 0) return null;        // massless → use --edge-color
-  return MASS_PALETTE[(m - 1) % MASS_PALETTE.length];
+// Color lookup keyed on the (kind, mass) slot, not on `mass` alone — the
+// same integer is reused across kinds (internal m[1] and external M[1]
+// are distinct symbols), so indexing only on the integer would paint them
+// with the same swatch and silently tell the user "these are the same
+// mass". We shift M-kind by half the palette so m- and M-slots never
+// collide until more than PALETTE_LEN/2 slots of one kind exist.
+const MASS_KIND_OFFSET = Math.floor(MASS_PALETTE.length / 2);
+function slotPaletteIndex(mass, kind) {
+  const off = kind === 'M' ? MASS_KIND_OFFSET : 0;
+  return (mass - 1 + off) % MASS_PALETTE.length;
+}
+function massColor(mass, kind) {
+  if (!mass || mass === 0) return null;  // massless → use --edge-color
+  return MASS_PALETTE[slotPaletteIndex(mass, kind || 'm')];
 }
 
 const LINE_STYLES = [
@@ -1410,6 +1723,13 @@ function setMode(m) {
   drawBtn.className = 'mode-btn' + (m === 'draw' ? ' active-draw' : '');
   delBtn.className = 'mode-btn' + (m === 'delete' ? ' active-delete' : '');
   canvas.setAttribute('class', m === 'delete' ? 'mode-delete' : '');
+  // Mirror the active mode on the overflow-menu items so the mobile path
+  // reflects the current mode (the toolbar buttons may be hidden on phones).
+  document.querySelectorAll('.overflow-mode-item').forEach(el => {
+    const on = el.dataset.action === ('mode-' + m);
+    el.setAttribute('aria-checked', on ? 'true' : 'false');
+    el.classList.toggle('overflow-mode-active', on);
+  });
   render();
 }
 
@@ -1962,7 +2282,7 @@ function renderEdges() {
     const a = state.vertices[e.a], b = state.vertices[e.b];
     const key = Math.min(e.a, e.b) + '-' + Math.max(e.a, e.b);
     const n = counts[key], j = copyIdx[i];
-    const mc = massColor(e.mass || 0);
+    const mc = massColor(e.mass || 0, getEdgeMassKind(e));
     const edgeCol = mc || 'var(--edge-color)';
     const sw = (mc ? 0.065 : 0.05) * lineScale;
     const lineStyle = e.style || 'solid';
@@ -2370,7 +2690,7 @@ function showEdgeTooltip(edgeIdx, evt) {
   }
   // Mass
   const mass = e.mass || 0;
-  const mc = massColor(mass);
+  const mc = massColor(mass, getEdgeMassKind(e));
   const massLabel = getMassDisplayLabel(mass, e);
   const swatchHTML = mc ? `<span class="edge-tooltip-swatch" style="background:${mc}"></span> ` : '';
   rows += `<div class="edge-tooltip-row"><span class="edge-tooltip-label">Mass</span><span class="edge-tooltip-val">${swatchHTML}<span id="edge-tip-mass"></span></span></div>`;
@@ -2425,15 +2745,36 @@ let _massPickerJustOpened = false;
  * Get the LaTeX display label for a mass value.
  * User-typed labels like m_H become m_{H}, M_W becomes M_{W}, etc.
  */
+// Kind of a mass slot: 'm' for internal-propagator masses (default on
+// interior edges) or 'M' for external-leg masses (square roots of squared
+// external momenta). Read from edge.massKind if the user set it explicitly;
+// otherwise inferred from edge topology — a degree-1-endpoint edge is an
+// external leg and defaults to 'M'. Returns null for the massless case.
+function getEdgeMassKind(edge) {
+  if (!edge || !edge.mass || edge.mass === 0) return null;
+  if (edge.massKind === 'M' || edge.massKind === 'm') return edge.massKind;
+  const deg = getVertexDegrees();
+  const isExtLeg = (deg[edge.a] || 0) === 1 || (deg[edge.b] || 0) === 1;
+  return isExtLeg ? 'M' : 'm';
+}
+
+// Count distinct (kind, mass) slots in use. Used by the label renderer to
+// decide 'm' vs 'm_{1}' etc.: when only one m-kind slot is live, it renders
+// as bare 'm'; two or more, they split into 'm_{1}, m_{2}'. Same for 'M'.
+function getDistinctMassSlots(kind) {
+  const distinct = new Set();
+  for (const e of state.edges) {
+    if (e.mass && e.mass > 0 && getEdgeMassKind(e) === kind) distinct.add(e.mass);
+  }
+  return distinct;
+}
+
 function getMassDisplayLabel(mass, edge) {
   if (edge && edge.massLabel) return massLabelToTeX(edge.massLabel);
   if (!mass || mass === 0) return '0';
-  // Drop subscript when there's only one distinct mass scale
-  const distinctMasses = new Set();
-  for (const e of state.edges) {
-    if (e.mass && e.mass > 0) distinctMasses.add(e.mass);
-  }
-  return distinctMasses.size === 1 ? 'm' : `m_{${mass}}`;
+  const kind = getEdgeMassKind(edge) || 'm';
+  const distinct = getDistinctMassSlots(kind);
+  return distinct.size <= 1 ? kind : `${kind}_{${mass}}`;
 }
 
 /**
@@ -2447,23 +2788,74 @@ function massLabelToTeX(label) {
   return label.replace(/_([^{].*?)(?=$|\s|\^)/g, '_{$1}');
 }
 
+// Centralized edge-to-Mma emit, so every downstream path (STIntegrate
+// command builder, notebook download, Export tab, kinematics panel) uses
+// the same kind-aware convention:
+//
+//   - custom label (user-typed in the picker): sanitized to atomic via
+//     massLabelToMma, matching the "m_H -> mH" rule.
+//   - auto-numbered internal masses: `m` when there's only one internal
+//     slot on the canvas, else `Subscript[m, N]` — this is the legacy
+//     kernel-side convention that library-stored results were built
+//     against, so we preserve it to avoid breaking library matching.
+//   - auto-numbered external-leg masses: same story with `M` /
+//     `Subscript[M, N]`. Honors edge.massKind (or topology as fallback).
+//
+// Returns the literal Mma string; the "0" case for massless edges is
+// handled at the call site because some callers want to skip the edge
+// rather than emit "0".
+function edgeMassToMma(edge) {
+  if (!edge || !edge.mass || edge.mass === 0) return '0';
+  if (edge.massLabel) return massLabelToMma(edge.massLabel);
+  const kind = getEdgeMassKind(edge) || 'm';
+  const count = getDistinctMassSlots(kind).size;
+  return count <= 1 ? kind : `Subscript[${kind}, ${edge.mass}]`;
+}
+
+// Map a small set of common unicode symbols to Mma-legal ASCII.
+// Extend as needed; anything not in the map is kept verbatim during sanitize,
+// and only ASCII-alphanumeric survives the final pass.
+const UNICODE_TO_ASCII = {
+  'μ': 'mu', 'ν': 'nu', 'ξ': 'xi', 'π': 'pi', 'ρ': 'rho', 'σ': 'sigma',
+  'τ': 'tau', 'φ': 'phi', 'χ': 'chi', 'ψ': 'psi', 'ω': 'omega',
+  'α': 'alpha', 'β': 'beta', 'γ': 'gamma', 'δ': 'delta', 'ε': 'epsilon',
+  'ζ': 'zeta', 'η': 'eta', 'θ': 'theta', 'ι': 'iota', 'κ': 'kappa',
+  'λ': 'lambda',
+};
+
 /**
- * Convert a user-typed mass label to Mathematica Subscript form.
- * e.g. "m_H" → "Subscript[m,H]", "m_{top}" → "Subscript[m,top]",
- *      "M_W" → "Subscript[M,W]", "m1" → "Subscript[m,1]"
- * Bare "m" or "M" pass through unchanged.
+ * Convert a user-typed mass label to an atomic Mathematica symbol.
+ * User types display-style labels like "m_H", "M_W", "μ" for readability in
+ * the canvas/popup; STIntegrate needs a plain atomic symbol (no underscore,
+ * which is pattern syntax; no unicode, which breaks many downstream
+ * Variables[]/OptionValue[] lookups). We strip underscores, braces, and
+ * backslashes, fold common Greek letters to their ASCII names, and drop any
+ * other non-alphanumeric character.
+ *
+ *   "m_H"   → "mH"            "M_W"   → "MW"
+ *   "m_top" → "mtop"          "μ"     → "mu"
+ *   "m1"    → "m1"            "m"     → "m"        (unchanged)
+ *
+ * Auto-numbered masses from the popup's "new" slot go through a different
+ * path (buildGraphArgJS emits m[1], m[2], M[1], ... directly). This function
+ * only handles user-typed custom labels stored in edge.massLabel.
  */
 function massLabelToMma(label) {
   if (!label) return label;
-  let s = label.replace(/[{}\\]/g, '');  // strip braces and backslash
-  // m_X or M_X → Subscript[m,X] or Subscript[M,X]
-  const subMatch = s.match(/^([mM])_(.+)$/);
-  if (subMatch) return `Subscript[${subMatch[1]},${subMatch[2]}]`;
-  // mXXX or MXXX (letter followed by more chars) → Subscript[m,XXX]
-  const prefixMatch = s.match(/^([mM])(.+)$/);
-  if (prefixMatch) return `Subscript[${prefixMatch[1]},${prefixMatch[2]}]`;
-  // Bare m or M
-  return s;
+  let s = String(label);
+  // Fold unicode greek to ASCII.
+  s = s.replace(/./gu, ch => UNICODE_TO_ASCII[ch] ?? ch);
+  // Drop brace/backslash TeX artifacts the user might have typed.
+  s = s.replace(/[{}\\]/g, '');
+  // Collapse _XYZ into the bare XYZ (atomic symbol: m_H -> mH).
+  s = s.replace(/_+/g, '');
+  // Strip any remaining non-alphanumeric character so the result is a
+  // legal atomic Mma symbol.
+  s = s.replace(/[^A-Za-z0-9]/g, '');
+  // Mma symbols must start with a letter; prepend 'm' if caller typed a
+  // label that reduced to digits only (defensive — unlikely in practice).
+  if (/^[0-9]/.test(s)) s = 'm' + s;
+  return s || label;  // fall back to original if sanitizing ate everything
 }
 
 function openMassPicker(edgeIdx, svgX, svgY) {
@@ -2495,34 +2887,126 @@ function openMassPicker(edgeIdx, svgX, svgY) {
   massTitle.textContent = 'Mass';
   massCol.appendChild(massTitle);
 
-  const usedMasses = new Set();
-  state.edges.forEach(e => { if (e.mass) usedMasses.add(e.mass); });
-  const maxMass = Math.max(0, ...usedMasses);
-  const numOptions = Math.min(maxMass + 2, MASS_PALETTE.length + 1);
+  // Determine whether the edge being picked is an external leg (degree-1
+  // endpoint) or interior. External defaults new masses to M-family,
+  // interior to m-family.
+  const degMap = getVertexDegrees();
+  const thisEdge = state.edges[edgeIdx];
+  const thisIsExt = (degMap[thisEdge.a] || 0) === 1 || (degMap[thisEdge.b] || 0) === 1;
+  const primaryKind = thisIsExt ? 'M' : 'm';
+  const secondaryKind = thisIsExt ? 'm' : 'M';
 
-  function makeMassBtn(m, color) {
-    const isActive = (state.edges[edgeIdx].mass || 0) === m;
+  // Walk the current graph to collect the distinct mass slots in use,
+  // bucketed by kind. Each bucket is keyed by the mass integer; the first
+  // edge we see with that kind determines the color/swatch.
+  const slotsByKind = { m: new Map(), M: new Map() };
+  for (const e of state.edges) {
+    if (!e.mass || e.mass === 0) continue;
+    const k = getEdgeMassKind(e);
+    if (!k) continue;
+    if (!slotsByKind[k].has(e.mass)) {
+      slotsByKind[k].set(e.mass, {
+        mass: e.mass,
+        kind: k,
+        massLabel: e.massLabel || '',
+      });
+    }
+  }
+
+  // Render a label for a mass slot: custom label wins; else follow the
+  // bare-'m' vs 'm_{N}' rule based on how many distinct slots of this kind
+  // are in use. Preview labels for the "new" slot reuse the same logic.
+  function labelForSlot(kind, mass, customLabel) {
+    if (customLabel) return massLabelToTeX(customLabel);
+    const count = slotsByKind[kind].size;
+    return count <= 1 ? kind : `${kind}_{${mass}}`;
+  }
+
+  // Next unused integer in a given kind bucket — used as the mass index the
+  // "new (kind)" button would mint. Starts at 1 if no slots of this kind
+  // exist yet.
+  function nextSlotIndex(kind) {
+    const inUse = slotsByKind[kind];
+    let i = 1;
+    while (inUse.has(i)) i++;
+    return i;
+  }
+
+  function makeMassBtn({ kind, mass, customLabel, isNewSlot = false }) {
+    const thisMass = state.edges[edgeIdx].mass || 0;
+    const thisKind = getEdgeMassKind(state.edges[edgeIdx]);
+    const isActive = !isNewSlot && thisMass === mass && thisKind === kind;
     const btn = document.createElement('button');
-    btn.className = 'mass-option' + (isActive ? ' active' : '');
+    btn.className = 'mass-option' + (isActive ? ' active' : '') +
+      (isNewSlot ? ' mass-option-new' : '');
     const swatch = document.createElement('span');
     swatch.className = 'mass-swatch';
-    swatch.style.background = color;
+    swatch.style.background = MASS_PALETTE[slotPaletteIndex(mass, kind)];
     btn.appendChild(swatch);
     const label = document.createElement('span');
     label.className = 'mass-tex';
-    const edge = m === (state.edges[edgeIdx].mass || 0) ? state.edges[edgeIdx] : null;
-    const displayLabel = (edge && edge.massLabel) ? massLabelToTeX(edge.massLabel)
-      : (m === 0 ? '0' : (usedMasses.size <= 1 ? 'm' : `m_{${m}}`));
+    // Preview for "new" slots shows what the label WOULD be if picked —
+    // i.e. compute with slotsByKind[kind].size + 1 so the bare-'m' rule
+    // flips to 'm_{1}' / 'm_{2}' when the second slot of this kind is
+    // about to appear.
+    let displayLabel;
+    if (isNewSlot) {
+      const futureCount = slotsByKind[kind].size + 1;
+      displayLabel = futureCount <= 1 ? kind : `${kind}_{${mass}}`;
+    } else {
+      displayLabel = labelForSlot(kind, mass, customLabel);
+    }
     renderTeX(displayLabel, label);
     btn.appendChild(label);
-    btn.addEventListener('click', () => { setEdgeMass(edgeIdx, m); });
+    btn.addEventListener('click', () => { setEdgeMass(edgeIdx, mass, kind); });
     return btn;
   }
 
-  massCol.appendChild(makeMassBtn(0, 'var(--edge-color)'));
-  for (let m = 1; m <= numOptions; m++) {
-    massCol.appendChild(makeMassBtn(m, MASS_PALETTE[(m - 1) % MASS_PALETTE.length]));
+  // 0 (massless) — always offered.
+  const zeroBtn = document.createElement('button');
+  const thisEdgeMass = thisEdge.mass || 0;
+  zeroBtn.className = 'mass-option' + (thisEdgeMass === 0 ? ' active' : '');
+  const zSw = document.createElement('span');
+  zSw.className = 'mass-swatch';
+  zSw.style.background = 'var(--edge-color)';
+  zeroBtn.appendChild(zSw);
+  const zL = document.createElement('span');
+  zL.className = 'mass-tex';
+  renderTeX('0', zL);
+  zeroBtn.appendChild(zL);
+  zeroBtn.addEventListener('click', () => { setEdgeMass(edgeIdx, 0); });
+  massCol.appendChild(zeroBtn);
+
+  // Existing same-kind slots (primary). Sorted by mass index so the canvas
+  // labels ('m_{1}, m_{2}, ...') line up with the popup ordering.
+  const primarySlots = [...slotsByKind[primaryKind].values()]
+    .sort((a, b) => a.mass - b.mass);
+  for (const slot of primarySlots) {
+    massCol.appendChild(makeMassBtn({
+      kind: slot.kind, mass: slot.mass, customLabel: slot.massLabel,
+    }));
   }
+
+  // One "new" slot for the primary kind — this is the user's "m_{2}" option
+  // when there's already an 'm' on the canvas, or 'm' if none exists yet.
+  massCol.appendChild(makeMassBtn({
+    kind: primaryKind, mass: nextSlotIndex(primaryKind), isNewSlot: true,
+  }));
+
+  // Existing cross-kind slots + one "new" cross-kind — present so a user can
+  // tie (e.g.) an external leg to an internal mass 'm' (on-shell at m), or
+  // start a fresh 'M' on an interior edge. Rendered in the same column for
+  // now; a future polish pass can visually separate.
+  const secondarySlots = [...slotsByKind[secondaryKind].values()]
+    .sort((a, b) => a.mass - b.mass);
+  for (const slot of secondarySlots) {
+    massCol.appendChild(makeMassBtn({
+      kind: slot.kind, mass: slot.mass, customLabel: slot.massLabel,
+    }));
+  }
+  massCol.appendChild(makeMassBtn({
+    kind: secondaryKind, mass: nextSlotIndex(secondaryKind), isNewSlot: true,
+  }));
 
   // Custom mass name input (e.g., m_W, M_H)
   const currentMass = state.edges[edgeIdx].mass || 0;
@@ -2536,7 +3020,11 @@ function openMassPicker(edgeIdx, svgX, svgY) {
     const massNameInput = document.createElement('input');
     massNameInput.className = 'picker-label-input';
     massNameInput.type = 'text';
-    massNameInput.placeholder = usedMasses.size <= 1 ? 'm' : `m_{${currentMass}}`;
+    massNameInput.placeholder = (() => {
+      const activeKind = getEdgeMassKind(state.edges[edgeIdx]) || 'm';
+      const count = getDistinctMassSlots(activeKind).size;
+      return count <= 1 ? activeKind : `${activeKind}_{${currentMass}}`;
+    })();
     massNameInput.value = state.edges[edgeIdx].massLabel || '';
     massNameInput.addEventListener('input', () => {
       state.edges[edgeIdx].massLabel = massNameInput.value;
@@ -2666,6 +3154,48 @@ function openMassPicker(edgeIdx, svgX, svgY) {
     updateMomPreview();
     momInput.addEventListener('input', updateMomPreview);
     labelCol.appendChild(momPreview);
+
+    // "Swap with …" chip row. Lets the user transpose this leg with any
+    // other external leg from within the edge popup — complements the
+    // drag-to-reorder grip in the External masses panel. Each chip
+    // is labeled p_N (canonical index), click → swapExtLegs() + close.
+    const extEdgesList = [];
+    for (let i = 0; i < state.edges.length; i++) {
+      const ee = state.edges[i];
+      if (ee.a === ee.b) continue;
+      const eA = (deg[ee.a] || 0) <= 1;
+      const eB = (deg[ee.b] || 0) <= 1;
+      if (!eA && !eB) continue;
+      extEdgesList.push(i);
+    }
+    const thisExtIdx = extEdgesList.indexOf(edgeIdx);
+    if (thisExtIdx >= 0 && extEdgesList.length >= 2) {
+      const SUB_DIGITS = '₀₁₂₃₄₅₆₇₈₉';
+      const subscript = (n) => String(n).split('').map(d => SUB_DIGITS[+d] || d).join('');
+
+      const swapLabel = document.createElement('div');
+      swapLabel.className = 'picker-col-title';
+      swapLabel.style.marginTop = '6px';
+      swapLabel.textContent = 'Swap with';
+      labelCol.appendChild(swapLabel);
+
+      const swapRow = document.createElement('div');
+      swapRow.className = 'picker-swap-row';
+      extEdgesList.forEach((_, otherExtIdx) => {
+        if (otherExtIdx === thisExtIdx) return;
+        const chip = document.createElement('button');
+        chip.type = 'button';
+        chip.className = 'picker-swap-chip';
+        chip.textContent = 'p' + subscript(otherExtIdx + 1);
+        chip.title = `Swap this leg (p${subscript(thisExtIdx + 1)}) with p${subscript(otherExtIdx + 1)}`;
+        chip.addEventListener('click', (evt) => {
+          evt.stopPropagation();
+          if (swapExtLegs(thisExtIdx, otherExtIdx)) closeMassPicker();
+        });
+        swapRow.appendChild(chip);
+      });
+      labelCol.appendChild(swapRow);
+    }
   }
 
   // Propagator exponent input (for internal edges, full mode only)
@@ -2855,7 +3385,7 @@ function getExternalEdges() {
   return ext;
 }
 
-function setEdgeMass(edgeIdx, mass) {
+function setEdgeMass(edgeIdx, mass, kind) {
   const extEdges = getExternalEdges();
   const nLegs = extEdges.length;
   const isExt = extEdges.includes(edgeIdx);
@@ -2865,12 +3395,25 @@ function setEdgeMass(edgeIdx, mass) {
 
   pushUndoState();
   state.edges[edgeIdx].mass = mass;
+  // Persist the kind choice (m-family vs M-family) on the edge so later
+  // popup renders / label lookups honor the user's pick even if the edge
+  // topology would default to the other family.
+  if (mass === 0) {
+    delete state.edges[edgeIdx].massKind;
+  } else if (kind === 'm' || kind === 'M') {
+    state.edges[edgeIdx].massKind = kind;
+  }
 
-  // 2-leg: mirror mass to the paired external leg
+  // 2-leg: mirror mass + kind to the paired external leg
   if (isExt && nLegs === 2) {
     const otherIdx = extEdges[0] === edgeIdx ? extEdges[1] : extEdges[0];
     state.edges[otherIdx].mass = mass;
     state.edges[otherIdx].massLabel = state.edges[edgeIdx].massLabel;
+    if (mass === 0) {
+      delete state.edges[otherIdx].massKind;
+    } else if (kind === 'm' || kind === 'M') {
+      state.edges[otherIdx].massKind = kind;
+    }
   }
 
   closeMassPicker();
@@ -3049,9 +3592,20 @@ function stopEdgePulse() {
 
 function renderMassLegend() {
   const legend = $('mass-legend');
-  const usedMasses = new Set();
-  state.edges.forEach(e => { if (e.mass) usedMasses.add(e.mass); });
-  if (usedMasses.size === 0) {
+  // Enumerate distinct (kind, mass) slots — every entry in this list gets
+  // its own palette color via slotPaletteIndex, so internal m[1] and
+  // external M[1] never share the same swatch.
+  const slots = [];      // {kind, mass, massLabel}
+  const seen = new Set();
+  for (const e of state.edges) {
+    if (!e.mass || e.mass === 0) continue;
+    const kind = getEdgeMassKind(e) || 'm';
+    const key = `${kind}:${e.mass}`;
+    if (seen.has(key)) continue;
+    seen.add(key);
+    slots.push({ kind, mass: e.mass, massLabel: e.massLabel || '' });
+  }
+  if (slots.length === 0) {
     legend.style.display = 'none';
     return;
   }
@@ -3077,10 +3631,12 @@ function renderMassLegend() {
   ml.appendChild(mlText);
   legend.appendChild(ml);
 
-  // Massive entries — find custom label for each mass value
-  const sorted = [...usedMasses].sort((a, b) => a - b);
-  sorted.forEach(m => {
-    const col = MASS_PALETTE[(m - 1) % MASS_PALETTE.length];
+  // Slot entries, grouped by kind. Uses getDistinctMassSlots for the
+  // "bare m vs m_{N}" decision so the legend labels exactly match the
+  // canvas labels.
+  slots.sort((a, b) => a.kind === b.kind ? a.mass - b.mass : (a.kind === 'm' ? -1 : 1));
+  slots.forEach(slot => {
+    const col = MASS_PALETTE[slotPaletteIndex(slot.mass, slot.kind)];
     const entry = document.createElement('div');
     entry.className = 'legend-entry';
     const line = document.createElement('span');
@@ -3089,9 +3645,10 @@ function renderMassLegend() {
     entry.appendChild(line);
     const text = document.createElement('span');
     text.className = 'legend-text';
-    // Use custom label from any edge with this mass
-    const edgeWithLabel = state.edges.find(e => e.mass === m && e.massLabel);
-    const displayLabel = edgeWithLabel ? edgeWithLabel.massLabel : (sorted.length === 1 ? 'm' : `m_{${m}}`);
+    const sameKindCount = getDistinctMassSlots(slot.kind).size;
+    const displayLabel = slot.massLabel
+      ? slot.massLabel
+      : (sameKindCount === 1 ? slot.kind : `${slot.kind}_{${slot.mass}}`);
     renderTeX(displayLabel, text);
     entry.appendChild(text);
     legend.appendChild(entry);
@@ -3121,7 +3678,24 @@ let _lastAutoChords = null;
  *
  * Momenta are represented as coefficient vectors over {l₁,...,l_L, p₁,...,p_E}.
  */
-function solveMomenta() {
+/**
+ * Core momentum-routing solver.  Returns raw coefficient vectors (not
+ * formatted strings) so callers can render either LaTeX (solveMomenta) or
+ * Mathematica syntax (buildPropsArgJS).  The three-component shape matches
+ * the kernel's autoRouteMomenta output order: loop momenta first
+ * (l[1]..l[L]), then external momenta (p[1]..p[E]).
+ *
+ * Returns null when the diagram is incomplete, otherwise:
+ *   {
+ *     momenta:        Array<null | number[]>,   // per-edge coefficient vectors
+ *     nLoops, nExt, basisLen,
+ *     isExternal:     boolean[],                // one entry per edge
+ *     extLegVertex:   number[],                 // for ext edges: internal vertex
+ *     internalEdges:  number[],                 // indices of internal edges
+ *     edgeExtLabel:   number[]                  // 0-based ext-leg index per edge
+ *   }
+ */
+function solveMomentaRaw() {
   if (state.vertices.length < 2 || state.edges.length < 1) return null;
 
   const deg = getVertexDegrees();
@@ -3342,9 +3916,25 @@ function solveMomenta() {
     }
   }
 
+  return {
+    momenta, nLoops, nExt, basisLen,
+    isExternal, extLegVertex, internalEdges, edgeExtLabel
+  };
+}
+
+/**
+ * Solve momentum conservation and return an array of LaTeX-formatted
+ * per-edge momentum labels (one string per edge in state.edges order).
+ * Thin wrapper around solveMomentaRaw + formatMomentum.
+ */
+function solveMomenta() {
+  const r = solveMomentaRaw();
+  if (!r) return null;
+  const { momenta, nLoops, nExt, isExternal } = r;
+
   // Build custom external momentum names from edge extMomLabel
   const extNames = [];
-  for (let i = 0; i < nEdges; i++) {
+  for (let i = 0; i < state.edges.length; i++) {
     if (isExternal[i]) {
       const label = state.edges[i].extMomLabel;
       extNames.push(label && label.trim() ? label.trim() : null);
@@ -3753,6 +4343,15 @@ function updatePinchGesture() {
 
 canvas.addEventListener('pointerdown', function(evt) {
   if (evt.button !== 0) return;
+  // Belt-and-suspenders guard: if the pointer originates inside an open
+  // overlay sheet (config panel, library browser, detail popup, notif sheet,
+  // or expanded integral card), don't let it start a canvas gesture. Those
+  // surfaces stack above the canvas at higher z-indices, but if the native
+  // scroll-forward behaviour leaks through we'd begin a phantom pan/zoom.
+  if (evt.target && evt.target.closest &&
+      evt.target.closest('#config-panel.open, .browser-overlay.visible, #detail-panel.open, #notif-sheet.open, .integral-card.mobile-expanded, .detail-backdrop.open, .notif-sheet-backdrop.open')) {
+    return;
+  }
   _activePointers.set(evt.pointerId, { x: evt.clientX, y: evt.clientY });
 
   // 2+ pointers → multi-touch pinch/pan; revert any in-progress single-pointer action
@@ -4604,7 +5203,7 @@ function generateThumbnail(topoNickel, configKey, options) {
   const labelData = []; // Collect labels to draw after edges
 
   drawEdges.forEach(e => {
-    const mc = massColor(e.mass);
+    const mc = massColor(e.mass, getEdgeMassKind(e));
     const color = mc || getComputedStyle(document.documentElement).getPropertyValue('--text-muted').trim();
     const sw = e.mass > 0 ? 2.5 : 1.5;
 
@@ -5010,10 +5609,17 @@ function doLiveMatch() {
 
 function clearNotifications() {
   const stack = $('notif-stack');
-  stack.querySelectorAll('.notif-toast').forEach(el => {
-    el.classList.add('removing');
-    setTimeout(() => el.remove(), 300);
+  const body = document.getElementById('notif-sheet-body');
+  [stack, body].forEach(root => {
+    if (!root) return;
+    root.querySelectorAll('.notif-toast').forEach(el => {
+      el.classList.add('removing');
+      setTimeout(() => el.remove(), 300);
+    });
   });
+  if (typeof syncMobileNotifChip === 'function') {
+    setTimeout(syncMobileNotifChip, 320);
+  }
 }
 
 function buildToastKey(topoKey, configKey) {
@@ -5211,9 +5817,148 @@ function updateNotifications() {
       stack.querySelectorAll('.notif-subtopo:not(.removing)').forEach(el => {
         stack.appendChild(el);
       });
+      syncMobileNotifChip();
     }, insertDelay);
+  } else {
+    syncMobileNotifChip();
   }
 }
+
+// ─── Mobile notification chip + bottom sheet ─────────────────────────
+// On ≤768px the right-side .notif-stack is hidden. We surface a single
+// chip at top-center summarizing the current topology + config matches.
+// Tap → open a bottom sheet that reparents the .notif-toast elements
+// from #notif-stack. Closing the sheet moves them back.
+
+function _isMobileNotifMode() {
+  return typeof matchMedia === 'function' && matchMedia('(max-width: 768px)').matches;
+}
+
+function _notifChipPrimary(stack) {
+  // Prefer active > topo > config > subtopo; fall back to first child
+  return stack.querySelector('.notif-toast.notif-active')
+      || stack.querySelector('.notif-toast.notif-topo')
+      || stack.querySelector('.notif-toast.notif-config')
+      || stack.querySelector('.notif-toast');
+}
+
+function _notifChipLabelFor(toast) {
+  if (!toast) return '';
+  const titleEl = toast.querySelector('.notif-title, .notif-cfg-name');
+  if (!titleEl) return '';
+  // Strip any trailing "No exact match" badge text etc.; take the first
+  // visible text node chunk only.
+  const clone = titleEl.cloneNode(true);
+  clone.querySelectorAll('.badge').forEach(b => b.remove());
+  return (clone.textContent || '').trim();
+}
+
+function syncMobileNotifChip() {
+  const chip = document.getElementById('notif-chip');
+  if (!chip) return;
+  const stack = document.getElementById('notif-stack');
+  const label = document.getElementById('notif-chip-label');
+  const count = document.getElementById('notif-chip-count');
+  const sheetOpen = document.getElementById('notif-sheet')?.classList.contains('open');
+
+  // If the sheet is open, the toasts live inside the sheet — count from there.
+  const source = sheetOpen ? document.getElementById('notif-sheet-body') : stack;
+  const toasts = source ? source.querySelectorAll('.notif-toast:not(.removing)') : [];
+
+  if (!toasts.length) {
+    chip.hidden = true;
+    chip.classList.remove('has-config');
+    if (sheetOpen) closeNotifSheet();
+    return;
+  }
+
+  // Prefer topology + first config match for a "Topo · Config" label.
+  const topo = [...toasts].find(t => t.classList.contains('notif-topo'));
+  const cfg  = [...toasts].find(t => t.classList.contains('notif-config'));
+  const primary = topo || _notifChipPrimary({ querySelector: s => source.querySelector(s) });
+  const topoLabel = topo ? _notifChipLabelFor(topo) : '';
+  const cfgLabel  = cfg  ? _notifChipLabelFor(cfg)  : '';
+  let text = topoLabel && cfgLabel ? `${topoLabel} · ${cfgLabel}`
+           : topoLabel || cfgLabel || _notifChipLabelFor(primary);
+  // Strip trailing " topology" from the topo title for a tighter chip
+  text = text.replace(/\s+topology(\s+·\s+|$)/, '$1');
+  if (label) label.textContent = text;
+
+  chip.classList.toggle('has-config', !!cfg && !topo);
+  if (count) {
+    if (toasts.length > 1) { count.hidden = false; count.textContent = String(toasts.length); }
+    else                   { count.hidden = true;  count.textContent = ''; }
+  }
+  chip.hidden = false;
+}
+
+function openNotifSheet() {
+  if (!_isMobileNotifMode()) return;
+  const stack = document.getElementById('notif-stack');
+  const sheet = document.getElementById('notif-sheet');
+  const body  = document.getElementById('notif-sheet-body');
+  const backdrop = document.getElementById('notif-sheet-backdrop');
+  const chip = document.getElementById('notif-chip');
+  if (!stack || !sheet || !body || !backdrop || !chip) return;
+  // Move toasts into the sheet body (preserves click handlers)
+  [...stack.querySelectorAll('.notif-toast:not(.removing)')].forEach(el => body.appendChild(el));
+  backdrop.hidden = false;
+  sheet.hidden = false;
+  sheet.setAttribute('aria-hidden', 'false');
+  // Force reflow so the transition fires
+  void sheet.offsetWidth;
+  backdrop.classList.add('open');
+  sheet.classList.add('open');
+  chip.setAttribute('aria-expanded', 'true');
+}
+
+function closeNotifSheet() {
+  const stack = document.getElementById('notif-stack');
+  const sheet = document.getElementById('notif-sheet');
+  const body  = document.getElementById('notif-sheet-body');
+  const backdrop = document.getElementById('notif-sheet-backdrop');
+  const chip = document.getElementById('notif-chip');
+  if (!sheet || !sheet.classList.contains('open')) return;
+  sheet.classList.remove('open');
+  if (backdrop) backdrop.classList.remove('open');
+  sheet.setAttribute('aria-hidden', 'true');
+  if (chip) chip.setAttribute('aria-expanded', 'false');
+  // After the slide-down animation, move toasts back and hide sheet
+  setTimeout(() => {
+    if (stack && body) {
+      [...body.querySelectorAll('.notif-toast:not(.removing)')].forEach(el => stack.appendChild(el));
+    }
+    if (sheet) sheet.hidden = true;
+    if (backdrop) backdrop.hidden = true;
+    // Subtopology toasts go to the bottom of the stack
+    if (stack) stack.querySelectorAll('.notif-subtopo:not(.removing)').forEach(el => stack.appendChild(el));
+  }, 300);
+}
+
+(function _wireMobileNotifChip() {
+  if (typeof document === 'undefined') return;
+  const ready = () => {
+    const chip = document.getElementById('notif-chip');
+    const sheet = document.getElementById('notif-sheet');
+    const closeBtn = document.getElementById('notif-sheet-close');
+    const backdrop = document.getElementById('notif-sheet-backdrop');
+    if (chip) chip.addEventListener('click', () => {
+      if (sheet && sheet.classList.contains('open')) closeNotifSheet();
+      else                                            openNotifSheet();
+    });
+    if (closeBtn) closeBtn.addEventListener('click', closeNotifSheet);
+    if (backdrop) backdrop.addEventListener('click', closeNotifSheet);
+    // Close sheet if viewport grows past the mobile breakpoint
+    if (typeof matchMedia === 'function') {
+      matchMedia('(max-width: 768px)').addEventListener('change', (e) => {
+        if (!e.matches) closeNotifSheet();
+        syncMobileNotifChip();
+      });
+    }
+  };
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', ready);
+  else ready();
+})();
 
 // ─── INSPIRE metadata cache ─────────────────────────────────────────
 
@@ -5585,10 +6330,18 @@ function openDetailPanel(topoKey, topo, configMatches, configKey, opts) {
   // Highlight the corresponding toast and keep stack browsable
   const activeKey = buildToastKey(topoKey, configKey);
   const notifStack = $('notif-stack');
-  notifStack.querySelectorAll('.notif-toast').forEach(el => {
-    el.classList.toggle('notif-active', el.dataset.key === activeKey);
+  const notifSheetBody = document.getElementById('notif-sheet-body');
+  [notifStack, notifSheetBody].forEach(root => {
+    if (!root) return;
+    root.querySelectorAll('.notif-toast').forEach(el => {
+      el.classList.toggle('notif-active', el.dataset.key === activeKey);
+    });
   });
   notifStack.classList.toggle('notif-browsing', !fromBrowser);
+  // On mobile, the detail popup should be frontmost: close the notif sheet.
+  if (typeof closeNotifSheet === 'function' && typeof _isMobileNotifMode === 'function' && _isMobileNotifMode()) {
+    closeNotifSheet();
+  }
 
   const panel = $('detail-panel');
   const cm = configMatches || {};
@@ -5668,17 +6421,51 @@ function openDetailPanel(topoKey, topo, configMatches, configKey, opts) {
 
   header.appendChild(titleBlock);
 
-  // "Load to editor" button — bottom-right of hero, above the separator
-  if (fromBrowser) {
-    const loadBtn = document.createElement('button');
-    loadBtn.className = 'popup-load-btn popup-load-inline';
-    loadBtn.textContent = 'Load to editor';
-    loadBtn.addEventListener('click', () => {
+  // Actions cluster — top-right of the hero.  Holds the diagram-level
+  // external links (Loopedia, QCDLoop) and the "Load to editor" button.
+  // These all describe the diagram as a whole, so they live in the hero
+  // rather than duplicated on every record card.  Shown regardless of
+  // how the popup was opened (library browser, toast, etc.).
+  if (cfg) {
+    const actions = document.createElement('div');
+    actions.className = 'popup-hero-actions';
+
+    const linkSvg = '<svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>';
+
+    if (hasSource(cfg, 'Loopedia')) {
+      const loopediaUrl = `https://loopedia.mpp.mpg.de/?graph=${encodeURIComponent(topoKey)}`;
+      actions.insertAdjacentHTML('beforeend',
+        `<a class="detail-link detail-link-muted" href="${loopediaUrl}" target="_blank" rel="noopener">Loopedia ${linkSvg}</a>`);
+    }
+    const qcdloopUrl = cfg.QCDLoopURL || cfg.qcdloopURL || '';
+    if (qcdloopUrl) {
+      actions.insertAdjacentHTML('beforeend',
+        `<a class="detail-link detail-link-muted" href="${qcdloopUrl}" target="_blank" rel="noopener">QCDLoop ${linkSvg}</a>`);
+    }
+
+    // "Load to editor" — always available for config popups, including
+    // toast-opened ones.  closeBrowser() is a no-op when the library
+    // browser isn't open, so it's safe to call unconditionally.
+    const _loadClickHandler = () => {
       closeDetailPanel();
       closeBrowser();
       loadFromNickel(topoKey, configKey);
-    });
-    header.appendChild(loadBtn);
+    };
+    const loadBtn = document.createElement('button');
+    loadBtn.className = 'popup-load-btn';
+    loadBtn.textContent = 'Load to editor';
+    loadBtn.addEventListener('click', _loadClickHandler);
+    actions.appendChild(loadBtn);
+
+    if (actions.children.length > 0) header.appendChild(actions);
+
+    // Stash the handler so the mobile sticky-CTA below can re-use it without
+    // duplicating the loadFromNickel call shape.
+    panel.dataset.hasLoadCta = '1';
+    panel._loadCtaHandler = _loadClickHandler;
+  } else {
+    panel.dataset.hasLoadCta = '';
+    panel._loadCtaHandler = null;
   }
 
   content.appendChild(header);
@@ -5703,7 +6490,9 @@ function openDetailPanel(topoKey, topo, configMatches, configKey, opts) {
 
         let html = '';
 
-        // External link buttons (top-right) — order: arXiv, INSPIRE, Loopedia, QCDLoop
+        // Per-record external link buttons — arXiv and INSPIRE are tied
+        // to the specific paper a record cites; diagram-level links
+        // (Loopedia, QCDLoop) have moved to the hero actions cluster.
         const linkBtns = [];
         const linkSvg = '<svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>';
         const arxivMatch = ref.match(/arXiv:(\d{4}\.\d{4,5})/);
@@ -5713,13 +6502,19 @@ function openDetailPanel(topoKey, topo, configMatches, configKey, opts) {
           linkBtns.push(`<a class="detail-link detail-link-muted" href="https://arxiv.org/abs/${arxivId}" target="_blank" rel="noopener">arXiv ${linkSvg}</a>`);
           linkBtns.push(`<a class="detail-link detail-link-muted" href="https://inspirehep.net/arxiv/${arxivId}" target="_blank" rel="noopener">INSPIRE ${linkSvg}</a>`);
         }
-        if (hasSource(cfg, 'Loopedia')) {
-          const loopediaUrl = `https://loopedia.mpp.mpg.de/?graph=${encodeURIComponent(topoKey)}`;
-          linkBtns.push(`<a class="detail-link detail-link-muted" href="${loopediaUrl}" target="_blank" rel="noopener">Loopedia ${linkSvg}</a>`);
-        }
-        const qcdloopUrl = cfg.QCDLoopURL || cfg.qcdloopURL || '';
-        if (qcdloopUrl) {
-          linkBtns.push(`<a class="detail-link detail-link-muted" href="${qcdloopUrl}" target="_blank" rel="noopener">QCDLoop ${linkSvg}</a>`);
+        // "Report issue" trigger.  Shown on every record so a reader who
+        // spots a misidentification can flag it against a specific paper
+        // × topology × config triple.  Data attributes carry the context
+        // the modal needs; the listener is attached after card.innerHTML
+        // below.
+        const recId = rec.recordId || '';
+        if (recId) {
+          linkBtns.push(
+            `<button type="button" class="report-issue-link"
+                data-record-id="${escapeHtml(recId)}"
+                data-arxiv-id="${escapeHtml(arxivId || '')}"
+                title="Flag a problem with this entry">&#x26A0; Report</button>`
+          );
         }
         if (linkBtns.length > 0) {
           html += `<div class="popup-record-links">${linkBtns.join(' ')}</div>`;
@@ -5855,6 +6650,23 @@ function openDetailPanel(topoKey, topo, configMatches, configKey, opts) {
           e.stopPropagation();
           const aid = e.target.dataset.arxivId;
           if (aid) openPdfPanel(aid, rec);
+        });
+
+        // Click "Report" → open correction modal with record context.
+        // The closure captures topoKey / configKey / cfg / rec from the
+        // enclosing openDetailPanel call, so the modal always knows which
+        // (paper × topology × config) triple the user is flagging.
+        card.querySelector('.report-issue-link')?.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const recCanonical = cfg.canonicalName || cfg.CanonicalName || '';
+          const recCNickel = cfg.CNickelIndex || cfg.CNickel || cfg.nickel || `${topoKey}:${configKey}`;
+          openCorrectionModal({
+            cnickelIndex: recCNickel,
+            recordId: rec.recordId || '',
+            arxivId: arxivId || '',
+            canonicalName: recCanonical,
+            record: rec,
+          });
         });
 
         // Fetch INSPIRE metadata if we have an arXiv ID or texkey. No
@@ -6146,7 +6958,7 @@ function openDetailPanel(topoKey, topo, configMatches, configKey, opts) {
           try {
             const cleaned = cleanTeX(r.resultTeX);
             katex.render('\\displaystyle ' + cleaned, texEl, {
-              throwOnError: false, displayMode: true, maxSize: Infinity, maxExpand: 1000, trust: true
+              throwOnError: false, displayMode: true, maxSize: Infinity, maxExpand: 10000, trust: true
             });
           } catch {
             // KaTeX internal error — try again in non-display mode (more lenient)
@@ -6329,6 +7141,21 @@ function openDetailPanel(topoKey, topo, configMatches, configKey, opts) {
     }
   }
 
+  // Mobile sticky-CTA: on ≤480px the popup becomes a fullscreen sheet and the
+  // hero's top-right "Load to editor" button is far from the thumb. Append a
+  // second CTA that position:sticky's to the bottom of the scroll area so it
+  // stays reachable regardless of scroll position.
+  if (panel._loadCtaHandler) {
+    const mCta = document.createElement('div');
+    mCta.className = 'detail-mobile-cta';
+    const mBtn = document.createElement('button');
+    mBtn.className = 'popup-load-btn detail-mobile-cta-btn';
+    mBtn.textContent = 'Load to editor';
+    mBtn.addEventListener('click', panel._loadCtaHandler);
+    mCta.appendChild(mBtn);
+    content.appendChild(mCta);
+  }
+
   // Raise above browser overlay when opened from browser
   if (fromBrowser) {
     panel.classList.add('above-browser');
@@ -6371,9 +7198,13 @@ function closeDetailPanel() {
   $('detail-panel').style.left = '';  // reset position
   $('detail-backdrop').classList.remove('open');
   $('detail-backdrop').classList.remove('above-browser');
-  // Remove toast highlight and browsing mode
+  // Remove toast highlight and browsing mode — clear on both stack and sheet body
   $('notif-stack').classList.remove('notif-browsing');
-  $('notif-stack').querySelectorAll('.notif-active').forEach(el => el.classList.remove('notif-active'));
+  const _sheetBody = document.getElementById('notif-sheet-body');
+  [$('notif-stack'), _sheetBody].forEach(root => {
+    if (!root) return;
+    root.querySelectorAll('.notif-active').forEach(el => el.classList.remove('notif-active'));
+  });
   updateCanvasDepth();
 }
 
@@ -6779,7 +7610,10 @@ function openAbout() {
   const isFull = backendMode === 'full';
   const lastSync = isFull ? (localStorage.getItem('subtropica-last-sync') || 'never') : '';
 
-  const titleBadge = isFull ? '' : ' <span class="title-badge">Online</span>';
+  // Match the top-toolbar badge: "Mobile" on phone widths, "Online" elsewhere;
+  // no badge in Full (Mathematica-backed) mode.
+  const isMobileBadge = typeof matchMedia === 'function' && matchMedia('(max-width: 768px)').matches;
+  const titleBadge = isFull ? '' : ` <span class="title-badge">${isMobileBadge ? 'Mobile' : 'Online'}</span>`;
   const subtitle = isFull
     ? `v${ST_VERSION}`
     : `v${ST_VERSION} &mdash; Feynman diagram editor &amp; integral database`;
@@ -6922,6 +7756,166 @@ function drawScatterPlot(canvasId, points) {
 
 function closeAbout() {
   $('about-overlay').classList.remove('visible');
+}
+
+// ─── Correction-report modal ────────────────────────────────────────
+//
+// The modal is a pure-client form that POSTs to the Cloudflare Worker's
+// /correction route.  The Worker triggers correction.yml, which opens a
+// GitHub issue on SubTropica/SubTropica.  No kernel required — works in
+// both the deployed static UI and in the local Mathematica-backed UI.
+
+const CORRECTION_CONTRIB_KEY = 'subtropica-correction-contributor';
+
+// Gag template for the "Citation request" category.  Pre-filled into
+// the comment textarea when the user selects that category; cleared
+// again if they switch to another category without editing.
+const CITATION_REQUEST_TEMPLATE =
+`Dear authors,
+
+I've been reading your paper with great interest. However, I can't help but notice that you missed to include citations to my seminal papers:
+[List at least 5 of your papers here]
+[Preferably, with BibTeX entries ready to copy-paste]
+
+It would be wonderful if you could update your paper with these citations at your earliest opportunity.
+
+Best regards,
+[Your name]
+`;
+
+let _correctionCtx = null;  // { cnickelIndex, recordId, arxivId, canonicalName, record }
+
+function openCorrectionModal(ctx) {
+  _correctionCtx = ctx || {};
+  const overlay = $('correction-overlay');
+  if (!overlay) return;
+
+  // Populate the read-only target block
+  const target = $('correction-target');
+  const bits = [];
+  if (ctx.canonicalName) {
+    bits.push(`<div class="correction-target-row"><b>Name:</b> ${escapeHtml(ctx.canonicalName)}</div>`);
+  }
+  bits.push(`<div class="correction-target-row"><b>CNI:</b> <code>${escapeHtml(ctx.cnickelIndex || '—')}</code></div>`);
+  if (ctx.recordId) {
+    bits.push(`<div class="correction-target-row"><b>Record:</b> <code>${escapeHtml(ctx.recordId)}</code></div>`);
+  }
+  if (ctx.arxivId) {
+    bits.push(`<div class="correction-target-row"><b>arXiv:</b> <a href="https://arxiv.org/abs/${encodeURIComponent(ctx.arxivId)}" target="_blank" rel="noopener">${escapeHtml(ctx.arxivId)}</a></div>`);
+  }
+  target.innerHTML = bits.join('');
+
+  // Reset form fields
+  $('correction-category').value = 'misidentified-diagram';
+  $('correction-comment').value = '';
+  $('correction-proposed').value = '';
+  $('correction-comment-count').textContent = '0';
+  $('correction-proposed-count').textContent = '0';
+  $('correction-status').textContent = '';
+  $('correction-status').className = 'correction-status';
+  $('correction-submit').disabled = true;
+  $('correction-submit').textContent = 'Submit';
+
+  // Contributor: restore from localStorage.  Default is anonymous.
+  let storedName = '';
+  let storedAnon = true;
+  try {
+    const raw = localStorage.getItem(CORRECTION_CONTRIB_KEY);
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      storedName = parsed.name || '';
+      storedAnon = parsed.anonymous !== false;
+    }
+  } catch {}
+  const nameInput = $('correction-contributor');
+  const anonCb = $('correction-anon');
+  nameInput.value = storedName;
+  anonCb.checked = storedAnon;
+  nameInput.disabled = storedAnon;
+  nameInput.placeholder = storedAnon ? 'Anonymous' : 'Your name';
+
+  overlay.classList.add('visible');
+  setTimeout(() => $('correction-comment').focus(), 50);
+}
+
+function closeCorrectionModal() {
+  $('correction-overlay').classList.remove('visible');
+  _correctionCtx = null;
+}
+
+function updateCorrectionSubmitState() {
+  const comment = $('correction-comment').value.trim();
+  $('correction-submit').disabled = comment.length < 10;
+}
+
+async function submitCorrection() {
+  if (!_correctionCtx) return;
+  const btn = $('correction-submit');
+  const status = $('correction-status');
+  const category = $('correction-category').value;
+  const comment = $('correction-comment').value.trim();
+  const proposed = $('correction-proposed').value.trim();
+  const anon = $('correction-anon').checked;
+  const name = $('correction-contributor').value.trim();
+  const contributor = anon || !name ? 'anonymous' : name;
+
+  // Persist the contributor choice so the user doesn't re-type on the
+  // next report.  Anonymous mode still remembers the name, so unchecking
+  // the box restores it.
+  try {
+    localStorage.setItem(CORRECTION_CONTRIB_KEY, JSON.stringify({
+      name,
+      anonymous: anon,
+    }));
+  } catch {}
+
+  const payload = {
+    cnickelIndex:  _correctionCtx.cnickelIndex,
+    recordId:      _correctionCtx.recordId,
+    arxivId:       _correctionCtx.arxivId || '',
+    canonicalName: _correctionCtx.canonicalName || '',
+    category,
+    comment,
+    proposedValue: proposed,
+    contributor,
+    uiVersion:     (typeof ST_VERSION !== 'undefined' ? ST_VERSION : ''),
+    timestamp:     new Date().toISOString(),
+  };
+
+  btn.disabled = true;
+  btn.textContent = 'Submitting…';
+  status.textContent = '';
+  status.className = 'correction-status';
+
+  try {
+    const r = await fetch(SUBMIT_WORKER_BASE + '/correction', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    });
+    const data = await r.json();
+    if (r.ok && data.status === 'ok') {
+      status.textContent = 'Thanks — we’ll review shortly.';
+      status.className = 'correction-status ok';
+      btn.textContent = '✓ Submitted';
+      setTimeout(closeCorrectionModal, 1400);
+    } else if (data.status === 'duplicate') {
+      status.textContent = 'An identical report was already submitted.';
+      status.className = 'correction-status ok';
+      btn.textContent = 'Already reported';
+      setTimeout(closeCorrectionModal, 1600);
+    } else {
+      status.textContent = 'Error: ' + (data.error || ('HTTP ' + r.status));
+      status.className = 'correction-status error';
+      btn.disabled = false;
+      btn.textContent = 'Submit';
+    }
+  } catch (e) {
+    status.textContent = 'Network error — please try again.';
+    status.className = 'correction-status error';
+    btn.disabled = false;
+    btn.textContent = 'Submit';
+  }
 }
 
 // ─── Browser ─────────────────────────────────────────────────────────
@@ -7299,6 +8293,32 @@ function populateBrowser() {
   renderList();
 }
 
+// Viewport-aware auto-fit after loading a diagram. On phones the default
+// zoom=1.0 leaves the graph tiny (BASE_VIEWBOX is 12×8 SVG units mapped to
+// ~390px wide); scale and centre on the bbox so the diagram fills ~70% of
+// the viewport. Desktop keeps the default behaviour.
+function _fitLoadedGraphToViewport(vertices) {
+  if (!vertices || vertices.length === 0) return false;
+  const isMobile = typeof matchMedia === 'function' && matchMedia('(max-width: 768px)').matches;
+  if (!isMobile) return false;
+  let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
+  for (const v of vertices) {
+    if (v.x < minX) minX = v.x;
+    if (v.x > maxX) maxX = v.x;
+    if (v.y < minY) minY = v.y;
+    if (v.y > maxY) maxY = v.y;
+  }
+  const bbW = Math.max(maxX - minX, 0.5);  // floor avoids div-by-zero for tadpoles
+  const bbH = Math.max(maxY - minY, 0.5);
+  const PAD = 1.6;  // 60% headroom around the bbox for vertex radii + leg momentum labels
+  const zByW = BASE_VIEWBOX.w / (bbW * PAD);
+  const zByH = BASE_VIEWBOX.h / (bbH * PAD);
+  const fit  = Math.min(zByW, zByH);
+  zoomLevel = Math.max(0.3, Math.min(fit, 4.0));
+  panOffset = { x: (minX + maxX) / 2, y: (minY + maxY) / 2 };
+  return true;
+}
+
 function loadFromNickel(nickelStr, configKey) {
   try {
     // Use nickelFull (with legs) if available, else fall back to vacuum Nickel + legVertices
@@ -7368,6 +8388,7 @@ function loadFromNickel(nickelStr, configKey) {
     _momentumLabels = null;  // invalidate before render
     zoomLevel = 1.0;
     panOffset = { x: 0, y: 0 };
+    _fitLoadedGraphToViewport(laid);  // mobile-only: scale + centre the bbox
     applyZoom();
     onGraphChanged();
     if (configKey) renderMassLegend();
@@ -7390,6 +8411,7 @@ function importEdgeList(input) {
     _momentumLabels = null;
     zoomLevel = 1.0;
     panOffset = { x: 0, y: 0 };
+    _fitLoadedGraphToViewport(laid);
     applyZoom(); onGraphChanged();
     closeBrowser();
   } catch(e) { showWarningToast('Could not parse edge list', true); }
@@ -7432,6 +8454,7 @@ document.addEventListener('keydown', function(evt) {
   if (evt.key==='c'||evt.key==='C') { if ($('config-panel').classList.contains('open')) closeConfigPanel(); else openConfigPanel(); evt.preventDefault(); }
   if (evt.key==='?' || evt.key==='/') { $('help-overlay').classList.add('visible'); evt.preventDefault(); return; }
   if (evt.key==='Escape') {
+    if ($('correction-overlay') && $('correction-overlay').classList.contains('visible')) { closeCorrectionModal(); evt.preventDefault(); return; }
     if ($('config-panel').classList.contains('open')) { closeConfigPanel(); evt.preventDefault(); return; }
     if ($('help-overlay').classList.contains('visible')) { $('help-overlay').classList.remove('visible'); evt.preventDefault(); return; }
     if ($('about-overlay').classList.contains('visible')) { closeAbout(); evt.preventDefault(); return; }
@@ -7496,21 +8519,50 @@ $('label-scale').addEventListener('input', function() { labelScale = parseFloat(
   const btn = $('overflow-btn');
   const menu = $('overflow-menu');
   if (dd && btn && menu) {
+    const _syncOverflowBodyClass = () => {
+      document.body.classList.toggle('overflow-open', dd.classList.contains('open'));
+    };
     btn.addEventListener('click', (e) => {
       e.stopPropagation();
       dd.classList.toggle('open');
+      _syncOverflowBodyClass();
+      // Close the notif sheet when the overflow menu opens, so the menu isn't
+      // visually occluded and the user isn't juggling two open surfaces.
+      if (dd.classList.contains('open') && typeof closeNotifSheet === 'function') {
+        closeNotifSheet();
+      }
     });
     document.addEventListener('click', (e) => {
-      if (!dd.contains(e.target)) dd.classList.remove('open');
+      if (!dd.contains(e.target)) {
+        dd.classList.remove('open');
+        _syncOverflowBodyClass();
+      }
     });
     menu.addEventListener('click', (e) => {
       const item = e.target.closest('[data-action]');
       if (!item) return;
       dd.classList.remove('open');
+      _syncOverflowBodyClass();
       const action = item.dataset.action;
       if (action === 'config') {
         if ($('config-panel').classList.contains('open')) closeConfigPanel();
         else openConfigPanel();
+        return;
+      }
+      if (action === 'mode-draw')   { setMode('draw');   return; }
+      if (action === 'mode-delete') { setMode('delete'); return; }
+      if (action === 'safe-exit') {
+        // Safe exit: tell the kernel to normalize $STQuadruple / $STGraph /
+        // friends, then shut down.  We do NOT close the window here — the
+        // kernel kills the server + native viewer as soon as it processes
+        // the request.  Requested by Giulio, 2026-04-21.
+        (async () => {
+          try {
+            await kernel.post('safeExit', {});
+          } catch (err) {
+            // Request may never return (server dies mid-response); silent ok.
+          }
+        })();
         return;
       }
       // All other actions forward to the existing toolbar/bottom-bar buttons
@@ -7543,9 +8595,99 @@ $('help-tour-btn').addEventListener('click', () => {
 });
 $('about-close').addEventListener('click', closeAbout);
 $('about-overlay').addEventListener('click', function(evt) { if (evt.target===this) closeAbout(); });
+if ($('correction-overlay')) {
+  $('correction-close').addEventListener('click', closeCorrectionModal);
+  $('correction-cancel').addEventListener('click', closeCorrectionModal);
+  $('correction-overlay').addEventListener('click', function(evt) {
+    if (evt.target === this) closeCorrectionModal();
+  });
+  $('correction-submit').addEventListener('click', submitCorrection);
+  $('correction-comment').addEventListener('input', function() {
+    $('correction-comment-count').textContent = String(this.value.length);
+    updateCorrectionSubmitState();
+  });
+  $('correction-proposed').addEventListener('input', function() {
+    $('correction-proposed-count').textContent = String(this.value.length);
+  });
+  $('correction-anon').addEventListener('change', function() {
+    const nameInput = $('correction-contributor');
+    nameInput.disabled = this.checked;
+    nameInput.placeholder = this.checked ? 'Anonymous' : 'Your name';
+    if (this.checked) nameInput.blur();
+    else nameInput.focus();
+  });
+  $('correction-category').addEventListener('change', function() {
+    const textarea = $('correction-comment');
+    const current = textarea.value;
+    if (this.value === 'citation-request') {
+      // Pre-fill the gag template, but don't clobber a real message the
+      // user has already started writing.
+      if (!current.trim() || current === CITATION_REQUEST_TEMPLATE) {
+        textarea.value = CITATION_REQUEST_TEMPLATE;
+      }
+    } else if (current === CITATION_REQUEST_TEMPLATE) {
+      // Switched away from citation-request without editing the template
+      // → clear it so the user doesn't accidentally submit the gag under
+      // a different category.
+      textarea.value = '';
+    }
+    $('correction-comment-count').textContent = String(textarea.value.length);
+    updateCorrectionSubmitState();
+  });
+}
 $('browse-btn').addEventListener('click', openBrowser);
 if ($('library-fab')) $('library-fab').addEventListener('click', openBrowser);
 $('browser-close').addEventListener('click', closeBrowser);
+
+// ─── Mobile tab bar (≤480px) ─────────────────────────────────────────
+// Persistent bottom nav: Draw · Library · Configure · Export. Taps route
+// to existing handlers. Active state reflects which surface is foreground.
+(function _wireMobileTabbar() {
+  const tabbar = document.getElementById('mobile-tabbar');
+  if (!tabbar) return;
+  const tabs = tabbar.querySelectorAll('.mobile-tab');
+  function setActive(name) {
+    tabs.forEach(el => el.classList.toggle('mobile-tab-active', el.dataset.tab === name));
+  }
+  function syncActiveTab() {
+    const cfgOpen = document.getElementById('config-panel')?.classList.contains('open');
+    const libOpen = document.getElementById('browser-overlay')?.classList.contains('visible');
+    const expOpen = document.getElementById('export-dropdown')?.classList.contains('visible');
+    if      (libOpen) setActive('library');
+    else if (cfgOpen) setActive('configure');
+    else if (expOpen) setActive('export');
+    else              setActive('draw');
+  }
+  tabbar.addEventListener('click', (evt) => {
+    const btn = evt.target.closest('.mobile-tab');
+    if (!btn) return;
+    const which = btn.dataset.tab;
+    // Close any surfaces that don't match the tap.
+    const cfgPanel = document.getElementById('config-panel');
+    const expDD    = document.getElementById('export-dropdown');
+    if (which !== 'library') closeBrowser();
+    if (which !== 'configure' && cfgPanel && cfgPanel.classList.contains('open')) closeConfigPanel();
+    if (which !== 'export' && expDD && expDD.classList.contains('visible')) expDD.classList.remove('visible');
+
+    if (which === 'draw') {
+      setMode('draw');
+    } else if (which === 'library') {
+      openBrowser();
+    } else if (which === 'configure') {
+      if (cfgPanel && cfgPanel.classList.contains('open')) closeConfigPanel();
+      else openConfigPanel();
+    } else if (which === 'export') {
+      if (expDD) expDD.classList.toggle('visible');
+      evt.stopPropagation();  // prevent document listener from immediately closing the dropdown
+    }
+    syncActiveTab();
+  });
+  // Keep the highlight in sync with dismissals (tap backdrop, swipe to
+  // close, keyboard dismiss). A 250 ms poll is cheap and avoids threading
+  // explicit sync calls through every open/close site.
+  setInterval(syncActiveTab, 250);
+  syncActiveTab();
+})();
 $('browser-overlay').addEventListener('click', function(evt) { if (evt.target===this) closeBrowser(); });
 $('browser-tab-topos').addEventListener('click', () => switchBrowserTab('topos'));
 $('browser-tab-diagrams').addEventListener('click', () => switchBrowserTab('diagrams'));
@@ -8074,6 +9216,11 @@ function openConfigPanel() {
   $('config-backdrop').classList.add('open');
   populateConfigPanel();
   updateCanvasDepth();
+  // If the panel opens on the Kinematics tab (sticky selection), keep
+  // the canvas sharp — see switchConfigTab for the full explanation.
+  const activeTab = document.querySelector('.config-tab.active');
+  document.body.classList.toggle('canvas-on-kinematics',
+    activeTab && activeTab.dataset.tab === 'cfg-momenta');
   // Slide mass legend out of the way
   const legend = $('mass-legend');
   if (legend) legend.classList.add('config-shifted');
@@ -8086,6 +9233,7 @@ function closeConfigPanel() {
   $('config-backdrop').classList.remove('open');
   syncConfigToState();
   updateCanvasDepth();
+  document.body.classList.remove('canvas-on-kinematics');
   // Slide mass legend back
   const legend = $('mass-legend');
   if (legend) legend.classList.remove('config-shifted');
@@ -8096,6 +9244,12 @@ function switchConfigTab(btn) {
   const tabId = btn.dataset.tab;
   document.querySelectorAll('.config-tab').forEach(t => t.classList.toggle('active', t === btn));
   document.querySelectorAll('.config-tab-content').forEach(c => c.classList.toggle('active', c.id === tabId));
+  // Keep the canvas sharp on the Kinematics tab: the user is picking loop
+  // momenta / assigning external masses and needs to read edge labels
+  // clearly, so the "panel over canvas" blur that applies elsewhere would
+  // get in the way. Tracked via body class; a CSS override in style.css
+  // removes the blur filter when this class is present.
+  document.body.classList.toggle('canvas-on-kinematics', tabId === 'cfg-momenta');
   // Re-sync on tab change so destination content reflects the latest state.
   // Without this, toggling an Advanced-tab option then switching to Export
   // shows a stale command (the Export tab was last rendered at panel-open
@@ -8269,10 +9423,21 @@ function populateEdgeTable() {
     // Mass — use bare 'm' for single-mass diagrams, 'm1' etc. for multi
     const tdMass = document.createElement('td');
     const massInput = document.createElement('input');
-    const distinctMassesET = new Set();
-    state.edges.forEach(edge => { if (edge.mass > 0) distinctMassesET.add(edge.mass); });
-    const singleMassET = distinctMassesET.size === 1;
-    massInput.value = e.mass > 0 ? (e.massLabel || (singleMassET ? 'm' : `m${e.mass}`)) : '0';
+    // Display the same canonical label the canvas/notebook would emit.
+    // For 'm1' / 'm_{1}' we use the unbracketed form 'm1' as the input
+    // value (user-editable); edgeMassToMma turns that into Subscript[m,1]
+    // downstream when building the STIntegrate command.
+    if (e.mass > 0) {
+      if (e.massLabel) {
+        massInput.value = e.massLabel;
+      } else {
+        const kind = getEdgeMassKind(e) || 'm';
+        const count = getDistinctMassSlots(kind).size;
+        massInput.value = count <= 1 ? kind : `${kind}${e.mass}`;
+      }
+    } else {
+      massInput.value = '0';
+    }
     massInput.style.textAlign = 'center';
     massInput.dataset.edgeIdx = ei;
     massInput.addEventListener('focus', () => flashEdge(ei));
@@ -8377,7 +9542,7 @@ function populateExtMasses() {
   // Table with drag grip + momentum name + mass columns
   const table = document.createElement('table');
   table.className = 'cfg-edge-table';
-  table.innerHTML = `<thead><tr><th style="width:16px"></th><th>Leg</th><th>Mom. label</th><th style="width:50px;text-align:center">Mass</th></tr></thead>`;
+  table.innerHTML = `<thead><tr><th style="width:20px"></th><th>Leg</th><th>Custom name</th><th style="width:50px;text-align:center">Mass</th></tr></thead>`;
   const tbody = document.createElement('tbody');
   tbody.id = 'ext-mass-tbody';
 
@@ -8403,6 +9568,7 @@ function populateExtMasses() {
     const tdGrip = document.createElement('td');
     tdGrip.className = 'ext-drag-grip';
     tdGrip.textContent = '\u2261';  // ≡
+    tdGrip.title = 'Drag to reorder this leg';
     tdGrip.addEventListener('pointerdown', (evt) => extGripDown(evt, idx, extEdges, tbody));
     tr.appendChild(tdGrip);
 
@@ -8411,13 +9577,38 @@ function populateExtMasses() {
     tdLeg.innerHTML = `<span style="font-size:11px;font-weight:600;color:var(--text-muted)">p<sub>${legNum}</sub></span>`;
     tr.appendChild(tdLeg);
 
-    // Momentum label (editable custom name)
+    // Momentum label (editable custom name) — also accepts a reorder hint:
+    // typing a bare integer N or "pN" / "p_N" / "p_{N}" in range [1, nLegs]
+    // moves this leg to position N (same as drag-to-reorder). Anything else
+    // is stored as a custom display name (e.g. k, q_1).
     const tdMom = document.createElement('td');
     const momInput = document.createElement('input');
     momInput.value = e.extMomLabel || '';
     momInput.placeholder = `p_{${legNum}}`;
+    momInput.title = 'Rename (e.g. k, q_1), or type a number to move this leg to that position';
     momInput.addEventListener('change', function() {
-      state.edges[edgeIdx].extMomLabel = this.value;
+      const raw = this.value;
+      const trimmed = raw.trim();
+      const m = trimmed.match(/^\s*p?_?\{?(\d+)\}?\s*$/i);
+      if (m) {
+        const targetPos = parseInt(m[1], 10);
+        if (targetPos >= 1 && targetPos <= nLegs) {
+          state.edges[edgeIdx].extMomLabel = '';
+          if (targetPos === legNum) {
+            this.value = '';
+            render(); onGraphChanged();
+            return;
+          }
+          reorderExtLeg(legNum - 1, targetPos - 1);
+          const rows = document.querySelectorAll('#ext-mass-tbody .ext-drag-row');
+          if (rows[targetPos - 1]) {
+            rows[targetPos - 1].classList.add('drop-landed');
+            setTimeout(() => rows[targetPos - 1]?.classList.remove('drop-landed'), 800);
+          }
+          return;
+        }
+      }
+      state.edges[edgeIdx].extMomLabel = raw;
       render(); onGraphChanged();
     });
     momInput.addEventListener('focus', () => flashEdge(edgeIdx));
@@ -8425,13 +9616,21 @@ function populateExtMasses() {
     tdMom.appendChild(momInput);
     tr.appendChild(tdMom);
 
-    // Mass — use bare 'm' for single-mass diagrams
+    // Mass — show the canonical kind-aware label ('m' / 'M' for single,
+    // 'm2' / 'M2' when multiple slots of that kind are on the canvas).
     const tdMass = document.createElement('td');
     const massInput = document.createElement('input');
-    const distinctMassesExt = new Set();
-    state.edges.forEach(edge => { if (edge.mass > 0) distinctMassesExt.add(edge.mass); });
-    const singleMassExt = distinctMassesExt.size === 1;
-    massInput.value = e.mass > 0 ? (e.massLabel || (singleMassExt ? 'm' : `m${e.mass}`)) : '0';
+    if (e.mass > 0) {
+      if (e.massLabel) {
+        massInput.value = e.massLabel;
+      } else {
+        const kind = getEdgeMassKind(e) || 'M';  // ext-masses panel defaults M
+        const count = getDistinctMassSlots(kind).size;
+        massInput.value = count <= 1 ? kind : `${kind}${e.mass}`;
+      }
+    } else {
+      massInput.value = '0';
+    }
     massInput.placeholder = '0';
     massInput.style.textAlign = 'center';
     massInput.dataset.extMass = '1';  // marker for querySelectorAll
@@ -8462,6 +9661,16 @@ function populateExtMasses() {
   table.appendChild(tbody);
   container.appendChild(table);
 
+  // Hint: drag reorders, typed name renames, typed number reorders.
+  const hint = document.createElement('div');
+  hint.className = 'ext-mass-hint';
+  hint.innerHTML =
+    'Drag <span class="ext-mass-hint-grip">≡</span> to reorder. ' +
+    'Type a name (<code>k</code>, <code>q</code>) to rename, ' +
+    'or <code>1</code>–<code>' + nLegs + '</code> (or <code>p<sub>N</sub></code>) ' +
+    'to move this leg.';
+  container.appendChild(hint);
+
   // 2-leg: enforce M₂ = M₁ on initial populate
   if (nLegs === 2) {
     const e0 = state.edges[extEdges[0]];
@@ -8475,6 +9684,76 @@ function populateExtMasses() {
 }
 
 // ── External momenta drag-to-reorder ─────────────────────────────────
+
+// Move one external leg from position `fromIdx` to `toIdx` (0-based within
+// the external-edge list). Mutates state.edges in place (the data at each
+// external position is permuted — endpoints are preserved) and runs the full
+// update cascade so the Export tab's propagator / quadruple strings refresh.
+// Shared by the drag handler and the typed-reorder path in the label input.
+function reorderExtLeg(fromIdx, toIdx) {
+  const deg = getVertexDegrees();
+  const extEdges = [];
+  for (let i = 0; i < state.edges.length; i++) {
+    const e = state.edges[i];
+    const extA = (deg[e.a] || 0) <= 1;
+    const extB = (deg[e.b] || 0) <= 1;
+    if (!extA && !extB) continue;
+    if (e.a === e.b) continue;
+    extEdges.push(i);
+  }
+  if (fromIdx === toIdx) return false;
+  if (fromIdx < 0 || toIdx < 0 ||
+      fromIdx >= extEdges.length || toIdx >= extEdges.length) return false;
+
+  const reordered = extEdges.slice();
+  const item = reordered.splice(fromIdx, 1)[0];
+  reordered.splice(toIdx, 0, item);
+
+  const extPositions = extEdges.slice().sort((a, b) => a - b);
+  const reorderedEdges = reordered.map(ei => ({ ...state.edges[ei] }));
+  extPositions.forEach((pos, i) => {
+    state.edges[pos] = reorderedEdges[i];
+  });
+
+  render();
+  renderMassLegend();
+  onGraphChanged();
+  populateExtMasses();
+  populateKinematicsDisplay();
+  return true;
+}
+
+// Transpose two external legs (0-based indices within the external-edge list).
+// Unlike reorderExtLeg, this is a direct swap — only these two slots change,
+// every other leg stays at its position. Used by the edge-popup "Swap with"
+// chips, where the user is focused on one leg and wants it to trade places
+// with a specific other leg.
+function swapExtLegs(i, j) {
+  if (i === j) return false;
+  const deg = getVertexDegrees();
+  const extEdges = [];
+  for (let k = 0; k < state.edges.length; k++) {
+    const e = state.edges[k];
+    if (e.a === e.b) continue;
+    const extA = (deg[e.a] || 0) <= 1;
+    const extB = (deg[e.b] || 0) <= 1;
+    if (!extA && !extB) continue;
+    extEdges.push(k);
+  }
+  if (i < 0 || j < 0 || i >= extEdges.length || j >= extEdges.length) return false;
+
+  const posI = extEdges[i], posJ = extEdges[j];
+  const tmp = state.edges[posI];
+  state.edges[posI] = state.edges[posJ];
+  state.edges[posJ] = tmp;
+
+  render();
+  renderMassLegend();
+  onGraphChanged();
+  populateExtMasses();
+  populateKinematicsDisplay();
+  return true;
+}
 
 let _extDrag = null;
 
@@ -8530,34 +9809,10 @@ function extGripMove(evt) {
 
 function extGripUp() {
   if (!_extDrag) return;
-  const { idx, target, extEdges, tbody } = _extDrag;
+  const { idx, target } = _extDrag;
   extGripCleanup();
 
-  if (idx === target) return;
-
-  // Reorder: swap the external edges in state.edges
-  // Move the edge at position idx to position target
-  const edgeIdx = extEdges[idx];
-  const stateIdx = state.edges.indexOf(state.edges.find((_, i) => i === edgeIdx));
-
-  // Build the new external edge order
-  const reordered = extEdges.slice();
-  const item = reordered.splice(idx, 1)[0];
-  reordered.splice(target, 0, item);
-
-  // Reorder the actual edges in state.edges so the external filter picks them up correctly
-  // Strategy: collect all external edges, remove them, re-insert in new order at original positions
-  const extPositions = extEdges.map(ei => state.edges.findIndex((_, i) => i === ei)).sort((a, b) => a - b);
-  const reorderedEdges = reordered.map(ei => ({ ...state.edges[ei] }));
-  extPositions.forEach((pos, i) => {
-    state.edges[pos] = reorderedEdges[i];
-  });
-
-  render();
-  renderMassLegend();
-  onGraphChanged();
-  populateExtMasses();
-  populateKinematicsDisplay();
+  if (!reorderExtLeg(idx, target)) return;
 
   // Flash the landed row
   const newRows = document.querySelectorAll('#ext-mass-tbody .ext-drag-row');
@@ -8921,14 +10176,142 @@ function buildSTIntegrateOpts() {
   return opts;
 }
 
+/**
+ * Format a momentum coefficient vector as a Mathematica InputForm string.
+ * Basis: [l[1],...,l[L], p[1],...,p[E]].  Used by buildPropsInfoJS to
+ * emit inverse propagators that match the kernel's autoRouteMomenta +
+ * ToString[..., InputForm] path on $STPropagators.
+ *
+ * Examples:
+ *   [1,0,-1,0]  (L=2, E=2)   -> "l[1] - p[1]"
+ *   [2,0,0,0]                -> "2*l[1]"
+ *   [0,0,0,0]                -> "0"
+ *   [-1,0,0,0]               -> "-l[1]"
+ */
+function formatMomentumMma(vec, nLoops) {
+  const terms = [];
+  for (let i = 0; i < vec.length; i++) {
+    const c = vec[i];
+    if (Math.abs(c) < 1e-10) continue;
+    const name = i < nLoops ? `l[${i + 1}]` : `p[${i - nLoops + 1}]`;
+    if (Math.abs(c - 1) < 1e-10) terms.push({ sign: 1, body: name });
+    else if (Math.abs(c + 1) < 1e-10) terms.push({ sign: -1, body: name });
+    else {
+      const ac = Math.abs(c);
+      // Integer coefficients render without trailing ".0"
+      const coeffStr = Number.isInteger(ac) ? String(ac) : String(ac);
+      terms.push({ sign: c > 0 ? 1 : -1, body: `${coeffStr}*${name}` });
+    }
+  }
+  if (terms.length === 0) return '0';
+  let out = '';
+  for (let i = 0; i < terms.length; i++) {
+    const t = terms[i];
+    if (i === 0) out += (t.sign < 0 ? '-' : '') + t.body;
+    else out += (t.sign < 0 ? ' - ' : ' + ') + t.body;
+  }
+  return out;
+}
+
+/**
+ * Format an inverse propagator k^2 - m^2 as Mathematica InputForm, matching
+ * the kernel's ToString[k^2 - m^2, InputForm] rendering.  Rules:
+ *   - k = 0:            massless -> "0";  massive -> "-<mass>^2"
+ *   - k = single term:  squaring eats the sign (Mathematica auto-simplifies
+ *                       Power[Times[-1, x], 2] -> Power[x, 2]);  emit "x^2".
+ *   - k = multi-term:   wrap in parens, emit "(<k>)^2".
+ * Mass symbol is appended only when non-zero; matches edgeMassToMma's "0"
+ * sentinel for massless edges.
+ */
+function formatPropMma(vec, nLoops, massSymbol) {
+  const isZero = vec.every(c => Math.abs(c) < 1e-10);
+  if (isZero) return massSymbol === '0' ? '0' : `-${massSymbol}^2`;
+  const kStr = formatMomentumMma(vec, nLoops);
+  const hasMultipleTerms = /\s[+\-]\s/.test(kStr);
+  const leadingMinus = kStr.startsWith('-');
+  let k2;
+  if (hasMultipleTerms) k2 = `(${kStr})^2`;
+  else if (leadingMinus) k2 = kStr.slice(1) + '^2';
+  else k2 = kStr + '^2';
+  return massSymbol === '0' ? k2 : `${k2} - ${massSymbol}^2`;
+}
+
+/**
+ * Client-side propagator list + exponent list builder.  Mirrors the kernel
+ * path (handleEstimate, SubTropica.wl:~19189-19232): same momentum routing
+ * via solveMomentaRaw, same l[i]/p[i] labels, same (k^2 - m^2) form, same
+ * numerator-row append behaviour.  Used to default the Export panel to
+ * kernel-free output (works in STBrowser[] mode).  Returns null when the
+ * diagram can't be routed; populateExportTab falls back to the kernel's
+ * propsStr in that case.
+ *
+ * Returned shape:
+ *   { propsArg: "{(l[1])^2, (l[1] - p[1])^2 - m^2, ...}",
+ *     exponentsStr: "{1, 1, -1}" or "" when all unit }
+ */
+function buildPropsInfoJS() {
+  const r = solveMomentaRaw();
+  if (!r) return null;
+  const { momenta, nLoops, isExternal } = r;
+
+  const propStrs = [];
+  const exps = [];
+  for (let i = 0; i < state.edges.length; i++) {
+    if (isExternal[i]) continue;
+    const vec = momenta[i];
+    if (!vec) return null;  // incomplete routing -> fall back to kernel
+    const massSym = edgeMassToMma(state.edges[i]);
+    propStrs.push(formatPropMma(vec, nLoops, massSym));
+    exps.push(state.edges[i].propExponent ?? 1);
+  }
+
+  // Append numerator rows in the order they appear in the UI.  Matches
+  // handleEstimate's AppendTo on $STPropagators / fullExpsEst (SubTropica.wl
+  // ~19217-19221).  Numerator exponent defaults to -1 per computeConfig
+  // defaults (app.js:1144).
+  const numRows = (computeConfig.numeratorRows || []).filter(r => r && r.expr && r.expr.trim());
+  for (const nr of numRows) {
+    const mmaExpr = parsePhysicsExpr(nr.expr.trim()).mma;
+    propStrs.push(mmaExpr);
+    const expNum = Number(nr.exp);
+    exps.push(Number.isFinite(expNum) ? expNum : -1);
+  }
+
+  if (propStrs.length === 0) return null;
+  const allUnit = exps.every(e => e === 1);
+  return {
+    propsArg: `{${propStrs.join(', ')}}`,
+    exponentsStr: allUnit ? '' : `{${exps.join(', ')}}`,
+  };
+}
+
+// Build M[i] -> <external mass symbol> substitutions, one per external leg,
+// in canvas state.edges order (filtered to external, matching buildGraphArgJS
+// node ordering which the kernel's props-form path also uses).  Always
+// emitted for the props form regardless of the mass value, since propagators
+// only carry the symbolic p[i] and evaluating the kinematics requires the
+// M[i] -> ... mapping.  Returns an array of rule strings like
+// ["M[1] -> 0", "M[2] -> m", ...].
+function buildPropsExtMassSubsJS() {
+  const deg = getVertexDegrees();
+  const rules = [];
+  let legIdx = 0;
+  for (let i = 0; i < state.edges.length; i++) {
+    const e = state.edges[i];
+    if (e.a === e.b) continue;  // self-loop can't be external
+    const extA = (deg[e.a] || 0) <= 1;
+    const extB = (deg[e.b] || 0) <= 1;
+    if (!(extA || extB)) continue;
+    legIdx += 1;
+    const label = edgeMassToMma(e);
+    rules.push(`M[${legIdx}] -> ${label}`);
+  }
+  return rules;
+}
+
 // Build the graph-form argument string from canvas state (no kernel needed)
 function buildGraphArgJS() {
   const deg = getVertexDegrees();
-  const distinctMasses = new Set();
-  for (const e of state.edges) {
-    if (e.mass && e.mass > 0) distinctMasses.add(e.mass);
-  }
-  const singleMass = distinctMasses.size === 1;
 
   // Canonicalize vertex IDs to contiguous 1..N in first-appearance
   // order. The raw canvas indices can start at any value and have gaps
@@ -8951,9 +10334,7 @@ function buildGraphArgJS() {
     const e = state.edges[i];
     const extA = (e.a !== e.b) && (deg[e.a] || 0) <= 1;
     const extB = (e.a !== e.b) && (deg[e.b] || 0) <= 1;
-    const mLabel = e.mass > 0
-      ? massLabelToMma(e.massLabel || (singleMass ? 'm' : `m${e.mass}`))
-      : '0';
+    const mLabel = edgeMassToMma(e);
     if (extA || extB) {
       const intV = extA ? e.b : e.a;
       nodes.push(`{${getId(intV)}, ${mLabel}}`);
@@ -9016,16 +10397,69 @@ function populateExportTab() {
   const estimatePending = hasGraph && backendMode === 'full' &&
     (_estimateTimer || _estimateAbort || _integrandAbort);
   const graphArg = (srcProps && srcProps.graphStr) || (hasGraph ? buildGraphArgJS() : null);
-  const propsArg = (srcProps && srcProps.propsStr) || null;
+  // JS-side props builder: default source so the Export panel works in
+  // STBrowser[] mode (no kernel) and stays in sync with the canvas state
+  // without a round-trip to Mathematica.  Kernel's propsStr used as fallback
+  // when JS can't route (incomplete diagram).  On divergence, console-warn
+  // so drift from the kernel path surfaces early.
+  const jsProps = hasGraph ? buildPropsInfoJS() : null;
+  const kernelPropsArg = (srcProps && srcProps.propsStr) || null;
+  const propsArg = (jsProps && jsProps.propsArg) || kernelPropsArg;
+  if (jsProps && kernelPropsArg && jsProps.propsArg !== kernelPropsArg) {
+    const normalize = s => String(s).replace(/\s+/g, ' ').trim();
+    if (normalize(jsProps.propsArg) !== normalize(kernelPropsArg)) {
+      // eslint-disable-next-line no-console
+      console.warn('[Export] JS props differ from kernel propsStr',
+        { js: jsProps.propsArg, kernel: kernelPropsArg });
+    }
+  }
   const quadArg  = (srcProps && srcProps.quadStr)  || null;
   // Tier 2 returns exponentsStr (e.g. "{1, 1, -1}") whenever the propagator
   // list has non-unit exponents — either from user-set propExponents or from
-  // numerator rows, which handleEstimate appends to $STPropagators. The
-  // propagator-form STIntegrate command needs an explicit "Exponents"
-  // option so copy-paste gives the correct integral.
-  const exponentsStr = (srcProps && srcProps.exponentsStr) || '';
+  // numerator rows, which handleEstimate appends to $STPropagators.  Both
+  // the propagator form and the graph form need an explicit "Exponents"
+  // option so copy-paste gives the correct integral.  (Graph form is hidden
+  // entirely when a numerator row is present — see hasNumerator branch
+  // below — so its exponents list only carries the user-set propExponents.)
+  // Prefer JS-computed exponents so no-kernel mode still picks up user-set
+  // propExponents; fall back to kernel's exponentsStr / graphExponentsStr.
+  const jsExponentsStr = (jsProps && jsProps.exponentsStr) || '';
+  const exponentsStr = jsExponentsStr || (srcProps && srcProps.exponentsStr) || '';
+  const graphExponentsStr = jsExponentsStr
+    || (srcProps && srcProps.graphExponentsStr)
+    || (srcProps && srcProps.exponentsStr)
+    || '';
+
+  // Props-form "Substitutions": always prepend M[i] -> <label> for every
+  // external leg.  User-typed subs from the config panel are appended AFTER
+  // the ext-mass rules so they override on duplicate LHS (Mathematica's /.
+  // applies rules in sequence, later wins).  Graph and quad forms are
+  // unaffected: graph encodes external masses on the node list, quad
+  // form's Euler integrand uses MM/mm[i] placeholders, not M[i].
+  const extMassRules = buildPropsExtMassSubsJS();
+  const userSubsRaw = (computeConfig.substitutions || '').trim();
+  const userSubsBody = (userSubsRaw.startsWith('{') && userSubsRaw.endsWith('}'))
+    ? userSubsRaw.slice(1, -1).trim()
+    : userSubsRaw;
+  let propsSubsListStr = '';
+  if (extMassRules.length > 0 && userSubsBody) {
+    propsSubsListStr = `{${extMassRules.join(', ')}, ${userSubsBody}}`;
+  } else if (extMassRules.length > 0) {
+    propsSubsListStr = `{${extMassRules.join(', ')}}`;
+  } else if (userSubsBody) {
+    propsSubsListStr = `{${userSubsBody}}`;
+  }
+  const optsForProps = opts.filter(s => !s.startsWith('"Substitutions"'));
+  if (propsSubsListStr) optsForProps.push(`"Substitutions" -> ${propsSubsListStr}`);
+  const propsBaseOptStr = optsForProps.length > 0
+    ? ',\n  ' + optsForProps.join(',\n  ')
+    : '';
+
   const propsOptStr = exponentsStr
-    ? optStr + ',\n  "Exponents" -> ' + exponentsStr
+    ? propsBaseOptStr + ',\n  "Exponents" -> ' + exponentsStr
+    : propsBaseOptStr;
+  const graphOptStr = graphExponentsStr
+    ? optStr + ',\n  "Exponents" -> ' + graphExponentsStr
     : optStr;
 
   // Graph form {edges, nodes} carries endpoints and masses only — it has
@@ -9064,7 +10498,7 @@ function populateExportTab() {
       } else {
         codeGraph.style.display = '';
         if (graphNoteEl) graphNoteEl.style.display = 'none';
-        codeGraph.textContent = graphArg ? `STIntegrate[${graphArg}${optStr}]` : '';
+        codeGraph.textContent = graphArg ? `STIntegrate[${graphArg}${graphOptStr}]` : '';
       }
     }
     // Prop / Quad forms come from either a full Tier-2 run or the
@@ -9152,11 +10586,10 @@ function collectIntegrationPayload() {
     const extB = (deg[e.b] || 0) <= 1;
     // Include all edges (kernel distinguishes internal/external)
     edgePairs.push([e.a, e.b]);
-    // getMassDisplayLabel logic: bare 'm' for single mass, 'm₁' for multi.
-    // massLabelToMma converts any mXXX to Subscript[m,XXX] for homogeneizeKin2.
-    const massLabel = e.mass > 0
-      ? massLabelToMma(e.massLabel || (singleMass ? 'm' : `m${e.mass}`))
-      : '0';
+    // Kind-aware emit via edgeMassToMma: bare 'm'/'M' for single slot,
+    // Subscript[m,N] / Subscript[M,N] for multi-slot. Sanitizes user-typed
+    // custom labels to atomic. See edgeMassToMma definition for details.
+    const massLabel = edgeMassToMma(e);
     internalMasses.push(massLabel);
     propExponents.push(e.propExponent ?? 1);
   }
@@ -9178,11 +10611,7 @@ function collectIntegrationPayload() {
       if (e.a === e.b) continue;
       if ((deg[e.a]||0) <= 1 || (deg[e.b]||0) <= 1) extEdgeList.push(i);
     }
-    externalMasses = extEdgeList.map(i => {
-      const e = state.edges[i];
-      if (!e.mass || e.mass <= 0) return '0';
-      return massLabelToMma(e.massLabel || (singleMass ? 'm' : `m${e.mass}`));
-    });
+    externalMasses = extEdgeList.map(i => edgeMassToMma(state.edges[i]));
   }
 
   // Compute JS chord positions for kernel sync.
@@ -9891,7 +11320,7 @@ function renderSymanzikFormula(view, data) {
     var cleaned = cleanTeX(data.tex);
     var wrapped = wrapSymanzikIntegral(cleaned, data.nvars || 0);
     view._latex = wrapped;
-    katex.render('\\displaystyle ' + wrapped, view, { throwOnError: false, displayMode: true, trust: true, maxSize: 500, maxExpand: 1000 });
+    katex.render('\\displaystyle ' + wrapped, view, { throwOnError: false, displayMode: true, trust: true, maxSize: 500, maxExpand: 10000 });
   }
 }
 
@@ -10719,6 +12148,14 @@ function revealVerifiedBadge(res, method) {
   badge.textContent = shortLabel;
   badge.dataset.tipHtml = buildVerifiedTipHtml(res, method);
   badge.style.display = '';
+  // Unlock the Submit-to-Library button now that a backend has numerically
+  // confirmed the symbolic result.  The gate is set at button-construction
+  // time in the integ-modal footer; this is its sole lift point.
+  const submit = document.getElementById('integ-submit-btn');
+  if (submit && !submit.classList.contains('submitted')) {
+    submit.disabled = false;
+    submit.title = '';
+  }
 }
 
 function fmtSci(x) {
@@ -11048,6 +12485,47 @@ function cleanTeX(tex) {
 
   // Step 4: Clean up spacing
   t = t.replace(/\\log \^/g, '\\log^');
+
+  // Step 4a: balance \begin{aligned} / \end{aligned}.  The library's
+  // save-side TeX generator occasionally truncates long results at
+  // '+ \cdots' without closing the environment (KaTeX then fails with
+  // "Expected & or \\ or \cr or \end").  Also guards against stray
+  // \begin without a matching \end and vice versa.  Same treatment for
+  // \left[ / \right] pairs that get cut mid-expression.
+  {
+    const nBegin = (t.match(/\\begin\{aligned\}/g) || []).length;
+    const nEnd   = (t.match(/\\end\{aligned\}/g) || []).length;
+    if (nBegin > nEnd) t += '\\end{aligned}'.repeat(nBegin - nEnd);
+    else if (nEnd > nBegin) t = '\\begin{aligned}'.repeat(nEnd - nBegin) + t;
+  }
+  {
+    // Any `\right<d>` form closes a `\left`, including `\right.` (matches
+    // any opener).  Count `\left<nonletter>` and `\right<nonletter>`
+    // tokens so the balancer doesn't double-close when truncation already
+    // appended `\right.` closers (see stTruncateTeX).
+    const nL = (t.match(/\\left(?![A-Za-z])/g) || []).length;
+    const nR = (t.match(/\\right(?![A-Za-z])/g) || []).length;
+    if (nL > nR) t += '\\right.'.repeat(nL - nR);
+  }
+
+  // Step 4b: wrap double superscripts.  SubTropica's stored TeX emits raw
+  // patterns like `W_1^-^{-1}` or `m^2^2` or `(W_1^+)^{-1}` → `W_1^+^{-1}`
+  // that LaTeX parses as "A^B^C" — illegal without brace grouping.  KaTeX
+  // flags these as "Double superscript" and renders a red error.  Wrap the
+  // first superscript with its base so the second becomes unambiguous.
+  //
+  // Repeated passes handle triple-supers (A^B^C^D → {A^B}^C^D → {{A^B}^C}^D).
+  // The pattern below matches a base token (letter/group/subscripted-letter)
+  // followed by two consecutive superscript groups; replaces with one
+  // brace-wrapped combined base.
+  for (let pass = 0; pass < 4; pass++) {
+    const before = t;
+    t = t.replace(
+      // Base (letter with optional subscript, OR a single char, OR ) / ] / } close)
+      /([A-Za-z](?:_\{[^{}]*\}|_[A-Za-z0-9])?|[\)\]\}])\^(\{[^{}]*\}|[A-Za-z0-9+\-])\^(\{|\S)/g,
+      '{$1^$2}^$3');
+    if (t === before) break;
+  }
 
   // Step 5: Compact +/- operators ({+} and {-} render tighter in KaTeX)
   // Only replace at brace depth 0 to avoid breaking \frac{a-b}{c+d}
@@ -11578,6 +13056,18 @@ function onIntegrationComplete(data) {
         submitBtn.className = 'btn btn-sm btn-submit';
         submitBtn.id = 'integ-submit-btn';
         submitBtn.innerHTML = '\u2191 Submit to Library';
+        // Gate submission on numerical verification: the button starts
+        // disabled and flips to enabled inside revealVerifiedBadge() once a
+        // backend (pySecDec / FIESTA / AMFlow / feyntrop) has confirmed the
+        // symbolic result against the numeric value.  Library-cached entries
+        // that already carry a verified flag (onIntegrationComplete path)
+        // reach the same revealVerifiedBadge() call, so a cached verified
+        // result arrives with Submit pre-enabled.  Gate lifted in the submit
+        // click handler is not reset on failure because a failed submission
+        // does not invalidate verification — the user retries with the same
+        // verified result.
+        submitBtn.disabled = true;
+        submitBtn.title = 'Verify the result numerically before submitting';
         submitBtn.addEventListener('click', async () => {
           submitBtn.disabled = true;
           submitBtn.textContent = 'Submitting\u2026';
@@ -11600,11 +13090,6 @@ function onIntegrationComplete(data) {
             });
             submitBtn.textContent = '\u2713 Submitted';
             submitBtn.classList.add('submitted');
-            // Auto-trigger verification if not already verified
-            const vBtn = $('integ-verify-btn');
-            if (vBtn && !vBtn.classList.contains('btn-verified')) {
-              vBtn.click();
-            }
           } catch {
             submitBtn.textContent = 'Submission failed';
             submitBtn.disabled = false;
@@ -12441,9 +13926,7 @@ function buildNotebookPayloadFromState() {
     const e = state.edges[i];
     const extA = (e.a !== e.b) && (deg[e.a] || 0) <= 1;
     const extB = (e.a !== e.b) && (deg[e.b] || 0) <= 1;
-    const mLabel = e.mass > 0
-      ? massLabelToMma(e.massLabel || (singleMass ? 'm' : `m${e.mass}`))
-      : '0';
+    const mLabel = edgeMassToMma(e);
     if (extA || extB) {
       const intV = extA ? e.b : e.a;
       nodes.push(`{${getId(intV)}, ${mLabel}}`);
@@ -12921,6 +14404,37 @@ if ($('config-sheet-close')) {
 }
 $('ic-check-mpl').addEventListener('click', checkLinearReducibility);
 $('ic-check-complexity').addEventListener('click', runTier2Check);
+if ($('ic-save-exit')) $('ic-save-exit').addEventListener('click', saveAndExit);
+
+// Sync the current diagram's edges/nodes/propagators/quadruple into the
+// kernel's $ST* globals, then ask the server to shut down silently so
+// FeynmanIntegrate[] returns Null (no Out[] cell in the notebook).
+async function saveAndExit() {
+  if (backendMode !== 'full') return;
+  const btn = $('ic-save-exit');
+  if (btn) { btn.disabled = true; btn.textContent = 'Saving…'; }
+  try {
+    // handleEstimate writes $STEdges / $STNodes / $STGraph / $STPropagators
+    // / $STQuadruple from the request payload. skipExpansion:true skips the
+    // expensive tropical expansion — we only need the globals updated.
+    const payload = buildEstimatePayload();
+    if (payload) {
+      try {
+        await kernel.post('estimate', { ...payload, skipExpansion: true });
+      } catch {
+        // If the estimate call fails, handleSafeExit will still normalize
+        // whatever globals are set; better to exit than leave the UI open.
+      }
+    }
+    try {
+      await kernel.post('safeExit', { silent: true });
+    } catch {
+      // Server may die mid-response — that's the expected success path.
+    }
+  } finally {
+    if (btn) { btn.disabled = false; btn.textContent = 'Save and exit'; }
+  }
+}
 document.querySelectorAll('.config-tab').forEach(tab => {
   tab.addEventListener('click', () => switchConfigTab(tab));
 });
@@ -13302,7 +14816,15 @@ $('integrate-overlay').addEventListener('click', function(evt) {
 const _integralCard = $('integral-card');
 const _integralPreview = $('integral-card-preview');
 const _integralFormula = $('integral-card-formula');
-let _integralCardCollapsed = localStorage.getItem('subtropica-integral-collapsed') === '1';
+// Default-collapsed on first mobile visit so the FAB doesn't cover the canvas.
+// Desktop default remains expanded. Once the user toggles, localStorage wins.
+const _integralStored = localStorage.getItem('subtropica-integral-collapsed');
+let _integralCardCollapsed;
+if (_integralStored === null) {
+  _integralCardCollapsed = typeof matchMedia === 'function' && matchMedia('(max-width: 480px)').matches;
+} else {
+  _integralCardCollapsed = _integralStored === '1';
+}
 let _nameEditedByUser = false;  // true once user manually edits the name field
 if (_integralCardCollapsed) _integralCard.classList.add('collapsed');
 
@@ -13758,10 +15280,7 @@ function buildEstimatePayload() {
   for (let i = 0; i < nEdges; i++) {
     const e = state.edges[i];
     edgePairs.push([e.a, e.b]);
-    const massLabel = e.mass > 0
-      ? massLabelToMma(e.massLabel || (singleMass ? 'm' : `m${e.mass}`))
-      : '0';
-    internalMasses.push(massLabel);
+    internalMasses.push(edgeMassToMma(e));
     propExponents.push(e.propExponent ?? 1);
   }
 
@@ -13780,11 +15299,7 @@ function buildEstimatePayload() {
       if (e.a === e.b) continue;
       if ((deg[e.a]||0) <= 1 || (deg[e.b]||0) <= 1) extEdgeList.push(i);
     }
-    externalMasses = extEdgeList.map(i => {
-      const e = state.edges[i];
-      if (!e.mass || e.mass <= 0) return '0';
-      return massLabelToMma(e.massLabel || (singleMass ? 'm' : `m${e.mass}`));
-    });
+    externalMasses = extEdgeList.map(i => edgeMassToMma(state.edges[i]));
   }
 
   // Pass numerator rows to handleEstimate so the Tier 2 propagator / quad
@@ -14002,6 +15517,8 @@ function updateIntegralCard() {
   if (mplBtn) mplBtn.style.display = fullModeHasGraph ? '' : 'none';
   const cplxBtn = $('ic-check-complexity');
   if (cplxBtn) cplxBtn.style.display = fullModeHasGraph ? '' : 'none';
+  const saveExitBtn = $('ic-save-exit');
+  if (saveExitBtn) saveExitBtn.style.display = fullModeHasGraph ? '' : 'none';
 
   // Tier 2 / MPL are manual ("Check complexity" / "Check if MPL").
   // Invalidate caches when the underlying payload changes so the
@@ -14163,7 +15680,7 @@ new MutationObserver(mutations => {
 //
 // Internal review toolkit, activated by ?review=1 URL flag.
 // Hard-gated on backendMode === 'full' — every entry point bails out
-// in lite mode. Never reachable from subtropica.org.
+// in lite mode. Never reachable from subtropi.ca.
 //
 // Three layers of protection (also gated server-side):
 //   1. The /api/review/* endpoints don't exist on Firebase hosting.
@@ -16220,7 +17737,7 @@ async function reviewPopulateSidePanel(item) {
           const cleaned = cleanTeX(r.resultTeX);
           katex.render('\\displaystyle ' + cleaned, texEl, {
             throwOnError: false, displayMode: true, trust: true,
-            maxSize: 500, maxExpand: 1000
+            maxSize: 500, maxExpand: 10000
           });
         } catch (e) {
           texEl.textContent = r.resultTeX;
@@ -16800,6 +18317,27 @@ if (location.search.includes('test=1')) {
     openPdfPanel,
     openDetailPanel,
     fetchInspireData,
+    // Mass-labeling internals (Phase 1 regression tests).
+    massLabelToMma,
+    massLabelToTeX,
+    getMassDisplayLabel,
+    getEdgeMassKind,
+    getDistinctMassSlots,
+    setEdgeMass,
+    openMassPicker,
+    closeMassPicker,
+    openConfigPanel,
+    closeConfigPanel,
+    switchConfigTab,
+    cleanTeX,
+    cleanSymbolTeX,
+    render,
+    // Export-panel hooks so Playwright can exercise the JS-built
+    // graph/props command strings without going through the backend.
+    buildGraphArgJS,
+    buildPropsInfoJS,
+    buildPropsExtMassSubsJS,
+    populateExportTab,
     get pdfDoc() { return _pdfDoc; },
     get inspireCache() { return _inspireCache; },
   };

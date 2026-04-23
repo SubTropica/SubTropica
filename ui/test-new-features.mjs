@@ -10,7 +10,7 @@
 
 import { chromium } from 'playwright';
 
-const BASE = 'https://subtropica.org';
+const BASE = 'https://subtropi.ca';
 
 let browser, page;
 let passed = 0, failed = 0;

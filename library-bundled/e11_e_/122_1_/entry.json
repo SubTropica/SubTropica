@@ -1,421 +1,420 @@
 {
-  "CNickelIndex": "e11|e|:122|1|",
-  "MassScales": 2,
-  "FunctionClass": "MPL",
-  "EpsilonOrder": "all orders",
-  "References": [
-    "arXiv:2212.08908",
-    "arXiv:2303.15624",
-    "arXiv:0712.1851",
-    "arXiv:2201.03593 (doi: 10.1007/978-3-030-99558-4)",
-    "arXiv:1912.02578",
-    "arXiv:2108.10807",
-    "arXiv:2504.16045",
-    "arXiv:1511.03630 (Nucl.Phys.B 906 (168), 2016)",
-    "arXiv:2108.09421 (Eur.Phys.J.C 82 (28), 2022)",
-    "arXiv:2405.18178 (JHEP 09 (018), 2024)",
-    "hep-ph/0611236"
-  ],
-  "Records": [
-    {
-      "authors": [
-        {
-          "full_name": "Pögel, Sebastian",
-          "inspire_id": 2129032
-        },
-        {
-          "full_name": "Wang, Xing",
-          "inspire_id": 1701348
-        },
-        {
-          "full_name": "Weinzierl, Stefan",
-          "inspire_id": 983857
-        }
-      ],
-      "ancillaryFiles": [],
-      "recordId": "bf_a676524bbc39",
-      "epsOrders": "all orders",
-      "location": "Eq.(3), Section 4.1",
-      "texkey": "",
-      "verified": false,
-      "verifiedAt": "",
-      "reference": "arXiv:2212.08908",
-      "masterCount": 2,
-      "computationLevel": "analytic",
-      "doi": "",
-      "tools": [],
-      "description": "One-loop equal-mass banana (bubble) integral in $D=2-2\\varepsilon$ dimensions. Trivial case: the change of variables from $y$ to $\\bar{q}$ rationalises the square root $\\sqrt{1+4y}$. Two master integrals $I_{10}$ and $I_{11}$. Discussed as the $l=1$ degenerate case of the all-loop formula.",
-      "method": [],
-      "dimScheme": "d=2-2eps",
-      "familyName": "banana_1loop_equal_mass"
-    },
-    {
-      "epsOrders": "",
-      "reference": "arXiv:0712.1851",
-      "authors": [
-        {
-          "full_name": "Ellis, R.Keith",
-          "inspire_id": 1010816
-        },
-        {
-          "full_name": "Zanderighi, Giulia",
-          "inspire_id": 982365
-        }
-      ],
-      "description": "",
-      "recordId": "bf_819c16491167",
-      "verified": false,
-      "verifiedAt": ""
-    },
-    {
-      "reference": "arXiv:2201.03593 (doi: 10.1007/978-3-030-99558-4)",
-      "authors": "Weinzierl, Stefan",
-      "description": "Equal-mass one-loop two-point function $I_{\\nu_1 \\nu_2}(D,x)$ with $q_1=k-p$, $q_2=k$, $m_1=m_2=m$, $x=-p^2/m^2$. Used as worked IBP and differential-equation example: IBP reduces all integer $(\\nu_1,\\nu_2)$ to two masters $\\{I_{11}, I_{10}\\}$; pre-canonical 2x2 DE matrix in eq. example_A_oneloop_twopoint and eps-form transformation in eq. trafo_bubble produce uniform-weight expansions in 4D and 2D (eqs. example_bubble_uniform_weight_4D/2D).",
-      "epsOrders": "",
-      "familyName": "equal-mass one-loop bubble I_{nu1 nu2}",
-      "method": "IBP, DE",
-      "tools": [],
-      "ancillaryFiles": false,
-      "doi": "10.1007/978-3-030-99558-4",
-      "texkey": "Weinzierl:2022eaz",
-      "masterCount": 2,
-      "dimScheme": "d=D",
-      "computationLevel": "full",
-      "location": "Chapter 'Iterated integrals', Eq. (chapter_iterated_integrals:example_equal_mass_bubble, line ~113); Example 1 of Sec. 'Differential equations' line ~922",
-      "recordId": "bx_65744fc03253",
-      "verified": false,
-      "verifiedAt": ""
-    },
-    {
-      "reference": "arXiv:1912.02578",
-      "authors": [
-        {
-          "full_name": "Weinzierl, Stefan",
-          "inspire_id": 983857
-        }
-      ],
-      "description": "1-loop equal-mass bubble illustrating eps-factorized DE via coordinate change rationalizing $\\sqrt{-x(4-x)}$.",
-      "epsOrders": "all_orders",
-      "familyName": "One-loop equal-mass bubble (pedagogical example)",
-      "method": "DE",
-      "tools": [],
-      "ancillaryFiles": false,
-      "doi": "",
-      "texkey": "",
-      "masterCount": 0,
-      "dimScheme": "d=4-2*eps",
-      "computationLevel": "DE_only",
-      "location": "Sec. 1",
-      "recordId": "bx_85eb3fdc01f7",
-      "verified": false,
-      "verifiedAt": ""
-    },
-    {
-      "reference": "arXiv:2108.10807",
-      "authors": [
-        {
-          "full_name": "Heinrich, G.",
-          "inspire_id": 1006298
-        },
-        {
-          "full_name": "Jahn, S.",
-          "inspire_id": 1735323
-        },
-        {
-          "full_name": "Jones, S.P.",
-          "inspire_id": 1357945
-        },
-        {
-          "full_name": "Kerner, M.",
-          "inspire_id": 1234959
-        },
-        {
-          "full_name": "Langer, F.",
-          "inspire_id": 1909861
-        },
-        {
-          "full_name": "Magerya, V.",
-          "inspire_id": 1909862
-        },
-        {
-          "full_name": "Pöldaru, A.",
-          "inspire_id": 1877458
-        },
-        {
-          "full_name": "Schlenk, J.",
-          "inspire_id": 1280161
-        },
-        {
-          "full_name": "Villa, E.",
-          "inspire_id": 2679070
-        }
-      ],
-      "description": "One-loop bubble with equal internal masses. Used to demonstrate expansion by regions in large-mass and small-mass limits with pySecDec.",
-      "epsOrders": "0",
-      "familyName": "bubble1L",
-      "method": "sector_decomposition",
-      "tools": [
-        "pySecDec"
-      ],
-      "ancillaryFiles": false,
-      "doi": "",
-      "texkey": "",
-      "masterCount": 0,
-      "dimScheme": "d=4-2*eps",
-      "computationLevel": "numerical",
-      "location": "Section 5.1, Fig. 1",
-      "recordId": "bx_d82194eabc30",
-      "verified": false,
-      "verifiedAt": ""
-    },
-    {
-      "authors": "Zeng, Mao",
-      "texkey": "Zeng:2023jek",
-      "verified": false,
-      "verifiedAt": "",
-      "reference": "arXiv:2303.15624, JHEP 09 (042), 2023",
-      "ancillaryFiles": [],
-      "recordId": "bf_64195e6be6cb",
-      "masterCount": 2,
-      "computationLevel": "numerical",
-      "doi": "10.1007/JHEP09(2023)042",
-      "tools": [
-        "FIRE"
-      ],
-      "description": "One-loop massive bubble (self-energy) integral with two equal-mass internal propagators and off-shell external momentum $p$. Used as the introductory example to demonstrate positivity constraints and semidefinite programming. The master integrals $I_{2,1}$ and $I_{3,0}$ (UV-finite basis) are evaluated numerically to $\\sim 10^{-14}$ relative accuracy at $p^2=2$, $m^2=1$ using positivity constraints in both loop-momentum and Feynman-parameter space. Epsilon expansion terms computed to $\\mathcal{O}(\\varepsilon^2)$ via both direct positivity constraints and numerical differentiation w.r.t. spacetime dimension.",
-      "epsOrders": "-1,0,1,2",
-      "method": [],
-      "dimScheme": "d=4-2*eps",
-      "location": "Eq. (2.1), Section 2, Fig. 1; analytic result Appendix A Eq. (A.3); numerical results Eqs. (2.43), (2.73)-(2.74), (2.78)-(2.79)",
-      "familyName": "one-loop bubble (equal mass)"
-    },
-    {
-      "reference": "arXiv:2504.16045",
-      "authors": [
-        {
-          "full_name": "Zeng, Mao",
-          "inspire_id": 1310565
-        }
-      ],
-      "description": "One-loop equal-mass bubble used as benchmark family for IBP reduction via reinforcement learning and simulated annealing. Numerical kinematics $p^2=1$, $m^2=2$, $D=5/7$. No analytic evaluation.",
-      "epsOrders": "",
-      "familyName": "1-loop equal-mass bubble (2 propagators)",
-      "method": "IBP",
-      "tools": [],
-      "ancillaryFiles": false,
-      "doi": "",
-      "texkey": "",
-      "masterCount": 3,
-      "dimScheme": "d=D",
-      "computationLevel": "IBP_only",
-      "location": "Eq. (1), Fig. 1",
-      "recordId": "bx_82cd71c6f08e",
-      "verified": false,
-      "verifiedAt": ""
-    },
-    {
-      "reference": "arXiv:1511.03630 (Nucl.Phys.B 906 (168), 2016)",
-      "authors": "Puhlfürst, Georg, Stieberger, Stephan",
-      "description": "One-loop two-point (bubble) family $I(a_1,a_2)$ with two equal-mass propagators $D_1=k^2-m^2$, $D_2=(k+p)^2-m^2$ and $p^2=s$, defined in eq. (3.1). IBP reduction yields two master integrals: tadpole $I(1,0)$ and finite bubble $I(2,1)$. The paper derives the all-order epsilon expansion via differential equations, expressing the result through HPLs in $x=(\\sqrt{1-4m^2/s}-1)/(\\sqrt{1-4m^2/s}+1)$. Section 3.2 gives the exact hypergeometric representation $I(2,1) = -(1/2) \\Gamma(1+\\varepsilon) (m^2)^{-\\varepsilon-1} {}_2F_1(1,1+\\varepsilon;3/2;s/(4m^2))$.",
-      "epsOrders": "all_orders",
-      "familyName": "Equal-mass one-loop 2-point bubble (2 propagators)",
-      "method": "DE, series_expansion, direct_integration",
-      "tools": [],
-      "ancillaryFiles": false,
-      "doi": "10.1016/j.nuclphysb.2016.03.008",
-      "texkey": "Puhlfurst:2015vqx",
-      "masterCount": 2,
-      "dimScheme": "d=4-2*eps",
-      "computationLevel": "full",
-      "location": "Eq. (3.1), Section 3; eqs. (3.8)-(3.14), (3.26), (3.30)",
-      "recordId": "bx_fa38afc6530a",
-      "verified": false,
-      "verifiedAt": ""
-    },
-    {
-      "reference": "arXiv:2108.09421 (Eur.Phys.J.C 82 (28), 2022)",
-      "authors": "Gonzalez, Ivan, Kondrashuk, Igor, Moll, Victor H., Recabarren, Luis M.",
-      "description": "One-loop bubble $J(\\alpha,\\beta,m,m)$ with two equal-mass propagators of generic powers in $D$ dimensions. Mellin-Barnes representation converted to bracket series via method of brackets, yielding four 3F2 hypergeometric terms.",
-      "epsOrders": "all_orders",
-      "familyName": "Equal-mass one-loop 2-point bubble with general propagator powers (2 propagators)",
-      "method": "Mellin-Barnes, direct_integration",
-      "tools": [],
-      "ancillaryFiles": false,
-      "doi": "10.1140/epjc/s10052-021-09977-x",
-      "texkey": "Gonzalez:2021vqh",
-      "masterCount": 1,
-      "dimScheme": "d=D",
-      "computationLevel": "full",
-      "location": "Section 'Feynman diagrams', Eq. J(alpha,beta,m,m), Figure 1",
-      "recordId": "bx_5b601044aeed",
-      "verified": false,
-      "verifiedAt": ""
-    },
-    {
-      "reference": "arXiv:2405.18178 (JHEP 09 (018), 2024)",
-      "authors": "Crisanti, Giulio, Smith, Sid",
-      "description": "One-loop massive bubble with two massive internal propagators (mass $m_2$) and two massive external legs (mass $m_1$). The Baikov polynomial $b(z)$ is quadratic in $z_1, z_2$. The diagonal basis has 3 master integrals across all sectors. Used as a benchmark for the diagonal basis prescription and closed formula for intersection numbers.",
-      "epsOrders": "",
-      "familyName": "one-loop massive bubble",
-      "method": "intersection_theory",
-      "tools": [
-        "Mathematica",
-        "LiteRed",
-        "FiniteFlow"
-      ],
-      "ancillaryFiles": true,
-      "doi": "10.1007/JHEP09(2024)018",
-      "texkey": "Crisanti:2024onv",
-      "masterCount": 3,
-      "dimScheme": "d=D",
-      "computationLevel": "",
-      "location": "Section 6.1, Eqs. (6.1)-(6.3)",
-      "recordId": "bx_783455bd246b",
-      "verified": false,
-      "verifiedAt": ""
-    },
-    {
-      "epsOrders": "-2,-1,0,1,2",
-      "reference": "hep-ph/0611236",
-      "authors": "Charalampos Anastasiou, Stefan Beerli, Stefan Bucherer, Alejandro Daleo, Zoltan Kunszt",
-      "description": "The authors give the two-loop master integrals for the production of a Higgs boson via a massive quark and a squark loop.",
-      "recordId": "1499265871.DUDL",
-      "verified": false,
-      "verifiedAt": ""
-    }
-  ],
-  "Names": [
-    "Bubble",
-    "Self-energy",
-    "B0",
-    "Equal-mass lollipop",
-    "Lollipop",
-    "Tadpole-sunset",
-    "2-loop propagator",
-    "one-loop bubble (equal mass)",
-    "1-loop propagator",
-    "Equal-mass bubble (4-point)",
-    "Bubble (4-point)"
-  ],
-  "Source": [
-    "arXiv",
-    "QCDLoop"
-  ],
-  "Loops": 1,
-  "NumPropagators": 2,
-  "edges": "{{{1, 2}, m}, {{1, 2}, m}}",
-  "nodes": "{{1, M}, {2, M}}",
-  "quadruple": "{E^(eps*EulerGamma)*Gamma[eps], (x1 + x2)^(2*(-1 + eps))/(-(mm*x1^2) - 2*mm*x1*x2 + MM*x1*x2 - mm*x2^2)^eps, {x1, x2}, {mm, MM}}",
-  "CanonicalName": "Equal-mass bubble",
-  "MassConfig": {
-    "numEdges": 2,
-    "numMassiveEdges": 2,
-    "numMasslessEdges": 0,
-    "distinctInternalMasses": 1,
-    "internalMassLabels": [
-      "m"
-    ],
-    "edgeMassPattern": "11",
-    "numExtLegs": 2,
-    "numOnshellMassiveExtLegs": 2,
-    "numMasslessExtLegs": 0,
-    "extLegSignature": "MM"
-  },
-  "commonNames": [
-    "B₀(m)",
-    "B"
-  ],
-  "Subsectors": [],
-  "ParentSectors": [
-    "1112|e2|e|:1111|21|2|",
-    "1122|e|e|:0011|2|2|",
-    "1122|e|e|:1111|2|2|",
-    "112|e2|e|:111|21|2|",
-    "112|e2|e|:112|32|3|"
-  ],
-  "Results": [
-    {
-      "resultCompressed": "1:eJxTTMoPSmNjYGAo5gISwalFmanFLoklicXMQG5qQXEmkGJIYwIpYAESPpnFJZmMICEWmFBATmlxJhNcFSuQCMnMTS3O/A8EaSC1YLN88tOLQQpyc9HUoSjBbQZIIjwXYjdcUUB+eWoRwnVgp4BVoGuBGES+xQWkW1yAsBhCgLkgAgCmg1LZ",
-      "resultTeX": "\\frac{1}{\\varepsilon}+\\left(\\frac{\\log \\left(-W_1^-\\right)}{W_1^-+1}+\\frac{\\log \\left(-W_1^+\\right)}{W_1^++1}-\\log (m^2)+2\\right)+O\\left(\\varepsilon^1\\right)",
-      "dimension": "4 - 2*eps",
-      "epsOrder": "0",
-      "epsOrders": "0",
-      "propExponents": [
-        1,
-        1
-      ],
-      "propagators": [],
-      "numerators": [],
-      "internalMasses": [],
-      "externalMasses": [],
-      "substitutions": "",
-      "rootSubstitutions": "{Wm[1] -> (-2*mm + MM - Sqrt[-((4*mm - MM)*MM)])/(2*mm), Wp[1] -> (-2*mm + MM + Sqrt[-((4*mm - MM)*MM)])/(2*mm)}",
-      "normalization": "Automatic",
-      "stVersion": "SubTropica v1.0.395",
-      "stCommand": "",
-      "contributor": "Sebastian Mizera",
-      "timestamp": "2026-04-19T21:46:35",
-      "verifiedAt": "2026-04-19T21:46:35",
-      "verified": true,
-      "method": "direct_integration",
-      "tools": [
-        "SubTropica"
-      ],
-      "methodLR": "Lungo",
-      "findRoots": true,
-      "byteCount": 1328,
-      "algebraicLetters": [
-        {
-          "index": 1,
-          "variable": "x2",
-          "polynomial": "mm + 2*mm*x2 - MM*x2 + mm*x2^2",
-          "LC": "mm",
-          "sum": "(-2*mm + MM)/mm",
-          "product": "1",
-          "discriminant": "-4*mm^2 + (2*mm - MM)^2",
-          "minusRoot": "(-2*mm + MM - Sqrt[-((4*mm - MM)*MM)])/(2*mm)",
-          "plusRoot": "(-2*mm + MM + Sqrt[-((4*mm - MM)*MM)])/(2*mm)",
-          "polynomialTeX": "x_{2}^2 m^2+2 x_{2} m^2+m^2-x_{2} M^2",
-          "discriminantTeX": "\\left(2 m^2-M^2\\right)^2-4 m^4",
-          "minusRootTeX": "\\frac{1}{2} m^{-2} \\left(-\\sqrt{-\\left(M^2 \\left(4 m^2-M^2\\right)\\right)}-2 m^2+M^2\\right)",
-          "plusRootTeX": "\\frac{1}{2} m^{-2} \\left(\\sqrt{-\\left(M^2 \\left(4 m^2-M^2\\right)\\right)}-2 m^2+M^2\\right)"
-        }
-      ],
-      "symbolTeX": "\\varepsilon^{0}\\colon\\;-(m^2) + \\frac{1}{W_1^-+1}\\,(W_1^-) + \\frac{1}{W_1^++1}\\,(W_1^+)",
-      "alphabet": [
-        "m^2",
-        "W_1^-",
-        "W_1^+"
-      ],
-      "symbolWeight": 1,
-      "symbolTerms": 3,
-      "normalizedSymbolTeX": "\\varepsilon^{0}&\\colon\\;\\frac{1}{\\left(W_1^-+1\\right) \\left(W_1^++1\\right)}\\!\\left[W_1^++1\\,(W^-_1) + W_1^-+1\\,(W^+_1)\\right]",
-      "wDefinitions": [
-        {
-          "label": "W^-_1",
-          "kind": "algebraic",
-          "pairIndex": 1,
-          "definition": "\\frac{1}{2} m^{-2} \\left(-\\sqrt{-\\left(M^2 \\left(4 m^2-M^2\\right)\\right)}-2 m^2+M^2\\right)",
-          "originalLetter": "W_1^-",
-          "polynomialTeX": "x_{2}^2 m^2+2 x_{2} m^2+m^2-x_{2} M^2",
-          "discriminantTeX": "\\left(2 m^2-M^2\\right)^2-4 m^4"
-        },
-        {
-          "label": "W^+_1",
-          "kind": "algebraic",
-          "pairIndex": 1,
-          "definition": "\\frac{1}{2} m^{-2} \\left(\\sqrt{-\\left(M^2 \\left(4 m^2-M^2\\right)\\right)}-2 m^2+M^2\\right)",
-          "originalLetter": "W_1^+",
-          "polynomialTeX": "x_{2}^2 m^2+2 x_{2} m^2+m^2-x_{2} M^2",
-          "discriminantTeX": "\\left(2 m^2-M^2\\right)^2-4 m^4"
-        }
-      ],
-      "normalizedAlphabet": [
-        "W^-_1",
-        "W^+_1"
-      ],
-      "symbolScale": "m^2",
-      "normalizedSymbolTerms": 2
-    }
-  ]
+	"CNickelIndex": "e11|e|:122|1|",
+	"MassScales": 2,
+	"FunctionClass": "MPL",
+	"EpsilonOrder": "all orders",
+	"References": [
+		"arXiv:2212.08908",
+		"arXiv:2303.15624",
+		"arXiv:0712.1851",
+		"arXiv:2201.03593 (doi: 10.1007/978-3-030-99558-4)",
+		"arXiv:1912.02578",
+		"arXiv:2108.10807",
+		"arXiv:2504.16045",
+		"arXiv:1511.03630 (Nucl.Phys.B 906 (168), 2016)",
+		"arXiv:2108.09421 (Eur.Phys.J.C 82 (28), 2022)",
+		"arXiv:2405.18178 (JHEP 09 (018), 2024)",
+		"hep-ph/0611236"
+	],
+	"Records": [
+		{
+			"authors": [
+				{
+					"full_name": "Pögel, Sebastian",
+					"inspire_id": 2129032
+				},
+				{
+					"full_name": "Wang, Xing",
+					"inspire_id": 1701348
+				},
+				{
+					"full_name": "Weinzierl, Stefan",
+					"inspire_id": 983857
+				}
+			],
+			"ancillaryFiles": [],
+			"recordId": "bf_a676524bbc39",
+			"epsOrders": "all orders",
+			"location": "Eq.(3), Section 4.1",
+			"texkey": "",
+			"verified": false,
+			"verifiedAt": "",
+			"reference": "arXiv:2212.08908",
+			"masterCount": 2,
+			"computationLevel": "analytic",
+			"doi": "",
+			"tools": [],
+			"description": "One-loop equal-mass banana (bubble) integral in $D=2-2\\varepsilon$ dimensions. Trivial case: the change of variables from $y$ to $\\bar{q}$ rationalises the square root $\\sqrt{1+4y}$. Two master integrals $I_{10}$ and $I_{11}$. Discussed as the $l=1$ degenerate case of the all-loop formula.",
+			"method": [],
+			"dimScheme": "d=2-2eps",
+			"familyName": "banana_1loop_equal_mass"
+		},
+		{
+			"epsOrders": "",
+			"reference": "arXiv:0712.1851",
+			"authors": [
+				{
+					"full_name": "Ellis, R.Keith",
+					"inspire_id": 1010816
+				},
+				{
+					"full_name": "Zanderighi, Giulia",
+					"inspire_id": 982365
+				}
+			],
+			"description": "",
+			"recordId": "bf_819c16491167",
+			"verified": false,
+			"verifiedAt": ""
+		},
+		{
+			"reference": "arXiv:2201.03593 (doi: 10.1007/978-3-030-99558-4)",
+			"authors": "Weinzierl, Stefan",
+			"description": "Equal-mass one-loop two-point function $I_{\\nu_1 \\nu_2}(D,x)$ with $q_1=k-p$, $q_2=k$, $m_1=m_2=m$, $x=-p^2/m^2$. Used as worked IBP and differential-equation example: IBP reduces all integer $(\\nu_1,\\nu_2)$ to two masters $\\{I_{11}, I_{10}\\}$; pre-canonical 2x2 DE matrix in eq. example_A_oneloop_twopoint and eps-form transformation in eq. trafo_bubble produce uniform-weight expansions in 4D and 2D (eqs. example_bubble_uniform_weight_4D/2D).",
+			"epsOrders": "",
+			"familyName": "equal-mass one-loop bubble I_{nu1 nu2}",
+			"method": "IBP, DE",
+			"tools": [],
+			"ancillaryFiles": false,
+			"doi": "10.1007/978-3-030-99558-4",
+			"texkey": "Weinzierl:2022eaz",
+			"masterCount": 2,
+			"dimScheme": "d=D",
+			"computationLevel": "full",
+			"location": "Chapter 'Iterated integrals', Eq. (chapter_iterated_integrals:example_equal_mass_bubble, line ~113); Example 1 of Sec. 'Differential equations' line ~922",
+			"recordId": "bx_65744fc03253",
+			"verified": false,
+			"verifiedAt": ""
+		},
+		{
+			"reference": "arXiv:1912.02578",
+			"authors": [
+				{
+					"full_name": "Weinzierl, Stefan",
+					"inspire_id": 983857
+				}
+			],
+			"description": "1-loop equal-mass bubble illustrating eps-factorized DE via coordinate change rationalizing $\\sqrt{-x(4-x)}$.",
+			"epsOrders": "all_orders",
+			"familyName": "One-loop equal-mass bubble (pedagogical example)",
+			"method": "DE",
+			"tools": [],
+			"ancillaryFiles": false,
+			"doi": "",
+			"texkey": "",
+			"masterCount": 0,
+			"dimScheme": "d=4-2*eps",
+			"computationLevel": "DE_only",
+			"location": "Sec. 1",
+			"recordId": "bx_85eb3fdc01f7",
+			"verified": false,
+			"verifiedAt": ""
+		},
+		{
+			"reference": "arXiv:2108.10807",
+			"authors": [
+				{
+					"full_name": "Heinrich, G.",
+					"inspire_id": 1006298
+				},
+				{
+					"full_name": "Jahn, S.",
+					"inspire_id": 1735323
+				},
+				{
+					"full_name": "Jones, S.P.",
+					"inspire_id": 1357945
+				},
+				{
+					"full_name": "Kerner, M.",
+					"inspire_id": 1234959
+				},
+				{
+					"full_name": "Langer, F.",
+					"inspire_id": 1909861
+				},
+				{
+					"full_name": "Magerya, V.",
+					"inspire_id": 1909862
+				},
+				{
+					"full_name": "Pöldaru, A.",
+					"inspire_id": 1877458
+				},
+				{
+					"full_name": "Schlenk, J.",
+					"inspire_id": 1280161
+				},
+				{
+					"full_name": "Villa, E.",
+					"inspire_id": 2679070
+				}
+			],
+			"description": "One-loop bubble with equal internal masses. Used to demonstrate expansion by regions in large-mass and small-mass limits with pySecDec.",
+			"epsOrders": "0",
+			"familyName": "bubble1L",
+			"method": "sector_decomposition",
+			"tools": [
+				"pySecDec"
+			],
+			"ancillaryFiles": false,
+			"doi": "",
+			"texkey": "",
+			"masterCount": 0,
+			"dimScheme": "d=4-2*eps",
+			"computationLevel": "numerical",
+			"location": "Section 5.1, Fig. 1",
+			"recordId": "bx_d82194eabc30",
+			"verified": false,
+			"verifiedAt": ""
+		},
+		{
+			"authors": "Zeng, Mao",
+			"texkey": "Zeng:2023jek",
+			"verified": false,
+			"verifiedAt": "",
+			"reference": "arXiv:2303.15624, JHEP 09 (042), 2023",
+			"ancillaryFiles": [],
+			"recordId": "bf_64195e6be6cb",
+			"masterCount": 2,
+			"computationLevel": "numerical",
+			"doi": "10.1007/JHEP09(2023)042",
+			"tools": [
+				"FIRE"
+			],
+			"description": "One-loop massive bubble (self-energy) integral with two equal-mass internal propagators and off-shell external momentum $p$. Used as the introductory example to demonstrate positivity constraints and semidefinite programming. The master integrals $I_{2,1}$ and $I_{3,0}$ (UV-finite basis) are evaluated numerically to $\\sim 10^{-14}$ relative accuracy at $p^2=2$, $m^2=1$ using positivity constraints in both loop-momentum and Feynman-parameter space. Epsilon expansion terms computed to $\\mathcal{O}(\\varepsilon^2)$ via both direct positivity constraints and numerical differentiation w.r.t. spacetime dimension.",
+			"epsOrders": "-1,0,1,2",
+			"method": [],
+			"dimScheme": "d=4-2*eps",
+			"location": "Eq. (2.1), Section 2, Fig. 1; analytic result Appendix A Eq. (A.3); numerical results Eqs. (2.43), (2.73)-(2.74), (2.78)-(2.79)",
+			"familyName": "one-loop bubble (equal mass)"
+		},
+		{
+			"reference": "arXiv:2504.16045",
+			"authors": [
+				{
+					"full_name": "Zeng, Mao",
+					"inspire_id": 1310565
+				}
+			],
+			"description": "One-loop equal-mass bubble used as benchmark family for IBP reduction via reinforcement learning and simulated annealing. Numerical kinematics $p^2=1$, $m^2=2$, $D=5/7$. No analytic evaluation.",
+			"epsOrders": "",
+			"familyName": "1-loop equal-mass bubble (2 propagators)",
+			"method": "IBP",
+			"tools": [],
+			"ancillaryFiles": false,
+			"doi": "",
+			"texkey": "",
+			"masterCount": 3,
+			"dimScheme": "d=D",
+			"computationLevel": "IBP_only",
+			"location": "Eq. (1), Fig. 1",
+			"recordId": "bx_82cd71c6f08e",
+			"verified": false,
+			"verifiedAt": ""
+		},
+		{
+			"reference": "arXiv:1511.03630 (Nucl.Phys.B 906 (168), 2016)",
+			"authors": "Puhlfürst, Georg, Stieberger, Stephan",
+			"description": "One-loop two-point (bubble) family $I(a_1,a_2)$ with two equal-mass propagators $D_1=k^2-m^2$, $D_2=(k+p)^2-m^2$ and $p^2=s$, defined in eq. (3.1). IBP reduction yields two master integrals: tadpole $I(1,0)$ and finite bubble $I(2,1)$. The paper derives the all-order epsilon expansion via differential equations, expressing the result through HPLs in $x=(\\sqrt{1-4m^2/s}-1)/(\\sqrt{1-4m^2/s}+1)$. Section 3.2 gives the exact hypergeometric representation $I(2,1) = -(1/2) \\Gamma(1+\\varepsilon) (m^2)^{-\\varepsilon-1} {}_2F_1(1,1+\\varepsilon;3/2;s/(4m^2))$.",
+			"epsOrders": "all_orders",
+			"familyName": "Equal-mass one-loop 2-point bubble (2 propagators)",
+			"method": "DE, series_expansion, direct_integration",
+			"tools": [],
+			"ancillaryFiles": false,
+			"doi": "10.1016/j.nuclphysb.2016.03.008",
+			"texkey": "Puhlfurst:2015vqx",
+			"masterCount": 2,
+			"dimScheme": "d=4-2*eps",
+			"computationLevel": "full",
+			"location": "Eq. (3.1), Section 3; eqs. (3.8)-(3.14), (3.26), (3.30)",
+			"recordId": "bx_fa38afc6530a",
+			"verified": false,
+			"verifiedAt": ""
+		},
+		{
+			"reference": "arXiv:2108.09421 (Eur.Phys.J.C 82 (28), 2022)",
+			"authors": "Gonzalez, Ivan, Kondrashuk, Igor, Moll, Victor H., Recabarren, Luis M.",
+			"description": "One-loop bubble $J(\\alpha,\\beta,m,m)$ with two equal-mass propagators of generic powers in $D$ dimensions. Mellin-Barnes representation converted to bracket series via method of brackets, yielding four 3F2 hypergeometric terms.",
+			"epsOrders": "all_orders",
+			"familyName": "Equal-mass one-loop 2-point bubble with general propagator powers (2 propagators)",
+			"method": "Mellin-Barnes, direct_integration",
+			"tools": [],
+			"ancillaryFiles": false,
+			"doi": "10.1140/epjc/s10052-021-09977-x",
+			"texkey": "Gonzalez:2021vqh",
+			"masterCount": 1,
+			"dimScheme": "d=D",
+			"computationLevel": "full",
+			"location": "Section 'Feynman diagrams', Eq. J(alpha,beta,m,m), Figure 1",
+			"recordId": "bx_5b601044aeed",
+			"verified": false,
+			"verifiedAt": ""
+		},
+		{
+			"reference": "arXiv:2405.18178 (JHEP 09 (018), 2024)",
+			"authors": "Crisanti, Giulio, Smith, Sid",
+			"description": "One-loop massive bubble with two massive internal propagators (mass $m_2$) and two massive external legs (mass $m_1$). The Baikov polynomial $b(z)$ is quadratic in $z_1, z_2$. The diagonal basis has 3 master integrals across all sectors. Used as a benchmark for the diagonal basis prescription and closed formula for intersection numbers.",
+			"epsOrders": "",
+			"familyName": "one-loop massive bubble",
+			"method": "intersection_theory",
+			"tools": [
+				"Mathematica",
+				"LiteRed",
+				"FiniteFlow"
+			],
+			"ancillaryFiles": true,
+			"doi": "10.1007/JHEP09(2024)018",
+			"texkey": "Crisanti:2024onv",
+			"masterCount": 3,
+			"dimScheme": "d=D",
+			"computationLevel": "",
+			"location": "Section 6.1, Eqs. (6.1)-(6.3)",
+			"recordId": "bx_783455bd246b",
+			"verified": false,
+			"verifiedAt": ""
+		},
+		{
+			"epsOrders": "-2,-1,0,1,2",
+			"reference": "hep-ph/0611236",
+			"authors": "Charalampos Anastasiou, Stefan Beerli, Stefan Bucherer, Alejandro Daleo, Zoltan Kunszt",
+			"description": "The authors give the two-loop master integrals for the production of a Higgs boson via a massive quark and a squark loop.",
+			"recordId": "1499265871.DUDL",
+			"verified": false,
+			"verifiedAt": ""
+		}
+	],
+	"Names": [
+		"Bubble",
+		"Self-energy",
+		"B0",
+		"Equal-mass lollipop",
+		"Lollipop",
+		"Tadpole-sunset",
+		"2-loop propagator",
+		"one-loop bubble (equal mass)",
+		"1-loop propagator",
+		"Equal-mass bubble (4-point)",
+		"Bubble (4-point)"
+	],
+	"Source": [
+		"arXiv",
+		"QCDLoop"
+	],
+	"Loops": 1,
+	"NumPropagators": 2,
+	"edges": "{{{1, 2}, m}, {{1, 2}, m}}",
+	"nodes": "{{1, M}, {2, M}}",
+	"quadruple": "{E^(eps*EulerGamma)*Gamma[eps], (x1 + x2)^(2*(-1 + eps))/(-(mm*x1^2) - 2*mm*x1*x2 + MM*x1*x2 - mm*x2^2)^eps, {x1, x2}, {mm, MM}}",
+	"CanonicalName": "Equal-mass bubble",
+	"MassConfig": {
+		"numEdges": 2,
+		"numMassiveEdges": 2,
+		"numMasslessEdges": 0,
+		"distinctInternalMasses": 1,
+		"internalMassLabels": [
+			"m"
+		],
+		"edgeMassPattern": "11",
+		"numExtLegs": 2,
+		"numOnshellMassiveExtLegs": 2,
+		"numMasslessExtLegs": 0,
+		"extLegSignature": "MM"
+	},
+	"commonNames": [
+		"B₀(m)",
+		"B"
+	],
+	"Subsectors": [],
+	"ParentSectors": [
+		"1112|e2|e|:1111|21|2|",
+		"1122|e|e|:0011|2|2|",
+		"1122|e|e|:1111|2|2|",
+		"112|e2|e|:111|21|2|",
+		"112|e2|e|:112|32|3|"
+	],
+	"Results": [
+		{
+			"resultCompressed": "1:eJxTTMoPSmNjYGAo5gISwalFmanFLoklicXMQG5qQXEmkGJIYwIpYAESPpnFJZmMICEWmFBATmlxJhNcFSuQCMnMTS3O/A8EaSC1YLN88tOLQQpyc9HUoSjBbQZIIjwXYjdcUUB+eWoRwnVgp4BVoGuBGES+xQWkW1yAsBhCgLkgAgCmg1LZ",
+			"resultTeX": "\\frac{1}{\\varepsilon}+\\left(\\frac{\\log \\left(-W_1^-\\right)}{W_1^-+1}+\\frac{\\log \\left(-W_1^+\\right)}{W_1^++1}-\\log (m^2)+2\\right)+O\\left(\\varepsilon^1\\right)",
+			"dimension": "4 - 2*eps",
+			"epsOrder": "0",
+			"epsOrders": "0",
+			"propExponents": [
+				1,
+				1
+			],
+			"propagators": [],
+			"numerators": [],
+			"internalMasses": [],
+			"externalMasses": [],
+			"substitutions": "",
+			"normalization": "Automatic",
+			"stVersion": "SubTropica v1.0.395",
+			"stCommand": "",
+			"contributor": "Sebastian Mizera",
+			"timestamp": "2026-04-19T21:46:35",
+			"verifiedAt": "2026-04-19T21:46:35",
+			"verified": true,
+			"method": "direct_integration",
+			"tools": [
+				"SubTropica"
+			],
+			"methodLR": "Lungo",
+			"findRoots": true,
+			"byteCount": 1328,
+			"algebraicLetters": [
+				{
+					"index": 1,
+					"variable": "x2",
+					"polynomial": "mm + 2*mm*x2 - MM*x2 + mm*x2^2",
+					"LC": "mm",
+					"sum": "(-2*mm + MM)/mm",
+					"product": "1",
+					"discriminant": "-4*mm^2 + (2*mm - MM)^2",
+					"minusRoot": "(-2*mm + MM - Sqrt[-((4*mm - MM)*MM)])/(2*mm)",
+					"plusRoot": "(-2*mm + MM + Sqrt[-((4*mm - MM)*MM)])/(2*mm)",
+					"polynomialTeX": "x_{2}^2 m^2+2 x_{2} m^2+m^2-x_{2} M^2",
+					"discriminantTeX": "\\left(2 m^2-M^2\\right)^2-4 m^4",
+					"minusRootTeX": "\\frac{1}{2} m^{-2} \\left(-\\sqrt{-\\left(M^2 \\left(4 m^2-M^2\\right)\\right)}-2 m^2+M^2\\right)",
+					"plusRootTeX": "\\frac{1}{2} m^{-2} \\left(\\sqrt{-\\left(M^2 \\left(4 m^2-M^2\\right)\\right)}-2 m^2+M^2\\right)"
+				}
+			],
+			"symbolTeX": "\\varepsilon^{0}\\colon\\;-(m^2) + \\frac{1}{W_1^-+1}\\,(W_1^-) + \\frac{1}{W_1^++1}\\,(W_1^+)",
+			"alphabet": [
+				"m^2",
+				"W_1^-",
+				"W_1^+"
+			],
+			"symbolWeight": 1,
+			"symbolTerms": 3,
+			"normalizedSymbolTeX": "\\varepsilon^{0}&\\colon\\;\\frac{1}{\\left(W_1^-+1\\right) \\left(W_1^++1\\right)}\\!\\left[W_1^++1\\,(W^-_1) + W_1^-+1\\,(W^+_1)\\right]",
+			"wDefinitions": [
+				{
+					"label": "W^-_1",
+					"kind": "algebraic",
+					"pairIndex": 1,
+					"definition": "\\frac{1}{2} m^{-2} \\left(-\\sqrt{-\\left(M^2 \\left(4 m^2-M^2\\right)\\right)}-2 m^2+M^2\\right)",
+					"originalLetter": "W_1^-",
+					"polynomialTeX": "x_{2}^2 m^2+2 x_{2} m^2+m^2-x_{2} M^2",
+					"discriminantTeX": "\\left(2 m^2-M^2\\right)^2-4 m^4"
+				},
+				{
+					"label": "W^+_1",
+					"kind": "algebraic",
+					"pairIndex": 1,
+					"definition": "\\frac{1}{2} m^{-2} \\left(\\sqrt{-\\left(M^2 \\left(4 m^2-M^2\\right)\\right)}-2 m^2+M^2\\right)",
+					"originalLetter": "W_1^+",
+					"polynomialTeX": "x_{2}^2 m^2+2 x_{2} m^2+m^2-x_{2} M^2",
+					"discriminantTeX": "\\left(2 m^2-M^2\\right)^2-4 m^4"
+				}
+			],
+			"normalizedAlphabet": [
+				"W^-_1",
+				"W^+_1"
+			],
+			"symbolScale": "m^2",
+			"normalizedSymbolTerms": 2
+		}
+	]
 }

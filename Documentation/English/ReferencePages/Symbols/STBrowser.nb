@@ -1,0 +1,154 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Wolfram 14.3' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       154,          7]
+NotebookDataLength[      5823,        145]
+NotebookOptionsPosition[      3961,        107]
+NotebookOutlinePosition[      4401,        123]
+CellTagsIndexPosition[      4358,        120]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["STBrowser", "ObjectName",ExpressionUUID->"012bb5ea-59bc-4edb-9d46-10d914b77f93"],
+
+Cell[BoxData[GridBox[{
+   {Cell[TextData[{
+     StyleBox["STBrowser[]", "TI"],
+     " \[LineSeparator]starts the local SubTropica server (if it is not \
+already running) and opens its URL in the default system browser. Returns \
+Null on success; returns $Failed only if the server could not be started. No \
+native viewer, no parallel kernels, no main polling loop \\[LongDash] the \
+evaluation cell returns immediately and prints nothing. Idempotent: \
+subsequent calls reuse the existing server and reopen the browser tab. Useful \
+for library browsing, Review tool access, and diagram inspection while \
+keeping the notebook kernel free for parallel work. Note: UI actions that \
+would route back into Mathematica (e.g. running an integration from the \
+diagram editor) will hang in this mode because no main loop is draining the \
+IPC queue \\[LongDash] use STIntegrate[] for that. The URL is still available \
+as $stServerURL if needed. Call STStop[] when done."
+    }], "TableText",ExpressionUUID->"8f409054-099e-4849-8cc8-e457db6bf1b5"]}
+  },
+  GridBoxAlignment->{"Columns" -> {{Left}}},
+  GridBoxItemSize->{
+   "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}]], "Usage",
+ CellID->1,ExpressionUUID->"21e2d9fb-a3f0-4655-955d-6e6a649cb91d"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["See Also", "SeeAlsoSection",ExpressionUUID->"9f4cb097-77ac-4ff2-bafd-faf44c7207e3"],
+
+Cell[TextData[{
+ Cell[BoxData[
+  ButtonBox["STIntegrate",
+   BaseStyle->"Link",
+   ButtonData->"paclet:SubTropica/ref/STIntegrate"]], "InlineFormula",
+  ExpressionUUID->"ee55e2ca-bee5-4dfc-8bc7-7e007316afc7"],
+ " \[EmptyVerySmallSquare] ",
+ Cell[BoxData[
+  ButtonBox["FeynmanIntegrate",
+   BaseStyle->"Link",
+   ButtonData->"paclet:SubTropica/ref/FeynmanIntegrate"]], "InlineFormula",
+  ExpressionUUID->"f4365b37-42ec-461e-b67e-32d056d26013"],
+ " \[EmptyVerySmallSquare] ",
+ Cell[BoxData[
+  ButtonBox["STStop",
+   BaseStyle->"Link",
+   ButtonData->"paclet:SubTropica/ref/STStop"]], "InlineFormula",
+  ExpressionUUID->"85d423a8-9af9-4ab6-af97-8241a2b4ec74"]
+}], "SeeAlso",ExpressionUUID->"3e112887-3c38-4879-93b2-735aa16dd812"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Metadata", "MetadataSection",ExpressionUUID->"55227647-b1fd-46b8-8ce6-ad91e64f7e76"],
+
+Cell[CellGroupData[{
+
+Cell["Categorization", "CategorizationSection",ExpressionUUID->"62c655cd-2df9-4a10-9ac8-68879b718de8"],
+
+Cell["Symbol", "Categorization",
+ CellLabel->
+  "Entity Type",ExpressionUUID->"dc16fb47-5e24-463c-bc1a-e1f7651eebf5"],
+
+Cell["SubTropica", "Categorization",
+ CellLabel->
+  "Paclet Name",ExpressionUUID->"c0a9ce93-1073-45a9-b49a-922cf720f370"],
+
+Cell["SubTropica`", "Categorization",
+ CellLabel->"Context",ExpressionUUID->"e1d8edca-3a6d-4fa8-8bf6-045b27851548"],
+
+Cell["SubTropica/ref/STBrowser", "Categorization",
+ CellLabel->"URI",ExpressionUUID->"85da3bbe-549d-49c7-9a90-77930be3cfd4"]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Keywords", "KeywordsSection",ExpressionUUID->"7ad0ada0-eade-4884-ba19-f83bc2eca2b7"],
+
+Cell["Feynman integral", "Keywords",ExpressionUUID->"6d644050-4782-46c6-a838-ac1bf0d06fee"],
+
+Cell["tropical geometry", "Keywords",ExpressionUUID->"ceda4dc1-f361-4022-9441-67a033bfbe48"],
+
+Cell["dimensional regularization", "Keywords",ExpressionUUID->"03f9058e-4b34-4bc4-b59f-27c5a3bf022f"]
+}, Closed]]
+}, Open  ]]
+},
+TaggingRules-><|"Paclet" -> "SubTropica"|>,
+FrontEndVersion->"14.3 for Mac OS X ARM (64-bit) (July 8, 2025)",
+StyleDefinitions->FrontEnd`FileName[{"Wolfram"}, "FunctionPageStylesExt.nb", 
+  CharacterEncoding -> "UTF-8"],
+ExpressionUUID->"f0b8d834-122c-44a4-9643-d7456945be97"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[576, 22, 86, 0, 70, "ObjectName",ExpressionUUID->"012bb5ea-59bc-4edb-9d46-10d914b77f93"],
+Cell[665, 24, 1250, 20, 70, "Usage",ExpressionUUID->"21e2d9fb-a3f0-4655-955d-6e6a649cb91d",
+ CellID->1]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[1952, 49, 89, 0, 70, "SeeAlsoSection",ExpressionUUID->"9f4cb097-77ac-4ff2-bafd-faf44c7207e3"],
+Cell[2044, 51, 726, 18, 70, "SeeAlso",ExpressionUUID->"3e112887-3c38-4879-93b2-735aa16dd812"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[2807, 74, 90, 0, 70, "MetadataSection",ExpressionUUID->"55227647-b1fd-46b8-8ce6-ad91e64f7e76"],
+Cell[CellGroupData[{
+Cell[2922, 78, 102, 0, 70, "CategorizationSection",ExpressionUUID->"62c655cd-2df9-4a10-9ac8-68879b718de8"],
+Cell[3027, 80, 117, 2, 70, "Categorization",ExpressionUUID->"dc16fb47-5e24-463c-bc1a-e1f7651eebf5"],
+Cell[3147, 84, 121, 2, 70, "Categorization",ExpressionUUID->"c0a9ce93-1073-45a9-b49a-922cf720f370"],
+Cell[3271, 88, 115, 1, 70, "Categorization",ExpressionUUID->"e1d8edca-3a6d-4fa8-8bf6-045b27851548"],
+Cell[3389, 91, 124, 1, 70, "Categorization",ExpressionUUID->"85da3bbe-549d-49c7-9a90-77930be3cfd4"]
+}, Closed]],
+Cell[CellGroupData[{
+Cell[3550, 97, 90, 0, 70, "KeywordsSection",ExpressionUUID->"7ad0ada0-eade-4884-ba19-f83bc2eca2b7"],
+Cell[3643, 99, 91, 0, 70, "Keywords",ExpressionUUID->"6d644050-4782-46c6-a838-ac1bf0d06fee"],
+Cell[3737, 101, 92, 0, 70, "Keywords",ExpressionUUID->"ceda4dc1-f361-4022-9441-67a033bfbe48"],
+Cell[3832, 103, 101, 0, 70, "Keywords",ExpressionUUID->"03f9058e-4b34-4bc4-b59f-27c5a3bf022f"]
+}, Closed]]
+}, Open  ]]
+}
+]
+*)
+
+(* End of internal cache information *)

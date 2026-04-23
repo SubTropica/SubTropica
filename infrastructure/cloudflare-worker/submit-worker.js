@@ -16,6 +16,7 @@
 
 const GITHUB_REPO = "SubTropica/SubTropica";
 const WORKFLOW_FILE = "submit.yml";
+const CORRECTION_WORKFLOW_FILE = "correction.yml";
 
 // Build a dedup key from the submission's identity fields
 function dedupKey(payload) {
@@ -28,6 +29,33 @@ function dedupKey(payload) {
     payload.normalization || "Automatic",
   ];
   return "sub:" + parts.join("|");
+}
+
+// Whitelist of correction categories.  Duplicated in the UI select; the
+// GitHub workflow uses the same strings as label names (prefixed with
+// "correction:") so the set must be kept in sync across the three layers.
+const CORRECTION_CATEGORIES = new Set([
+  "misidentified-diagram",
+  "wrong-masses",
+  "wrong-propagators",
+  "wrong-description",
+  "wrong-reference",
+  "citation-request",
+  "other",
+]);
+
+function correctionDedupKey(payload) {
+  // Normalize whitespace in the free-text comment so a user clicking
+  // Submit twice is deduped, but two reporters flagging the same record
+  // with different comments each get an issue.
+  const commentNorm = (payload.comment || "").replace(/\s+/g, " ").trim().toLowerCase();
+  const parts = [
+    payload.cnickelIndex || "",
+    payload.recordId || "",
+    payload.category || "",
+    commentNorm,
+  ];
+  return "corr:" + parts.join("|");
 }
 
 export default {
@@ -56,7 +84,7 @@ export default {
       }
 
       // Check Cloudflare cache first
-      const cacheKey = new Request(`https://pdf-cache.subtropica.org/${arxivId.replace("/", "_")}.pdf`);
+      const cacheKey = new Request(`https://pdf-cache.subtropi.ca/${arxivId.replace("/", "_")}.pdf`);
       const cache = caches.default;
       let cached = await cache.match(cacheKey);
       if (cached) {
@@ -72,7 +100,7 @@ export default {
       // Fetch from arXiv
       try {
         const pdfResp = await fetch(`https://arxiv.org/pdf/${arxivId}.pdf`, {
-          headers: { "User-Agent": "SubTropica/1.0 (https://subtropica.org)" }
+          headers: { "User-Agent": "SubTropica/1.0 (https://subtropi.ca)" }
         });
         if (!pdfResp.ok) {
           return new Response(`arXiv returned ${pdfResp.status}`, {
@@ -96,6 +124,99 @@ export default {
           status: 502,
           headers: { "Access-Control-Allow-Origin": "*" }
         });
+      }
+    }
+
+    // ── POST /correction — correction-report proxy ──
+    // Triggers the correction.yml workflow, which opens a GitHub issue.
+    // Separate path from /submit because validation, dedup TTL, and the
+    // downstream workflow all differ.
+    if (request.method === "POST" && url.pathname === "/correction") {
+      try {
+        const payload = await request.json();
+
+        const required = ["cnickelIndex", "recordId", "category", "comment"];
+        for (const f of required) {
+          if (payload[f] === undefined || payload[f] === null || payload[f] === "") {
+            return Response.json(
+              { status: "error", error: `Missing required field: ${f}` },
+              { status: 400 }
+            );
+          }
+        }
+
+        if (!CORRECTION_CATEGORIES.has(payload.category)) {
+          return Response.json(
+            { status: "error", error: `Invalid category: ${payload.category}` },
+            { status: 400 }
+          );
+        }
+
+        // Free-text fields are capped at 2000 chars in the UI; enforce an
+        // overall 32 KB payload guard here as a backstop against abuse.
+        const payloadStr = JSON.stringify(payload);
+        if (payloadStr.length > 32_000) {
+          return Response.json(
+            { status: "error", error: "Payload too large (max 32 KB)" },
+            { status: 413 }
+          );
+        }
+
+        // Dedup via KV (same namespace as /submit, 7-day TTL).
+        const ckey = correctionDedupKey(payload);
+        if (env.SUBMISSIONS) {
+          const existing = await env.SUBMISSIONS.get(ckey);
+          if (existing) {
+            return Response.json({
+              status: "duplicate",
+              message: "An identical correction was already reported.",
+              previousSubmission: existing,
+            });
+          }
+        }
+
+        const ghResp = await fetch(
+          `https://api.github.com/repos/${GITHUB_REPO}/actions/workflows/${CORRECTION_WORKFLOW_FILE}/dispatches`,
+          {
+            method: "POST",
+            headers: {
+              "Authorization": `Bearer ${env.GITHUB_PAT}`,
+              "Accept": "application/vnd.github+json",
+              "User-Agent": "SubTropica-Worker",
+              "X-GitHub-Api-Version": "2022-11-28",
+            },
+            body: JSON.stringify({
+              ref: "main",
+              inputs: { payload: payloadStr },
+            }),
+          }
+        );
+
+        if (!ghResp.ok) {
+          const err = await ghResp.text();
+          console.error("GitHub API error (correction):", ghResp.status, err);
+          return Response.json(
+            { status: "error", error: "GitHub API error", detail: err },
+            { status: 502 }
+          );
+        }
+
+        if (env.SUBMISSIONS) {
+          await env.SUBMISSIONS.put(ckey, new Date().toISOString(), {
+            expirationTtl: 7 * 24 * 3600,
+          });
+        }
+
+        return Response.json({
+          status: "ok",
+          message: "Correction dispatched. A maintainer will review shortly.",
+        });
+      } catch (e) {
+        console.error("Worker error (correction):", e);
+        return Response.json(
+          { status: "error", error: e.message },
+          { status: 500 }
+        );
       }
     }
 

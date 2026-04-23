@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="robots" content="noai, noimageai">
 <title>SubTropica Online</title>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#x1F965;</text></svg>">
@@ -23,7 +23,7 @@
   <!-- ═══════════ TOOLBAR ═══════════ -->
   <div class="toolbar" id="toolbar">
     <div class="toolbar-left">
-      <span class="app-title" id="app-title" style="cursor:pointer"><span class="title-accent">Sub</span><span class="title-main">Tropica</span> <span class="title-badge">Online</span></span>
+      <span class="app-title" id="app-title" style="cursor:pointer"><span class="title-accent">Sub</span><span class="title-main">Tropica</span> <span class="title-badge title-badge-desktop">Online</span><span class="title-badge title-badge-mobile">Mobile</span></span>
       <div class="toolbar-sep"></div>
       <div class="toolbar-group" id="mode-segment">
         <button class="mode-btn active-draw" id="mode-draw" title="[1] Draw mode">&#9998; Draw</button>
@@ -78,6 +78,9 @@
         <div class="overflow-menu" id="overflow-menu" role="menu">
           <button class="overflow-item" data-action="config" role="menuitem">Configure (kinematics, advanced)</button>
           <div class="overflow-sep"></div>
+          <button class="overflow-item overflow-mode-item overflow-mode-active" data-action="mode-draw" role="menuitemradio" aria-checked="true">Draw mode</button>
+          <button class="overflow-item overflow-mode-item" data-action="mode-delete" role="menuitemradio" aria-checked="false">Delete mode</button>
+          <div class="overflow-sep"></div>
           <button class="overflow-item" data-action="redo" role="menuitem">Redo</button>
           <button class="overflow-item" data-action="rotate-cw" role="menuitem">Rotate clockwise</button>
           <button class="overflow-item" data-action="rotate-ccw" role="menuitem">Rotate counter-clockwise</button>
@@ -86,6 +89,8 @@
           <button class="overflow-item" data-action="rebalance" role="menuitem">Auto-arrange layout</button>
           <div class="overflow-sep"></div>
           <button class="overflow-item overflow-danger" data-action="clear" role="menuitem">Clear canvas</button>
+          <div class="overflow-sep"></div>
+          <button class="overflow-item" data-action="safe-exit" role="menuitem" title="Initialize $STQuadruple, $STGraph, etc. to consistent values and shut down the server + viewer cleanly.">Safe exit (initialize globals)</button>
         </div>
       </div>
       <button class="theme-toggle" id="theme-toggle" title="Toggle dark mode">
@@ -152,6 +157,27 @@
   <!-- ═══════════ NOTIFICATION STACK (right side) ═══════════ -->
   <div class="notif-stack" id="notif-stack">
     <!-- Notification toasts inserted by JS -->
+  </div>
+
+  <!-- Mobile notification chip + bottom sheet (≤768px). Chip shows a compact
+       summary of the topology + config toasts; tap opens the sheet which
+       hosts the full toast cards (reparented from #notif-stack). -->
+  <button class="notif-chip" id="notif-chip" aria-haspopup="dialog" aria-expanded="false" hidden>
+    <span class="notif-chip-dot" aria-hidden="true"></span>
+    <span class="notif-chip-label" id="notif-chip-label"></span>
+    <span class="notif-chip-count" id="notif-chip-count" hidden></span>
+    <svg class="notif-chip-caret" viewBox="0 0 24 24" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+  </button>
+  <div class="notif-sheet-backdrop" id="notif-sheet-backdrop" hidden></div>
+  <div class="notif-sheet" id="notif-sheet" role="dialog" aria-label="Matching library entries" aria-hidden="true" hidden>
+    <div class="notif-sheet-handle"></div>
+    <div class="notif-sheet-header">
+      <span class="notif-sheet-title">Matches</span>
+      <button class="notif-sheet-close" id="notif-sheet-close" aria-label="Close">&times;</button>
+    </div>
+    <div class="notif-sheet-body" id="notif-sheet-body">
+      <!-- .notif-toast elements are moved here from #notif-stack while the sheet is open -->
+    </div>
   </div>
 
   <!-- ═══════════ REVIEW SAVE BAR (canvas-edit dirty indicator) ═══════════ -->
@@ -539,6 +565,30 @@
     </div>
   </div>
 
+  <!-- ═══════════ MOBILE TAB BAR (≤480px only) ═══════════
+       Persistent 4-tab nav for phones: Draw · Library · Configure · Export.
+       Replaces the Library FAB and the top-toolbar Export button at phone
+       widths. The top toolbar on phones keeps only branding + overflow +
+       theme + help. See .mobile-tabbar in style.css (≤480px media block). -->
+  <nav class="mobile-tabbar" id="mobile-tabbar" aria-label="Mobile navigation">
+    <button class="mobile-tab mobile-tab-active" data-tab="draw" aria-label="Draw">
+      <svg class="mobile-tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19l7-7 3 3-7 7-3-3z"/><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/><path d="M2 2l7.586 7.586"/><circle cx="11" cy="11" r="2"/></svg>
+      <span class="mobile-tab-label">Draw</span>
+    </button>
+    <button class="mobile-tab" data-tab="library" aria-label="Library">
+      <svg class="mobile-tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
+      <span class="mobile-tab-label">Library</span>
+    </button>
+    <button class="mobile-tab" data-tab="configure" aria-label="Configure">
+      <svg class="mobile-tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+      <span class="mobile-tab-label">Configure</span>
+    </button>
+    <button class="mobile-tab" data-tab="export" aria-label="Export">
+      <svg class="mobile-tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+      <span class="mobile-tab-label">Export</span>
+    </button>
+  </nav>
+
   <!-- ═══════════ BROWSER OVERLAY ═══════════ -->
   <div class="browser-overlay" id="browser-overlay">
     <div class="browser-panel">
@@ -611,6 +661,7 @@
                  data-tip-html="<strong>&epsilon; order</strong> — highest power of <code>eps</code> to keep in the expansion. <code>0</code> gives the finite part (through <code>eps^0</code>); use <code>1</code> or <code>2</code> for subleading terms."/>
           <button class="modal-btn-tiny" id="ic-check-complexity" title="Run the Tier-2 kernel complexity check (tropical expansion, divergent facets, LR-gauge)" style="display:none;margin-left:auto">Check complexity</button>
           <button class="modal-btn-tiny" id="ic-check-mpl" title="Check if polylogarithmic" style="display:none">Check if MPL</button>
+          <button class="modal-btn-tiny" id="ic-save-exit" title="Sync $STGraph / $STQuadruple / $STPropagators with the current diagram and return to Mathematica without printing any output" style="display:none">Save and exit</button>
         </div>
       </div>
       <div class="integral-card-actions">
@@ -651,6 +702,55 @@
       <button class="detail-close" id="about-close">&times;</button>
       <div class="about-body" id="about-body">
         <!-- Populated dynamically -->
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════ CORRECTION-REPORT MODAL ═══════════ -->
+  <div class="modal-overlay" id="correction-overlay">
+    <div class="modal-panel correction-panel">
+      <button class="detail-close" id="correction-close">&times;</button>
+      <div class="correction-body">
+        <h3 class="correction-title">Report an issue</h3>
+        <div class="correction-subtitle">Flag a misidentified diagram, wrong masses, or anything else that looks off. A maintainer will review.</div>
+        <div class="correction-target" id="correction-target">
+          <!-- Populated by openCorrectionModal() -->
+        </div>
+        <div class="correction-row">
+          <label class="correction-label" for="correction-category">Category</label>
+          <select id="correction-category" class="correction-select">
+            <option value="misidentified-diagram">Misidentified diagram</option>
+            <option value="wrong-masses">Wrong masses</option>
+            <option value="wrong-propagators">Wrong propagators</option>
+            <option value="wrong-description">Wrong description</option>
+            <option value="wrong-reference">Wrong reference</option>
+            <option value="citation-request">Citation request</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+        <div class="correction-row">
+          <label class="correction-label" for="correction-comment">What's wrong? <span class="correction-required">*</span></label>
+          <textarea id="correction-comment" class="correction-textarea" rows="4" maxlength="2000" placeholder="Describe the issue. Be specific: which field, what's incorrect, how you noticed."></textarea>
+          <div class="correction-counter"><span id="correction-comment-count">0</span> / 2000</div>
+        </div>
+        <div class="correction-row">
+          <label class="correction-label" for="correction-proposed">Proposed fix <span class="correction-optional">(optional)</span></label>
+          <textarea id="correction-proposed" class="correction-textarea" rows="3" maxlength="2000" placeholder="If you know the correct value, paste it here."></textarea>
+          <div class="correction-counter"><span id="correction-proposed-count">0</span> / 2000</div>
+        </div>
+        <div class="correction-row correction-contrib">
+          <label class="correction-label" for="correction-contributor">Your name <span class="correction-optional">(optional — appears in the issue)</span></label>
+          <input type="text" id="correction-contributor" class="correction-input" placeholder="Anonymous" disabled />
+          <label class="correction-anon">
+            <input type="checkbox" id="correction-anon" checked />
+            <span>Submit anonymously</span>
+          </label>
+        </div>
+        <div class="correction-actions">
+          <button class="correction-btn correction-btn-cancel" id="correction-cancel">Cancel</button>
+          <button class="correction-btn correction-btn-submit" id="correction-submit" disabled>Submit</button>
+        </div>
+        <div class="correction-status" id="correction-status"></div>
       </div>
     </div>
   </div>

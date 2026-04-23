@@ -18,7 +18,7 @@ BeginPackage["HyperIntica`"]
 $STContourHandling = "Abort";
 
 
-(* ::Section::Closed:: *)
+(* ::Section:: *)
 (*Description*)
 
 
@@ -558,6 +558,8 @@ factorCompletely2::usage = "factorCompletely2[poly, x, label] factors poly like 
 Used when a symbolic factored form is needed that can be evaluated later via explicit[label].";
 
 explicit::usage = "explicit[label] holds the substitution rules created by factorCompletely2[poly, x, label], mapping abstract root symbols to their numerical values.";
+
+STFactorAndTrackRoots::usage = "STFactorAndTrackRoots[poly, x, label] factors poly in x completely, substituting abstract symbols for the roots and storing the map from those symbols to their numerical values in explicit[label].";
 
 
 (* ::Section::Closed:: *)
@@ -3012,7 +3014,7 @@ ClearNonlinearCache[] := ($NonlinearFactorsCache = <||>;)
 
 (* Convention: raw `Wm[i]` / `Wp[i]` notation is preserved in every Mathematica
    output (StandardForm, TraditionalForm, OutputForm, InputForm). No MakeBoxes
-   subscript rendering at the kernel level — subscripted `W^{\pm}_i` pills live
+   subscript rendering at the kernel level \[LongDash] subscripted `W^{\pm}_i` pills live
    only in the UI (ui/app.js via wDefinitions.kind = "algebraic"). *)
 
 GetAlgebraicBackSubRules[] := Flatten @ KeyValueMap[
@@ -3125,7 +3127,7 @@ SimplifyWithVieta[expr_] := Module[{e = expr, indices, powerRules, sVal, pVal,
     reconstructed = a + (b + c)/2 * sVal + (b - c)/2 * (Wm[i] - Wp[i]);
     tRec = SessionTime[] - t0;
     (* Final exactness check: if expansion minus reconstructed isn't zero,
-       the original is still not captured by (a, b, c) — keep it as-is. *)
+       the original is still not captured by (a, b, c) \[LongDash] keep it as-is. *)
     t0 = SessionTime[];
     If[PossibleZeroQ[Together[expanded - reconstructed]],
       e = reconstructed];
@@ -5649,7 +5651,7 @@ SymbolWeight[symbolList_List]:=If[symbolList==={},0,Max[Map[Length[#[[2]]]&,symb
 (*SymbolWeight[symbolList_List]:=If[symbolList==={},0,Max[Map[Length[#[[2]]]&,symbolList]]]*)
 
 
-(* ::Section::Closed:: *)
+(* ::Section:: *)
 (*Other Functions*)
 
 
@@ -5666,6 +5668,8 @@ explicit[label]=Thread[Flatten[solnsSym//.Rule[a_,b_]:>b]->Flatten[solns//.Rule[
 lcoeff=Coefficient[poly,x^Exponent[poly,x]];
 lcoeff*(Times@@(x-(x/.(*solns*)solnsSym)))
 ]
+
+STFactorAndTrackRoots = factorCompletely2;
 
 
 (* ::Section::Closed:: *)

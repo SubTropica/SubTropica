@@ -1,152 +1,151 @@
 {
-  "CNickelIndex": "e12|e2|e|:000|10|2|",
-  "MassScales": 2,
-  "FunctionClass": "MPL",
-  "EpsilonOrder": "0",
-  "References": [
-    "arXiv:0712.1851",
-    "arXiv:1401.3546"
-  ],
-  "Records": [
-    {
-      "authors": "Ellis, R.Keith, Zanderighi, Giulia",
-      "texkey": "Ellis:2007qk",
-      "verified": false,
-      "verifiedAt": "",
-      "reference": "arXiv:0712.1851, JHEP 02 (002), 2008",
-      "ancillaryFiles": [],
-      "recordId": "bf_cb8adddca5ab",
-      "masterCount": 1,
-      "transcendentalWeight": 2,
-      "computationLevel": "full",
-      "doi": "10.1088/1126-6708/2008/02/002",
-      "tools": [],
-      "description": "Divergent one-loop triangle $I_3^D(0,p_2^2,p_3^2;0,0,0)$ with all massless internal lines and one on-shell external leg. Contains single $1/\\varepsilon$ collinear pole.",
-      "epsOrders": "-2,-1,0",
-      "method": [],
-      "dimScheme": "d=4-2*eps",
-      "location": "Sec. 3.1, Sec. 4.3.2",
-      "familyName": "Triangle_2"
-    },
-    {
-      "authors": "Abreu, Samuel, Britto, Ruth, Duhr, Claude, Gardi, Einan",
-      "ancillaryFiles": [],
-      "recordId": "bf_b2ef307b81dc",
-      "epsOrders": "",
-      "location": "Appendix B",
-      "texkey": "Abreu:2014cla",
-      "verified": false,
-      "verifiedAt": "",
-      "reference": "arXiv:1401.3546, JHEP 10 (125), 2014",
-      "masterCount": 0,
-      "computationLevel": "full",
-      "doi": "10.1007/JHEP10(2014)125",
-      "tools": [],
-      "description": "One-loop triangle with massless propagators and two external masses $p_1^2, p_2^2$.",
-      "method": [],
-      "dimScheme": "d=4-2*eps",
-      "familyName": "T(2m) / T^{2m}"
-    }
-  ],
-  "Source": [
-    "arXiv",
-    "QCDLoop"
-  ],
-  "Results": [
-    {
-      "resultCompressed": "1:eJzVUdsKwjAMrdu84F/4Lfq4QZn+QIVWAp0dS4f+vSYtFFpFfPDFPpzSnJyTNNmdXW9WQgjcEhz1BBoPyius6alHBLqEqTihIWgBvWEKlwQnGDTCg45ZcIyJ1l1iekqIHMe6Dqpkx7x0Nz1lPFtExyIptSDt/Mmy7OnFt8mbC8INQa88uKuywLJoWmc1qzfCNcHeDaPV9zCpoAs1JZQ9BctsTt//4qeT/ZtdRQj7YHgCWeKSQg==",
-      "resultTeX": "-\\frac{\\log \\left(M_2^2 M_3^{-2}\\right)}{\\varepsilon \\left(M_2^2-M_3^2\\right)}+\\frac{\\left(2 \\log \\left(M_2^2\\right)-\\log \\left(M_2^2 M_3^{-2}\\right)+2 i \\pi \\right) \\log \\left(M_2^2 M_3^{-2}\\right)}{2 \\left(M_2^2-M_3^2\\right)}+O\\left(\\varepsilon^1\\right)",
-      "dimension": "4 - 2*eps",
-      "epsOrder": "0",
-      "epsOrders": "0",
-      "propExponents": [
-        1,
-        1,
-        1
-      ],
-      "propagators": [],
-      "numerators": [],
-      "internalMasses": [],
-      "externalMasses": [],
-      "substitutions": "",
-      "rootSubstitutions": "{}",
-      "normalization": "Automatic",
-      "stVersion": "SubTropica v1.0.277",
-      "stCommand": "",
-      "contributor": "Sebastian Mizera",
-      "timestamp": "2026-04-14T02:15:33",
-      "verifiedAt": "2026-04-14T02:15:33",
-      "verified": true,
-      "method": "direct_integration",
-      "tools": [
-        "SubTropica"
-      ],
-      "methodLR": "Lungo",
-      "byteCount": 2416,
-      "symbolTeX": "\\begin{aligned}\\varepsilon^{-1}&\\colon\\;\\frac{1}{M_3^2-M_2^2}\\,(M_2^2) + \\frac{1}{M_2^2-M_3^2}\\,(M_3^2) \\\\ \\varepsilon^{0}&\\colon\\;\\frac{1}{M_2^2-M_3^2}\\,(M_2^2 \\otimes M_2^2) + \\frac{1}{M_3^2-M_2^2}\\,(M_3^2 \\otimes M_3^2)\\end{aligned}",
-      "alphabet": [
-        "M_2^2",
-        "M_3^2"
-      ],
-      "symbolWeight": 2,
-      "symbolTerms": 4,
-      "normalizedSymbolTeX": "\\begin{aligned}\\varepsilon^{-1}&\\colon\\;\\frac{1}{M_2^2-M_3^2}\\,(W_1) \\\\ \\varepsilon^{0}&\\colon\\;\\frac{1}{M_3^2-M_2^2}\\,(W_1 \\otimes W_1)\\end{aligned}",
-      "wDefinitions": [
-        {
-          "label": "W_1",
-          "definition": "\\frac{M_3^2}{M_2^2}",
-          "originalLetter": "M_3^2"
-        }
-      ],
-      "normalizedAlphabet": [
-        "W_1"
-      ],
-      "symbolScale": "M_2^2",
-      "normalizedSymbolTerms": 2,
-      "legOrder": []
-    }
-  ],
-  "Names": [
-    "2-mass triangle (massless propagators)",
-    "Triangle",
-    "C0",
-    "Triangle_2",
-    "T^{2m}",
-    "T(2m)"
-  ],
-  "QCDLoopURL": "https://qcdloop.fnal.gov/tridiv2.pdf",
-  "edges": "{{{1, 2}, 0}, {{1, 3}, 0}, {{2, 3}, 0}}",
-  "nodes": "{{1, 0}, {2, M[2]}, {3, M[3]}}",
-  "quadruple": "{E^(eps*EulerGamma)*Gamma[1 + eps], (x1 + x2 + x3)^(-1 + 2*eps)*(x3*(x1*MM[1] + x2*MM[2]))^(-1 - eps), {x1, x2, x3}, {}}",
-  "numericallyVerified": true,
-  "numericallyVerifiedAt": "2026-04-12",
-  "CanonicalName": "2-mass triangle (b)",
-  "MassConfig": {
-    "numEdges": 3,
-    "numMassiveEdges": 0,
-    "numMasslessEdges": 3,
-    "distinctInternalMasses": 0,
-    "internalMassLabels": [],
-    "edgeMassPattern": "000",
-    "numExtLegs": 3,
-    "numOnshellMassiveExtLegs": 2,
-    "numMasslessExtLegs": 1,
-    "extLegSignature": "0MM"
-  },
-  "commonNames": [
-    "C₀"
-  ],
-  "Subsectors": [],
-  "ParentSectors": [
-    "112|e3|e3|e|:000|00|10|2|",
-    "e12|e3|e3|e|:000|00|00|1|",
-    "e12|e3|e3|e|:000|00|10|1|",
-    "e12|e3|e3|e|:000|00|10|2|",
-    "e12|e3|e3|e|:000|10|10|0|",
-    "e12|e3|e3|e|:000|10|10|1|",
-    "e12|e3|e3|e|:000|10|20|0|",
-    "e12|e3|e3|e|:000|10|20|3|",
-    "e12|e3|e3|e|:000|10|22|3|",
-    "e12|e3|e3|e|:000|10|23|4|"
-  ]
+	"CNickelIndex": "e12|e2|e|:000|10|2|",
+	"MassScales": 2,
+	"FunctionClass": "MPL",
+	"EpsilonOrder": "0",
+	"References": [
+		"arXiv:0712.1851",
+		"arXiv:1401.3546"
+	],
+	"Records": [
+		{
+			"authors": "Ellis, R.Keith, Zanderighi, Giulia",
+			"texkey": "Ellis:2007qk",
+			"verified": false,
+			"verifiedAt": "",
+			"reference": "arXiv:0712.1851, JHEP 02 (002), 2008",
+			"ancillaryFiles": [],
+			"recordId": "bf_cb8adddca5ab",
+			"masterCount": 1,
+			"transcendentalWeight": 2,
+			"computationLevel": "full",
+			"doi": "10.1088/1126-6708/2008/02/002",
+			"tools": [],
+			"description": "Divergent one-loop triangle $I_3^D(0,p_2^2,p_3^2;0,0,0)$ with all massless internal lines and one on-shell external leg. Contains single $1/\\varepsilon$ collinear pole.",
+			"epsOrders": "-2,-1,0",
+			"method": [],
+			"dimScheme": "d=4-2*eps",
+			"location": "Sec. 3.1, Sec. 4.3.2",
+			"familyName": "Triangle_2"
+		},
+		{
+			"authors": "Abreu, Samuel, Britto, Ruth, Duhr, Claude, Gardi, Einan",
+			"ancillaryFiles": [],
+			"recordId": "bf_b2ef307b81dc",
+			"epsOrders": "",
+			"location": "Appendix B",
+			"texkey": "Abreu:2014cla",
+			"verified": false,
+			"verifiedAt": "",
+			"reference": "arXiv:1401.3546, JHEP 10 (125), 2014",
+			"masterCount": 0,
+			"computationLevel": "full",
+			"doi": "10.1007/JHEP10(2014)125",
+			"tools": [],
+			"description": "One-loop triangle with massless propagators and two external masses $p_1^2, p_2^2$.",
+			"method": [],
+			"dimScheme": "d=4-2*eps",
+			"familyName": "T(2m) / T^{2m}"
+		}
+	],
+	"Source": [
+		"arXiv",
+		"QCDLoop"
+	],
+	"Results": [
+		{
+			"resultCompressed": "1:eJzVUdsKwjAMrdu84F/4Lfq4QZn+QIVWAp0dS4f+vSYtFFpFfPDFPpzSnJyTNNmdXW9WQgjcEhz1BBoPyius6alHBLqEqTihIWgBvWEKlwQnGDTCg45ZcIyJ1l1iekqIHMe6Dqpkx7x0Nz1lPFtExyIptSDt/Mmy7OnFt8mbC8INQa88uKuywLJoWmc1qzfCNcHeDaPV9zCpoAs1JZQ9BctsTt//4qeT/ZtdRQj7YHgCWeKSQg==",
+			"resultTeX": "-\\frac{\\log \\left(M_2^2 M_3^{-2}\\right)}{\\varepsilon \\left(M_2^2-M_3^2\\right)}+\\frac{\\left(2 \\log \\left(M_2^2\\right)-\\log \\left(M_2^2 M_3^{-2}\\right)+2 i \\pi \\right) \\log \\left(M_2^2 M_3^{-2}\\right)}{2 \\left(M_2^2-M_3^2\\right)}+O\\left(\\varepsilon^1\\right)",
+			"dimension": "4 - 2*eps",
+			"epsOrder": "0",
+			"epsOrders": "0",
+			"propExponents": [
+				1,
+				1,
+				1
+			],
+			"propagators": [],
+			"numerators": [],
+			"internalMasses": [],
+			"externalMasses": [],
+			"substitutions": "",
+			"normalization": "Automatic",
+			"stVersion": "SubTropica v1.0.277",
+			"stCommand": "",
+			"contributor": "Sebastian Mizera",
+			"timestamp": "2026-04-14T02:15:33",
+			"verifiedAt": "2026-04-14T02:15:33",
+			"verified": true,
+			"method": "direct_integration",
+			"tools": [
+				"SubTropica"
+			],
+			"methodLR": "Lungo",
+			"byteCount": 2416,
+			"symbolTeX": "\\begin{aligned}\\varepsilon^{-1}&\\colon\\;\\frac{1}{M_3^2-M_2^2}\\,(M_2^2) + \\frac{1}{M_2^2-M_3^2}\\,(M_3^2) \\\\ \\varepsilon^{0}&\\colon\\;\\frac{1}{M_2^2-M_3^2}\\,(M_2^2 \\otimes M_2^2) + \\frac{1}{M_3^2-M_2^2}\\,(M_3^2 \\otimes M_3^2)\\end{aligned}",
+			"alphabet": [
+				"M_2^2",
+				"M_3^2"
+			],
+			"symbolWeight": 2,
+			"symbolTerms": 4,
+			"normalizedSymbolTeX": "\\begin{aligned}\\varepsilon^{-1}&\\colon\\;\\frac{1}{M_2^2-M_3^2}\\,(W_1) \\\\ \\varepsilon^{0}&\\colon\\;\\frac{1}{M_3^2-M_2^2}\\,(W_1 \\otimes W_1)\\end{aligned}",
+			"wDefinitions": [
+				{
+					"label": "W_1",
+					"definition": "\\frac{M_3^2}{M_2^2}",
+					"originalLetter": "M_3^2"
+				}
+			],
+			"normalizedAlphabet": [
+				"W_1"
+			],
+			"symbolScale": "M_2^2",
+			"normalizedSymbolTerms": 2,
+			"legOrder": []
+		}
+	],
+	"Names": [
+		"2-mass triangle (massless propagators)",
+		"Triangle",
+		"C0",
+		"Triangle_2",
+		"T^{2m}",
+		"T(2m)"
+	],
+	"QCDLoopURL": "https://qcdloop.fnal.gov/tridiv2.pdf",
+	"edges": "{{{1, 2}, 0}, {{1, 3}, 0}, {{2, 3}, 0}}",
+	"nodes": "{{1, 0}, {2, M[2]}, {3, M[3]}}",
+	"quadruple": "{E^(eps*EulerGamma)*Gamma[1 + eps], (x1 + x2 + x3)^(-1 + 2*eps)*(x3*(x1*MM[1] + x2*MM[2]))^(-1 - eps), {x1, x2, x3}, {}}",
+	"numericallyVerified": true,
+	"numericallyVerifiedAt": "2026-04-12",
+	"CanonicalName": "2-mass triangle (b)",
+	"MassConfig": {
+		"numEdges": 3,
+		"numMassiveEdges": 0,
+		"numMasslessEdges": 3,
+		"distinctInternalMasses": 0,
+		"internalMassLabels": [],
+		"edgeMassPattern": "000",
+		"numExtLegs": 3,
+		"numOnshellMassiveExtLegs": 2,
+		"numMasslessExtLegs": 1,
+		"extLegSignature": "0MM"
+	},
+	"commonNames": [
+		"C₀"
+	],
+	"Subsectors": [],
+	"ParentSectors": [
+		"112|e3|e3|e|:000|00|10|2|",
+		"e12|e3|e3|e|:000|00|00|1|",
+		"e12|e3|e3|e|:000|00|10|1|",
+		"e12|e3|e3|e|:000|00|10|2|",
+		"e12|e3|e3|e|:000|10|10|0|",
+		"e12|e3|e3|e|:000|10|10|1|",
+		"e12|e3|e3|e|:000|10|20|0|",
+		"e12|e3|e3|e|:000|10|20|3|",
+		"e12|e3|e3|e|:000|10|22|3|",
+		"e12|e3|e3|e|:000|10|23|4|"
+	]
 }

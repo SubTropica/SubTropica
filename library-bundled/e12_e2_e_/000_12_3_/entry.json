@@ -1,108 +1,107 @@
 {
-  "CNickelIndex": "e12|e2|e|:000|12|3|",
-  "MassScales": 3,
-  "FunctionClass": "MPL",
-  "EpsilonOrder": "-2,-1,0",
-  "References": [
-    "arXiv:0712.1851"
-  ],
-  "Records": [
-    {
-      "authors": "Ellis, R.Keith, Zanderighi, Giulia",
-      "texkey": "Ellis:2007qk",
-      "verified": false,
-      "verifiedAt": "",
-      "reference": "arXiv:0712.1851, JHEP 02 (002), 2008",
-      "ancillaryFiles": [],
-      "recordId": "bf_23a6259f7759",
-      "masterCount": 1,
-      "transcendentalWeight": 2,
-      "computationLevel": "full",
-      "doi": "10.1088/1126-6708/2008/02/002",
-      "tools": [],
-      "description": "Divergent one-loop triangle $I_3^D(0,p_2^2,p_3^2;0,0,m^2)$ with one massive internal line and one on-shell external leg. Contains single $1/\\varepsilon$ collinear pole. Result in terms of $\\operatorname{Li}_2$ and logarithms.",
-      "epsOrders": "-2,-1,0",
-      "method": [],
-      "dimScheme": "d=4-2*eps",
-      "location": "Sec. 3.1, Sec. 4.3.3",
-      "familyName": "Triangle_3"
-    }
-  ],
-  "Names": [
-    "Triangle (1 massive propagator)",
-    "Triangle",
-    "C0",
-    "Triangle (2 off-shell, 1 massive)"
-  ],
-  "Source": [
-    "arXiv",
-    "Loopedia",
-    "QCDLoop"
-  ],
-  "Loops": 1,
-  "NumPropagators": 3,
-  "Results": [
-    {
-      "resultCompressed": "1:eJxTTMoPSmNjYGAo5gISwalFmanFLoklicXMQG5qQXEmkGJIYwIpYAESPpnFJRAeK5AIycxNLU5jBHFByn3y09Hl4BoDckqLi0G83Fw0NZn/gQBiCEjC1zeTCW4lSFFAfnlqEXkGgRwFEcVnGnHuIWAuxLusmOaCeB45+emZjAQDkmw/4vce7qAlPtiQYppoe6kXrJgpjKwkNaQSKiGfQ9ITMxaDUR0EdcKwCRKs+XkIeANiJLb4Gsg4JuRnMkpT8osbCAGSAhMAwr+CWA==",
-      "resultTeX": "\\frac{\\log \\left(\\frac{m^2-M_2^2}{m^2-M_3^2}\\right)}{\\varepsilon \\left(M_3^2-M_2^2\\right)}+\\frac{H\\left(\\frac{m^2-M_3^2}{M_2^2-M_3^2},\\frac{M_3^2}{M_3^2-M_2^2}\\,;1\\right)-\\log ^2\\left(\\frac{m^2-M_2^2}{m^2-M_3^2}\\right)+\\log \\left(m^2-M_2^2\\right) \\log \\left(\\frac{m^2-M_2^2}{m^2-M_3^2}\\right)+\\log \\left(1-\\frac{M_2^2}{m^2}\\right) \\log \\left(\\frac{m^2-M_2^2}{m^2-M_3^2}\\right)-\\log \\left(M_2^2 M_3^{-2}\\right) \\log \\left(1-\\frac{M_2^2}{m^2}\\right)}{M_2^2-M_3^2}+O\\left(\\varepsilon^1\\right)",
-      "dimension": "4 - 2*eps",
-      "epsOrder": "0",
-      "epsOrders": "0",
-      "propExponents": [
-        1,
-        1,
-        1
-      ],
-      "propagators": [],
-      "numerators": [],
-      "internalMasses": [],
-      "externalMasses": [],
-      "substitutions": "",
-      "rootSubstitutions": "{}",
-      "normalization": "Automatic",
-      "stVersion": "SubTropica v1.0.293",
-      "stCommand": "",
-      "contributor": "Sebastian Mizera",
-      "timestamp": "2026-04-15T17:14:27",
-      "verifiedAt": "2026-04-15T17:14:27",
-      "verified": true,
-      "method": "direct_integration",
-      "tools": [
-        "SubTropica"
-      ],
-      "methodLR": "Lungo",
-      "findRoots": false,
-      "byteCount": 6000
-    }
-  ],
-  "edges": "{{{1, 2}, 0}, {{1, 3}, 0}, {{2, 3}, m}}",
-  "nodes": "{{1, 0}, {2, M[2]}, {3, M[3]}}",
-  "quadruple": "{E^(eps*EulerGamma)*Gamma[1 + eps], (x1 + x2 + x3)^(-1 + 2*eps)*(-(x3*(mm*x1 + mm*x2 + mm*x3 - x1*MM[1] - x2*MM[3])))^(-1 - eps), {x1, x2, x3}, {mm}}",
-  "CanonicalName": "Triangle, 1 massive propagator (e)",
-  "MassConfig": {
-    "numEdges": 3,
-    "numMassiveEdges": 1,
-    "numMasslessEdges": 2,
-    "distinctInternalMasses": 1,
-    "internalMassLabels": [
-      "m"
-    ],
-    "edgeMassPattern": "001",
-    "numExtLegs": 3,
-    "numOnshellMassiveExtLegs": 2,
-    "numMasslessExtLegs": 1,
-    "extLegSignature": "0MM"
-  },
-  "commonNames": [
-    "C₀(1×m)"
-  ],
-  "Subsectors": [],
-  "ParentSectors": [
-    "e12|e3|e3|e|:000|00|11|2|",
-    "e12|e3|e3|e|:000|00|12|3|",
-    "e12|e3|e3|e|:000|10|23|4|",
-    "e12|e3|e3|e|:000|11|23|4|",
-    "e12|e3|e3|e|:000|12|34|0|",
-    "e12|e3|e3|e|:000|12|34|5|"
-  ]
+	"CNickelIndex": "e12|e2|e|:000|12|3|",
+	"MassScales": 3,
+	"FunctionClass": "MPL",
+	"EpsilonOrder": "-2,-1,0",
+	"References": [
+		"arXiv:0712.1851"
+	],
+	"Records": [
+		{
+			"authors": "Ellis, R.Keith, Zanderighi, Giulia",
+			"texkey": "Ellis:2007qk",
+			"verified": false,
+			"verifiedAt": "",
+			"reference": "arXiv:0712.1851, JHEP 02 (002), 2008",
+			"ancillaryFiles": [],
+			"recordId": "bf_23a6259f7759",
+			"masterCount": 1,
+			"transcendentalWeight": 2,
+			"computationLevel": "full",
+			"doi": "10.1088/1126-6708/2008/02/002",
+			"tools": [],
+			"description": "Divergent one-loop triangle $I_3^D(0,p_2^2,p_3^2;0,0,m^2)$ with one massive internal line and one on-shell external leg. Contains single $1/\\varepsilon$ collinear pole. Result in terms of $\\operatorname{Li}_2$ and logarithms.",
+			"epsOrders": "-2,-1,0",
+			"method": [],
+			"dimScheme": "d=4-2*eps",
+			"location": "Sec. 3.1, Sec. 4.3.3",
+			"familyName": "Triangle_3"
+		}
+	],
+	"Names": [
+		"Triangle (1 massive propagator)",
+		"Triangle",
+		"C0",
+		"Triangle (2 off-shell, 1 massive)"
+	],
+	"Source": [
+		"arXiv",
+		"Loopedia",
+		"QCDLoop"
+	],
+	"Loops": 1,
+	"NumPropagators": 3,
+	"Results": [
+		{
+			"resultCompressed": "1:eJxTTMoPSmNjYGAo5gISwalFmanFLoklicXMQG5qQXEmkGJIYwIpYAESPpnFJRAeK5AIycxNLU5jBHFByn3y09Hl4BoDckqLi0G83Fw0NZn/gQBiCEjC1zeTCW4lSFFAfnlqEXkGgRwFEcVnGnHuIWAuxLusmOaCeB45+emZjAQDkmw/4vce7qAlPtiQYppoe6kXrJgpjKwkNaQSKiGfQ9ITMxaDUR0EdcKwCRKs+XkIeANiJLb4Gsg4JuRnMkpT8osbCAGSAhMAwr+CWA==",
+			"resultTeX": "\\frac{\\log \\left(\\frac{m^2-M_2^2}{m^2-M_3^2}\\right)}{\\varepsilon \\left(M_3^2-M_2^2\\right)}+\\frac{H\\left(\\frac{m^2-M_3^2}{M_2^2-M_3^2},\\frac{M_3^2}{M_3^2-M_2^2}\\,;1\\right)-\\log ^2\\left(\\frac{m^2-M_2^2}{m^2-M_3^2}\\right)+\\log \\left(m^2-M_2^2\\right) \\log \\left(\\frac{m^2-M_2^2}{m^2-M_3^2}\\right)+\\log \\left(1-\\frac{M_2^2}{m^2}\\right) \\log \\left(\\frac{m^2-M_2^2}{m^2-M_3^2}\\right)-\\log \\left(M_2^2 M_3^{-2}\\right) \\log \\left(1-\\frac{M_2^2}{m^2}\\right)}{M_2^2-M_3^2}+O\\left(\\varepsilon^1\\right)",
+			"dimension": "4 - 2*eps",
+			"epsOrder": "0",
+			"epsOrders": "0",
+			"propExponents": [
+				1,
+				1,
+				1
+			],
+			"propagators": [],
+			"numerators": [],
+			"internalMasses": [],
+			"externalMasses": [],
+			"substitutions": "",
+			"normalization": "Automatic",
+			"stVersion": "SubTropica v1.0.293",
+			"stCommand": "",
+			"contributor": "Sebastian Mizera",
+			"timestamp": "2026-04-15T17:14:27",
+			"verifiedAt": "2026-04-15T17:14:27",
+			"verified": true,
+			"method": "direct_integration",
+			"tools": [
+				"SubTropica"
+			],
+			"methodLR": "Lungo",
+			"findRoots": false,
+			"byteCount": 6000
+		}
+	],
+	"edges": "{{{1, 2}, 0}, {{1, 3}, 0}, {{2, 3}, m}}",
+	"nodes": "{{1, 0}, {2, M[2]}, {3, M[3]}}",
+	"quadruple": "{E^(eps*EulerGamma)*Gamma[1 + eps], (x1 + x2 + x3)^(-1 + 2*eps)*(-(x3*(mm*x1 + mm*x2 + mm*x3 - x1*MM[1] - x2*MM[3])))^(-1 - eps), {x1, x2, x3}, {mm}}",
+	"CanonicalName": "Triangle, 1 massive propagator (e)",
+	"MassConfig": {
+		"numEdges": 3,
+		"numMassiveEdges": 1,
+		"numMasslessEdges": 2,
+		"distinctInternalMasses": 1,
+		"internalMassLabels": [
+			"m"
+		],
+		"edgeMassPattern": "001",
+		"numExtLegs": 3,
+		"numOnshellMassiveExtLegs": 2,
+		"numMasslessExtLegs": 1,
+		"extLegSignature": "0MM"
+	},
+	"commonNames": [
+		"C₀(1×m)"
+	],
+	"Subsectors": [],
+	"ParentSectors": [
+		"e12|e3|e3|e|:000|00|11|2|",
+		"e12|e3|e3|e|:000|00|12|3|",
+		"e12|e3|e3|e|:000|10|23|4|",
+		"e12|e3|e3|e|:000|11|23|4|",
+		"e12|e3|e3|e|:000|12|34|0|",
+		"e12|e3|e3|e|:000|12|34|5|"
+	]
 }

@@ -10,10 +10,10 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       154,          7]
-NotebookDataLength[     31113,        807]
-NotebookOptionsPosition[     24536,        712]
-NotebookOutlinePosition[     25170,        734]
-CellTagsIndexPosition[     25127,        731]
+NotebookDataLength[     31677,        822]
+NotebookOptionsPosition[     25001,        726]
+NotebookOutlinePosition[     25635,        748]
+CellTagsIndexPosition[     25592,        745]
 WindowTitle->SubTropica
 WindowFrame->Normal*)
 
@@ -21,7 +21,7 @@ WindowFrame->Normal*)
 Notebook[{
 
 Cell[CellGroupData[{
-Cell["SubTropica", "GuideTitle",ExpressionUUID->"ef1dc647-beae-4f1c-996a-3c5b0d06cb70"],
+Cell["SubTropica", "GuideTitle",ExpressionUUID->"7de77b63-20f9-43c0-a497-ec776c0a7273"],
 
 Cell["\<\
 Feynman-integral evaluation via tropical geometry. SubTropica automates the \
@@ -32,20 +32,20 @@ results can be cross-checked numerically against pySecDec, FIESTA, AMFlow, or \
 feyntrop. Install and configure external tools once with ConfigureSubTropica, \
 then evaluate integrals either through STIntegrate (scripted) or \
 FeynmanIntegrate (interactive GUI).\
-\>", "GuideAbstract",ExpressionUUID->"befd5c04-d309-48cb-b41c-d3b114e3f600"]
+\>", "GuideAbstract",ExpressionUUID->"d53327fc-9886-42cb-b16e-72469d521406"]
 }, Open  ]],
 
 Cell[CellGroupData[{
 
-Cell["Installation", "GuideFunctionsSection",ExpressionUUID->"14bc13aa-2aba-450d-b017-62de86e059e5"],
+Cell["Installation", "GuideFunctionsSection",ExpressionUUID->"94bc2cd0-a236-4da2-8ca8-9c7e301bb51f"],
 
-Cell["Install the paclet from Mathematica:", "GuideText",ExpressionUUID->"089b5041-6226-41f0-9d8f-aae073d0307c"],
+Cell["Install the paclet from Mathematica:", "GuideText",ExpressionUUID->"602c3210-2f2c-4eda-9a0c-2c7ba312b082"],
 
 Cell[BoxData[
  RowBox[{"PacletInstall", "[", "\"\<https://subtropi.ca/SubTropica.paclet\>\"",
-   "]"}]], "Input",ExpressionUUID->"351bc013-d256-4083-b523-67b3ea1c1cba"],
+   "]"}]], "Input",ExpressionUUID->"36d61309-28b8-4b4c-a8a5-12b93f731738"],
 
-Cell["Then load it and configure external-tool paths:", "GuideText",ExpressionUUID->"bfbe1d0c-f210-4330-8a65-a67e8b391f52"],
+Cell["Then load it and configure external-tool paths:", "GuideText",ExpressionUUID->"8b556402-f015-4fd8-acf6-7a2f8354934f"],
 
 Cell[BoxData[{
  RowBox[{
@@ -70,8 +70,8 @@ Cell[BoxData[{
    RowBox[{"pySecDecPath", "   ", "->", " ", "\"\<path/to/pySecDec\>\""}], ",",
     "\n", "  ", 
    RowBox[{"FIESTAPath", "     ", "->", " ", "\"\<path/to/FIESTA\>\""}]}], 
-  "\n", "]"}]}], "Input",ExpressionUUID->"d55e4d8e-1401-4853-8fe0-\
-d9f5c14680d5"],
+  "\n", "]"}]}], "Input",ExpressionUUID->"53aadb92-6a0f-41e7-b98e-\
+c6ba5e10120c"],
 
 Cell[TextData[{
  "Paths are written to the persistent config file (",
@@ -88,9 +88,9 @@ Cell[TextData[{
     "SubTropica Package Symbol"},
    "PackageLink",
    BaseStyle->"InlineFunctionSans"]], "InlineFunctionSans",ExpressionUUID->
-  "be4282ed-c81e-425f-9867-845ca358e1e7"],
+  "10bb6211-4e12-47e4-a746-6388778bac89"],
  " to discard the saved configuration."
-}], "GuideText",ExpressionUUID->"48c9e9a8-3e34-4a27-aa0e-a857242a076a"],
+}], "GuideText",ExpressionUUID->"522b4a06-7f39-4b99-bf4a-014798f7e05d"],
 
 Cell[TextData[{
  StyleBox["polymake", "TI"],
@@ -117,7 +117,7 @@ and are recommended for complex diagrams.  ",
     "SubTropica Package Symbol"},
    "PackageLink",
    BaseStyle->"InlineFunctionSans"]], "InlineFunctionSans",ExpressionUUID->
-  "8573a6c8-5d3d-44dd-a916-4ea0b34071f4"],
+  "a0fba08c-7624-42c0-a6a9-10bbe5793636"],
  " and ",
  Cell[BoxData[
   TemplateBox[{
@@ -126,18 +126,18 @@ and are recommended for complex diagrams.  ",
     "SubTropica Package Symbol"},
    "PackageLink",
    BaseStyle->"InlineFunctionSans"]], "InlineFunctionSans",ExpressionUUID->
-  "3bafe950-7cfd-4d1a-a5ec-3837a8e1c862"],
+  "9f945053-e821-4f59-a266-2028a3d87bd1"],
  ".  ",
  StyleBox["ginsh", "TI"],
  " is needed only to evaluate hyperlogarithms numerically.  On macOS, install \
 most of these via Homebrew; the default Homebrew path for polymake is \
 /opt/homebrew/bin/polymake."
-}], "GuideText",ExpressionUUID->"423e8fc7-5ad0-4d17-9651-40ddef6eef3c"],
+}], "GuideText",ExpressionUUID->"cec8407d-14fe-4b67-8743-c9b07692ae0e"],
 
-Cell["After configuring, verify the install with", "GuideText",ExpressionUUID->"e5e1ea41-4c82-467d-b6fb-4a58a1f94038"],
+Cell["After configuring, verify the install with", "GuideText",ExpressionUUID->"c972eef0-895f-4d9b-9352-1b5291700af2"],
 
 Cell[BoxData[
- RowBox[{"STBenchmark", "[", "]"}]], "Input",ExpressionUUID->"2dcaed48-8622-41a9-a59d-6b328a00144a"],
+ RowBox[{"STBenchmark", "[", "]"}]], "Input",ExpressionUUID->"65a32e42-b8fb-4424-8e85-7fc5aafdc867"],
 
 Cell[TextData[{
  "which checks every dependency (see ",
@@ -148,16 +148,16 @@ Cell[TextData[{
     "SubTropica Package Symbol"},
    "PackageLink",
    BaseStyle->"InlineFunctionSans"]], "InlineFunctionSans",ExpressionUUID->
-  "1d6b11de-c697-444d-a8e7-d4a08447709b"],
+  "a9dad055-f4ad-4452-9fd5-1e8eb1221361"],
  ") and runs the curated test suite."
-}], "GuideText",ExpressionUUID->"008c5923-263f-45ba-ace6-6acac4059a0e"],
+}], "GuideText",ExpressionUUID->"df5541e4-f56f-43c4-a3e3-7f2c2ac19981"],
 
-Cell["Mathematica 12.1 or later is required.", "GuideText",ExpressionUUID->"c8a31922-2952-40bf-8e50-44993436e8eb"]
+Cell["Mathematica 12.1 or later is required.", "GuideText",ExpressionUUID->"bdd45cc4-6d32-4206-9e91-cb012d48338f"]
 }, Open  ]],
 
 Cell[CellGroupData[{
 
-Cell["Top-Level Entry Points", "GuideFunctionsSection",ExpressionUUID->"318160ba-1b44-4e28-9ead-926938c9e3f9"],
+Cell["Top-Level Entry Points", "GuideFunctionsSection",ExpressionUUID->"232413f1-9322-4960-b8df-260a97559f02"],
 
 Cell[TextData[{
  Cell[BoxData[
@@ -167,11 +167,11 @@ Cell[TextData[{
     "SubTropica Package Symbol"},
    "PackageLink",
    BaseStyle->"InlineFunctionSans"]], "InlineFunctionSans",ExpressionUUID->
-  "d8155f47-1b4c-4be0-bd35-0b21b3523df6"],
+  "6d48fd00-e63b-476b-96fa-c2732103c54a"],
  " ",
  StyleBox["\[LongDash]", "GuideEmDash"],
  " evaluate a Feynman integral analytically"
-}], "GuideText",ExpressionUUID->"e570143e-058d-4854-812d-66d9976687a1"],
+}], "GuideText",ExpressionUUID->"abc1af15-3647-4dd3-8e95-c09f3f6aa507"],
 
 Cell[TextData[{
  Cell[BoxData[
@@ -181,11 +181,11 @@ Cell[TextData[{
     "SubTropica Package Symbol"},
    "PackageLink",
    BaseStyle->"InlineFunctionSans"]], "InlineFunctionSans",ExpressionUUID->
-  "ef0424a1-3bb6-4f3d-92ff-51cf25caec79"],
+  "5d757f2c-3490-4c96-84d7-0bfb8210fb9d"],
  " ",
  StyleBox["\[LongDash]", "GuideEmDash"],
  " open the interactive diagram UI and return a result"
-}], "GuideText",ExpressionUUID->"98fb51bc-bb5c-4686-9e79-398f4d06efe9"],
+}], "GuideText",ExpressionUUID->"932bd8f4-42c2-4ed5-afe6-9ed1eca2fc8c"],
 
 Cell[TextData[{
  Cell[BoxData[
@@ -195,11 +195,11 @@ Cell[TextData[{
     "SubTropica Package Symbol"},
    "PackageLink",
    BaseStyle->"InlineFunctionSans"]], "InlineFunctionSans",ExpressionUUID->
-  "b1fdf6f7-f026-4312-9b47-841b0b38c247"],
+  "5160c0a9-03bc-46d9-8905-d73d93b8fbc4"],
  " ",
  StyleBox["\[LongDash]", "GuideEmDash"],
  " draw a Feynman diagram and return its {edges, nodes} pair"
-}], "GuideText",ExpressionUUID->"b203a959-e3ce-4130-88d0-3d66980d7cde"],
+}], "GuideText",ExpressionUUID->"f159a1ff-53c3-4841-b27e-91996d99e4fe"],
 
 Cell[TextData[{
  Cell[BoxData[
@@ -209,16 +209,16 @@ Cell[TextData[{
     "SubTropica Package Symbol"},
    "PackageLink",
    BaseStyle->"InlineFunctionSans"]], "InlineFunctionSans",ExpressionUUID->
-  "323caf94-6b31-4205-8ca3-28f267fe9058"],
+  "029ce59f-c514-4fb7-b7f4-11e05005cdb9"],
  " ",
  StyleBox["\[LongDash]", "GuideEmDash"],
  " visualize a Feynman diagram specified by {edges, nodes}"
-}], "GuideText",ExpressionUUID->"4e93fd30-739c-4aa9-a8b1-fda84da5e888"]
+}], "GuideText",ExpressionUUID->"7349b13b-ee20-49d3-9e37-05809cdc37f6"]
 }, Open  ]],
 
 Cell[CellGroupData[{
 
-Cell["Tropical Subtraction", "GuideFunctionsSection",ExpressionUUID->"644a21c6-44f0-43cf-9999-bd4b485db0ef"],
+Cell["Tropical Subtraction", "GuideFunctionsSection",ExpressionUUID->"c5be57bc-0898-413e-92f0-e3149a40b092"],
 
 Cell[TextData[{
  Cell[BoxData[
@@ -228,11 +228,11 @@ Cell[TextData[{
     "SubTropica Package Symbol"},
    "PackageLink",
    BaseStyle->"InlineFunctionSans"]], "InlineFunctionSans",ExpressionUUID->
-  "8afe4ceb-0e22-4399-940a-ddf54f554b0c"],
+  "2605bce0-515d-430e-90ab-322bd9e0fca2"],
  " ",
  StyleBox["\[LongDash]", "GuideEmDash"],
  " identify divergent rays and faces of the Newton polytope"
-}], "GuideText",ExpressionUUID->"3bab4417-50e6-4391-ad0c-8cb0f912e051"],
+}], "GuideText",ExpressionUUID->"7a0f4218-d97d-418a-8c0f-a2c525212430"],
 
 Cell[TextData[{
  Cell[BoxData[
@@ -242,11 +242,11 @@ Cell[TextData[{
     "SubTropica Package Symbol"},
    "PackageLink",
    BaseStyle->"InlineFunctionSans"]], "InlineFunctionSans",ExpressionUUID->
-  "0cc3b0b7-0db3-43de-b74c-ef10ff803179"],
+  "efee5e03-13da-4f19-aed0-8f6b2afdcbdd"],
  " ",
  StyleBox["\[LongDash]", "GuideEmDash"],
  " Nilsson\[Dash]Passare analytic continuation along rays"
-}], "GuideText",ExpressionUUID->"3a61e118-ea46-44a9-b191-317eaf569eec"],
+}], "GuideText",ExpressionUUID->"47c46702-3279-48b0-837e-00059a8e7803"],
 
 Cell[TextData[{
  Cell[BoxData[
@@ -256,11 +256,11 @@ Cell[TextData[{
     "SubTropica Package Symbol"},
    "PackageLink",
    BaseStyle->"InlineFunctionSans"]], "InlineFunctionSans",ExpressionUUID->
-  "618393ec-bec3-4c32-8905-a1be228d3a3c"],
+  "9347b7eb-463e-4570-930e-fb153cf51d5f"],
  " ",
  StyleBox["\[LongDash]", "GuideEmDash"],
  " expand an integrand into locally finite counter-terms"
-}], "GuideText",ExpressionUUID->"610fb5d8-864c-4f18-8a50-0855e8d17594"],
+}], "GuideText",ExpressionUUID->"cc162bd3-f7a2-4683-b5c9-aa17980b80c8"],
 
 Cell[TextData[{
  Cell[BoxData[
@@ -270,11 +270,11 @@ Cell[TextData[{
     "SubTropica Package Symbol"},
    "PackageLink",
    BaseStyle->"InlineFunctionSans"]], "InlineFunctionSans",ExpressionUUID->
-  "df35718a-7ddb-492a-b7af-b3670b9b9cea"],
+  "aa09105a-9e11-4e0d-a76f-66a094ade1a6"],
  " ",
  StyleBox["\[LongDash]", "GuideEmDash"],
  " expose (\[Ellipsis])^\[CurlyEpsilon] scaling behavior along rays"
-}], "GuideText",ExpressionUUID->"c4ee2c24-7c25-4fb4-978d-8e3f951945fa"],
+}], "GuideText",ExpressionUUID->"d609dfad-fed3-4393-be45-657c46ede462"],
 
 Cell[TextData[{
  Cell[BoxData[
@@ -284,16 +284,16 @@ Cell[TextData[{
     "SubTropica Package Symbol"},
    "PackageLink",
    BaseStyle->"InlineFunctionSans"]], "InlineFunctionSans",ExpressionUUID->
-  "d4edf352-5aed-4d0a-9594-22704a766791"],
+  "1383da3e-eb9c-46c2-8421-5d478d35e8d8"],
  " ",
  StyleBox["\[LongDash]", "GuideEmDash"],
  " find a linearly reducible integration order"
-}], "GuideText",ExpressionUUID->"464f7455-9334-4f96-8e8f-37e8066b2c72"]
+}], "GuideText",ExpressionUUID->"491dfd4b-cf18-4ecf-9fb3-33f554bac140"]
 }, Open  ]],
 
 Cell[CellGroupData[{
 
-Cell["HyperIntica Integration", "GuideFunctionsSection",ExpressionUUID->"4d11af78-a5d3-4aa0-aade-9b0080fdc48e"],
+Cell["HyperIntica Integration", "GuideFunctionsSection",ExpressionUUID->"6bae48af-f0a6-4551-929d-3b9894ab560c"],
 
 Cell[TextData[{
  Cell[BoxData[
@@ -303,11 +303,11 @@ Cell[TextData[{
     "SubTropica Package Symbol"},
    "PackageLink",
    BaseStyle->"InlineFunctionSans"]], "InlineFunctionSans",ExpressionUUID->
-  "90e19155-6324-4633-a99c-8aac0a30f2d6"],
+  "523a7679-6d52-403e-b648-4950a54be454"],
  " ",
  StyleBox["\[LongDash]", "GuideEmDash"],
  " integrate a hyperlogarithm-valued integrand"
-}], "GuideText",ExpressionUUID->"bfcc9970-bd17-4fb4-ba91-71b7d86c069d"],
+}], "GuideText",ExpressionUUID->"9f6e46ec-cb2c-4a60-ba04-0e681435c6c1"],
 
 Cell[TextData[{
  Cell[BoxData[
@@ -317,11 +317,11 @@ Cell[TextData[{
     "SubTropica Package Symbol"},
    "PackageLink",
    BaseStyle->"InlineFunctionSans"]], "InlineFunctionSans",ExpressionUUID->
-  "bd59b6d4-46d5-4050-8cbb-9013240b2785"],
+  "6178bc39-89ca-4547-86ce-1638d76f6153"],
  " ",
  StyleBox["\[LongDash]", "GuideEmDash"],
  " differentiate a hyperlogarithm expression"
-}], "GuideText",ExpressionUUID->"22c76f00-9b7e-4b9c-a036-a6fc7eeb709d"],
+}], "GuideText",ExpressionUUID->"88c1e6ac-5aa4-4553-8e2f-ad6f9824d242"],
 
 Cell[TextData[{
  Cell[BoxData[
@@ -331,11 +331,11 @@ Cell[TextData[{
     "SubTropica Package Symbol"},
    "PackageLink",
    BaseStyle->"InlineFunctionSans"]], "InlineFunctionSans",ExpressionUUID->
-  "e2cf85e9-e8ca-4888-8246-d969ced2c449"],
+  "c55dbe90-f535-4d64-90e1-d1ff35bf6ea8"],
  " ",
  StyleBox["\[LongDash]", "GuideEmDash"],
  " series-expand a hyperlogarithm expression"
-}], "GuideText",ExpressionUUID->"d5d153af-a524-4cbc-b00b-5df56e731dbf"],
+}], "GuideText",ExpressionUUID->"e3258bf7-7d21-4b4c-abb3-ff3a79da96b8"],
 
 Cell[TextData[{
  Cell[BoxData[
@@ -345,11 +345,11 @@ Cell[TextData[{
     "SubTropica Package Symbol"},
    "PackageLink",
    BaseStyle->"InlineFunctionSans"]], "InlineFunctionSans",ExpressionUUID->
-  "eff6c9c5-d1c3-43d0-ae51-c9b517e8b64b"],
+  "4d3c20f5-b0c0-4067-8e4a-56f2829ec8b7"],
  " ",
  StyleBox["\[LongDash]", "GuideEmDash"],
  " compute the fibration basis of a hyperlogarithm"
-}], "GuideText",ExpressionUUID->"a95624a5-f7f9-4eaf-95a4-9e94003c3376"],
+}], "GuideText",ExpressionUUID->"a37b4d7e-2eaa-4f73-a0c2-741306ba4eac"],
 
 Cell[TextData[{
  Cell[BoxData[
@@ -359,11 +359,11 @@ Cell[TextData[{
     "SubTropica Package Symbol"},
    "PackageLink",
    BaseStyle->"InlineFunctionSans"]], "InlineFunctionSans",ExpressionUUID->
-  "5d31bb7b-3792-44da-bfac-237701d3efd2"],
+  "810b5c66-2936-412d-b680-3db4884438df"],
  " ",
  StyleBox["\[LongDash]", "GuideEmDash"],
  " convert a hyperlogarithm expression to symbol notation"
-}], "GuideText",ExpressionUUID->"7772e8ff-b234-428b-94e1-31f12cf3d0f0"],
+}], "GuideText",ExpressionUUID->"52cde54f-5b7f-4890-a314-426a3d2dbb26"],
 
 Cell[TextData[{
  Cell[BoxData[
@@ -373,11 +373,11 @@ Cell[TextData[{
     "SubTropica Package Symbol"},
    "PackageLink",
    BaseStyle->"InlineFunctionSans"]], "InlineFunctionSans",ExpressionUUID->
-  "9b59934a-10dc-40b0-9eb5-7b8a9fddbf09"],
+  "01afb017-d785-42af-8959-f9e268ca6d95"],
  " ",
  StyleBox["\[LongDash]", "GuideEmDash"],
  " rewrite Hlog objects as Mpl objects"
-}], "GuideText",ExpressionUUID->"7913eccd-a212-4a79-831a-e38eaea30972"],
+}], "GuideText",ExpressionUUID->"7e79613c-d13f-4839-ae4d-62ea6bdd050b"],
 
 Cell[TextData[{
  Cell[BoxData[
@@ -387,11 +387,11 @@ Cell[TextData[{
     "SubTropica Package Symbol"},
    "PackageLink",
    BaseStyle->"InlineFunctionSans"]], "InlineFunctionSans",ExpressionUUID->
-  "b13b604a-c9de-4edd-9557-b2186a4b7a64"],
+  "c34693be-c8f7-4b2a-8bd9-6a9f2733ebf4"],
  " ",
  StyleBox["\[LongDash]", "GuideEmDash"],
  " rewrite Mpl objects as Hlog objects"
-}], "GuideText",ExpressionUUID->"bcde4207-0644-4dd3-8502-e6a8c61d0240"],
+}], "GuideText",ExpressionUUID->"d973abb4-9dc6-48ac-a8a0-ae0186bf4f17"],
 
 Cell[TextData[{
  Cell[BoxData[
@@ -401,11 +401,11 @@ Cell[TextData[{
     "SubTropica Package Symbol"},
    "PackageLink",
    BaseStyle->"InlineFunctionSans"]], "InlineFunctionSans",ExpressionUUID->
-  "1527e80f-a095-48c0-a5d9-2da1c0c2981f"],
+  "ea2b7e45-57f2-472e-aecf-d5afc84ef9cc"],
  " ",
  StyleBox["\[LongDash]", "GuideEmDash"],
  " represent a [0, \[Infinity]) period integral"
-}], "GuideText",ExpressionUUID->"c7bc475b-07cc-4ad6-ae02-32c7166adf70"],
+}], "GuideText",ExpressionUUID->"c641a56c-381e-46f8-919d-e67590fce592"],
 
 Cell[TextData[{
  Cell[BoxData[
@@ -415,11 +415,11 @@ Cell[TextData[{
     "paclet:SubTropica/ref/ZeroInfPeriodAsMpl", "SubTropica Package Symbol"},
    "PackageLink",
    BaseStyle->"InlineFunctionSans"]], "InlineFunctionSans",ExpressionUUID->
-  "1ab1c761-0fb5-430f-b99a-6e359d6446e4"],
+  "5e4e86a4-be1e-4048-9fc8-07e94833d675"],
  " ",
  StyleBox["\[LongDash]", "GuideEmDash"],
  " convert a zero-infinity period to Mpl form"
-}], "GuideText",ExpressionUUID->"7fce2f52-d717-4cee-94f1-325d483aa081"],
+}], "GuideText",ExpressionUUID->"1092b730-5ae1-44ca-b5c4-7852d88375ea"],
 
 Cell[TextData[{
  Cell[BoxData[
@@ -429,11 +429,11 @@ Cell[TextData[{
     "SubTropica Package Symbol"},
    "PackageLink",
    BaseStyle->"InlineFunctionSans"]], "InlineFunctionSans",ExpressionUUID->
-  "7ed1e363-207f-49a4-88bf-84a8abd81e79"],
+  "98a2c622-3ac3-45b0-bb3e-4fb2c6f25607"],
  " ",
  StyleBox["\[LongDash]", "GuideEmDash"],
  " simplify zero-infinity hyperlogarithm expressions"
-}], "GuideText",ExpressionUUID->"c46328f6-c8b6-47bb-bccc-b14a9675e5f5"],
+}], "GuideText",ExpressionUUID->"d2c49ff1-0334-42f7-bf7c-1b62cec3cb8e"],
 
 Cell[TextData[{
  Cell[BoxData[
@@ -443,16 +443,16 @@ Cell[TextData[{
     "SubTropica Package Symbol"},
    "PackageLink",
    BaseStyle->"InlineFunctionSans"]], "InlineFunctionSans",ExpressionUUID->
-  "85ac16f6-2345-4ffd-8c0d-4dd83dad12d9"],
+  "d728998f-5898-4452-af6d-f80b1cfca44f"],
  " ",
  StyleBox["\[LongDash]", "GuideEmDash"],
  " clear HyperIntica memoization caches"
-}], "GuideText",ExpressionUUID->"823a1893-162c-4d94-941d-9d31835d9bc3"]
+}], "GuideText",ExpressionUUID->"3ac38f70-a28e-44c5-a515-b544828a69af"]
 }, Open  ]],
 
 Cell[CellGroupData[{
 
-Cell["Numerical Evaluation and Verification", "GuideFunctionsSection",ExpressionUUID->"fa680953-fe81-4311-9d1f-921d1a88581e"],
+Cell["Numerical Evaluation and Verification", "GuideFunctionsSection",ExpressionUUID->"5d5798c6-321b-49ea-920b-6c1141164299"],
 
 Cell[TextData[{
  Cell[BoxData[
@@ -462,11 +462,11 @@ Cell[TextData[{
     "SubTropica Package Symbol"},
    "PackageLink",
    BaseStyle->"InlineFunctionSans"]], "InlineFunctionSans",ExpressionUUID->
-  "dfe44361-959a-49a6-92d6-f4090527bbed"],
+  "7c44fa8b-96f8-4d2b-bf9c-18c9cbf58010"],
  " ",
  StyleBox["\[LongDash]", "GuideEmDash"],
  " numerical evaluation via pySecDec, FIESTA, AMFlow, or feyntrop"
-}], "GuideText",ExpressionUUID->"fa4eaefa-602e-4e76-9722-e93bf66fd6c8"],
+}], "GuideText",ExpressionUUID->"4cf7f7f7-d49b-4f74-99dd-4f6ebc849a59"],
 
 Cell[TextData[{
  Cell[BoxData[
@@ -476,11 +476,11 @@ Cell[TextData[{
     "SubTropica Package Symbol"},
    "PackageLink",
    BaseStyle->"InlineFunctionSans"]], "InlineFunctionSans",ExpressionUUID->
-  "1acfb2d6-67e5-425e-9b5e-706d0e8a2e3f"],
+  "0476d936-d3fe-45a6-b504-536f23e12ea5"],
  " ",
  StyleBox["\[LongDash]", "GuideEmDash"],
  " cross-check a symbolic result against a numerical evaluation"
-}], "GuideText",ExpressionUUID->"2795c2c9-ddf2-4e4f-8103-a6da337724fe"],
+}], "GuideText",ExpressionUUID->"4981ba07-70ae-432f-b389-467ea3f369d7"],
 
 Cell[TextData[{
  Cell[BoxData[
@@ -490,16 +490,16 @@ Cell[TextData[{
     "SubTropica Package Symbol"},
    "PackageLink",
    BaseStyle->"InlineFunctionSans"]], "InlineFunctionSans",ExpressionUUID->
-  "44aaa4bc-b8f5-40ec-8ffe-a07374d09bf2"],
+  "fd76735c-5ef7-4d37-9883-7a111b4c9108"],
  " ",
  StyleBox["\[LongDash]", "GuideEmDash"],
  " evaluate hyperlogarithm expressions numerically via ginsh"
-}], "GuideText",ExpressionUUID->"bfc600a2-662a-45a1-b01c-f9073c2cf0dc"]
+}], "GuideText",ExpressionUUID->"12223e87-771c-4aef-888a-b4de552add69"]
 }, Open  ]],
 
 Cell[CellGroupData[{
 
-Cell["Setup and Configuration", "GuideFunctionsSection",ExpressionUUID->"ffc01bf6-3776-429c-a9a5-81f8167d45bb"],
+Cell["Setup and Configuration", "GuideFunctionsSection",ExpressionUUID->"513683c3-9663-4719-9d00-d97609802b27"],
 
 Cell[TextData[{
  Cell[BoxData[
@@ -510,11 +510,11 @@ Cell[TextData[{
    
    "PackageLink",
    BaseStyle->"InlineFunctionSans"]], "InlineFunctionSans",ExpressionUUID->
-  "0f0db00a-3461-43c7-9100-88f2f1db3059"],
+  "aeb989d5-d1ca-48f5-88c0-d11d12309091"],
  " ",
  StyleBox["\[LongDash]", "GuideEmDash"],
  " set external-tool paths (persisted across sessions)"
-}], "GuideText",ExpressionUUID->"f65f39e4-6d9f-4d07-b6da-2e26e9e92313"],
+}], "GuideText",ExpressionUUID->"20e00406-c00c-469c-aaa4-bb69b88f2f3f"],
 
 Cell[TextData[{
  Cell[BoxData[
@@ -524,11 +524,11 @@ Cell[TextData[{
     "SubTropica Package Symbol"},
    "PackageLink",
    BaseStyle->"InlineFunctionSans"]], "InlineFunctionSans",ExpressionUUID->
-  "ef8824ed-3858-4bd4-ade4-4776df6fd80e"],
+  "dd5feaab-683c-4749-bf2c-65715ff486a8"],
  " ",
  StyleBox["\[LongDash]", "GuideEmDash"],
  " clear the persistent configuration file"
-}], "GuideText",ExpressionUUID->"1de81678-44bb-495c-9f7a-01f68c0341c7"],
+}], "GuideText",ExpressionUUID->"66561bf7-164f-438f-a80e-83a26063d3ce"],
 
 Cell[TextData[{
  Cell[BoxData[
@@ -538,11 +538,11 @@ Cell[TextData[{
     "SubTropica Package Symbol"},
    "PackageLink",
    BaseStyle->"InlineFunctionSans"]], "InlineFunctionSans",ExpressionUUID->
-  "c041008f-ac7e-416d-9714-6f45f44005e2"],
+  "9cc14bea-c083-45c5-b1d3-c5a5441d2f61"],
  " ",
  StyleBox["\[LongDash]", "GuideEmDash"],
  " list the valid values for a given option"
-}], "GuideText",ExpressionUUID->"5ef89d27-4248-488c-b2ea-6ee8585f214f"],
+}], "GuideText",ExpressionUUID->"2147450b-f44b-4ef3-954e-e2b24f51065d"],
 
 Cell[TextData[{
  Cell[BoxData[
@@ -552,11 +552,11 @@ Cell[TextData[{
     "SubTropica Package Symbol"},
    "PackageLink",
    BaseStyle->"InlineFunctionSans"]], "InlineFunctionSans",ExpressionUUID->
-  "5f865e37-c97c-4434-9077-51f9a0ec573c"],
+  "f60be96b-9027-4711-a329-3be4d2fe1fc8"],
  " ",
  StyleBox["\[LongDash]", "GuideEmDash"],
  " run the full benchmark suite on curated diagrams"
-}], "GuideText",ExpressionUUID->"66653800-bc3d-4194-99e8-af8ceca01a67"],
+}], "GuideText",ExpressionUUID->"edbb19f9-7f73-4e43-a8f8-0fe6a9b8724d"],
 
 Cell[TextData[{
  Cell[BoxData[
@@ -566,11 +566,11 @@ Cell[TextData[{
     "SubTropica Package Symbol"},
    "PackageLink",
    BaseStyle->"InlineFunctionSans"]], "InlineFunctionSans",ExpressionUUID->
-  "3d9a7b35-fc5e-4aca-99c7-72466bbf90e6"],
+  "3ace8cce-dee9-4352-bb59-eb999d9c36ec"],
  " ",
  StyleBox["\[LongDash]", "GuideEmDash"],
  " typo-tolerant alias for STBenchmark"
-}], "GuideText",ExpressionUUID->"f54dfd01-55c3-48e1-b10d-d2c95a3ee58d"],
+}], "GuideText",ExpressionUUID->"15a99c42-2400-4cc5-a54e-94829005d5d1"],
 
 Cell[TextData[{
  Cell[BoxData[
@@ -580,11 +580,11 @@ Cell[TextData[{
     "SubTropica Package Symbol"},
    "PackageLink",
    BaseStyle->"InlineFunctionSans"]], "InlineFunctionSans",ExpressionUUID->
-  "32e2e20d-8f6f-4262-bef0-5ea3dd2de726"],
+  "ef8b86fd-42c2-44be-9331-7c0d39e51f48"],
  " ",
  StyleBox["\[LongDash]", "GuideEmDash"],
  " re-run dependency smoke tests and print a status table"
-}], "GuideText",ExpressionUUID->"a71a637b-b970-43f8-aa00-1095aeadf812"],
+}], "GuideText",ExpressionUUID->"f5de2cbb-b99b-4587-9208-10cc9d7e58fa"],
 
 Cell[TextData[{
  Cell[BoxData[
@@ -595,11 +595,25 @@ Cell[TextData[{
    
    "PackageLink",
    BaseStyle->"InlineFunctionSans"]], "InlineFunctionSans",ExpressionUUID->
-  "b3559282-d78f-43de-8251-d72c641f8afe"],
+  "bef615ff-5b04-492d-8255-46f1346a7f4c"],
  " ",
  StyleBox["\[LongDash]", "GuideEmDash"],
  " full dependency report"
-}], "GuideText",ExpressionUUID->"ffd7ca4e-4f9f-4f1e-a1d8-8da1c0311c69"],
+}], "GuideText",ExpressionUUID->"b8b1170e-5ce7-4a75-b19e-d8e7ef79e237"],
+
+Cell[TextData[{
+ Cell[BoxData[
+  TemplateBox[{
+    Cell[
+     TextData["STBrowser"]], "paclet:SubTropica/ref/STBrowser", 
+    "SubTropica Package Symbol"},
+   "PackageLink",
+   BaseStyle->"InlineFunctionSans"]], "InlineFunctionSans",ExpressionUUID->
+  "8901ed0f-f4c0-4d5d-94b3-3fef2d0b5f20"],
+ " ",
+ StyleBox["\[LongDash]", "GuideEmDash"],
+ " open the UI in a browser without blocking the kernel"
+}], "GuideText",ExpressionUUID->"0b1254f0-8a18-4670-8402-af4688bb2942"],
 
 Cell[TextData[{
  Cell[BoxData[
@@ -609,16 +623,16 @@ Cell[TextData[{
     "SubTropica Package Symbol"},
    "PackageLink",
    BaseStyle->"InlineFunctionSans"]], "InlineFunctionSans",ExpressionUUID->
-  "fe114c60-01c3-4689-af5b-ebe6fafb2644"],
+  "f2dd91a4-ed99-47a7-8783-e34632e0110e"],
  " ",
  StyleBox["\[LongDash]", "GuideEmDash"],
  " shut down the local SubTropica server"
-}], "GuideText",ExpressionUUID->"a5a99ef3-43af-4218-af50-bde28e5aea19"]
+}], "GuideText",ExpressionUUID->"d22f1fb8-3e35-4a49-ad16-8c462fb83d97"]
 }, Open  ]],
 
 Cell[CellGroupData[{
 
-Cell["Library Workflow", "GuideFunctionsSection",ExpressionUUID->"81e4d458-f41e-47bf-96ba-5217852e6c55"],
+Cell["Library Workflow", "GuideFunctionsSection",ExpressionUUID->"8b935fcf-686e-4496-b37f-86d1b93c0666"],
 
 Cell[TextData[{
  Cell[BoxData[
@@ -628,11 +642,11 @@ Cell[TextData[{
     "SubTropica Package Symbol"},
    "PackageLink",
    BaseStyle->"InlineFunctionSans"]], "InlineFunctionSans",ExpressionUUID->
-  "6f73c5b8-1528-4963-bb73-b178b653d08e"],
+  "2d75956f-9234-4f3f-8c04-2c746888ad71"],
  " ",
  StyleBox["\[LongDash]", "GuideEmDash"],
  " save the most recent result to the local library"
-}], "GuideText",ExpressionUUID->"f301ff61-0841-4ba1-af96-072c5f348cf7"],
+}], "GuideText",ExpressionUUID->"ca222654-1b28-4491-8268-67aadb0fe3f2"],
 
 Cell[TextData[{
  Cell[BoxData[
@@ -642,11 +656,11 @@ Cell[TextData[{
     "SubTropica Package Symbol"},
    "PackageLink",
    BaseStyle->"InlineFunctionSans"]], "InlineFunctionSans",ExpressionUUID->
-  "12c7139b-0b3f-468e-aede-72c85ced2682"],
+  "3da6a20a-609c-4e08-822e-593edfcc294c"],
  " ",
  StyleBox["\[LongDash]", "GuideEmDash"],
  " submit the most recent result to the central library"
-}], "GuideText",ExpressionUUID->"79c682ec-4882-4617-8379-f92e7940d596"],
+}], "GuideText",ExpressionUUID->"fb42ef50-8f28-4e41-82e1-7a6703ba1eb0"],
 
 Cell[TextData[{
  Cell[BoxData[
@@ -656,11 +670,11 @@ Cell[TextData[{
     "SubTropica Package Symbol"},
    "PackageLink",
    BaseStyle->"InlineFunctionSans"]], "InlineFunctionSans",ExpressionUUID->
-  "d1a2a21a-74ee-4af9-b7c0-e8b5dd8c4845"],
+  "36fe1112-9312-4fce-a867-03737137c273"],
  " ",
  StyleBox["\[LongDash]", "GuideEmDash"],
  " pull new and updated entries from the central library"
-}], "GuideText",ExpressionUUID->"416689b2-c956-4ec7-9e84-a63a84c42017"],
+}], "GuideText",ExpressionUUID->"a201d691-3029-44e0-8786-704ce31f0ab6"],
 
 Cell[TextData[{
  Cell[BoxData[
@@ -670,11 +684,11 @@ Cell[TextData[{
     "paclet:SubTropica/ref/STBuildLibraryJSON", "SubTropica Package Symbol"},
    "PackageLink",
    BaseStyle->"InlineFunctionSans"]], "InlineFunctionSans",ExpressionUUID->
-  "7387b828-676c-44de-9e08-59f20af4498a"],
+  "873e5b34-30ac-4131-8162-7bd566afa563"],
  " ",
  StyleBox["\[LongDash]", "GuideEmDash"],
  " rebuild ui/library.json from the local cache"
-}], "GuideText",ExpressionUUID->"f1d08fa6-5244-4f0f-9582-c7e260228f33"],
+}], "GuideText",ExpressionUUID->"554a04b4-ef37-47ad-a26d-6649a91e4a51"],
 
 Cell[TextData[{
  Cell[BoxData[
@@ -684,30 +698,30 @@ Cell[TextData[{
     "SubTropica Package Symbol"},
    "PackageLink",
    BaseStyle->"InlineFunctionSans"]], "InlineFunctionSans",ExpressionUUID->
-  "37d433c9-8972-4fb0-8880-d57b289707c8"],
+  "fbbc0e72-cabe-4c0e-b783-6370970dba62"],
  " ",
  StyleBox["\[LongDash]", "GuideEmDash"],
  " set your contributor identity for submissions"
-}], "GuideText",ExpressionUUID->"10b796c5-8e30-417f-8b1d-803a4943b1de"]
+}], "GuideText",ExpressionUUID->"93684225-5385-46d8-bec3-5b09820b3d84"]
 }, Open  ]],
 
 Cell[CellGroupData[{
 
-Cell["Related Links", "GuideRelatedLinksSection",ExpressionUUID->"b34c2a96-b957-4d50-8b69-5ce0d62a4ee9"],
+Cell["Related Links", "GuideRelatedLinksSection",ExpressionUUID->"899b57a4-104c-4e46-bae8-745b4e89d49e"],
 
 Cell[TextData[{
- ButtonBox["subtropica.org",
+ ButtonBox["subtropi.ca",
   BaseStyle->"Link",
-  ButtonData->"https://subtropica.org"],
+  ButtonData->"https://subtropi.ca"],
  " \[LongDash] project website and browseable integral library"
-}], "GuideText",ExpressionUUID->"ac04a41d-db3e-4739-9d67-737d0e4d58b7"],
+}], "GuideText",ExpressionUUID->"fd632a9d-b016-46fe-ad76-597ba142abd7"],
 
 Cell[TextData[{
  ButtonBox["GitHub repository",
   BaseStyle->"Link",
   ButtonData->"https://github.com/smizera2/SubTropica"],
  " \[LongDash] source code"
-}], "GuideText",ExpressionUUID->"883e8fb4-b571-473f-80dc-93142f325daa"]
+}], "GuideText",ExpressionUUID->"e368ce88-5fbe-4e6f-b36c-fbb98355866c"]
 }, Open  ]]
 },
 WindowTitle->"SubTropica",
@@ -720,7 +734,7 @@ StyleDefinitions->Notebook[{
   Visible -> False, FrontEndVersion -> 
   "14.3 for Mac OS X ARM (64-bit) (July 8, 2025)", StyleDefinitions -> 
   "PrivateStylesheetFormatting.nb"],
-ExpressionUUID->"8b63517a-44fa-49fc-a268-fdb9d0ec99ea"
+ExpressionUUID->"f0b8d834-122c-44a4-9643-d7456945be97"
 ]
 (* End of Notebook Content *)
 
@@ -734,80 +748,81 @@ CellTagsIndex->{}
 (*NotebookFileOutline
 Notebook[{
 Cell[CellGroupData[{
-Cell[600, 23, 87, 0, 70, "GuideTitle",ExpressionUUID->"ef1dc647-beae-4f1c-996a-3c5b0d06cb70"],
-Cell[690, 25, 662, 9, 70, "GuideAbstract",ExpressionUUID->"befd5c04-d309-48cb-b41c-d3b114e3f600"]
+Cell[600, 23, 87, 0, 70, "GuideTitle",ExpressionUUID->"7de77b63-20f9-43c0-a497-ec776c0a7273"],
+Cell[690, 25, 662, 9, 70, "GuideAbstract",ExpressionUUID->"d53327fc-9886-42cb-b16e-72469d521406"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[1389, 39, 100, 0, 70, "GuideFunctionsSection",ExpressionUUID->"14bc13aa-2aba-450d-b017-62de86e059e5"],
-Cell[1492, 41, 112, 0, 70, "GuideText",ExpressionUUID->"089b5041-6226-41f0-9d8f-aae073d0307c"],
-Cell[1607, 43, 168, 2, 70, "Input",ExpressionUUID->"351bc013-d256-4083-b523-67b3ea1c1cba"],
-Cell[1778, 47, 123, 0, 70, "GuideText",ExpressionUUID->"bfbe1d0c-f210-4330-8a65-a67e8b391f52"],
-Cell[1904, 49, 1161, 24, 70, "Input",ExpressionUUID->"d55e4d8e-1401-4853-8fe0-d9f5c14680d5"],
-Cell[3068, 75, 706, 17, 70, "GuideText",ExpressionUUID->"48c9e9a8-3e34-4a27-aa0e-a857242a076a"],
-Cell[3777, 94, 1385, 40, 70, "GuideText",ExpressionUUID->"423e8fc7-5ad0-4d17-9651-40ddef6eef3c"],
-Cell[5165, 136, 118, 0, 70, "GuideText",ExpressionUUID->"e5e1ea41-4c82-467d-b6fb-4a58a1f94038"],
-Cell[5286, 138, 114, 1, 70, "Input",ExpressionUUID->"2dcaed48-8622-41a9-a59d-6b328a00144a"],
-Cell[5403, 141, 452, 11, 70, "GuideText",ExpressionUUID->"008c5923-263f-45ba-ace6-6acac4059a0e"],
-Cell[5858, 154, 114, 0, 70, "GuideText",ExpressionUUID->"c8a31922-2952-40bf-8e50-44993436e8eb"]
+Cell[1389, 39, 100, 0, 70, "GuideFunctionsSection",ExpressionUUID->"94bc2cd0-a236-4da2-8ca8-9c7e301bb51f"],
+Cell[1492, 41, 112, 0, 70, "GuideText",ExpressionUUID->"602c3210-2f2c-4eda-9a0c-2c7ba312b082"],
+Cell[1607, 43, 168, 2, 70, "Input",ExpressionUUID->"36d61309-28b8-4b4c-a8a5-12b93f731738"],
+Cell[1778, 47, 123, 0, 70, "GuideText",ExpressionUUID->"8b556402-f015-4fd8-acf6-7a2f8354934f"],
+Cell[1904, 49, 1161, 24, 70, "Input",ExpressionUUID->"53aadb92-6a0f-41e7-b98e-c6ba5e10120c"],
+Cell[3068, 75, 706, 17, 70, "GuideText",ExpressionUUID->"522b4a06-7f39-4b99-bf4a-014798f7e05d"],
+Cell[3777, 94, 1385, 40, 70, "GuideText",ExpressionUUID->"cec8407d-14fe-4b67-8743-c9b07692ae0e"],
+Cell[5165, 136, 118, 0, 70, "GuideText",ExpressionUUID->"c972eef0-895f-4d9b-9352-1b5291700af2"],
+Cell[5286, 138, 114, 1, 70, "Input",ExpressionUUID->"65a32e42-b8fb-4424-8e85-7fc5aafdc867"],
+Cell[5403, 141, 452, 11, 70, "GuideText",ExpressionUUID->"df5541e4-f56f-43c4-a3e3-7f2c2ac19981"],
+Cell[5858, 154, 114, 0, 70, "GuideText",ExpressionUUID->"bdd45cc4-6d32-4206-9e91-cb012d48338f"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[6009, 159, 110, 0, 70, "GuideFunctionsSection",ExpressionUUID->"318160ba-1b44-4e28-9ead-926938c9e3f9"],
-Cell[6122, 161, 460, 12, 70, "GuideText",ExpressionUUID->"e570143e-058d-4854-812d-66d9976687a1"],
-Cell[6585, 175, 481, 12, 70, "GuideText",ExpressionUUID->"98fb51bc-bb5c-4686-9e79-398f4d06efe9"],
-Cell[7069, 189, 477, 12, 70, "GuideText",ExpressionUUID->"b203a959-e3ce-4130-88d0-3d66980d7cde"],
-Cell[7549, 203, 475, 12, 70, "GuideText",ExpressionUUID->"4e93fd30-739c-4aa9-a8b1-fda84da5e888"]
+Cell[6009, 159, 110, 0, 70, "GuideFunctionsSection",ExpressionUUID->"232413f1-9322-4960-b8df-260a97559f02"],
+Cell[6122, 161, 460, 12, 70, "GuideText",ExpressionUUID->"abc1af15-3647-4dd3-8e95-c09f3f6aa507"],
+Cell[6585, 175, 481, 12, 70, "GuideText",ExpressionUUID->"932bd8f4-42c2-4ed5-afe6-9ed1eca2fc8c"],
+Cell[7069, 189, 477, 12, 70, "GuideText",ExpressionUUID->"f159a1ff-53c3-4841-b27e-91996d99e4fe"],
+Cell[7549, 203, 475, 12, 70, "GuideText",ExpressionUUID->"7349b13b-ee20-49d3-9e37-05809cdc37f6"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[8061, 220, 108, 0, 70, "GuideFunctionsSection",ExpressionUUID->"644a21c6-44f0-43cf-9999-bd4b485db0ef"],
-Cell[8172, 222, 480, 12, 70, "GuideText",ExpressionUUID->"3bab4417-50e6-4391-ad0c-8cb0f912e051"],
-Cell[8655, 236, 480, 12, 70, "GuideText",ExpressionUUID->"3a61e118-ea46-44a9-b191-317eaf569eec"],
-Cell[9138, 250, 483, 12, 70, "GuideText",ExpressionUUID->"610fb5d8-864c-4f18-8a50-0855e8d17594"],
-Cell[9624, 264, 478, 12, 70, "GuideText",ExpressionUUID->"c4ee2c24-7c25-4fb4-978d-8e3f951945fa"],
-Cell[10105, 278, 473, 12, 70, "GuideText",ExpressionUUID->"464f7455-9334-4f96-8e8f-37e8066b2c72"]
+Cell[8061, 220, 108, 0, 70, "GuideFunctionsSection",ExpressionUUID->"c5be57bc-0898-413e-92f0-e3149a40b092"],
+Cell[8172, 222, 480, 12, 70, "GuideText",ExpressionUUID->"7a0f4218-d97d-418a-8c0f-a2c525212430"],
+Cell[8655, 236, 480, 12, 70, "GuideText",ExpressionUUID->"47c46702-3279-48b0-837e-00059a8e7803"],
+Cell[9138, 250, 483, 12, 70, "GuideText",ExpressionUUID->"cc162bd3-f7a2-4683-b5c9-aa17980b80c8"],
+Cell[9624, 264, 478, 12, 70, "GuideText",ExpressionUUID->"d609dfad-fed3-4393-be45-657c46ede462"],
+Cell[10105, 278, 473, 12, 70, "GuideText",ExpressionUUID->"491dfd4b-cf18-4ecf-9fb3-33f554bac140"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[10615, 295, 111, 0, 70, "GuideFunctionsSection",ExpressionUUID->"4d11af78-a5d3-4aa0-aade-9b0080fdc48e"],
-Cell[10729, 297, 463, 12, 70, "GuideText",ExpressionUUID->"bfcc9970-bd17-4fb4-ba91-71b7d86c069d"],
-Cell[11195, 311, 451, 12, 70, "GuideText",ExpressionUUID->"22c76f00-9b7e-4b9c-a036-a6fc7eeb709d"],
-Cell[11649, 325, 461, 12, 70, "GuideText",ExpressionUUID->"d5d153af-a524-4cbc-b00b-5df56e731dbf"],
-Cell[12113, 339, 473, 12, 70, "GuideText",ExpressionUUID->"a95624a5-f7f9-4eaf-95a4-9e94003c3376"],
-Cell[12589, 353, 482, 12, 70, "GuideText",ExpressionUUID->"7772e8ff-b234-428b-94e1-31f12cf3d0f0"],
-Cell[13074, 367, 451, 12, 70, "GuideText",ExpressionUUID->"7913eccd-a212-4a79-831a-e38eaea30972"],
-Cell[13528, 381, 451, 12, 70, "GuideText",ExpressionUUID->"bcde4207-0644-4dd3-8502-e6a8c61d0240"],
-Cell[13982, 395, 468, 12, 70, "GuideText",ExpressionUUID->"c7bc475b-07cc-4ad6-ae02-32c7166adf70"],
-Cell[14453, 409, 476, 12, 70, "GuideText",ExpressionUUID->"7fce2f52-d717-4cee-94f1-325d483aa081"],
-Cell[14932, 423, 471, 12, 70, "GuideText",ExpressionUUID->"c46328f6-c8b6-47bb-bccc-b14a9675e5f5"],
-Cell[15406, 437, 460, 12, 70, "GuideText",ExpressionUUID->"823a1893-162c-4d94-941d-9d31835d9bc3"]
+Cell[10615, 295, 111, 0, 70, "GuideFunctionsSection",ExpressionUUID->"6bae48af-f0a6-4551-929d-3b9894ab560c"],
+Cell[10729, 297, 463, 12, 70, "GuideText",ExpressionUUID->"9f6e46ec-cb2c-4a60-ba04-0e681435c6c1"],
+Cell[11195, 311, 451, 12, 70, "GuideText",ExpressionUUID->"88c1e6ac-5aa4-4553-8e2f-ad6f9824d242"],
+Cell[11649, 325, 461, 12, 70, "GuideText",ExpressionUUID->"e3258bf7-7d21-4b4c-abb3-ff3a79da96b8"],
+Cell[12113, 339, 473, 12, 70, "GuideText",ExpressionUUID->"a37b4d7e-2eaa-4f73-a0c2-741306ba4eac"],
+Cell[12589, 353, 482, 12, 70, "GuideText",ExpressionUUID->"52cde54f-5b7f-4890-a314-426a3d2dbb26"],
+Cell[13074, 367, 451, 12, 70, "GuideText",ExpressionUUID->"7e79613c-d13f-4839-ae4d-62ea6bdd050b"],
+Cell[13528, 381, 451, 12, 70, "GuideText",ExpressionUUID->"d973abb4-9dc6-48ac-a8a0-ae0186bf4f17"],
+Cell[13982, 395, 468, 12, 70, "GuideText",ExpressionUUID->"c641a56c-381e-46f8-919d-e67590fce592"],
+Cell[14453, 409, 476, 12, 70, "GuideText",ExpressionUUID->"1092b730-5ae1-44ca-b5c4-7852d88375ea"],
+Cell[14932, 423, 471, 12, 70, "GuideText",ExpressionUUID->"d2c49ff1-0334-42f7-bf7c-1b62cec3cb8e"],
+Cell[15406, 437, 460, 12, 70, "GuideText",ExpressionUUID->"3ac38f70-a28e-44c5-a515-b544828a69af"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[15903, 454, 125, 0, 70, "GuideFunctionsSection",ExpressionUUID->"fa680953-fe81-4311-9d1f-921d1a88581e"],
-Cell[16031, 456, 484, 12, 70, "GuideText",ExpressionUUID->"fa4eaefa-602e-4e76-9722-e93bf66fd6c8"],
-Cell[16518, 470, 474, 12, 70, "GuideText",ExpressionUUID->"2795c2c9-ddf2-4e4f-8103-a6da337724fe"],
-Cell[16995, 484, 473, 12, 70, "GuideText",ExpressionUUID->"bfc600a2-662a-45a1-b01c-f9073c2cf0dc"]
+Cell[15903, 454, 125, 0, 70, "GuideFunctionsSection",ExpressionUUID->"5d5798c6-321b-49ea-920b-6c1141164299"],
+Cell[16031, 456, 484, 12, 70, "GuideText",ExpressionUUID->"4cf7f7f7-d49b-4f74-99dd-4f6ebc849a59"],
+Cell[16518, 470, 474, 12, 70, "GuideText",ExpressionUUID->"4981ba07-70ae-432f-b389-467ea3f369d7"],
+Cell[16995, 484, 473, 12, 70, "GuideText",ExpressionUUID->"12223e87-771c-4aef-888a-b4de552add69"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[17505, 501, 111, 0, 70, "GuideFunctionsSection",ExpressionUUID->"ffc01bf6-3776-429c-a9a5-81f8167d45bb"],
-Cell[17619, 503, 491, 13, 70, "GuideText",ExpressionUUID->"f65f39e4-6d9f-4d07-b6da-2e26e9e92313"],
-Cell[18113, 518, 463, 12, 70, "GuideText",ExpressionUUID->"1de81678-44bb-495c-9f7a-01f68c0341c7"],
-Cell[18579, 532, 466, 12, 70, "GuideText",ExpressionUUID->"5ef89d27-4248-488c-b2ea-6ee8585f214f"],
-Cell[19048, 546, 468, 12, 70, "GuideText",ExpressionUUID->"66653800-bc3d-4194-99e8-af8ceca01a67"],
-Cell[19519, 560, 455, 12, 70, "GuideText",ExpressionUUID->"f54dfd01-55c3-48e1-b10d-d2c95a3ee58d"],
-Cell[19977, 574, 480, 12, 70, "GuideText",ExpressionUUID->"a71a637b-b970-43f8-aa00-1095aeadf812"],
-Cell[20460, 588, 462, 13, 70, "GuideText",ExpressionUUID->"ffd7ca4e-4f9f-4f1e-a1d8-8da1c0311c69"],
-Cell[20925, 603, 447, 12, 70, "GuideText",ExpressionUUID->"a5a99ef3-43af-4218-af50-bde28e5aea19"]
+Cell[17505, 501, 111, 0, 70, "GuideFunctionsSection",ExpressionUUID->"513683c3-9663-4719-9d00-d97609802b27"],
+Cell[17619, 503, 491, 13, 70, "GuideText",ExpressionUUID->"20e00406-c00c-469c-aaa4-bb69b88f2f3f"],
+Cell[18113, 518, 463, 12, 70, "GuideText",ExpressionUUID->"66561bf7-164f-438f-a80e-83a26063d3ce"],
+Cell[18579, 532, 466, 12, 70, "GuideText",ExpressionUUID->"2147450b-f44b-4ef3-954e-e2b24f51065d"],
+Cell[19048, 546, 468, 12, 70, "GuideText",ExpressionUUID->"edbb19f9-7f73-4e43-a8f8-0fe6a9b8724d"],
+Cell[19519, 560, 455, 12, 70, "GuideText",ExpressionUUID->"15a99c42-2400-4cc5-a54e-94829005d5d1"],
+Cell[19977, 574, 480, 12, 70, "GuideText",ExpressionUUID->"f5de2cbb-b99b-4587-9208-10cc9d7e58fa"],
+Cell[20460, 588, 462, 13, 70, "GuideText",ExpressionUUID->"b8b1170e-5ce7-4a75-b19e-d8e7ef79e237"],
+Cell[20925, 603, 468, 12, 70, "GuideText",ExpressionUUID->"0b1254f0-8a18-4670-8402-af4688bb2942"],
+Cell[21396, 617, 447, 12, 70, "GuideText",ExpressionUUID->"d22f1fb8-3e35-4a49-ad16-8c462fb83d97"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[21409, 620, 104, 0, 70, "GuideFunctionsSection",ExpressionUUID->"81e4d458-f41e-47bf-96ba-5217852e6c55"],
-Cell[21516, 622, 470, 12, 70, "GuideText",ExpressionUUID->"f301ff61-0841-4ba1-af96-072c5f348cf7"],
-Cell[21989, 636, 478, 12, 70, "GuideText",ExpressionUUID->"79c682ec-4882-4617-8379-f92e7940d596"],
-Cell[22470, 650, 477, 12, 70, "GuideText",ExpressionUUID->"416689b2-c956-4ec7-9e84-a63a84c42017"],
-Cell[22950, 664, 478, 12, 70, "GuideText",ExpressionUUID->"f1d08fa6-5244-4f0f-9582-c7e260228f33"],
-Cell[23431, 678, 475, 12, 70, "GuideText",ExpressionUUID->"10b796c5-8e30-417f-8b1d-803a4943b1de"]
+Cell[21880, 634, 104, 0, 70, "GuideFunctionsSection",ExpressionUUID->"8b935fcf-686e-4496-b37f-86d1b93c0666"],
+Cell[21987, 636, 470, 12, 70, "GuideText",ExpressionUUID->"ca222654-1b28-4491-8268-67aadb0fe3f2"],
+Cell[22460, 650, 478, 12, 70, "GuideText",ExpressionUUID->"fb42ef50-8f28-4e41-82e1-7a6703ba1eb0"],
+Cell[22941, 664, 477, 12, 70, "GuideText",ExpressionUUID->"a201d691-3029-44e0-8786-704ce31f0ab6"],
+Cell[23421, 678, 478, 12, 70, "GuideText",ExpressionUUID->"554a04b4-ef37-47ad-a26d-6649a91e4a51"],
+Cell[23902, 692, 475, 12, 70, "GuideText",ExpressionUUID->"93684225-5385-46d8-bec3-5b09820b3d84"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[23943, 695, 104, 0, 70, "GuideRelatedLinksSection",ExpressionUUID->"b34c2a96-b957-4d50-8b69-5ce0d62a4ee9"],
-Cell[24050, 697, 242, 5, 70, "GuideText",ExpressionUUID->"ac04a41d-db3e-4739-9d67-737d0e4d58b7"],
-Cell[24295, 704, 225, 5, 70, "GuideText",ExpressionUUID->"883e8fb4-b571-473f-80dc-93142f325daa"]
+Cell[24414, 709, 104, 0, 70, "GuideRelatedLinksSection",ExpressionUUID->"899b57a4-104c-4e46-bae8-745b4e89d49e"],
+Cell[24521, 711, 236, 5, 70, "GuideText",ExpressionUUID->"fd632a9d-b016-46fe-ad76-597ba142abd7"],
+Cell[24760, 718, 225, 5, 70, "GuideText",ExpressionUUID->"e368ce88-5fbe-4e6f-b36c-fbb98355866c"]
 }, Open  ]]
 }
 ]

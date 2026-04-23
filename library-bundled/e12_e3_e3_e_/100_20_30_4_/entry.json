@@ -1,296 +1,295 @@
 {
-  "CNickelIndex": "e12|e3|e3|e|:100|20|30|4|",
-  "MassScales": 6,
-  "FunctionClass": "hypergeometric",
-  "EpsilonOrder": "-2,-1,0",
-  "References": [
-    "arXiv:1401.3546",
-    "arXiv:2309.12772",
-    "arXiv:2206.04609",
-    "arXiv:2303.11657"
-  ],
-  "Records": [
-    {
-      "reference": "arXiv:1401.3546, JHEP 10 (125), 2014",
-      "authors": "Abreu, Samuel, Britto, Ruth, Duhr, Claude, Gardi, Einan",
-      "description": "One-loop box with massless propagators and four external masses, finite in $D=4$. Related to three-mass triangle by $B^{4m}=-T(p_1^2 p_3^2, p_2^2 p_4^2, s t)$. Weight 2.",
-      "epsOrders": "-2,-1,0",
-      "familyName": "B^{4m} (four-mass box) / B(4m) (four-mass box)",
-      "method": "direct_integration + unitarity",
-      "tools": [],
-      "ancillaryFiles": false,
-      "doi": "10.1007/JHEP10(2014)125",
-      "texkey": "Abreu:2014cla",
-      "masterCount": 1,
-      "transcendentalWeight": 2,
-      "dimScheme": "d=4",
-      "computationLevel": "full",
-      "location": "Section 4.2",
-      "recordId": "bf_fcf2fdd7f13f",
-      "verified": false,
-      "verifiedAt": ""
-    },
-    {
-      "authors": "Duhr, Claude, Porkert, Franziska",
-      "texkey": "Duhr:2023bku",
-      "verified": false,
-      "verifiedAt": "",
-      "reference": "arXiv:2309.12772, JHEP 02 (179), 2024",
-      "ancillaryFiles": [],
-      "recordId": "bf_b6f00d56877e",
-      "masterCount": 1,
-      "computationLevel": "full",
-      "doi": "10.1007/JHEP02(2024)179",
-      "tools": [],
-      "description": "One-loop massless box in $d=2$ with generic propagator powers. Result: sv Appell $F_1$.",
-      "epsOrders": "all orders",
-      "method": [],
-      "dimScheme": "d=2",
-      "location": "Section 4.2",
-      "familyName": "Star_4 (box d=2)"
-    },
-    {
-      "authors": "He, Song, Li, Zhenjie, Ma, Rourou, Wu, Zihao, Yang, Qinglin, Zhang, Yang",
-      "texkey": "He:2022ctv",
-      "verified": false,
-      "verifiedAt": "",
-      "reference": "arXiv:2206.04609, JHEP 10 (165), 2022",
-      "ancillaryFiles": [],
-      "recordId": "bf_bee61dd2f3b0",
-      "masterCount": 11,
-      "computationLevel": "full",
-      "doi": "10.1007/JHEP10(2022)165",
-      "tools": [
-        "FIRE"
-      ],
-      "description": "One-loop box integral family with four different external masses. 11 master integrals upgraded to UT basis using rational prefactors with square roots $r_1$-$r_5$ of Kaellen-type polynomials.",
-      "epsOrders": "",
-      "method": [],
-      "dimScheme": "d=D",
-      "location": "Section 3.1",
-      "familyName": "one-loop four-mass box"
-    },
-    {
-      "authors": "Jiang, Xuhang, Yang, Li Lin",
-      "ancillaryFiles": [],
-      "recordId": "bf_2ff4a35af8cd",
-      "epsOrders": "",
-      "location": "Section III D, Eqs. (36)-(50), Fig. 5",
-      "texkey": "Jiang:2023qnl",
-      "verified": false,
-      "verifiedAt": "",
-      "reference": "arXiv:2303.11657, Phys.Rev.D 108 (7), 2023",
-      "masterCount": 0,
-      "computationLevel": "basis",
-      "doi": "10.1103/PhysRevD.108.076004",
-      "tools": [],
-      "description": "One-loop four-mass box integral family with four distinct external masses $m_1, m_2, m_3, m_4$ and massless internal propagators. All symbol letters (rational and algebraic) are derived from minors of the $5\\times 5$ $Q$ matrix associated with the Baikov representation. The rational letters reproduce $W_1,\\ldots,W_{10},W_{13},W_{18}$ of He et al. (2022); 14 algebraic letters involving square roots of $Q_{ii}$ are also obtained, equivalent to $W_{21},\\ldots,W_{30},W_{46},W_{62},W_{51},W_{59}$ of He et al.",
-      "method": [],
-      "dimScheme": "d=4-2*eps",
-      "familyName": "four-mass box"
-    }
-  ],
-  "Names": [
-    "B^{4m} (four-mass box)",
-    "Star_4 (box d=2)",
-    "B(4m) (four-mass box)",
-    "one-loop four-mass box",
-    "four-mass box"
-  ],
-  "Source": [
-    "arXiv"
-  ],
-  "Loops": 1,
-  "NumPropagators": 4,
-  "edges": "{{{1, 2}, 0}, {{1, 3}, 0}, {{2, 4}, 0}, {{3, 4}, 0}}",
-  "nodes": "{{1, M[1]}, {2, M[2]}, {4, M[3]}, {3, M[4]}}",
-  "CanonicalName": "4-mass box (c)",
-  "MassConfig": {
-    "numEdges": 4,
-    "numMassiveEdges": 0,
-    "numMasslessEdges": 4,
-    "distinctInternalMasses": 0,
-    "internalMassLabels": [],
-    "edgeMassPattern": "0000",
-    "numExtLegs": 4,
-    "numOnshellMassiveExtLegs": 4,
-    "numMasslessExtLegs": 0,
-    "extLegSignature": "MMMM"
-  },
-  "commonNames": [
-    "D₀"
-  ],
-  "Subsectors": [
-    "e12|e2|e|:100|20|3|"
-  ],
-  "ParentSectors": [],
-  "Results": [
-    {
-      "resultCompressed": "1:eJztV90KgjAUtrm6iF6iR6heoYsuDKSCrgs2GRSKK3r50PaDTqfpBgVNujmydc53vu/zbNL8HO/wxPM8OmVhj1KC6Pp0O1GfLVFCCXt4eMQTIAsBoTc8K1bh5U4xT6RjFg7kiih55nmOQZGxucQR4dVqi0NIVFBUhvEDpSqDw8oi0ZfvH69ig+Ql+ps6DOt0xI+C4mKp4LZbAtvw9eqMtTOpTirsND9gTfzH/Ehc9QOY+KEkiaKyZZfSZpJsKEhUuQIj4wYzgJnJgfxBwwc+4VpRr0xJarnqdRuWvBr0//PujP3uTH8LAZnJcYI40hyrwaoXo+S13xwdiJrbhTSnXMt6NDbHr2mWP1iztAlq88BGbeWG/lnJlvPx/VOVuDAolnfR106VE2YZfAKtJTtwtMR/Lbnk4QWJQB/Y",
-      "resultTeX": "\\left(\\frac{2 H\\left(-\\frac{M_4^2}{s_{23}-M_4^2},\\frac{1}{W_1^-+1}\\,;1\\right)}{2 s_{12} M_4^2 W_1^--2 s_{12} M_4^2 W_1^+}-\\frac{2 H\\left(-\\frac{M_4^2}{s_{23}-M_4^2},\\frac{1}{W_1^++1}\\,;1\\right)}{2 s_{12} M_4^2 W_1^--2 s_{12} M_4^2 W_1^+}-\\frac{4 H\\left(0,\\frac{1}{W_1^-+1}\\,;1\\right)}{2 s_{12} M_4^2 W_1^--2 s_{12} M_4^2 W_1^+}+\\frac{4 H\\left(0,\\frac{1}{W_1^++1}\\,;1\\right)}{2 s_{12} M_4^2 W_1^--2 s_{12} M_4^2 W_1^+}+\\frac{2 H\\left(\\frac{s_{12}}{s_{12}-M_2^2},\\frac{1}{W_1^-+1}\\,;1\\right)}{2 s_{12} M_4^2 W_1^--2 s_{12} M_4^2 W_1^+}-\\frac{2 H\\left(\\frac{s_{12}}{s_{12}-M_2^2},\\frac{1}{W_1^++1}\\,;1\\right)}{2 s_{12} M_4^2 W_1^--2 s_{12} M_4^2 W_1^+}-\\frac{2 \\log \\left(-W_1^-\\right) \\log \\left(s_{23} M_3^{-2}\\right)}{2 s_{12} M_4^2 W_1^--2 s_{12} M_4^2 W_1^+}+\\frac{2 \\log \\left(-W_1^+\\right) \\log \\left(s_{23} M_3^{-2}\\right)}{2 s_{12} M_4^2 W_1^--2 s_{12} M_4^2 W_1^+}+\\frac{\\log ^2\\left(-W_1^-\\right)}{2 s_{12} M_4^2 W_1^--2 s_{12} M_4^2 W_1^+}-\\frac{\\log ^2\\left(-W_1^+\\right)}{2 s_{12} M_4^2 W_1^--2 s_{12} M_4^2 W_1^+}+\\frac{2 \\log \\left(M_1^2 M_2^{-2}\\right) \\log \\left(-W_1^-\\right)}{2 s_{12} M_4^2 W_1^--2 s_{12} M_4^2 W_1^+}-\\frac{2 \\log \\left(M_1^2 M_2^{-2}\\right) \\log \\left(-W_1^+\\right)}{2 s_{12} M_4^2 W_1^--2 s_{12} M_4^2 W_1^+}\\right)+O\\left(\\varepsilon^1\\right)",
-      "dimension": "4 - 2*eps",
-      "epsOrder": "0",
-      "epsOrders": "0",
-      "propExponents": [
-        1,
-        1,
-        1,
-        1
-      ],
-      "propagators": [],
-      "numerators": [],
-      "internalMasses": [],
-      "externalMasses": [],
-      "substitutions": "",
-      "rootSubstitutions": "{Wm[1] -> (-(s12*s23) + MM[1]*MM[3] - MM[2]*MM[4] - Sqrt[-4*s12*s23*MM[2]*MM[4] + (s12*s23 - MM[1]*MM[3] + MM[2]*MM[4])^2])/(2*s12*MM[4]), Wp[1] -> (-(s12*s23) + MM[1]*MM[3] - MM[2]*MM[4] + Sqrt[-4*s12*s23*MM[2]*MM[4] + (s12*s23 - MM[1]*MM[3] + MM[2]*MM[4])^2])/(2*s12*MM[4])}",
-      "normalization": "Automatic",
-      "stVersion": "SubTropica v1.0.395",
-      "stCommand": "",
-      "contributor": "Sebastian Mizera",
-      "timestamp": "2026-04-19T22:32:50",
-      "verifiedAt": "2026-04-19T22:32:50",
-      "verified": true,
-      "method": "direct_integration",
-      "tools": [
-        "SubTropica"
-      ],
-      "methodLR": "Lungo",
-      "byteCount": 13864,
-      "symbolTeX": "\\varepsilon^{0}\\colon\\;-\\frac{M_4^{-2}}{s_{12} \\left(W_1^--W_1^+\\right)}\\,(s_{12} W_1^-+M_2^2 \\otimes W_1^-) - \\frac{M_4^{-2}}{s_{12} \\left(W_1^--W_1^+\\right)}\\,(s_{12} W_1^-+M_2^2 \\otimes s_{12}) + \\frac{M_4^{-2}}{s_{12} \\left(W_1^--W_1^+\\right)}\\,(s_{12} W_1^-+M_2^2 \\otimes M_2^2) + \\frac{M_4^{-2}}{s_{12} \\left(W_1^--W_1^+\\right)}\\,(s_{12} W_1^++M_2^2 \\otimes W_1^+) + \\frac{M_4^{-2}}{s_{12} \\left(W_1^--W_1^+\\right)}\\,(s_{12} W_1^++M_2^2 \\otimes s_{12}) - \\frac{M_4^{-2}}{s_{12} \\left(W_1^--W_1^+\\right)}\\,(s_{12} W_1^++M_2^2 \\otimes M_2^2) - \\frac{M_4^{-2}}{s_{12} \\left(W_1^--W_1^+\\right)}\\,(M_4^2 W_1^-+s_{23} \\otimes W_1^-) + \\frac{M_4^{-2}}{s_{12} \\left(W_1^--W_1^+\\right)}\\,(M_4^2 W_1^-+s_{23} \\otimes s_{23}) - \\frac{M_4^{-2}}{s_{12} \\left(W_1^--W_1^+\\right)}\\,(M_4^2 W_1^-+s_{23} \\otimes M_4^2) + \\frac{M_4^{-2}}{s_{12} \\left(W_1^--W_1^+\\right)}\\,(M_4^2 W_1^++s_{23} \\otimes W_1^+) - \\frac{M_4^{-2}}{s_{12} \\left(W_1^--W_1^+\\right)}\\,(M_4^2 W_1^++s_{23} \\otimes s_{23}) + \\frac{M_4^{-2}}{s_{12} \\left(W_1^--W_1^+\\right)}\\,(M_4^2 W_1^++s_{23} \\otimes M_4^2) + \\frac{M_4^{-2}}{s_{12} \\left(W_1^--W_1^+\\right)}\\,(M_1^2 \\otimes W_1^-) + \\frac{M_4^{-2}}{s_{12} \\left(W_1^--W_1^+\\right)}\\,(W_1^- \\otimes M_1^2) - \\frac{M_4^{-2}}{s_{12} \\left(W_1^--W_1^+\\right)}\\,(W_1^- \\otimes M_2^2) + \\frac{M_4^{-2}}{s_{12} \\left(W_1^--W_1^+\\right)}\\,(M_3^2 \\otimes W_1^-) - \\frac{M_4^{-2}}{s_{12} \\left(W_1^--W_1^+\\right)}\\,(W_1^- \\otimes s_{23}) + \\frac{M_4^{-2}}{s_{12} \\left(W_1^--W_1^+\\right)}\\,(W_1^- \\otimes M_3^2) + \\frac{M_4^{-2}}{s_{12} \\left(W_1^--W_1^+\\right)}\\,(W_1^- \\otimes W_1^-) - \\frac{M_4^{-2}}{s_{12} \\left(W_1^--W_1^+\\right)}\\,(M_1^2 \\otimes W_1^+) - \\frac{M_4^{-2}}{s_{12} \\left(W_1^--W_1^+\\right)}\\,(W_1^+ \\otimes M_1^2) + \\frac{M_4^{-2}}{s_{12} \\left(W_1^--W_1^+\\right)}\\,(W_1^+ \\otimes M_2^2) - \\frac{M_4^{-2}}{s_{12} \\left(W_1^--W_1^+\\right)}\\,(M_3^2 \\otimes W_1^+) + \\frac{M_4^{-2}}{s_{12} \\left(W_1^--W_1^+\\right)}\\,(W_1^+ \\otimes s_{23}) - \\frac{M_4^{-2}}{s_{12} \\left(W_1^--W_1^+\\right)}\\,(W_1^+ \\otimes M_3^2) - \\frac{M_4^{-2}}{s_{12} \\left(W_1^--W_1^+\\right)}\\,(W_1^+ \\otimes W_1^+)",
-      "alphabet": [
-        "s_{12} W_1^-+M_2^2",
-        "W_1^-",
-        "s_{12}",
-        "M_2^2",
-        "s_{12} W_1^++M_2^2",
-        "W_1^+",
-        "M_4^2 W_1^-+s_{23}",
-        "s_{23}",
-        "M_4^2",
-        "M_4^2 W_1^++s_{23}",
-        "M_1^2",
-        "M_3^2"
-      ],
-      "symbolWeight": 2,
-      "symbolTerms": 26,
-      "normalizedSymbolTeX": "\\varepsilon^{0}&\\colon\\;\\frac{M_4^{-2}}{s_{12} \\left(W_1^--W_1^+\\right)}\\!\\left[-(W_1 \\otimes W^-_1) - (W_1 \\otimes W_2) + (W_1 \\otimes W_3) + (W_4 \\otimes W^+_1) + (W_4 \\otimes W_2) - (W_4 \\otimes W_3) - (W_5 \\otimes W^-_1) + (W_5 \\otimes W_6) - (W_5 \\otimes W_7) + (W_8 \\otimes W^+_1) - (W_8 \\otimes W_6) + (W_8 \\otimes W_7) - (W^-_1 \\otimes W_3) + (W_9 \\otimes W^-_1) - (W^-_1 \\otimes W_6) + (W^-_1 \\otimes W_9) + (W^-_1 \\otimes W^-_1) + (W^+_1 \\otimes W_3) - (W_9 \\otimes W^+_1) + (W^+_1 \\otimes W_6) - (W^+_1 \\otimes W_9) - (W^+_1 \\otimes W^+_1)\\right]",
-      "wDefinitions": [
-        {
-          "label": "W_1",
-          "kind": "rational",
-          "pairIndex": null,
-          "definition": "\\frac{s_{12} W_1^-+M_2^2}{M_1^2}",
-          "originalLetter": "s_{12} W_1^-+M_2^2"
-        },
-        {
-          "label": "W^-_1",
-          "kind": "algebraic",
-          "pairIndex": 1,
-          "definition": "\\frac{M_4^{-2} \\left(-\\sqrt{\\left(-M_1^2 M_3^2+M_2^2 M_4^2+s_{12} s_{23}\\right)^2-4 s_{12} s_{23} M_2^2 M_4^2}+M_1^2 M_3^2-M_2^2 M_4^2-s_{12} s_{23}\\right)}{2 s_{12}}",
-          "originalLetter": "W_1^-",
-          "polynomialTeX": "s_{12} x_{2}^2 M_4^2+s_{23} M_2^2-x_{2} M_1^2 M_3^2+x_{2} M_2^2 M_4^2+s_{12} s_{23} x_{2}",
-          "discriminantTeX": "\\left(-M_1^2 M_3^2+M_2^2 M_4^2+s_{12} s_{23}\\right)^2-4 s_{12} s_{23} M_2^2 M_4^2"
-        },
-        {
-          "label": "W_2",
-          "kind": "rational",
-          "pairIndex": null,
-          "definition": "\\frac{s_{12}}{M_1^2}",
-          "originalLetter": "s_{12}"
-        },
-        {
-          "label": "W_3",
-          "kind": "rational",
-          "pairIndex": null,
-          "definition": "\\frac{M_2^2}{M_1^2}",
-          "originalLetter": "M_2^2"
-        },
-        {
-          "label": "W_4",
-          "kind": "rational",
-          "pairIndex": null,
-          "definition": "\\frac{s_{12} W_1^++M_2^2}{M_1^2}",
-          "originalLetter": "s_{12} W_1^++M_2^2"
-        },
-        {
-          "label": "W^+_1",
-          "kind": "algebraic",
-          "pairIndex": 1,
-          "definition": "\\frac{M_4^{-2} \\left(\\sqrt{\\left(-M_1^2 M_3^2+M_2^2 M_4^2+s_{12} s_{23}\\right)^2-4 s_{12} s_{23} M_2^2 M_4^2}+M_1^2 M_3^2-M_2^2 M_4^2-s_{12} s_{23}\\right)}{2 s_{12}}",
-          "originalLetter": "W_1^+",
-          "polynomialTeX": "s_{12} x_{2}^2 M_4^2+s_{23} M_2^2-x_{2} M_1^2 M_3^2+x_{2} M_2^2 M_4^2+s_{12} s_{23} x_{2}",
-          "discriminantTeX": "\\left(-M_1^2 M_3^2+M_2^2 M_4^2+s_{12} s_{23}\\right)^2-4 s_{12} s_{23} M_2^2 M_4^2"
-        },
-        {
-          "label": "W_5",
-          "kind": "rational",
-          "pairIndex": null,
-          "definition": "\\frac{s_{23}+W_1^- M_4^2}{M_1^2}",
-          "originalLetter": "M_4^2 W_1^-+s_{23}"
-        },
-        {
-          "label": "W_6",
-          "kind": "rational",
-          "pairIndex": null,
-          "definition": "\\frac{s_{23}}{M_1^2}",
-          "originalLetter": "s_{23}"
-        },
-        {
-          "label": "W_7",
-          "kind": "rational",
-          "pairIndex": null,
-          "definition": "\\frac{M_4^2}{M_1^2}",
-          "originalLetter": "M_4^2"
-        },
-        {
-          "label": "W_8",
-          "kind": "rational",
-          "pairIndex": null,
-          "definition": "\\frac{s_{23}+W_1^+ M_4^2}{M_1^2}",
-          "originalLetter": "M_4^2 W_1^++s_{23}"
-        },
-        {
-          "label": "W_9",
-          "kind": "rational",
-          "pairIndex": null,
-          "definition": "\\frac{M_3^2}{M_1^2}",
-          "originalLetter": "M_3^2"
-        }
-      ],
-      "normalizedAlphabet": [
-        "W_1",
-        "W^-_1",
-        "W_2",
-        "W_3",
-        "W_4",
-        "W^+_1",
-        "W_5",
-        "W_6",
-        "W_7",
-        "W_8",
-        "W_9"
-      ],
-      "symbolScale": "M_1^2",
-      "normalizedSymbolTerms": 22,
-      "legOrder": [],
-      "findRoots": true,
-      "algebraicLetters": [
-        {
-          "index": 1,
-          "variable": "x2",
-          "polynomial": "s12*s23*x2 + s23*MM[2] - x2*MM[1]*MM[3] + s12*x2^2*MM[4] + x2*MM[2]*MM[4]",
-          "LC": "s12*MM[4]",
-          "sum": "(-(s12*s23) + MM[1]*MM[3] - MM[2]*MM[4])/(s12*MM[4])",
-          "product": "(s23*MM[2])/(s12*MM[4])",
-          "discriminant": "-4*s12*s23*MM[2]*MM[4] + (s12*s23 - MM[1]*MM[3] + MM[2]*MM[4])^2",
-          "minusRoot": "(-(s12*s23) + MM[1]*MM[3] - MM[2]*MM[4] - Sqrt[-4*s12*s23*MM[2]*MM[4] + (s12*s23 - MM[1]*MM[3] + MM[2]*MM[4])^2])/(2*s12*MM[4])",
-          "plusRoot": "(-(s12*s23) + MM[1]*MM[3] - MM[2]*MM[4] + Sqrt[-4*s12*s23*MM[2]*MM[4] + (s12*s23 - MM[1]*MM[3] + MM[2]*MM[4])^2])/(2*s12*MM[4])",
-          "polynomialTeX": "s_{12} x_{2}^2 M_4^2+s_{23} M_2^2-x_{2} M_1^2 M_3^2+x_{2} M_2^2 M_4^2+s_{12} s_{23} x_{2}",
-          "discriminantTeX": "\\left(-M_1^2 M_3^2+M_2^2 M_4^2+s_{12} s_{23}\\right)^2-4 s_{12} s_{23} M_2^2 M_4^2",
-          "minusRootTeX": "\\frac{M_4^{-2} \\left(-\\sqrt{\\left(-M_1^2 M_3^2+M_2^2 M_4^2+s_{12} s_{23}\\right)^2-4 s_{12} s_{23} M_2^2 M_4^2}+M_1^2 M_3^2-M_2^2 M_4^2-s_{12} s_{23}\\right)}{2 s_{12}}",
-          "plusRootTeX": "\\frac{M_4^{-2} \\left(\\sqrt{\\left(-M_1^2 M_3^2+M_2^2 M_4^2+s_{12} s_{23}\\right)^2-4 s_{12} s_{23} M_2^2 M_4^2}+M_1^2 M_3^2-M_2^2 M_4^2-s_{12} s_{23}\\right)}{2 s_{12}}"
-        }
-      ]
-    }
-  ]
+	"CNickelIndex": "e12|e3|e3|e|:100|20|30|4|",
+	"MassScales": 6,
+	"FunctionClass": "hypergeometric",
+	"EpsilonOrder": "-2,-1,0",
+	"References": [
+		"arXiv:1401.3546",
+		"arXiv:2309.12772",
+		"arXiv:2206.04609",
+		"arXiv:2303.11657"
+	],
+	"Records": [
+		{
+			"reference": "arXiv:1401.3546, JHEP 10 (125), 2014",
+			"authors": "Abreu, Samuel, Britto, Ruth, Duhr, Claude, Gardi, Einan",
+			"description": "One-loop box with massless propagators and four external masses, finite in $D=4$. Related to three-mass triangle by $B^{4m}=-T(p_1^2 p_3^2, p_2^2 p_4^2, s t)$. Weight 2.",
+			"epsOrders": "-2,-1,0",
+			"familyName": "B^{4m} (four-mass box) / B(4m) (four-mass box)",
+			"method": "direct_integration + unitarity",
+			"tools": [],
+			"ancillaryFiles": false,
+			"doi": "10.1007/JHEP10(2014)125",
+			"texkey": "Abreu:2014cla",
+			"masterCount": 1,
+			"transcendentalWeight": 2,
+			"dimScheme": "d=4",
+			"computationLevel": "full",
+			"location": "Section 4.2",
+			"recordId": "bf_fcf2fdd7f13f",
+			"verified": false,
+			"verifiedAt": ""
+		},
+		{
+			"authors": "Duhr, Claude, Porkert, Franziska",
+			"texkey": "Duhr:2023bku",
+			"verified": false,
+			"verifiedAt": "",
+			"reference": "arXiv:2309.12772, JHEP 02 (179), 2024",
+			"ancillaryFiles": [],
+			"recordId": "bf_b6f00d56877e",
+			"masterCount": 1,
+			"computationLevel": "full",
+			"doi": "10.1007/JHEP02(2024)179",
+			"tools": [],
+			"description": "One-loop massless box in $d=2$ with generic propagator powers. Result: sv Appell $F_1$.",
+			"epsOrders": "all orders",
+			"method": [],
+			"dimScheme": "d=2",
+			"location": "Section 4.2",
+			"familyName": "Star_4 (box d=2)"
+		},
+		{
+			"authors": "He, Song, Li, Zhenjie, Ma, Rourou, Wu, Zihao, Yang, Qinglin, Zhang, Yang",
+			"texkey": "He:2022ctv",
+			"verified": false,
+			"verifiedAt": "",
+			"reference": "arXiv:2206.04609, JHEP 10 (165), 2022",
+			"ancillaryFiles": [],
+			"recordId": "bf_bee61dd2f3b0",
+			"masterCount": 11,
+			"computationLevel": "full",
+			"doi": "10.1007/JHEP10(2022)165",
+			"tools": [
+				"FIRE"
+			],
+			"description": "One-loop box integral family with four different external masses. 11 master integrals upgraded to UT basis using rational prefactors with square roots $r_1$-$r_5$ of Kaellen-type polynomials.",
+			"epsOrders": "",
+			"method": [],
+			"dimScheme": "d=D",
+			"location": "Section 3.1",
+			"familyName": "one-loop four-mass box"
+		},
+		{
+			"authors": "Jiang, Xuhang, Yang, Li Lin",
+			"ancillaryFiles": [],
+			"recordId": "bf_2ff4a35af8cd",
+			"epsOrders": "",
+			"location": "Section III D, Eqs. (36)-(50), Fig. 5",
+			"texkey": "Jiang:2023qnl",
+			"verified": false,
+			"verifiedAt": "",
+			"reference": "arXiv:2303.11657, Phys.Rev.D 108 (7), 2023",
+			"masterCount": 0,
+			"computationLevel": "basis",
+			"doi": "10.1103/PhysRevD.108.076004",
+			"tools": [],
+			"description": "One-loop four-mass box integral family with four distinct external masses $m_1, m_2, m_3, m_4$ and massless internal propagators. All symbol letters (rational and algebraic) are derived from minors of the $5\\times 5$ $Q$ matrix associated with the Baikov representation. The rational letters reproduce $W_1,\\ldots,W_{10},W_{13},W_{18}$ of He et al. (2022); 14 algebraic letters involving square roots of $Q_{ii}$ are also obtained, equivalent to $W_{21},\\ldots,W_{30},W_{46},W_{62},W_{51},W_{59}$ of He et al.",
+			"method": [],
+			"dimScheme": "d=4-2*eps",
+			"familyName": "four-mass box"
+		}
+	],
+	"Names": [
+		"B^{4m} (four-mass box)",
+		"Star_4 (box d=2)",
+		"B(4m) (four-mass box)",
+		"one-loop four-mass box",
+		"four-mass box"
+	],
+	"Source": [
+		"arXiv"
+	],
+	"Loops": 1,
+	"NumPropagators": 4,
+	"edges": "{{{1, 2}, 0}, {{1, 3}, 0}, {{2, 4}, 0}, {{3, 4}, 0}}",
+	"nodes": "{{1, M[1]}, {2, M[2]}, {4, M[3]}, {3, M[4]}}",
+	"CanonicalName": "4-mass box (c)",
+	"MassConfig": {
+		"numEdges": 4,
+		"numMassiveEdges": 0,
+		"numMasslessEdges": 4,
+		"distinctInternalMasses": 0,
+		"internalMassLabels": [],
+		"edgeMassPattern": "0000",
+		"numExtLegs": 4,
+		"numOnshellMassiveExtLegs": 4,
+		"numMasslessExtLegs": 0,
+		"extLegSignature": "MMMM"
+	},
+	"commonNames": [
+		"D₀"
+	],
+	"Subsectors": [
+		"e12|e2|e|:100|20|3|"
+	],
+	"ParentSectors": [],
+	"Results": [
+		{
+			"resultCompressed": "1:eJztV90KgjAUtrm6iF6iR6heoYsuDKSCrgs2GRSKK3r50PaDTqfpBgVNujmydc53vu/zbNL8HO/wxPM8OmVhj1KC6Pp0O1GfLVFCCXt4eMQTIAsBoTc8K1bh5U4xT6RjFg7kiih55nmOQZGxucQR4dVqi0NIVFBUhvEDpSqDw8oi0ZfvH69ig+Ql+ps6DOt0xI+C4mKp4LZbAtvw9eqMtTOpTirsND9gTfzH/Ehc9QOY+KEkiaKyZZfSZpJsKEhUuQIj4wYzgJnJgfxBwwc+4VpRr0xJarnqdRuWvBr0//PujP3uTH8LAZnJcYI40hyrwaoXo+S13xwdiJrbhTSnXMt6NDbHr2mWP1iztAlq88BGbeWG/lnJlvPx/VOVuDAolnfR106VE2YZfAKtJTtwtMR/Lbnk4QWJQB/Y",
+			"resultTeX": "\\left(\\frac{2 H\\left(-\\frac{M_4^2}{s_{23}-M_4^2},\\frac{1}{W_1^-+1}\\,;1\\right)}{2 s_{12} M_4^2 W_1^--2 s_{12} M_4^2 W_1^+}-\\frac{2 H\\left(-\\frac{M_4^2}{s_{23}-M_4^2},\\frac{1}{W_1^++1}\\,;1\\right)}{2 s_{12} M_4^2 W_1^--2 s_{12} M_4^2 W_1^+}-\\frac{4 H\\left(0,\\frac{1}{W_1^-+1}\\,;1\\right)}{2 s_{12} M_4^2 W_1^--2 s_{12} M_4^2 W_1^+}+\\frac{4 H\\left(0,\\frac{1}{W_1^++1}\\,;1\\right)}{2 s_{12} M_4^2 W_1^--2 s_{12} M_4^2 W_1^+}+\\frac{2 H\\left(\\frac{s_{12}}{s_{12}-M_2^2},\\frac{1}{W_1^-+1}\\,;1\\right)}{2 s_{12} M_4^2 W_1^--2 s_{12} M_4^2 W_1^+}-\\frac{2 H\\left(\\frac{s_{12}}{s_{12}-M_2^2},\\frac{1}{W_1^++1}\\,;1\\right)}{2 s_{12} M_4^2 W_1^--2 s_{12} M_4^2 W_1^+}-\\frac{2 \\log \\left(-W_1^-\\right) \\log \\left(s_{23} M_3^{-2}\\right)}{2 s_{12} M_4^2 W_1^--2 s_{12} M_4^2 W_1^+}+\\frac{2 \\log \\left(-W_1^+\\right) \\log \\left(s_{23} M_3^{-2}\\right)}{2 s_{12} M_4^2 W_1^--2 s_{12} M_4^2 W_1^+}+\\frac{\\log ^2\\left(-W_1^-\\right)}{2 s_{12} M_4^2 W_1^--2 s_{12} M_4^2 W_1^+}-\\frac{\\log ^2\\left(-W_1^+\\right)}{2 s_{12} M_4^2 W_1^--2 s_{12} M_4^2 W_1^+}+\\frac{2 \\log \\left(M_1^2 M_2^{-2}\\right) \\log \\left(-W_1^-\\right)}{2 s_{12} M_4^2 W_1^--2 s_{12} M_4^2 W_1^+}-\\frac{2 \\log \\left(M_1^2 M_2^{-2}\\right) \\log \\left(-W_1^+\\right)}{2 s_{12} M_4^2 W_1^--2 s_{12} M_4^2 W_1^+}\\right)+O\\left(\\varepsilon^1\\right)",
+			"dimension": "4 - 2*eps",
+			"epsOrder": "0",
+			"epsOrders": "0",
+			"propExponents": [
+				1,
+				1,
+				1,
+				1
+			],
+			"propagators": [],
+			"numerators": [],
+			"internalMasses": [],
+			"externalMasses": [],
+			"substitutions": "",
+			"normalization": "Automatic",
+			"stVersion": "SubTropica v1.0.395",
+			"stCommand": "",
+			"contributor": "Sebastian Mizera",
+			"timestamp": "2026-04-19T22:32:50",
+			"verifiedAt": "2026-04-19T22:32:50",
+			"verified": true,
+			"method": "direct_integration",
+			"tools": [
+				"SubTropica"
+			],
+			"methodLR": "Lungo",
+			"byteCount": 13864,
+			"symbolTeX": "\\varepsilon^{0}\\colon\\;-\\frac{M_4^{-2}}{s_{12} \\left(W_1^--W_1^+\\right)}\\,(s_{12} W_1^-+M_2^2 \\otimes W_1^-) - \\frac{M_4^{-2}}{s_{12} \\left(W_1^--W_1^+\\right)}\\,(s_{12} W_1^-+M_2^2 \\otimes s_{12}) + \\frac{M_4^{-2}}{s_{12} \\left(W_1^--W_1^+\\right)}\\,(s_{12} W_1^-+M_2^2 \\otimes M_2^2) + \\frac{M_4^{-2}}{s_{12} \\left(W_1^--W_1^+\\right)}\\,(s_{12} W_1^++M_2^2 \\otimes W_1^+) + \\frac{M_4^{-2}}{s_{12} \\left(W_1^--W_1^+\\right)}\\,(s_{12} W_1^++M_2^2 \\otimes s_{12}) - \\frac{M_4^{-2}}{s_{12} \\left(W_1^--W_1^+\\right)}\\,(s_{12} W_1^++M_2^2 \\otimes M_2^2) - \\frac{M_4^{-2}}{s_{12} \\left(W_1^--W_1^+\\right)}\\,(M_4^2 W_1^-+s_{23} \\otimes W_1^-) + \\frac{M_4^{-2}}{s_{12} \\left(W_1^--W_1^+\\right)}\\,(M_4^2 W_1^-+s_{23} \\otimes s_{23}) - \\frac{M_4^{-2}}{s_{12} \\left(W_1^--W_1^+\\right)}\\,(M_4^2 W_1^-+s_{23} \\otimes M_4^2) + \\frac{M_4^{-2}}{s_{12} \\left(W_1^--W_1^+\\right)}\\,(M_4^2 W_1^++s_{23} \\otimes W_1^+) - \\frac{M_4^{-2}}{s_{12} \\left(W_1^--W_1^+\\right)}\\,(M_4^2 W_1^++s_{23} \\otimes s_{23}) + \\frac{M_4^{-2}}{s_{12} \\left(W_1^--W_1^+\\right)}\\,(M_4^2 W_1^++s_{23} \\otimes M_4^2) + \\frac{M_4^{-2}}{s_{12} \\left(W_1^--W_1^+\\right)}\\,(M_1^2 \\otimes W_1^-) + \\frac{M_4^{-2}}{s_{12} \\left(W_1^--W_1^+\\right)}\\,(W_1^- \\otimes M_1^2) - \\frac{M_4^{-2}}{s_{12} \\left(W_1^--W_1^+\\right)}\\,(W_1^- \\otimes M_2^2) + \\frac{M_4^{-2}}{s_{12} \\left(W_1^--W_1^+\\right)}\\,(M_3^2 \\otimes W_1^-) - \\frac{M_4^{-2}}{s_{12} \\left(W_1^--W_1^+\\right)}\\,(W_1^- \\otimes s_{23}) + \\frac{M_4^{-2}}{s_{12} \\left(W_1^--W_1^+\\right)}\\,(W_1^- \\otimes M_3^2) + \\frac{M_4^{-2}}{s_{12} \\left(W_1^--W_1^+\\right)}\\,(W_1^- \\otimes W_1^-) - \\frac{M_4^{-2}}{s_{12} \\left(W_1^--W_1^+\\right)}\\,(M_1^2 \\otimes W_1^+) - \\frac{M_4^{-2}}{s_{12} \\left(W_1^--W_1^+\\right)}\\,(W_1^+ \\otimes M_1^2) + \\frac{M_4^{-2}}{s_{12} \\left(W_1^--W_1^+\\right)}\\,(W_1^+ \\otimes M_2^2) - \\frac{M_4^{-2}}{s_{12} \\left(W_1^--W_1^+\\right)}\\,(M_3^2 \\otimes W_1^+) + \\frac{M_4^{-2}}{s_{12} \\left(W_1^--W_1^+\\right)}\\,(W_1^+ \\otimes s_{23}) - \\frac{M_4^{-2}}{s_{12} \\left(W_1^--W_1^+\\right)}\\,(W_1^+ \\otimes M_3^2) - \\frac{M_4^{-2}}{s_{12} \\left(W_1^--W_1^+\\right)}\\,(W_1^+ \\otimes W_1^+)",
+			"alphabet": [
+				"s_{12} W_1^-+M_2^2",
+				"W_1^-",
+				"s_{12}",
+				"M_2^2",
+				"s_{12} W_1^++M_2^2",
+				"W_1^+",
+				"M_4^2 W_1^-+s_{23}",
+				"s_{23}",
+				"M_4^2",
+				"M_4^2 W_1^++s_{23}",
+				"M_1^2",
+				"M_3^2"
+			],
+			"symbolWeight": 2,
+			"symbolTerms": 26,
+			"normalizedSymbolTeX": "\\varepsilon^{0}&\\colon\\;\\frac{M_4^{-2}}{s_{12} \\left(W_1^--W_1^+\\right)}\\!\\left[-(W_1 \\otimes W^-_1) - (W_1 \\otimes W_2) + (W_1 \\otimes W_3) + (W_4 \\otimes W^+_1) + (W_4 \\otimes W_2) - (W_4 \\otimes W_3) - (W_5 \\otimes W^-_1) + (W_5 \\otimes W_6) - (W_5 \\otimes W_7) + (W_8 \\otimes W^+_1) - (W_8 \\otimes W_6) + (W_8 \\otimes W_7) - (W^-_1 \\otimes W_3) + (W_9 \\otimes W^-_1) - (W^-_1 \\otimes W_6) + (W^-_1 \\otimes W_9) + (W^-_1 \\otimes W^-_1) + (W^+_1 \\otimes W_3) - (W_9 \\otimes W^+_1) + (W^+_1 \\otimes W_6) - (W^+_1 \\otimes W_9) - (W^+_1 \\otimes W^+_1)\\right]",
+			"wDefinitions": [
+				{
+					"label": "W_1",
+					"kind": "rational",
+					"pairIndex": null,
+					"definition": "\\frac{s_{12} W_1^-+M_2^2}{M_1^2}",
+					"originalLetter": "s_{12} W_1^-+M_2^2"
+				},
+				{
+					"label": "W^-_1",
+					"kind": "algebraic",
+					"pairIndex": 1,
+					"definition": "\\frac{M_4^{-2} \\left(-\\sqrt{\\left(-M_1^2 M_3^2+M_2^2 M_4^2+s_{12} s_{23}\\right)^2-4 s_{12} s_{23} M_2^2 M_4^2}+M_1^2 M_3^2-M_2^2 M_4^2-s_{12} s_{23}\\right)}{2 s_{12}}",
+					"originalLetter": "W_1^-",
+					"polynomialTeX": "s_{12} x_{2}^2 M_4^2+s_{23} M_2^2-x_{2} M_1^2 M_3^2+x_{2} M_2^2 M_4^2+s_{12} s_{23} x_{2}",
+					"discriminantTeX": "\\left(-M_1^2 M_3^2+M_2^2 M_4^2+s_{12} s_{23}\\right)^2-4 s_{12} s_{23} M_2^2 M_4^2"
+				},
+				{
+					"label": "W_2",
+					"kind": "rational",
+					"pairIndex": null,
+					"definition": "\\frac{s_{12}}{M_1^2}",
+					"originalLetter": "s_{12}"
+				},
+				{
+					"label": "W_3",
+					"kind": "rational",
+					"pairIndex": null,
+					"definition": "\\frac{M_2^2}{M_1^2}",
+					"originalLetter": "M_2^2"
+				},
+				{
+					"label": "W_4",
+					"kind": "rational",
+					"pairIndex": null,
+					"definition": "\\frac{s_{12} W_1^++M_2^2}{M_1^2}",
+					"originalLetter": "s_{12} W_1^++M_2^2"
+				},
+				{
+					"label": "W^+_1",
+					"kind": "algebraic",
+					"pairIndex": 1,
+					"definition": "\\frac{M_4^{-2} \\left(\\sqrt{\\left(-M_1^2 M_3^2+M_2^2 M_4^2+s_{12} s_{23}\\right)^2-4 s_{12} s_{23} M_2^2 M_4^2}+M_1^2 M_3^2-M_2^2 M_4^2-s_{12} s_{23}\\right)}{2 s_{12}}",
+					"originalLetter": "W_1^+",
+					"polynomialTeX": "s_{12} x_{2}^2 M_4^2+s_{23} M_2^2-x_{2} M_1^2 M_3^2+x_{2} M_2^2 M_4^2+s_{12} s_{23} x_{2}",
+					"discriminantTeX": "\\left(-M_1^2 M_3^2+M_2^2 M_4^2+s_{12} s_{23}\\right)^2-4 s_{12} s_{23} M_2^2 M_4^2"
+				},
+				{
+					"label": "W_5",
+					"kind": "rational",
+					"pairIndex": null,
+					"definition": "\\frac{s_{23}+W_1^- M_4^2}{M_1^2}",
+					"originalLetter": "M_4^2 W_1^-+s_{23}"
+				},
+				{
+					"label": "W_6",
+					"kind": "rational",
+					"pairIndex": null,
+					"definition": "\\frac{s_{23}}{M_1^2}",
+					"originalLetter": "s_{23}"
+				},
+				{
+					"label": "W_7",
+					"kind": "rational",
+					"pairIndex": null,
+					"definition": "\\frac{M_4^2}{M_1^2}",
+					"originalLetter": "M_4^2"
+				},
+				{
+					"label": "W_8",
+					"kind": "rational",
+					"pairIndex": null,
+					"definition": "\\frac{s_{23}+W_1^+ M_4^2}{M_1^2}",
+					"originalLetter": "M_4^2 W_1^++s_{23}"
+				},
+				{
+					"label": "W_9",
+					"kind": "rational",
+					"pairIndex": null,
+					"definition": "\\frac{M_3^2}{M_1^2}",
+					"originalLetter": "M_3^2"
+				}
+			],
+			"normalizedAlphabet": [
+				"W_1",
+				"W^-_1",
+				"W_2",
+				"W_3",
+				"W_4",
+				"W^+_1",
+				"W_5",
+				"W_6",
+				"W_7",
+				"W_8",
+				"W_9"
+			],
+			"symbolScale": "M_1^2",
+			"normalizedSymbolTerms": 22,
+			"legOrder": [],
+			"findRoots": true,
+			"algebraicLetters": [
+				{
+					"index": 1,
+					"variable": "x2",
+					"polynomial": "s12*s23*x2 + s23*MM[2] - x2*MM[1]*MM[3] + s12*x2^2*MM[4] + x2*MM[2]*MM[4]",
+					"LC": "s12*MM[4]",
+					"sum": "(-(s12*s23) + MM[1]*MM[3] - MM[2]*MM[4])/(s12*MM[4])",
+					"product": "(s23*MM[2])/(s12*MM[4])",
+					"discriminant": "-4*s12*s23*MM[2]*MM[4] + (s12*s23 - MM[1]*MM[3] + MM[2]*MM[4])^2",
+					"minusRoot": "(-(s12*s23) + MM[1]*MM[3] - MM[2]*MM[4] - Sqrt[-4*s12*s23*MM[2]*MM[4] + (s12*s23 - MM[1]*MM[3] + MM[2]*MM[4])^2])/(2*s12*MM[4])",
+					"plusRoot": "(-(s12*s23) + MM[1]*MM[3] - MM[2]*MM[4] + Sqrt[-4*s12*s23*MM[2]*MM[4] + (s12*s23 - MM[1]*MM[3] + MM[2]*MM[4])^2])/(2*s12*MM[4])",
+					"polynomialTeX": "s_{12} x_{2}^2 M_4^2+s_{23} M_2^2-x_{2} M_1^2 M_3^2+x_{2} M_2^2 M_4^2+s_{12} s_{23} x_{2}",
+					"discriminantTeX": "\\left(-M_1^2 M_3^2+M_2^2 M_4^2+s_{12} s_{23}\\right)^2-4 s_{12} s_{23} M_2^2 M_4^2",
+					"minusRootTeX": "\\frac{M_4^{-2} \\left(-\\sqrt{\\left(-M_1^2 M_3^2+M_2^2 M_4^2+s_{12} s_{23}\\right)^2-4 s_{12} s_{23} M_2^2 M_4^2}+M_1^2 M_3^2-M_2^2 M_4^2-s_{12} s_{23}\\right)}{2 s_{12}}",
+					"plusRootTeX": "\\frac{M_4^{-2} \\left(\\sqrt{\\left(-M_1^2 M_3^2+M_2^2 M_4^2+s_{12} s_{23}\\right)^2-4 s_{12} s_{23} M_2^2 M_4^2}+M_1^2 M_3^2-M_2^2 M_4^2-s_{12} s_{23}\\right)}{2 s_{12}}"
+				}
+			]
+		}
+	]
 }

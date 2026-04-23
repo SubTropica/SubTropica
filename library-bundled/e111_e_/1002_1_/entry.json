@@ -1,227 +1,226 @@
 {
-  "CNickelIndex": "e111|e|:1002|1|",
-  "MassScales": 1,
-  "FunctionClass": "hypergeometric",
-  "EpsilonOrder": "all_orders",
-  "References": [
-    "arXiv:1907.08227 (Phys.Rev.D 100 (), 2019)",
-    "arXiv:2508.04500",
-    "arXiv:2207.07843",
-    "arXiv:1912.06561"
-  ],
-  "Records": [
-    {
-      "reference": "arXiv:2508.04500",
-      "authors": [
-        {
-          "full_name": "Duhr, Claude",
-          "inspire_id": 1040449
-        },
-        {
-          "full_name": "Ventura, Giuseppe",
-          "inspire_id": 2807617
-        },
-        {
-          "full_name": "Vryonidou, Eleni",
-          "inspire_id": 1077733
-        }
-      ],
-      "description": "Two-loop on-shell sunrise (1 massive, 2 massless) with $p^2=M^2$; master integral for SMEFT top self-energy computation. Closed form from literature.",
-      "epsOrders": "1",
-      "familyName": "two-loop on-shell sunrise with one massive and two massless propagators",
-      "method": "IBP",
-      "tools": [
-        "FeynCalc",
-        "FORM",
-        "Kira"
-      ],
-      "ancillaryFiles": false,
-      "doi": "",
-      "texkey": "",
-      "masterCount": 1,
-      "dimScheme": "d=4-2*eps",
-      "computationLevel": "full",
-      "location": "Section 2.1, Figure 1 (rightmost)",
-      "recordId": "bx_97be0dd1ed83",
-      "verified": false,
-      "verifiedAt": ""
-    },
-    {
-      "reference": "arXiv:2207.07843",
-      "authors": [
-        {
-          "full_name": "Gardi, Einan",
-          "inspire_id": 1019159
-        },
-        {
-          "full_name": "Abreu, Samuel",
-          "inspire_id": 1287226
-        },
-        {
-          "full_name": "Britto, Ruth",
-          "inspire_id": 1015279
-        },
-        {
-          "full_name": "Duhr, Claude",
-          "inspire_id": 1040449
-        },
-        {
-          "full_name": "Matthew, James",
-          "inspire_id": 1946788
-        }
-      ],
-      "description": "Two-loop sunset with two massless and one massive internal lines. Two master integrals chosen as pure ${}_2F_1$ functions of $p^2/m^2$. Diagrammatic coaction constructed via the global ${}_2F_1$ coaction; maximal cuts evaluated as a one-dimensional $k_0$ integral.",
-      "epsOrders": "all_orders",
-      "familyName": "2-loop sunset with one massive propagator",
-      "method": "direct_integration",
-      "tools": [],
-      "ancillaryFiles": false,
-      "doi": "",
-      "texkey": "",
-      "masterCount": 2,
-      "dimScheme": "d=2m-2*eps",
-      "computationLevel": "full",
-      "location": "Eq. (4.1) and Section 4",
-      "recordId": "bx_ad9f74a3f692",
-      "verified": false,
-      "verifiedAt": ""
-    },
-    {
-      "authors": "Gerlach, Marvin, Mishima, Go, Steinhauser, Matthias",
-      "texkey": "Gerlach:2019kfo",
-      "verified": false,
-      "verifiedAt": "",
-      "ancillaryPaths": [
-        "https://www.ttp.kit.edu/preprints/2019/ttp19-024/"
-      ],
-      "reference": "arXiv:1907.08227, Phys.Rev.D 100, 2019",
-      "ancillaryFiles": [],
-      "recordId": "bf_21a9640c9892",
-      "masterCount": 1,
-      "computationLevel": "full",
-      "doi": "10.1103/PhysRevD.100.054016",
-      "tools": [
-        "FIRE",
-        "LiteRed",
-        "FIESTA"
-      ],
-      "description": "Two-loop sunrise (banana) integral with one massive and two massless propagators, external momentum $p$ ($p^2=m^2$). Result is exact in epsilon, expressed in terms of Gamma functions. Needed for the scattering channel of the NRQCD matching calculation.",
-      "epsOrders": "all orders",
-      "method": [],
-      "dimScheme": "d=4-2*eps",
-      "location": "Appendix B, Eq. (B.1), Fig. 3",
-      "familyName": "I_2^a"
-    },
-    {
-      "reference": "arXiv:1912.06561",
-      "authors": [
-        {
-          "full_name": "Abreu, Samuel",
-          "inspire_id": 1287226
-        },
-        {
-          "full_name": "Britto, Ruth",
-          "inspire_id": 1015279
-        },
-        {
-          "full_name": "Duhr, Claude",
-          "inspire_id": 1040449
-        },
-        {
-          "full_name": "Gardi, Einan",
-          "inspire_id": 1019159
-        },
-        {
-          "full_name": "Matthew, James",
-          "inspire_id": 1946788
-        }
-      ],
-      "description": "Two-loop sunset graph with three internal propagators, one of which carries mass $m$, and external momentum $p$. The paper defines a seven-argument integral family $I(m^2,p^2,\\nu_1,\\ldots,\\nu_5,D)$ with two irreducible numerators $(k+l)^2$ and $(k+p)^2$, chooses two masters $I^{(1)} = (p^2-m^2) I(m^2,p^2,1,1,1,0,0,2-2\\varepsilon)$ and $I^{(2)} = -I(m^2,p^2,1,1,1,1,0,2-2\\varepsilon)$, both evaluated in closed form as Gauss ${}_2F_1$ hypergeometric functions of $p^2/m^2$. The maximal cuts are computed by iterated residues / dispersion-like frame parametrization and give two distinct cut contours (second ${}_2F_1$ arguments $1-m^2/p^2$ and $p^2/(p^2-m^2)$); the diagrammatic coaction $\\Delta I^{(i)} = \\sum_j I^{(j)} \\otimes C^{(j)} I^{(i)}$ is established.",
-      "epsOrders": "",
-      "familyName": "Two-loop sunset with one internal mass",
-      "method": "direct_integration, dispersion",
-      "tools": [],
-      "ancillaryFiles": false,
-      "doi": "",
-      "texkey": "",
-      "masterCount": 2,
-      "dimScheme": "d=2-2*eps",
-      "computationLevel": "basis",
-      "location": "Section 3, eq. defining I(m^2,p^2,nu_1..nu_5,D); Section 4, eqs. (Suns1)-(Suns2) with diagrammatic coaction",
-      "recordId": "bx_8989c9e4e1ae",
-      "verified": false,
-      "verifiedAt": ""
-    }
-  ],
-  "Names": [
-    "I_2^a",
-    "two-loop on-shell sunrise with one massive and two massless propagators",
-    "2-loop sunset with one massive propagator"
-  ],
-  "Source": [
-    "arXiv"
-  ],
-  "Loops": 2,
-  "NumPropagators": 3,
-  "Results": [
-    {
-      "resultCompressed": "1:eJzNU0sKwkAMrbaK6Cm8iwsXFop6gQrTEmgdcaqC13btJ8nQL9PpuBDsIiWZecnLe+3yILfJ1PM8NcewE2cQahUXsfIxFScF+PISSlSAYQOqSMaUTTDsIRdKpzMM27gAeYwzGGECXKaQ5zU+yi5qGO938YOINz4QlIgw1BMrBJ+XzYgdr7eRaVlbWAgyHWcmD2Iy62XSp9bUNCOSN3HmagSsR2d8C0Ds15lMuV9dIse0iVWJdtS3LCoZSIQh3+iingPauglQ2Y2SmbpYNq9YmoBat8CZg2nxsotFk+ZkN64tO8xb1oaYpe/7Efq0/B9idut+x1P7+OUX2fyu8/uVD+BF3fgehQ+1girx",
-      "resultTeX": "\\frac{m^2}{2 \\varepsilon^2}+\\frac{-\\frac{M^2}{4}+\\frac{3 m^2}{2}+m^2 (-\\log (m^2))}{\\varepsilon}+\\left(m^2 H\\left(0,1-m^2 M^{-2}\\,;1\\right)+\\frac{1}{2} m^2^2 M^{-2} \\log \\left(\\frac{m^2}{m^2-M^2}\\right)-\\frac{1}{2} m^2 \\log ^2\\left(\\frac{m^2}{m^2-M^2}\\right)+\\frac{1}{2} M^2 \\log (m^2)-\\frac{1}{2} M^2 \\log \\left(\\frac{m^2}{m^2-M^2}\\right)-\\frac{13 M^2}{8}+\\frac{1}{2} m^2 \\zeta(2)+\\frac{\\pi ^2 m^2}{6}+3 m^2+m^2 \\log ^2(m^2)-3 m^2 \\log (m^2)\\right)+O\\left(\\varepsilon^1\\right)",
-      "dimension": "4 - 2*eps",
-      "epsOrder": "0",
-      "epsOrders": "0",
-      "propExponents": [
-        1,
-        1,
-        1
-      ],
-      "propagators": [],
-      "numerators": [],
-      "internalMasses": [],
-      "externalMasses": [],
-      "substitutions": "",
-      "rootSubstitutions": "{}",
-      "normalization": "Automatic",
-      "stVersion": "SubTropica v1.0.293",
-      "stCommand": "",
-      "contributor": "Sebastian Mizera",
-      "timestamp": "2026-04-15T16:03:41",
-      "verifiedAt": "2026-04-15T16:03:41",
-      "verified": true,
-      "method": "direct_integration",
-      "tools": [
-        "SubTropica"
-      ],
-      "methodLR": "Lungo",
-      "findRoots": false,
-      "byteCount": 3824
-    }
-  ],
-  "edges": "{{{1, 2}, 0}, {{1, 2}, 0}, {{1, 2}, m}}",
-  "nodes": "{{1, M}, {2, M}}",
-  "CanonicalName": "Sunrise, 1 massive propagator",
-  "MassConfig": {
-    "numEdges": 3,
-    "numMassiveEdges": 1,
-    "numMasslessEdges": 2,
-    "distinctInternalMasses": 1,
-    "internalMassLabels": [
-      "m"
-    ],
-    "edgeMassPattern": "001",
-    "numExtLegs": 2,
-    "numOnshellMassiveExtLegs": 2,
-    "numMasslessExtLegs": 0,
-    "extLegSignature": "MM"
-  },
-  "commonNames": [
-    "S",
-    "B2",
-    "sunset"
-  ],
-  "Subsectors": [],
-  "ParentSectors": [
-    "112|e2|e|:010|20|2|",
-    "112|e2|e|:012|30|3|"
-  ]
+	"CNickelIndex": "e111|e|:1002|1|",
+	"MassScales": 1,
+	"FunctionClass": "hypergeometric",
+	"EpsilonOrder": "all_orders",
+	"References": [
+		"arXiv:1907.08227 (Phys.Rev.D 100 (), 2019)",
+		"arXiv:2508.04500",
+		"arXiv:2207.07843",
+		"arXiv:1912.06561"
+	],
+	"Records": [
+		{
+			"reference": "arXiv:2508.04500",
+			"authors": [
+				{
+					"full_name": "Duhr, Claude",
+					"inspire_id": 1040449
+				},
+				{
+					"full_name": "Ventura, Giuseppe",
+					"inspire_id": 2807617
+				},
+				{
+					"full_name": "Vryonidou, Eleni",
+					"inspire_id": 1077733
+				}
+			],
+			"description": "Two-loop on-shell sunrise (1 massive, 2 massless) with $p^2=M^2$; master integral for SMEFT top self-energy computation. Closed form from literature.",
+			"epsOrders": "1",
+			"familyName": "two-loop on-shell sunrise with one massive and two massless propagators",
+			"method": "IBP",
+			"tools": [
+				"FeynCalc",
+				"FORM",
+				"Kira"
+			],
+			"ancillaryFiles": false,
+			"doi": "",
+			"texkey": "",
+			"masterCount": 1,
+			"dimScheme": "d=4-2*eps",
+			"computationLevel": "full",
+			"location": "Section 2.1, Figure 1 (rightmost)",
+			"recordId": "bx_97be0dd1ed83",
+			"verified": false,
+			"verifiedAt": ""
+		},
+		{
+			"reference": "arXiv:2207.07843",
+			"authors": [
+				{
+					"full_name": "Gardi, Einan",
+					"inspire_id": 1019159
+				},
+				{
+					"full_name": "Abreu, Samuel",
+					"inspire_id": 1287226
+				},
+				{
+					"full_name": "Britto, Ruth",
+					"inspire_id": 1015279
+				},
+				{
+					"full_name": "Duhr, Claude",
+					"inspire_id": 1040449
+				},
+				{
+					"full_name": "Matthew, James",
+					"inspire_id": 1946788
+				}
+			],
+			"description": "Two-loop sunset with two massless and one massive internal lines. Two master integrals chosen as pure ${}_2F_1$ functions of $p^2/m^2$. Diagrammatic coaction constructed via the global ${}_2F_1$ coaction; maximal cuts evaluated as a one-dimensional $k_0$ integral.",
+			"epsOrders": "all_orders",
+			"familyName": "2-loop sunset with one massive propagator",
+			"method": "direct_integration",
+			"tools": [],
+			"ancillaryFiles": false,
+			"doi": "",
+			"texkey": "",
+			"masterCount": 2,
+			"dimScheme": "d=2m-2*eps",
+			"computationLevel": "full",
+			"location": "Eq. (4.1) and Section 4",
+			"recordId": "bx_ad9f74a3f692",
+			"verified": false,
+			"verifiedAt": ""
+		},
+		{
+			"authors": "Gerlach, Marvin, Mishima, Go, Steinhauser, Matthias",
+			"texkey": "Gerlach:2019kfo",
+			"verified": false,
+			"verifiedAt": "",
+			"ancillaryPaths": [
+				"https://www.ttp.kit.edu/preprints/2019/ttp19-024/"
+			],
+			"reference": "arXiv:1907.08227, Phys.Rev.D 100, 2019",
+			"ancillaryFiles": [],
+			"recordId": "bf_21a9640c9892",
+			"masterCount": 1,
+			"computationLevel": "full",
+			"doi": "10.1103/PhysRevD.100.054016",
+			"tools": [
+				"FIRE",
+				"LiteRed",
+				"FIESTA"
+			],
+			"description": "Two-loop sunrise (banana) integral with one massive and two massless propagators, external momentum $p$ ($p^2=m^2$). Result is exact in epsilon, expressed in terms of Gamma functions. Needed for the scattering channel of the NRQCD matching calculation.",
+			"epsOrders": "all orders",
+			"method": [],
+			"dimScheme": "d=4-2*eps",
+			"location": "Appendix B, Eq. (B.1), Fig. 3",
+			"familyName": "I_2^a"
+		},
+		{
+			"reference": "arXiv:1912.06561",
+			"authors": [
+				{
+					"full_name": "Abreu, Samuel",
+					"inspire_id": 1287226
+				},
+				{
+					"full_name": "Britto, Ruth",
+					"inspire_id": 1015279
+				},
+				{
+					"full_name": "Duhr, Claude",
+					"inspire_id": 1040449
+				},
+				{
+					"full_name": "Gardi, Einan",
+					"inspire_id": 1019159
+				},
+				{
+					"full_name": "Matthew, James",
+					"inspire_id": 1946788
+				}
+			],
+			"description": "Two-loop sunset graph with three internal propagators, one of which carries mass $m$, and external momentum $p$. The paper defines a seven-argument integral family $I(m^2,p^2,\\nu_1,\\ldots,\\nu_5,D)$ with two irreducible numerators $(k+l)^2$ and $(k+p)^2$, chooses two masters $I^{(1)} = (p^2-m^2) I(m^2,p^2,1,1,1,0,0,2-2\\varepsilon)$ and $I^{(2)} = -I(m^2,p^2,1,1,1,1,0,2-2\\varepsilon)$, both evaluated in closed form as Gauss ${}_2F_1$ hypergeometric functions of $p^2/m^2$. The maximal cuts are computed by iterated residues / dispersion-like frame parametrization and give two distinct cut contours (second ${}_2F_1$ arguments $1-m^2/p^2$ and $p^2/(p^2-m^2)$); the diagrammatic coaction $\\Delta I^{(i)} = \\sum_j I^{(j)} \\otimes C^{(j)} I^{(i)}$ is established.",
+			"epsOrders": "",
+			"familyName": "Two-loop sunset with one internal mass",
+			"method": "direct_integration, dispersion",
+			"tools": [],
+			"ancillaryFiles": false,
+			"doi": "",
+			"texkey": "",
+			"masterCount": 2,
+			"dimScheme": "d=2-2*eps",
+			"computationLevel": "basis",
+			"location": "Section 3, eq. defining I(m^2,p^2,nu_1..nu_5,D); Section 4, eqs. (Suns1)-(Suns2) with diagrammatic coaction",
+			"recordId": "bx_8989c9e4e1ae",
+			"verified": false,
+			"verifiedAt": ""
+		}
+	],
+	"Names": [
+		"I_2^a",
+		"two-loop on-shell sunrise with one massive and two massless propagators",
+		"2-loop sunset with one massive propagator"
+	],
+	"Source": [
+		"arXiv"
+	],
+	"Loops": 2,
+	"NumPropagators": 3,
+	"Results": [
+		{
+			"resultCompressed": "1:eJzNU0sKwkAMrbaK6Cm8iwsXFop6gQrTEmgdcaqC13btJ8nQL9PpuBDsIiWZecnLe+3yILfJ1PM8NcewE2cQahUXsfIxFScF+PISSlSAYQOqSMaUTTDsIRdKpzMM27gAeYwzGGECXKaQ5zU+yi5qGO938YOINz4QlIgw1BMrBJ+XzYgdr7eRaVlbWAgyHWcmD2Iy62XSp9bUNCOSN3HmagSsR2d8C0Ds15lMuV9dIse0iVWJdtS3LCoZSIQh3+iingPauglQ2Y2SmbpYNq9YmoBat8CZg2nxsotFk+ZkN64tO8xb1oaYpe/7Efq0/B9idut+x1P7+OUX2fyu8/uVD+BF3fgehQ+1girx",
+			"resultTeX": "\\frac{m^2}{2 \\varepsilon^2}+\\frac{-\\frac{M^2}{4}+\\frac{3 m^2}{2}+m^2 (-\\log (m^2))}{\\varepsilon}+\\left(m^2 H\\left(0,1-m^2 M^{-2}\\,;1\\right)+\\frac{1}{2} m^2^2 M^{-2} \\log \\left(\\frac{m^2}{m^2-M^2}\\right)-\\frac{1}{2} m^2 \\log ^2\\left(\\frac{m^2}{m^2-M^2}\\right)+\\frac{1}{2} M^2 \\log (m^2)-\\frac{1}{2} M^2 \\log \\left(\\frac{m^2}{m^2-M^2}\\right)-\\frac{13 M^2}{8}+\\frac{1}{2} m^2 \\zeta(2)+\\frac{\\pi ^2 m^2}{6}+3 m^2+m^2 \\log ^2(m^2)-3 m^2 \\log (m^2)\\right)+O\\left(\\varepsilon^1\\right)",
+			"dimension": "4 - 2*eps",
+			"epsOrder": "0",
+			"epsOrders": "0",
+			"propExponents": [
+				1,
+				1,
+				1
+			],
+			"propagators": [],
+			"numerators": [],
+			"internalMasses": [],
+			"externalMasses": [],
+			"substitutions": "",
+			"normalization": "Automatic",
+			"stVersion": "SubTropica v1.0.293",
+			"stCommand": "",
+			"contributor": "Sebastian Mizera",
+			"timestamp": "2026-04-15T16:03:41",
+			"verifiedAt": "2026-04-15T16:03:41",
+			"verified": true,
+			"method": "direct_integration",
+			"tools": [
+				"SubTropica"
+			],
+			"methodLR": "Lungo",
+			"findRoots": false,
+			"byteCount": 3824
+		}
+	],
+	"edges": "{{{1, 2}, 0}, {{1, 2}, 0}, {{1, 2}, m}}",
+	"nodes": "{{1, M}, {2, M}}",
+	"CanonicalName": "Sunrise, 1 massive propagator",
+	"MassConfig": {
+		"numEdges": 3,
+		"numMassiveEdges": 1,
+		"numMasslessEdges": 2,
+		"distinctInternalMasses": 1,
+		"internalMassLabels": [
+			"m"
+		],
+		"edgeMassPattern": "001",
+		"numExtLegs": 2,
+		"numOnshellMassiveExtLegs": 2,
+		"numMasslessExtLegs": 0,
+		"extLegSignature": "MM"
+	},
+	"commonNames": [
+		"S",
+		"B2",
+		"sunset"
+	],
+	"Subsectors": [],
+	"ParentSectors": [
+		"112|e2|e|:010|20|2|",
+		"112|e2|e|:012|30|3|"
+	]
 }

@@ -1,165 +1,164 @@
 {
-  "CNickelIndex": "e112|e2|e|:0111|01|0|",
-  "MassScales": 1,
-  "FunctionClass": "Calabi-Yau",
-  "EpsilonOrder": "-4,-3,-2,-1,0",
-  "References": [
-    "arXiv:2212.09550 (JHEP 02 (228), 2023)"
-  ],
-  "Records": [
-    {
-      "dimScheme": "d=2-2*eps",
-      "recordId": "bf_135b0ce2b761",
-      "familyName": "2L-ice-cone-equal-mass",
-      "verified": false,
-      "verifiedAt": "",
-      "authors": "Duhr, Claude, Klemm, Albrecht, Nega, Christoph, Tancredi, Lorenzo",
-      "texkey": "Duhr:2022dxb",
-      "computationLevel": "full",
-      "masterCount": 6,
-      "location": "Eq. (2.1), (2.14), Sections 2-4",
-      "method": [],
-      "reference": "arXiv:2212.09550, JHEP 02 (228), 2023",
-      "ancillaryFiles": [],
-      "description": "2-loop equal-mass ice cone: (1)-loop banana inserted into 1-loop triangle. 4 massive propagators in $D=2-2\\varepsilon$. 6 master integrals. Maximal cuts factorize into banana periods. CY 0-fold geometry.",
-      "epsOrders": "-4,-3,-2,-1,0",
-      "tools": [
-        "Reduze",
-        "Kira"
-      ],
-      "doi": "10.1007/JHEP02(2023)228"
-    }
-  ],
-  "Names": [
-    "2L-ice-cone-equal-mass"
-  ],
-  "Source": [
-    "arXiv"
-  ],
-  "Loops": 2,
-  "NumPropagators": 4,
-  "edges": "{{{1, 2}, m}, {{1, 2}, m}, {{1, 3}, m}, {{2, 3}, m}}",
-  "nodes": "{{1, 0}, {2, 0}, {3, 0}}",
-  "CanonicalName": "Equal-mass sunrise triangle",
-  "MassConfig": {
-    "numEdges": 4,
-    "numMassiveEdges": 4,
-    "numMasslessEdges": 0,
-    "distinctInternalMasses": 1,
-    "internalMassLabels": [
-      "m"
-    ],
-    "edgeMassPattern": "1111",
-    "numExtLegs": 3,
-    "numOnshellMassiveExtLegs": 0,
-    "numMasslessExtLegs": 3,
-    "extLegSignature": "000"
-  },
-  "Subsectors": [],
-  "ParentSectors": [],
-  "Results": [
-    {
-      "resultCompressed": "1:eJzdWF1vgyAUddM2zf7Fkv2UPeyhD023ZM8u0YZEpil2Tfbf142PzCiCil5Q7AMNermcc+Deizx+5Md0GwQBeaDNa3JGCXmOy5iEtJsUBNG/IGUdEtFmj0iZ3rPejjbHuET5Z5yhO9pB7LF4xywP2YX0W25o84ZwQtAv/aXsLZ95n58IM8A4fap75OMHD63sDvk1OatMVFA6UVc+8PeXeBI2wTRVeMnyUw3zv4RCVQleQzoxiM/Gnr9jgYFTHTuuiVRBk1lJirSV06tfn1DlZSRQaX0r4SG9z7dgrSE9+hYqv7UFBSWhnAyYRGS4K5cUVrdZheGmkYKyu3BdgACatLw0Mps+Mj+Otrmegy9KhcD7fiWKaALBf3YzFQA/kmSveparxJpUGlZK/GBscKxyUzw1Z8ubYaWHTwEuDrljhdlO2bdgmV/GNpqOQSHzc53dKbWyiGgZGeehunpu7mQmBri7O5mJklq6k4GRYUgSm7RCzdoEWDEBUVlK/nYRjgUEkWPdXbBApLPOHNw9PZ4uAMCOd0HGybVBIUsCUevnVUSzvP6zsxy9foS4nQ/fBTPmzkWXNX/T4iGO",
-      "resultTeX": "\\frac{1}{2 \\varepsilon^2}+\\frac{\\frac{1}{2}-\\log (m^2)}{\\varepsilon}+\\left(\\log ^2(m^2)-\\log (m^2)+\\frac{\\zeta(2)}{2}+\\frac{\\log ^2\\left(-W_1^-\\right) W_1^-^2}{4 \\left(W_1^-+1\\right)^2 \\left(W_1^--W_1^+\\right)}+\\frac{\\zeta(2) W_1^-^2}{2 \\left(W_1^-+1\\right)^2 \\left(W_1^--W_1^+\\right)}-\\frac{H\\left(0,\\frac{1}{W_1^-+1}\\,;1\\right) W_1^-^2}{2 \\left(W_1^-+1\\right)^2 \\left(W_1^--W_1^+\\right)}+\\frac{\\log ^2\\left(-W_1^+\\right) W_1^+^2}{4 \\left(W_1^++1\\right)^2 \\left(W_1^+-W_1^-\\right)}+\\frac{\\zeta(2) W_1^+^2}{2 \\left(W_1^++1\\right)^2 \\left(W_1^+-W_1^-\\right)}+\\frac{H\\left(0,\\frac{1}{W_1^++1}\\,;1\\right) W_1^+^2}{2 \\left(W_1^--W_1^+\\right) \\left(W_1^++1\\right)^2}-\\frac{\\log ^2\\left(-W_1^-\\right)}{2 \\left(W_1^-+1\\right)}-\\frac{\\zeta(2)}{W_1^-+1}+\\frac{2 H\\left(0,\\frac{1}{W_1^-+1}\\,;1\\right)}{W_1^-+1}-\\frac{H\\left(0,\\frac{1}{W_1^-+1}\\,;1\\right)}{W_1^--W_1^+}+\\frac{H\\left(0,\\frac{1}{W_1^++1}\\,;1\\right)}{W_1^--W_1^+}+\\frac{\\log ^2\\left(-W_1^-\\right)}{4 \\left(W_1^-+1\\right)^2 \\left(W_1^--W_1^+\\right)}+\\frac{\\zeta(2)}{2 \\left(W_1^-+1\\right)^2 \\left(W_1^--W_1^+\\right)}-\\frac{H\\left(0,\\frac{1}{W_1^-+1}\\,;1\\right)}{2 \\left(W_1^-+1\\right)^2 \\left(W_1^--W_1^+\\right)}+\\frac{3 \\log ^2\\left(-W_1^-\\right) W_1^-}{4 \\left(W_1^-+1\\right)^2 \\left(W_1^--W_1^+\\right)}+\\frac{3 \\zeta(2) W_1^-}{2 \\left(W_1^-+1\\right)^2 \\left(W_1^--W_1^+\\right)}-\\frac{3 H\\left(0,\\frac{1}{W_1^-+1}\\,;1\\right) W_1^-}{2 \\left(W_1^-+1\\right)^2 \\left(W_1^--W_1^+\\right)}-\\frac{\\log ^2\\left(-W_1^+\\right)}{2 \\left(W_1^++1\\right)}-\\frac{\\zeta(2)}{W_1^++1}+\\frac{2 H\\left(0,\\frac{1}{W_1^++1}\\,;1\\right)}{W_1^++1}+\\frac{\\zeta(2) W_1^+}{\\left(W_1^-+1\\right) \\left(W_1^++1\\right)}+\\frac{2 \\zeta(2)}{\\left(W_1^-+1\\right) \\left(W_1^++1\\right)}+\\frac{\\zeta(2) W_1^-}{\\left(W_1^-+1\\right) \\left(W_1^++1\\right)}-\\frac{1}{2 \\left(W_1^-+1\\right) \\left(W_1^++1\\right)}+\\frac{\\log ^2\\left(-W_1^+\\right)}{4 \\left(W_1^++1\\right)^2 \\left(W_1^+-W_1^-\\right)}+\\frac{\\zeta(2)}{2 \\left(W_1^++1\\right)^2 \\left(W_1^+-W_1^-\\right)}+\\frac{3 \\log ^2\\left(-W_1^+\\right) W_1^+}{4 \\left(W_1^++1\\right)^2 \\left(W_1^+-W_1^-\\right)}+\\frac{3 \\zeta(2) W_1^+}{2 \\left(W_1^++1\\right)^2 \\left(W_1^+-W_1^-\\right)}+\\frac{3 H\\left(0,\\frac{1}{W_1^++1}\\,;1\\right) W_1^+}{2 \\left(W_1^--W_1^+\\right) \\left(W_1^++1\\right)^2}+\\frac{\\zeta(2) W_1^- W_1^+}{2 \\left(W_1^-+1\\right)^2 \\left(W_1^++1\\right)^2}+\\frac{H\\left(0,\\frac{1}{W_1^++1}\\,;1\\right)}{2 \\left(W_1^--W_1^+\\right) \\left(W_1^++1\\right)^2}-\\frac{\\zeta(2)}{2 \\left(W_1^-+1\\right)^2 \\left(W_1^++1\\right)^2}+1\\right)+O\\left(\\varepsilon^1\\right)",
-      "dimension": "4 - 2*eps",
-      "epsOrder": "0",
-      "epsOrders": "0",
-      "propExponents": [
-        1,
-        1,
-        1,
-        1
-      ],
-      "propagators": [],
-      "numerators": [],
-      "internalMasses": [],
-      "externalMasses": [],
-      "substitutions": "",
-      "rootSubstitutions": "{Wm[1] -> (-1/2*I)*(-I + Sqrt[3]), Wp[1] -> (I/2)*(I + Sqrt[3])}",
-      "normalization": "Automatic",
-      "stVersion": "SubTropica v1.0.401",
-      "stCommand": "",
-      "contributor": "Sebastian Mizera",
-      "timestamp": "2026-04-20T17:47:58",
-      "verifiedAt": "2026-04-20T17:47:58",
-      "verified": true,
-      "method": "direct_integration",
-      "tools": [
-        "SubTropica"
-      ],
-      "methodLR": "Lungo",
-      "findRoots": true,
-      "byteCount": 26896,
-      "algebraicLetters": [
-        {
-          "index": 1,
-          "variable": "x2",
-          "polynomial": "1 + x2 + x2^2",
-          "LC": "1",
-          "sum": "-1",
-          "product": "1",
-          "discriminant": "-3",
-          "minusRoot": "(-1/2*I)*(-I + Sqrt[3])",
-          "plusRoot": "(I/2)*(I + Sqrt[3])",
-          "polynomialTeX": "x_{2}^2+x_{2}+1",
-          "discriminantTeX": "-3",
-          "minusRootTeX": "-\\frac{1}{2} i \\left(\\sqrt{3}-i\\right)",
-          "plusRootTeX": "\\frac{1}{2} i \\left(\\sqrt{3}+i\\right)"
-        }
-      ],
-      "symbolTeX": "\\begin{aligned}\\varepsilon^{-2}&\\colon\\;\\frac{1}{2} \\\\ \\varepsilon^{-1}&\\colon\\;-(m^2) \\\\ \\varepsilon^{0}&\\colon\\;-(m^2) + 2\\,(m^2 \\otimes m^2) + \\frac{-4 W_1^- W_1^++W_1^-^2-3 W_1^--4 W_1^+-3}{2 \\left(W_1^-+1\\right)^2 \\left(W_1^--W_1^+\\right)}\\,(W_1^-+1 \\otimes W_1^-) + \\frac{2 W_1^- W_1^+-W_1^-^2+W_1^-+2 W_1^++1}{2 \\left(W_1^-+1\\right)^2 \\left(W_1^--W_1^+\\right)}\\,(W_1^- \\otimes W_1^-) + \\frac{4 W_1^- W_1^++4 W_1^--W_1^+^2+3 W_1^++3}{2 \\left(W_1^++1\\right)^2 \\left(W_1^--W_1^+\\right)}\\,(W_1^++1 \\otimes W_1^+) + \\frac{2 W_1^- W_1^++2 W_1^--W_1^+^2+W_1^++1}{2 \\left(W_1^++1\\right)^2 \\left(W_1^+-W_1^-\\right)}\\,(W_1^+ \\otimes W_1^+)\\end{aligned}",
-      "alphabet": [
-        "m^2",
-        "W_1^-+1",
-        "W_1^-",
-        "W_1^++1",
-        "W_1^+"
-      ],
-      "symbolWeight": 2,
-      "symbolTerms": 8,
-      "normalizedSymbolTeX": "\\begin{aligned}\\varepsilon^{-2}&\\colon\\;\\frac{1}{2} \\\\ \\varepsilon^{-1}&\\colon\\;\\frac{1}{2}-\\log \\left(m^2\\right) \\\\ \\varepsilon^{0}&\\colon\\;\\frac{1}{2 \\left(W_1^-+1\\right)^2 \\left(W_1^++1\\right)^2 \\left(W_1^--W_1^+\\right)}\\!\\left[-\\left(W_1^++1\\right)^2 \\left(4 W_1^- W_1^+-W_1^-^2+3 W_1^-+4 W_1^++3\\right)\\,(W_1 \\otimes W^-_1) + \\left(W_1^++1\\right)^2 \\left(2 W_1^- W_1^+-W_1^-^2+W_1^-+2 W_1^++1\\right)\\,(W^-_1 \\otimes W^-_1) + \\left(W_1^-+1\\right)^2 \\left(4 W_1^- W_1^++4 W_1^--W_1^+^2+3 W_1^++3\\right)\\,(W_2 \\otimes W^+_1) - \\left(W_1^-+1\\right)^2 \\left(2 W_1^- W_1^++2 W_1^--W_1^+^2+W_1^++1\\right)\\,(W^+_1 \\otimes W^+_1)\\right]\\end{aligned}",
-      "wDefinitions": [
-        {
-          "label": "W_1",
-          "kind": "rational",
-          "pairIndex": null,
-          "definition": "\\frac{1+W_1^-}{m^2}",
-          "originalLetter": "W_1^-+1"
-        },
-        {
-          "label": "W^-_1",
-          "kind": "algebraic",
-          "pairIndex": 1,
-          "definition": "-\\frac{1}{2} i \\left(\\sqrt{3}-i\\right)",
-          "originalLetter": "W_1^-",
-          "polynomialTeX": "x_{2}^2+x_{2}+1",
-          "discriminantTeX": "-3"
-        },
-        {
-          "label": "W_2",
-          "kind": "rational",
-          "pairIndex": null,
-          "definition": "\\frac{1+W_1^+}{m^2}",
-          "originalLetter": "W_1^++1"
-        },
-        {
-          "label": "W^+_1",
-          "kind": "algebraic",
-          "pairIndex": 1,
-          "definition": "\\frac{1}{2} i \\left(\\sqrt{3}+i\\right)",
-          "originalLetter": "W_1^+",
-          "polynomialTeX": "x_{2}^2+x_{2}+1",
-          "discriminantTeX": "-3"
-        }
-      ],
-      "normalizedAlphabet": [
-        "W_1",
-        "W^-_1",
-        "W_2",
-        "W^+_1"
-      ],
-      "symbolScale": "m^2",
-      "normalizedSymbolTerms": 6
-    }
-  ]
+	"CNickelIndex": "e112|e2|e|:0111|01|0|",
+	"MassScales": 1,
+	"FunctionClass": "Calabi-Yau",
+	"EpsilonOrder": "-4,-3,-2,-1,0",
+	"References": [
+		"arXiv:2212.09550 (JHEP 02 (228), 2023)"
+	],
+	"Records": [
+		{
+			"dimScheme": "d=2-2*eps",
+			"recordId": "bf_135b0ce2b761",
+			"familyName": "2L-ice-cone-equal-mass",
+			"verified": false,
+			"verifiedAt": "",
+			"authors": "Duhr, Claude, Klemm, Albrecht, Nega, Christoph, Tancredi, Lorenzo",
+			"texkey": "Duhr:2022dxb",
+			"computationLevel": "full",
+			"masterCount": 6,
+			"location": "Eq. (2.1), (2.14), Sections 2-4",
+			"method": [],
+			"reference": "arXiv:2212.09550, JHEP 02 (228), 2023",
+			"ancillaryFiles": [],
+			"description": "2-loop equal-mass ice cone: (1)-loop banana inserted into 1-loop triangle. 4 massive propagators in $D=2-2\\varepsilon$. 6 master integrals. Maximal cuts factorize into banana periods. CY 0-fold geometry.",
+			"epsOrders": "-4,-3,-2,-1,0",
+			"tools": [
+				"Reduze",
+				"Kira"
+			],
+			"doi": "10.1007/JHEP02(2023)228"
+		}
+	],
+	"Names": [
+		"2L-ice-cone-equal-mass"
+	],
+	"Source": [
+		"arXiv"
+	],
+	"Loops": 2,
+	"NumPropagators": 4,
+	"edges": "{{{1, 2}, m}, {{1, 2}, m}, {{1, 3}, m}, {{2, 3}, m}}",
+	"nodes": "{{1, 0}, {2, 0}, {3, 0}}",
+	"CanonicalName": "Equal-mass sunrise triangle",
+	"MassConfig": {
+		"numEdges": 4,
+		"numMassiveEdges": 4,
+		"numMasslessEdges": 0,
+		"distinctInternalMasses": 1,
+		"internalMassLabels": [
+			"m"
+		],
+		"edgeMassPattern": "1111",
+		"numExtLegs": 3,
+		"numOnshellMassiveExtLegs": 0,
+		"numMasslessExtLegs": 3,
+		"extLegSignature": "000"
+	},
+	"Subsectors": [],
+	"ParentSectors": [],
+	"Results": [
+		{
+			"resultCompressed": "1:eJzdWF1vgyAUddM2zf7Fkv2UPeyhD023ZM8u0YZEpil2Tfbf142PzCiCil5Q7AMNermcc+Deizx+5Md0GwQBeaDNa3JGCXmOy5iEtJsUBNG/IGUdEtFmj0iZ3rPejjbHuET5Z5yhO9pB7LF4xywP2YX0W25o84ZwQtAv/aXsLZ95n58IM8A4fap75OMHD63sDvk1OatMVFA6UVc+8PeXeBI2wTRVeMnyUw3zv4RCVQleQzoxiM/Gnr9jgYFTHTuuiVRBk1lJirSV06tfn1DlZSRQaX0r4SG9z7dgrSE9+hYqv7UFBSWhnAyYRGS4K5cUVrdZheGmkYKyu3BdgACatLw0Mps+Mj+Otrmegy9KhcD7fiWKaALBf3YzFQA/kmSveparxJpUGlZK/GBscKxyUzw1Z8ubYaWHTwEuDrljhdlO2bdgmV/GNpqOQSHzc53dKbWyiGgZGeehunpu7mQmBri7O5mJklq6k4GRYUgSm7RCzdoEWDEBUVlK/nYRjgUEkWPdXbBApLPOHNw9PZ4uAMCOd0HGybVBIUsCUevnVUSzvP6zsxy9foS4nQ/fBTPmzkWXNX/T4iGO",
+			"resultTeX": "\\frac{1}{2 \\varepsilon^2}+\\frac{\\frac{1}{2}-\\log (m^2)}{\\varepsilon}+\\left(\\log ^2(m^2)-\\log (m^2)+\\frac{\\zeta(2)}{2}+\\frac{\\log ^2\\left(-W_1^-\\right) W_1^-^2}{4 \\left(W_1^-+1\\right)^2 \\left(W_1^--W_1^+\\right)}+\\frac{\\zeta(2) W_1^-^2}{2 \\left(W_1^-+1\\right)^2 \\left(W_1^--W_1^+\\right)}-\\frac{H\\left(0,\\frac{1}{W_1^-+1}\\,;1\\right) W_1^-^2}{2 \\left(W_1^-+1\\right)^2 \\left(W_1^--W_1^+\\right)}+\\frac{\\log ^2\\left(-W_1^+\\right) W_1^+^2}{4 \\left(W_1^++1\\right)^2 \\left(W_1^+-W_1^-\\right)}+\\frac{\\zeta(2) W_1^+^2}{2 \\left(W_1^++1\\right)^2 \\left(W_1^+-W_1^-\\right)}+\\frac{H\\left(0,\\frac{1}{W_1^++1}\\,;1\\right) W_1^+^2}{2 \\left(W_1^--W_1^+\\right) \\left(W_1^++1\\right)^2}-\\frac{\\log ^2\\left(-W_1^-\\right)}{2 \\left(W_1^-+1\\right)}-\\frac{\\zeta(2)}{W_1^-+1}+\\frac{2 H\\left(0,\\frac{1}{W_1^-+1}\\,;1\\right)}{W_1^-+1}-\\frac{H\\left(0,\\frac{1}{W_1^-+1}\\,;1\\right)}{W_1^--W_1^+}+\\frac{H\\left(0,\\frac{1}{W_1^++1}\\,;1\\right)}{W_1^--W_1^+}+\\frac{\\log ^2\\left(-W_1^-\\right)}{4 \\left(W_1^-+1\\right)^2 \\left(W_1^--W_1^+\\right)}+\\frac{\\zeta(2)}{2 \\left(W_1^-+1\\right)^2 \\left(W_1^--W_1^+\\right)}-\\frac{H\\left(0,\\frac{1}{W_1^-+1}\\,;1\\right)}{2 \\left(W_1^-+1\\right)^2 \\left(W_1^--W_1^+\\right)}+\\frac{3 \\log ^2\\left(-W_1^-\\right) W_1^-}{4 \\left(W_1^-+1\\right)^2 \\left(W_1^--W_1^+\\right)}+\\frac{3 \\zeta(2) W_1^-}{2 \\left(W_1^-+1\\right)^2 \\left(W_1^--W_1^+\\right)}-\\frac{3 H\\left(0,\\frac{1}{W_1^-+1}\\,;1\\right) W_1^-}{2 \\left(W_1^-+1\\right)^2 \\left(W_1^--W_1^+\\right)}-\\frac{\\log ^2\\left(-W_1^+\\right)}{2 \\left(W_1^++1\\right)}-\\frac{\\zeta(2)}{W_1^++1}+\\frac{2 H\\left(0,\\frac{1}{W_1^++1}\\,;1\\right)}{W_1^++1}+\\frac{\\zeta(2) W_1^+}{\\left(W_1^-+1\\right) \\left(W_1^++1\\right)}+\\frac{2 \\zeta(2)}{\\left(W_1^-+1\\right) \\left(W_1^++1\\right)}+\\frac{\\zeta(2) W_1^-}{\\left(W_1^-+1\\right) \\left(W_1^++1\\right)}-\\frac{1}{2 \\left(W_1^-+1\\right) \\left(W_1^++1\\right)}+\\frac{\\log ^2\\left(-W_1^+\\right)}{4 \\left(W_1^++1\\right)^2 \\left(W_1^+-W_1^-\\right)}+\\frac{\\zeta(2)}{2 \\left(W_1^++1\\right)^2 \\left(W_1^+-W_1^-\\right)}+\\frac{3 \\log ^2\\left(-W_1^+\\right) W_1^+}{4 \\left(W_1^++1\\right)^2 \\left(W_1^+-W_1^-\\right)}+\\frac{3 \\zeta(2) W_1^+}{2 \\left(W_1^++1\\right)^2 \\left(W_1^+-W_1^-\\right)}+\\frac{3 H\\left(0,\\frac{1}{W_1^++1}\\,;1\\right) W_1^+}{2 \\left(W_1^--W_1^+\\right) \\left(W_1^++1\\right)^2}+\\frac{\\zeta(2) W_1^- W_1^+}{2 \\left(W_1^-+1\\right)^2 \\left(W_1^++1\\right)^2}+\\frac{H\\left(0,\\frac{1}{W_1^++1}\\,;1\\right)}{2 \\left(W_1^--W_1^+\\right) \\left(W_1^++1\\right)^2}-\\frac{\\zeta(2)}{2 \\left(W_1^-+1\\right)^2 \\left(W_1^++1\\right)^2}+1\\right)+O\\left(\\varepsilon^1\\right)",
+			"dimension": "4 - 2*eps",
+			"epsOrder": "0",
+			"epsOrders": "0",
+			"propExponents": [
+				1,
+				1,
+				1,
+				1
+			],
+			"propagators": [],
+			"numerators": [],
+			"internalMasses": [],
+			"externalMasses": [],
+			"substitutions": "",
+			"normalization": "Automatic",
+			"stVersion": "SubTropica v1.0.401",
+			"stCommand": "",
+			"contributor": "Sebastian Mizera",
+			"timestamp": "2026-04-20T17:47:58",
+			"verifiedAt": "2026-04-20T17:47:58",
+			"verified": true,
+			"method": "direct_integration",
+			"tools": [
+				"SubTropica"
+			],
+			"methodLR": "Lungo",
+			"findRoots": true,
+			"byteCount": 26896,
+			"algebraicLetters": [
+				{
+					"index": 1,
+					"variable": "x2",
+					"polynomial": "1 + x2 + x2^2",
+					"LC": "1",
+					"sum": "-1",
+					"product": "1",
+					"discriminant": "-3",
+					"minusRoot": "(-1/2*I)*(-I + Sqrt[3])",
+					"plusRoot": "(I/2)*(I + Sqrt[3])",
+					"polynomialTeX": "x_{2}^2+x_{2}+1",
+					"discriminantTeX": "-3",
+					"minusRootTeX": "-\\frac{1}{2} i \\left(\\sqrt{3}-i\\right)",
+					"plusRootTeX": "\\frac{1}{2} i \\left(\\sqrt{3}+i\\right)"
+				}
+			],
+			"symbolTeX": "\\begin{aligned}\\varepsilon^{-2}&\\colon\\;\\frac{1}{2} \\\\ \\varepsilon^{-1}&\\colon\\;-(m^2) \\\\ \\varepsilon^{0}&\\colon\\;-(m^2) + 2\\,(m^2 \\otimes m^2) + \\frac{-4 W_1^- W_1^++W_1^-^2-3 W_1^--4 W_1^+-3}{2 \\left(W_1^-+1\\right)^2 \\left(W_1^--W_1^+\\right)}\\,(W_1^-+1 \\otimes W_1^-) + \\frac{2 W_1^- W_1^+-W_1^-^2+W_1^-+2 W_1^++1}{2 \\left(W_1^-+1\\right)^2 \\left(W_1^--W_1^+\\right)}\\,(W_1^- \\otimes W_1^-) + \\frac{4 W_1^- W_1^++4 W_1^--W_1^+^2+3 W_1^++3}{2 \\left(W_1^++1\\right)^2 \\left(W_1^--W_1^+\\right)}\\,(W_1^++1 \\otimes W_1^+) + \\frac{2 W_1^- W_1^++2 W_1^--W_1^+^2+W_1^++1}{2 \\left(W_1^++1\\right)^2 \\left(W_1^+-W_1^-\\right)}\\,(W_1^+ \\otimes W_1^+)\\end{aligned}",
+			"alphabet": [
+				"m^2",
+				"W_1^-+1",
+				"W_1^-",
+				"W_1^++1",
+				"W_1^+"
+			],
+			"symbolWeight": 2,
+			"symbolTerms": 8,
+			"normalizedSymbolTeX": "\\begin{aligned}\\varepsilon^{-2}&\\colon\\;\\frac{1}{2} \\\\ \\varepsilon^{-1}&\\colon\\;\\frac{1}{2}-\\log \\left(m^2\\right) \\\\ \\varepsilon^{0}&\\colon\\;\\frac{1}{2 \\left(W_1^-+1\\right)^2 \\left(W_1^++1\\right)^2 \\left(W_1^--W_1^+\\right)}\\!\\left[-\\left(W_1^++1\\right)^2 \\left(4 W_1^- W_1^+-W_1^-^2+3 W_1^-+4 W_1^++3\\right)\\,(W_1 \\otimes W^-_1) + \\left(W_1^++1\\right)^2 \\left(2 W_1^- W_1^+-W_1^-^2+W_1^-+2 W_1^++1\\right)\\,(W^-_1 \\otimes W^-_1) + \\left(W_1^-+1\\right)^2 \\left(4 W_1^- W_1^++4 W_1^--W_1^+^2+3 W_1^++3\\right)\\,(W_2 \\otimes W^+_1) - \\left(W_1^-+1\\right)^2 \\left(2 W_1^- W_1^++2 W_1^--W_1^+^2+W_1^++1\\right)\\,(W^+_1 \\otimes W^+_1)\\right]\\end{aligned}",
+			"wDefinitions": [
+				{
+					"label": "W_1",
+					"kind": "rational",
+					"pairIndex": null,
+					"definition": "\\frac{1+W_1^-}{m^2}",
+					"originalLetter": "W_1^-+1"
+				},
+				{
+					"label": "W^-_1",
+					"kind": "algebraic",
+					"pairIndex": 1,
+					"definition": "-\\frac{1}{2} i \\left(\\sqrt{3}-i\\right)",
+					"originalLetter": "W_1^-",
+					"polynomialTeX": "x_{2}^2+x_{2}+1",
+					"discriminantTeX": "-3"
+				},
+				{
+					"label": "W_2",
+					"kind": "rational",
+					"pairIndex": null,
+					"definition": "\\frac{1+W_1^+}{m^2}",
+					"originalLetter": "W_1^++1"
+				},
+				{
+					"label": "W^+_1",
+					"kind": "algebraic",
+					"pairIndex": 1,
+					"definition": "\\frac{1}{2} i \\left(\\sqrt{3}+i\\right)",
+					"originalLetter": "W_1^+",
+					"polynomialTeX": "x_{2}^2+x_{2}+1",
+					"discriminantTeX": "-3"
+				}
+			],
+			"normalizedAlphabet": [
+				"W_1",
+				"W^-_1",
+				"W_2",
+				"W^+_1"
+			],
+			"symbolScale": "m^2",
+			"normalizedSymbolTerms": 6
+		}
+	]
 }
