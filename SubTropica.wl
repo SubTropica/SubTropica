@@ -805,7 +805,7 @@ Options[ConfigureSubTropica] = {
 With[{$SubTropicaDir = DirectoryName[$InputFileName]},
 
 $SubTropicaInstallDir = $SubTropicaDir;
-$SubTropicaVersion = "1.1.1";
+$SubTropicaVersion = "1.1.2";
 
 (* FindRoots root-letter substitutions: W$i -> algebraic root expressions.
    Set by STReadResults when the integration used FindRoots alphabet letters.
@@ -1060,7 +1060,10 @@ to the local library at ~/.SubTropica/library-local/. \
 STSaveResult[assoc] saves a manually constructed result Association.";
 
 STSubmitResult::usage = "STSubmitResult[] submits the most recent integration result \
-to the central SubTropica library. No GitHub account required.";
+to the central SubTropica library. No GitHub account required.
+Submissions are gated on numerical verification: if $integrationResult does not carry \
+a passing STVerify record, STSubmitResult runs STVerify inline (1 kinematic point, \
+pySecDec, Tolerance 10^-3) before submitting and aborts on failure.";
 
 STNIntegrate::usage="
 STNIntegrate[{edges, nodes}, opts] numerically evaluates a Feynman integral via sector decomposition.
@@ -1080,7 +1083,7 @@ central SubTropica library. Only changed files are downloaded (incremental sync)
 STSyncLibrary[\"DryRun\" -> True] shows what would change without downloading.";
 
 STBenchmark::usage = "STBenchmark[] runs the benchmark suite defined in \
-mgExamples/mgDiagrams.wl: a dependency check (see STDependencies[]) followed by \
+mgDiagrams-style benchmark catalogue (embedded as $stBenchmarkCasesSource): a dependency check (see STDependencies[]) followed by \
 the STIntegrate / STNIntegrate cases exercising the supported input forms and \
 backends.  Cases run sequentially in the main kernel; caches are cleared \
 between cases so that one case's state cannot poison the next.  The file ships \
@@ -17355,12 +17358,25 @@ stDependencyPrintTerminal[headerNames_List, rows_List] := Module[
    `suite` selects between the "Short" (10-case smoke) and "Long" (21-case
    regression) splits shipped in mgDiagrams.wl.  Only the `diagrams`
    category has two splits; the other four category lists are common. *)
+
+(* ~~~ Benchmark test-case source (formerly mgExamples/mgDiagrams.wl) ~~~
+   Inlined to save a top-level directory on the public repo.  The
+   content is a verbatim copy of the curated STBenchmark cases;
+   stBenchmarkLoadCases Get[]s it via StringToStream, inside a
+   Block {$Context = Global`, $ContextPath = {System`, Global`}}, so
+   the bare symbols the cases reference (diagramsShort, m, M,
+   Subscript[M, i], eps, z, zb, ...) land in Global` rather than
+   SubTropica`.  Keep it separate from other constants so the giant
+   escaped literal stays out of any code reader's eyeline. *)
+$stBenchmarkCasesSource = "(* ::Package:: *)\n\n(* mgDiagrams.wl\n   Curated STBenchmark test cases.\n\n   Two splits exist for the `diagrams` category:\n\n       diagramsShort \\[LongDash] 7 cases, the default smoke test.  Covers the main\n                     STIntegrate code paths inside the `diagrams` family\n                     (Substitutions + CleanOutput, MethodLR -> \"Lungo\",\n                     IR-divergent box, banana with mass remap, D = 6 - 2eps\n                     + Gauge, Nilsson-Passare analytic continuation, and\n                     FindRoots algebraic letters).  The remaining four\n                     categories (propagators, eulerIntegrands,\n                     nIntDiagrams, nIntEuler) are common between Short\n                     and Long, so Short also smoke-tests Form-2 propagator\n                     input, Form-3 Euler integrands, and the numerical\n                     STNIntegrate paths via those common lists.\n\n       diagramsLong  \\[LongDash] 22 cases, every one verified numerically\n                     against pySecDec at relErr < 10^-3 in a prior\n                     session.  Use this for developer regression coverage.\n\n   Apply with:\n       STBenchmark[]                       (* runs Short; default *)\n       STBenchmark[\"Suite\" -> \"Long\"]      (* runs the full set *)\n*)\n\n\n(* ================================================================== *)\n(*        SHORT SUITE \\[LongDash] default STBenchmark[] smoke test, 7 cases     *)\n(* ================================================================== *)\n\ndiagramsShort = {\n\n  (* \\[HorizontalLine]\\[HorizontalLine] 1-loop triangle with symbolic node masses + numeric Substitutions \\[HorizontalLine]\\[HorizontalLine]\n     exercises: Substitutions, Order, CleanOutput *)\n  {{{{{1, 2}, 0}, {{1, 3}, 0}, {{2, 3}, 0}},\n    {{1, Subscript[M, 1]}, {2, Subscript[M, 2]}, {3, Subscript[M, 3]}}},\n   \"Order\" -> 0,\n   \"Substitutions\" -> {MM1 -> (1 - z) (1 - zb), MM2 -> z zb, MM3 -> 1},\n   \"CleanOutput\" -> True},\n\n  (* \\[HorizontalLine]\\[HorizontalLine] 3-loop cylinder (fully massless) with MethodLR -> \"Lungo\" \\[HorizontalLine]\\[HorizontalLine]\n     exercises: MethodLR = \"Lungo\" path at a non-trivial loop order *)\n  {{{{{1, 2}, 0}, {{1, 2}, 0}, {{2, 3}, 0}, {{3, 4}, 0}, {{3, 4}, 0}, {{1, 4}, 0}},\n    {{1, 0}, {2, 0}, {3, 0}, {4, 0}}},\n   \"MethodLR\" -> \"Lungo\",\n   \"Order\" -> 0},\n\n  (* \\[HorizontalLine]\\[HorizontalLine] 1-loop massless box (4 vertices, 4 edges, all external legs) \\[HorizontalLine]\\[HorizontalLine]\n     exercises: IR-divergent default path at D = 4 - 2eps *)\n  {{{{{1, 2}, 0}, {{2, 3}, 0}, {{3, 4}, 0}, {{1, 4}, 0}},\n    {{1, 0}, {2, 0}, {3, 0}, {4, 0}}}},\n\n  (* \\[HorizontalLine]\\[HorizontalLine] Banana-2 at D = 2 - 2eps with mass Substitutions \\[HorizontalLine]\\[HorizontalLine]\n     exercises: non-default Dimension + mass-parameter remap via Substitutions *)\n  {{{{{1, 2}, Subscript[m, 1]}, {{1, 2}, Subscript[m, 2]}},\n    {{1, M}, {2, M}}},\n   \"Dimension\" -> 2 - 2 eps,\n   \"Substitutions\" -> {MM -> 1, mm1 -> w wb, mm2 -> (1 - w) (1 - wb)}},\n\n  (* \\[HorizontalLine]\\[HorizontalLine] Triangle at D = 6 - 2eps with explicit Gauge \\[HorizontalLine]\\[HorizontalLine]\n     exercises: Gauge -> {x1 -> 1} option at D = 6 - 2eps *)\n  {{{{{1, 2}, 0}, {{2, 3}, 0}, {{1, 3}, 0}},\n    {{1, M}, {2, 0}, {3, 0}}},\n   \"Dimension\" -> 6 - 2 eps,\n   \"ShowTimings\" -> False,\n   \"Gauge\" -> {x1 -> 1}},\n\n  (* \\[HorizontalLine]\\[HorizontalLine] Pentagon with 2 internal masses + 2 vertex masses (Nilsson-Passare) \\[HorizontalLine]\\[HorizontalLine]\n     exercises: mixed-mass topology triggering Nilsson-Passare analytic\n     continuation in STExpandIntegral *)\n  {{{{{1, 2}, 0}, {{2, 3}, Subscript[m, 2]}, {{3, 4}, Subscript[m, 3]},\n     {{1, 4}, 0}, {{2, 4}, 0}},\n    {{1, 0}, {2, Subscript[M, 2]}, {3, 0}, {4, Subscript[M, 4]}}}},\n\n  (* \\[HorizontalLine]\\[HorizontalLine] Diagonal massive box with FindRoots \\[HorizontalLine]\\[HorizontalLine]\n     exercises: fully-massive regime with two diagonal massive edges +\n     FindRoots algebraic-letters path (Wm/Wp introduction via HyperInt) *)\n  {{{{{1, 3}, m}, {{1, 2}, 0}, {{2, 4}, m}, {{3, 4}, 0}},\n    {{1, m}, {2, m}, {3, m}, {4, m}}},\n   \"FindRoots\" -> True}\n\n};\n\n\n(* ================================================================== *)\n(*        LONG SUITE \\[LongDash] full developer regression coverage, 22 cases   *)\n(* ================================================================== *)\n\ndiagramsLong = {\n\n  (* \\[HorizontalLine]\\[HorizontalLine] 1-loop triangle with symbolic node masses + numeric Substitutions \\[HorizontalLine]\\[HorizontalLine]\n     exercises: Substitutions, Order, CleanOutput *)\n  {{{{{1, 2}, 0}, {{1, 3}, 0}, {{2, 3}, 0}},\n    {{1, Subscript[M, 1]}, {2, Subscript[M, 2]}, {3, Subscript[M, 3]}}},\n   \"Order\" -> 0,\n   \"Substitutions\" -> {MM1 -> (1 - z) (1 - zb), MM2 -> z zb, MM3 -> 1},\n   \"CleanOutput\" -> True},\n\n  (* \\[HorizontalLine]\\[HorizontalLine] 3-point 6-edge topology with symbolic node masses \\[HorizontalLine]\\[HorizontalLine]\n     exercises: higher-loop topology under the same {M_i, z, zb} Substitutions *)\n  {{{{{1, 4}, 0}, {{2, 4}, 0}, {{2, 3}, 0}, {{3, 5}, 0}, {{1, 5}, 0}, {{4, 5}, 0}},\n    {{1, Subscript[M, 1]}, {2, Subscript[M, 2]}, {3, Subscript[M, 3]}}},\n   \"Substitutions\" -> {MM1 -> (1 - z) (1 - zb), MM2 -> z zb, MM3 -> 1}},\n\n  (* \\[HorizontalLine]\\[HorizontalLine] 3-loop cylinder (fully massless) with MethodLR -> \"Lungo\" \\[HorizontalLine]\\[HorizontalLine]\n     exercises: MethodLR = \"Lungo\" path at a non-trivial loop order *)\n  {{{{{1, 2}, 0}, {{1, 2}, 0}, {{2, 3}, 0}, {{3, 4}, 0}, {{3, 4}, 0}, {{1, 4}, 0}},\n    {{1, 0}, {2, 0}, {3, 0}, {4, 0}}},\n   \"MethodLR\" -> \"Lungo\",\n   \"Order\" -> 0},\n\n  (* \\[HorizontalLine]\\[HorizontalLine] 1-loop massless box (4 vertices, 4 edges, all external legs) \\[HorizontalLine]\\[HorizontalLine]\n     exercises: IR-divergent default path at D = 4 - 2eps *)\n  {{{{{1, 2}, 0}, {{2, 3}, 0}, {{3, 4}, 0}, {{1, 4}, 0}},\n    {{1, 0}, {2, 0}, {3, 0}, {4, 0}}}},\n\n  (* \\[HorizontalLine]\\[HorizontalLine] Banana-2 at D = 2 - 2eps with mass Substitutions \\[HorizontalLine]\\[HorizontalLine]\n     exercises: non-default Dimension + mass-parameter remap via Substitutions *)\n  {{{{{1, 2}, Subscript[m, 1]}, {{1, 2}, Subscript[m, 2]}},\n    {{1, M}, {2, M}}},\n   \"Dimension\" -> 2 - 2 eps,\n   \"Substitutions\" -> {MM -> 1, mm1 -> w wb, mm2 -> (1 - w) (1 - wb)}},\n\n  (* \\[HorizontalLine]\\[HorizontalLine] Banana-3 at D = 2 - 2eps with mass Substitutions \\[HorizontalLine]\\[HorizontalLine] *)\n  {{{{{1, 2}, Subscript[m, 1]}, {{1, 2}, Subscript[m, 2]}, {{1, 2}, 0}},\n    {{1, M}, {2, M}}},\n   \"Dimension\" -> 2 - 2 eps,\n   \"Substitutions\" -> {MM -> 1, mm1 -> w wb, mm2 -> (1 - w) (1 - wb)}},\n\n  (* \\[HorizontalLine]\\[HorizontalLine] Banana-4 at D = 2 - 2eps with mass Substitutions \\[HorizontalLine]\\[HorizontalLine] *)\n  {{{{{1, 2}, Subscript[m, 1]}, {{1, 2}, Subscript[m, 2]}, {{1, 2}, 0}, {{1, 2}, 0}},\n    {{1, M}, {2, M}}},\n   \"Dimension\" -> 2 - 2 eps,\n   \"Substitutions\" -> {MM -> 1, mm1 -> w wb, mm2 -> (1 - w) (1 - wb)}},\n\n  (* \\[HorizontalLine]\\[HorizontalLine] Banana-5 at D = 2 - 2eps with mass Substitutions \\[HorizontalLine]\\[HorizontalLine] *)\n  {{{{{1, 2}, Subscript[m, 1]}, {{1, 2}, Subscript[m, 2]},\n     {{1, 2}, 0}, {{1, 2}, 0}, {{1, 2}, 0}},\n    {{1, M}, {2, M}}},\n   \"Dimension\" -> 2 - 2 eps,\n   \"Substitutions\" -> {MM -> 1, mm1 -> w wb, mm2 -> (1 - w) (1 - wb)}},\n\n  (* \\[HorizontalLine]\\[HorizontalLine] 2-point 5-edge topology at D = 6 - 2eps (variant A) \\[HorizontalLine]\\[HorizontalLine] *)\n  {{{{{1, 2}, 0}, {{1, 3}, 0}, {{3, 4}, 0}, {{2, 4}, 0}, {{3, 4}, 0}},\n    {{1, Subscript[M, 1]}, {2, Subscript[M, 1]}}},\n   \"Dimension\" -> 6 - 2 eps},\n\n  (* \\[HorizontalLine]\\[HorizontalLine] 2-point 5-edge topology at D = 6 - 2eps (variant B) \\[HorizontalLine]\\[HorizontalLine] *)\n  {{{{{1, 3}, 0}, {{2, 3}, 0}, {{1, 4}, 0}, {{2, 4}, 0}, {{3, 4}, 0}},\n    {{1, Subscript[M, 1]}, {2, Subscript[M, 1]}}},\n   \"Dimension\" -> 6 - 2 eps},\n\n  (* \\[HorizontalLine]\\[HorizontalLine] Triangle at D = 6 - 2eps with Gauge \\[HorizontalLine]\\[HorizontalLine]\n     exercises: Gauge -> {x1 -> 1} option at D = 6 - 2eps *)\n  {{{{{1, 2}, 0}, {{2, 3}, 0}, {{1, 3}, 0}},\n    {{1, M}, {2, 0}, {3, 0}}},\n   \"Dimension\" -> 6 - 2 eps,\n   \"ShowTimings\" -> False,\n   \"Gauge\" -> {x1 -> 1}},\n\n  (* \\[HorizontalLine]\\[HorizontalLine] 6-edge pentagon at D = 6 - 2eps, mass on vertex 1 (variant A) \\[HorizontalLine]\\[HorizontalLine] *)\n  {{{{{1, 4}, 0}, {{1, 5}, 0}, {{2, 5}, 0}, {{2, 3}, 0}, {{3, 4}, 0}, {{4, 5}, 0}},\n    {{1, M}, {2, 0}, {3, 0}}},\n   \"Dimension\" -> 6 - 2 eps,\n   \"ShowTimings\" -> False,\n   \"Gauge\" -> {x1 -> 1}},\n\n  (* \\[HorizontalLine]\\[HorizontalLine] 6-edge pentagon at D = 6 - 2eps, mass on vertex 2 (variant A) \\[HorizontalLine]\\[HorizontalLine] *)\n  {{{{{1, 4}, 0}, {{1, 5}, 0}, {{2, 5}, 0}, {{2, 3}, 0}, {{3, 4}, 0}, {{4, 5}, 0}},\n    {{1, 0}, {2, M}, {3, 0}}},\n   \"Dimension\" -> 6 - 2 eps,\n   \"ShowTimings\" -> False,\n   \"Gauge\" -> {x1 -> 1}},\n\n  (* \\[HorizontalLine]\\[HorizontalLine] 6-edge pentagon at D = 6 - 2eps, mass on vertex 3 (variant A) \\[HorizontalLine]\\[HorizontalLine] *)\n  {{{{{1, 4}, 0}, {{1, 5}, 0}, {{2, 5}, 0}, {{2, 3}, 0}, {{3, 4}, 0}, {{4, 5}, 0}},\n    {{1, 0}, {2, 0}, {3, M}}},\n   \"Dimension\" -> 6 - 2 eps,\n   \"ShowTimings\" -> False,\n   \"Gauge\" -> {x1 -> 1}},\n\n  (* \\[HorizontalLine]\\[HorizontalLine] 6-edge pentagon at D = 6 - 2eps, mass on vertex 1 (variant B) \\[HorizontalLine]\\[HorizontalLine] *)\n  {{{{{1, 4}, 0}, {{1, 5}, 0}, {{2, 5}, 0}, {{2, 4}, 0}, {{3, 4}, 0}, {{3, 5}, 0}},\n    {{1, M}, {2, 0}, {3, 0}}},\n   \"Dimension\" -> 6 - 2 eps,\n   \"ShowTimings\" -> False,\n   \"Gauge\" -> {x1 -> 1}},\n\n  (* \\[HorizontalLine]\\[HorizontalLine] 6-edge pentagon at D = 6 - 2eps, mass on vertex 2 (variant B) \\[HorizontalLine]\\[HorizontalLine] *)\n  {{{{{1, 4}, 0}, {{1, 5}, 0}, {{2, 5}, 0}, {{2, 4}, 0}, {{3, 4}, 0}, {{3, 5}, 0}},\n    {{1, 0}, {2, M}, {3, 0}}},\n   \"Dimension\" -> 6 - 2 eps,\n   \"ShowTimings\" -> False,\n   \"Gauge\" -> {x1 -> 1}},\n\n  (* \\[HorizontalLine]\\[HorizontalLine] 6-edge pentagon at D = 6 - 2eps, mass on vertex 3 (variant B) \\[HorizontalLine]\\[HorizontalLine] *)\n  {{{{{1, 4}, 0}, {{1, 5}, 0}, {{2, 5}, 0}, {{2, 4}, 0}, {{3, 4}, 0}, {{3, 5}, 0}},\n    {{1, 0}, {2, 0}, {3, M}}},\n   \"Dimension\" -> 6 - 2 eps,\n   \"ShowTimings\" -> False,\n   \"Gauge\" -> {x1 -> 1}},\n\n  (* \\[HorizontalLine]\\[HorizontalLine] 6-edge pentagon at D = 6 - 2eps, mass on vertex 1 (variant C) \\[HorizontalLine]\\[HorizontalLine] *)\n  {{{{{1, 2}, 0}, {{2, 3}, 0}, {{3, 4}, 0}, {{4, 5}, 0}, {{4, 5}, 0}, {{1, 5}, 0}},\n    {{1, M}, {2, 0}, {3, 0}}},\n   \"Dimension\" -> 6 - 2 eps,\n   \"ShowTimings\" -> False,\n   \"Gauge\" -> {x1 -> 1}},\n\n  (* \\[HorizontalLine]\\[HorizontalLine] 6-edge pentagon at D = 6 - 2eps, mass on vertex 2 (variant C) \\[HorizontalLine]\\[HorizontalLine] *)\n  {{{{{1, 2}, 0}, {{2, 3}, 0}, {{3, 4}, 0}, {{4, 5}, 0}, {{4, 5}, 0}, {{1, 5}, 0}},\n    {{1, 0}, {2, M}, {3, 0}}},\n   \"Dimension\" -> 6 - 2 eps,\n   \"ShowTimings\" -> False,\n   \"Gauge\" -> {x1 -> 1}},\n\n  (* \\[HorizontalLine]\\[HorizontalLine] Pentagon with 2 internal masses + 2 vertex masses (Nilsson-Passare) \\[HorizontalLine]\\[HorizontalLine]\n     exercises: mixed-mass topology triggering Nilsson-Passare analytic\n     continuation in STExpandIntegral *)\n  {{{{{1, 2}, 0}, {{2, 3}, Subscript[m, 2]}, {{3, 4}, Subscript[m, 3]},\n     {{1, 4}, 0}, {{2, 4}, 0}},\n    {{1, 0}, {2, Subscript[M, 2]}, {3, 0}, {4, Subscript[M, 4]}}}},\n\n  (* \\[HorizontalLine]\\[HorizontalLine] Diagonal massive box with FindRoots \\[HorizontalLine]\\[HorizontalLine]\n     exercises: fully-massive regime with two diagonal massive edges +\n     FindRoots algebraic-letters path (Wm/Wp introduction via HyperInt) *)\n  {{{{{1, 3}, m}, {{1, 2}, 0}, {{2, 4}, m}, {{3, 4}, 0}},\n    {{1, m}, {2, m}, {3, m}, {4, m}}},\n   \"FindRoots\" -> True},\n\n  (* \\[HorizontalLine]\\[HorizontalLine] 2-loop triangle-box, three distinct external masses (z, zb) \\[HorizontalLine]\\[HorizontalLine]\n     exercises: SetProblemID + (z, zb) rationalizing Substitutions; the\n     weight-4 answer reproduces the closed form in arXiv:2507.17815.\n     Source: paperChecks.wl Lstlisting 19 (Sec. 4.1.2). *)\n  {{{{{1, 4}, 0}, {{1, 5}, 0}, {{2, 5}, 0}, {{2, 3}, 0}, {{3, 4}, 0}, {{4, 5}, 0}},\n    {{1, Subscript[M, 1]}, {2, Subscript[M, 2]}, {3, Subscript[M, 3]}}},\n   \"SetProblemID\"  -> \"TriangleBox-Long\",\n   \"Substitutions\" -> {MM1 -> (1 - zz)(1 - zzb), MM2 -> zz zzb, MM3 -> 1}}\n\n};\n\n\n(* Backwards-compatible alias for anything that imported the old\n   `diagrams` symbol directly. *)\ndiagrams = diagramsShort;\n\n\n(* ================================================================== *)\n(*  COMMON CATEGORIES \\[LongDash] run in BOTH Short and Long suites               *)\n(*  These lists populate the four formerly-empty STBenchmark categories. *)\n(*  Kept light enough that even Short stays manageable.               *)\n(* ================================================================== *)\n\n(* Form-2 (propagator-list) STIntegrate cases. *)\npropagators = {\n\n  (* \\[HorizontalLine]\\[HorizontalLine] Squared tadpole with tensor numerators \\[HorizontalLine]\\[HorizontalLine]\n     exercises: Form-2 propagator list + tensor numerators + Exponents\n                with negative powers (numerator factors).\n     Note: l, q must be in SubTropica` context (not Global`); without\n           explicit \"LoopMomenta\", STIntegrate's auto-detection compares\n           against SubTropica`l / SubTropica`q.  Under the loader's\n           restricted ContextPath bare `l` would land in Global`, the\n           auto-detect would miss it, and the dispatcher would fall into\n           a degenerate path (no warning, but a wrong/trivial answer).\n     Source: paperChecks.wl Lstlisting 9 (Sec. 2.3). *)\n  {{SubTropica`l[1]\\[CenterDot]SubTropica`l[1] - mm,\n    SubTropica`q[1]\\[CenterDot]SubTropica`l[1],\n    SubTropica`q[2]\\[CenterDot]SubTropica`l[1]},\n   \"Exponents\" -> {2, -1, -1}},\n\n  (* \\[HorizontalLine]\\[HorizontalLine] Soft anomalous dimensions, 2 loops (arXiv:2509.18017 Eq. D.11) \\[HorizontalLine]\\[HorizontalLine]\n     exercises: eikonal (v.k) propagators + tensor numerators + LoopMomenta\n                + custom Normalization + MethodPolysAndPairs + Gauge.  The\n                option-densest single case in the suite.\n     Source: paperChecks.wl Lstlisting 22 (Sec. 4.2). *)\n  {{k[1]\\[CenterDot]k[1], k[2]\\[CenterDot]k[2],\n    (k[1] + k[2])\\[CenterDot](k[1] + k[2]),\n    v[1]\\[CenterDot]k[1] - 1, v[2]\\[CenterDot]k[2] - 1,\n    -\\[Beta]\\[CenterDot](k[1] + k[2]),\n    v[2]\\[CenterDot]k[1], \\[Beta]\\[CenterDot]k[2], v[1]\\[CenterDot]k[2]},\n   \"Exponents\"           -> {1, 1, 1, 1, 1, 1, -1, 0, 0},\n   \"Substitutions\"       -> {v[1]\\[CenterDot]v[1] | v[2]\\[CenterDot]v[2] -> 1,\n                             v[1]\\[CenterDot]\\[Beta] -> -y, v[2]\\[CenterDot]\\[Beta] -> -1,\n                             \\[Beta]\\[CenterDot]\\[Beta] -> 0,\n                             v[1]\\[CenterDot]v[2] -> -(1/2)(1/a12 + a12)},\n   \"LoopMomenta\"         -> {k[1], k[2]},\n   \"Normalization\"       -> -(4 Exp[EulerGamma])^(2 eps),\n   \"Order\"               -> -1,\n   \"MethodPolysAndPairs\" -> \"Standard\",\n   \"Gauge\"               -> {x5 -> 1}}\n\n};\n\n\n(* Form-3 (Euler integrand) STIntegrate cases. *)\neulerIntegrands = {\n\n  (* \\[HorizontalLine]\\[HorizontalLine] Toy 2-variable Euler integrand x1^eps x2^eps (1+x1+x2)^(-3 eps) \\[HorizontalLine]\\[HorizontalLine]\n     exercises: Form-3 bare-symbol input (default [0,Infinity) integration);\n                exercises the tropical-fan analysis at minimum complexity.\n     Source: paperChecks.wl Sec. 4 (Tropical algorithm, line 213). *)\n  {x1^eps x2^eps (1 + x1 + x2)^(-3 eps), x1, x2},\n\n  (* \\[HorizontalLine]\\[HorizontalLine] EEC quadruple at J1=1, J2=2 (arXiv:2512.23791 Eq. A.14) \\[HorizontalLine]\\[HorizontalLine]\n     exercises: pre-built {prefactor, integrand, xvars, coeffs} tuple\n                input form on a non-Feynman Euler integrand from\n                gravitational energy-energy correlators.  Uses\n                HyperIntica`STFactorAndTrackRoots to handle\n                quadratically-irreducible polynomials in the denominator.\n     Source: paperChecks.wl Sec. 4.3 (Sec 7/3a, line 449), pre-substituted\n             at J1=1, J2=2 to remove the angular-momentum series expansion. *)\n  {{1,\n    ((x^(-2 eps) (1 + x)^(-3 + 2 eps) (1 + x (1 - z))^(2 eps)) /\n     ((HyperIntica`STFactorAndTrackRoots[\n         Numerator[Factor[(1 - y2 + x^2 (-1 + y1) (-1 + z) - x (-2 + y1 + y2 + z))/(1 + x)^2]],\n         x, P] /\n       Numerator[Factor[(1 - y2 + x^2 (-1 + y1) (-1 + z) - x (-2 + y1 + y2 + z))/(1 + x)^2]]) *\n      (HyperIntica`STFactorAndTrackRoots[\n         Numerator[Factor[(y2 + x (y1 + x y1 + y2 - (1 + x y1) z))/(1 + x)^2]],\n         x, Q] /\n       Numerator[Factor[(y2 + x (y1 + x y1 + y2 - (1 + x y1) z))/(1 + x)^2]]))),\n    {x},\n    {ee, \\[CapitalDelta], z, y1, y2}},\n   \"SimplifyOutput\" -> Identity}\n\n};\n\n\n(* Numerical STNIntegrate cases on graph-form input. *)\nnIntDiagrams = {\n\n  (* \\[HorizontalLine]\\[HorizontalLine] Elliptic kite, generic masses (not linearly reducible) \\[HorizontalLine]\\[HorizontalLine]\n     exercises: numerical fallback to pySecDec on a non-LR (elliptic)\n                topology where the symbolic STIntegrate path would block.\n                Substitution values use the SubTropica squared-mass\n                convention (mm_i = (linear m_i)^2; MM = (external M)^2 =\n                (31 I/5)^2 = -961/25, real-valued so pySecDec accepts it).\n     Source: paperChecks.wl Lstlisting 13 (Sec. 2.4). *)\n  {{{{{1, 2}, Subscript[m, 1]}, {{1, 3}, Subscript[m, 2]}, {{1, 4}, Subscript[m, 3]},\n     {{2, 3}, Subscript[m, 4]}, {{2, 4}, Subscript[m, 5]}},\n    {{3, M}, {4, M}}},\n   \"Substitutions\" -> {mm1 -> (67/23)^2, mm2 -> (59/31)^2, mm3 -> (159/31)^2,\n                       mm4 -> (59/131)^2, mm5 -> (117/137)^2, MM -> -961/25}}\n\n};\n\n\n(* Numerical STNIntegrate cases on Euler-integrand input. *)\nnIntEuler = {\n\n  (* \\[HorizontalLine]\\[HorizontalLine] Massless double-box Symanzik integrand, bare-symbol form \\[HorizontalLine]\\[HorizontalLine]\n     exercises: numerical STNIntegrate on a parametric integrand built by\n                hand from U/F polynomials (no graph form, no automatic\n                Symanzik build).  Bare symbols default the integration\n                domain to [0,Infinity).\n     Note: Mandelstams must be in SubTropica` context (not Global`); under\n           the loader's restricted ContextPath, bare `s12` would land in\n           Global` and the Form-6 dispatcher's pySecDec backend would not\n           recognise it (the `coeffs` extraction runs in SubTropica`Private`,\n           where Global` is off ContextPath).  Explicit context qualification\n           bypasses the issue.\n     Source: paperChecks.wl Lstlisting 15 (Sec. 2.4, line 179). *)\n  {Exp[3 eps EulerGamma] Gamma[3 eps]\n     (x1 x2 + x1 x3 + x2 x3 + x1 x5 + x2 x5 + x1 x2 x5 + x1 x3 x5 +\n      x2 x3 x5 + x1 x6 + x2 x6 + x1 x5 x6 + x2 x5 x6)^(2 (-1 + 2 eps))\n     (-(SubTropica`s23 x1 x2 x5 +\n        SubTropica`s12 (x1 x3 x6 + x2 x3 x6 + x1 x3 x5 x6 +\n                        x2 x3 x5 x6)))^(-3 eps),\n   x1, x2, x3, x5, x6,\n   \"Substitutions\" -> {SubTropica`s12 -> -7/31, SubTropica`s23 -> -43/89}}\n\n};";
+
 stBenchmarkLoadCases[suite_String] := Module[
   {path, diagramSymbol, diagrams, propagators, eulerIntegrands,
    nIntDiagrams, nIntEuler, labelsByCat, records, ctx},
-  path = FileNameJoin[{$SubTropicaInstallDir, "mgExamples", "mgDiagrams.wl"}];
-  If[!FileExistsQ[path],
-    Message[STBenchmark::nofile, path]; Return[$Failed]];
+  (* Benchmark cases are embedded as $stBenchmarkCasesSource (below)
+     and loaded via a stream so the lazy-load semantics of the prior
+     file-based path are preserved. *)
+  path = "<inlined: $stBenchmarkCasesSource>";
 
   diagramSymbol = Switch[suite,
     "Short", "diagramsShort",
@@ -17379,7 +17395,9 @@ stBenchmarkLoadCases[suite_String] := Module[
   ctx = "Global`";
   Block[{$Context = ctx, $ContextPath = {"System`", ctx}},
     Off[General::shdw];
-    Quiet[Get[path], {General::shdw}];
+    Module[{stream = StringToStream[$stBenchmarkCasesSource]},
+      Quiet[Get[stream], {General::shdw}];
+      Close[stream]];
     On[General::shdw]];
   (* Remap file-local Global` mass / dim-reg symbols back onto their
      SubTropica` counterparts.  STIntegrate's internal pattern matching
@@ -17803,7 +17821,6 @@ stBenchmarkPrintGrid[results_List, baselineCases_Association] := Module[
 
 (* ---- STBenchmark ------------------------------------------------- *)
 
-STBenchmark::nofile   = "Benchmark case file not found at `1`.";
 STBenchmark::nopoly   = "polymake is required but not available.  Install it (e.g. `brew install polymake`) before running STBenchmark.";
 STBenchmark::noresult = "Case `1` returned $Failed.";
 
@@ -23244,6 +23261,21 @@ FeynmanIntegrate[OptionsPattern[]] := Module[{port, url, pythonCmd, scriptPath, 
           If[TrueQ[vResult["pass"]], "PASS", "FAIL"],
           " (relErr=", Lookup[vResult, "maxRelErr", "?"], ")"];
 
+        (* Cache the pass on $integrationResult so STSubmitResult[]
+           skips re-verification. Hash-bound: invalidated automatically
+           if the user re-integrates with different params. *)
+        If[TrueQ[vResult["pass"]] && AssociationQ[$integrationResult],
+          $integrationResult["verification"] = <|
+            "pass"       -> True,
+            "method"     -> method,
+            "tolerance"  -> tolerance,
+            "maxRelErr"  -> N[Lookup[vResult, "maxRelErr", -1]],
+            "kinPoint"   -> Lookup[vResult, "kinPoint",
+                                Lookup[vResult, "kinematicPoint", {}]],
+            "verifiedAt" -> DateString[],
+            "resultHash" -> Hash[result]
+          |>];
+
         Module[{coeffs, kinPoint, coeffsAsc, kinPointStrs},
           (* Per-eps-order comparison rows and the kinematic point used.
              Both power the hover-popup on the verified badge (UI). We
@@ -24007,12 +24039,97 @@ $STSubmitURL = "https://subtropica-submit.subtropica.workers.dev/submit";
 $STManifestURL = "https://raw.githubusercontent.com/SubTropica/SubTropica/main/library-bundled/manifest.json";
 $STRawBaseURL = "https://raw.githubusercontent.com/SubTropica/SubTropica/main/library-bundled/";
 
+(* Verification gate: every STSubmitResult must carry a passing STVerify
+   record bound to the exact result expression by Hash. Either the caller
+   ran STVerify earlier (UI verify button or notebook) and the handler
+   stashed a record on $integrationResult["verification"], or we run
+   STVerify inline here with the library default (1 kinematic point,
+   pySecDec, Tolerance 10^-3). Backend failure aborts submission and
+   suggests alternates (AMFlow / FIESTA / feyntrop) rather than retrying
+   automatically \[LongDash] a different numerical backend may succeed where
+   the default fails (shared mass, non-Euclidean, etc.). Returns the
+   verification Association on success or $Failed on failure. *)
+stGateVerification[ir_Association] := Module[
+    {cachedV, result, config, edges, nodes, order, vResult, method, tol,
+     rec},
+    result = ir["result"];
+    config = ir["uiResult"];
+
+    (* 1. Cache hit: pass + bound to *this* exact result expression. *)
+    cachedV = Lookup[ir, "verification", None];
+    If[AssociationQ[cachedV] && TrueQ[cachedV["pass"]] &&
+       cachedV["resultHash"] === Hash[result],
+        stLog["[SubTropica] STSubmitResult: reusing cached verification (",
+            Lookup[cachedV, "method", "?"], ", maxRelErr=",
+            Lookup[cachedV, "maxRelErr", "?"], ")."];
+        Return[cachedV]];
+
+    (* 2. No cache hit. Need edges/nodes from $integrationConfig to run
+         STVerify in graph form. If missing, the user must verify first
+         via a form we cannot reconstruct here. *)
+    If[!AssociationQ[$integrationConfig] ||
+       !KeyExistsQ[$integrationConfig, "edges"] ||
+       !KeyExistsQ[$integrationConfig, "nodes"],
+        stErr["[SubTropica] STSubmitResult: no cached verification and ",
+            "$integrationConfig lacks edges/nodes. Run STVerify on this ",
+            "result before submitting (pass is cached on $integrationResult)."];
+        Return[$Failed]];
+
+    edges  = $integrationConfig["edges"];
+    nodes  = $integrationConfig["nodes"];
+    order  = Lookup[config, "Order", 0];
+    method = "pySecDec";
+    tol    = 10^-3;
+
+    stLog["[SubTropica] STSubmitResult: verification required. ",
+        "Running STVerify (1 sample, ", method, ", Tolerance ", tol, ")..."];
+    vResult = Quiet @ Check[
+        STVerify[{edges, nodes}, result,
+            "NumSamples" -> 1,
+            "Order"      -> order,
+            "Method"     -> method,
+            "Tolerance"  -> tol],
+        <|"pass" -> False, "reason" -> "STVerify crashed"|>];
+
+    If[!AssociationQ[vResult] || !TrueQ[vResult["pass"]],
+        stErr["[SubTropica] STSubmitResult: verification FAILED (",
+            Lookup[vResult, "reason", "unknown"],
+            ", maxRelErr=", Lookup[vResult, "maxRelErr", "?"], "). ",
+            "Try a different backend, e.g. ",
+            "STVerify[{edges, nodes}, result, \"Method\" -> \"AMFlow\"] ",
+            "(\"FIESTA\" or \"feyntrop\" also available), then retry ",
+            "submission."];
+        Return[$Failed]];
+
+    rec = <|
+        "pass"       -> True,
+        "method"     -> method,
+        "tolerance"  -> tol,
+        "maxRelErr"  -> N[Lookup[vResult, "maxRelErr", -1]],
+        "kinPoint"   -> Lookup[vResult, "kinPoint",
+                            Lookup[vResult, "kinematicPoint", {}]],
+        "verifiedAt" -> DateString[],
+        "resultHash" -> Hash[result]
+    |>;
+
+    (* Cache on $integrationResult so a subsequent STSubmitResult[] call
+       in this session (e.g. retry after a transient network failure)
+       skips re-verification. *)
+    If[AssociationQ[$integrationResult],
+        $integrationResult["verification"] = rec];
+
+    stLog["[SubTropica] STSubmitResult: verification PASS (maxRelErr=",
+        rec["maxRelErr"], ")."];
+    rec
+];
+
 STSubmitResult[] := STSubmitResult[$integrationResult];
 
 STSubmitResult[ir_Association] := Module[
     {config, result, nickel, topoNickel, massNickel,
      entryPath, existingEntry, existingResults,
-     payload, jsonStr, tmpFile, curlResult, resp},
+     payload, jsonStr, tmpFile, curlResult, resp,
+     verification, kinPointStrs},
 
     If[!AssociationQ[ir] || !KeyExistsQ[ir, "result"] || !KeyExistsQ[ir, "uiResult"],
         stErr["[SubTropica] STSubmitResult: no valid integration result."];
@@ -24077,6 +24194,24 @@ STSubmitResult[ir_Association] := Module[
         ];
     ];
 
+    (* --- Verification gate --- *)
+    (* Require a passing STVerify record bound to this exact result.
+       See stGateVerification above. Aborts on failure with a hint to
+       try an alternate backend. Placed after local dedup so we don't
+       pay for verification on an already-submitted result. *)
+    verification = stGateVerification[ir];
+    If[verification === $Failed, Return[$Failed]];
+
+    (* Stringify kinematic-point rules for JSON transport (symbols on LHS
+       and e.g. Rational / rationalized expressions on RHS). *)
+    kinPointStrs = Module[{kp = Lookup[verification, "kinPoint", {}]},
+        If[ListQ[kp],
+            Map[Function[r, If[Head[r] === Rule,
+                <|"var" -> ToString[r[[1]], InputForm],
+                  "value" -> ToString[r[[2]], InputForm]|>,
+                <|"var" -> "?", "value" -> ToString[r, InputForm]|>]], kp],
+            {}]];
+
     payload = <|
         "cnickelIndex" -> Lookup[config, "nickelIndex", ""],
         "resultCompressed" -> Compress[result],
@@ -24118,7 +24253,17 @@ STSubmitResult[ir_Association] := Module[
         "loops" -> $nloops,
         "legs" -> $nl,
         "propagators" -> $ne,
-        "massScales" -> stCountScales[config]
+        "massScales" -> stCountScales[config],
+        (* Numerical verification record. submit.yml copies these into
+           entry.json Results[[i]]; the UI badge (app.js
+           revealVerifiedBadge) reads verifiedMethod/MaxRelErr/At from
+           cached library entries. *)
+        "verified" -> True,
+        "verifiedMethod" -> Lookup[verification, "method", "pySecDec"],
+        "verifiedTolerance" -> N[Lookup[verification, "tolerance", 10^-3]],
+        "verifiedMaxRelErr" -> N[Lookup[verification, "maxRelErr", -1]],
+        "verifiedAt" -> Lookup[verification, "verifiedAt", DateString[]],
+        "verifiedKinPoint" -> kinPointStrs
     |>;
     (* FindRoots algebraic letters (structured).  Legacy rootSubstitutions
        string dual-write was removed in v1.0.455. *)
