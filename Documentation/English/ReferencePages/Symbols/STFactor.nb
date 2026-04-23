@@ -20,19 +20,19 @@ WindowFrame->Normal*)
 Notebook[{
 
 Cell[CellGroupData[{
-Cell["STFactor", "ObjectName",ExpressionUUID->"51299c27-6e5b-466e-ad3a-d722f7ab158c"],
+Cell["STFactor", "ObjectName",ExpressionUUID->"15345e0f-ad4c-435a-bbdd-39c24b976215"],
 
 Cell[BoxData[GridBox[{
    {Cell[TextData[{
      StyleBox["STFactor", "TI"],
      " \[LineSeparator], x_i \[RightArrow] x_i/\[Lambda] for each component \
 \\rho_i > 0) and then apply STFactor to the result."
-    }], "TableText",ExpressionUUID->"2acbc586-101b-492f-83d7-15b5b862df72"]}
+    }], "TableText",ExpressionUUID->"fbe7fca4-b81c-4e59-be7d-eca410765e90"]}
   },
   GridBoxAlignment->{"Columns" -> {{Left}}},
   GridBoxItemSize->{
    "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}]], "Usage",
- CellID->1,ExpressionUUID->"499248fc-f374-44fb-8b1d-4a5ee0ae7b65"],
+ CellID->1,ExpressionUUID->"5b641961-2c16-4d5c-83fb-0e65d47bf7d0"],
 
 Cell["\<\
 STFactor factorizes products inside powers that depend on \[CurlyEpsilon]: it \
@@ -44,44 +44,44 @@ rescale the integration variables along a ray \\rho of the Newton polytope \
 then apply STFactor to the result. The factorized form makes the \
 \[Lambda]-dependence explicit, revealing whether the integrand diverges or \
 converges along that ray.\
-\>", "Notes",ExpressionUUID->"fc7a3549-ee7a-4b00-badc-9bd09993f590"],
+\>", "Notes",ExpressionUUID->"f56dd5c2-74b7-4960-8a43-6f9f32963a0d"],
 
 Cell[BoxData[
- RowBox[{"STFactor", "[", "expression", "]"}]], "Input",ExpressionUUID->"28139945-a9bb-4a0f-b41d-bf81c8c52c22"]
+ RowBox[{"STFactor", "[", "expression", "]"}]], "Input",ExpressionUUID->"e21b121c-659b-4198-a57c-80508fbaa99b"]
 }, Open  ]],
 
 Cell[CellGroupData[{
 
-Cell["Metadata", "MetadataSection",ExpressionUUID->"0c1242f1-92cf-495d-9ffc-f1ae8242794e"],
+Cell["Metadata", "MetadataSection",ExpressionUUID->"57d0fe59-5e27-41fb-8f81-e75fce4d1924"],
 
 Cell[CellGroupData[{
 
-Cell["Categorization", "CategorizationSection",ExpressionUUID->"7c0d0453-288f-4ff6-936a-48af00b804b2"],
+Cell["Categorization", "CategorizationSection",ExpressionUUID->"0ed92322-eadc-4650-bf8c-34e69b66d073"],
 
 Cell["Symbol", "Categorization",
  CellLabel->
-  "Entity Type",ExpressionUUID->"2e7880dd-90f8-4c98-8f06-e71c2acd883a"],
+  "Entity Type",ExpressionUUID->"f97a7fd1-924b-4c18-a92e-fdd7b7ddfdf1"],
 
 Cell["SubTropica", "Categorization",
  CellLabel->
-  "Paclet Name",ExpressionUUID->"06def844-c709-49c3-9d73-b1d6e9a14853"],
+  "Paclet Name",ExpressionUUID->"1ef0a35b-d97f-4fd2-a179-0da8260d49e2"],
 
 Cell["SubTropica`", "Categorization",
- CellLabel->"Context",ExpressionUUID->"fd7f73b8-fee2-459b-a4d0-d3174598ffe9"],
+ CellLabel->"Context",ExpressionUUID->"32330cd4-95c1-4640-8f16-30d4af3e5df1"],
 
 Cell["SubTropica/ref/STFactor", "Categorization",
- CellLabel->"URI",ExpressionUUID->"5506c317-af76-459e-b967-d8842457f93d"]
+ CellLabel->"URI",ExpressionUUID->"3493baed-42fc-41e2-94d9-850caa045495"]
 }, Closed]],
 
 Cell[CellGroupData[{
 
-Cell["Keywords", "KeywordsSection",ExpressionUUID->"5a8e6912-5454-479c-96c2-7fd8291a4ed8"],
+Cell["Keywords", "KeywordsSection",ExpressionUUID->"fe061e06-a923-4ef5-a4a6-ecfafdc21b82"],
 
-Cell["Feynman integral", "Keywords",ExpressionUUID->"ce4ff277-8abd-4095-923c-b08ddfae762d"],
+Cell["Feynman integral", "Keywords",ExpressionUUID->"7e1a9eec-5cde-45aa-a31f-e064b4b34378"],
 
-Cell["tropical geometry", "Keywords",ExpressionUUID->"c4acaa08-ee4a-4e40-b5ad-df95c090dde4"],
+Cell["tropical geometry", "Keywords",ExpressionUUID->"a712ac41-3c59-4f31-8405-dfa8acbcf281"],
 
-Cell["dimensional regularization", "Keywords",ExpressionUUID->"62ab5d1a-01e6-4e85-970c-eee95109ca7f"]
+Cell["dimensional regularization", "Keywords",ExpressionUUID->"6f94e052-9335-4f8d-9911-2505ce41e4fe"]
 }, Closed]]
 }, Open  ]]
 },
@@ -89,7 +89,7 @@ TaggingRules-><|"Paclet" -> "SubTropica"|>,
 FrontEndVersion->"14.3 for Mac OS X ARM (64-bit) (July 8, 2025)",
 StyleDefinitions->FrontEnd`FileName[{"Wolfram"}, "FunctionPageStylesExt.nb", 
   CharacterEncoding -> "UTF-8"],
-ExpressionUUID->"f0b8d834-122c-44a4-9643-d7456945be97"
+ExpressionUUID->"4c4edc16-dae1-4164-a049-4d08d69a2b4c"
 ]
 (* End of Notebook Content *)
 
@@ -103,26 +103,26 @@ CellTagsIndex->{}
 (*NotebookFileOutline
 Notebook[{
 Cell[CellGroupData[{
-Cell[576, 22, 85, 0, 70, "ObjectName",ExpressionUUID->"51299c27-6e5b-466e-ad3a-d722f7ab158c"],
-Cell[664, 24, 489, 10, 70, "Usage",ExpressionUUID->"499248fc-f374-44fb-8b1d-4a5ee0ae7b65",
+Cell[576, 22, 85, 0, 70, "ObjectName",ExpressionUUID->"15345e0f-ad4c-435a-bbdd-39c24b976215"],
+Cell[664, 24, 489, 10, 70, "Usage",ExpressionUUID->"5b641961-2c16-4d5c-83fb-0e65d47bf7d0",
  CellID->1],
-Cell[1156, 36, 718, 10, 70, "Notes",ExpressionUUID->"fc7a3549-ee7a-4b00-badc-9bd09993f590"],
-Cell[1877, 48, 125, 1, 70, "Input",ExpressionUUID->"28139945-a9bb-4a0f-b41d-bf81c8c52c22"]
+Cell[1156, 36, 718, 10, 70, "Notes",ExpressionUUID->"f56dd5c2-74b7-4960-8a43-6f9f32963a0d"],
+Cell[1877, 48, 125, 1, 70, "Input",ExpressionUUID->"e21b121c-659b-4198-a57c-80508fbaa99b"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[2039, 54, 90, 0, 70, "MetadataSection",ExpressionUUID->"0c1242f1-92cf-495d-9ffc-f1ae8242794e"],
+Cell[2039, 54, 90, 0, 70, "MetadataSection",ExpressionUUID->"57d0fe59-5e27-41fb-8f81-e75fce4d1924"],
 Cell[CellGroupData[{
-Cell[2154, 58, 102, 0, 70, "CategorizationSection",ExpressionUUID->"7c0d0453-288f-4ff6-936a-48af00b804b2"],
-Cell[2259, 60, 117, 2, 70, "Categorization",ExpressionUUID->"2e7880dd-90f8-4c98-8f06-e71c2acd883a"],
-Cell[2379, 64, 121, 2, 70, "Categorization",ExpressionUUID->"06def844-c709-49c3-9d73-b1d6e9a14853"],
-Cell[2503, 68, 115, 1, 70, "Categorization",ExpressionUUID->"fd7f73b8-fee2-459b-a4d0-d3174598ffe9"],
-Cell[2621, 71, 123, 1, 70, "Categorization",ExpressionUUID->"5506c317-af76-459e-b967-d8842457f93d"]
+Cell[2154, 58, 102, 0, 70, "CategorizationSection",ExpressionUUID->"0ed92322-eadc-4650-bf8c-34e69b66d073"],
+Cell[2259, 60, 117, 2, 70, "Categorization",ExpressionUUID->"f97a7fd1-924b-4c18-a92e-fdd7b7ddfdf1"],
+Cell[2379, 64, 121, 2, 70, "Categorization",ExpressionUUID->"1ef0a35b-d97f-4fd2-a179-0da8260d49e2"],
+Cell[2503, 68, 115, 1, 70, "Categorization",ExpressionUUID->"32330cd4-95c1-4640-8f16-30d4af3e5df1"],
+Cell[2621, 71, 123, 1, 70, "Categorization",ExpressionUUID->"3493baed-42fc-41e2-94d9-850caa045495"]
 }, Closed]],
 Cell[CellGroupData[{
-Cell[2781, 77, 90, 0, 70, "KeywordsSection",ExpressionUUID->"5a8e6912-5454-479c-96c2-7fd8291a4ed8"],
-Cell[2874, 79, 91, 0, 70, "Keywords",ExpressionUUID->"ce4ff277-8abd-4095-923c-b08ddfae762d"],
-Cell[2968, 81, 92, 0, 70, "Keywords",ExpressionUUID->"c4acaa08-ee4a-4e40-b5ad-df95c090dde4"],
-Cell[3063, 83, 101, 0, 70, "Keywords",ExpressionUUID->"62ab5d1a-01e6-4e85-970c-eee95109ca7f"]
+Cell[2781, 77, 90, 0, 70, "KeywordsSection",ExpressionUUID->"fe061e06-a923-4ef5-a4a6-ecfafdc21b82"],
+Cell[2874, 79, 91, 0, 70, "Keywords",ExpressionUUID->"7e1a9eec-5cde-45aa-a31f-e064b4b34378"],
+Cell[2968, 81, 92, 0, 70, "Keywords",ExpressionUUID->"a712ac41-3c59-4f31-8405-dfa8acbcf281"],
+Cell[3063, 83, 101, 0, 70, "Keywords",ExpressionUUID->"6f94e052-9335-4f8d-9911-2505ce41e4fe"]
 }, Closed]]
 }, Open  ]]
 }

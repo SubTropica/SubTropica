@@ -19,3 +19,25 @@ pysecdec_cache/
 # Logs
 *.log
 logs/
+
+# Test runner + backup state (should never reach the public tree)
+test-results/
+.phase6-backups/
+
+# Hard-leak paths guarded against on the dev side too (defence in depth).
+# Matches the entries in scripts/public-release-exclude.txt; rsync should
+# already strip these before the staging tree is committed, but if a
+# future change ever accidentally copies them in, .gitignore keeps them
+# out of the squash commit.
+cuttingEdgeResult
+examples_tutorial.nb
+ui/_norm_fields.json
+ui/audit-starred.mjs
+ui/test-*.mjs
+ui/merge-normalized-symbols.py
+ui/normalize-symbols.py
+ui/recompute-normalized-symbols.wl
+
+# data/topology_names.json is dev-only (read by compute_diagram_name.py
+# during library builds; no consumer on the public paclet)
+data/

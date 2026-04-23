@@ -5842,7 +5842,7 @@
 
 
 (* ::Section::Closed:: *)
-(*(g-2) anomalous magnetic moment*)
+(*(g-2) *)
 
 
 STIntegrate[{(l[1] - p[2])^2, -m^2 + (-l[1] + p[1] + p[2])^2, -m^2 + l[1]^2, q\[CenterDot](l[1] - p[2])},"Exponents"->{1, 1, 1, -1},"Substitutions"->{M1|M2->m,M3->0}]

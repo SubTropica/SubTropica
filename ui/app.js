@@ -1062,7 +1062,18 @@ window.addEventListener('load', () => {
   setTimeout(startTour, 1200);
 });
 
-const ST_VERSION = '1.0.445';
+// ST_VERSION is tied to $SubTropicaVersion in SubTropica.wl via the Python
+// server's template substitution (see generatePythonServer in SubTropica.wl
+// ~21140; the server replaces every occurrence of "{{ST_VERSION}}" in served
+// text assets with the live $SubTropicaVersion at session start).  For the
+// static subtropi.ca deploy, scripts/_bake_ui_version.sh substitutes the
+// same token before Firebase upload.  If neither substitution ran (e.g. this
+// file is loaded directly via file://) we fall back to "dev" so the
+// placeholder never reaches end users.
+const ST_VERSION = (() => {
+  const v = '{{ST_VERSION}}';
+  return v.includes('{{') ? 'dev' : v;
+})();
 
 // ─── Library ─────────────────────────────────────────────────────────
 

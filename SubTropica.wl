@@ -805,7 +805,7 @@ Options[ConfigureSubTropica] = {
 With[{$SubTropicaDir = DirectoryName[$InputFileName]},
 
 $SubTropicaInstallDir = $SubTropicaDir;
-$SubTropicaVersion = "1.1.2";
+$SubTropicaVersion = "1.1.3";
 
 (* FindRoots root-letter substitutions: W$i -> algebraic root expressions.
    Set by STReadResults when the integration used FindRoots alphabet letters.
@@ -7482,6 +7482,13 @@ STtropicalDataBuildScript[polyOriginalNames_, varsOriginalNames_, tag_String] :=
      scriptFile, outputFile, workDir},
 
     workDir    = Directory[];
+    (* Ensure the scratch dir exists.  On a fresh CWD this function is the
+       first polymake-script writer (called from STTropicalDataPrecompute
+       before any of the older STtropicalData* functions that create it),
+       so without this guard the three OpenWrite/WriteString/Close calls
+       below emit noopen / strml / Close::stream for the first 3 scripts. *)
+    Quiet @ CreateDirectory[FileNameJoin[{workDir, "mathPolycoms"}],
+                            CreateIntermediateDirectories -> True];
     scriptFile = FileNameJoin[{workDir, "mathPolycoms", "tropScript_" <> tag <> ".pl"}];
     outputFile = FileNameJoin[{workDir, "mathPolycoms", "output_"    <> tag <> ".pl"}];
 
@@ -9338,14 +9345,17 @@ fromSetToList}
 	(* Loop over faces *)
 	Do[
 		directoryName="integrands/"<>id<>"/ord_"<>ToString[order]<>"_face_"<>ToString[i];
-		(* Creating sub-directory *)
-		(*messageFunction["Setting up face sub-directory "<>directoryName];*)
+		(* Creating sub-directory.  Use CreateIntermediateDirectories so the
+		   integrands/<id>/ parent is built on demand; without it, a fresh
+		   CWD hits CreateDirectory silently failing (parent absent), and
+		   the downstream OpenWrite/WriteString/Close on vars.mpl etc. emits
+		   OpenWrite::noopen / WriteString::strml / Close::stream. *)
 		If[Not[FileExistsQ[directoryName]],
-			CreateDirectory[directoryName];
+			CreateDirectory[directoryName, CreateIntermediateDirectories -> True];
 		];
 		(* Directory to store results of this face *)
 		If[Not[FileExistsQ[directoryName<>"/results"]],
-			CreateDirectory[directoryName<>"/results"];
+			CreateDirectory[directoryName<>"/results", CreateIntermediateDirectories -> True];
 		];
 		(* prefix pointing to the directory and face*)
 		prefix=directoryName<>"/";
@@ -11381,10 +11391,13 @@ fromSetToList,exps,pols}
 			variablesAndCoeffs = Table[{e[[2]],coeffs},{e,subtraction}];
 
 			directoryName="integrands/"<>id<>"/ord_"<>ToString[ord]<>"_face_"<>ToString[i];
-			(* Creating sub-directory *)
-			(*messageFunction["Setting up face sub-directory "<>directoryName];*)
+			(* Creating sub-directory.  CreateIntermediateDirectories lets the
+			   integrands/<id>/ parent spring into existence on a fresh CWD;
+			   otherwise CreateDirectory silently no-ops and the downstream
+			   vars.m / polys.m / integrands.m writes emit noopen / strml /
+			   Close::stream. *)
 			If[Not[FileExistsQ[directoryName]],
-				CreateDirectory[directoryName];
+				CreateDirectory[directoryName, CreateIntermediateDirectories -> True];
 			];
 			(* Directory to store results of this face *)
 			(*If[Not[FileExistsQ[directoryName<>"/results"]],

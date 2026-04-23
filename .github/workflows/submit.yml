@@ -82,7 +82,17 @@ jobs:
               "stCommand": payload.get("stCommand", ""),
               "contributor": payload.get("contributor", ""),
               "timestamp": payload.get("timestamp", ""),
-              "byteCount": payload.get("byteCount", 0)
+              "byteCount": payload.get("byteCount", 0),
+              # Numerical verification (STSubmitResult enforces this
+              # before reaching the Worker; fields are always present).
+              # UI badge reads verified/verifiedMethod/verifiedMaxRelErr/
+              # verifiedAt from cached library entries.
+              "verified": payload.get("verified", False),
+              "verifiedMethod": payload.get("verifiedMethod", ""),
+              "verifiedTolerance": payload.get("verifiedTolerance", 0),
+              "verifiedMaxRelErr": payload.get("verifiedMaxRelErr", -1),
+              "verifiedAt": payload.get("verifiedAt", ""),
+              "verifiedKinPoint": payload.get("verifiedKinPoint", [])
           }
 
           # Read existing entry.json or create new
