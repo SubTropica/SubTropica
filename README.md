@@ -6,17 +6,18 @@
 [![Data: CC BY-NC-SA 4.0](https://img.shields.io/badge/data_license-CC_BY--NC--SA_4.0-orange)](LICENSE-DATA)
 [![Website](https://img.shields.io/badge/web-subtropi.ca-purple)](https://subtropi.ca)
 
-A Mathematica package for computing Feynman integrals via tropical geometry. SubTropica automates the tropical subtraction algorithm — from drawing a diagram to obtaining an analytic result in terms of hyperlogarithms and multiple polylogarithms — through a single function call or an interactive GUI.
+A Mathematica package for computing Euler integrals via tropical geometry. SubTropica automates the tropical subtraction algorithm — from drawing a diagram to obtaining an analytic result in terms of multiple polylogarithms, through a single function call or an interactive GUI.
 
 > **Paper:** M. Giroux, S. Mizera, G. Salvatori, *SubTropica*, arXiv:26XX.XXXXX [hep-th].
-> Every code listing from the paper is reproduced and checked in [`paperChecks.wl`](paperChecks.wl) at the repository root — evaluate it end-to-end after `Needs["SubTropica`"]` to regenerate all quoted outputs.
+
+Every code listing from the paper is reproduced and checked in [`paperChecks.wl`](paperChecks.wl) at the repository root — evaluate it end-to-end after `Needs["SubTropica`"]` to regenerate all quoted outputs.
 
 ## Features
 
 - **Tropical subtraction** — Newton polytope analysis, singular subtraction, and epsilon expansion for generic Euler integrals
 - **HyperIntica** — built-in integration engine for hyperlogarithms (a native Mathematica reimplementation of [HyperInt](https://arxiv.org/abs/1401.4361))
 - **Finite-field arithmetic** — optional [FiniteFlow](https://github.com/peraro/finiteflow) + [SPQR](https://github.com/Giu989/SPQR) backend to avoid intermediate expression swell in partial fractions
-- **Interactive GUI** — draw Feynman diagrams, assign masses, configure options, and integrate, all from a graphical interface launched with `STIntegrate[]`.  For library browsing and Review tool access without a blocking kernel loop, call `STBrowser[]` to open the UI in your default browser while the notebook stays free for parallel work.
+- **Interactive GUI** — draw Feynman diagrams, assign masses, configure options, and integrate, all from a graphical interface launched with `STIntegrate[]`.
 - **Multiple input formats** — Feynman graphs, propagator lists with numerators, or raw Euler integrands
 - **Parallelized pipeline** — automatic GL(1) gauge fixing, linear reducibility analysis, tropical subtraction scheme, and parallel integration of hyperlogarithms
 
