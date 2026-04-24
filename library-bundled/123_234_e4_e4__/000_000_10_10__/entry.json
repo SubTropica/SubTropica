@@ -1,63 +1,102 @@
 {
-  "CNickelIndex": "123|234|e4|e4||:000|000|10|10||",
-  "MassScales": 0,
-  "FunctionClass": "MPL",
-  "EpsilonOrder": "-4,-3,-2,-1,0,1,2",
-  "References": [
-    "arXiv:1403.3385"
-  ],
-  "Records": [
-    {
-      "authors": "Panzer, Erik",
-      "texkey": "Panzer:2014caa",
-      "verified": false,
-      "verifiedAt": "",
-      "ancillaryPaths": [
-        "anc/HyperInt.mpl",
-        "anc/Manual.mw"
-      ],
-      "reference": "arXiv:1403.3385, Comput.Phys.Commun. 188 (148), 2015",
-      "ancillaryFiles": [],
-      "recordId": "bf_7fce72851998",
-      "masterCount": 0,
-      "transcendentalWeight": 7,
-      "computationLevel": "full",
-      "doi": "10.1016/j.cpc.2014.10.019",
-      "tools": [
-        "HyperInt"
-      ],
-      "description": "Four-loop massless propagator $M_{3,6}$ computed via direct parametric integration with HyperInt. Result is MZV through weight 7 at $\\mathcal{O}(\\varepsilon^2)$. Period at $\\varepsilon^0$ is $20\\,\\zeta(5)$.",
-      "epsOrders": "-4,-3,-2,-1,0,1,2",
-      "method": [],
-      "dimScheme": "d=4-2*eps",
-      "location": "Section 5.3, Fig. 5",
-      "familyName": "M36"
-    }
-  ],
-  "Names": [
-    "M36"
-  ],
-  "Source": [
-    "arXiv"
-  ],
-  "Loops": 4,
-  "NumPropagators": 8,
-  "Results": [],
-  "edges": "{{{1, 2}, 0}, {{1, 3}, 0}, {{1, 4}, 0}, {{2, 3}, 0}, {{2, 4}, 0}, {{2, 5}, 0}, {{3, 5}, 0}, {{4, 5}, 0}}",
-  "nodes": "{{3, M}, {4, M}}",
-  "CanonicalName": "Massless tetrahedral core (a)",
-  "MassConfig": {
-    "numEdges": 8,
-    "numMassiveEdges": 0,
-    "numMasslessEdges": 8,
-    "distinctInternalMasses": 0,
-    "internalMassLabels": [],
-    "edgeMassPattern": "00000000",
-    "numExtLegs": 2,
-    "numOnshellMassiveExtLegs": 2,
-    "numMasslessExtLegs": 0,
-    "extLegSignature": "MM"
-  },
-  "Subsectors": [],
-  "ParentSectors": []
+	"CNickelIndex": "123|234|e4|e4||:000|000|10|10||",
+	"MassScales": 0,
+	"FunctionClass": "MPL",
+	"EpsilonOrder": "-4,-3,-2,-1,0,1,2",
+	"References": [
+		"arXiv:1403.3385"
+	],
+	"Records": [
+		{
+			"authors": "Panzer, Erik",
+			"texkey": "Panzer:2014caa",
+			"verified": false,
+			"verifiedAt": "",
+			"ancillaryPaths": [
+				"anc/HyperInt.mpl",
+				"anc/Manual.mw"
+			],
+			"reference": "arXiv:1403.3385, Comput.Phys.Commun. 188 (148), 2015",
+			"ancillaryFiles": [],
+			"recordId": "bf_7fce72851998",
+			"masterCount": 0,
+			"transcendentalWeight": 7,
+			"computationLevel": "full",
+			"doi": "10.1016/j.cpc.2014.10.019",
+			"tools": [
+				"HyperInt"
+			],
+			"description": "Four-loop massless propagator $M_{3,6}$ computed via direct parametric integration with HyperInt. Result is MZV through weight 7 at $\\mathcal{O}(\\varepsilon^2)$. Period at $\\varepsilon^0$ is $20\\,\\zeta(5)$.",
+			"epsOrders": "-4,-3,-2,-1,0,1,2",
+			"method": [],
+			"dimScheme": "d=4-2*eps",
+			"location": "Section 5.3, Fig. 5",
+			"familyName": "M36"
+		}
+	],
+	"Names": [
+		"M36"
+	],
+	"Source": [
+		"arXiv"
+	],
+	"Loops": 4,
+	"NumPropagators": 8,
+	"Results": [
+		{
+			"resultCompressed": "1:eJztWL1OwzAQTto0IGCEAYkF9Ql4BhgYWqkqTGxBSipLKanq8CNejkeAt2BiQgIKiNROaH59ts8KEkMXp0593/f5fGefc3gZjQPXsiy6xZozf058euLFHu2yrj+jhD2soMMHOKwZEBpnvR5rzsnUp1l3kzVjLybRlRcSm3UIfxNsrwxH4TUVGvLuKLr155R3R4R0KoSnYTRJ8YJuWUMqK+Ox8/E5MjkAMHpNjKIB0XaRaHblVytooLYdfbRCFqjNMUEDtX0nSYJBa81vdrPJwqdAS3Jt4gDkNmkOTO9vSBeSUxnVE9B8cJrKqAKda77wYy+D769epZlShRGk2Ia1SrEWs0jJ+sqmUwo5bVZHFdtq6q/2qGtxpqROWqaGEkZAfcSHQvhGu5mApG9CIk3WVkkQM9lDkqi3RCj1jEgQM1nwmMOS/PWaiPZVJcmjbCauLISlPiOfwOkihcR6yFy8/NjGitc4u3+MIUGV2IkbBeGDiYvVkYjxR827oIsRKgULVoJEmMuLojeTScr95iJVaoQmVqVGaCISyAZw1aH5jAxNQVRqlhgvnOmpA5YYaWHerCOVuOkxoioTm7WuEpf/pyyJKriOpePx4kRqltZK432xsas1o3fZWkurZkExX7sFLLRvAXp1P7Bqmngc4jiazkL/rnS7b1a8VWfwa8nv6gpXoo6a3bBykYNokloPh+tvAutvAvporflNvS3/u28CWRrmcpcbVGDJ",
+			"resultTeX": "\\frac{\\pi ^2 H(0,1,1\\,;1)+28 H(0,0,0,1,1\\,;1)+20 H(0,0,1,0,1\\,;1)+20 H(0,0,1,1,1\\,;1)+12 H(0,1,0,0,1\\,;1)+4 H(0,1,0,1,1\\,;1)-4 H(0,1,1,0,1\\,;1)+20 H(0,1,1,1,1\\,;1)-8 \\zeta(2) \\zeta(3)-\\pi ^2 \\zeta(3)+20 \\zeta(5)}{8 \\varepsilon}+\\left(-\\frac{1}{2} i \\left(\\pi -i \\log \\left(M^2\\right)\\right) \\left(\\pi ^2 H(0,1,1\\,;1)+28 H(0,0,0,1,1\\,;1)+20 H(0,0,1,0,1\\,;1)+20 H(0,0,1,1,1\\,;1)+12 H(0,1,0,0,1\\,;1)+4 H(0,1,0,1,1\\,;1)-4 H(0,1,1,0,1\\,;1)+20 H(0,1,1,1,1\\,;1)-8 \\zeta(2) \\zeta(3)-\\pi ^2 \\zeta(3)+20 \\zeta(5)\\right)-\\frac{9}{2} \\zeta(3) H(0,1,1\\,;1)+\\frac{7}{8} \\pi ^2 H(0,1,1\\,;1)-\\frac{13}{12} \\pi ^2 H(0,0,1,1\\,;1)-\\frac{5}{12} \\pi ^2 H(0,1,0,1\\,;1)-\\frac{1}{12} \\pi ^2 H(0,1,1,1\\,;1)+\\frac{49}{2} H(0,0,0,1,1\\,;1)+\\frac{35}{2} H(0,0,1,0,1\\,;1)+\\frac{35}{2} H(0,0,1,1,1\\,;1)+\\frac{21}{2} H(0,1,0,0,1\\,;1)+\\frac{7}{2} H(0,1,0,1,1\\,;1)-\\frac{7}{2} H(0,1,1,0,1\\,;1)+\\frac{35}{2} H(0,1,1,1,1\\,;1)-\\frac{49}{2} H(0,0,0,0,1,1\\,;1)-6 H(0,0,0,1,0,1\\,;1)-\\frac{49}{2} H(0,0,0,1,1,1\\,;1)-6 H(0,0,1,0,0,1\\,;1)-2 H(0,0,1,0,1,1\\,;1)+2 H(0,0,1,1,0,1\\,;1)-\\frac{65}{2} H(0,0,1,1,1,1\\,;1)-2 H(0,1,0,0,0,1\\,;1)+2 H(0,1,0,0,1,1\\,;1)+H(0,1,0,1,0,1\\,;1)-10 H(0,1,0,1,1,1\\,;1)+6 H(0,1,1,0,0,1\\,;1)-10 H(0,1,1,0,1,1\\,;1)-6 H(0,1,1,1,0,1\\,;1)-\\frac{25}{2} H(0,1,1,1,1,1\\,;1)-7 \\zeta(2) \\zeta(3)+\\frac{7}{2} \\zeta(3) \\zeta(3)-\\frac{19}{720} \\pi ^4 \\zeta(2)-\\frac{7}{8} \\pi ^2 \\zeta(3)+\\frac{5}{12} \\pi ^2 \\zeta(4)+\\frac{35 \\zeta(5)}{2}+\\frac{25 \\zeta(6)}{2}\\right)+O\\left(\\varepsilon^1\\right)",
+			"dimension": "4 - 2*eps",
+			"epsOrder": 0,
+			"propExponents": [
+				1,
+				1,
+				1,
+				1,
+				1,
+				1,
+				1,
+				1
+			],
+			"propagators": 0,
+			"numerators": [],
+			"internalMasses": [],
+			"externalMasses": [],
+			"substitutions": "{}",
+			"normalization": "Automatic",
+			"stVersion": "SubTropica v1.1.4",
+			"stCommand": "STIntegrate[{{{{1, 3}, 0}, {{2, 3}, 0}, {{2, 4}, 0}, {{1, 4}, 0}, {{3, 5}, 0}, {{4, 5}, 0}, {{1, 5}, 0}, {{2, 5}, 0}}, {{1, M}, {2, M}}}, \"Dimension\" -> \"4 - 2*eps\", \"Order\" -> 0]",
+			"contributor": "Anonymous",
+			"timestamp": "Thu 23 Apr 2026 23:11:45",
+			"byteCount": 18208,
+			"verified": true,
+			"verifiedMethod": "pySecDec",
+			"verifiedTolerance": 0.001,
+			"verifiedMaxRelErr": 9.112481370808627e-05,
+			"verifiedAt": "Thu 23 Apr 2026 23:11:44",
+			"verifiedKinPoint": [
+				{
+					"var": "Msq",
+					"value": "-89/5"
+				}
+			]
+		}
+	],
+	"edges": "{{{1, 2}, 0}, {{1, 3}, 0}, {{1, 4}, 0}, {{2, 3}, 0}, {{2, 4}, 0}, {{2, 5}, 0}, {{3, 5}, 0}, {{4, 5}, 0}}",
+	"nodes": "{{3, M}, {4, M}}",
+	"CanonicalName": "Massless tetrahedral core (a)",
+	"MassConfig": {
+		"numEdges": 8,
+		"numMassiveEdges": 0,
+		"numMasslessEdges": 8,
+		"distinctInternalMasses": 0,
+		"internalMassLabels": [],
+		"edgeMassPattern": "00000000",
+		"numExtLegs": 2,
+		"numOnshellMassiveExtLegs": 2,
+		"numMasslessExtLegs": 0,
+		"extLegSignature": "MM"
+	},
+	"Subsectors": [],
+	"ParentSectors": []
 }
