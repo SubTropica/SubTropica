@@ -1,92 +1,138 @@
 {
-  "CNickelIndex": "123|45|e4|e5|e|e|:000|00|00|00|0|1|",
-  "MassScales": 3,
-  "FunctionClass": "unknown",
-  "EpsilonOrder": "",
-  "References": [
-    "arXiv:1408.3107"
-  ],
-  "Records": [
-    {
-      "reference": "arXiv:1408.3107",
-      "authors": [
-        {
-          "full_name": "Di Vita, Stefano",
-          "inspire_id": 1078369
-        },
-        {
-          "full_name": "Mastrolia, Pierpaolo",
-          "inspire_id": 1025886
-        },
-        {
-          "full_name": "Schubert, Ulrich",
-          "inspire_id": 1284288
-        },
-        {
-          "full_name": "Yundin, Valery",
-          "inspire_id": 1071118
-        }
-      ],
-      "description": "Two-loop planar ladder-box diagram with one massive external leg. All internal propagators are massless. Provides 18 master integrals computed to higher epsilon orders than previously available in the literature (Gehrmann:1999as, Gehrmann:2000zt). Covers the full tower of subtopologies (bubble, vertex, box types).",
-      "epsOrders": "6",
-      "familyName": "TwoLoopLadderBox1m",
-      "method": "DEs (differential equations), Magnus exponential, IBP reduction",
-      "tools": [
-        "Reduze 2",
-        "GiNaC",
-        "FIESTA 3"
-      ],
-      "ancillaryFiles": true,
-      "doi": "",
-      "texkey": "",
-      "masterCount": 18,
-      "dimScheme": "d=4-2*eps",
-      "computationLevel": "analytic",
-      "location": "diffeq.tex, Eqs. for D_1..D_7 (first `gather` block after 'For the two-loop ladder diagram in Fig.~\\ref{Fig:3L1mLadder:a}') and auxiliary D_8, D_9 (second `gather` block); kinematics gather with s,t,u,m^2 definitions. 2loop.tex, Sec. sec:2loop, Eq. def:2loopBasisMIs (integer-power basis {f_i}_{i=1..18}) and Eq. def:2loopCanonicalMIs (canonical basis {g_i}_{i=1..18}); Fig. Fig:2loopMIs (figures/2loopMIs.pdf) depicting the 18 MI topologies. Appendix App:2loopMatrices (2loopMatrices.tex) for the sparse matrices M_1..M_6 of the canonical DE system. Ancillary file anc/2loopMIs.m: list `gladder2L` with 18 explicit e-expansions through e^6 (e^7 is a `Help[...]` placeholder).",
-      "recordId": "bx_02b139ce5669",
-      "verified": false,
-      "verifiedAt": ""
-    }
-  ],
-  "Source": [
-    "SubTropica",
-    "arXiv"
-  ],
-  "Names": [
-    "One-mass planar double box",
-    "TwoLoopLadderBox1m"
-  ],
-  "Results": [],
-  "edges": "{{{1, 2}, 0}, {{1, 3}, 0}, {{1, 4}, 0}, {{2, 5}, 0}, {{2, 6}, 0}, {{3, 5}, 0}, {{4, 6}, 0}}",
-  "nodes": "{{3, 0}, {4, 0}, {6, M}, {5, 0}}",
-  "Loops": 2,
-  "NumPropagators": 7,
-  "CanonicalName": "1-mass double box",
-  "MassConfig": {
-    "numEdges": 7,
-    "numMassiveEdges": 0,
-    "numMasslessEdges": 7,
-    "distinctInternalMasses": 0,
-    "internalMassLabels": [],
-    "edgeMassPattern": "0000000",
-    "numExtLegs": 4,
-    "numOnshellMassiveExtLegs": 1,
-    "numMasslessExtLegs": 3,
-    "extLegSignature": "00M0"
-  },
-  "commonNames": [
-    "L2"
-  ],
-  "Subsectors": [
-    "123|24|e|e4|e|:000|00|1|00|0|",
-    "123|e24|e|e4|e|:000|000|0|00|1|",
-    "123|e24|e|e4|e|:000|000|0|10|0|",
-    "123|e24|e|e4|e|:000|100|0|00|0|"
-  ],
-  "ParentSectors": [
-    "123|45|e4|e6|e|e6|e|:000|00|00|00|0|00|0|",
-    "123|45|e4|e6|e|e6|e|:000|00|00|00|0|01|0|",
-    "123|45|e4|e6|e|e6|e|:000|00|00|00|0|10|0|",
-    "123|45|e4|e6|e|e6|e|:000|00|00|00|0|11|1|"
-  ]
+	"CNickelIndex": "123|45|e4|e5|e|e|:000|00|00|00|0|1|",
+	"MassScales": 3,
+	"FunctionClass": "unknown",
+	"EpsilonOrder": "",
+	"References": [
+		"arXiv:1408.3107"
+	],
+	"Records": [
+		{
+			"reference": "arXiv:1408.3107",
+			"authors": [
+				{
+					"full_name": "Di Vita, Stefano",
+					"inspire_id": 1078369
+				},
+				{
+					"full_name": "Mastrolia, Pierpaolo",
+					"inspire_id": 1025886
+				},
+				{
+					"full_name": "Schubert, Ulrich",
+					"inspire_id": 1284288
+				},
+				{
+					"full_name": "Yundin, Valery",
+					"inspire_id": 1071118
+				}
+			],
+			"description": "Two-loop planar ladder-box diagram with one massive external leg. All internal propagators are massless. Provides 18 master integrals computed to higher epsilon orders than previously available in the literature (Gehrmann:1999as, Gehrmann:2000zt). Covers the full tower of subtopologies (bubble, vertex, box types).",
+			"epsOrders": "6",
+			"familyName": "TwoLoopLadderBox1m",
+			"method": "DEs (differential equations), Magnus exponential, IBP reduction",
+			"tools": [
+				"Reduze 2",
+				"GiNaC",
+				"FIESTA 3"
+			],
+			"ancillaryFiles": true,
+			"doi": "",
+			"texkey": "",
+			"masterCount": 18,
+			"dimScheme": "d=4-2*eps",
+			"computationLevel": "analytic",
+			"location": "diffeq.tex, Eqs. for D_1..D_7 (first `gather` block after 'For the two-loop ladder diagram in Fig.~\\ref{Fig:3L1mLadder:a}') and auxiliary D_8, D_9 (second `gather` block); kinematics gather with s,t,u,m^2 definitions. 2loop.tex, Sec. sec:2loop, Eq. def:2loopBasisMIs (integer-power basis {f_i}_{i=1..18}) and Eq. def:2loopCanonicalMIs (canonical basis {g_i}_{i=1..18}); Fig. Fig:2loopMIs (figures/2loopMIs.pdf) depicting the 18 MI topologies. Appendix App:2loopMatrices (2loopMatrices.tex) for the sparse matrices M_1..M_6 of the canonical DE system. Ancillary file anc/2loopMIs.m: list `gladder2L` with 18 explicit e-expansions through e^6 (e^7 is a `Help[...]` placeholder).",
+			"recordId": "bx_02b139ce5669",
+			"verified": false,
+			"verifiedAt": ""
+		}
+	],
+	"Source": [
+		"SubTropica",
+		"arXiv"
+	],
+	"Names": [
+		"One-mass planar double box",
+		"TwoLoopLadderBox1m"
+	],
+	"Results": [
+		{
+			"resultCompressed": "1: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",
+			"resultTeX": "\\frac{1}{\\varepsilon^4 s_{12} \\left(-M^2+s_{12}+s_{23}\\right)^2}-\\frac{4 \\log \\left(-M^2+s_{12}+s_{23}\\right)-3 \\log \\left(-\\frac{-M^2+s_{12}+s_{23}}{s_{12}}\\right)+3 \\log \\left(-M^{-2} \\left(-M^2+s_{12}+s_{23}\\right)\\right)+\\log \\left(s_{12} M^{-2}\\right)}{2 \\varepsilon^3 \\left(s_{12} \\left(-M^2+s_{12}+s_{23}\\right)^2\\right)}-\\frac{72 H\\left(0,\\frac{M^2}{s_{12}+s_{23}}\\,;1\\right)+24 H\\left(0,\\frac{M^2}{M^2-s_{12}}\\,;1\\right)-192 H(-1,-1\\,;1)+6 \\log ^2\\left(\\frac{s_{12}}{-M^2+s_{12}+s_{23}}\\right)-48 \\log ^2\\left(-M^2+s_{12}+s_{23}\\right)-30 \\log ^2\\left(-\\frac{-M^2+s_{12}+s_{23}}{s_{12}}\\right)-24 \\log ^2\\left(-M^{-2} \\left(-M^2+s_{12}+s_{23}\\right)\\right)+12 \\log ^2\\left(M^{-2} \\left(-M^2+s_{12}+s_{23}\\right)\\right)+12 \\log \\left(-\\frac{-M^2+s_{12}+s_{23}}{s_{12}}\\right) \\log \\left(\\frac{s_{12}}{-M^2+s_{12}+s_{23}}\\right)-24 \\log \\left(s_{12} M^{-2}\\right) \\log \\left(-M^2+s_{12}+s_{23}\\right)+12 \\log \\left(s_{12} M^{-2}\\right) \\log \\left(-\\frac{-M^2+s_{12}+s_{23}}{s_{12}}\\right)+72 \\log \\left(-M^2+s_{12}+s_{23}\\right) \\log \\left(-\\frac{-M^2+s_{12}+s_{23}}{s_{12}}\\right)-12 \\log \\left(s_{12} M^{-2}\\right) \\log \\left(-M^{-2} \\left(-M^2+s_{12}+s_{23}\\right)\\right)+24 \\log \\left(-\\frac{s_{12}}{-M^2+s_{12}+s_{23}}\\right) \\log \\left(-M^{-2} \\left(-M^2+s_{12}+s_{23}\\right)\\right)-72 \\log \\left(-M^2+s_{12}+s_{23}\\right) \\log \\left(-M^{-2} \\left(-M^2+s_{12}+s_{23}\\right)\\right)+96 \\log \\left(-\\frac{-M^2+s_{12}+s_{23}}{s_{12}}\\right) \\log \\left(-M^{-2} \\left(-M^2+s_{12}+s_{23}\\right)\\right)-24 \\log \\left(-M^{-2} \\left(-M^2+s_{12}+s_{23}\\right)\\right) \\log \\left(M^{-2} \\left(-M^2+s_{12}+s_{23}\\right)\\right)+138 \\zeta(2)+\\pi ^2+96 \\log ^2(2)}{24 \\varepsilon^2 \\left(s_{12} \\left(-M^2+s_{12}+s_{23}\\right)^2\\right)}+(\\text{more terms})+O\\left(\\varepsilon^1\\right)",
+			"dimension": "4 - 2*eps",
+			"epsOrder": 0,
+			"propExponents": [
+				1,
+				1,
+				1,
+				1,
+				1,
+				1,
+				1
+			],
+			"propagators": 0,
+			"numerators": [],
+			"internalMasses": [],
+			"externalMasses": [],
+			"substitutions": "{}",
+			"normalization": "Automatic",
+			"stVersion": "SubTropica v1.1.4",
+			"stCommand": "STIntegrate[{{{{5, 6}, 0}, {{1, 5}, 0}, {{2, 5}, 0}, {{3, 6}, 0}, {{4, 6}, 0}, {{1, 3}, 0}, {{2, 4}, 0}}, {{1, 0}, {2, 0}, {3, 0}, {4, M}}}, \"Dimension\" -> \"4 - 2*eps\", \"Order\" -> 0]",
+			"contributor": "Anonymous",
+			"timestamp": "Thu 23 Apr 2026 22:04:37",
+			"byteCount": 522872,
+			"verified": true,
+			"verifiedMethod": "pySecDec",
+			"verifiedTolerance": 0.001,
+			"verifiedMaxRelErr": 6.335540639465003e-05,
+			"verifiedAt": "Thu 23 Apr 2026 22:04:37",
+			"verifiedKinPoint": [
+				{
+					"var": "Msq",
+					"value": "-17/31"
+				},
+				{
+					"var": "s12",
+					"value": "-51/248"
+				},
+				{
+					"var": "s23",
+					"value": "-17/248"
+				}
+			]
+		}
+	],
+	"edges": "{{{1, 2}, 0}, {{1, 3}, 0}, {{1, 4}, 0}, {{2, 5}, 0}, {{2, 6}, 0}, {{3, 5}, 0}, {{4, 6}, 0}}",
+	"nodes": "{{3, 0}, {4, 0}, {6, M}, {5, 0}}",
+	"Loops": 2,
+	"NumPropagators": 7,
+	"CanonicalName": "1-mass double box",
+	"MassConfig": {
+		"numEdges": 7,
+		"numMassiveEdges": 0,
+		"numMasslessEdges": 7,
+		"distinctInternalMasses": 0,
+		"internalMassLabels": [],
+		"edgeMassPattern": "0000000",
+		"numExtLegs": 4,
+		"numOnshellMassiveExtLegs": 1,
+		"numMasslessExtLegs": 3,
+		"extLegSignature": "00M0"
+	},
+	"commonNames": [
+		"L2"
+	],
+	"Subsectors": [
+		"123|24|e|e4|e|:000|00|1|00|0|",
+		"123|e24|e|e4|e|:000|000|0|00|1|",
+		"123|e24|e|e4|e|:000|000|0|10|0|",
+		"123|e24|e|e4|e|:000|100|0|00|0|"
+	],
+	"ParentSectors": [
+		"123|45|e4|e6|e|e6|e|:000|00|00|00|0|00|0|",
+		"123|45|e4|e6|e|e6|e|:000|00|00|00|0|01|0|",
+		"123|45|e4|e6|e|e6|e|:000|00|00|00|0|10|0|",
+		"123|45|e4|e6|e|e6|e|:000|00|00|00|0|11|1|"
+	]
 }
