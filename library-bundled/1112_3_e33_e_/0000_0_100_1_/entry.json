@@ -1,53 +1,91 @@
 {
-  "CNickelIndex": "1112|3|e33|e|:0000|0|100|1|",
-  "MassScales": 1,
-  "FunctionClass": "MPL",
-  "EpsilonOrder": "-2,-1,0,1,2",
-  "References": [
-    "arXiv:1705.06483 (doi: 10.1103/PhysRevD.96.036016)"
-  ],
-  "Records": [
-    {
-      "epsOrders": "-2,-1,0,1,2",
-      "reference": "arXiv:1705.06483 (doi: 10.1103/PhysRevD.96.036016)",
-      "authors": "Mikhail V. Kompaniets and Erik Panzer",
-      "description": "massless propagator computed for the $\\varphi^4$ 6-loop calculation available from the ancillary files p_int_g2.mpl (Maple) and p_int_g2.m (Mathematica) of the arXiv submission results are rational linear combinations of multiple zeta values",
-      "recordId": "1504715324.aCV7",
-      "verified": true,
-      "verifiedAt": "2026-04-07",
-      "ancillaryFiles": true
-    }
-  ],
-  "Source": [
-    "arXiv",
-    "Loopedia"
-  ],
-  "Results": [],
-  "Names": [
-    "Massless 4-loop propagator (7 propagators)",
-    "4-loop propagator (7 propagators)",
-    "4-loop propagator (7 propagators), 3 multi-edges"
-  ],
-  "edges": "{{{1, 2}, 0}, {{1, 2}, 0}, {{1, 2}, 0}, {{1, 3}, 0}, {{2, 4}, 0}, {{3, 4}, 0}, {{3, 4}, 0}}",
-  "nodes": "{{3, M}, {4, M}}",
-  "CanonicalName": "Massless bubble-bubble-box-bubble",
-  "MassConfig": {
-    "numEdges": 7,
-    "numMassiveEdges": 0,
-    "numMasslessEdges": 7,
-    "distinctInternalMasses": 0,
-    "internalMassLabels": [],
-    "edgeMassPattern": "0000000",
-    "numExtLegs": 2,
-    "numOnshellMassiveExtLegs": 2,
-    "numMasslessExtLegs": 0,
-    "extLegSignature": "MM"
-  },
-  "Subsectors": [],
-  "ParentSectors": [
-    "1112|3|344|e4|e|:0000|0|000|10|1|",
-    "1112|3|34|e4|e|:0000|0|00|10|1|",
-    "1112|3|e44|e44||:0000|0|100|100||",
-    "1122|23|4|e44|e|:0000|00|0|100|1|"
-  ]
+	"CNickelIndex": "1112|3|e33|e|:0000|0|100|1|",
+	"MassScales": 1,
+	"FunctionClass": "MPL",
+	"EpsilonOrder": "-2,-1,0,1,2",
+	"References": [
+		"arXiv:1705.06483 (doi: 10.1103/PhysRevD.96.036016)"
+	],
+	"Records": [
+		{
+			"epsOrders": "-2,-1,0,1,2",
+			"reference": "arXiv:1705.06483 (doi: 10.1103/PhysRevD.96.036016)",
+			"authors": "Mikhail V. Kompaniets and Erik Panzer",
+			"description": "massless propagator computed for the $\\varphi^4$ 6-loop calculation available from the ancillary files p_int_g2.mpl (Maple) and p_int_g2.m (Mathematica) of the arXiv submission results are rational linear combinations of multiple zeta values",
+			"recordId": "1504715324.aCV7",
+			"verified": true,
+			"verifiedAt": "2026-04-07",
+			"ancillaryFiles": true
+		}
+	],
+	"Source": [
+		"arXiv",
+		"Loopedia"
+	],
+	"Results": [
+		{
+			"resultCompressed": "1:eJylkUsOgjAQhnkoPlYeQRNvoktICLo2YNKaScASio+48ihe0Y1L60whIEiiiZu/men8M9+0s60IuGMYhhyjrFgGTC6jPJI2hiyVgIfBKZA9FBdkzi2K+ihrSJgswiFKEOUg9lEMJgYwpTTdeV7h/+qYtB000Y8PEkYE0TV2gLIQSRqzsyaFp1JK9/ChZdBXnAbp3Vyx+5kOjQquZk3nNOjuD2z8E11olz0+6TaNFX1xYllZCVb1BXV5WJX/+UhdD9JCu6n3/TRal63gbHnnlKuKk8tRV2mC4tNJXnZWiss=",
+			"resultTeX": "\\frac{M^2}{32 \\varepsilon^2}+\\frac{M^2 \\left(-2 \\log \\left(M^2\\right)-2 i \\pi +9\\right)}{16 \\varepsilon}-\\frac{1}{384} M^2 \\left(-96 \\log ^2\\left(M^2\\right)+96 (9-2 i \\pi ) \\log \\left(M^2\\right)+36 \\zeta(2)+94 \\pi ^2+864 i \\pi -2319\\right)+O\\left(\\varepsilon^1\\right)",
+			"dimension": "4 - 2*eps",
+			"epsOrder": 0,
+			"propExponents": [
+				1,
+				1,
+				1,
+				1,
+				1,
+				1,
+				1
+			],
+			"propagators": 0,
+			"numerators": [],
+			"internalMasses": [],
+			"externalMasses": [],
+			"substitutions": "{}",
+			"normalization": "Automatic",
+			"stVersion": "SubTropica v1.1.4",
+			"stCommand": "STIntegrate[{{{{3, 4}, 0}, {{3, 4}, 0}, {{3, 4}, 0}, {{1, 3}, 0}, {{2, 4}, 0}, {{1, 2}, 0}, {{1, 2}, 0}}, {{1, M}, {2, M}}}, \"Dimension\" -> \"4 - 2*eps\", \"Order\" -> 0]",
+			"contributor": "Anonymous",
+			"timestamp": "Thu 23 Apr 2026 23:47:07",
+			"byteCount": 1880,
+			"verified": true,
+			"verifiedMethod": "pySecDec",
+			"verifiedTolerance": 0.001,
+			"verifiedMaxRelErr": 2.9924223206495093e-05,
+			"verifiedAt": "Thu 23 Apr 2026 23:47:07",
+			"verifiedKinPoint": [
+				{
+					"var": "Msq",
+					"value": "-7/17"
+				}
+			]
+		}
+	],
+	"Names": [
+		"Massless 4-loop propagator (7 propagators)",
+		"4-loop propagator (7 propagators)",
+		"4-loop propagator (7 propagators), 3 multi-edges"
+	],
+	"edges": "{{{1, 2}, 0}, {{1, 2}, 0}, {{1, 2}, 0}, {{1, 3}, 0}, {{2, 4}, 0}, {{3, 4}, 0}, {{3, 4}, 0}}",
+	"nodes": "{{3, M}, {4, M}}",
+	"CanonicalName": "Massless bubble-bubble-box-bubble",
+	"MassConfig": {
+		"numEdges": 7,
+		"numMassiveEdges": 0,
+		"numMasslessEdges": 7,
+		"distinctInternalMasses": 0,
+		"internalMassLabels": [],
+		"edgeMassPattern": "0000000",
+		"numExtLegs": 2,
+		"numOnshellMassiveExtLegs": 2,
+		"numMasslessExtLegs": 0,
+		"extLegSignature": "MM"
+	},
+	"Subsectors": [],
+	"ParentSectors": [
+		"1112|3|344|e4|e|:0000|0|000|10|1|",
+		"1112|3|34|e4|e|:0000|0|00|10|1|",
+		"1112|3|e44|e44||:0000|0|100|100||",
+		"1122|23|4|e44|e|:0000|00|0|100|1|"
+	]
 }
