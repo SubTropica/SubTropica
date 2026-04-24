@@ -1,6 +1,6 @@
 # 🥥 SubTropica
 
-[![Version](https://img.shields.io/badge/version-1.1.4-blue)](https://github.com/SubTropica/SubTropica)
+[![Version](https://img.shields.io/badge/version-1.1.5-blue)](https://github.com/SubTropica/SubTropica)
 [![Mathematica](https://img.shields.io/badge/Mathematica-13.1%2B-red)](https://www.wolfram.com/mathematica/)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 [![Data: CC BY-NC-SA 4.0](https://img.shields.io/badge/data_license-CC_BY--NC--SA_4.0-orange)](LICENSE-DATA)
@@ -9,7 +9,8 @@
 A Mathematica package for computing Feynman integrals via tropical geometry. SubTropica automates the tropical subtraction algorithm — from drawing a diagram to obtaining an analytic result in terms of hyperlogarithms and multiple polylogarithms — through a single function call or an interactive GUI.
 
 > **Paper:** M. Giroux, S. Mizera, G. Salvatori, *SubTropica*, [arXiv:2604.20954](https://arxiv.org/abs/2604.20954) [hep-th].
-> Every code listing from the paper is reproduced and checked in [`PaperChecks.wl`](PaperChecks.wl) at the repository root — evaluate it end-to-end after ``Needs["SubTropica`"]`` to regenerate all quoted outputs.
+
+Every code listing from the paper is reproduced and checked in [`PaperChecks.wl`](PaperChecks.wl) at the repository root — evaluate it end-to-end after ``Needs["SubTropica`"]`` to regenerate all quoted outputs.
 
 ## Features
 

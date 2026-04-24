@@ -1,0 +1,51 @@
+#!/bin/sh
+# Keep ui/library.json in sync with library-bundled/ on every commit.
+#
+# Production library.json is the output of two scripts run in sequence:
+#   1. scripts/_build_library_json.py     - rolls up entry.json/topology.json
+#   2. ui/build_subtopology_index.py      - appends subtopologies, tab-indents
+#
+# When a commit modifies any library-bundled/*.json (other than manifest.json),
+# this hook regenerates ui/library.json the same way and stages it. Without
+# this hook, hand-edits / bot-merged submits / cross-repo entry promotions
+# silently leave the rollup stale until the next release cut.
+#
+# Bypass with:  SKIP_LIBRARY_REBUILD=1 git commit ...
+
+[ "$SKIP_LIBRARY_REBUILD" = "1" ] && exit 0
+
+changed=$(git diff --cached --name-only --diff-filter=ACMRD \
+  | grep -E '^library-bundled/.+\.json$' \
+  | grep -vE '^library-bundled/manifest\.json$' || true)
+
+[ -z "$changed" ] && exit 0
+
+repo_root=$(git rev-parse --show-toplevel)
+cd "$repo_root" || exit 1
+
+echo "[pre-commit] library-bundled/ changes detected; rebuilding ui/library.json"
+
+log=$(mktemp -t subtropica-pre-commit.XXXXXX)
+
+if ! python3 scripts/_build_library_json.py >"$log" 2>&1; then
+  echo "[pre-commit] FAIL: scripts/_build_library_json.py"
+  cat "$log"
+  rm -f "$log"
+  exit 1
+fi
+
+if ! python3 ui/build_subtopology_index.py --quiet --library ui/library.json >"$log" 2>&1; then
+  echo "[pre-commit] FAIL: ui/build_subtopology_index.py"
+  cat "$log"
+  rm -f "$log"
+  exit 1
+fi
+
+rm -f "$log"
+
+if ! git diff --quiet ui/library.json; then
+  git add ui/library.json
+  echo "[pre-commit] ui/library.json regenerated and staged."
+fi
+
+exit 0

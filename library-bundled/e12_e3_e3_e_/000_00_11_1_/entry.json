@@ -1,214 +1,214 @@
 {
-	"CNickelIndex": "e12|e3|e3|e|:000|00|11|1|",
-	"MassScales": 3,
-	"FunctionClass": "MPL",
-	"EpsilonOrder": "-1,0",
-	"References": [
-		"arXiv:0712.1851 (JHEP 02 (002), 2008)"
-	],
-	"Records": [
-		{
-			"dimScheme": "d=4-2*eps",
-			"recordId": "bf_18664c4b9e03",
-			"familyName": "Box_6",
-			"verified": false,
-			"verifiedAt": "",
-			"authors": "Ellis, R.Keith, Zanderighi, Giulia",
-			"texkey": "Ellis:2007qk",
-			"computationLevel": "full",
-			"masterCount": 1,
-			"location": "Sec. 3.2.2, Sec. 4.4.6",
-			"transcendentalWeight": 2,
-			"method": [],
-			"reference": "arXiv:0712.1851, JHEP 02 (002), 2008",
-			"ancillaryFiles": [],
-			"description": "Divergent one-loop box $I_4^D(0,0,m^2,m^2;s_{12},s_{23};0,0,0,m^2)$ with one massive internal line and $p_1^2=p_2^2=0, p_3^2=p_4^2=m^2$. Contains double $1/\\varepsilon^2$ pole.",
-			"epsOrders": "-1,0",
-			"tools": [],
-			"doi": "10.1088/1126-6708/2008/02/002"
-		}
-	],
-	"Names": [
-		"1-mass box (1 internal mass)",
-		"Box",
-		"D0",
-		"Box_6",
-		"Box_7",
-		"Box_8"
-	],
-	"Source": [
-		"arXiv",
-		"Loopedia"
-	],
-	"Loops": 1,
-	"NumPropagators": 4,
-	"edges": "{{{1, 2}, 0}, {{1, 3}, 0}, {{2, 4}, 0}, {{3, 4}, m}}",
-	"nodes": "{{1, 0}, {2, 0}, {4, m}, {3, m}}",
-	"quadruple": "{E^(eps*EulerGamma)*Gamma[2 + eps], (x1 + x2 + x3 + x4)^(2*eps)*(s12*x2*x3 + mm*x1*x4 - s12*x1*x4 - s23*x1*x4 - mm*x4^2)^(-2 - eps), {x1, x2, x3, x4}, {mm, s12, s23}}",
-	"CanonicalName": "Box, 1 massive propagator (c)",
-	"MassConfig": {
-		"numEdges": 4,
-		"numMassiveEdges": 1,
-		"numMasslessEdges": 3,
-		"distinctInternalMasses": 1,
-		"internalMassLabels": [
-			"m"
-		],
-		"edgeMassPattern": "0001",
-		"numExtLegs": 4,
-		"numOnshellMassiveExtLegs": 2,
-		"numMasslessExtLegs": 2,
-		"extLegSignature": "00MM"
-	},
-	"commonNames": [
-		"D₀(1×m)",
-		"L1"
-	],
-	"Subsectors": [
-		"e12|e2|e|:000|00|1|",
-		"e12|e2|e|:000|11|2|",
-		"e12|e2|e|:100|22|2|"
-	],
-	"ParentSectors": [],
-	"Results": [
-		{
-			"resultCompressed": "1:eJztXdtu20YQVXRLYvQn+glNf6EPfciDkRboswvIAQErMiK3Bfpb/bWiBdLYriiaEnc5szctZy8zLzIok9zdc2bOzM4uqW9/3X24Xc9ms/3V4eOnzedms//h5uFmvzgcbu73zeHP7LY92C8PH++b/cPtvD1aHT5+brabffP0/Px8/u5698fmc3fYXnB999teu2DfHm63xxb2373rbn6+3eFuz/3/ur/vvj9+qZ2oNdlf0p1q6s5L+/owzu327S2VQbxqj9r/v999NNxCOQ8cm36tqfvYfUFE44x63I7HLW7/UjCDGHtz+Phw89DsPt3cNf8erm3ab4jYNPWlPav5BuhLe3jdNHOSbs5t3Xx7OIAgo/O5S1Gbpqcqv5AqTcVWe9WPd7uPzavTWHut7ODJuH8z5av23t1ZnsLVt7caD9JL77qxLmagfZztarvt7GqBNncSJM26lK9PcIIGFRM7ZBCKdGrY2eRmPELO4FHnBtpNhkHziG4HsTXmPLbysLQwHT+u9xdZ1b09AerfNBIOddEtbBPH5jHpNs8ixy809YTwpjbL+OMAdYTUQALHARkULSlTzjXsYk/gKBOOLztnmnCsQOpHbKiBSpHGGOgmRuViBET7tiPpo/2EEARmENoFx3+aDeYJNZiUAy8k3fO/IzA6UALymL6lKzZ6REufuuQaRcvHjoSctOTEcWRhkYJFm0bnXb+qjh17+Zkz8r4TUddWTM4h8adMhiQIFUalrRQhkYieoiTl2dMQt3/+7johQ8KufVkL6Wx30bEn7fe/bLuShlUiXGI8ZGSHiT/c2MrPSaYuIw1OGHSVFhJ1VD726D0w+9w/+uh8bX3sLaTdfT22T28Tq85M7YVAvGtg/+9RRQhITzP3gknBC0zw0zkZJRpP6TyzTld9c6G1CQWxKXCeZAgH8Tgwrq+HhqM6oXoNdJAswtcJqRrkQioMAic+IT2PVEmP6hz7pZMdXvDMxwOzxNrK8QFyEYv5JMzIIQ0cIgXFnWlLDTQBwoWROPGBD8KAMHgZPjbrrhgyLcy67dOkKnmro9TwekF4NHZIucAFluCORNOA5mtauG1iXD3+eZm7k3zXx4m/atNTk1Dca6AY3QyWTNqE0NgVZ/eKh5BeJun0XhwSIIVk4uJBpomS2EGFCi+GkFr1oSlTNy6tRj9NFdFNhLyZTlDujd/Y/aAxhxr5C2sL4F+U2wSEUTdGNUH+YvFDF60WZrNg1vVRqf65UaEtC9o0h1z3J3ntoRBmM2QWWH8PoXQhlGZDqXFvmCFwkmGffrsvaZCD/MY1IRWGKFQPosE3wRSmJmFqZfclExJCwyQO8+gYzYWpxA4TnMsJOxRyBkWXYeA5wZ7FQ1KkWZOh+GrNmjjBpinz2mJRLqkMJ/g0h0Tnv6OyBQNsNNP6EiHoc4LP87VQbqUVBrh5KlpRVSd8cbI6GvHdFeqFQl3u1P2tU1faehoj6hzEEw7IwmNWPGrJwyM+G4KyAdrpOlta9HgmLCQTOT0+CRXZ6JQCjfCShBfbFqrx/JIRVvhTWeOZiuBz/M1DdDrAER8HX4Nzbo5g4S/wKrMsAAW0IcJQ1KuXTui3VYTPgvjE35aVxyyHOT1r8OQ8Zj3MqcHfZGXIIgWzUTKARg8BzTZdcY+g8aPw4IRBj3VkFGUxpL2GW4IbY0kTfFe03NUYGSlkyFUgGP6avyrQqHmFm1R3bXJDP/fBIr5QlzN1xa9wM6Ku6hVuRjyWtMLNlpacaz81s5D7CjcjKopa4ebLi/8KNyOsgla4+eLjtsLNCJ/LV7gZgfVWvdGVydlKmJPgVbX6ufT4rSvV8IXYvInVnPSf041K3bfAmUzNS/87c5PHxJUzN26/FQblCMJRIv9Z9cBns7VEyJkpkQpLJzPZUJrVZA6QFiRnE/TG5nbVg2PekiOIBdhbCWklJPtD/KHAXTPZwP7YfHMaIS/4ZadIZBBE7e84mVjfiDcaZhVbvPfNCQWU4X1ckBEOonCwAvrpHllT7K7NSZZdLE3QjJLzWXNnwRR/75413apk7Jc+wMELHlOWDgfcyvGp/AnqaadLkCbbJJc+xUcLbsJn9nwW9gQ1N3oKeoKaGzUxnqBmjtm8x8e8XMMctKpXbPC8lifZRa3YCHmxV2wEURXRpXojk/apdhztR65TPHZ/bGzlbkxjyY4v+4lrCcfW1VHZDcFJFz2qmdOOztfWEyRKw+56/vy4qW+m6xbjZpQ0G+l2//Vp+FqaGSQXKixuI0Ln1UBPCHSeXsdsT3NZajBiG3xsA6wminGIcWDxEA8wxmxg7tnveAlWvWzZfz8qDPaoqwr1wq8Vib6GASIMJZWz+JoFNRDzVUP10mWf3sT0FvUqtxJHbiucWbgUbLQJI77QHNsVceSjiGSlq6jJacN3g1/qneQLhcnTO5ko+0+Uky2tVB4Xp4xpfDkrON9kRBq+uRWD9GnkP/HzSrelOoXXS/YXQ+mT7SSJlplHS1KfTbuqXE205MtZwdGSEWnaW8wGjuapYWxVOW1qlZX1SFAX8/ExHyhVR0DOPMxzZtHrUXF0T6vPtMnyJhXDHEch1tLWNpttp/6P+7o9DV0xZMDWB+e1U7e4oG5OBioGSHBzzzT7kwzVCEuJANUnB0a8Wtd1B2vdb76g5ANW2i4NFom5N/kZSjdEDpgG6Y5pMAO/jtxf2BHD9no32qmeLFBhiVebSwe3ppHLOuH2q7kmxJ+HuTvlcuk4CXyzSkJqSsnIsqEYdbvJ+LtEgoRQK7yh79cT0gsmnd6LYwcyIdnXs11fXip2ULcdZKLwYgjUhnBUgO6w/fgfskpI9A==",
-			"resultTeX": "-\\frac{2}{\\varepsilon^2 (m^2 s_{12}-s_{12} s_{23})}+\\frac{-\\log \\left(-\\frac{m^2}{s_{12}}\\right)-\\log \\left(\\frac{m^2}{m^2-s_{23}}\\right)+\\log (m^2-s_{23})+\\log (m^2)}{\\varepsilon s_{12} (m^2-s_{23})} + \\cdots",
-			"dimension": "4 - 2*eps",
-			"epsOrder": "0",
-			"epsOrders": "0",
-			"propExponents": [
-				1,
-				1,
-				1,
-				1
-			],
-			"propagators": [],
-			"numerators": [],
-			"internalMasses": [],
-			"externalMasses": [],
-			"substitutions": "",
-			"normalization": "Automatic",
-			"stVersion": "SubTropica v1.0.401",
-			"stCommand": "",
-			"contributor": "Sebastian Mizera",
-			"timestamp": "2026-04-20T13:01:02",
-			"verifiedAt": "2026-04-20T13:01:02",
-			"verified": true,
-			"method": "direct_integration",
-			"tools": [
-				"SubTropica"
-			],
-			"methodLR": "Lungo",
-			"byteCount": 211528,
-			"symbolTeX": "\\begin{aligned}\\varepsilon^{-2}&\\colon\\;-\\frac{2}{s_{12} m^2-s_{12} s_{23}} \\\\ \\varepsilon^{-1}&\\colon\\;-\\frac{1}{s_{12} \\left(m^2-s_{23}\\right)}\\,(m^2) + \\frac{1}{s_{12} \\left(m^2-s_{23}\\right)}\\,(s_{12}) + \\frac{2}{s_{12} \\left(m^2-s_{23}\\right)}\\,(m^2-s_{23}) \\\\ \\varepsilon^{0}&\\colon\\;\\frac{2 \\left(-s_{12}^2 m^2 W_1^+ W_1^-^2-s_{12}^2 m^2 W_1^- W_1^+^2-2 s_{12} s_{23} m^2 W_1^- W_1^++s_{12} m^4 W_1^- W_1^++s_{12}^3 \\left(-W_1^-^2\\right) W_1^+^2+s_{12}^2 s_{23} W_1^+ W_1^-^2+s_{12}^2 s_{23} W_1^- W_1^+^2+s_{12}^2 s_{23} W_1^- W_1^++s_{12} s_{23}^2 W_1^- W_1^++3 s_{23}^2 m^2 W_1^--3 s_{23} m^4 W_1^-+m^6 W_1^--s_{23}^3 W_1^-+3 s_{23}^2 m^2 W_1^+-3 s_{23} m^4 W_1^++m^6 W_1^+-s_{23}^3 W_1^++2 s_{23}^2 m^2-s_{23} m^4-s_{23}^3\\right)}{\\left(m^2-s_{23}\\right) \\left(s_{12} W_1^-+m^2-s_{23}\\right)^2 \\left(s_{12} W_1^++m^2-s_{23}\\right)^2}\\,(m^2-s_{23} \\otimes m^2)  + \\cdots",
-			"alphabet": [
-				"m^2",
-				"s_{12}",
-				"m^2-s_{23}",
-				"s_{23}",
-				"W_1^-+1",
-				"W_1^-",
-				"W_1^+",
-				"W_1^++1",
-				"-m^2+s_{12}+s_{23}"
-			],
-			"symbolWeight": 2,
-			"symbolTerms": 34,
-			"normalizedSymbolTeX": "\\begin{aligned}\\varepsilon^{-2}&\\colon\\;-\\frac{2}{s_{12} m^2-s_{12} s_{23}} \\\\ \\varepsilon^{-1}&\\colon\\;\\frac{1}{s_{12} \\left(m^2-s_{23}\\right)}\\!\\left[(W_1) + 2\\,(W_2)\\right] \\\\ \\varepsilon^{0}&\\colon\\;\\frac{2 W_1^-^{-1} W_1^+^{-1}}{s_{12}^2 \\left(m^2-s_{23}\\right) \\left(W_1^--W_1^+\\right) \\left(-2 s_{23} m^2+m^4+s_{12} s_{23}+s_{23}^2\\right) \\left(m^2 W_1^-+s_{23} \\left(-W_1^-\\right)-s_{23}\\right) \\left(m^2 W_1^++s_{23} \\left(-W_1^+\\right)-s_{23}\\right) \\left(s_{12} W_1^-+m^2-s_{23}\\right)^2 \\left(s_{12} W_1^++m^2-s_{23}\\right)^2}\\!\\left[s_{12} W_1^- \\left(W_1^--W_1^+\\right) W_1^+ \\left(2 s_{12} s_{23}^7+3 s_{12} W_1^- s_{23}^7+3 s_{12} W_1^+ s_{23}^7+4 s_{12} W_1^- W_1^+ s_{23}^7-m^2 s_{23}^7+s_{12} W_1^-^2 s_{23}^7+s_{12} W_1^+ W_1^-^2 s_{23}^7+s_{12} W_1^+^2 s_{23}^7+s_{12} W_1^- W_1^+^2 s_{23}^7+s_{12}^2 s_{23}^6-2 s_{12}^2 W_1^- W_1^+ s_{23}^6-9 s_{12} m^2 s_{23}^6-13 s_{12} W_1^- m^2 s_{23}^6-13 s_{12} W_1^+ m^2 s_{23}^6-24 s_{12} W_1^- W_1^+ m^2 s_{23}^6+6 m^4 s_{23}^6-s_{12}^2 W_1^-^2 s_{23}^6-2 s_{12}^2 W_1^+ W_1^-^2 s_{23}^6-6 s_{12} m^2 W_1^-^2 s_{23}^6-7 s_{12} W_1^+ m^2 W_1^-^2 s_{23}^6-s_{12}^2 W_1^+^2 s_{23}^6-2 s_{12}^2 W_1^- W_1^+^2 s_{23}^6-6 s_{12} m^2 W_1^+^2 s_{23}^6-7 s_{12} W_1^- m^2 W_1^+^2 s_{23}^6-s_{12}^2 W_1^-^2 W_1^+^2 s_{23}^6+2 s_{12}^3 W_1^- W_1^+ s_{23}^5-2 s_{12}^2 m^2 s_{23}^5+2 s_{12}^2 W_1^- m^2 s_{23}^5+2 s_{12}^2 W_1^+ m^2 s_{23}^5+4 s_{12}^2 W_1^- W_1^+ m^2 s_{23}^5+16 s_{12} m^4 s_{23}^5+20 s_{12} W_1^- m^4 s_{23}^5+20 s_{12} W_1^+ m^4 s_{23}^5+60 s_{12} W_1^- W_1^+ m^4 s_{23}^5-15 m^6 s_{23}^5+s_{12}^3 W_1^-^2 s_{23}^5+2 s_{12}^3 W_1^+ W_1^-^2 s_{23}^5+3 s_{12}^2 m^2 W_1^-^2 s_{23}^5+10 s_{12}^2 W_1^+ m^2 W_1^-^2 s_{23}^5+15 s_{12} m^4 W_1^-^2 s_{23}^5+21 s_{12} W_1^+ m^4 W_1^-^2 s_{23}^5+s_{12}^3 W_1^-^3 s_{23}^5+s_{12}^3 W_1^+^2 s_{23}^5+2 s_{12}^3 W_1^- W_1^+^2 s_{23}^5+3 s_{12}^2 m^2 W_1^+^2 s_{23}^5+10 s_{12}^2 W_1^- m^2 W_1^+^2 s_{23}^5+15 s_{12} m^4 W_1^+^2 s_{23}^5+21 s_{12} W_1^- m^4 W_1^+^2 s_{23}^5+6 s_{12}^2 m^2 W_1^-^2 W_1^+^2 s_{23}^5-s_{12}^3 W_1^-^3 W_1^+^2 s_{23}^5+s_{12}^3 W_1^+^3 s_{23}^5-s_{12}^3 W_1^-^2 W_1^+^3 s_{23}^5-s_{12}^4 W_1^- W_1^+ s_{23}^4-8 s_{12}^3 W_1^- W_1^+ m^2 s_{23}^4+s_{12}^2 m^4 s_{23}^4-6 s_{12}^2 W_1^- m^4 s_{23}^4-6 s_{12}^2 W_1^+ m^4 s_{23}^4+4 s_{12}^2 W_1^- W_1^+ m^4 s_{23}^4-14 s_{12} m^6 s_{23}^4-10 s_{12} W_1^- m^6 s_{23}^4-10 s_{12} W_1^+ m^6 s_{23}^4-80 s_{12} W_1^- W_1^+ m^6 s_{23}^4+20 m^8 s_{23}^4-4 s_{12}^4 W_1^+ W_1^-^2 s_{23}^4-3 s_{12}^3 m^2 W_1^-^2 s_{23}^4-4 s_{12}^3 W_1^+ m^2 W_1^-^2 s_{23}^4-2 s_{12}^2 m^4 W_1^-^2 s_{23}^4-20 s_{12}^2 W_1^+ m^4 W_1^-^2 s_{23}^4-20 s_{12} m^6 W_1^-^2 s_{23}^4-35 s_{12} W_1^+ m^6 W_1^-^2 s_{23}^4-3 s_{12}^4 W_1^+ W_1^-^3 s_{23}^4-3 s_{12}^3 m^2 W_1^-^3 s_{23}^4-4 s_{12}^4 W_1^- W_1^+^2 s_{23}^4-3 s_{12}^3 m^2 W_1^+^2 s_{23}^4-4 s_{12}^3 W_1^- m^2 W_1^+^2 s_{23}^4-2 s_{12}^2 m^4 W_1^+^2 s_{23}^4-20 s_{12}^2 W_1^- m^4 W_1^+^2 s_{23}^4-20 s_{12} m^6 W_1^+^2 s_{23}^4-35 s_{12} W_1^- m^6 W_1^+^2 s_{23}^4-6 s_{12}^4 W_1^-^2 W_1^+^2 s_{23}^4-15 s_{12}^2 m^4 W_1^-^2 W_1^+^2 s_{23}^4-2 s_{12}^4 W_1^-^3 W_1^+^2 s_{23}^4+5 s_{12}^3 m^2 W_1^-^3 W_1^+^2 s_{23}^4-3 s_{12}^4 W_1^- W_1^+^3 s_{23}^4-3 s_{12}^3 m^2 W_1^+^3 s_{23}^4-2 s_{12}^4 W_1^-^2 W_1^+^3 s_{23}^4+5 s_{12}^3 m^2 W_1^-^2 W_1^+^3 s_{23}^4+s_{12}^4 W_1^-^3 W_1^+^3 s_{23}^4+10 s_{12}^3 W_1^- W_1^+ m^4 s_{23}^3+6 s_{12}^2 W_1^- m^6 s_{23}^3+6 s_{12}^2 W_1^+ m^6 s_{23}^3-16 s_{12}^2 W_1^- W_1^+ m^6 s_{23}^3+6 s_{12} m^8 s_{23}^3-5 s_{12} W_1^- m^8 s_{23}^3-5 s_{12} W_1^+ m^8 s_{23}^3+60 s_{12} W_1^- W_1^+ m^8 s_{23}^3-15 m^{10} s_{23}^3+6 s_{12}^4 W_1^+ m^2 W_1^-^2 s_{23}^3+3 s_{12}^3 m^4 W_1^-^2 s_{23}^3-2 s_{12}^2 m^6 W_1^-^2 s_{23}^3+20 s_{12}^2 W_1^+ m^6 W_1^-^2 s_{23}^3+15 s_{12} m^8 W_1^-^2 s_{23}^3+35 s_{12} W_1^+ m^8 W_1^-^2 s_{23}^3+6 s_{12}^4 W_1^+ m^2 W_1^-^3 s_{23}^3+3 s_{12}^3 m^4 W_1^-^3 s_{23}^3+6 s_{12}^4 W_1^- m^2 W_1^+^2 s_{23}^3+3 s_{12}^3 m^4 W_1^+^2 s_{23}^3-2 s_{12}^2 m^6 W_1^+^2 s_{23}^3+20 s_{12}^2 W_1^- m^6 W_1^+^2 s_{23}^3+15 s_{12} m^8 W_1^+^2 s_{23}^3+35 s_{12} W_1^- m^8 W_1^+^2 s_{23}^3+2 s_{12}^5 W_1^-^2 W_1^+^2 s_{23}^3+11 s_{12}^4 m^2 W_1^-^2 W_1^+^2 s_{23}^3+20 s_{12}^2 m^6 W_1^-^2 W_1^+^2 s_{23}^3+2 s_{12}^5 W_1^-^3 W_1^+^2 s_{23}^3+6 s_{12}^4 m^2 W_1^-^3 W_1^+^2 s_{23}^3-10 s_{12}^3 m^4 W_1^-^3 W_1^+^2 s_{23}^3+6 s_{12}^4 W_1^- m^2 W_1^+^3 s_{23}^3+3 s_{12}^3 m^4 W_1^+^3 s_{23}^3+2 s_{12}^5 W_1^-^2 W_1^+^3 s_{23}^3+6 s_{12}^4 m^2 W_1^-^2 W_1^+^3 s_{23}^3-10 s_{12}^3 m^4 W_1^-^2 W_1^+^3 s_{23}^3+2 s_{12}^5 W_1^-^3 W_1^+^3 s_{23}^3-4 s_{12}^4 m^2 W_1^-^3 W_1^+^3 s_{23}^3-4 s_{12}^3 W_1^- W_1^+ m^6 s_{23}^2-2 s_{12}^2 W_1^- m^8 s_{23}^2-2 s_{12}^2 W_1^+ m^8 s_{23}^2+14 s_{12}^2 W_1^- W_1^+ m^8 s_{23}^2-s_{12} m^{10} s_{23}^2+7 s_{12} W_1^- m^{10} s_{23}^2+7 s_{12} W_1^+ m^{10} s_{23}^2-24 s_{12} W_1^- W_1^+ m^{10} s_{23}^2+6 m^{12} s_{23}^2-2 s_{12}^4 W_1^+ m^4 W_1^-^2 s_{23}^2-s_{12}^3 m^6 W_1^-^2 s_{23}^2+4 s_{12}^3 W_1^+ m^6 W_1^-^2 s_{23}^2+3 s_{12}^2 m^8 W_1^-^2 s_{23}^2-10 s_{12}^2 W_1^+ m^8 W_1^-^2 s_{23}^2-6 s_{12} m^{10} W_1^-^2 s_{23}^2-21 s_{12} W_1^+ m^{10} W_1^-^2 s_{23}^2-3 s_{12}^4 W_1^+ m^4 W_1^-^3 s_{23}^2-s_{12}^3 m^6 W_1^-^3 s_{23}^2-2 s_{12}^4 W_1^- m^4 W_1^+^2 s_{23}^2-s_{12}^3 m^6 W_1^+^2 s_{23}^2+4 s_{12}^3 W_1^- m^6 W_1^+^2 s_{23}^2+3 s_{12}^2 m^8 W_1^+^2 s_{23}^2-10 s_{12}^2 W_1^- m^8 W_1^+^2 s_{23}^2-6 s_{12} m^{10} W_1^+^2 s_{23}^2-21 s_{12} W_1^- m^{10} W_1^+^2 s_{23}^2-s_{12}^5 m^2 W_1^-^2 W_1^+^2 s_{23}^2-4 s_{12}^4 m^4 W_1^-^2 W_1^+^2 s_{23}^2-15 s_{12}^2 m^8 W_1^-^2 W_1^+^2 s_{23}^2-2 s_{12}^5 m^2 W_1^-^3 W_1^+^2 s_{23}^2-6 s_{12}^4 m^4 W_1^-^3 W_1^+^2 s_{23}^2+10 s_{12}^3 m^6 W_1^-^3 W_1^+^2 s_{23}^2-3 s_{12}^4 W_1^- m^4 W_1^+^3 s_{23}^2-s_{12}^3 m^6 W_1^+^3 s_{23}^2-2 s_{12}^5 m^2 W_1^-^2 W_1^+^3 s_{23}^2-6 s_{12}^4 m^4 W_1^-^2 W_1^+^3 s_{23}^2+10 s_{12}^3 m^6 W_1^-^2 W_1^+^3 s_{23}^2-4 s_{12}^5 m^2 W_1^-^3 W_1^+^3 s_{23}^2+6 s_{12}^4 m^4 W_1^-^3 W_1^+^3 s_{23}^2-4 s_{12}^2 W_1^- W_1^+ m^{10} s_{23}-2 s_{12} W_1^- m^{12} s_{23}-2 s_{12} W_1^+ m^{12} s_{23}+4 s_{12} W_1^- W_1^+ m^{12} s_{23}-m^{14} s_{23}-2 s_{12}^3 W_1^+ m^8 W_1^-^2 s_{23}-s_{12}^2 m^{10} W_1^-^2 s_{23}+2 s_{12}^2 W_1^+ m^{10} W_1^-^2 s_{23}+s_{12} m^{12} W_1^-^2 s_{23}+7 s_{12} W_1^+ m^{12} W_1^-^2 s_{23}-2 s_{12}^3 W_1^- m^8 W_1^+^2 s_{23}-s_{12}^2 m^{10} W_1^+^2 s_{23}+2 s_{12}^2 W_1^- m^{10} W_1^+^2 s_{23}+s_{12} m^{12} W_1^+^2 s_{23}+7 s_{12} W_1^- m^{12} W_1^+^2 s_{23}-s_{12}^4 m^6 W_1^-^2 W_1^+^2 s_{23}+6 s_{12}^2 m^{10} W_1^-^2 W_1^+^2 s_{23}+2 s_{12}^4 m^6 W_1^-^3 W_1^+^2 s_{23}-5 s_{12}^3 m^8 W_1^-^3 W_1^+^2 s_{23}+2 s_{12}^4 m^6 W_1^-^2 W_1^+^3 s_{23}-5 s_{12}^3 m^8 W_1^-^2 W_1^+^3 s_{23}+2 s_{12}^5 m^4 W_1^-^3 W_1^+^3 s_{23}-4 s_{12}^4 m^6 W_1^-^3 W_1^+^3 s_{23}-s_{12} W_1^+ m^{14} W_1^-^2-s_{12} W_1^- m^{14} W_1^+^2-s_{12}^2 m^{12} W_1^-^2 W_1^+^2+s_{12}^3 m^{10} W_1^-^3 W_1^+^2+s_{12}^3 m^{10} W_1^-^2 W_1^+^3+s_{12}^4 m^8 W_1^-^3 W_1^+^3\\right)\\,(W_2 \\otimes W_2) + 0\\,(W_3 \\otimes W_2) - s_{12} s_{23} W_1^- W_1^+ \\left(m^2-s_{23}\\right) \\left(W_1^--W_1^+\\right) \\left(s_{12} W_1^-+m^2-s_{23}\\right)^2 \\left(s_{12} W_1^++m^2-s_{23}\\right)^2 \\left(s_{12} m^2 W_1^- W_1^+-s_{12} s_{23} W_1^- W_1^+-s_{12} s_{23} W_1^--s_{12} s_{23} W_1^++s_{23} m^2-m^4-s_{12} s_{23}\\right)\\,(W_2 \\otimes W_3) + 0\\,(W_1) - s_{12}^2 W_1^- W_1^+ \\left(W_1^--W_1^+\\right) \\left(-m^2 W_1^-+s_{23} W_1^-+s_{23}\\right) \\left(-m^2 W_1^++s_{23} W_1^++s_{23}\\right) \\left(s_{12}^3 s_{23} m^2 W_1^- W_1^++2 s_{12}^3 s_{23} m^2 W_1^+ W_1^-^2+2 s_{12}^3 s_{23} m^2 W_1^- W_1^+^2+s_{12}^2 s_{23}^2 m^2 W_1^- W_1^+-2 s_{12}^2 s_{23} m^4 W_1^- W_1^++s_{12}^2 m^6 W_1^- W_1^++8 s_{12} s_{23}^3 m^2 W_1^- W_1^+-12 s_{12} s_{23}^2 m^4 W_1^- W_1^++8 s_{12} s_{23} m^6 W_1^- W_1^+-2 s_{12} m^8 W_1^- W_1^++s_{12}^4 s_{23} W_1^-^2 W_1^+^2-2 s_{12}^3 s_{23}^2 W_1^+ W_1^-^2-2 s_{12}^3 s_{23}^2 W_1^- W_1^+^2-2 s_{12}^3 s_{23}^2 W_1^- W_1^+-2 s_{12} s_{23}^4 W_1^- W_1^+-2 s_{12}^2 s_{23}^2 m^2 W_1^--2 s_{12}^2 s_{23}^2 m^2 W_1^-^2+s_{12}^2 s_{23} m^4 W_1^-+s_{12}^2 s_{23} m^4 W_1^-^2-s_{12} s_{23}^3 m^2 W_1^-+3 s_{12} s_{23}^2 m^4 W_1^--3 s_{12} s_{23} m^6 W_1^-+s_{12} m^8 W_1^--5 s_{23}^4 m^2 W_1^-+10 s_{23}^3 m^4 W_1^--10 s_{23}^2 m^6 W_1^-+5 s_{23} m^8 W_1^--m^{10} W_1^-+s_{12}^2 s_{23}^3 W_1^-^2+s_{12}^2 s_{23}^3 W_1^-+s_{23}^5 W_1^--2 s_{12}^2 s_{23}^2 m^2 W_1^+-2 s_{12}^2 s_{23}^2 m^2 W_1^+^2+s_{12}^2 s_{23} m^4 W_1^++s_{12}^2 s_{23} m^4 W_1^+^2-s_{12} s_{23}^3 m^2 W_1^++3 s_{12} s_{23}^2 m^4 W_1^+-3 s_{12} s_{23} m^6 W_1^++s_{12} m^8 W_1^+-5 s_{23}^4 m^2 W_1^++10 s_{23}^3 m^4 W_1^+-10 s_{23}^2 m^6 W_1^++5 s_{23} m^8 W_1^+-m^{10} W_1^++s_{12}^2 s_{23}^3 W_1^+^2+s_{12}^2 s_{23}^3 W_1^++s_{23}^5 W_1^++s_{12} s_{23}^3 m^2-2 s_{12} s_{23}^2 m^4+s_{12} s_{23} m^6-3 s_{23}^4 m^2+2 s_{23}^3 m^4+2 s_{23}^2 m^6-3 s_{23} m^8+m^{10}+s_{23}^5\\right)\\,(W_1 \\otimes W_1) + s_{12}^2 W_1^- W_1^+ \\left(W_1^--W_1^+\\right) \\left(-2 s_{23} m^2+m^4+s_{12} s_{23}+s_{23}^2\\right) \\left(m^2 W_1^-+s_{23} \\left(-W_1^-\\right)-s_{23}\\right) \\left(m^2 W_1^++s_{23} \\left(-W_1^+\\right)-s_{23}\\right) \\left(s_{12} W_1^-+m^2-s_{23}\\right) \\left(s_{12} W_1^++m^2-s_{23}\\right) \\left(s_{12} W_1^- W_1^++m^2 W_1^-+s_{23} \\left(-W_1^-\\right)+m^2 W_1^+-s_{23} W_1^+-s_{23}\\right)\\,(W_2) - s_{12} W_1^- W_1^+ \\left(W_1^--W_1^+\\right) \\left(m^2 W_1^-+s_{23} \\left(-W_1^-\\right)-s_{23}\\right) \\left(m^2 W_1^++s_{23} \\left(-W_1^+\\right)-s_{23}\\right) \\left(s_{12} W_1^-+m^2-s_{23}\\right) \\left(s_{12} W_1^++m^2-s_{23}\\right) \\left(-4 s_{12}^2 s_{23} m^2 W_1^- W_1^++2 s_{12}^2 m^4 W_1^- W_1^++s_{12}^3 s_{23} W_1^- W_1^++2 s_{12}^2 s_{23}^2 W_1^- W_1^++3 s_{12} s_{23}^2 m^2 W_1^--3 s_{12} s_{23} m^4 W_1^-+s_{12} m^6 W_1^--s_{12} s_{23}^3 W_1^-+3 s_{12} s_{23}^2 m^2 W_1^+-3 s_{12} s_{23} m^4 W_1^++s_{12} m^6 W_1^+-s_{12} s_{23}^3 W_1^+-s_{12}^2 s_{23} m^2-3 s_{12} s_{23}^2 m^2+3 s_{12} s_{23} m^4-s_{12} m^6-4 s_{23}^3 m^2+6 s_{23}^2 m^4-4 s_{23} m^6+m^8+s_{12}^2 s_{23}^2+s_{12} s_{23}^3+s_{23}^4\\right)\\,(W_1 \\otimes W_2) - s_{12} W_1^- W_1^+ \\left(W_1^--W_1^+\\right) \\left(-2 s_{23} m^2+m^4+s_{12} s_{23}+s_{23}^2\\right) \\left(m^2 W_1^-+s_{23} \\left(-W_1^-\\right)-s_{23}\\right) \\left(m^2 W_1^++s_{23} \\left(-W_1^+\\right)-s_{23}\\right) \\left(s_{12} W_1^-+m^2-s_{23}\\right)^2 \\left(s_{12} W_1^++m^2-s_{23}\\right)^2\\,(W_2 \\otimes W_1) - s_{12} W_1^- W_1^+ \\left(m^2-s_{23}\\right) \\left(-2 s_{23} m^2+m^4+s_{12} s_{23}+s_{23}^2\\right) \\left(m^2 W_1^++s_{23} \\left(-W_1^+\\right)-s_{23}\\right) \\left(s_{12} W_1^-+m^2-s_{23}\\right) \\left(s_{12} W_1^++m^2-s_{23}\\right)^2 \\left(m^2 W_1^- W_1^+-s_{23} W_1^- W_1^++2 m^2 W_1^-+m^2 W_1^-^2+s_{12} W_1^-^2+s_{12} W_1^-^3-s_{23} W_1^-^2-2 s_{23} W_1^--s_{23} W_1^+-s_{23}\\right)\\,(W_4 \\otimes W_5) + W_1^+ \\left(m^2-s_{23}\\right) \\left(-2 s_{23} m^2+m^4+s_{12} s_{23}+s_{23}^2\\right) \\left(m^2 W_1^-+s_{23} \\left(-W_1^-\\right)-s_{23}\\right) \\left(m^2 W_1^++s_{23} \\left(-W_1^+\\right)-s_{23}\\right) \\left(s_{12} W_1^++m^2-s_{23}\\right)^2 \\left(-s_{12} m^2 W_1^- W_1^++s_{12}^2 \\left(-W_1^+\\right) W_1^-^2+s_{12} s_{23} W_1^- W_1^++2 s_{12} m^2 W_1^-+s_{12}^2 W_1^-^2+s_{12}^2 W_1^-^3-s_{23} m^2+m^4\\right)\\,(W_1 \\otimes W_5) + W_1^+ \\left(m^2-s_{23}\\right) \\left(-2 s_{23} m^2+m^4+s_{12} s_{23}+s_{23}^2\\right) \\left(m^2 W_1^-+s_{23} \\left(-W_1^-\\right)-s_{23}\\right) \\left(m^2 W_1^++s_{23} \\left(-W_1^+\\right)-s_{23}\\right) \\left(s_{12} W_1^++m^2-s_{23}\\right)^2 \\left(-s_{12} m^2 W_1^- W_1^++s_{12}^2 \\left(-W_1^+\\right) W_1^-^2+s_{12} s_{23} W_1^- W_1^++2 s_{12} m^2 W_1^-+s_{12}^2 W_1^-^2+s_{12}^2 W_1^-^3-s_{23} m^2+m^4\\right)\\,(W_5 \\otimes W_1) + W_1^+ \\left(m^2-s_{23}\\right) \\left(-2 s_{23} m^2+m^4+s_{12} s_{23}+s_{23}^2\\right) \\left(m^2 W_1^-+s_{23} \\left(-W_1^-\\right)-s_{23}\\right) \\left(m^2 W_1^++s_{23} \\left(-W_1^+\\right)-s_{23}\\right) \\left(s_{12} W_1^++m^2-s_{23}\\right)^2 \\left(-s_{12} m^2 W_1^- W_1^++s_{12}^2 \\left(-W_1^+\\right) W_1^-^2+s_{12} s_{23} W_1^- W_1^++2 s_{12} m^2 W_1^-+s_{12}^2 W_1^-^2+s_{12}^2 W_1^-^3-s_{23} m^2+m^4\\right)\\,(W_5 \\otimes W_5) - W_1^- \\left(m^2-s_{23}\\right) \\left(-2 s_{23} m^2+m^4+s_{12} s_{23}+s_{23}^2\\right) \\left(m^2 W_1^-+s_{23} \\left(-W_1^-\\right)-s_{23}\\right) \\left(m^2 W_1^++s_{23} \\left(-W_1^+\\right)-s_{23}\\right) \\left(s_{12} W_1^-+m^2-s_{23}\\right)^2 \\left(-s_{12} m^2 W_1^- W_1^++s_{12}^2 \\left(-W_1^-\\right) W_1^+^2+s_{12} s_{23} W_1^- W_1^++2 s_{12} m^2 W_1^++s_{12}^2 W_1^+^2+s_{12}^2 W_1^+^3-s_{23} m^2+m^4\\right)\\,(W_1 \\otimes W_6) - W_1^- \\left(m^2-s_{23}\\right) \\left(-2 s_{23} m^2+m^4+s_{12} s_{23}+s_{23}^2\\right) \\left(m^2 W_1^-+s_{23} \\left(-W_1^-\\right)-s_{23}\\right) \\left(m^2 W_1^++s_{23} \\left(-W_1^+\\right)-s_{23}\\right) \\left(s_{12} W_1^-+m^2-s_{23}\\right)^2 \\left(-s_{12} m^2 W_1^- W_1^++s_{12}^2 \\left(-W_1^-\\right) W_1^+^2+s_{12} s_{23} W_1^- W_1^++2 s_{12} m^2 W_1^++s_{12}^2 W_1^+^2+s_{12}^2 W_1^+^3-s_{23} m^2+m^4\\right)\\,(W_6 \\otimes W_1) - W_1^- \\left(m^2-s_{23}\\right) \\left(-2 s_{23} m^2+m^4+s_{12} s_{23}+s_{23}^2\\right) \\left(m^2 W_1^-+s_{23} \\left(-W_1^-\\right)-s_{23}\\right) \\left(m^2 W_1^++s_{23} \\left(-W_1^+\\right)-s_{23}\\right) \\left(s_{12} W_1^-+m^2-s_{23}\\right)^2 \\left(-s_{12} m^2 W_1^- W_1^++s_{12}^2 \\left(-W_1^-\\right) W_1^+^2+s_{12} s_{23} W_1^- W_1^++2 s_{12} m^2 W_1^++s_{12}^2 W_1^+^2+s_{12}^2 W_1^+^3-s_{23} m^2+m^4\\right)\\,(W_6 \\otimes W_6) + s_{12} W_1^- W_1^+ \\left(m^2-s_{23}\\right) \\left(-2 s_{23} m^2+m^4+s_{12} s_{23}+s_{23}^2\\right) \\left(m^2 W_1^-+s_{23} \\left(-W_1^-\\right)-s_{23}\\right) \\left(s_{12} W_1^-+m^2-s_{23}\\right)^2 \\left(s_{12} W_1^++m^2-s_{23}\\right) \\left(m^2 W_1^- W_1^+-s_{23} W_1^- W_1^++s_{23} \\left(-W_1^-\\right)+2 m^2 W_1^++m^2 W_1^+^2+s_{12} W_1^+^2+s_{12} W_1^+^3-s_{23} W_1^+^2-2 s_{23} W_1^+-s_{23}\\right)\\,(W_7 \\otimes W_6) - s_{12}^2 W_1^- W_1^+ \\left(m^2-s_{23}\\right) \\left(W_1^--W_1^+\\right) \\left(m^2 W_1^-+s_{23} \\left(-W_1^-\\right)-s_{23}\\right) \\left(m^2 W_1^++s_{23} \\left(-W_1^+\\right)-s_{23}\\right) \\left(s_{12} W_1^-+m^2-s_{23}\\right) \\left(s_{12} W_1^++m^2-s_{23}\\right) \\left(s_{12} m^2 W_1^- W_1^+-s_{12} s_{23} W_1^- W_1^+-s_{12} s_{23} W_1^--s_{12} s_{23} W_1^++s_{23} m^2-m^4-s_{12} s_{23}\\right)\\,(W_8 \\otimes W_1) + s_{12}^2 W_1^- W_1^+ \\left(m^2-s_{23}\\right) \\left(W_1^--W_1^+\\right) \\left(m^2 W_1^-+s_{23} \\left(-W_1^-\\right)-s_{23}\\right) \\left(m^2 W_1^++s_{23} \\left(-W_1^+\\right)-s_{23}\\right) \\left(s_{12} W_1^-+m^2-s_{23}\\right) \\left(s_{12} W_1^++m^2-s_{23}\\right) \\left(s_{12} m^2 W_1^- W_1^+-s_{12} s_{23} W_1^- W_1^+-s_{12} s_{23} W_1^--s_{12} s_{23} W_1^++s_{23} m^2-m^4-s_{12} s_{23}\\right)\\,(W_8 \\otimes W_2)\\right]\\end{aligned}",
-			"wDefinitions": [
-				{
-					"label": "W_1",
-					"kind": "rational",
-					"pairIndex": null,
-					"definition": "\\frac{s_{12}}{m^2}",
-					"originalLetter": "s_{12}"
-				},
-				{
-					"label": "W_2",
-					"kind": "rational",
-					"pairIndex": null,
-					"definition": "\\frac{-s_{23}+m^2}{m^2}",
-					"originalLetter": "m^2-s_{23}"
-				},
-				{
-					"label": "W_3",
-					"kind": "rational",
-					"pairIndex": null,
-					"definition": "\\frac{s_{23}}{m^2}",
-					"originalLetter": "s_{23}"
-				},
-				{
-					"label": "W_4",
-					"kind": "rational",
-					"pairIndex": null,
-					"definition": "\\frac{1+W_1^-}{m^2}",
-					"originalLetter": "W_1^-+1"
-				},
-				{
-					"label": "W^-_1",
-					"kind": "algebraic",
-					"pairIndex": 1,
-					"definition": "\\frac{-\\sqrt{s_{12} \\left(s_{12}-4 m^2\\right)}-s_{12}}{2 s_{12}}",
-					"originalLetter": "W_1^-",
-					"polynomialTeX": "m^2+s_{12} x_{2}^2+s_{12} x_{2}",
-					"discriminantTeX": "s_{12}^2-4 s_{12} m^2"
-				},
-				{
-					"label": "W^+_1",
-					"kind": "algebraic",
-					"pairIndex": 1,
-					"definition": "\\frac{\\sqrt{s_{12} \\left(s_{12}-4 m^2\\right)}-s_{12}}{2 s_{12}}",
-					"originalLetter": "W_1^+",
-					"polynomialTeX": "m^2+s_{12} x_{2}^2+s_{12} x_{2}",
-					"discriminantTeX": "s_{12}^2-4 s_{12} m^2"
-				},
-				{
-					"label": "W_5",
-					"kind": "rational",
-					"pairIndex": null,
-					"definition": "\\frac{1+W_1^+}{m^2}",
-					"originalLetter": "W_1^++1"
-				},
-				{
-					"label": "W_6",
-					"kind": "rational",
-					"pairIndex": null,
-					"definition": "\\frac{s_{12}+s_{23}-m^2}{m^2}",
-					"originalLetter": "-m^2+s_{12}+s_{23}"
-				}
-			],
-			"normalizedAlphabet": [
-				"W_1",
-				"W_2",
-				"W_3",
-				"W_4",
-				"W_5",
-				"W_6",
-				"W_7",
-				"W_8"
-			],
-			"symbolScale": "m^2",
-			"normalizedSymbolTerms": 21,
-			"legOrder": [],
-			"findRoots": true,
-			"algebraicLetters": [
-				{
-					"index": 1,
-					"variable": "x2",
-					"polynomial": "mm + s12*x2 + s12*x2^2",
-					"LC": "s12",
-					"sum": "-1",
-					"product": "mm/s12",
-					"discriminant": "-4*mm*s12 + s12^2",
-					"minusRoot": "(-s12 - Sqrt[s12*(-4*mm + s12)])/(2*s12)",
-					"plusRoot": "(-s12 + Sqrt[s12*(-4*mm + s12)])/(2*s12)",
-					"polynomialTeX": "m^2+s_{12} x_{2}^2+s_{12} x_{2}",
-					"discriminantTeX": "s_{12}^2-4 s_{12} m^2",
-					"minusRootTeX": "\\frac{-\\sqrt{s_{12} \\left(s_{12}-4 m^2\\right)}-s_{12}}{2 s_{12}}",
-					"plusRootTeX": "\\frac{\\sqrt{s_{12} \\left(s_{12}-4 m^2\\right)}-s_{12}}{2 s_{12}}"
-				}
-			]
-		}
-	]
+  "CNickelIndex": "e12|e3|e3|e|:000|00|11|1|",
+  "MassScales": 3,
+  "FunctionClass": "MPL",
+  "EpsilonOrder": "-1,0",
+  "References": [
+    "arXiv:0712.1851 (JHEP 02 (002), 2008)"
+  ],
+  "Records": [
+    {
+      "dimScheme": "d=4-2*eps",
+      "recordId": "bf_18664c4b9e03",
+      "familyName": "Box_6",
+      "verified": true,
+      "verifiedAt": "auto-loopedia",
+      "authors": "Ellis, R.Keith, Zanderighi, Giulia",
+      "texkey": "Ellis:2007qk",
+      "computationLevel": "full",
+      "masterCount": 1,
+      "location": "Sec. 3.2.2, Sec. 4.4.6",
+      "transcendentalWeight": 2,
+      "method": [],
+      "reference": "arXiv:0712.1851, JHEP 02 (002), 2008",
+      "ancillaryFiles": [],
+      "description": "Divergent one-loop box $I_4^D(0,0,m^2,m^2;s_{12},s_{23};0,0,0,m^2)$ with one massive internal line and $p_1^2=p_2^2=0, p_3^2=p_4^2=m^2$. Contains double $1/\\varepsilon^2$ pole.",
+      "epsOrders": "-1,0",
+      "tools": [],
+      "doi": "10.1088/1126-6708/2008/02/002"
+    }
+  ],
+  "Names": [
+    "1-mass box (1 internal mass)",
+    "Box",
+    "D0",
+    "Box_6",
+    "Box_7",
+    "Box_8"
+  ],
+  "Source": [
+    "arXiv",
+    "Loopedia"
+  ],
+  "Loops": 1,
+  "NumPropagators": 4,
+  "edges": "{{{1, 2}, 0}, {{1, 3}, 0}, {{2, 4}, 0}, {{3, 4}, m}}",
+  "nodes": "{{1, 0}, {2, 0}, {4, m}, {3, m}}",
+  "quadruple": "{E^(eps*EulerGamma)*Gamma[2 + eps], (x1 + x2 + x3 + x4)^(2*eps)*(s12*x2*x3 + mm*x1*x4 - s12*x1*x4 - s23*x1*x4 - mm*x4^2)^(-2 - eps), {x1, x2, x3, x4}, {mm, s12, s23}}",
+  "CanonicalName": "Box, 1 massive propagator (c)",
+  "MassConfig": {
+    "numEdges": 4,
+    "numMassiveEdges": 1,
+    "numMasslessEdges": 3,
+    "distinctInternalMasses": 1,
+    "internalMassLabels": [
+      "m"
+    ],
+    "edgeMassPattern": "0001",
+    "numExtLegs": 4,
+    "numOnshellMassiveExtLegs": 2,
+    "numMasslessExtLegs": 2,
+    "extLegSignature": "00MM"
+  },
+  "commonNames": [
+    "D₀(1×m)",
+    "L1"
+  ],
+  "Subsectors": [
+    "e12|e2|e|:000|00|1|",
+    "e12|e2|e|:000|11|2|",
+    "e12|e2|e|:100|22|2|"
+  ],
+  "ParentSectors": [],
+  "Results": [
+    {
+      "resultCompressed": "1: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",
+      "resultTeX": "-\\frac{2}{\\varepsilon^2 (m^2 s_{12}-s_{12} s_{23})}+\\frac{-\\log \\left(-\\frac{m^2}{s_{12}}\\right)-\\log \\left(\\frac{m^2}{m^2-s_{23}}\\right)+\\log (m^2-s_{23})+\\log (m^2)}{\\varepsilon s_{12} (m^2-s_{23})} + \\cdots",
+      "dimension": "4 - 2*eps",
+      "epsOrder": "0",
+      "epsOrders": "0",
+      "propExponents": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "propagators": [],
+      "numerators": [],
+      "internalMasses": [],
+      "externalMasses": [],
+      "substitutions": "",
+      "normalization": "Automatic",
+      "stVersion": "SubTropica v1.0.401",
+      "stCommand": "",
+      "contributor": "Sebastian Mizera",
+      "timestamp": "2026-04-20T13:01:02",
+      "verifiedAt": "2026-04-20T13:01:02",
+      "verified": true,
+      "method": "direct_integration",
+      "tools": [
+        "SubTropica"
+      ],
+      "methodLR": "Lungo",
+      "byteCount": 211528,
+      "symbolTeX": "\\begin{aligned}\\varepsilon^{-2}&\\colon\\;-\\frac{2}{s_{12} m^2-s_{12} s_{23}} \\\\ \\varepsilon^{-1}&\\colon\\;-\\frac{1}{s_{12} \\left(m^2-s_{23}\\right)}\\,(m^2) + \\frac{1}{s_{12} \\left(m^2-s_{23}\\right)}\\,(s_{12}) + \\frac{2}{s_{12} \\left(m^2-s_{23}\\right)}\\,(m^2-s_{23}) \\\\ \\varepsilon^{0}&\\colon\\;\\frac{2 \\left(-s_{12}^2 m^2 W_1^+ W_1^-^2-s_{12}^2 m^2 W_1^- W_1^+^2-2 s_{12} s_{23} m^2 W_1^- W_1^++s_{12} m^4 W_1^- W_1^++s_{12}^3 \\left(-W_1^-^2\\right) W_1^+^2+s_{12}^2 s_{23} W_1^+ W_1^-^2+s_{12}^2 s_{23} W_1^- W_1^+^2+s_{12}^2 s_{23} W_1^- W_1^++s_{12} s_{23}^2 W_1^- W_1^++3 s_{23}^2 m^2 W_1^--3 s_{23} m^4 W_1^-+m^6 W_1^--s_{23}^3 W_1^-+3 s_{23}^2 m^2 W_1^+-3 s_{23} m^4 W_1^++m^6 W_1^+-s_{23}^3 W_1^++2 s_{23}^2 m^2-s_{23} m^4-s_{23}^3\\right)}{\\left(m^2-s_{23}\\right) \\left(s_{12} W_1^-+m^2-s_{23}\\right)^2 \\left(s_{12} W_1^++m^2-s_{23}\\right)^2}\\,(m^2-s_{23} \\otimes m^2)  + \\cdots",
+      "alphabet": [
+        "m^2",
+        "s_{12}",
+        "m^2-s_{23}",
+        "s_{23}",
+        "W_1^-+1",
+        "W_1^-",
+        "W_1^+",
+        "W_1^++1",
+        "-m^2+s_{12}+s_{23}"
+      ],
+      "symbolWeight": 2,
+      "symbolTerms": 34,
+      "normalizedSymbolTeX": "\\begin{aligned}\\varepsilon^{-2}&\\colon\\;-\\frac{2}{s_{12} m^2-s_{12} s_{23}} \\\\ \\varepsilon^{-1}&\\colon\\;\\frac{1}{s_{12} \\left(m^2-s_{23}\\right)}\\!\\left[(W_1) + 2\\,(W_2)\\right] \\\\ \\varepsilon^{0}&\\colon\\;\\frac{2 W_1^-^{-1} W_1^+^{-1}}{s_{12}^2 \\left(m^2-s_{23}\\right) \\left(W_1^--W_1^+\\right) \\left(-2 s_{23} m^2+m^4+s_{12} s_{23}+s_{23}^2\\right) \\left(m^2 W_1^-+s_{23} \\left(-W_1^-\\right)-s_{23}\\right) \\left(m^2 W_1^++s_{23} \\left(-W_1^+\\right)-s_{23}\\right) \\left(s_{12} W_1^-+m^2-s_{23}\\right)^2 \\left(s_{12} W_1^++m^2-s_{23}\\right)^2}\\!\\left[s_{12} W_1^- \\left(W_1^--W_1^+\\right) W_1^+ \\left(2 s_{12} s_{23}^7+3 s_{12} W_1^- s_{23}^7+3 s_{12} W_1^+ s_{23}^7+4 s_{12} W_1^- W_1^+ s_{23}^7-m^2 s_{23}^7+s_{12} W_1^-^2 s_{23}^7+s_{12} W_1^+ W_1^-^2 s_{23}^7+s_{12} W_1^+^2 s_{23}^7+s_{12} W_1^- W_1^+^2 s_{23}^7+s_{12}^2 s_{23}^6-2 s_{12}^2 W_1^- W_1^+ s_{23}^6-9 s_{12} m^2 s_{23}^6-13 s_{12} W_1^- m^2 s_{23}^6-13 s_{12} W_1^+ m^2 s_{23}^6-24 s_{12} W_1^- W_1^+ m^2 s_{23}^6+6 m^4 s_{23}^6-s_{12}^2 W_1^-^2 s_{23}^6-2 s_{12}^2 W_1^+ W_1^-^2 s_{23}^6-6 s_{12} m^2 W_1^-^2 s_{23}^6-7 s_{12} W_1^+ m^2 W_1^-^2 s_{23}^6-s_{12}^2 W_1^+^2 s_{23}^6-2 s_{12}^2 W_1^- W_1^+^2 s_{23}^6-6 s_{12} m^2 W_1^+^2 s_{23}^6-7 s_{12} W_1^- m^2 W_1^+^2 s_{23}^6-s_{12}^2 W_1^-^2 W_1^+^2 s_{23}^6+2 s_{12}^3 W_1^- W_1^+ s_{23}^5-2 s_{12}^2 m^2 s_{23}^5+2 s_{12}^2 W_1^- m^2 s_{23}^5+2 s_{12}^2 W_1^+ m^2 s_{23}^5+4 s_{12}^2 W_1^- W_1^+ m^2 s_{23}^5+16 s_{12} m^4 s_{23}^5+20 s_{12} W_1^- m^4 s_{23}^5+20 s_{12} W_1^+ m^4 s_{23}^5+60 s_{12} W_1^- W_1^+ m^4 s_{23}^5-15 m^6 s_{23}^5+s_{12}^3 W_1^-^2 s_{23}^5+2 s_{12}^3 W_1^+ W_1^-^2 s_{23}^5+3 s_{12}^2 m^2 W_1^-^2 s_{23}^5+10 s_{12}^2 W_1^+ m^2 W_1^-^2 s_{23}^5+15 s_{12} m^4 W_1^-^2 s_{23}^5+21 s_{12} W_1^+ m^4 W_1^-^2 s_{23}^5+s_{12}^3 W_1^-^3 s_{23}^5+s_{12}^3 W_1^+^2 s_{23}^5+2 s_{12}^3 W_1^- W_1^+^2 s_{23}^5+3 s_{12}^2 m^2 W_1^+^2 s_{23}^5+10 s_{12}^2 W_1^- m^2 W_1^+^2 s_{23}^5+15 s_{12} m^4 W_1^+^2 s_{23}^5+21 s_{12} W_1^- m^4 W_1^+^2 s_{23}^5+6 s_{12}^2 m^2 W_1^-^2 W_1^+^2 s_{23}^5-s_{12}^3 W_1^-^3 W_1^+^2 s_{23}^5+s_{12}^3 W_1^+^3 s_{23}^5-s_{12}^3 W_1^-^2 W_1^+^3 s_{23}^5-s_{12}^4 W_1^- W_1^+ s_{23}^4-8 s_{12}^3 W_1^- W_1^+ m^2 s_{23}^4+s_{12}^2 m^4 s_{23}^4-6 s_{12}^2 W_1^- m^4 s_{23}^4-6 s_{12}^2 W_1^+ m^4 s_{23}^4+4 s_{12}^2 W_1^- W_1^+ m^4 s_{23}^4-14 s_{12} m^6 s_{23}^4-10 s_{12} W_1^- m^6 s_{23}^4-10 s_{12} W_1^+ m^6 s_{23}^4-80 s_{12} W_1^- W_1^+ m^6 s_{23}^4+20 m^8 s_{23}^4-4 s_{12}^4 W_1^+ W_1^-^2 s_{23}^4-3 s_{12}^3 m^2 W_1^-^2 s_{23}^4-4 s_{12}^3 W_1^+ m^2 W_1^-^2 s_{23}^4-2 s_{12}^2 m^4 W_1^-^2 s_{23}^4-20 s_{12}^2 W_1^+ m^4 W_1^-^2 s_{23}^4-20 s_{12} m^6 W_1^-^2 s_{23}^4-35 s_{12} W_1^+ m^6 W_1^-^2 s_{23}^4-3 s_{12}^4 W_1^+ W_1^-^3 s_{23}^4-3 s_{12}^3 m^2 W_1^-^3 s_{23}^4-4 s_{12}^4 W_1^- W_1^+^2 s_{23}^4-3 s_{12}^3 m^2 W_1^+^2 s_{23}^4-4 s_{12}^3 W_1^- m^2 W_1^+^2 s_{23}^4-2 s_{12}^2 m^4 W_1^+^2 s_{23}^4-20 s_{12}^2 W_1^- m^4 W_1^+^2 s_{23}^4-20 s_{12} m^6 W_1^+^2 s_{23}^4-35 s_{12} W_1^- m^6 W_1^+^2 s_{23}^4-6 s_{12}^4 W_1^-^2 W_1^+^2 s_{23}^4-15 s_{12}^2 m^4 W_1^-^2 W_1^+^2 s_{23}^4-2 s_{12}^4 W_1^-^3 W_1^+^2 s_{23}^4+5 s_{12}^3 m^2 W_1^-^3 W_1^+^2 s_{23}^4-3 s_{12}^4 W_1^- W_1^+^3 s_{23}^4-3 s_{12}^3 m^2 W_1^+^3 s_{23}^4-2 s_{12}^4 W_1^-^2 W_1^+^3 s_{23}^4+5 s_{12}^3 m^2 W_1^-^2 W_1^+^3 s_{23}^4+s_{12}^4 W_1^-^3 W_1^+^3 s_{23}^4+10 s_{12}^3 W_1^- W_1^+ m^4 s_{23}^3+6 s_{12}^2 W_1^- m^6 s_{23}^3+6 s_{12}^2 W_1^+ m^6 s_{23}^3-16 s_{12}^2 W_1^- W_1^+ m^6 s_{23}^3+6 s_{12} m^8 s_{23}^3-5 s_{12} W_1^- m^8 s_{23}^3-5 s_{12} W_1^+ m^8 s_{23}^3+60 s_{12} W_1^- W_1^+ m^8 s_{23}^3-15 m^{10} s_{23}^3+6 s_{12}^4 W_1^+ m^2 W_1^-^2 s_{23}^3+3 s_{12}^3 m^4 W_1^-^2 s_{23}^3-2 s_{12}^2 m^6 W_1^-^2 s_{23}^3+20 s_{12}^2 W_1^+ m^6 W_1^-^2 s_{23}^3+15 s_{12} m^8 W_1^-^2 s_{23}^3+35 s_{12} W_1^+ m^8 W_1^-^2 s_{23}^3+6 s_{12}^4 W_1^+ m^2 W_1^-^3 s_{23}^3+3 s_{12}^3 m^4 W_1^-^3 s_{23}^3+6 s_{12}^4 W_1^- m^2 W_1^+^2 s_{23}^3+3 s_{12}^3 m^4 W_1^+^2 s_{23}^3-2 s_{12}^2 m^6 W_1^+^2 s_{23}^3+20 s_{12}^2 W_1^- m^6 W_1^+^2 s_{23}^3+15 s_{12} m^8 W_1^+^2 s_{23}^3+35 s_{12} W_1^- m^8 W_1^+^2 s_{23}^3+2 s_{12}^5 W_1^-^2 W_1^+^2 s_{23}^3+11 s_{12}^4 m^2 W_1^-^2 W_1^+^2 s_{23}^3+20 s_{12}^2 m^6 W_1^-^2 W_1^+^2 s_{23}^3+2 s_{12}^5 W_1^-^3 W_1^+^2 s_{23}^3+6 s_{12}^4 m^2 W_1^-^3 W_1^+^2 s_{23}^3-10 s_{12}^3 m^4 W_1^-^3 W_1^+^2 s_{23}^3+6 s_{12}^4 W_1^- m^2 W_1^+^3 s_{23}^3+3 s_{12}^3 m^4 W_1^+^3 s_{23}^3+2 s_{12}^5 W_1^-^2 W_1^+^3 s_{23}^3+6 s_{12}^4 m^2 W_1^-^2 W_1^+^3 s_{23}^3-10 s_{12}^3 m^4 W_1^-^2 W_1^+^3 s_{23}^3+2 s_{12}^5 W_1^-^3 W_1^+^3 s_{23}^3-4 s_{12}^4 m^2 W_1^-^3 W_1^+^3 s_{23}^3-4 s_{12}^3 W_1^- W_1^+ m^6 s_{23}^2-2 s_{12}^2 W_1^- m^8 s_{23}^2-2 s_{12}^2 W_1^+ m^8 s_{23}^2+14 s_{12}^2 W_1^- W_1^+ m^8 s_{23}^2-s_{12} m^{10} s_{23}^2+7 s_{12} W_1^- m^{10} s_{23}^2+7 s_{12} W_1^+ m^{10} s_{23}^2-24 s_{12} W_1^- W_1^+ m^{10} s_{23}^2+6 m^{12} s_{23}^2-2 s_{12}^4 W_1^+ m^4 W_1^-^2 s_{23}^2-s_{12}^3 m^6 W_1^-^2 s_{23}^2+4 s_{12}^3 W_1^+ m^6 W_1^-^2 s_{23}^2+3 s_{12}^2 m^8 W_1^-^2 s_{23}^2-10 s_{12}^2 W_1^+ m^8 W_1^-^2 s_{23}^2-6 s_{12} m^{10} W_1^-^2 s_{23}^2-21 s_{12} W_1^+ m^{10} W_1^-^2 s_{23}^2-3 s_{12}^4 W_1^+ m^4 W_1^-^3 s_{23}^2-s_{12}^3 m^6 W_1^-^3 s_{23}^2-2 s_{12}^4 W_1^- m^4 W_1^+^2 s_{23}^2-s_{12}^3 m^6 W_1^+^2 s_{23}^2+4 s_{12}^3 W_1^- m^6 W_1^+^2 s_{23}^2+3 s_{12}^2 m^8 W_1^+^2 s_{23}^2-10 s_{12}^2 W_1^- m^8 W_1^+^2 s_{23}^2-6 s_{12} m^{10} W_1^+^2 s_{23}^2-21 s_{12} W_1^- m^{10} W_1^+^2 s_{23}^2-s_{12}^5 m^2 W_1^-^2 W_1^+^2 s_{23}^2-4 s_{12}^4 m^4 W_1^-^2 W_1^+^2 s_{23}^2-15 s_{12}^2 m^8 W_1^-^2 W_1^+^2 s_{23}^2-2 s_{12}^5 m^2 W_1^-^3 W_1^+^2 s_{23}^2-6 s_{12}^4 m^4 W_1^-^3 W_1^+^2 s_{23}^2+10 s_{12}^3 m^6 W_1^-^3 W_1^+^2 s_{23}^2-3 s_{12}^4 W_1^- m^4 W_1^+^3 s_{23}^2-s_{12}^3 m^6 W_1^+^3 s_{23}^2-2 s_{12}^5 m^2 W_1^-^2 W_1^+^3 s_{23}^2-6 s_{12}^4 m^4 W_1^-^2 W_1^+^3 s_{23}^2+10 s_{12}^3 m^6 W_1^-^2 W_1^+^3 s_{23}^2-4 s_{12}^5 m^2 W_1^-^3 W_1^+^3 s_{23}^2+6 s_{12}^4 m^4 W_1^-^3 W_1^+^3 s_{23}^2-4 s_{12}^2 W_1^- W_1^+ m^{10} s_{23}-2 s_{12} W_1^- m^{12} s_{23}-2 s_{12} W_1^+ m^{12} s_{23}+4 s_{12} W_1^- W_1^+ m^{12} s_{23}-m^{14} s_{23}-2 s_{12}^3 W_1^+ m^8 W_1^-^2 s_{23}-s_{12}^2 m^{10} W_1^-^2 s_{23}+2 s_{12}^2 W_1^+ m^{10} W_1^-^2 s_{23}+s_{12} m^{12} W_1^-^2 s_{23}+7 s_{12} W_1^+ m^{12} W_1^-^2 s_{23}-2 s_{12}^3 W_1^- m^8 W_1^+^2 s_{23}-s_{12}^2 m^{10} W_1^+^2 s_{23}+2 s_{12}^2 W_1^- m^{10} W_1^+^2 s_{23}+s_{12} m^{12} W_1^+^2 s_{23}+7 s_{12} W_1^- m^{12} W_1^+^2 s_{23}-s_{12}^4 m^6 W_1^-^2 W_1^+^2 s_{23}+6 s_{12}^2 m^{10} W_1^-^2 W_1^+^2 s_{23}+2 s_{12}^4 m^6 W_1^-^3 W_1^+^2 s_{23}-5 s_{12}^3 m^8 W_1^-^3 W_1^+^2 s_{23}+2 s_{12}^4 m^6 W_1^-^2 W_1^+^3 s_{23}-5 s_{12}^3 m^8 W_1^-^2 W_1^+^3 s_{23}+2 s_{12}^5 m^4 W_1^-^3 W_1^+^3 s_{23}-4 s_{12}^4 m^6 W_1^-^3 W_1^+^3 s_{23}-s_{12} W_1^+ m^{14} W_1^-^2-s_{12} W_1^- m^{14} W_1^+^2-s_{12}^2 m^{12} W_1^-^2 W_1^+^2+s_{12}^3 m^{10} W_1^-^3 W_1^+^2+s_{12}^3 m^{10} W_1^-^2 W_1^+^3+s_{12}^4 m^8 W_1^-^3 W_1^+^3\\right)\\,(W_2 \\otimes W_2) + 0\\,(W_3 \\otimes W_2) - s_{12} s_{23} W_1^- W_1^+ \\left(m^2-s_{23}\\right) \\left(W_1^--W_1^+\\right) \\left(s_{12} W_1^-+m^2-s_{23}\\right)^2 \\left(s_{12} W_1^++m^2-s_{23}\\right)^2 \\left(s_{12} m^2 W_1^- W_1^+-s_{12} s_{23} W_1^- W_1^+-s_{12} s_{23} W_1^--s_{12} s_{23} W_1^++s_{23} m^2-m^4-s_{12} s_{23}\\right)\\,(W_2 \\otimes W_3) + 0\\,(W_1) - s_{12}^2 W_1^- W_1^+ \\left(W_1^--W_1^+\\right) \\left(-m^2 W_1^-+s_{23} W_1^-+s_{23}\\right) \\left(-m^2 W_1^++s_{23} W_1^++s_{23}\\right) \\left(s_{12}^3 s_{23} m^2 W_1^- W_1^++2 s_{12}^3 s_{23} m^2 W_1^+ W_1^-^2+2 s_{12}^3 s_{23} m^2 W_1^- W_1^+^2+s_{12}^2 s_{23}^2 m^2 W_1^- W_1^+-2 s_{12}^2 s_{23} m^4 W_1^- W_1^++s_{12}^2 m^6 W_1^- W_1^++8 s_{12} s_{23}^3 m^2 W_1^- W_1^+-12 s_{12} s_{23}^2 m^4 W_1^- W_1^++8 s_{12} s_{23} m^6 W_1^- W_1^+-2 s_{12} m^8 W_1^- W_1^++s_{12}^4 s_{23} W_1^-^2 W_1^+^2-2 s_{12}^3 s_{23}^2 W_1^+ W_1^-^2-2 s_{12}^3 s_{23}^2 W_1^- W_1^+^2-2 s_{12}^3 s_{23}^2 W_1^- W_1^+-2 s_{12} s_{23}^4 W_1^- W_1^+-2 s_{12}^2 s_{23}^2 m^2 W_1^--2 s_{12}^2 s_{23}^2 m^2 W_1^-^2+s_{12}^2 s_{23} m^4 W_1^-+s_{12}^2 s_{23} m^4 W_1^-^2-s_{12} s_{23}^3 m^2 W_1^-+3 s_{12} s_{23}^2 m^4 W_1^--3 s_{12} s_{23} m^6 W_1^-+s_{12} m^8 W_1^--5 s_{23}^4 m^2 W_1^-+10 s_{23}^3 m^4 W_1^--10 s_{23}^2 m^6 W_1^-+5 s_{23} m^8 W_1^--m^{10} W_1^-+s_{12}^2 s_{23}^3 W_1^-^2+s_{12}^2 s_{23}^3 W_1^-+s_{23}^5 W_1^--2 s_{12}^2 s_{23}^2 m^2 W_1^+-2 s_{12}^2 s_{23}^2 m^2 W_1^+^2+s_{12}^2 s_{23} m^4 W_1^++s_{12}^2 s_{23} m^4 W_1^+^2-s_{12} s_{23}^3 m^2 W_1^++3 s_{12} s_{23}^2 m^4 W_1^+-3 s_{12} s_{23} m^6 W_1^++s_{12} m^8 W_1^+-5 s_{23}^4 m^2 W_1^++10 s_{23}^3 m^4 W_1^+-10 s_{23}^2 m^6 W_1^++5 s_{23} m^8 W_1^+-m^{10} W_1^++s_{12}^2 s_{23}^3 W_1^+^2+s_{12}^2 s_{23}^3 W_1^++s_{23}^5 W_1^++s_{12} s_{23}^3 m^2-2 s_{12} s_{23}^2 m^4+s_{12} s_{23} m^6-3 s_{23}^4 m^2+2 s_{23}^3 m^4+2 s_{23}^2 m^6-3 s_{23} m^8+m^{10}+s_{23}^5\\right)\\,(W_1 \\otimes W_1) + s_{12}^2 W_1^- W_1^+ \\left(W_1^--W_1^+\\right) \\left(-2 s_{23} m^2+m^4+s_{12} s_{23}+s_{23}^2\\right) \\left(m^2 W_1^-+s_{23} \\left(-W_1^-\\right)-s_{23}\\right) \\left(m^2 W_1^++s_{23} \\left(-W_1^+\\right)-s_{23}\\right) \\left(s_{12} W_1^-+m^2-s_{23}\\right) \\left(s_{12} W_1^++m^2-s_{23}\\right) \\left(s_{12} W_1^- W_1^++m^2 W_1^-+s_{23} \\left(-W_1^-\\right)+m^2 W_1^+-s_{23} W_1^+-s_{23}\\right)\\,(W_2) - s_{12} W_1^- W_1^+ \\left(W_1^--W_1^+\\right) \\left(m^2 W_1^-+s_{23} \\left(-W_1^-\\right)-s_{23}\\right) \\left(m^2 W_1^++s_{23} \\left(-W_1^+\\right)-s_{23}\\right) \\left(s_{12} W_1^-+m^2-s_{23}\\right) \\left(s_{12} W_1^++m^2-s_{23}\\right) \\left(-4 s_{12}^2 s_{23} m^2 W_1^- W_1^++2 s_{12}^2 m^4 W_1^- W_1^++s_{12}^3 s_{23} W_1^- W_1^++2 s_{12}^2 s_{23}^2 W_1^- W_1^++3 s_{12} s_{23}^2 m^2 W_1^--3 s_{12} s_{23} m^4 W_1^-+s_{12} m^6 W_1^--s_{12} s_{23}^3 W_1^-+3 s_{12} s_{23}^2 m^2 W_1^+-3 s_{12} s_{23} m^4 W_1^++s_{12} m^6 W_1^+-s_{12} s_{23}^3 W_1^+-s_{12}^2 s_{23} m^2-3 s_{12} s_{23}^2 m^2+3 s_{12} s_{23} m^4-s_{12} m^6-4 s_{23}^3 m^2+6 s_{23}^2 m^4-4 s_{23} m^6+m^8+s_{12}^2 s_{23}^2+s_{12} s_{23}^3+s_{23}^4\\right)\\,(W_1 \\otimes W_2) - s_{12} W_1^- W_1^+ \\left(W_1^--W_1^+\\right) \\left(-2 s_{23} m^2+m^4+s_{12} s_{23}+s_{23}^2\\right) \\left(m^2 W_1^-+s_{23} \\left(-W_1^-\\right)-s_{23}\\right) \\left(m^2 W_1^++s_{23} \\left(-W_1^+\\right)-s_{23}\\right) \\left(s_{12} W_1^-+m^2-s_{23}\\right)^2 \\left(s_{12} W_1^++m^2-s_{23}\\right)^2\\,(W_2 \\otimes W_1) - s_{12} W_1^- W_1^+ \\left(m^2-s_{23}\\right) \\left(-2 s_{23} m^2+m^4+s_{12} s_{23}+s_{23}^2\\right) \\left(m^2 W_1^++s_{23} \\left(-W_1^+\\right)-s_{23}\\right) \\left(s_{12} W_1^-+m^2-s_{23}\\right) \\left(s_{12} W_1^++m^2-s_{23}\\right)^2 \\left(m^2 W_1^- W_1^+-s_{23} W_1^- W_1^++2 m^2 W_1^-+m^2 W_1^-^2+s_{12} W_1^-^2+s_{12} W_1^-^3-s_{23} W_1^-^2-2 s_{23} W_1^--s_{23} W_1^+-s_{23}\\right)\\,(W_4 \\otimes W_5) + W_1^+ \\left(m^2-s_{23}\\right) \\left(-2 s_{23} m^2+m^4+s_{12} s_{23}+s_{23}^2\\right) \\left(m^2 W_1^-+s_{23} \\left(-W_1^-\\right)-s_{23}\\right) \\left(m^2 W_1^++s_{23} \\left(-W_1^+\\right)-s_{23}\\right) \\left(s_{12} W_1^++m^2-s_{23}\\right)^2 \\left(-s_{12} m^2 W_1^- W_1^++s_{12}^2 \\left(-W_1^+\\right) W_1^-^2+s_{12} s_{23} W_1^- W_1^++2 s_{12} m^2 W_1^-+s_{12}^2 W_1^-^2+s_{12}^2 W_1^-^3-s_{23} m^2+m^4\\right)\\,(W_1 \\otimes W_5) + W_1^+ \\left(m^2-s_{23}\\right) \\left(-2 s_{23} m^2+m^4+s_{12} s_{23}+s_{23}^2\\right) \\left(m^2 W_1^-+s_{23} \\left(-W_1^-\\right)-s_{23}\\right) \\left(m^2 W_1^++s_{23} \\left(-W_1^+\\right)-s_{23}\\right) \\left(s_{12} W_1^++m^2-s_{23}\\right)^2 \\left(-s_{12} m^2 W_1^- W_1^++s_{12}^2 \\left(-W_1^+\\right) W_1^-^2+s_{12} s_{23} W_1^- W_1^++2 s_{12} m^2 W_1^-+s_{12}^2 W_1^-^2+s_{12}^2 W_1^-^3-s_{23} m^2+m^4\\right)\\,(W_5 \\otimes W_1) + W_1^+ \\left(m^2-s_{23}\\right) \\left(-2 s_{23} m^2+m^4+s_{12} s_{23}+s_{23}^2\\right) \\left(m^2 W_1^-+s_{23} \\left(-W_1^-\\right)-s_{23}\\right) \\left(m^2 W_1^++s_{23} \\left(-W_1^+\\right)-s_{23}\\right) \\left(s_{12} W_1^++m^2-s_{23}\\right)^2 \\left(-s_{12} m^2 W_1^- W_1^++s_{12}^2 \\left(-W_1^+\\right) W_1^-^2+s_{12} s_{23} W_1^- W_1^++2 s_{12} m^2 W_1^-+s_{12}^2 W_1^-^2+s_{12}^2 W_1^-^3-s_{23} m^2+m^4\\right)\\,(W_5 \\otimes W_5) - W_1^- \\left(m^2-s_{23}\\right) \\left(-2 s_{23} m^2+m^4+s_{12} s_{23}+s_{23}^2\\right) \\left(m^2 W_1^-+s_{23} \\left(-W_1^-\\right)-s_{23}\\right) \\left(m^2 W_1^++s_{23} \\left(-W_1^+\\right)-s_{23}\\right) \\left(s_{12} W_1^-+m^2-s_{23}\\right)^2 \\left(-s_{12} m^2 W_1^- W_1^++s_{12}^2 \\left(-W_1^-\\right) W_1^+^2+s_{12} s_{23} W_1^- W_1^++2 s_{12} m^2 W_1^++s_{12}^2 W_1^+^2+s_{12}^2 W_1^+^3-s_{23} m^2+m^4\\right)\\,(W_1 \\otimes W_6) - W_1^- \\left(m^2-s_{23}\\right) \\left(-2 s_{23} m^2+m^4+s_{12} s_{23}+s_{23}^2\\right) \\left(m^2 W_1^-+s_{23} \\left(-W_1^-\\right)-s_{23}\\right) \\left(m^2 W_1^++s_{23} \\left(-W_1^+\\right)-s_{23}\\right) \\left(s_{12} W_1^-+m^2-s_{23}\\right)^2 \\left(-s_{12} m^2 W_1^- W_1^++s_{12}^2 \\left(-W_1^-\\right) W_1^+^2+s_{12} s_{23} W_1^- W_1^++2 s_{12} m^2 W_1^++s_{12}^2 W_1^+^2+s_{12}^2 W_1^+^3-s_{23} m^2+m^4\\right)\\,(W_6 \\otimes W_1) - W_1^- \\left(m^2-s_{23}\\right) \\left(-2 s_{23} m^2+m^4+s_{12} s_{23}+s_{23}^2\\right) \\left(m^2 W_1^-+s_{23} \\left(-W_1^-\\right)-s_{23}\\right) \\left(m^2 W_1^++s_{23} \\left(-W_1^+\\right)-s_{23}\\right) \\left(s_{12} W_1^-+m^2-s_{23}\\right)^2 \\left(-s_{12} m^2 W_1^- W_1^++s_{12}^2 \\left(-W_1^-\\right) W_1^+^2+s_{12} s_{23} W_1^- W_1^++2 s_{12} m^2 W_1^++s_{12}^2 W_1^+^2+s_{12}^2 W_1^+^3-s_{23} m^2+m^4\\right)\\,(W_6 \\otimes W_6) + s_{12} W_1^- W_1^+ \\left(m^2-s_{23}\\right) \\left(-2 s_{23} m^2+m^4+s_{12} s_{23}+s_{23}^2\\right) \\left(m^2 W_1^-+s_{23} \\left(-W_1^-\\right)-s_{23}\\right) \\left(s_{12} W_1^-+m^2-s_{23}\\right)^2 \\left(s_{12} W_1^++m^2-s_{23}\\right) \\left(m^2 W_1^- W_1^+-s_{23} W_1^- W_1^++s_{23} \\left(-W_1^-\\right)+2 m^2 W_1^++m^2 W_1^+^2+s_{12} W_1^+^2+s_{12} W_1^+^3-s_{23} W_1^+^2-2 s_{23} W_1^+-s_{23}\\right)\\,(W_7 \\otimes W_6) - s_{12}^2 W_1^- W_1^+ \\left(m^2-s_{23}\\right) \\left(W_1^--W_1^+\\right) \\left(m^2 W_1^-+s_{23} \\left(-W_1^-\\right)-s_{23}\\right) \\left(m^2 W_1^++s_{23} \\left(-W_1^+\\right)-s_{23}\\right) \\left(s_{12} W_1^-+m^2-s_{23}\\right) \\left(s_{12} W_1^++m^2-s_{23}\\right) \\left(s_{12} m^2 W_1^- W_1^+-s_{12} s_{23} W_1^- W_1^+-s_{12} s_{23} W_1^--s_{12} s_{23} W_1^++s_{23} m^2-m^4-s_{12} s_{23}\\right)\\,(W_8 \\otimes W_1) + s_{12}^2 W_1^- W_1^+ \\left(m^2-s_{23}\\right) \\left(W_1^--W_1^+\\right) \\left(m^2 W_1^-+s_{23} \\left(-W_1^-\\right)-s_{23}\\right) \\left(m^2 W_1^++s_{23} \\left(-W_1^+\\right)-s_{23}\\right) \\left(s_{12} W_1^-+m^2-s_{23}\\right) \\left(s_{12} W_1^++m^2-s_{23}\\right) \\left(s_{12} m^2 W_1^- W_1^+-s_{12} s_{23} W_1^- W_1^+-s_{12} s_{23} W_1^--s_{12} s_{23} W_1^++s_{23} m^2-m^4-s_{12} s_{23}\\right)\\,(W_8 \\otimes W_2)\\right]\\end{aligned}",
+      "wDefinitions": [
+        {
+          "label": "W_1",
+          "kind": "rational",
+          "pairIndex": null,
+          "definition": "\\frac{s_{12}}{m^2}",
+          "originalLetter": "s_{12}"
+        },
+        {
+          "label": "W_2",
+          "kind": "rational",
+          "pairIndex": null,
+          "definition": "\\frac{-s_{23}+m^2}{m^2}",
+          "originalLetter": "m^2-s_{23}"
+        },
+        {
+          "label": "W_3",
+          "kind": "rational",
+          "pairIndex": null,
+          "definition": "\\frac{s_{23}}{m^2}",
+          "originalLetter": "s_{23}"
+        },
+        {
+          "label": "W_4",
+          "kind": "rational",
+          "pairIndex": null,
+          "definition": "\\frac{1+W_1^-}{m^2}",
+          "originalLetter": "W_1^-+1"
+        },
+        {
+          "label": "W^-_1",
+          "kind": "algebraic",
+          "pairIndex": 1,
+          "definition": "\\frac{-\\sqrt{s_{12} \\left(s_{12}-4 m^2\\right)}-s_{12}}{2 s_{12}}",
+          "originalLetter": "W_1^-",
+          "polynomialTeX": "m^2+s_{12} x_{2}^2+s_{12} x_{2}",
+          "discriminantTeX": "s_{12}^2-4 s_{12} m^2"
+        },
+        {
+          "label": "W^+_1",
+          "kind": "algebraic",
+          "pairIndex": 1,
+          "definition": "\\frac{\\sqrt{s_{12} \\left(s_{12}-4 m^2\\right)}-s_{12}}{2 s_{12}}",
+          "originalLetter": "W_1^+",
+          "polynomialTeX": "m^2+s_{12} x_{2}^2+s_{12} x_{2}",
+          "discriminantTeX": "s_{12}^2-4 s_{12} m^2"
+        },
+        {
+          "label": "W_5",
+          "kind": "rational",
+          "pairIndex": null,
+          "definition": "\\frac{1+W_1^+}{m^2}",
+          "originalLetter": "W_1^++1"
+        },
+        {
+          "label": "W_6",
+          "kind": "rational",
+          "pairIndex": null,
+          "definition": "\\frac{s_{12}+s_{23}-m^2}{m^2}",
+          "originalLetter": "-m^2+s_{12}+s_{23}"
+        }
+      ],
+      "normalizedAlphabet": [
+        "W_1",
+        "W_2",
+        "W_3",
+        "W_4",
+        "W_5",
+        "W_6",
+        "W_7",
+        "W_8"
+      ],
+      "symbolScale": "m^2",
+      "normalizedSymbolTerms": 21,
+      "legOrder": [],
+      "findRoots": true,
+      "algebraicLetters": [
+        {
+          "index": 1,
+          "variable": "x2",
+          "polynomial": "mm + s12*x2 + s12*x2^2",
+          "LC": "s12",
+          "sum": "-1",
+          "product": "mm/s12",
+          "discriminant": "-4*mm*s12 + s12^2",
+          "minusRoot": "(-s12 - Sqrt[s12*(-4*mm + s12)])/(2*s12)",
+          "plusRoot": "(-s12 + Sqrt[s12*(-4*mm + s12)])/(2*s12)",
+          "polynomialTeX": "m^2+s_{12} x_{2}^2+s_{12} x_{2}",
+          "discriminantTeX": "s_{12}^2-4 s_{12} m^2",
+          "minusRootTeX": "\\frac{-\\sqrt{s_{12} \\left(s_{12}-4 m^2\\right)}-s_{12}}{2 s_{12}}",
+          "plusRootTeX": "\\frac{\\sqrt{s_{12} \\left(s_{12}-4 m^2\\right)}-s_{12}}{2 s_{12}}"
+        }
+      ]
+    }
+  ]
 }

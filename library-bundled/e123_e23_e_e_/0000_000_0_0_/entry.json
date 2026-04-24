@@ -1,273 +1,273 @@
 {
-	"CNickelIndex": "e123|e23|e|e|:0000|000|0|0|",
-	"MassScales": 2,
-	"FunctionClass": "hypergeometric",
-	"EpsilonOrder": "all orders",
-	"References": [
-		"arXiv:hep-ph/9912329 (Nucl.Phys.B 580 (485), 2000)",
-		"arXiv:1804.00131 (Phys.Rev.D 98 (), 2018)",
-		"arXiv:2305.01585 (JHEP 11 (202), 2023)",
-		"arXiv:2007.04977 (Phys.Rev.Lett. 125 (), 2020)",
-		"arXiv:1912.06561",
-		"arXiv:2506.10456"
-	],
-	"Records": [
-		{
-			"dimScheme": "d=D",
-			"recordId": "bf_d742efe6fc6c",
-			"familyName": "2L-box-triangle-nonplanar / 2L-box-triangle-planar",
-			"verified": false,
-			"verifiedAt": "",
-			"authors": "Gehrmann, T., Remiddi, E.",
-			"texkey": "Gehrmann:1999as",
-			"computationLevel": "full",
-			"masterCount": 2,
-			"location": "Eq. (4.14), Section 4.3",
-			"method": [],
-			"reference": "arXiv:hep-ph/9912329, Nucl.Phys.B 580 (485), 2000",
-			"ancillaryFiles": [],
-			"description": "Two-loop four-point master integral with $t=5$ propagators: non-planar box-triangle topology. Two master integrals whose DEs decouple in $\\Delta=s_{13}-s_{23}$. Results involve Appell $F_1$, Horn $S_1$, and Gauss ${}_2F_1$ for arbitrary $d$. First computed in this paper.",
-			"epsOrders": "all orders",
-			"tools": [
-				"FORM"
-			],
-			"doi": "10.1016/S0550-3213(00)00223-6"
-		},
-		{
-			"reference": "arXiv:1804.00131 (Phys.Rev.D 98 (), 2018)",
-			"authors": [
-				{
-					"full_name": "Kosower, David A.",
-					"inspire_id": 1002112
-				}
-			],
-			"description": "Massless slashed-box with 5 propagators. IBP reductions via third-order ODE with Appell $F_1$ and ${}_2F_1$ solutions. 1 master integral.",
-			"epsOrders": "all_orders",
-			"familyName": "P_11",
-			"method": "IBP",
-			"tools": [],
-			"ancillaryFiles": false,
-			"doi": "10.1103/PhysRevD.98.025008",
-			"texkey": "",
-			"masterCount": 1,
-			"dimScheme": "d=4-2*eps",
-			"computationLevel": "IBP_only",
-			"location": "Fig. 1, Sec. VII.B",
-			"recordId": "bx_50fc5eaa2d85",
-			"verified": false,
-			"verifiedAt": ""
-		},
-		{
-			"reference": "arXiv:2305.01585 (JHEP 11 (202), 2023)",
-			"authors": "Chestnov, Vsevolod, Matsubara-Heo, Saiei J., Munch, Henrik J., Takayama, Nobuki",
-			"description": "Two-loop massless N-box (non-planar box) integral family in $d=4-2\\varepsilon$ dimensions with additional analytic regulator $\\delta$. Studied as a restriction of a 10-variable GKZ system whose A-matrix is given explicitly. The GKZ rank is 9; upon restricting $z_1=\\ldots=z_9=1$ ($z_{10}=t/s$), the holonomic rank drops to 3. The $3\\times 3$ Pfaffian matrix $Q_{10}(z_{10})$ is derived by the holomorphic restriction algorithm with Moser reduction to cure a second-order pole. Result cross-checked against LiteRed.",
-			"epsOrders": "",
-			"familyName": "2L massless N-box",
-			"method": "GKZ, restriction, Pfaffian system, Macaulay matrix, Moser reduction",
-			"tools": [
-				"LiteRed",
-				"Mathematica"
-			],
-			"ancillaryFiles": false,
-			"doi": "10.1007/JHEP11(2023)202",
-			"texkey": "Chestnov:2023kww",
-			"masterCount": 3,
-			"dimScheme": "d=4-2*eps",
-			"computationLevel": "DE_only",
-			"location": "Section 5.1 (sec:gkz_nbox); Example 2.1 (ex:nbox); eq. nbox_limit, eq:nbox_LP_integral, eq:deq-nbox-answer",
-			"recordId": "bx_c7dabc1f401d",
-			"verified": false,
-			"verifiedAt": ""
-		},
-		{
-			"reference": "arXiv:1912.06561",
-			"authors": [
-				{
-					"full_name": "Abreu, Samuel",
-					"inspire_id": 1287226
-				},
-				{
-					"full_name": "Britto, Ruth",
-					"inspire_id": 1015279
-				},
-				{
-					"full_name": "Duhr, Claude",
-					"inspire_id": 1040449
-				},
-				{
-					"full_name": "Gardi, Einan",
-					"inspire_id": 1019159
-				},
-				{
-					"full_name": "Matthew, James",
-					"inspire_id": 1946788
-				}
-			],
-			"description": "Two-loop massless four-point box with one internal diagonal edge connecting two opposite corners, giving five internal propagators. The paper displays its diagrammatic coaction, where the cut structure uses three of the possible diagonal/edge cuts (indicated by dashed red lines in the tikz figures), and notes that the same pairing structure found in simpler examples continues to hold.",
-			"epsOrders": "",
-			"familyName": "Two-loop massless four-point diagonal box",
-			"method": "direct_integration",
-			"tools": [],
-			"ancillaryFiles": false,
-			"doi": "",
-			"texkey": "",
-			"masterCount": 0,
-			"dimScheme": "d=2-2*eps",
-			"computationLevel": "basis",
-			"location": "Section 4, second of the two five-propagator examples (square box with one diagonal, four external legs)",
-			"recordId": "bx_41c12e83c1b9",
-			"verified": false,
-			"verifiedAt": ""
-		},
-		{
-			"reference": "arXiv:2506.10456",
-			"authors": [
-				{
-					"full_name": "Chestnov, Vsevolod",
-					"inspire_id": 1760381
-				},
-				{
-					"full_name": "Flieger, Wojciech",
-					"inspire_id": 1955301
-				},
-				{
-					"full_name": "Mastrolia, Pierpaolo",
-					"inspire_id": 1025886
-				},
-				{
-					"full_name": "Matsubara-Heo, Saiei-Jaeyeong",
-					"inspire_id": 2016791
-				},
-				{
-					"full_name": "Takayama, Nobuki",
-					"inspire_id": 2072902
-				},
-				{
-					"full_name": "Torres Bobadilla, William J.",
-					"inspire_id": 1335604
-				}
-			],
-			"description": "One-loop s-channel four-point Witten diagram in $AdS_4$ treated as a twisted period integral in parametric (projective) form with five Feynman parameters. Multiple Symanzik-like polynomials $U_1,\\ldots,U_4$ and an $F$ quadratic in cross-ratio variables $(\\zeta_0, \\zeta, \\bar\\zeta)$ are given. Two degree-2 annihilators plus the Euler homogeneity operator generate a D-module of holonomic rank $r=4$ with singular locus $\\zeta\\bar\\zeta(\\zeta-1)(\\bar\\zeta-1)(\\zeta-\\bar\\zeta)$ (affine $\\zeta_0 \\to 1$). A fourth-order Picard-Fuchs operator in $\\zeta$, exact in $d=4-2\\varepsilon$, is derived for the first time and factorizes into four linear factors as $\\varepsilon \\to 0$, consistent with a polylogarithmic solution at leading order. Propagators in momentum space are not given since this is an AdS (position-space) Witten integral.",
-			"epsOrders": "0",
-			"familyName": "one-loop s-channel AdS4 Witten 4-point diagram",
-			"method": "direct_integration",
-			"tools": [
-				"FiniteFlow"
-			],
-			"ancillaryFiles": false,
-			"doi": "",
-			"texkey": "",
-			"masterCount": 4,
-			"dimScheme": "d=4-2*eps",
-			"computationLevel": "DE_only",
-			"location": "Section Applications d), Eqs. eq:1l_witten_op, eq:1l_witten_pf",
-			"recordId": "bx_798e858d82e8",
-			"verified": false,
-			"verifiedAt": ""
-		}
-	],
-	"Names": [
-		"Box-triangle",
-		"Planar box-triangle",
-		"2L-box-triangle-nonplanar",
-		"2L-box-triangle-planar",
-		"P_11",
-		"2L massless N-box",
-		"M^{(a,atilde)}_{n1 n2; i1...i5} (cut two-loop H family)",
-		"Two-loop massless four-point diagonal box",
-		"one-loop s-channel AdS4 Witten 4-point diagram"
-	],
-	"Source": [
-		"arXiv",
-		"Loopedia"
-	],
-	"Loops": 2,
-	"NumPropagators": 5,
-	"edges": "{{{1, 2}, 0}, {{1, 3}, 0}, {{1, 4}, 0}, {{2, 3}, 0}, {{2, 4}, 0}}",
-	"nodes": "{{1, 0}, {4, 0}, {2, 0}, {3, 0}}",
-	"quadruple": "{E^(2*eps*EulerGamma)*Gamma[1 + 2*eps], (-(x1*(s12*x3*x4 + s23*x3*x4 - s23*x2*x5)))^(-1 - 2*eps)*(x1*x2 + x1*x3 + x2*x3 + x1*x4 + x3*x4 + x1*x5 + x2*x5 + x4*x5)^(-1 + 3*eps), {x1, x2, x3, x4, x5}, {s12, s23}}",
-	"CanonicalName": "Massless double triangle (a)",
-	"MassConfig": {
-		"numEdges": 5,
-		"numMassiveEdges": 0,
-		"numMasslessEdges": 5,
-		"distinctInternalMasses": 0,
-		"internalMassLabels": [],
-		"edgeMassPattern": "00000",
-		"numExtLegs": 4,
-		"numOnshellMassiveExtLegs": 0,
-		"numMasslessExtLegs": 4,
-		"extLegSignature": "0000"
-	},
-	"Subsectors": [],
-	"ParentSectors": [
-		"123|e4|e4|e4|e|:000|00|00|00|0|"
-	],
-	"Results": [
-		{
-			"resultCompressed": "1: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",
-			"resultTeX": "-\\frac{\\log \\left(-\\frac{s_{23}}{s_{12}}\\right) \\left(\\log \\left(-\\frac{s_{23}}{s_{12}}\\right)-2 \\log \\left(\\frac{s_{23}}{s_{12}}\\right)\\right)}{2 \\varepsilon^2 (s_{12}+s_{23})}+\\frac{-6 H\\left(0,0,-\\frac{s_{12}}{s_{23}}\\,;1\\right)-48 H\\left(0,0,\\frac{s_{12}}{s_{12}+s_{23}}\\,;1\\right)-6 H\\left(0,0,\\frac{s_{12}+s_{23}}{s_{12}}\\,;1\\right)-24 H\\left(0,\\frac{s_{12}}{s_{12}+s_{23}},1\\,;1\\right)-6 H\\left(0,\\frac{s_{12}+s_{23}}{s_{12}},1\\,;1\\right)+6 \\log \\left(\\frac{s_{23}}{s_{12}}\\right) H\\left(0,-\\frac{s_{12}}{s_{23}}\\,;1\\right)+24 \\log \\left(\\frac{s_{23}}{s_{12}}\\right) H\\left(0,\\frac{s_{12}}{s_{12}+s_{23}}\\,;1\\right)+6 \\log \\left(\\frac{s_{23}}{s_{12}}\\right) H\\left(0,\\frac{s_{12}+s_{23}}{s_{12}}\\,;1\\right)-6 H(0,1,1\\,;1)+18 \\zeta(2) \\log \\left(-\\frac{s_{23}}{s_{12}}\\right)+6 \\zeta(2) \\log \\left(\\frac{s_{12}+s_{23}}{s_{12}}\\right)-6 \\zeta(3)+4 \\log ^3\\left(-\\frac{s_{23}}{s_{12}}\\right)+\\log ^3\\left(\\frac{s_{23}}{s_{12}+s_{23}}\\right)+6 \\log (s_{23}) \\log ^2\\left(-\\frac{s_{23}}{s_{12}}\\right)-9 \\log \\left(\\frac{s_{23}}{s_{12}}\\right) \\log ^2\\left(-\\frac{s_{23}}{s_{12}}\\right)+3 \\log \\left(\\frac{s_{12}+s_{23}}{s_{12}}\\right) \\log ^2\\left(-\\frac{s_{23}}{s_{12}}\\right)+6 i \\pi  \\log ^2\\left(-\\frac{s_{23}}{s_{12}}\\right)+6 \\log ^2\\left(\\frac{s_{23}}{s_{12}}\\right) \\log \\left(-\\frac{s_{23}}{s_{12}}\\right)-3 \\log \\left(\\frac{s_{23}}{s_{12}}\\right) \\log ^2\\left(\\frac{s_{23}}{s_{12}+s_{23}}\\right)-3 \\log ^2\\left(-\\frac{s_{12}}{s_{23}}\\right) \\log \\left(\\frac{s_{23}}{s_{12}+s_{23}}\\right)-12 \\log (s_{23}) \\log \\left(\\frac{s_{23}}{s_{12}}\\right) \\log \\left(-\\frac{s_{23}}{s_{12}}\\right)-12 i \\pi  \\log \\left(\\frac{s_{23}}{s_{12}}\\right) \\log \\left(-\\frac{s_{23}}{s_{12}}\\right)-6 \\log \\left(\\frac{s_{23}}{s_{12}}\\right) \\log \\left(\\frac{s_{12}+s_{23}}{s_{12}}\\right) \\log \\left(-\\frac{s_{23}}{s_{12}}\\right)+\\pi ^2 \\log \\left(-\\frac{s_{23}}{s_{12}}\\right)-6 \\log \\left(-\\frac{s_{12}}{s_{23}}\\right) \\log \\left(\\frac{s_{23}}{s_{12}}\\right) \\log \\left(\\frac{s_{23}}{s_{12}+s_{23}}\\right)+\\pi ^2 \\log \\left(\\frac{s_{23}}{s_{12}+s_{23}}\\right)-\\pi ^2 \\log \\left(\\frac{s_{12}+s_{23}}{s_{12}}\\right)}{6 \\varepsilon (s_{12}+s_{23})} + \\cdots",
-			"dimension": "4 - 2*eps",
-			"epsOrder": "0",
-			"epsOrders": "0",
-			"propExponents": [
-				1,
-				1,
-				1,
-				1,
-				1
-			],
-			"propagators": [],
-			"numerators": [],
-			"internalMasses": [],
-			"externalMasses": [],
-			"substitutions": "",
-			"normalization": "Automatic",
-			"stVersion": "SubTropica v1.0.401",
-			"stCommand": "",
-			"contributor": "Sebastian Mizera",
-			"timestamp": "2026-04-20T09:56:07",
-			"verifiedAt": "2026-04-20T09:56:07",
-			"verified": true,
-			"method": "direct_integration",
-			"tools": [
-				"SubTropica"
-			],
-			"methodLR": "Lungo",
-			"findRoots": true,
-			"byteCount": 101840,
-			"algebraicLetters": [],
-			"symbolTeX": "\\begin{aligned}\\varepsilon^{-2}&\\colon\\;\\frac{1}{s_{12}+s_{23}}\\,(s_{12} \\otimes s_{12}) + \\frac{1}{-s_{12}-s_{23}}\\,(s_{12} \\otimes s_{23}) + \\frac{1}{-s_{12}-s_{23}}\\,(s_{23} \\otimes s_{12}) + \\frac{1}{s_{12}+s_{23}}\\,(s_{23} \\otimes s_{23}) \\\\ \\varepsilon^{-1}&\\colon\\;-\\frac{4}{s_{12}+s_{23}}\\,(s_{12} \\otimes s_{12} \\otimes s_{12}) + \\frac{2}{s_{12}+s_{23}}\\,(s_{12} \\otimes s_{23} \\otimes s_{12}) + \\frac{2}{s_{12}+s_{23}}\\,(s_{23} \\otimes s_{23} \\otimes s_{12}) + \\frac{2}{s_{12}+s_{23}}\\,(s_{12} \\otimes s_{12} \\otimes s_{23}) + \\frac{2}{s_{12}+s_{23}}\\,(s_{12}+s_{23} \\otimes s_{12} \\otimes s_{12}) - \\frac{2}{s_{12}+s_{23}}\\,(s_{12}+s_{23} \\otimes s_{12} \\otimes s_{23}) - \\frac{2}{s_{12}+s_{23}}\\,(s_{12}+s_{23} \\otimes s_{23} \\otimes s_{12}) + \\frac{2}{s_{12}+s_{23}}\\,(s_{12}+s_{23} \\otimes s_{23} \\otimes s_{23}) + \\frac{2}{s_{12}+s_{23}}\\,(s_{23} \\otimes s_{12} \\otimes s_{23}) - \\frac{4}{s_{12}+s_{23}}\\,(s_{23} \\otimes s_{23} \\otimes s_{23}) \\\\ \\varepsilon^{0}&\\colon\\;\\frac{12}{s_{12}+s_{23}}\\,(s_{12} \\otimes s_{12} \\otimes s_{12} \\otimes s_{12}) - \\frac{4}{s_{12}+s_{23}}\\,(s_{12} \\otimes s_{12} \\otimes s_{23} \\otimes s_{12}) - \\frac{4}{s_{12}+s_{23}}\\,(s_{12} \\otimes s_{23} \\otimes s_{23} \\otimes s_{12}) + \\frac{4}{s_{12}+s_{23}}\\,(s_{23} \\otimes s_{12} \\otimes s_{12} \\otimes s_{12}) - \\frac{4}{s_{12}+s_{23}}\\,(s_{23} \\otimes s_{12} \\otimes s_{23} \\otimes s_{12}) - \\frac{4}{s_{12}+s_{23}}\\,(s_{23} \\otimes s_{23} \\otimes s_{23} \\otimes s_{12}) - \\frac{4}{s_{12}+s_{23}}\\,(s_{12} \\otimes s_{12} \\otimes s_{12} \\otimes s_{23}) - \\frac{4}{s_{12}+s_{23}}\\,(s_{12} \\otimes s_{12}+s_{23} \\otimes s_{12} \\otimes s_{12}) + \\frac{4}{s_{12}+s_{23}}\\,(s_{12} \\otimes s_{12}+s_{23} \\otimes s_{12} \\otimes s_{23}) - \\frac{8}{s_{12}+s_{23}}\\,(s_{12}+s_{23} \\otimes s_{12} \\otimes s_{12} \\otimes s_{12}) + \\frac{4}{s_{12}+s_{23}}\\,(s_{12}+s_{23} \\otimes s_{12} \\otimes s_{12} \\otimes s_{23}) + \\frac{4}{s_{12}+s_{23}}\\,(s_{12}+s_{23} \\otimes s_{12}+s_{23} \\otimes s_{12} \\otimes s_{12}) - \\frac{4}{s_{12}+s_{23}}\\,(s_{12}+s_{23} \\otimes s_{12}+s_{23} \\otimes s_{12} \\otimes s_{23}) - \\frac{4}{s_{12}+s_{23}}\\,(s_{23} \\otimes s_{12} \\otimes s_{12} \\otimes s_{23}) - \\frac{4}{s_{12}+s_{23}}\\,(s_{23} \\otimes s_{12}+s_{23} \\otimes s_{12} \\otimes s_{12}) + \\frac{4}{s_{12}+s_{23}}\\,(s_{23} \\otimes s_{12}+s_{23} \\otimes s_{12} \\otimes s_{23}) + \\frac{4}{s_{12}+s_{23}}\\,(s_{12} \\otimes s_{12}+s_{23} \\otimes s_{23} \\otimes s_{12}) + \\frac{4}{s_{12}+s_{23}}\\,(s_{23} \\otimes s_{12}+s_{23} \\otimes s_{23} \\otimes s_{12}) + \\frac{4}{s_{12}+s_{23}}\\,(s_{12}+s_{23} \\otimes s_{12} \\otimes s_{23} \\otimes s_{12}) + \\frac{4}{s_{12}+s_{23}}\\,(s_{12}+s_{23} \\otimes s_{23} \\otimes s_{23} \\otimes s_{12}) - \\frac{4}{s_{12}+s_{23}}\\,(s_{12} \\otimes s_{12}+s_{23} \\otimes s_{23} \\otimes s_{23}) - \\frac{4}{s_{12}+s_{23}}\\,(s_{12}+s_{23} \\otimes s_{12}+s_{23} \\otimes s_{23} \\otimes s_{12}) + \\frac{4}{s_{12}+s_{23}}\\,(s_{12}+s_{23} \\otimes s_{12}+s_{23} \\otimes s_{23} \\otimes s_{23}) - \\frac{4}{s_{12}+s_{23}}\\,(s_{12} \\otimes s_{23} \\otimes s_{12} \\otimes s_{23}) + \\frac{4}{s_{12}+s_{23}}\\,(s_{12}+s_{23} \\otimes s_{23} \\otimes s_{12} \\otimes s_{23}) - \\frac{4}{s_{12}+s_{23}}\\,(s_{23} \\otimes s_{23} \\otimes s_{12} \\otimes s_{23}) - \\frac{4}{s_{12}+s_{23}}\\,(s_{23} \\otimes s_{12}+s_{23} \\otimes s_{23} \\otimes s_{23}) + \\frac{4}{s_{12}+s_{23}}\\,(s_{12} \\otimes s_{23} \\otimes s_{23} \\otimes s_{23}) - \\frac{8}{s_{12}+s_{23}}\\,(s_{12}+s_{23} \\otimes s_{23} \\otimes s_{23} \\otimes s_{23}) + \\frac{12}{s_{12}+s_{23}}\\,(s_{23} \\otimes s_{23} \\otimes s_{23} \\otimes s_{23})\\end{aligned}",
-			"alphabet": [
-				"s_{12}",
-				"s_{23}",
-				"s_{12}+s_{23}"
-			],
-			"symbolWeight": 4,
-			"symbolTerms": 44,
-			"normalizedSymbolTeX": "\\begin{aligned}\\varepsilon^{-2}&\\colon\\;\\frac{1}{s_{12}+s_{23}}\\,(W_1 \\otimes W_1) \\\\ \\varepsilon^{-1}&\\colon\\;\\frac{2}{s_{12}+s_{23}}\\!\\left[(W_2 \\otimes W_1 \\otimes W_1) - 2\\,(W_1 \\otimes W_1 \\otimes W_1)\\right] \\\\ \\varepsilon^{0}&\\colon\\;\\frac{4}{s_{12}+s_{23}}\\!\\left[(W_2 \\otimes W_2 \\otimes W_1 \\otimes W_1) - (W_1 \\otimes W_2 \\otimes W_1 \\otimes W_1) - 2\\,(W_2 \\otimes W_1 \\otimes W_1 \\otimes W_1) + 3\\,(W_1 \\otimes W_1 \\otimes W_1 \\otimes W_1)\\right]\\end{aligned}",
-			"wDefinitions": [
-				{
-					"label": "W_1",
-					"kind": "rational",
-					"pairIndex": null,
-					"definition": "\\frac{s_{23}}{s_{12}}",
-					"originalLetter": "s_{23}"
-				},
-				{
-					"label": "W_2",
-					"kind": "rational",
-					"pairIndex": null,
-					"definition": "\\frac{s_{12}+s_{23}}{s_{12}}",
-					"originalLetter": "s_{12}+s_{23}"
-				}
-			],
-			"normalizedAlphabet": [
-				"W_1",
-				"W_2"
-			],
-			"symbolScale": "s_{12}",
-			"normalizedSymbolTerms": 7
-		}
-	]
+  "CNickelIndex": "e123|e23|e|e|:0000|000|0|0|",
+  "MassScales": 2,
+  "FunctionClass": "hypergeometric",
+  "EpsilonOrder": "all orders",
+  "References": [
+    "arXiv:hep-ph/9912329 (Nucl.Phys.B 580 (485), 2000)",
+    "arXiv:1804.00131 (Phys.Rev.D 98 (), 2018)",
+    "arXiv:2305.01585 (JHEP 11 (202), 2023)",
+    "arXiv:2007.04977 (Phys.Rev.Lett. 125 (), 2020)",
+    "arXiv:1912.06561",
+    "arXiv:2506.10456"
+  ],
+  "Records": [
+    {
+      "dimScheme": "d=D",
+      "recordId": "bf_d742efe6fc6c",
+      "familyName": "2L-box-triangle-nonplanar / 2L-box-triangle-planar",
+      "verified": true,
+      "verifiedAt": "auto-loopedia",
+      "authors": "Gehrmann, T., Remiddi, E.",
+      "texkey": "Gehrmann:1999as",
+      "computationLevel": "full",
+      "masterCount": 2,
+      "location": "Eq. (4.14), Section 4.3",
+      "method": [],
+      "reference": "arXiv:hep-ph/9912329, Nucl.Phys.B 580 (485), 2000",
+      "ancillaryFiles": [],
+      "description": "Two-loop four-point master integral with $t=5$ propagators: non-planar box-triangle topology. Two master integrals whose DEs decouple in $\\Delta=s_{13}-s_{23}$. Results involve Appell $F_1$, Horn $S_1$, and Gauss ${}_2F_1$ for arbitrary $d$. First computed in this paper.",
+      "epsOrders": "all orders",
+      "tools": [
+        "FORM"
+      ],
+      "doi": "10.1016/S0550-3213(00)00223-6"
+    },
+    {
+      "reference": "arXiv:1804.00131 (Phys.Rev.D 98 (), 2018)",
+      "authors": [
+        {
+          "full_name": "Kosower, David A.",
+          "inspire_id": 1002112
+        }
+      ],
+      "description": "Massless slashed-box with 5 propagators. IBP reductions via third-order ODE with Appell $F_1$ and ${}_2F_1$ solutions. 1 master integral.",
+      "epsOrders": "all_orders",
+      "familyName": "P_11",
+      "method": "IBP",
+      "tools": [],
+      "ancillaryFiles": false,
+      "doi": "10.1103/PhysRevD.98.025008",
+      "texkey": "",
+      "masterCount": 1,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "IBP_only",
+      "location": "Fig. 1, Sec. VII.B",
+      "recordId": "bx_50fc5eaa2d85",
+      "verified": true,
+      "verifiedAt": "auto-loopedia"
+    },
+    {
+      "reference": "arXiv:2305.01585 (JHEP 11 (202), 2023)",
+      "authors": "Chestnov, Vsevolod, Matsubara-Heo, Saiei J., Munch, Henrik J., Takayama, Nobuki",
+      "description": "Two-loop massless N-box (non-planar box) integral family in $d=4-2\\varepsilon$ dimensions with additional analytic regulator $\\delta$. Studied as a restriction of a 10-variable GKZ system whose A-matrix is given explicitly. The GKZ rank is 9; upon restricting $z_1=\\ldots=z_9=1$ ($z_{10}=t/s$), the holonomic rank drops to 3. The $3\\times 3$ Pfaffian matrix $Q_{10}(z_{10})$ is derived by the holomorphic restriction algorithm with Moser reduction to cure a second-order pole. Result cross-checked against LiteRed.",
+      "epsOrders": "",
+      "familyName": "2L massless N-box",
+      "method": "GKZ, restriction, Pfaffian system, Macaulay matrix, Moser reduction",
+      "tools": [
+        "LiteRed",
+        "Mathematica"
+      ],
+      "ancillaryFiles": false,
+      "doi": "10.1007/JHEP11(2023)202",
+      "texkey": "Chestnov:2023kww",
+      "masterCount": 3,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "DE_only",
+      "location": "Section 5.1 (sec:gkz_nbox); Example 2.1 (ex:nbox); eq. nbox_limit, eq:nbox_LP_integral, eq:deq-nbox-answer",
+      "recordId": "bx_c7dabc1f401d",
+      "verified": true,
+      "verifiedAt": "auto-loopedia"
+    },
+    {
+      "reference": "arXiv:1912.06561",
+      "authors": [
+        {
+          "full_name": "Abreu, Samuel",
+          "inspire_id": 1287226
+        },
+        {
+          "full_name": "Britto, Ruth",
+          "inspire_id": 1015279
+        },
+        {
+          "full_name": "Duhr, Claude",
+          "inspire_id": 1040449
+        },
+        {
+          "full_name": "Gardi, Einan",
+          "inspire_id": 1019159
+        },
+        {
+          "full_name": "Matthew, James",
+          "inspire_id": 1946788
+        }
+      ],
+      "description": "Two-loop massless four-point box with one internal diagonal edge connecting two opposite corners, giving five internal propagators. The paper displays its diagrammatic coaction, where the cut structure uses three of the possible diagonal/edge cuts (indicated by dashed red lines in the tikz figures), and notes that the same pairing structure found in simpler examples continues to hold.",
+      "epsOrders": "",
+      "familyName": "Two-loop massless four-point diagonal box",
+      "method": "direct_integration",
+      "tools": [],
+      "ancillaryFiles": false,
+      "doi": "",
+      "texkey": "",
+      "masterCount": 0,
+      "dimScheme": "d=2-2*eps",
+      "computationLevel": "basis",
+      "location": "Section 4, second of the two five-propagator examples (square box with one diagonal, four external legs)",
+      "recordId": "bx_41c12e83c1b9",
+      "verified": true,
+      "verifiedAt": "auto-loopedia"
+    },
+    {
+      "reference": "arXiv:2506.10456",
+      "authors": [
+        {
+          "full_name": "Chestnov, Vsevolod",
+          "inspire_id": 1760381
+        },
+        {
+          "full_name": "Flieger, Wojciech",
+          "inspire_id": 1955301
+        },
+        {
+          "full_name": "Mastrolia, Pierpaolo",
+          "inspire_id": 1025886
+        },
+        {
+          "full_name": "Matsubara-Heo, Saiei-Jaeyeong",
+          "inspire_id": 2016791
+        },
+        {
+          "full_name": "Takayama, Nobuki",
+          "inspire_id": 2072902
+        },
+        {
+          "full_name": "Torres Bobadilla, William J.",
+          "inspire_id": 1335604
+        }
+      ],
+      "description": "One-loop s-channel four-point Witten diagram in $AdS_4$ treated as a twisted period integral in parametric (projective) form with five Feynman parameters. Multiple Symanzik-like polynomials $U_1,\\ldots,U_4$ and an $F$ quadratic in cross-ratio variables $(\\zeta_0, \\zeta, \\bar\\zeta)$ are given. Two degree-2 annihilators plus the Euler homogeneity operator generate a D-module of holonomic rank $r=4$ with singular locus $\\zeta\\bar\\zeta(\\zeta-1)(\\bar\\zeta-1)(\\zeta-\\bar\\zeta)$ (affine $\\zeta_0 \\to 1$). A fourth-order Picard-Fuchs operator in $\\zeta$, exact in $d=4-2\\varepsilon$, is derived for the first time and factorizes into four linear factors as $\\varepsilon \\to 0$, consistent with a polylogarithmic solution at leading order. Propagators in momentum space are not given since this is an AdS (position-space) Witten integral.",
+      "epsOrders": "0",
+      "familyName": "one-loop s-channel AdS4 Witten 4-point diagram",
+      "method": "direct_integration",
+      "tools": [
+        "FiniteFlow"
+      ],
+      "ancillaryFiles": false,
+      "doi": "",
+      "texkey": "",
+      "masterCount": 4,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "DE_only",
+      "location": "Section Applications d), Eqs. eq:1l_witten_op, eq:1l_witten_pf",
+      "recordId": "bx_798e858d82e8",
+      "verified": true,
+      "verifiedAt": "auto-loopedia"
+    }
+  ],
+  "Names": [
+    "Box-triangle",
+    "Planar box-triangle",
+    "2L-box-triangle-nonplanar",
+    "2L-box-triangle-planar",
+    "P_11",
+    "2L massless N-box",
+    "M^{(a,atilde)}_{n1 n2; i1...i5} (cut two-loop H family)",
+    "Two-loop massless four-point diagonal box",
+    "one-loop s-channel AdS4 Witten 4-point diagram"
+  ],
+  "Source": [
+    "arXiv",
+    "Loopedia"
+  ],
+  "Loops": 2,
+  "NumPropagators": 5,
+  "edges": "{{{1, 2}, 0}, {{1, 3}, 0}, {{1, 4}, 0}, {{2, 3}, 0}, {{2, 4}, 0}}",
+  "nodes": "{{1, 0}, {4, 0}, {2, 0}, {3, 0}}",
+  "quadruple": "{E^(2*eps*EulerGamma)*Gamma[1 + 2*eps], (-(x1*(s12*x3*x4 + s23*x3*x4 - s23*x2*x5)))^(-1 - 2*eps)*(x1*x2 + x1*x3 + x2*x3 + x1*x4 + x3*x4 + x1*x5 + x2*x5 + x4*x5)^(-1 + 3*eps), {x1, x2, x3, x4, x5}, {s12, s23}}",
+  "CanonicalName": "Massless double triangle (a)",
+  "MassConfig": {
+    "numEdges": 5,
+    "numMassiveEdges": 0,
+    "numMasslessEdges": 5,
+    "distinctInternalMasses": 0,
+    "internalMassLabels": [],
+    "edgeMassPattern": "00000",
+    "numExtLegs": 4,
+    "numOnshellMassiveExtLegs": 0,
+    "numMasslessExtLegs": 4,
+    "extLegSignature": "0000"
+  },
+  "Subsectors": [],
+  "ParentSectors": [
+    "123|e4|e4|e4|e|:000|00|00|00|0|"
+  ],
+  "Results": [
+    {
+      "resultCompressed": "1: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",
+      "resultTeX": "-\\frac{\\log \\left(-\\frac{s_{23}}{s_{12}}\\right) \\left(\\log \\left(-\\frac{s_{23}}{s_{12}}\\right)-2 \\log \\left(\\frac{s_{23}}{s_{12}}\\right)\\right)}{2 \\varepsilon^2 (s_{12}+s_{23})}+\\frac{-6 H\\left(0,0,-\\frac{s_{12}}{s_{23}}\\,;1\\right)-48 H\\left(0,0,\\frac{s_{12}}{s_{12}+s_{23}}\\,;1\\right)-6 H\\left(0,0,\\frac{s_{12}+s_{23}}{s_{12}}\\,;1\\right)-24 H\\left(0,\\frac{s_{12}}{s_{12}+s_{23}},1\\,;1\\right)-6 H\\left(0,\\frac{s_{12}+s_{23}}{s_{12}},1\\,;1\\right)+6 \\log \\left(\\frac{s_{23}}{s_{12}}\\right) H\\left(0,-\\frac{s_{12}}{s_{23}}\\,;1\\right)+24 \\log \\left(\\frac{s_{23}}{s_{12}}\\right) H\\left(0,\\frac{s_{12}}{s_{12}+s_{23}}\\,;1\\right)+6 \\log \\left(\\frac{s_{23}}{s_{12}}\\right) H\\left(0,\\frac{s_{12}+s_{23}}{s_{12}}\\,;1\\right)-6 H(0,1,1\\,;1)+18 \\zeta(2) \\log \\left(-\\frac{s_{23}}{s_{12}}\\right)+6 \\zeta(2) \\log \\left(\\frac{s_{12}+s_{23}}{s_{12}}\\right)-6 \\zeta(3)+4 \\log ^3\\left(-\\frac{s_{23}}{s_{12}}\\right)+\\log ^3\\left(\\frac{s_{23}}{s_{12}+s_{23}}\\right)+6 \\log (s_{23}) \\log ^2\\left(-\\frac{s_{23}}{s_{12}}\\right)-9 \\log \\left(\\frac{s_{23}}{s_{12}}\\right) \\log ^2\\left(-\\frac{s_{23}}{s_{12}}\\right)+3 \\log \\left(\\frac{s_{12}+s_{23}}{s_{12}}\\right) \\log ^2\\left(-\\frac{s_{23}}{s_{12}}\\right)+6 i \\pi  \\log ^2\\left(-\\frac{s_{23}}{s_{12}}\\right)+6 \\log ^2\\left(\\frac{s_{23}}{s_{12}}\\right) \\log \\left(-\\frac{s_{23}}{s_{12}}\\right)-3 \\log \\left(\\frac{s_{23}}{s_{12}}\\right) \\log ^2\\left(\\frac{s_{23}}{s_{12}+s_{23}}\\right)-3 \\log ^2\\left(-\\frac{s_{12}}{s_{23}}\\right) \\log \\left(\\frac{s_{23}}{s_{12}+s_{23}}\\right)-12 \\log (s_{23}) \\log \\left(\\frac{s_{23}}{s_{12}}\\right) \\log \\left(-\\frac{s_{23}}{s_{12}}\\right)-12 i \\pi  \\log \\left(\\frac{s_{23}}{s_{12}}\\right) \\log \\left(-\\frac{s_{23}}{s_{12}}\\right)-6 \\log \\left(\\frac{s_{23}}{s_{12}}\\right) \\log \\left(\\frac{s_{12}+s_{23}}{s_{12}}\\right) \\log \\left(-\\frac{s_{23}}{s_{12}}\\right)+\\pi ^2 \\log \\left(-\\frac{s_{23}}{s_{12}}\\right)-6 \\log \\left(-\\frac{s_{12}}{s_{23}}\\right) \\log \\left(\\frac{s_{23}}{s_{12}}\\right) \\log \\left(\\frac{s_{23}}{s_{12}+s_{23}}\\right)+\\pi ^2 \\log \\left(\\frac{s_{23}}{s_{12}+s_{23}}\\right)-\\pi ^2 \\log \\left(\\frac{s_{12}+s_{23}}{s_{12}}\\right)}{6 \\varepsilon (s_{12}+s_{23})} + \\cdots",
+      "dimension": "4 - 2*eps",
+      "epsOrder": "0",
+      "epsOrders": "0",
+      "propExponents": [
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "propagators": [],
+      "numerators": [],
+      "internalMasses": [],
+      "externalMasses": [],
+      "substitutions": "",
+      "normalization": "Automatic",
+      "stVersion": "SubTropica v1.0.401",
+      "stCommand": "",
+      "contributor": "Sebastian Mizera",
+      "timestamp": "2026-04-20T09:56:07",
+      "verifiedAt": "2026-04-20T09:56:07",
+      "verified": true,
+      "method": "direct_integration",
+      "tools": [
+        "SubTropica"
+      ],
+      "methodLR": "Lungo",
+      "findRoots": true,
+      "byteCount": 101840,
+      "algebraicLetters": [],
+      "symbolTeX": "\\begin{aligned}\\varepsilon^{-2}&\\colon\\;\\frac{1}{s_{12}+s_{23}}\\,(s_{12} \\otimes s_{12}) + \\frac{1}{-s_{12}-s_{23}}\\,(s_{12} \\otimes s_{23}) + \\frac{1}{-s_{12}-s_{23}}\\,(s_{23} \\otimes s_{12}) + \\frac{1}{s_{12}+s_{23}}\\,(s_{23} \\otimes s_{23}) \\\\ \\varepsilon^{-1}&\\colon\\;-\\frac{4}{s_{12}+s_{23}}\\,(s_{12} \\otimes s_{12} \\otimes s_{12}) + \\frac{2}{s_{12}+s_{23}}\\,(s_{12} \\otimes s_{23} \\otimes s_{12}) + \\frac{2}{s_{12}+s_{23}}\\,(s_{23} \\otimes s_{23} \\otimes s_{12}) + \\frac{2}{s_{12}+s_{23}}\\,(s_{12} \\otimes s_{12} \\otimes s_{23}) + \\frac{2}{s_{12}+s_{23}}\\,(s_{12}+s_{23} \\otimes s_{12} \\otimes s_{12}) - \\frac{2}{s_{12}+s_{23}}\\,(s_{12}+s_{23} \\otimes s_{12} \\otimes s_{23}) - \\frac{2}{s_{12}+s_{23}}\\,(s_{12}+s_{23} \\otimes s_{23} \\otimes s_{12}) + \\frac{2}{s_{12}+s_{23}}\\,(s_{12}+s_{23} \\otimes s_{23} \\otimes s_{23}) + \\frac{2}{s_{12}+s_{23}}\\,(s_{23} \\otimes s_{12} \\otimes s_{23}) - \\frac{4}{s_{12}+s_{23}}\\,(s_{23} \\otimes s_{23} \\otimes s_{23}) \\\\ \\varepsilon^{0}&\\colon\\;\\frac{12}{s_{12}+s_{23}}\\,(s_{12} \\otimes s_{12} \\otimes s_{12} \\otimes s_{12}) - \\frac{4}{s_{12}+s_{23}}\\,(s_{12} \\otimes s_{12} \\otimes s_{23} \\otimes s_{12}) - \\frac{4}{s_{12}+s_{23}}\\,(s_{12} \\otimes s_{23} \\otimes s_{23} \\otimes s_{12}) + \\frac{4}{s_{12}+s_{23}}\\,(s_{23} \\otimes s_{12} \\otimes s_{12} \\otimes s_{12}) - \\frac{4}{s_{12}+s_{23}}\\,(s_{23} \\otimes s_{12} \\otimes s_{23} \\otimes s_{12}) - \\frac{4}{s_{12}+s_{23}}\\,(s_{23} \\otimes s_{23} \\otimes s_{23} \\otimes s_{12}) - \\frac{4}{s_{12}+s_{23}}\\,(s_{12} \\otimes s_{12} \\otimes s_{12} \\otimes s_{23}) - \\frac{4}{s_{12}+s_{23}}\\,(s_{12} \\otimes s_{12}+s_{23} \\otimes s_{12} \\otimes s_{12}) + \\frac{4}{s_{12}+s_{23}}\\,(s_{12} \\otimes s_{12}+s_{23} \\otimes s_{12} \\otimes s_{23}) - \\frac{8}{s_{12}+s_{23}}\\,(s_{12}+s_{23} \\otimes s_{12} \\otimes s_{12} \\otimes s_{12}) + \\frac{4}{s_{12}+s_{23}}\\,(s_{12}+s_{23} \\otimes s_{12} \\otimes s_{12} \\otimes s_{23}) + \\frac{4}{s_{12}+s_{23}}\\,(s_{12}+s_{23} \\otimes s_{12}+s_{23} \\otimes s_{12} \\otimes s_{12}) - \\frac{4}{s_{12}+s_{23}}\\,(s_{12}+s_{23} \\otimes s_{12}+s_{23} \\otimes s_{12} \\otimes s_{23}) - \\frac{4}{s_{12}+s_{23}}\\,(s_{23} \\otimes s_{12} \\otimes s_{12} \\otimes s_{23}) - \\frac{4}{s_{12}+s_{23}}\\,(s_{23} \\otimes s_{12}+s_{23} \\otimes s_{12} \\otimes s_{12}) + \\frac{4}{s_{12}+s_{23}}\\,(s_{23} \\otimes s_{12}+s_{23} \\otimes s_{12} \\otimes s_{23}) + \\frac{4}{s_{12}+s_{23}}\\,(s_{12} \\otimes s_{12}+s_{23} \\otimes s_{23} \\otimes s_{12}) + \\frac{4}{s_{12}+s_{23}}\\,(s_{23} \\otimes s_{12}+s_{23} \\otimes s_{23} \\otimes s_{12}) + \\frac{4}{s_{12}+s_{23}}\\,(s_{12}+s_{23} \\otimes s_{12} \\otimes s_{23} \\otimes s_{12}) + \\frac{4}{s_{12}+s_{23}}\\,(s_{12}+s_{23} \\otimes s_{23} \\otimes s_{23} \\otimes s_{12}) - \\frac{4}{s_{12}+s_{23}}\\,(s_{12} \\otimes s_{12}+s_{23} \\otimes s_{23} \\otimes s_{23}) - \\frac{4}{s_{12}+s_{23}}\\,(s_{12}+s_{23} \\otimes s_{12}+s_{23} \\otimes s_{23} \\otimes s_{12}) + \\frac{4}{s_{12}+s_{23}}\\,(s_{12}+s_{23} \\otimes s_{12}+s_{23} \\otimes s_{23} \\otimes s_{23}) - \\frac{4}{s_{12}+s_{23}}\\,(s_{12} \\otimes s_{23} \\otimes s_{12} \\otimes s_{23}) + \\frac{4}{s_{12}+s_{23}}\\,(s_{12}+s_{23} \\otimes s_{23} \\otimes s_{12} \\otimes s_{23}) - \\frac{4}{s_{12}+s_{23}}\\,(s_{23} \\otimes s_{23} \\otimes s_{12} \\otimes s_{23}) - \\frac{4}{s_{12}+s_{23}}\\,(s_{23} \\otimes s_{12}+s_{23} \\otimes s_{23} \\otimes s_{23}) + \\frac{4}{s_{12}+s_{23}}\\,(s_{12} \\otimes s_{23} \\otimes s_{23} \\otimes s_{23}) - \\frac{8}{s_{12}+s_{23}}\\,(s_{12}+s_{23} \\otimes s_{23} \\otimes s_{23} \\otimes s_{23}) + \\frac{12}{s_{12}+s_{23}}\\,(s_{23} \\otimes s_{23} \\otimes s_{23} \\otimes s_{23})\\end{aligned}",
+      "alphabet": [
+        "s_{12}",
+        "s_{23}",
+        "s_{12}+s_{23}"
+      ],
+      "symbolWeight": 4,
+      "symbolTerms": 44,
+      "normalizedSymbolTeX": "\\begin{aligned}\\varepsilon^{-2}&\\colon\\;\\frac{1}{s_{12}+s_{23}}\\,(W_1 \\otimes W_1) \\\\ \\varepsilon^{-1}&\\colon\\;\\frac{2}{s_{12}+s_{23}}\\!\\left[(W_2 \\otimes W_1 \\otimes W_1) - 2\\,(W_1 \\otimes W_1 \\otimes W_1)\\right] \\\\ \\varepsilon^{0}&\\colon\\;\\frac{4}{s_{12}+s_{23}}\\!\\left[(W_2 \\otimes W_2 \\otimes W_1 \\otimes W_1) - (W_1 \\otimes W_2 \\otimes W_1 \\otimes W_1) - 2\\,(W_2 \\otimes W_1 \\otimes W_1 \\otimes W_1) + 3\\,(W_1 \\otimes W_1 \\otimes W_1 \\otimes W_1)\\right]\\end{aligned}",
+      "wDefinitions": [
+        {
+          "label": "W_1",
+          "kind": "rational",
+          "pairIndex": null,
+          "definition": "\\frac{s_{23}}{s_{12}}",
+          "originalLetter": "s_{23}"
+        },
+        {
+          "label": "W_2",
+          "kind": "rational",
+          "pairIndex": null,
+          "definition": "\\frac{s_{12}+s_{23}}{s_{12}}",
+          "originalLetter": "s_{12}+s_{23}"
+        }
+      ],
+      "normalizedAlphabet": [
+        "W_1",
+        "W_2"
+      ],
+      "symbolScale": "s_{12}",
+      "normalizedSymbolTerms": 7
+    }
+  ]
 }
