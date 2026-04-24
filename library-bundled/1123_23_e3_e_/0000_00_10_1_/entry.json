@@ -1,55 +1,93 @@
 {
-  "CNickelIndex": "1123|23|e3|e|:0000|00|10|1|",
-  "MassScales": 1,
-  "FunctionClass": "MPL",
-  "EpsilonOrder": "-3,-2,-1,0,1",
-  "References": [
-    "arXiv:1705.06483 (doi: 10.1103/PhysRevD.96.036016)"
-  ],
-  "Records": [
-    {
-      "epsOrders": "-3,-2,-1,0,1",
-      "reference": "arXiv:1705.06483 (doi: 10.1103/PhysRevD.96.036016)",
-      "authors": "Mikhail V. Kompaniets and Erik Panzer",
-      "description": "massless propagator computed for the $\\varphi^4$ 6-loop calculation available from the ancillary files p_int_g2.mpl (Maple) and p_int_g2.m (Mathematica) of the arXiv submission results are rational linear combinations of multiple zeta values",
-      "recordId": "1504715324.VGOI",
-      "verified": false,
-      "verifiedAt": ""
-    }
-  ],
-  "Source": [
-    "arXiv",
-    "Loopedia"
-  ],
-  "Results": [],
-  "Names": [
-    "Massless 1-loop propagator (3 propagators)",
-    "1-loop propagator (3 propagators)",
-    "1-loop propagator (3 propagators), 1 multi-edge"
-  ],
-  "edges": "{{{1, 2}, 0}, {{1, 2}, 0}, {{1, 3}, 0}, {{1, 4}, 0}, {{2, 3}, 0}, {{2, 4}, 0}, {{3, 4}, 0}}",
-  "nodes": "{{3, M}, {4, M}}",
-  "quadruple": "{E^(4*eps*EulerGamma)*Gamma[-1 + 4*eps], (MM*(x1*x2*x3*x5 + x1*x2*x4*x5 + x1*x3*x4*x5 + x2*x3*x4*x5 + x1*x2*x3*x6 + x1*x2*x4*x6 + x1*x3*x4*x6 + x2*x3*x4*x6 + x1*x3*x5*x6 + x2*x3*x5*x6 + x1*x4*x5*x6 + x2*x4*x5*x6)*x7)^(1 - 4*eps)*(x1*x2*x3*x5 + x1*x2*x4*x5 + x1*x3*x4*x5 + x2*x3*x4*x5 + x1*x2*x3*x6 + x1*x2*x4*x6 + x1*x3*x4*x6 + x2*x3*x4*x6 + x1*x3*x5*x6 + x2*x3*x5*x6 + x1*x4*x5*x6 + x2*x4*x5*x6 + x1*x2*x3*x7 + x1*x2*x4*x7 + x1*x3*x4*x7 + x2*x3*x4*x7 + x1*x2*x5*x7 + x1*x4*x5*x7 + x2*x4*x5*x7 + x1*x2*x6*x7 + x1*x3*x6*x7 + x2*x3*x6*x7 + x1*x5*x6*x7 + x2*x5*x6*x7)^(-3 + 5*eps), {x1, x2, x3, x4, x5, x6, x7}, {MM}}",
-  "CanonicalName": "Massless envelope with bubble insertion",
-  "MassConfig": {
-    "numEdges": 7,
-    "numMassiveEdges": 0,
-    "numMasslessEdges": 7,
-    "distinctInternalMasses": 0,
-    "internalMassLabels": [],
-    "edgeMassPattern": "0000000",
-    "numExtLegs": 2,
-    "numOnshellMassiveExtLegs": 2,
-    "numMasslessExtLegs": 0,
-    "extLegSignature": "MM"
-  },
-  "Subsectors": [
-    "1122|e2|e|:0000|10|1|"
-  ],
-  "ParentSectors": [
-    "1122|34|34|e4|e|:0000|00|00|10|1|",
-    "1123|23|44|e4|e|:0000|00|00|10|1|",
-    "1123|24|34|e4|e|:0000|00|00|10|1|",
-    "1123|24|e3|44|e|:0000|00|10|00|1|"
-  ]
+	"CNickelIndex": "1123|23|e3|e|:0000|00|10|1|",
+	"MassScales": 1,
+	"FunctionClass": "MPL",
+	"EpsilonOrder": "-3,-2,-1,0,1",
+	"References": [
+		"arXiv:1705.06483 (doi: 10.1103/PhysRevD.96.036016)"
+	],
+	"Records": [
+		{
+			"epsOrders": "-3,-2,-1,0,1",
+			"reference": "arXiv:1705.06483 (doi: 10.1103/PhysRevD.96.036016)",
+			"authors": "Mikhail V. Kompaniets and Erik Panzer",
+			"description": "massless propagator computed for the $\\varphi^4$ 6-loop calculation available from the ancillary files p_int_g2.mpl (Maple) and p_int_g2.m (Mathematica) of the arXiv submission results are rational linear combinations of multiple zeta values",
+			"recordId": "1504715324.VGOI",
+			"verified": false,
+			"verifiedAt": ""
+		}
+	],
+	"Source": [
+		"arXiv",
+		"Loopedia"
+	],
+	"Results": [
+		{
+			"resultCompressed": "1:eJy9lEtOwzAQhp0EyktIXACJnoADsAQJFqkUFVasMJJTjZTgqg7Pg3AL9ixZcAAugITEpkdgQ4vHJmntTEq6IYuJHM/jn8/jdC9lP+0wxtSmNqdiBEId8YKrSC/FUIF+sXQFHdDEoIo0xNWqNmeQC2WX69r0eQHyimcw1Q/gF4V7vV4a/RUR6AXs+BFYMcmuFXzqhGTZNW0OZT7MxJ1ROquagBdgtlIsZHqL5WA5dXtz6jqOumjSVt24WV0X1VXfEnkrRr+egC9PpG0mdGTsOhkWyfjSOEsZFBBP2odD30ijwqxOLzZ0oOcPN1Q3Tchf5pBvO72+P7VF/rzfiPxgazHydkc6qcEpk0QEj7hiib2cZHJgWp3NO94wmzkoDUmrJuSiNhENjsSc0NdmuZNmQY0mGUtReWw/JbV23qhhbkgBY8RPjXz1h/u/G93upnher04D6EXxZNWUbZjS2f0xz3NuMtqR8gKSoCyODM5FwU1e+MY/eTWIP/9UQK4=",
+			"resultTeX": "-\\frac{M^2}{8 \\varepsilon^3}+\\frac{M^2 \\left(8 \\log \\left(M^2\\right)+8 i \\pi -29\\right)}{16 \\varepsilon^2}+\\frac{M^2 \\left(-32 \\log ^2\\left(M^2\\right)+8 (29-8 i \\pi ) \\log \\left(M^2\\right)+2 \\zeta(2)+33 \\pi ^2+232 i \\pi -509\\right)}{32 \\varepsilon}+(\\text{more terms})+O\\left(\\varepsilon^1\\right)",
+			"dimension": "4 - 2*eps",
+			"epsOrder": 0,
+			"propExponents": [
+				1,
+				1,
+				1,
+				1,
+				1,
+				1,
+				1
+			],
+			"propagators": 0,
+			"numerators": [],
+			"internalMasses": [],
+			"externalMasses": [],
+			"substitutions": "{}",
+			"normalization": "Automatic",
+			"stVersion": "SubTropica v1.1.4",
+			"stCommand": "STIntegrate[{{{{3, 4}, 0}, {{3, 4}, 0}, {{1, 3}, 0}, {{2, 3}, 0}, {{1, 4}, 0}, {{2, 4}, 0}, {{1, 2}, 0}}, {{1, M}, {2, M}}}, \"Dimension\" -> \"4 - 2*eps\", \"Order\" -> 0]",
+			"contributor": "Anonymous",
+			"timestamp": "Thu 23 Apr 2026 23:58:07",
+			"byteCount": 4840,
+			"verified": true,
+			"verifiedMethod": "pySecDec",
+			"verifiedTolerance": 0.001,
+			"verifiedMaxRelErr": 8.11707461043672e-05,
+			"verifiedAt": "Thu 23 Apr 2026 23:58:07",
+			"verifiedKinPoint": [
+				{
+					"var": "Msq",
+					"value": "-53/89"
+				}
+			]
+		}
+	],
+	"Names": [
+		"Massless 1-loop propagator (3 propagators)",
+		"1-loop propagator (3 propagators)",
+		"1-loop propagator (3 propagators), 1 multi-edge"
+	],
+	"edges": "{{{1, 2}, 0}, {{1, 2}, 0}, {{1, 3}, 0}, {{1, 4}, 0}, {{2, 3}, 0}, {{2, 4}, 0}, {{3, 4}, 0}}",
+	"nodes": "{{3, M}, {4, M}}",
+	"quadruple": "{E^(4*eps*EulerGamma)*Gamma[-1 + 4*eps], (MM*(x1*x2*x3*x5 + x1*x2*x4*x5 + x1*x3*x4*x5 + x2*x3*x4*x5 + x1*x2*x3*x6 + x1*x2*x4*x6 + x1*x3*x4*x6 + x2*x3*x4*x6 + x1*x3*x5*x6 + x2*x3*x5*x6 + x1*x4*x5*x6 + x2*x4*x5*x6)*x7)^(1 - 4*eps)*(x1*x2*x3*x5 + x1*x2*x4*x5 + x1*x3*x4*x5 + x2*x3*x4*x5 + x1*x2*x3*x6 + x1*x2*x4*x6 + x1*x3*x4*x6 + x2*x3*x4*x6 + x1*x3*x5*x6 + x2*x3*x5*x6 + x1*x4*x5*x6 + x2*x4*x5*x6 + x1*x2*x3*x7 + x1*x2*x4*x7 + x1*x3*x4*x7 + x2*x3*x4*x7 + x1*x2*x5*x7 + x1*x4*x5*x7 + x2*x4*x5*x7 + x1*x2*x6*x7 + x1*x3*x6*x7 + x2*x3*x6*x7 + x1*x5*x6*x7 + x2*x5*x6*x7)^(-3 + 5*eps), {x1, x2, x3, x4, x5, x6, x7}, {MM}}",
+	"CanonicalName": "Massless envelope with bubble insertion",
+	"MassConfig": {
+		"numEdges": 7,
+		"numMassiveEdges": 0,
+		"numMasslessEdges": 7,
+		"distinctInternalMasses": 0,
+		"internalMassLabels": [],
+		"edgeMassPattern": "0000000",
+		"numExtLegs": 2,
+		"numOnshellMassiveExtLegs": 2,
+		"numMasslessExtLegs": 0,
+		"extLegSignature": "MM"
+	},
+	"Subsectors": [
+		"1122|e2|e|:0000|10|1|"
+	],
+	"ParentSectors": [
+		"1122|34|34|e4|e|:0000|00|00|10|1|",
+		"1123|23|44|e4|e|:0000|00|00|10|1|",
+		"1123|24|34|e4|e|:0000|00|00|10|1|",
+		"1123|24|e3|44|e|:0000|00|10|00|1|"
+	]
 }
