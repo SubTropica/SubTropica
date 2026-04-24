@@ -7,7 +7,27 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
-## [1.1.0] — 2026-04-XX
+## [1.1.4] — 2026-04-23
+
+### Fixed
+
+- **`STSubmitResult` from a notebook** no longer aborts with "no edges/nodes
+  available." `stGateVerification` now reads the graph from
+  `$integrationResult["uiResult"]` (populated by notebook `STIntegrate`) and
+  falls back to `$integrationConfig` only for the UI/HTTP path.
+- **`STSubmitResult` local dedup** now canonicalizes dedup-key fields before
+  comparison. Previously `epsOrder` ("0" vs 0), `dimension` (`"4 - 2*eps"` vs
+  `"4-2*eps"`), and `substitutions` (`""` vs `"{}"`) were compared with `===`
+  and diverged on type or whitespace, causing spurious submissions of results
+  already in `library-bundled/`.
+- **`STNIntegrate[..., Method -> "FIESTA"]` with imaginary internal/external
+  mass labels** no longer trips `Greater::nord` inside FIESTA's sector
+  decomposition. Auto-detection of `ComplexMode` now uses
+  `TrueQ[Positive[...]]`, which correctly returns `False` for
+  `I*Sqrt[|Msq|]` entries coming from `stMakeVerificationPoint` in the
+  Euclidean region.
+
+## [1.1.0] — 2026-04-22
 
 First public release of SubTropica — a Mathematica package for computing
 Feynman integrals via tropical geometry.  The package automates the tropical
@@ -16,7 +36,8 @@ a graph topology, a propagator list, or a raw Euler integrand) to an analytic
 expression in terms of hyperlogarithms, multiple polylogarithms, and MZVs.
 
 Companion paper:
-M. Giroux, S. Mizera, G. Salvatori, *SubTropica*, arXiv:26XX.XXXXX [hep-th].
+M. Giroux, S. Mizera, G. Salvatori, *SubTropica*,
+[arXiv:2604.20954](https://arxiv.org/abs/2604.20954) [hep-th].
 
 ### Package at a glance
 
