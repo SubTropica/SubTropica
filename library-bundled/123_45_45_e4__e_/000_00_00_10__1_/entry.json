@@ -1,91 +1,130 @@
 {
-  "CNickelIndex": "123|45|45|e4||e|:000|00|00|10||1|",
-  "MassScales": 0,
-  "FunctionClass": "MPL",
-  "EpsilonOrder": "-6,-5,-4,-3,-2,-1,0,1,2",
-  "References": [
-    "arXiv:hep-ph/0505174 (Comput.Phys.Commun. 175 (180), 2006)",
-    "arXiv:hep-ph/9307327"
-  ],
-  "Records": [
-    {
-      "dimScheme": "d=4-2*eps",
-      "recordId": "bf_e1d6dfb01c98",
-      "familyName": "N (nonplanar 3L propagator)",
-      "verified": false,
-      "verifiedAt": "",
-      "authors": "Bekavac, Stefan",
-      "texkey": "Bekavac:2005xs",
-      "computationLevel": "full",
-      "masterCount": 1,
-      "location": "Section 2, Sections 5 and 7",
-      "transcendentalWeight": 7,
-      "method": [],
-      "reference": "arXiv:hep-ph/0505174, Comput.Phys.Commun. 175 (180), 2006",
-      "ancillaryFiles": [],
-      "description": "Nonplanar 3-loop massless propagator MI (6 vertices, 8 edges). Computed via GPXT. Epsilon expansion through $\\varepsilon^2$ in MZVs to weight 7. The $\\varepsilon^2$ coefficient obtained numerically via PSLQ.",
-      "epsOrders": "-6,-5,-4,-3,-2,-1,0,1,2",
-      "tools": [
-        "FORM"
-      ],
-      "doi": "10.1016/j.cpc.2006.02.004"
-    },
-    {
-      "reference": "arXiv:hep-ph/9307327",
-      "authors": [
-        {
-          "full_name": "Usyukina, N.I.",
-          "inspire_id": 2192017
-        },
-        {
-          "full_name": "Davydychev, Andrei I.",
-          "inspire_id": 1012291
-        }
-      ],
-      "description": "Three-loop non-planar crossed scalar propagator-type diagram $\\tilde{B}^{(3)}(k^2)$ with massless internal lines. Called $\\tilde{B}^{(3)}$ in the paper. Obtained by inserting the closed form $\\tilde{C}^{(2)} = (C^{(1)})^2$ into a remaining one-loop box integration, reproducing $20\\zeta(5)$: $\\tilde{B}^{(3)}(k^2) = (i\\pi^2)^3/(k^2)^2 \\cdot 20\\zeta(5)$. Same formula holds for the planar three-loop propagator.",
-      "epsOrders": "",
-      "familyName": "three-loop massless non-planar crossed propagator",
-      "method": "direct_integration",
-      "tools": [],
-      "ancillaryFiles": false,
-      "doi": "",
-      "texkey": "",
-      "masterCount": 1,
-      "dimScheme": "d=4",
-      "computationLevel": "full",
-      "location": "Section 4, Fig. 6, Eqs. (29)-(30)",
-      "recordId": "bx_88d0c64c0239",
-      "verified": false,
-      "verifiedAt": ""
-    }
-  ],
-  "Names": [
-    "N (nonplanar 3L propagator)",
-    "three-loop massless non-planar crossed propagator"
-  ],
-  "Source": [
-    "arXiv"
-  ],
-  "Loops": 3,
-  "NumPropagators": 8,
-  "Results": [],
-  "edges": "{{{1, 2}, 0}, {{1, 3}, 0}, {{1, 4}, 0}, {{2, 5}, 0}, {{2, 6}, 0}, {{3, 5}, 0}, {{3, 6}, 0}, {{4, 5}, 0}}",
-  "nodes": "{{4, M}, {6, M}}",
-  "CanonicalName": "Massless quad-box core",
-  "MassConfig": {
-    "numEdges": 8,
-    "numMassiveEdges": 0,
-    "numMasslessEdges": 8,
-    "distinctInternalMasses": 0,
-    "internalMassLabels": [],
-    "edgeMassPattern": "00000000",
-    "numExtLegs": 2,
-    "numOnshellMassiveExtLegs": 2,
-    "numMasslessExtLegs": 0,
-    "extLegSignature": "MM"
-  },
-  "Subsectors": [
-    "123|234|4|e|e|:000|000|0|1|1|"
-  ],
-  "ParentSectors": []
+	"CNickelIndex": "123|45|45|e4||e|:000|00|00|10||1|",
+	"MassScales": 0,
+	"FunctionClass": "MPL",
+	"EpsilonOrder": "-6,-5,-4,-3,-2,-1,0,1,2",
+	"References": [
+		"arXiv:hep-ph/0505174 (Comput.Phys.Commun. 175 (180), 2006)",
+		"arXiv:hep-ph/9307327"
+	],
+	"Records": [
+		{
+			"dimScheme": "d=4-2*eps",
+			"recordId": "bf_e1d6dfb01c98",
+			"familyName": "N (nonplanar 3L propagator)",
+			"verified": false,
+			"verifiedAt": "",
+			"authors": "Bekavac, Stefan",
+			"texkey": "Bekavac:2005xs",
+			"computationLevel": "full",
+			"masterCount": 1,
+			"location": "Section 2, Sections 5 and 7",
+			"transcendentalWeight": 7,
+			"method": [],
+			"reference": "arXiv:hep-ph/0505174, Comput.Phys.Commun. 175 (180), 2006",
+			"ancillaryFiles": [],
+			"description": "Nonplanar 3-loop massless propagator MI (6 vertices, 8 edges). Computed via GPXT. Epsilon expansion through $\\varepsilon^2$ in MZVs to weight 7. The $\\varepsilon^2$ coefficient obtained numerically via PSLQ.",
+			"epsOrders": "-6,-5,-4,-3,-2,-1,0,1,2",
+			"tools": [
+				"FORM"
+			],
+			"doi": "10.1016/j.cpc.2006.02.004"
+		},
+		{
+			"reference": "arXiv:hep-ph/9307327",
+			"authors": [
+				{
+					"full_name": "Usyukina, N.I.",
+					"inspire_id": 2192017
+				},
+				{
+					"full_name": "Davydychev, Andrei I.",
+					"inspire_id": 1012291
+				}
+			],
+			"description": "Three-loop non-planar crossed scalar propagator-type diagram $\\tilde{B}^{(3)}(k^2)$ with massless internal lines. Called $\\tilde{B}^{(3)}$ in the paper. Obtained by inserting the closed form $\\tilde{C}^{(2)} = (C^{(1)})^2$ into a remaining one-loop box integration, reproducing $20\\zeta(5)$: $\\tilde{B}^{(3)}(k^2) = (i\\pi^2)^3/(k^2)^2 \\cdot 20\\zeta(5)$. Same formula holds for the planar three-loop propagator.",
+			"epsOrders": "",
+			"familyName": "three-loop massless non-planar crossed propagator",
+			"method": "direct_integration",
+			"tools": [],
+			"ancillaryFiles": false,
+			"doi": "",
+			"texkey": "",
+			"masterCount": 1,
+			"dimScheme": "d=4",
+			"computationLevel": "full",
+			"location": "Section 4, Fig. 6, Eqs. (29)-(30)",
+			"recordId": "bx_88d0c64c0239",
+			"verified": false,
+			"verifiedAt": ""
+		}
+	],
+	"Names": [
+		"N (nonplanar 3L propagator)",
+		"three-loop massless non-planar crossed propagator"
+	],
+	"Source": [
+		"arXiv"
+	],
+	"Loops": 3,
+	"NumPropagators": 8,
+	"Results": [
+		{
+			"resultCompressed": "1:eJydkkEKwjAQRVO1pYgrDyB4FxcuLJTqyl2ERAZaI52q4NFdWDMJNaa1YN38djLzHz9klgeVyYgxhlMtW1GCwBWvOI51Kc4I+sNkQAMTLRvASlILQy07KATKEZWxloxXoE48BzoBmrI9Gk3VTZRIZZLAs65rGTfMNL+gG/xg+r4UDNe2yLfO1REomQ3UxDOJzblt+mRY9DDCLsNJL20+kBZ4f21a9A+tN9vsd5qL1ZvtQW82gNa6qb8zUL9p3x/ZLBx5ivvVblILEHWmnI/S7EXFjbEV6QVFIH2A",
+			"resultTeX": "\\frac{2}{3} M^{-4} \\left(\\pi ^2 H(0,1,1\\,;1)+30 H(0,0,0,1,1\\,;1)+18 H(0,0,1,0,1\\,;1)+6 H(0,0,1,1,1\\,;1)+12 H(0,1,0,0,1\\,;1)-6 H(0,1,1,0,1\\,;1)+6 \\zeta(2) \\zeta(3)-\\pi ^2 \\zeta(3)\\right)+O\\left(\\varepsilon^1\\right)",
+			"dimension": "4 - 2*eps",
+			"epsOrder": 0,
+			"propExponents": [
+				1,
+				1,
+				1,
+				1,
+				1,
+				1,
+				1,
+				1
+			],
+			"propagators": 0,
+			"numerators": [],
+			"internalMasses": [],
+			"externalMasses": [],
+			"substitutions": "{}",
+			"normalization": "Automatic",
+			"stVersion": "SubTropica v1.1.4",
+			"stCommand": "STIntegrate[{{{{3, 4}, 0}, {{3, 5}, 0}, {{1, 3}, 0}, {{4, 6}, 0}, {{2, 4}, 0}, {{5, 6}, 0}, {{2, 5}, 0}, {{1, 6}, 0}}, {{1, M}, {2, M}}}, \"Dimension\" -> \"4 - 2*eps\", \"Order\" -> 0]",
+			"contributor": "Anonymous",
+			"timestamp": "Fri 24 Apr 2026 00:58:29",
+			"byteCount": 2752,
+			"verified": true,
+			"verifiedMethod": "pySecDec",
+			"verifiedTolerance": 0.001,
+			"verifiedMaxRelErr": 5.9563190058608126e-05,
+			"verifiedAt": "Fri 24 Apr 2026 00:58:29",
+			"verifiedKinPoint": [
+				{
+					"var": "Msq",
+					"value": "-29/37"
+				}
+			]
+		}
+	],
+	"edges": "{{{1, 2}, 0}, {{1, 3}, 0}, {{1, 4}, 0}, {{2, 5}, 0}, {{2, 6}, 0}, {{3, 5}, 0}, {{3, 6}, 0}, {{4, 5}, 0}}",
+	"nodes": "{{4, M}, {6, M}}",
+	"CanonicalName": "Massless quad-box core",
+	"MassConfig": {
+		"numEdges": 8,
+		"numMassiveEdges": 0,
+		"numMasslessEdges": 8,
+		"distinctInternalMasses": 0,
+		"internalMassLabels": [],
+		"edgeMassPattern": "00000000",
+		"numExtLegs": 2,
+		"numOnshellMassiveExtLegs": 2,
+		"numMasslessExtLegs": 0,
+		"extLegSignature": "MM"
+	},
+	"Subsectors": [
+		"123|234|4|e|e|:000|000|0|1|1|"
+	],
+	"ParentSectors": []
 }
