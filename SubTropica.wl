@@ -979,7 +979,7 @@ Options[ConfigureSubTropica] = {
 With[{$SubTropicaDir = DirectoryName[$InputFileName]},
 
 $SubTropicaInstallDir = $SubTropicaDir;
-$SubTropicaVersion = "1.1.5";
+$SubTropicaVersion = "1.1.6";
 
 (* FindRoots root-letter substitutions: W$i -> algebraic root expressions.
    Set by STReadResults when the integration used FindRoots alphabet letters.
@@ -9353,7 +9353,7 @@ STHyperFlint::hferror   = "HyperFLINT error: ``";
 STHyperFlint::divergent = "HyperFLINT reports the integral is divergent (``).";
 STHyperFlint::hffailed  = "HyperFLINT integration failed: ``";
 STHyperFlint::regkey    = "HyperFLINT returned a non-empty regulator key (``); Phase 1 of the ST-backend integration only handles convergent results with empty keys.  Use \"Integrator\" -> \"HyperIntica\" for now.";
-STHyperFlint::algletter = "HyperFLINT emitted an algebraic letter token (``) in the coefficient; algebraic-letter support is deferred to Phase 3.";
+STHyperFlint::algletter = "HyperFLINT emitted an algebraic letter token (``) in the coefficient without a matching entry in the returned `algebraic_letters` table.  This is a bug in the request wiring (FindRoots -> True flag missing or HF table emission failed).";
 
 (* Translate a single HF mzv token to a Mathematica-syntax "Zeta[...]"
    string.  Encoding: "mzv_a_b_c", where each of a,b,c is a non-negative
@@ -9373,15 +9373,107 @@ stMzvTokenToZeta[token_String] := Module[{parts, arg},
         Rest[parts]];
     "Zeta[" <> StringRiffle[arg, ", "] <> "]"];
 
+(* Parse HF's algebraic_letters table and register each entry in
+   HyperIntica`$HyperAlgebraicLetterTable at a fresh Mma index, so
+   Wm[i]/Wp[i] atoms that come out of HF route through the same
+   SimplifyWithVieta / GetAlgebraicBackSubRules machinery as those
+   introduced by HyperInt itself.  Returns an `<|hfIdx -> mmaIdx, ...|>`
+   remap used by stHyperFlintCoefStringToMma to rewrite the coef strings.
+
+   The HF entry carries raw polynomial data (poly, var, lc, sum,
+   product, disc); Mma derives WmValue/WpValue locally as
+   (-b ∓ √disc)/(2·lc), matching HyperIntica.wl:2921-2930.  An empty
+   list returns an empty remap (no-op). *)
+stHyperFlintRegisterAlgLetters[alEntries_List] :=
+Module[{remap = <||>, entry, hfIdx, mmaIdx, polyExpr, varSym, lcExpr,
+        sumExpr, prodExpr, discExpr, wmVal, wpVal},
+    Do[
+        entry = alEntries[[k]];
+        hfIdx   = Lookup[entry, "idx", $Failed];
+        polyExpr = Quiet @ Check[ToExpression[Lookup[entry, "poly", "0"]], $Failed];
+        varSym   = Quiet @ Check[ToExpression[Lookup[entry, "var", "x"]], $Failed];
+        lcExpr   = Quiet @ Check[ToExpression[Lookup[entry, "lc", "1"]], $Failed];
+        sumExpr  = Quiet @ Check[ToExpression[Lookup[entry, "sum", "0"]], $Failed];
+        prodExpr = Quiet @ Check[ToExpression[Lookup[entry, "product", "0"]], $Failed];
+        discExpr = Quiet @ Check[ToExpression[Lookup[entry, "disc", "0"]], $Failed];
+        If[!IntegerQ[hfIdx] || polyExpr === $Failed || varSym === $Failed,
+            Continue[]];
+        (* sum = -b/lc → -b = sum*lc → root formulas as in HyperIntica.wl:2928 *)
+        wmVal = Together[(sumExpr - Sqrt[discExpr]/lcExpr) / 2];
+        wpVal = Together[(sumExpr + Sqrt[discExpr]/lcExpr) / 2];
+        HyperIntica`$HyperAlgebraicLetterCounter++;
+        mmaIdx = HyperIntica`$HyperAlgebraicLetterCounter;
+        HyperIntica`$HyperAlgebraicLetterTable[mmaIdx] = <|
+            "Polynomial"   -> polyExpr,
+            "Variable"     -> varSym,
+            "LC"           -> lcExpr,
+            "Sum"          -> sumExpr,
+            "Product"      -> prodExpr,
+            "Discriminant" -> discExpr,
+            "WmValue"      -> wmVal,
+            "WpValue"      -> wpVal
+        |>;
+        remap[hfIdx] = mmaIdx,
+        {k, Length[alEntries]}];
+    remap];
+
 (* Translate a full HF coefficient string (Rat::to_string format) into
-   something ToExpression can evaluate.  Guards against Wm/Wp/WmOverWp
-   algebraic letters — Phase 3 territory. *)
-stHyperFlintCoefStringToMma[s_String] := Module[{out = s, tokens, bad},
-    bad = DeleteDuplicates @ StringCases[out,
-        RegularExpression["\\b(?:Wm|Wp|WmOverWp|sqrt_disc)_\\d+\\b"]];
-    If[Length[bad] > 0,
-        Message[STHyperFlint::algletter, First[bad]];
-        Return[$Failed]];
+   something ToExpression can evaluate.
+   * mzv_a_b_...  -> Zeta[a, b, ...]
+   * Log2          -> Log[2]
+   * Wm_<i>        -> Wm[<mmaIdx>]
+   * Wp_<i>        -> Wp[<mmaIdx>]
+   * WmOverWp_<i>  -> Wm[<mmaIdx>]/Wp[<mmaIdx>]
+   * sqrt_disc_<i> -> Sqrt[<discriminant literal>]
+   The algebraic-letter tokens are rewritten via `alRemap`
+   (hfIdx -> mmaIdx) + `alEntries` (hfIdx -> entry Assoc) produced by
+   stHyperFlintRegisterAlgLetters.  If a token without a matching entry
+   is seen, emit STHyperFlint::algletter (which now indicates a real
+   wiring bug, not an unsupported feature). *)
+stHyperFlintCoefStringToMma[s_String] :=
+    stHyperFlintCoefStringToMma[s, <||>, <||>];
+stHyperFlintCoefStringToMma[s_String, alRemap_Association, alEntries_Association] :=
+Module[{out = s, tokens, badPairs, needsMaping, lookupMma, lookupDisc},
+    (* First handle algebraic letters: WmOverWp before Wm/Wp to avoid
+       the shorter prefix eating into it. *)
+    lookupMma[hfIdxStr_String] := Module[{n = ToExpression[hfIdxStr]},
+        Lookup[alRemap, n, $Failed]];
+    lookupDisc[hfIdxStr_String] := Module[{n = ToExpression[hfIdxStr], e},
+        e = Lookup[alEntries, n, <||>];
+        Lookup[e, "Discriminant", $Failed]];
+    (* Replace WmOverWp_<i> first. *)
+    tokens = DeleteDuplicates @ StringCases[out,
+        RegularExpression["\\bWmOverWp_(\\d+)\\b"] :> "$1"];
+    Do[Module[{mmaIdx = lookupMma[tok]},
+            If[mmaIdx === $Failed,
+                Message[STHyperFlint::algletter, "WmOverWp_" <> tok];
+                Return[$Failed, Module]];
+            out = StringReplace[out,
+                "WmOverWp_" <> tok -> "(Wm[" <> ToString[mmaIdx] <> "]/Wp[" <> ToString[mmaIdx] <> "])"]],
+        {tok, tokens}];
+    (* Then Wm_<i> and Wp_<i>. *)
+    tokens = DeleteDuplicates @ StringCases[out,
+        RegularExpression["\\b(?:Wm|Wp)_(\\d+)\\b"] :> "$1"];
+    Do[Module[{mmaIdx = lookupMma[tok]},
+            If[mmaIdx === $Failed,
+                Message[STHyperFlint::algletter, "Wm_" <> tok];
+                Return[$Failed, Module]];
+            out = StringReplace[out,
+                "Wm_" <> tok -> "Wm[" <> ToString[mmaIdx] <> "]"];
+            out = StringReplace[out,
+                "Wp_" <> tok -> "Wp[" <> ToString[mmaIdx] <> "]"]],
+        {tok, tokens}];
+    (* sqrt_disc_<i> — substitute the discriminant literal, then Sqrt[]. *)
+    tokens = DeleteDuplicates @ StringCases[out,
+        RegularExpression["\\bsqrt_disc_(\\d+)\\b"] :> "$1"];
+    Do[Module[{discExpr = lookupDisc[tok]},
+            If[discExpr === $Failed,
+                Message[STHyperFlint::algletter, "sqrt_disc_" <> tok];
+                Return[$Failed, Module]];
+            out = StringReplace[out,
+                "sqrt_disc_" <> tok ->
+                    "Sqrt[(" <> ToString[discExpr, InputForm] <> ")]"]],
+        {tok, tokens}];
     (* Replace every distinct mzv_... token with Zeta[...].  Replace
        longest first so a shorter prefix like "mzv_1" can't eat into
        "mzv_1_m3" before the longer form runs. *)
@@ -9403,17 +9495,43 @@ stHyperFlintFreeSymbols[integrand_, vars_List] := Module[{syms},
         _Symbol?(Context[#] =!= "System`" &), {0, Infinity}];
     Complement[ToString /@ syms, ToString /@ vars]];
 
-(* Build the JSON request body for one hyperflint call. *)
-stHyperFlintBuildRequest[integrand_, vars_List] := Module[{freeSyms, exprStr, req},
+(* Strip Mma context prefixes (`SubTropica` / `SubTropica`Private` /
+   `Global`` / etc.) from a string.  HF's parser does not accept `\``
+   in identifier names, so the integrand and variable names must be
+   stripped to their short forms before emission.  This is safe because
+   HF's PolyCtx is per-request and scoped to exactly the strings the
+   caller provides — uniqueness of short names is the caller's
+   responsibility.  The regex matches one or more
+   `<IdentifierChar>+\\\`` groups at the start of an identifier. *)
+stHyperFlintStripContexts[s_String] :=
+    StringReplace[s,
+        RegularExpression["(?:[A-Za-z][A-Za-z0-9$]*`)+"] -> ""];
+
+(* Build the JSON request body for one hyperflint call.
+   `algLetters` (Phase 7-vi-b): when True, pass `"algebraic_letters":true`
+   so HF's degree-2 factor branch introduces Wm_i/Wp_i atoms instead of
+   flagging a NOLR.  On response HF also emits an `"algebraic_letters"`
+   array that STHyperFlint uses to populate $HyperAlgebraicLetterTable. *)
+stHyperFlintBuildRequest[integrand_, vars_List, algLetters_:False] :=
+Module[{freeSyms, exprStr, varStrs, req},
     freeSyms = stHyperFlintFreeSymbols[integrand, vars];
-    exprStr  = ToString[integrand, InputForm];
+    exprStr  = stHyperFlintStripContexts @ ToString[integrand, InputForm];
+    (* Strip contexts from every variable name too.  HF's PolyCtx keys
+       variables by string; Mma-side code that processes the HF response
+       compares against bare Mma symbols (which also render without the
+       context prefix in Context[sym]=="Global`" default scope), so the
+       round trip stays consistent. *)
+    varStrs  = stHyperFlintStripContexts /@ (ToString /@ vars);
+    freeSyms = stHyperFlintStripContexts /@ freeSyms;
     req = <|
         "op"            -> "hyperflint",
         "expr"          -> exprStr,
-        "vars_int"      -> (ToString /@ vars),
-        "vars"          -> Join[ToString /@ vars, freeSyms],
+        "vars_int"      -> varStrs,
+        "vars"          -> Join[varStrs, freeSyms],
         "mzv_data_path" -> $STHyperFlintDataPath
     |>;
+    If[TrueQ[algLetters],
+        req = Append[req, "algebraic_letters" -> True]];
     ExportString[req, "JSON", "Compact" -> True]];
 
 (* Default thread budget for hyperflint.  Memory-only setting; override
@@ -9421,10 +9539,44 @@ stHyperFlintBuildRequest[integrand_, vars_List] := Module[{freeSyms, exprStr, re
    to avoid CPU oversubscription when many workers call HF in parallel. *)
 $STHyperFlintThreads = ToString[Max[1, $ProcessorCount - 1]];
 
+Options[STHyperFlint] = {
+    FindRoots -> Automatic  (* Phase 7-vi-b: when True, degree-2 factors
+                                in HF's LinearFactors equivalent become
+                                Wm/Wp algebraic-letter pairs; the
+                                returned table is merged into
+                                HyperIntica's $HyperAlgebraicLetterTable.
+                                Automatic (default) follows HyperIntica's
+                                own $HyperIntroduceAlgebraicLetters flag,
+                                which STIntegrate's FindRoots option
+                                sets on its way down to the integrator.  *)
+};
+
 (* Main entry point.  Mirrors HyperIntica's HyperInt[integrand, vars]. *)
-STHyperFlint[integrand_, vars_List] := Module[
+STHyperFlint[integrand_, vars_List, opts:OptionsPattern[]] := Module[
     {requestJSON, procResult, stdout, stderr, exitCode, resp, resultList,
-     terms, badKey, translatedTerms, mmaExpr, useLibLink, respStr},
+     terms, badKey, translatedTerms, mmaExpr, useLibLink, respStr,
+     findRoots, alList, alRemap, alEntryMap,
+     origSymbols, contextRehydrate},
+    Module[{v = OptionValue[FindRoots]},
+        findRoots = If[v === Automatic,
+            TrueQ @ HyperIntica`$HyperIntroduceAlgebraicLetters,
+            TrueQ @ v]];
+
+    (* Phase 7-vi-b v2: context-stripping round-trip.  HF can't parse
+       backticks, so we strip contexts on the way in.  To rehydrate on
+       the way out, build a {"stripped-name" -> original-symbol} rule
+       list covering every non-System` symbol in (integrand ∪ vars).
+       Applied post-ToExpression. *)
+    origSymbols = DeleteDuplicates @ Join[
+        Cases[integrand, _Symbol?(Context[#] =!= "System`" &), {0, Infinity}],
+        vars];
+    contextRehydrate = Map[
+        Function[sym,
+            With[{short = stHyperFlintStripContexts @ ToString[sym]},
+                If[short === ToString[sym],
+                    Nothing,
+                    ToExpression[short] -> sym]]],
+        origSymbols];
 
     (* Phase γ.2: prefer the LibraryLink transport if loaded.  Fall back
        to the CLI subprocess when the γ.2 integrator handle isn't
@@ -9450,7 +9602,7 @@ STHyperFlint[integrand_, vars_List] := Module[
             Message[STHyperFlint::nodata];
             Return[$Failed]]];
 
-    requestJSON = stHyperFlintBuildRequest[integrand, vars];
+    requestJSON = stHyperFlintBuildRequest[integrand, vars, findRoots];
 
     If[useLibLink,
         (* LibraryLink path (Phase γ.2).  Synchronous, in-process.  If
@@ -9500,6 +9652,7 @@ STHyperFlint[integrand_, vars_List] := Module[
         If[StringQ[err] && err =!= "",
             Message[STHyperFlint::hferror, err];
             Return[$Failed, Module]]];
+
     If[TrueQ[Lookup[resp, "failed", False]],
         Message[STHyperFlint::hffailed, Lookup[resp, "reason", "<no reason>"]];
         Return[$Failed]];
@@ -9512,32 +9665,87 @@ STHyperFlint[integrand_, vars_List] := Module[
     (* Empty result list -> integrand integrates to 0. *)
     If[resultList === {}, Return[0]];
 
-    (* Phase 1: only empty-key terms are handled symbolically.  Flag the
-       first term with a non-empty key as out-of-scope. *)
-    badKey = SelectFirst[resultList,
-        MatchQ[Lookup[#, "key", {}], {__}] &, None];
-    If[badKey =!= None,
-        Message[STHyperFlint::regkey, ToString[Lookup[badKey, "key"]]];
-        Return[$Failed]];
+    (* Phase 7-vi-b: both empty keys (rational results) and non-empty
+       keys (Hlog / ZeroInfPeriod results) are handled.  A key is a
+       list of words; each word is a list of letter strings that
+       translates to an Mma letter expression (Wm[i]/Wp[i]/atoms).
+         key = []                contributes coef directly.
+         key = [[w]]              contributes coef * ZeroInfPeriod[<w>].
+         key = [[w1], [w2], ...]  shuffle product of the ZeroInfPeriods:
+                                  coef * ∏ᵢ ZeroInfPeriod[<wᵢ>].
+       Boundary-period values (integration from 0 to ∞) are commutative,
+       so the shuffle product collapses to ordinary multiplication. *)
 
-    (* Translate each term's coef string and sum.  On any per-term
-       translation failure, bail out. *)
+    (* Phase 7-vi-b: if FindRoots was on, register HF's algebraic-letter
+       entries into $HyperAlgebraicLetterTable at fresh Mma indices.
+       `alRemap` maps HF-local idx -> Mma idx so the coef-string parser
+       can rewrite Wm_<hfIdx>/Wp_<hfIdx> to Wm[<mmaIdx>]/Wp[<mmaIdx>]. *)
+    alList    = Lookup[resp, "algebraic_letters", {}];
+    alRemap   = If[ListQ[alList] && alList =!= {},
+        stHyperFlintRegisterAlgLetters[alList],
+        <||>];
+    (* alEntryMap: hfIdx -> <|"Discriminant" -> ..., "LC" -> ..., ...|>
+       carrying parsed Mma expressions.  Used by the coef-string parser
+       to literal-substitute sqrt_disc_<i> with Sqrt[<disc>]. *)
+    alEntryMap = If[ListQ[alList],
+        Association @ Map[
+            Function[e, Module[{idx = Lookup[e, "idx", $Failed]},
+                If[IntegerQ[idx],
+                    idx -> <|
+                        "Discriminant" -> Quiet @ Check[ToExpression[Lookup[e, "disc", "0"]], 0],
+                        "LC"           -> Quiet @ Check[ToExpression[Lookup[e, "lc", "1"]], 1],
+                        "Sum"          -> Quiet @ Check[ToExpression[Lookup[e, "sum", "0"]], 0],
+                        "Product"      -> Quiet @ Check[ToExpression[Lookup[e, "product", "0"]], 0]|>,
+                    Nothing]]],
+            alList],
+        <||>];
+
+    (* Translate each term: coef * period_factor.  period_factor is 1
+       when key=[], ZeroInfPeriod[{letters...}] when key=[[w]], or bail
+       with regkey when key has more than one word. *)
     translatedTerms = Map[
         Function[term,
-            Module[{coefStr, mmaStr, val},
+            Module[{coefStr, mmaStr, coefVal, key, periodFactors},
                 coefStr = Lookup[term, "coef", ""];
-                mmaStr  = stHyperFlintCoefStringToMma[coefStr];
+                mmaStr  = stHyperFlintCoefStringToMma[coefStr, alRemap, alEntryMap];
                 If[mmaStr === $Failed, Return[$Failed, Module]];
-                val = Quiet @ Check[ToExpression[mmaStr], $Failed];
-                If[val === $Failed,
+                coefVal = Quiet @ Check[ToExpression[mmaStr], $Failed];
+                If[coefVal === $Failed,
                     Message[STHyperFlint::badjson,
                         "ToExpression failed on coef string: " <> coefStr];
                     Return[$Failed, Module]];
-                val]],
+                key = Lookup[term, "key", {}];
+                If[!MatchQ[key, {___List}],
+                    Message[STHyperFlint::regkey, ToString[key]];
+                    Return[$Failed, Module]];
+                (* Each word -> HyperIntica`ZeroInfPeriod[{letter1,...}].
+                   Product of all words' ZeroInfPeriods = shuffle product
+                   at the boundary (commutative, so ordinary product).
+                   Empty key or all-empty words -> factor is 1. *)
+                periodFactors = Map[
+                    Function[word,
+                        Module[{letters = Map[
+                                Function[letterStr,
+                                    Module[{rw = stHyperFlintCoefStringToMma[
+                                              letterStr, alRemap, alEntryMap]},
+                                        If[rw === $Failed, Return[$Failed, Module]];
+                                        Quiet @ Check[ToExpression[rw], $Failed]]],
+                                word]},
+                            If[MemberQ[letters, $Failed], Return[$Failed, Module]];
+                            If[letters === {}, 1,
+                                HyperIntica`ZeroInfPeriod[letters]]]],
+                    key];
+                If[MemberQ[periodFactors, $Failed], Return[$Failed, Module]];
+                coefVal * Times @@ periodFactors]],
         resultList];
     If[MemberQ[translatedTerms, $Failed], Return[$Failed]];
 
     mmaExpr = Total[translatedTerms];
+    (* Rehydrate context-stripped symbols back to their originals so
+       downstream STIntegrate machinery sees its own SubTropica`mm etc.,
+       not Global`mm. *)
+    If[contextRehydrate =!= {},
+        mmaExpr = mmaExpr /. contextRehydrate];
     mmaExpr
 ];
 
@@ -9663,44 +9871,15 @@ Module[{coeffVars, req, procResult, resp, bestOrder, score, respStr,
 (*        -> STFindLROrdersHF -> best LR order                   *)
 (*        -> STHyperFlint[integrand, ordered_vars] -> result     *)
 
-STIntegrateHF::usage = "STIntegrateHF[graph] is a DEPRECATED one-shot entry point that bypasses STIntegrate's face-based ε-expansion pipeline.  Works only on convergent integrands at a single kinematic point.  For the full HF-accelerated pipeline (divergent integrals, ε-expansion, tropical regularization) use STIntegrate[graph, \"LROrderBackend\" -> \"HyperFLINT\", \"Integrator\" -> \"HyperFLINT\", FindRoots -> False] instead.";
+STIntegrateHF::usage = "STIntegrateHF[args...] is a convenience alias for STIntegrate[args..., \"LROrderBackend\" -> \"HyperFLINT\", \"Integrator\" -> \"HyperFLINT\"].  It accepts every input form that STIntegrate does (graph, propagator list, Euler integrand, pre-built {pref, integrand, xvars, coeffs} quadruple) and every option.  The HF backend rules are appended to the argument list, so any explicit \"LROrderBackend\" / \"Integrator\" in the user args overrides them (first-match wins under STIntegrate's OptionValue).  FindRoots is left at its default (Automatic) so cases that need algebraic letters route through HF's Phase-7 Wm/Wp path transparently.";
 
-STIntegrateHF::nolr = "No linearly reducible order found for the given graph (HF search returned NOLR).";
-STIntegrateHF::deprec = "STIntegrateHF is deprecated. It bypasses ε-expansion and face decomposition, so it only works on convergent integrands. Use STIntegrate[graph, \"LROrderBackend\" -> \"HyperFLINT\", \"Integrator\" -> \"HyperFLINT\", FindRoots -> False] for the full HF-accelerated pipeline. To silence this warning, call Off[STIntegrateHF::deprec].";
-
-Options[STIntegrateHF] = Options[STFindLROrdersHF];
-
-(* Session-scoped deprecation guard: warn exactly once per kernel so
-   existing scripts that still call STIntegrateHF get a pointer at the
-   correct API without spamming the terminal.  Users who want to suppress
-   entirely can `Off[STIntegrateHF::deprec]`. *)
-$STIntegrateHFDeprecWarned = False;
-
-STIntegrateHF[graph_, opts:OptionsPattern[]] := Module[
-    {pref, integrand, xvars, coeffs, powerTerms, U, F,
-     polys, orderResult, order, integrandOrdered},
-    If[!TrueQ[$STIntegrateHFDeprecWarned],
-        Message[STIntegrateHF::deprec];
-        $STIntegrateHFDeprecWarned = True];
-    {pref, integrand, xvars, coeffs} =
-        Quiet[STGenerateIntegrand[graph, "Gauge" -> {}][[{1, 2, 3, 4}]]];
-    powerTerms = Cases[integrand,
-        Power[p_, e_] /; !FreeQ[e, eps] :> {p, e}, {0, Infinity}];
-    powerTerms = SortBy[powerTerms, D[#[[2]], eps] &];
-    F = powerTerms[[1, 1]];
-    U = powerTerms[[-1, 1]];
-
-    polys = Join[{U, F}, xvars];
-    (* Single-group convenience form. *)
-    orderResult = STFindLROrdersHF[{polys}, xvars, opts];
-    If[orderResult === $Failed, Return[$Failed]];
-    If[First[orderResult] === NOLR,
-        Message[STIntegrateHF::nolr];
-        Return[$Failed]];
-    order = First[orderResult];
-
-    STHyperFlint[integrand, order]
-];
+(* The alias forwards all positional arguments and options verbatim,
+   then appends the two backend rules.  STIntegrate's OptionsPattern[]
+   resolves per-option via OptionValue, which takes the first matching
+   rule — so anything the caller explicitly set on their side wins. *)
+STIntegrateHF[args___] := STIntegrate[args,
+    "LROrderBackend" -> "HyperFLINT",
+    "Integrator"     -> "HyperFLINT"];
 
 (* ============================================================ *)
 (*  Phase β.3: stDispatchFubini2 wrapper + backend globals      *)
@@ -14781,7 +14960,7 @@ STFindSlowestJob[] := Module[{files, jobs, slowest},
 
 STEvaluateGraph::timebound = "No valid gauge found within the specified time and/or memory limit(s). Please increase the TimeUpperBound and/or MemoryPercentCutOff.";
 STEvaluateGraph::nolr = "No linearly reducible integration orders found for any gauge choice.";
-STEvaluateGraph::findrootshf = "\"LROrderBackend\" -> \"HyperFLINT\" is incompatible with FindRoots -> True (HF does not implement Wm/Wp algebraic-letter factoring yet; Phase 3 of the HF analytic-backend plan).  Either pass FindRoots -> False or revert to \"LROrderBackend\" -> \"HyperIntica\".";
+STEvaluateGraph::findrootshf = "\"LROrderBackend\" -> \"HyperFLINT\" combined with FindRoots -> True is unsupported at the LR-search level (HF's find_lr_orders does not yet understand Wm/Wp algebraic letters); downgrading to \"LROrderBackend\" -> \"HyperIntica\" for this call.  Integration still routes through HF if \"Integrator\" -> \"HyperFLINT\" is set.  Warning shown once per kernel session; Off[STEvaluateGraph::findrootshf] to silence.";
 STEvaluateGraph::membound = "Gauge x`1` exceeded memory limit and was skipped.";
 STEvaluateGraph::timeout = "Gauge x`1` exceeded time limit and was skipped.";
 STEvaluateGraph::nogauges = "No valid gauge indices provided in IncludeGauges option. Must be integers between 1 and the number of propagators (`1`).";
@@ -14890,13 +15069,21 @@ Module[{
     (* Phase β.3: LR-order-search backend.  "HyperFLINT" routes every
        stDispatchFubini2 call site through HF's C++ find_lr_orders op;
        "HyperIntica" (default) keeps the in-process Mma STFasterFubini2
-       path.  FindRoots=True is INCOMPATIBLE with HF (no Wm/Wp letter
-       support yet — Phase 3 of the HF analytic backend plan), so we
-       hard-error here rather than silently disabling FindRoots. *)
+       path.
+       HF's find_lr_orders does not yet understand Wm/Wp algebraic
+       letters, so FindRoots=True + LRBackend=HyperFLINT is unsupported
+       at the LR-search level.  Since Phase 7-vi-b/c wired HF's integrator
+       to handle FindRoots via Wm/Wp output, the clean behavior when a
+       caller combines the two is to AUTO-DOWNGRADE the LR backend to
+       HyperIntica (keeping HF for integration via the Integrator option).
+       Emit a one-shot info message the first time this happens in a
+       session; subsequent calls are silent. *)
     lrBackendValue = OptionValue["LROrderBackend"];
     If[lrBackendValue === "HyperFLINT" && TrueQ[findRootsValue],
-        Message[STEvaluateGraph::findrootshf];
-        Return[$Failed]];
+        If[!TrueQ[$STLRBackendDowngradeWarned],
+            Message[STEvaluateGraph::findrootshf];
+            $STLRBackendDowngradeWarned = True];
+        lrBackendValue = "HyperIntica"];
     $STLROrderBackend   = lrBackendValue;
     $STHFFallbackCount  = 0;
     $STHFFallbackWarned = False;
@@ -18352,28 +18539,15 @@ stBenchmarkRunOneInKernel[record_Association] := Module[
         input = Join[input, {"LROrderBackend" -> "HyperIntica"}],
       True, Null]];
 
-  (* Phase β.3 + Integrator extension: inject the integrator backend
-     similarly.  "HyperFLINT" requires FindRoots -> False (same caveat
-     as the LR backend).  If LR backend already skipped, this code
-     doesn't run (Return above). *)
+  (* Phase β.3 + Integrator extension: inject the integrator backend.
+     Phase 7-vi-b unlocked FindRoots -> True for "HyperFLINT" — HF now
+     emits its algebraic-letter table and SubTropica merges it into
+     HyperIntica`$HyperAlgebraicLetterTable.  FindRoots is left alone
+     if explicitly set on the case; otherwise the case default applies. *)
   If[dispatcher === SubTropica`STIntegrate &&
      ValueQ[$stBenchmarkIntegrator],
     Which[
       $stBenchmarkIntegrator === "HyperFLINT",
-        If[AnyTrue[input, MatchQ[#, Rule[FindRoots | "FindRoots", True] |
-                                       RuleDelayed[FindRoots | "FindRoots", True]] &],
-          Return[<|"id" -> record["id"], "label" -> record["label"],
-            "category" -> record["category"], "index" -> record["index"],
-            "status" -> "skipped", "time" -> 0., "memory" -> 0,
-            "messages" -> {"skipped: \"Integrator\" -> \"HyperFLINT\" " <>
-                           "cannot run FindRoots -> True cases " <>
-                           "(Phase 3 of HF analytic backend)"},
-            "hash" -> "", "verified" -> Missing["NotApplicable"]|>]];
-        (* Ensure FindRoots -> False is present if not already (cheap
-           to re-append; last-rule-wins is fine either way since
-           STIntegrate's OptionValue takes first-match). *)
-        If[!AnyTrue[input, MatchQ[#, Rule[FindRoots | "FindRoots", _]] &],
-          input = Join[input, {FindRoots -> False}]];
         input = Join[input, {"Integrator" -> "HyperFLINT"}],
       $stBenchmarkIntegrator === "HyperInt",
         input = Join[input, {"Integrator" -> "HyperInt"}],
@@ -25110,6 +25284,13 @@ STSubmitResult[ir_Association] := Module[
         "legs" -> $nl,
         "propagators" -> $ne,
         "massScales" -> stCountScales[config],
+        (* Graph spec, JSON-safe via InputForm. submit.yml writes these
+           into entry.json's top-level edges/nodes when creating a brand
+           new entry (existing entries already carry them). Mirrors the
+           on-disk encoding so CocoTropica's renderer can use them
+           directly without needing to re-parse from stCommand. *)
+        "edges" -> ToString[Lookup[config, "edges", {}], InputForm],
+        "nodes" -> ToString[Lookup[config, "nodes", {}], InputForm],
         (* Numerical verification record. submit.yml copies these into
            entry.json Results[[i]]; the UI badge (app.js
            revealVerifiedBadge) reads verifiedMethod/MaxRelErr/At from

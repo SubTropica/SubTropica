@@ -1105,23 +1105,36 @@ async function loadWaitlist() {
 }
 
 async function loadLibrary() {
+  // Resolution order:
+  //   1. /api/library — kernel-backed Python server (full / dev mode).
+  //   2. jsdelivr CDN serving the public repo's ui/library.json — the
+  //      canonical post-release source. Updates within ~12h on @main, or
+  //      instantly when the Publish tab fires the purge endpoint.
+  //   3. Same-origin library.json — legacy fallback for when jsdelivr is
+  //      reachable but slow (or down).
+  const PUBLIC_LIBRARY_URL =
+    'https://cdn.jsdelivr.net/gh/SubTropica/SubTropica@main/ui/library.json';
+  async function tryStaticChain() {
+    for (const url of [PUBLIC_LIBRARY_URL, 'library.json']) {
+      try {
+        const r = await fetch(url);
+        if (r.ok) return await r.json();
+      } catch (_) { /* try next */ }
+    }
+    return null;
+  }
+
   try {
-    // Full mode: Python server builds library from library-bundled/ + library-local/ on the fly
-    // Online mode: fall back to static library.json
     const resp = await fetch('/api/library');
     if (resp.ok) {
       library = await resp.json();
     } else {
-      // Fallback for online/static hosting
-      const resp2 = await fetch('library.json');
-      library = await resp2.json();
+      library = await tryStaticChain() || { topologies: {} };
     }
   } catch (e) {
-    try {
-      const resp2 = await fetch('library.json');
-      library = await resp2.json();
-    } catch (e2) {
-      console.error('Failed to load library:', e2);
+    library = await tryStaticChain();
+    if (!library) {
+      console.error('Failed to load library:', e);
       library = { topologies: {} };
     }
   }
@@ -3907,23 +3920,30 @@ function solveMomentaRaw() {
     momenta[unknownEdge] = vec;
   }
 
-  // ── Momentum conservation constraints for 1-leg and 2-leg diagrams ──
-  // 1-leg: p₁ = 0  →  zero out all p₁ coefficients
+  // ── Momentum conservation constraint ──
+  // SubTropica's STSymanzik counts external legs as
+  //   nExt = Length[Cases[Variables[props], p[_]]] + 1
+  // and maps M[i]^2 ↔ extMom[[i]]^2 with extMom sorted, so the LAST p[k]
+  // present is M[nExt-1] and the missing one is M[nExt].  For the kernel's
+  // M[i] indices to line up with the canvas leg numbering, the implicit
+  // (conservation-eliminated) momentum must be p[nExt], not whichever p[k]
+  // the BFS spanning tree happens to drop.  We enforce this by substituting
+  // p[nExt] → −(p[1] + … + p[nExt-1]) in every routed momentum vector.
+  // 1-leg (tadpole): p[1] = 0; 2-leg (bubble): p[2] = −p[1].
   if (nExt === 1) {
-    const p1Idx = nLoops; // index of p₁ in basis
+    const p1Idx = nLoops;
     for (let i = 0; i < nEdges; i++) {
       if (momenta[i]) momenta[i][p1Idx] = 0;
     }
-  }
-  // 2-leg: p₂ = −p₁  →  fold p₂ into p₁ (add −p₂ coeff to p₁ coeff, zero p₂)
-  if (nExt === 2) {
-    const p1Idx = nLoops;
-    const p2Idx = nLoops + 1;
+  } else if (nExt >= 2) {
+    const pLastIdx = nLoops + nExt - 1;
     for (let i = 0; i < nEdges; i++) {
-      if (momenta[i]) {
-        momenta[i][p1Idx] -= momenta[i][p2Idx];
-        momenta[i][p2Idx] = 0;
-      }
+      const vec = momenta[i];
+      if (!vec) continue;
+      const c = vec[pLastIdx];
+      if (!c) continue;
+      for (let j = 0; j < nExt - 1; j++) vec[nLoops + j] -= c;
+      vec[pLastIdx] = 0;
     }
   }
 
@@ -15792,6 +15812,13 @@ async function reviewInit() {
   if (backendMode !== 'full') {
     console.warn('[review] ?review=1 ignored: backendMode is not "full"');
     return;
+  }
+  // CocoTropica jump-through: ?filter=pending|all|verified pre-applies
+  // the queue filter before the toolbar wires up, so the dropdown lands
+  // on the requested value and the queue loads filtered.
+  const f = params.get('filter');
+  if (f && ['pending', 'all', 'verified'].includes(f)) {
+    reviewState.queueFilter = f;
   }
   reviewMode = true;
   document.body.classList.add('review-mode');
