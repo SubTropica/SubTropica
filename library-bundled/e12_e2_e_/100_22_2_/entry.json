@@ -1,177 +1,177 @@
 {
-	"CNickelIndex": "e12|e2|e|:100|22|2|",
-	"MassScales": 3,
-	"FunctionClass": "MPL",
-	"EpsilonOrder": "0",
-	"References": [
-		"arXiv:2005.03071 (Phys.Rev.D 104 (), 2021)"
-	],
-	"Records": [
-		{
-			"reference": "arXiv:2005.03071 (Phys.Rev.D 104 (), 2021)",
-			"authors": "Bern, Zvi, Luna, Andres, Roiban, Radu, Shen, Chia-Hsien, Zeng, Mao",
-			"description": "One-loop scalar triangle integral with one massive internal line (mass $m_1$) and two massless internal lines (gravitons), evaluated in the classical limit, $I_{\\mathrm{triangle}} = -i/(32 m_1)/\\sqrt{-q^2} + \\ldots$, as given in Eq. (eq:triangleIntegrals). Coefficient $c_{\\mathrm{triangle}}$ contributes to the $\\mathcal{O}(G^2)$ terms ($1/|q|$) of the conservative two-body potential at 2PM with spin. The matter line of mass $m_1$ is the heavy line; $q = p_2+p_3$ is the momentum transfer.",
-			"epsOrders": "0",
-			"familyName": "Triangle (I_triangle)",
-			"method": "unitarity, direct_integration",
-			"tools": [],
-			"ancillaryFiles": true,
-			"doi": "10.1103/PhysRevD.104.065014",
-			"texkey": "Bern:2020buy",
-			"masterCount": 0,
-			"dimScheme": "d=4-2*eps",
-			"computationLevel": "full",
-			"location": "Sec. 4, Eq. (eq:triangleIntegrals), Fig. OneLoopIntegralsFigure (c)",
-			"recordId": "bx_6c84ee7baf6e",
-			"verified": false,
-			"verifiedAt": ""
-		}
-	],
-	"Names": [
-		"Triangle (I_triangle)"
-	],
-	"Source": [
-		"arXiv"
-	],
-	"Loops": 1,
-	"NumPropagators": 3,
-	"edges": "{{{1, 2}, m}, {{1, 3}, 0}, {{2, 3}, 0}}",
-	"nodes": "{{1, m}, {2, m}, {3, M[1]}}",
-	"CanonicalName": "Triangle, 1 massive propagator (g)",
-	"MassConfig": {
-		"numEdges": 3,
-		"numMassiveEdges": 1,
-		"numMasslessEdges": 2,
-		"distinctInternalMasses": 1,
-		"internalMassLabels": [
-			"m"
-		],
-		"edgeMassPattern": "100",
-		"numExtLegs": 3,
-		"numOnshellMassiveExtLegs": 3,
-		"numMasslessExtLegs": 0,
-		"extLegSignature": "MMM"
-	},
-	"commonNames": [
-		"C₀(1×m)"
-	],
-	"Subsectors": [],
-	"ParentSectors": [
-		"e12|e3|e3|e|:000|00|11|1|",
-		"e12|e3|e3|e|:101|11|10|1|",
-		"e12|e3|e3|e|:101|12|10|1|"
-	],
-	"Results": [
-		{
-			"resultCompressed": "1:eJzVlFELgjAQx5dmRN+i79JDDwphQc8LNjnQNpzRx6/dhs0Zk3wozYdzd/zu7/134PYicr4ihKiNDkdWA1M72lAV65RJBfpF+AKBpQ4pqMbimB3Km+J4UIkOJ6iYgod+eNQS+1IUgN2uhBJWNWo7D+LOakegrG0y38X6uTKFjrrre0FZFoY88TddR3dMOEh2dGOP/IJTORen/mIthO5TUfRuwfBGoKo+m9kTGx6pP/cMrsI0rnXIaQPiSktDQRSac4zRsMrP3CYhcoLty3/Y/vDexhidfvvmh2VTDE9DoWxv",
-			"resultTeX": "\\left(-\\frac{M_1^{-2} H\\left(0,\\frac{1}{W_1^-+1}\\,;1\\right)}{W_1^--W_1^+}+\\frac{M_1^{-2} H\\left(0,\\frac{1}{W_1^++1}\\,;1\\right)}{W_1^--W_1^+}+\\frac{M_1^{-2} \\log \\left(-W_1^-\\right) \\log \\left(-m^2 M_1^{-2}\\right)}{W_1^--W_1^+}-\\frac{M_1^{-2} \\log \\left(-W_1^+\\right) \\log \\left(-m^2 M_1^{-2}\\right)}{W_1^--W_1^+}-\\frac{M_1^{-2} \\log ^2\\left(-W_1^-\\right)}{2 \\left(W_1^--W_1^+\\right)}+\\frac{M_1^{-2} \\log ^2\\left(-W_1^+\\right)}{2 \\left(W_1^--W_1^+\\right)}\\right)+O\\left(\\varepsilon^1\\right)",
-			"dimension": "4 - 2*eps",
-			"epsOrder": "0",
-			"epsOrders": "0",
-			"propExponents": [
-				1,
-				1,
-				1
-			],
-			"propagators": [],
-			"numerators": [],
-			"internalMasses": [],
-			"externalMasses": [],
-			"substitutions": "",
-			"normalization": "Automatic",
-			"stVersion": "SubTropica v1.0.395",
-			"stCommand": "",
-			"contributor": "Sebastian Mizera",
-			"timestamp": "2026-04-19T22:12:46",
-			"verifiedAt": "2026-04-19T22:12:46",
-			"verified": true,
-			"method": "direct_integration",
-			"tools": [
-				"SubTropica"
-			],
-			"methodLR": "Lungo",
-			"byteCount": 5760,
-			"symbolTeX": "\\varepsilon^{0}\\colon\\;-\\frac{M_1^{-2}}{W_1^--W_1^+}\\,(W_1^-+1 \\otimes W_1^-) + \\frac{M_1^{-2}}{W_1^--W_1^+}\\,(W_1^++1 \\otimes W_1^+) + \\frac{M_1^{-2}}{W_1^--W_1^+}\\,(m^2 \\otimes W_1^-) - \\frac{M_1^{-2}}{W_1^--W_1^+}\\,(M_1^2 \\otimes W_1^-) + \\frac{M_1^{-2}}{W_1^--W_1^+}\\,(W_1^- \\otimes m^2) - \\frac{M_1^{-2}}{W_1^--W_1^+}\\,(W_1^- \\otimes M_1^2) - \\frac{M_1^{-2}}{W_1^--W_1^+}\\,(W_1^- \\otimes W_1^-) - \\frac{M_1^{-2}}{W_1^--W_1^+}\\,(m^2 \\otimes W_1^+) + \\frac{M_1^{-2}}{W_1^--W_1^+}\\,(M_1^2 \\otimes W_1^+) - \\frac{M_1^{-2}}{W_1^--W_1^+}\\,(W_1^+ \\otimes m^2) + \\frac{M_1^{-2}}{W_1^--W_1^+}\\,(W_1^+ \\otimes M_1^2) + \\frac{M_1^{-2}}{W_1^--W_1^+}\\,(W_1^+ \\otimes W_1^+)",
-			"alphabet": [
-				"W_1^-+1",
-				"W_1^-",
-				"W_1^++1",
-				"W_1^+",
-				"m^2",
-				"M_1^2"
-			],
-			"symbolWeight": 2,
-			"symbolTerms": 12,
-			"normalizedSymbolTeX": "\\varepsilon^{0}&\\colon\\;\\frac{M_1^{-2}}{W_1^--W_1^+}\\!\\left[-(W_1 \\otimes W^-_1) + (W_2 \\otimes W^+_1) - (W_3 \\otimes W^-_1) - (W^-_1 \\otimes W_3) - (W^-_1 \\otimes W^-_1) + (W_3 \\otimes W^+_1) + (W^+_1 \\otimes W_3) + (W^+_1 \\otimes W^+_1)\\right]",
-			"wDefinitions": [
-				{
-					"label": "W_1",
-					"kind": "rational",
-					"pairIndex": null,
-					"definition": "\\frac{1+W_1^-}{m^2}",
-					"originalLetter": "W_1^-+1"
-				},
-				{
-					"label": "W^-_1",
-					"kind": "algebraic",
-					"pairIndex": 1,
-					"definition": "\\frac{1}{2} M_1^{-2} \\left(-\\sqrt{M_1^2 \\left(M_1^2-4 m^2\\right)}-M_1^2\\right)",
-					"originalLetter": "W_1^-",
-					"polynomialTeX": "m^2+x_{2}^2 M_1^2+x_{2} M_1^2",
-					"discriminantTeX": "M_1^4-4 m^2 M_1^2"
-				},
-				{
-					"label": "W_2",
-					"kind": "rational",
-					"pairIndex": null,
-					"definition": "\\frac{1+W_1^+}{m^2}",
-					"originalLetter": "W_1^++1"
-				},
-				{
-					"label": "W^+_1",
-					"kind": "algebraic",
-					"pairIndex": 1,
-					"definition": "\\frac{1}{2} M_1^{-2} \\left(\\sqrt{M_1^2 \\left(M_1^2-4 m^2\\right)}-M_1^2\\right)",
-					"originalLetter": "W_1^+",
-					"polynomialTeX": "m^2+x_{2}^2 M_1^2+x_{2} M_1^2",
-					"discriminantTeX": "M_1^4-4 m^2 M_1^2"
-				},
-				{
-					"label": "W_3",
-					"kind": "rational",
-					"pairIndex": null,
-					"definition": "\\frac{M_1^2}{m^2}",
-					"originalLetter": "M_1^2"
-				}
-			],
-			"normalizedAlphabet": [
-				"W_1",
-				"W^-_1",
-				"W_2",
-				"W^+_1",
-				"W_3"
-			],
-			"symbolScale": "m^2",
-			"normalizedSymbolTerms": 8,
-			"legOrder": [],
-			"findRoots": true,
-			"algebraicLetters": [
-				{
-					"index": 1,
-					"variable": "x2",
-					"polynomial": "mm + x2*MM[1] + x2^2*MM[1]",
-					"LC": "MM[1]",
-					"sum": "-1",
-					"product": "mm/MM[1]",
-					"discriminant": "-4*mm*MM[1] + MM[1]^2",
-					"minusRoot": "(-MM[1] - Sqrt[MM[1]*(-4*mm + MM[1])])/(2*MM[1])",
-					"plusRoot": "(-MM[1] + Sqrt[MM[1]*(-4*mm + MM[1])])/(2*MM[1])",
-					"polynomialTeX": "m^2+x_{2}^2 M_1^2+x_{2} M_1^2",
-					"discriminantTeX": "M_1^4-4 m^2 M_1^2",
-					"minusRootTeX": "\\frac{1}{2} M_1^{-2} \\left(-\\sqrt{M_1^2 \\left(M_1^2-4 m^2\\right)}-M_1^2\\right)",
-					"plusRootTeX": "\\frac{1}{2} M_1^{-2} \\left(\\sqrt{M_1^2 \\left(M_1^2-4 m^2\\right)}-M_1^2\\right)"
-				}
-			]
-		}
-	]
+  "CNickelIndex": "e12|e2|e|:100|22|2|",
+  "MassScales": 3,
+  "FunctionClass": "MPL",
+  "EpsilonOrder": "0",
+  "References": [
+    "arXiv:2005.03071 (Phys.Rev.D 104 (), 2021)"
+  ],
+  "Records": [
+    {
+      "reference": "arXiv:2005.03071 (Phys.Rev.D 104 (), 2021)",
+      "authors": "Bern, Zvi, Luna, Andres, Roiban, Radu, Shen, Chia-Hsien, Zeng, Mao",
+      "description": "One-loop scalar triangle integral with one massive internal line (mass $m_1$) and two massless internal lines (gravitons), evaluated in the classical limit, $I_{\\mathrm{triangle}} = -i/(32 m_1)/\\sqrt{-q^2} + \\ldots$, as given in Eq. (eq:triangleIntegrals). Coefficient $c_{\\mathrm{triangle}}$ contributes to the $\\mathcal{O}(G^2)$ terms ($1/|q|$) of the conservative two-body potential at 2PM with spin. The matter line of mass $m_1$ is the heavy line; $q = p_2+p_3$ is the momentum transfer.",
+      "epsOrders": "0",
+      "familyName": "Triangle (I_triangle)",
+      "method": "unitarity, direct_integration",
+      "tools": [],
+      "ancillaryFiles": true,
+      "doi": "10.1103/PhysRevD.104.065014",
+      "texkey": "Bern:2020buy",
+      "masterCount": 0,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "full",
+      "location": "Sec. 4, Eq. (eq:triangleIntegrals), Fig. OneLoopIntegralsFigure (c)",
+      "recordId": "bx_6c84ee7baf6e",
+      "verified": false,
+      "verifiedAt": ""
+    }
+  ],
+  "Names": [
+    "Triangle (I_triangle)"
+  ],
+  "Source": [
+    "arXiv"
+  ],
+  "Loops": 1,
+  "NumPropagators": 3,
+  "edges": "{{{1, 2}, m}, {{1, 3}, 0}, {{2, 3}, 0}}",
+  "nodes": "{{1, m}, {2, m}, {3, M[1]}}",
+  "CanonicalName": "Triangle, 1 massive propagator",
+  "MassConfig": {
+    "numEdges": 3,
+    "numMassiveEdges": 1,
+    "numMasslessEdges": 2,
+    "distinctInternalMasses": 1,
+    "internalMassLabels": [
+      "m"
+    ],
+    "edgeMassPattern": "100",
+    "numExtLegs": 3,
+    "numOnshellMassiveExtLegs": 3,
+    "numMasslessExtLegs": 0,
+    "extLegSignature": "MMM"
+  },
+  "commonNames": [
+    "C₀(1×m)"
+  ],
+  "Subsectors": [],
+  "ParentSectors": [
+    "e12|e3|e3|e|:000|00|11|1|",
+    "e12|e3|e3|e|:101|11|10|1|",
+    "e12|e3|e3|e|:101|12|10|1|"
+  ],
+  "Results": [
+    {
+      "resultCompressed": "1:eJzVlFELgjAQx5dmRN+i79JDDwphQc8LNjnQNpzRx6/dhs0Zk3wozYdzd/zu7/134PYicr4ihKiNDkdWA1M72lAV65RJBfpF+AKBpQ4pqMbimB3Km+J4UIkOJ6iYgod+eNQS+1IUgN2uhBJWNWo7D+LOakegrG0y38X6uTKFjrrre0FZFoY88TddR3dMOEh2dGOP/IJTORen/mIthO5TUfRuwfBGoKo+m9kTGx6pP/cMrsI0rnXIaQPiSktDQRSac4zRsMrP3CYhcoLty3/Y/vDexhidfvvmh2VTDE9DoWxv",
+      "resultTeX": "\\left(-\\frac{M_1^{-2} H\\left(0,\\frac{1}{W_1^-+1}\\,;1\\right)}{W_1^--W_1^+}+\\frac{M_1^{-2} H\\left(0,\\frac{1}{W_1^++1}\\,;1\\right)}{W_1^--W_1^+}+\\frac{M_1^{-2} \\log \\left(-W_1^-\\right) \\log \\left(-m^2 M_1^{-2}\\right)}{W_1^--W_1^+}-\\frac{M_1^{-2} \\log \\left(-W_1^+\\right) \\log \\left(-m^2 M_1^{-2}\\right)}{W_1^--W_1^+}-\\frac{M_1^{-2} \\log ^2\\left(-W_1^-\\right)}{2 \\left(W_1^--W_1^+\\right)}+\\frac{M_1^{-2} \\log ^2\\left(-W_1^+\\right)}{2 \\left(W_1^--W_1^+\\right)}\\right)+O\\left(\\varepsilon^1\\right)",
+      "dimension": "4 - 2*eps",
+      "epsOrder": "0",
+      "epsOrders": "0",
+      "propExponents": [
+        1,
+        1,
+        1
+      ],
+      "propagators": [],
+      "numerators": [],
+      "internalMasses": [],
+      "externalMasses": [],
+      "substitutions": "",
+      "normalization": "Automatic",
+      "stVersion": "SubTropica v1.0.395",
+      "stCommand": "",
+      "contributor": "Sebastian Mizera",
+      "timestamp": "2026-04-19T22:12:46",
+      "verifiedAt": "2026-04-19T22:12:46",
+      "verified": true,
+      "method": "direct_integration",
+      "tools": [
+        "SubTropica"
+      ],
+      "methodLR": "Lungo",
+      "byteCount": 5760,
+      "symbolTeX": "\\varepsilon^{0}\\colon\\;-\\frac{M_1^{-2}}{W_1^--W_1^+}\\,(W_1^-+1 \\otimes W_1^-) + \\frac{M_1^{-2}}{W_1^--W_1^+}\\,(W_1^++1 \\otimes W_1^+) + \\frac{M_1^{-2}}{W_1^--W_1^+}\\,(m^2 \\otimes W_1^-) - \\frac{M_1^{-2}}{W_1^--W_1^+}\\,(M_1^2 \\otimes W_1^-) + \\frac{M_1^{-2}}{W_1^--W_1^+}\\,(W_1^- \\otimes m^2) - \\frac{M_1^{-2}}{W_1^--W_1^+}\\,(W_1^- \\otimes M_1^2) - \\frac{M_1^{-2}}{W_1^--W_1^+}\\,(W_1^- \\otimes W_1^-) - \\frac{M_1^{-2}}{W_1^--W_1^+}\\,(m^2 \\otimes W_1^+) + \\frac{M_1^{-2}}{W_1^--W_1^+}\\,(M_1^2 \\otimes W_1^+) - \\frac{M_1^{-2}}{W_1^--W_1^+}\\,(W_1^+ \\otimes m^2) + \\frac{M_1^{-2}}{W_1^--W_1^+}\\,(W_1^+ \\otimes M_1^2) + \\frac{M_1^{-2}}{W_1^--W_1^+}\\,(W_1^+ \\otimes W_1^+)",
+      "alphabet": [
+        "W_1^-+1",
+        "W_1^-",
+        "W_1^++1",
+        "W_1^+",
+        "m^2",
+        "M_1^2"
+      ],
+      "symbolWeight": 2,
+      "symbolTerms": 12,
+      "normalizedSymbolTeX": "\\varepsilon^{0}&\\colon\\;\\frac{M_1^{-2}}{W_1^--W_1^+}\\!\\left[-(W_1 \\otimes W^-_1) + (W_2 \\otimes W^+_1) - (W_3 \\otimes W^-_1) - (W^-_1 \\otimes W_3) - (W^-_1 \\otimes W^-_1) + (W_3 \\otimes W^+_1) + (W^+_1 \\otimes W_3) + (W^+_1 \\otimes W^+_1)\\right]",
+      "wDefinitions": [
+        {
+          "label": "W_1",
+          "kind": "rational",
+          "pairIndex": null,
+          "definition": "\\frac{1+W_1^-}{m^2}",
+          "originalLetter": "W_1^-+1"
+        },
+        {
+          "label": "W^-_1",
+          "kind": "algebraic",
+          "pairIndex": 1,
+          "definition": "\\frac{1}{2} M_1^{-2} \\left(-\\sqrt{M_1^2 \\left(M_1^2-4 m^2\\right)}-M_1^2\\right)",
+          "originalLetter": "W_1^-",
+          "polynomialTeX": "m^2+x_{2}^2 M_1^2+x_{2} M_1^2",
+          "discriminantTeX": "M_1^4-4 m^2 M_1^2"
+        },
+        {
+          "label": "W_2",
+          "kind": "rational",
+          "pairIndex": null,
+          "definition": "\\frac{1+W_1^+}{m^2}",
+          "originalLetter": "W_1^++1"
+        },
+        {
+          "label": "W^+_1",
+          "kind": "algebraic",
+          "pairIndex": 1,
+          "definition": "\\frac{1}{2} M_1^{-2} \\left(\\sqrt{M_1^2 \\left(M_1^2-4 m^2\\right)}-M_1^2\\right)",
+          "originalLetter": "W_1^+",
+          "polynomialTeX": "m^2+x_{2}^2 M_1^2+x_{2} M_1^2",
+          "discriminantTeX": "M_1^4-4 m^2 M_1^2"
+        },
+        {
+          "label": "W_3",
+          "kind": "rational",
+          "pairIndex": null,
+          "definition": "\\frac{M_1^2}{m^2}",
+          "originalLetter": "M_1^2"
+        }
+      ],
+      "normalizedAlphabet": [
+        "W_1",
+        "W^-_1",
+        "W_2",
+        "W^+_1",
+        "W_3"
+      ],
+      "symbolScale": "m^2",
+      "normalizedSymbolTerms": 8,
+      "legOrder": [],
+      "findRoots": true,
+      "algebraicLetters": [
+        {
+          "index": 1,
+          "variable": "x2",
+          "polynomial": "mm + x2*MM[1] + x2^2*MM[1]",
+          "LC": "MM[1]",
+          "sum": "-1",
+          "product": "mm/MM[1]",
+          "discriminant": "-4*mm*MM[1] + MM[1]^2",
+          "minusRoot": "(-MM[1] - Sqrt[MM[1]*(-4*mm + MM[1])])/(2*MM[1])",
+          "plusRoot": "(-MM[1] + Sqrt[MM[1]*(-4*mm + MM[1])])/(2*MM[1])",
+          "polynomialTeX": "m^2+x_{2}^2 M_1^2+x_{2} M_1^2",
+          "discriminantTeX": "M_1^4-4 m^2 M_1^2",
+          "minusRootTeX": "\\frac{1}{2} M_1^{-2} \\left(-\\sqrt{M_1^2 \\left(M_1^2-4 m^2\\right)}-M_1^2\\right)",
+          "plusRootTeX": "\\frac{1}{2} M_1^{-2} \\left(\\sqrt{M_1^2 \\left(M_1^2-4 m^2\\right)}-M_1^2\\right)"
+        }
+      ]
+    }
+  ]
 }

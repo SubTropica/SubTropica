@@ -99,6 +99,61 @@
       "dimScheme": "d=4-2*eps",
       "location": "Eq. (2.1)-(2.3), Section 2",
       "familyName": "H-graph equal mass"
+    },
+    {
+      "reference": "arXiv:1612.05609 (Phys.Lett.B 777 (394), 2018)",
+      "authors": "Bianchi, Marco S., Leoni, Matias",
+      "description": "Planar double-box for QQ->QQ with four equal-mass external legs and two internal massive propagators. 25 MIs via canonical DEs in GPLs. 16-letter alphabet.",
+      "epsOrders": "4",
+      "familyName": "QQ_planar_doublebox",
+      "method": "DE, IBP",
+      "tools": [
+        "FIRE",
+        "LiteRed",
+        "HPL.m",
+        "FIESTA",
+        "Mathematica"
+      ],
+      "ancillaryFiles": true,
+      "doi": "10.1016/j.physletb.2017.12.030",
+      "texkey": "Bianchi:2016yiq",
+      "masterCount": 25,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "full",
+      "location": "Eq.(1.1)-(1.2)",
+      "recordId": "bx_d4f87a98c617",
+      "verified": false,
+      "verifiedAt": ""
+    },
+    {
+      "reference": "arXiv:2104.07488 (Phys.Lett.B 819 (), 2021)",
+      "authors": "Kreer, Philipp Alexander, Weinzierl, Stefan",
+      "description": "Two-loop H-graph (planar double box) with equal internal masses, relevant at 3PM order for gravitational wave inspiral. 9-propagator auxiliary family (P4, P6 are ISPs). 25 master integrals to weight 4 in MPLs. DE with 17-letter alphabet and 4 square roots; r1-r3 simultaneously rationalized, r4 handled via direct Feynman parameter integration with HyperInt.",
+      "epsOrders": "4",
+      "familyName": "H-graph equal mass",
+      "method": "IBP, DE, direct_integration",
+      "tools": [
+        "FIRE",
+        "Kira",
+        "LiteRed",
+        "Reduze",
+        "HyperInt",
+        "RationalizeRoots",
+        "GiNaC",
+        "sector_decomposition",
+        "pySecDec",
+        "AMFlow"
+      ],
+      "ancillaryFiles": true,
+      "doi": "10.1016/j.physletb.2021.136405",
+      "texkey": "Kreer:2021sdt",
+      "masterCount": 25,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "full",
+      "location": "Eq. (2.1)-(2.3), Section 2",
+      "recordId": "bx_eeee821f6308",
+      "verified": false,
+      "verifiedAt": ""
     }
   ],
   "Names": [
@@ -117,7 +172,7 @@
   "Results": [],
   "edges": "{{{1, 2}, 0}, {{1, 3}, 0}, {{1, 4}, 0}, {{2, 5}, 0}, {{2, 6}, 0}, {{3, 5}, m}, {{4, 6}, m}}",
   "nodes": "{{3, m}, {4, m}, {6, m}, {5, m}}",
-  "CanonicalName": "Double box, 2 massive propagators (b)",
+  "CanonicalName": "Double box, 2 massive propagators",
   "MassConfig": {
     "numEdges": 7,
     "numMassiveEdges": 2,

@@ -4,7 +4,8 @@
   "FunctionClass": "MPL",
   "EpsilonOrder": "",
   "References": [
-    "arXiv:hep-ph/9402223 (Phys.Lett.B 332 (159), 1994)"
+    "arXiv:hep-ph/9402223 (Phys.Lett.B 332 (159), 1994)",
+    "arXiv:1004.4613 (Phys.Rev.D 82 (), 2010)"
   ],
   "Records": [
     {
@@ -25,10 +26,36 @@
       "recordId": "bx_c7c8916f3ea1",
       "verified": false,
       "verifiedAt": ""
+    },
+    {
+      "reference": "arXiv:1004.4613 (Phys.Rev.D 82 (), 2010)",
+      "authors": "Almeida, Leandro G., Sturm, Christian",
+      "description": "Two-loop massless symmetric three-point integral family with denominators D_1=l1^2, D_2=(l1+q3)^2, D_4=l2^2, D_5=(l2-q2)^2, D_6=(l1-l2)^2, D_7=(l1-l2-q1)^2 at the symmetric subtraction point q_i^2=-mu^2, q1+q2+q3=0. Top topology is the K_{2,3} graph (two interior 3-vertices, three exterior 3-vertices, each carrying one external leg). Seven master integrals after IBP reduction (six in this family plus the factorized M^{(2)}_{5,1}); two are factorized products of one-loop integrals (M^{(2)}_{4,1}, M^{(2)}_{5,1}). Master integrals taken from Usyukina-Davydychev (1994) for M^{(2)}_{5,2}, M^{(2)}_{6,1}; Davydychev hypergeometric form for triangle subgraphs; cross-checked numerically with Feynman parametrization. Results expanded through O(eps^1) for top sectors and higher orders for sub-sectors as required by spurious poles. The seventh denominator D_3=(l1-q2)^2 (an ISP for the K_{2,3} top topology) becomes a propagator only in the factorized M^{(2)}_{5,1}=triangle x bubble sub-sector, hence listed under numerators.",
+      "epsOrders": "1",
+      "familyName": "Massless 2-loop 3-point at symmetric point (6 propagators, K_{2,3} graph)",
+      "method": "IBP, direct_integration",
+      "tools": [
+        "QGRAF",
+        "FORM",
+        "FERMAT",
+        "HypExp",
+        "HPL"
+      ],
+      "ancillaryFiles": false,
+      "doi": "10.1103/PhysRevD.82.054017",
+      "texkey": "Almeida:2010ns",
+      "masterCount": 7,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "full",
+      "location": "Section III, Fig.~MI (top topology M^{(2)}_{6,1}); denominators D_1, D_2, D_4, D_5, D_6, D_7 in the denominator list; ISP D_3=(l1-q2)^2 is the seventh auxiliary denominator used in the M^{(2)}_{5,1} factorized sub-sector. Master integral results in Eqs.~(eq:M231)--(eq:M261); higher-eps tails (H_{31}^{(2)}, H_{43}^{(2)}) discussed in Appendix.",
+      "recordId": "bx_02f2e3f14abb",
+      "verified": false,
+      "verifiedAt": ""
     }
   ],
   "Names": [
-    "non-planar crossed (fig.1b)"
+    "non-planar crossed (fig.1b)",
+    "Massless 2-loop 3-point at symmetric point (6 propagators, K_{2,3} graph)"
   ],
   "Source": [
     "arXiv"
@@ -38,7 +65,7 @@
   "Results": [],
   "edges": "{{{1, 2}, 0}, {{1, 3}, 0}, {{1, 4}, 0}, {{2, 5}, 0}, {{3, 5}, 0}, {{4, 5}, 0}}",
   "nodes": "{{2, M}, {3, M}, {4, M}}",
-  "CanonicalName": "3-mass non-planar double box (a)",
+  "CanonicalName": "3-mass non-planar double box",
   "MassConfig": {
     "numEdges": 6,
     "numMassiveEdges": 0,

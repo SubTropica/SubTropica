@@ -1551,7 +1551,19 @@ function computeForceLayout(vertices, edges) {
     y: v.y + (Math.random() - 0.5) * jitter
   }));
   const nInt = intVerts.length;
-  const k = Math.sqrt(nInt * 1.5 / nInt);
+  // Fruchterman-Reingold natural edge length: k = sqrt(area / n), where
+  // area is derived from the input bounding box.  Earlier code wrote
+  // `Math.sqrt(nInt * 1.5 / nInt)` which simplifies to the constant
+  // sqrt(1.5) ≈ 1.22 — scale-blind, so callers seeding vertices at any
+  // radius other than ~1 got every vertex crushed into one point (the
+  // 12-vertex L_5 ladder thumbnail at R=28 was the visible regression).
+  let bbX = 0, bbY = 0;
+  for (const v of vertices) {
+    bbX = Math.max(bbX, Math.abs(v.x));
+    bbY = Math.max(bbY, Math.abs(v.y));
+  }
+  const area = Math.max(1, (2 * bbX) * (2 * bbY));
+  const k = Math.sqrt(area / Math.max(nInt, 1));
   const kRep = k * k * 2, kAtt = 0.3;
   let temp = k * 2;
   const cooling = temp / 201;

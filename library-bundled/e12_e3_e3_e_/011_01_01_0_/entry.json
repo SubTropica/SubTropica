@@ -9,7 +9,9 @@
     "arXiv:1909.04777 (JHEP 02 (099), 2020)",
     "arXiv:2312.16966 (JHEP 03 (121), 2024)",
     "arXiv:2503.10051 (JHEP 09 (132), 2025)",
-    "arXiv:2311.00492 (Missing[\"KeyAbsent\", \"journal\"] Missing[\"KeyAbsent\", \"volume\"] (Missing[\"KeyAbsent\", \"pages\"]), Missing[\"KeyAbsent\", \"year\"])"
+    "arXiv:2311.00492 (Missing[\"KeyAbsent\", \"journal\"] Missing[\"KeyAbsent\", \"volume\"] (Missing[\"KeyAbsent\", \"pages\"]), Missing[\"KeyAbsent\", \"year\"])",
+    "arXiv:1801.09696",
+    "arXiv:2311.00492"
   ],
   "Records": [
     {
@@ -182,6 +184,70 @@
       "recordId": "bx_3906d2dfd5c0",
       "verified": true,
       "verifiedAt": "auto-loopedia"
+    },
+    {
+      "reference": "arXiv:1404.2922 (JHEP 06 (114), 2014)",
+      "authors": "Caron-Huot, Simon, Henn, Johannes M.",
+      "description": "One-loop massive box for light-by-light scattering in planar N=4 SYM with Higgs regulator. All 4 internal propagators massive (mass m), all external massless. 6 master integrals, dual conformal invariant. Weight 2 MPLs.",
+      "epsOrders": "all_orders",
+      "familyName": "massive 1-loop box (LbL)",
+      "method": "DE",
+      "tools": [
+        "FIRE"
+      ],
+      "ancillaryFiles": false,
+      "doi": "10.1007/JHEP06(2014)114",
+      "texkey": "Caron-Huot:2014lda",
+      "masterCount": 6,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "full",
+      "location": "eq. (2.2), basis eq. (3.3)",
+      "recordId": "bx_268945f857e9",
+      "verified": false,
+      "verifiedAt": ""
+    },
+    {
+      "reference": "arXiv:1801.09696",
+      "authors": "",
+      "description": "One-loop massive box integral family for gg->HH in the mH=0 approximation and high-energy limit (mt^2 << s,t). All 4 internal propagators carry top quark mass mt. Results expanded in small mt^2 to O(mt^16) for the amplitude, expressed in terms of harmonic polylogarithms. Crossings D_2 = D_1(p1,p2,p4,p3) and D_3 = D_1(p1,p4,p3,p2) define two additional one-loop families. Integration measure: (mu^2)^{(4-d)/2} e^{eps*gamma_E} d^d k / (i pi^{d/2}). The 10 one-loop master integrals (across D_1, D_2, D_3) are listed in Eq. (A.1).",
+      "epsOrders": "",
+      "familyName": "D_1",
+      "method": "DE, IBP, Mellin-Barnes, series_expansion",
+      "tools": [
+        "FIRE",
+        "LiteRed",
+        "FORM",
+        "FIESTA"
+      ],
+      "ancillaryFiles": true,
+      "doi": "",
+      "texkey": "",
+      "masterCount": 10,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "full",
+      "location": "Appendix A, one-loop family definition, Eq. after 'We define the propagators of the one-loop integral family as'",
+      "recordId": "bx_8d20cfacbba9",
+      "verified": false,
+      "verifiedAt": ""
+    },
+    {
+      "reference": "arXiv:1909.04777 (JHEP 02 (099), 2020)",
+      "authors": "Herrmann, Enrico, Parra-Martinez, Julio",
+      "description": "One-loop box in D=4 with four equal-mass internal propagators and all massless external legs. Dlog DE relates it to D=2 massive bubbles.",
+      "epsOrders": "",
+      "familyName": "one-loop massive box",
+      "method": "DE",
+      "tools": [],
+      "ancillaryFiles": false,
+      "doi": "10.1007/JHEP02(2020)099",
+      "texkey": "Herrmann:2019upk",
+      "masterCount": 4,
+      "dimScheme": "d=4",
+      "computationLevel": "DE_only",
+      "location": "Section 3.1, Eq. (3.2)",
+      "recordId": "bx_34f49e98c4d3",
+      "verified": false,
+      "verifiedAt": ""
     }
   ],
   "Names": [
@@ -205,7 +271,7 @@
   "edges": "{{{1, 2}, m}, {{1, 3}, m}, {{2, 4}, m}, {{3, 4}, m}}",
   "nodes": "{{1, 0}, {2, 0}, {3, 0}, {4, 0}}",
   "quadruple": "{E^(eps*EulerGamma)*Gamma[2 + eps], (x1 + x2 + x3 + x4)^(2*eps)*(-(mm*x1^2) - 2*mm*x1*x2 - mm*x2^2 - 2*mm*x1*x3 - 2*mm*x2*x3 + s12*x2*x3 - mm*x3^2 - 2*mm*x1*x4 - s12*x1*x4 - s23*x1*x4 - 2*mm*x2*x4 - 2*mm*x3*x4 - mm*x4^2)^(-2 - eps), {x1, x2, x3, x4}, {mm, s12, s23}}",
-  "CanonicalName": "Equal-mass box (a)",
+  "CanonicalName": "Equal-mass box",
   "MassConfig": {
     "numEdges": 4,
     "numMassiveEdges": 4,

@@ -16,7 +16,13 @@
     "arXiv:2512.05923",
     "arXiv:1502.06595 (Comput.Phys.Commun. 196 (470), 2015)",
     "arXiv:1511.09404 (JHEP 04 (078), 2016)",
-    "arXiv:2305.08783"
+    "arXiv:2305.08783",
+    "arXiv:1811.11699",
+    "arXiv:1912.09294",
+    "arXiv:2305.19768",
+    "arXiv:2102.01820",
+    "arXiv:1901.05932",
+    "arXiv:2209.06816"
   ],
   "Records": [
     {
@@ -466,6 +472,122 @@
       "recordId": "bx_8ff2087a7b4e",
       "verified": true,
       "verifiedAt": "auto-loopedia"
+    },
+    {
+      "reference": "arXiv:1807.09812 (JHEP 10 (103), 2018)",
+      "authors": "Gehrmann, T., Henn, J.M., Lo Presti, N.A.",
+      "description": "Two-loop massless planar five-point penta-box family with 8 propagators and 3 ISPs. 61 master integrals computed in UT basis through O(eps^4) via canonical DEs. Results expressed in 18 irreducible pentagon functions (weight-4 MPLs) with 26-letter planar pentagon alphabet. One-fold integral representations for numerical evaluation in all physical channels.",
+      "epsOrders": "4",
+      "familyName": "pentabox",
+      "method": "DE, IBP",
+      "tools": [
+        "FIRE",
+        "Reduze",
+        "FIESTA",
+        "SecDec",
+        "GiNaC"
+      ],
+      "ancillaryFiles": true,
+      "doi": "10.1007/JHEP10(2018)103",
+      "texkey": "Gehrmann:2018yef",
+      "masterCount": 61,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "full",
+      "location": "Eq. (3.1), Section 3, Figure 2",
+      "recordId": "bx_a4784da3c43e",
+      "verified": false,
+      "verifiedAt": ""
+    },
+    {
+      "reference": "arXiv:2305.19768",
+      "authors": "",
+      "description": "Massless two-loop five-point pentabox integral with 8 internal edges, all massless, and 5 massless external legs. Previously existing pySecDec example used for benchmarking. The pentabox topology consists of a box subgraph sharing an edge with a pentagon subgraph.",
+      "epsOrders": "",
+      "familyName": "pentabox_fin",
+      "method": "sector_decomposition",
+      "tools": [
+        "pySecDec"
+      ],
+      "ancillaryFiles": false,
+      "doi": "",
+      "texkey": "",
+      "masterCount": 0,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "numerical",
+      "location": "Section 3.2, Figure 10(b), Table 3",
+      "recordId": "bx_d06b99fcb567",
+      "verified": false,
+      "verifiedAt": ""
+    },
+    {
+      "reference": "arXiv:2102.01820",
+      "authors": "",
+      "description": "Planar two-loop five-point integral family for the leading-colour QCD corrections to q qbar -> g gamma gamma and qg -> q gamma gamma. Family A is the planar pentagon-box topology with 8 propagators (D1-D8) and 3 irreducible scalar products (D9-D11). The first 8 propagators define a pentagon-box graph: D1-D4 trace the k1 loop through vertices where p1, p2, p3 enter; D5-D7 trace the k2 loop through vertices where p4, p5 enter; D8 is the rung connecting the two loops. All external particles are massless. IBP reduction performed with Kira and Finred (finite field, syzygy techniques). Results expressed in terms of pentagon functions of Chicherin-Sotnikov through transcendental weight 4. Multivariate partial fraction decomposition via MultivariateApart applied to simplify rational coefficients, with 25 irreducible denominator factors. Complete analytic results for tree-level, one-loop, and two-loop interference terms provided in ancillary Mathematica files, organized by colour factor.",
+      "epsOrders": "0",
+      "familyName": "Family A",
+      "method": "IBP, DE",
+      "tools": [
+        "Kira",
+        "Reduze",
+        "FORM",
+        "QGRAF"
+      ],
+      "ancillaryFiles": true,
+      "doi": "",
+      "texkey": "",
+      "masterCount": 0,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "full",
+      "location": "Table 1 (tab:topos), Eq. (4.1), Section 4",
+      "recordId": "bx_1f7dc8aad973",
+      "verified": false,
+      "verifiedAt": ""
+    },
+    {
+      "reference": "arXiv:1901.05932",
+      "authors": "",
+      "description": "Planar pentabox (family (a)) in the two-loop five-graviton N=8 supergravity amplitude. 8 propagators + 3 ISPs, 61 master integrals. The amplitude is computed at symbol level by IBP reducing the Carrasco-Johansson integrand (from color-kinematics duality) to uniform transcendental weight master integrals, then summing over S5 permutations. The result has uniform weight 4 and is expressed in the 31-letter pentagon alphabet. The IR-subtracted hard function is provided as a compact seed representation: H_5^(2) = sum_{S5} r_seed * h_5^(2), where r_seed = s12*s23*s34*s45*PT(12345)*PT(21435). Families (d)-(f) are sub-topologies obtained by pinching one internal line from (a)-(c). External states are 4-dimensional, loop momenta D=4-2*eps dimensional.",
+      "epsOrders": "0",
+      "familyName": "pentabox (a)",
+      "method": "IBP, DE",
+      "tools": [
+        "FIRE",
+        "Reduze"
+      ],
+      "ancillaryFiles": true,
+      "doi": "",
+      "texkey": "",
+      "masterCount": 61,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "full",
+      "location": "Fig. 1 (first row, left), Eq. (5.2)-(5.3), Section 5.2-5.3; propagators defined in arXiv:1807.09812 Eq. (3.1)",
+      "recordId": "bx_0f82972e0dba",
+      "verified": false,
+      "verifiedAt": ""
+    },
+    {
+      "reference": "arXiv:2003.03120 (JHEP 10 (188), 2020)",
+      "authors": "Caron-Huot, Simon, Chicherin, Dmitry, Henn, Johannes, Zhang, Yang, Zoia, Simone",
+      "description": "Planar pentagon-box family for massless two-loop five-point scattering. 8 propagators, 61 MIs in pure basis with 31-letter pentagon alphabet. Used to compute multi-Regge limit of N=4 SYM and N=8 SUGRA amplitudes.",
+      "epsOrders": "0",
+      "familyName": "pentabox (a)",
+      "method": "IBP, DE",
+      "tools": [
+        "FIRE",
+        "Kira",
+        "Reduze",
+        "GiNaC"
+      ],
+      "ancillaryFiles": true,
+      "doi": "10.1007/JHEP10(2020)188",
+      "texkey": "Caron-Huot:2020vlo",
+      "masterCount": 61,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "full",
+      "location": "Fig. 1(a), Eqs. (3.4)-(3.5), Section 3.2",
+      "recordId": "bx_fa58c00c066a",
+      "verified": false,
+      "verifiedAt": ""
     }
   ],
   "Names": [

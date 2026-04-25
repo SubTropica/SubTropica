@@ -47,6 +47,30 @@
       "recordId": "bx_18f3e03b0fbf",
       "verified": false,
       "verifiedAt": ""
+    },
+    {
+      "reference": "arXiv:2509.15315",
+      "authors": "",
+      "description": "Second planar two-loop four-point family (called PLB in the paper), a planar double box where the middle rung and the right box are traversed by the massive quark while p1 enters a massless corner; the top side and the left vertical are also massive. Defined by 9 denominators (7 real propagators plus 2 ISPs). Part of the five-family set used to express all two-loop amplitudes for q qbar->g gamma, gg->g gamma, q qbar->Q Qbar, q qbar->gg and gg->gg through a heavy-quark loop. Canonical basis and differential equations provided in the Zenodo ancillary; integrated through O(eps^0) in terms of iterated integrals on an elliptic curve.",
+      "epsOrders": "0",
+      "familyName": "planar double box with heavy-quark loop (PLB)",
+      "method": "IBP, DE, series_expansion",
+      "tools": [
+        "QGRAF",
+        "FORM",
+        "Reduze",
+        "Kira"
+      ],
+      "ancillaryFiles": true,
+      "doi": "",
+      "texkey": "",
+      "masterCount": 220,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "full",
+      "location": "Appendix C, Table 3 (fig:toposPL); Fig. 3 (fig:gg_aa_diagrams); Sec. 3",
+      "recordId": "bx_bdd2c20ff305",
+      "verified": false,
+      "verifiedAt": ""
     }
   ],
   "Names": [
@@ -61,7 +85,7 @@
   "Results": [],
   "edges": "{{{1, 2}, m}, {{1, 3}, 0}, {{1, 4}, m}, {{2, 5}, m}, {{2, 6}, m}, {{3, 5}, 0}, {{4, 6}, m}}",
   "nodes": "{{3, 0}, {4, 0}, {6, 0}, {5, 0}}",
-  "CanonicalName": "Double box, 5 massive propagators (e)",
+  "CanonicalName": "Double box, 5 massive propagators",
   "MassConfig": {
     "numEdges": 7,
     "numMassiveEdges": 5,

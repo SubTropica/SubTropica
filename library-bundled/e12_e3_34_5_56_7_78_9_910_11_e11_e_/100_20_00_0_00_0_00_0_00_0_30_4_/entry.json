@@ -1,0 +1,59 @@
+{
+  "CNickelIndex": "e12|e3|34|5|56|7|78|9|910|11|e11|e|:100|20|00|0|00|0|00|0|00|0|30|4|",
+  "MassScales": 6,
+  "FunctionClass": "MPL",
+  "EpsilonOrder": "0",
+  "References": [
+    "Phys. Lett. B305 (1993) 136\u2013143, doi: 10.1016/0370-2693(93)91118-7"
+  ],
+  "Records": [
+    {
+      "epsOrders": "0",
+      "reference": "Phys. Lett. B305 (1993) 136\u2013143, doi: 10.1016/0370-2693(93)91118-7",
+      "authors": "N.I. Ussyukina, A.I. Davydychev",
+      "description": "The ladder box integrals are considered with massive external legs and no internal masses. These are finite, and their value in 4 dimensions is expressed explicitly in terms of single-valued multiple polylogarithms.",
+      "recordId": "1505927773.wpx8",
+      "verified": false,
+      "verifiedAt": ""
+    }
+  ],
+  "Source": [
+    "arXiv",
+    "Loopedia"
+  ],
+  "Results": [],
+  "Names": [
+    "4-mass 5-rung planar ladder box",
+    "Ussyukina-Davydychev L=5 ladder integral",
+    "4-mass 5-loop 4-point (16 propagators)",
+    "four-mass 5-loop 4-point (16 propagators)",
+    "5-loop 4-point (16 propagators)"
+  ],
+  "edges": "{{{1, 2}, 0}, {{1, 3}, 0}, {{2, 4}, 0}, {{3, 4}, 0}, {{3, 5}, 0}, {{4, 6}, 0}, {{5, 6}, 0}, {{5, 7}, 0}, {{6, 8}, 0}, {{7, 8}, 0}, {{7, 9}, 0}, {{8, 10}, 0}, {{9, 10}, 0}, {{9, 11}, 0}, {{10, 12}, 0}, {{11, 12}, 0}}",
+  "nodes": "{{1, M[1]}, {11, M[2]}, {12, M[3]}, {2, M[4]}}",
+  "CanonicalName": "4-mass 5-rung planar ladder box",
+  "MassConfig": {
+    "numEdges": 16,
+    "numMassiveEdges": 0,
+    "numMasslessEdges": 16,
+    "distinctInternalMasses": 0,
+    "internalMassLabels": [],
+    "edgeMassPattern": "0000000000000000",
+    "numExtLegs": 4,
+    "numOnshellMassiveExtLegs": 4,
+    "numMasslessExtLegs": 0,
+    "extLegSignature": "MMMM"
+  },
+  "commonNames": [
+    "L_5",
+    "L5"
+  ],
+  "Subsectors": [],
+  "ParentSectors": [],
+  "ValenceVerifiedLegit": true,
+  "_reinstatement": {
+    "note": "predicate parser bug on multi-digit Nickel labels (10, 11); manually whitelisted"
+  },
+  "Loops": 5,
+  "NumPropagators": 16
+}

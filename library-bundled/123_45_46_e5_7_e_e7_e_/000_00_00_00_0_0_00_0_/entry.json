@@ -10,7 +10,8 @@
     "arXiv:1802.02419",
     "arXiv:2002.09492 (JHEP 04 (167), 2020)",
     "arXiv:1911.10174 (JHEP 04 (018), 2020)",
-    "hep-ph/0305142"
+    "hep-ph/0305142",
+    "arXiv:hep-ph/0305234 (Nucl.Phys.B 680 (375), 2004)"
   ],
   "Records": [
     {
@@ -175,6 +176,73 @@
       "recordId": "1502127224.QCBT",
       "verified": true,
       "verifiedAt": "auto-loopedia"
+    },
+    {
+      "reference": "arXiv:2311.16907 (Phys.Rev.D 110 (), 2024)",
+      "authors": "Gambuti, Giulio, Kosower, David A., Novichkov, Pavel P., Tancredi, Lorenzo",
+      "description": "Massless three-loop planar ladder integral, the L=3 instance of the all-loop ladder conjecture. The conjecture gives 2 rank-2, 6 rank-3, and 9 rank-4 locally finite generators (17 total) with no generators beyond rank 4. Evanescent generators appear at ranks 4 through 6. The conjecture is verified by explicit computation at L=3 and L=4.",
+      "epsOrders": "",
+      "familyName": "three-loop ladder",
+      "method": "IBP",
+      "tools": [
+        "FiniteFlow"
+      ],
+      "ancillaryFiles": false,
+      "doi": "10.1103/PhysRevD.110.116026",
+      "texkey": "Gambuti:2023eqh",
+      "masterCount": 0,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "basis",
+      "location": "Sec. 7.2, Eqs. (7.14)-(7.21), Fig. 7",
+      "recordId": "bx_f200804b01a7",
+      "verified": false,
+      "verifiedAt": ""
+    },
+    {
+      "reference": "arXiv:2010.06947 (JHEP 02 (080), 2021)",
+      "authors": "Canko, Dhimiter D., Syrrakos, Nikolaos",
+      "description": "Massless three-loop planar ladder-box (triple-box) with all external legs massless. 26 master integrals in canonical basis, solutions in GPLs of y=s23/s12 with 2-letter alphabet {0,1}. Obtained via x->1 resummation of the one-mass SDE family.",
+      "epsOrders": "6",
+      "familyName": "three-loop ladder-box (massless)",
+      "method": "DE, IBP",
+      "tools": [
+        "FIRE",
+        "Kira",
+        "PolyLogTools",
+        "HyperInt",
+        "pySecDec"
+      ],
+      "ancillaryFiles": true,
+      "doi": "10.1007/JHEP02(2021)080",
+      "texkey": "Canko:2020gqp",
+      "masterCount": 26,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "full",
+      "location": "Section 4, Eq. (4.6)-(4.9)",
+      "recordId": "bx_b8489256754d",
+      "verified": false,
+      "verifiedAt": ""
+    },
+    {
+      "reference": "arXiv:hep-ph/0305234 (Nucl.Phys.B 680 (375), 2004)",
+      "authors": "Binoth, T., Heinrich, G.",
+      "description": "Massless on-shell planar 3-loop 4-point triple box TB(s,t), 10 propagators, all external legs on-shell (p_i^2 = 0). Numerical evaluation at the Euclidean point (s,t) = (-1,-3) cross-checking the analytical result of Smirnov (hep-ph/0305142): TB(-1,-3) = Gamma(4+3*eps) [0.09874/eps^6 - 0.7669/eps^5 - 1.977/eps^4 - 0.7534/eps^3 - 4.747/eps^2 + 2.010/eps + 21.48], agreeing with the analytical answer at the 1% level. Full computation took several weeks on a 2 GHz Pentium IV, with object files ~500 MB. The propagator basis above is one standard routing for the triple box (k1,k2,k3 as loop momenta along the three boxes; the two interior 'rung' edges connect adjacent boxes); edge ordering matches a stacked-ladder vertex labelling V1..V8 with V5,V7 the upper-rung vertices and V6,V8 the lower-rung vertices.",
+      "epsOrders": "0",
+      "familyName": "Massless on-shell planar triple box (10 propagators)",
+      "method": "direct_integration, sector_decomposition",
+      "tools": [
+        "BASES"
+      ],
+      "ancillaryFiles": false,
+      "doi": "10.1016/j.nuclphysb.2003.12.023",
+      "texkey": "Binoth:2003ak",
+      "masterCount": 1,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "numerical",
+      "location": "Section 3.4, Fig. 6; numerical result for TB(-1,-3)",
+      "recordId": "bx_8a694f95ccf9",
+      "verified": false,
+      "verifiedAt": ""
     }
   ],
   "Names": [
@@ -187,7 +255,8 @@
     "massless on-shell planar triple box",
     "massless 3-loop 4-point triple box",
     "HMSW_A",
-    "G (three-loop four-point planar supergraph in dual coordinates)"
+    "G (three-loop four-point planar supergraph in dual coordinates)",
+    "Massless on-shell planar triple box (10 propagators)"
   ],
   "Source": [
     "arXiv",

@@ -1,6 +1,6 @@
 # 🥥 SubTropica
 
-[![Version](https://img.shields.io/badge/version-1.1.6-blue)](https://github.com/SubTropica/SubTropica)
+[![Version](https://img.shields.io/badge/version-1.1.7-blue)](https://github.com/SubTropica/SubTropica)
 [![Mathematica](https://img.shields.io/badge/Mathematica-13.1%2B-red)](https://www.wolfram.com/mathematica/)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 [![Data: CC BY-NC-SA 4.0](https://img.shields.io/badge/data_license-CC_BY--NC--SA_4.0-orange)](LICENSE-DATA)
@@ -29,10 +29,11 @@ The library currently contains:
 
 |                         |       |
 | :---------------------- | ----: |
-| **Topologies**          |   314 |
+| **Topologies**          |   329 |
 | **Mass configurations** | 732 |
+| **Literature records**  | 1,511 |
 | **Papers scanned**      | 1,283 |
-| **Computed results**    |   178 |
+| **Computed results**    |   190 |
 
 The full library ships with the package under `library-bundled/` and is compiled into `ui/library.json` for the web interface.
 
@@ -206,12 +207,13 @@ Development of SubTropica was assisted by Claude Opus 4.6-7.
 If you use SubTropica in your research, please cite the paper:
 
 ```bibtex
-@article{Giroux:2026sub,
-    author  = "Giroux, Mathieu and Mizera, Sebastian and Salvatori, Giulio",
-    title   = "{SubTropica}",
-    eprint  = "2604.20954",
-    archiveprefix = "arXiv",
-    primaryclass  = "hep-th",
-    year    = "2026"
+@article{Giroux:2026tgd,
+    author = "Giroux, Mathieu and Mizera, Sebastian and Salvatori, Giulio",
+    title = "{SubTropica}",
+    eprint = "2604.20954",
+    archivePrefix = "arXiv",
+    primaryClass = "hep-th",
+    month = "4",
+    year = "2026"
 }
 ```

@@ -10,7 +10,12 @@
     "arXiv:1803.05894 (Missing[\"KeyAbsent\", \"journal\"] Missing[\"KeyAbsent\", \"volume\"] (Missing[\"KeyAbsent\", \"pages\"]), Missing[\"KeyAbsent\", \"year\"])",
     "arXiv:hep-ph/9307327 (Missing[\"KeyAbsent\", \"journal\"] Missing[\"KeyAbsent\", \"volume\"] (Missing[\"KeyAbsent\", \"pages\"]), Missing[\"KeyAbsent\", \"year\"])",
     "arXiv:2603.18691 (Missing[\"KeyAbsent\", \"journal\"] Missing[\"KeyAbsent\", \"volume\"] (Missing[\"KeyAbsent\", \"pages\"]), Missing[\"KeyAbsent\", \"year\"])",
-    "arXiv:1705.03478"
+    "arXiv:1705.03478",
+    "arXiv:1510.06758",
+    "arXiv:1803.05894",
+    "arXiv:hep-ph/9307327",
+    "arXiv:2603.18691",
+    "arXiv:1112.4524 (JHEP 03 (101), 2012)"
   ],
   "Records": [
     {
@@ -211,6 +216,63 @@
       "recordId": "bx_211db94f21ff",
       "verified": false,
       "verifiedAt": ""
+    },
+    {
+      "reference": "arXiv:1709.06055 (Phys.Rev.D 96 (), 2017)",
+      "authors": "Bern, Zvi, Enciso, Michael, Ita, Harald, Zeng, Mao",
+      "description": "One-loop massless triangle with one massive external leg. Used to illustrate dual conformal IBP relations. No integral evaluation.",
+      "epsOrders": "",
+      "familyName": "one-external-mass triangle",
+      "method": "IBP",
+      "tools": [],
+      "ancillaryFiles": false,
+      "doi": "10.1103/PhysRevD.96.096017",
+      "texkey": "Bern:2017gdk",
+      "masterCount": 0,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "IBP_only",
+      "location": "Section 3.1, Eqs. (3.9)-(3.17), Fig. 2",
+      "recordId": "bx_2fd0804bc6be",
+      "verified": false,
+      "verifiedAt": ""
+    },
+    {
+      "reference": "arXiv:2603.18691",
+      "authors": "",
+      "description": "One-loop massless triangle. IR-finite integrands constructed via LTD.",
+      "epsOrders": "0",
+      "familyName": "Massless 1-loop triangle (2 massless legs)",
+      "method": "direct_integration",
+      "tools": [],
+      "ancillaryFiles": false,
+      "doi": "",
+      "texkey": "",
+      "masterCount": 0,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "full",
+      "location": "Section 5, Table I",
+      "recordId": "bx_8d7f81e81479",
+      "verified": false,
+      "verifiedAt": ""
+    },
+    {
+      "reference": "arXiv:1112.4524 (JHEP 03 (101), 2012)",
+      "authors": "Gehrmann, Thomas, Henn, Johannes M., Huber, Tobias",
+      "description": "One-loop scalar triangle integral with two on-shell massless legs (p1^2 = p2^2 = 0) and one off-shell leg q = p1 + p2. Defined in Eq. on p. ~14 as D_1 = int d^Dk/[i(2pi)^D] / (k^2 (k+p1)^2 (k-p2)^2). Closed-form result D_1^exp = -Gamma^2(-eps) Gamma(1-eps) Gamma(1+eps) / Gamma(1-2eps) given in appendix (Eq. for D_1).",
+      "epsOrders": "6",
+      "familyName": "Massless 1-loop form-factor triangle",
+      "method": "direct_integration",
+      "tools": [],
+      "ancillaryFiles": false,
+      "doi": "10.1007/JHEP03(2012)101",
+      "texkey": "Gehrmann:2011xn",
+      "masterCount": 1,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "full",
+      "location": "Section 3.1, Eq. defining D_1 (line 682); appendix Eqs. (A) for D_1 expansion",
+      "recordId": "bx_4545535d7eb8",
+      "verified": false,
+      "verifiedAt": ""
     }
   ],
   "Names": [
@@ -221,7 +283,8 @@
     "one-loop massless triangle with off-shell external legs",
     "Massless 1-loop triangle (3 massless legs)",
     "OneExternalMassOneLoopTriangle",
-    "Massless 1-loop triangle (2 massless legs)"
+    "Massless 1-loop triangle (2 massless legs)",
+    "Massless 1-loop form-factor triangle"
   ],
   "Source": [
     "arXiv"

@@ -43,6 +43,34 @@
       "location": "Eq.(3), Section 2",
       "verified": true,
       "verifiedAt": "auto-loopedia"
+    },
+    {
+      "reference": "arXiv:1906.11862 (JHEP 09 (119), 2019)",
+      "authors": "Hartanto, Heribertus Bayu, Badger, Simon, Brønnum-Hansen, Christian, Peraro, Tiziano",
+      "description": "Planar two-loop integral family for W+4 parton scattering. Pentagon-box family with 8 propagators and 3 ISPs. External leg p5=p56 is off-shell (W boson). All other external legs massless. All 15 maximal cut topologies obtained by cyclic permutations. 202 master integrals evaluated numerically via finite-field sampling and sector decomposition.",
+      "epsOrders": "0",
+      "familyName": "W4p_planar",
+      "method": "IBP, sector_decomposition",
+      "tools": [
+        "Qgraf",
+        "FORM",
+        "Spinney",
+        "Mathematica",
+        "LiteRed",
+        "FiniteFlow",
+        "pySecDec",
+        "FIESTA"
+      ],
+      "ancillaryFiles": false,
+      "doi": "10.1007/JHEP09(2019)119",
+      "texkey": "Hartanto:2019uvl",
+      "masterCount": 202,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "numerical",
+      "location": "Eq. (2.8)",
+      "recordId": "bx_2977a6670fa7",
+      "verified": false,
+      "verifiedAt": ""
     }
   ],
   "Names": [
@@ -60,7 +88,7 @@
   "Results": [],
   "edges": "{{{1, 2}, 0}, {{1, 3}, 0}, {{1, 4}, 0}, {{2, 5}, 0}, {{2, 6}, 0}, {{3, 5}, 0}, {{4, 7}, 0}, {{6, 7}, 0}}",
   "nodes": "{{3, 0}, {4, 0}, {7, 0}, {6, 0}, {5, M}}",
-  "CanonicalName": "1-mass box-pentagon (b)",
+  "CanonicalName": "1-mass box-pentagon",
   "MassConfig": {
     "numEdges": 8,
     "numMassiveEdges": 0,

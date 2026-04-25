@@ -120,6 +120,94 @@
       "dimScheme": "d",
       "location": "Section 3.3.1, Eqs. around (3.24)-(3.37); Section 3.3.3, Eq. (3.52)",
       "familyName": "one-loop two-mass Bhabha box"
+    },
+    {
+      "reference": "arXiv:1401.4361 (JHEP 03 (071), 2014)",
+      "authors": "Panzer, Erik",
+      "description": "One-loop box with two opposite internal masses, on-shell legs p_i^2=-m^2. Not linearly reducible in Schwinger parameters; restored by change of variables.",
+      "epsOrders": "",
+      "familyName": "box_2mass_opposite",
+      "method": "direct_integration",
+      "tools": [
+        "HyperInt"
+      ],
+      "ancillaryFiles": false,
+      "doi": "10.1007/JHEP03(2014)071",
+      "texkey": "Panzer:2014gra",
+      "masterCount": 0,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "full",
+      "location": "",
+      "recordId": "bx_16f7e18b5677",
+      "verified": false,
+      "verifiedAt": ""
+    },
+    {
+      "reference": "arXiv:1307.4083",
+      "authors": "Henn, Johannes M., Smirnov, Vladimir A.",
+      "description": "One-loop box for Bhabha scattering with alternating massive/massless propagators. 5 MIs to all orders in eps via canonical DEs in 2dHPLs.",
+      "epsOrders": "all_orders",
+      "familyName": "Bhabha 1-loop",
+      "method": "DE, IBP",
+      "tools": [
+        "FIRE"
+      ],
+      "ancillaryFiles": false,
+      "doi": "",
+      "texkey": "",
+      "masterCount": 5,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "full",
+      "location": "Eq. (3), Section 2.1",
+      "recordId": "bx_710f3b483551",
+      "verified": false,
+      "verifiedAt": ""
+    },
+    {
+      "reference": "arXiv:2305.01585 (JHEP 11 (202), 2023)",
+      "authors": "Chestnov, Vsevolod, Matsubara-Heo, Saiei J., Munch, Henrik J., Takayama, Nobuki",
+      "description": "One-loop box integral family contributing to Bhabha scattering in d=4-2*epsilon dimensions. Two massive propagators (D1, D3 with electron mass m) and two massless propagators (D2, D4). All four external legs on-shell at p_i^2=m^2. Used to illustrate the logarithmic restriction algorithm: the small-mass expansion m->0 is computed as a restriction z_1=m^2/(-s)->0. The residue matrix eigenvalues {0, -epsilon} split the solution into a holomorphic piece (rank 3, eigenvalue 0) with a logarithmic correction (rank 2, eigenvalue -epsilon). Both restricted subsystems are derived and solved.",
+      "epsOrders": "",
+      "familyName": "1L Bhabha box",
+      "method": "IBP, DE",
+      "tools": [
+        "LiteRed",
+        "AMFlow",
+        "Mathematica"
+      ],
+      "ancillaryFiles": false,
+      "doi": "10.1007/JHEP11(2023)202",
+      "texkey": "Chestnov:2023kww",
+      "masterCount": 5,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "DE_only",
+      "location": "Section 5.2 (sec:1L_bhabha); eq. 1L_bhabha_pfaffian_system, eq:bhabha_kinematics, eq:final_pfaffian",
+      "recordId": "bx_15f9b19f2ad4",
+      "verified": false,
+      "verifiedAt": ""
+    },
+    {
+      "reference": "arXiv:2405.18178 (JHEP 09 (018), 2024)",
+      "authors": "Crisanti, Giulio, Smith, Sid",
+      "description": "One-loop box integral family for Bhabha scattering with two massive and two massless internal propagators and four equal-mass external legs. Used as a primary example to demonstrate the diagonal basis prescription for intersection numbers. On the double cut {z2, z4}, the Baikov polynomial is explicitly given and the C-matrix is computed in both the standard and diagonal prescriptions, yielding a 4x4 diagonal C-matrix. Also studied on a single cut {z1} where the massless propagators require a modification to the diagonal basis prescription.",
+      "epsOrders": "",
+      "familyName": "one-loop two-mass Bhabha box",
+      "method": "intersection, IBP",
+      "tools": [
+        "Mathematica",
+        "LiteRed",
+        "FiniteFlow"
+      ],
+      "ancillaryFiles": true,
+      "doi": "10.1007/JHEP09(2024)018",
+      "texkey": "Crisanti:2024onv",
+      "masterCount": 4,
+      "dimScheme": "d=D",
+      "computationLevel": "",
+      "location": "Section 3.3.1, Eqs. around (3.24)-(3.37); Section 3.3.3, Eq. (3.52)",
+      "recordId": "bx_401e724d7210",
+      "verified": false,
+      "verifiedAt": ""
     }
   ],
   "Names": [
@@ -141,7 +229,7 @@
   "edges": "{{{1, 2}, 0}, {{1, 3}, m}, {{2, 4}, m}, {{3, 4}, 0}}",
   "nodes": "{{1, m}, {2, m}, {4, m}, {3, m}}",
   "quadruple": "{E^(eps*EulerGamma)*Gamma[2 + eps], (x1 + x2 + x3 + x4)^(2*eps)*(-(mm*x2^2) - 2*mm*x2*x3 + s12*x2*x3 - mm*x3^2 + 4*mm*x1*x4 - s12*x1*x4 - s23*x1*x4)^(-2 - eps), {x1, x2, x3, x4}, {mm, s12, s23}}",
-  "CanonicalName": "Box, 2 massive propagators (d)",
+  "CanonicalName": "Box, 2 massive propagators",
   "MassConfig": {
     "numEdges": 4,
     "numMassiveEdges": 2,

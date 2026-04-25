@@ -47,7 +47,28 @@ $SThyperIntPath = stDiscoverHyperInt[];
 $STHyperFlintPath     = "";    (* auto-discovered from $STHyperFlintSearchPaths below, or set via ConfigureSubTropica[HyperFlintPath -> ...] *)
 $STHyperFlintDataPath = "";    (* absolute path to mzv_reductions.json, derived from $STHyperFlintPath *)
 
+(* Map $SystemID to the dist/ subdirectory convention used by
+   HyperFLINT/scripts/stage_dist.sh.  Currently only macos-arm64 ships in
+   the dev-repo dist/ tree; other arches fall back to the same basename
+   so a future port doesn't need a code change here. *)
+stHFArchDir[] := Switch[$SystemID,
+    "MacOSX-ARM64",  "macos-arm64",
+    "MacOSX-x86-64", "macos-x86_64",
+    "Linux-ARM64",   "linux-arm64",
+    "Linux-x86-64",  "linux-x86_64",
+    _,               "macos-arm64"];
+
 $STHyperFlintSearchPaths = {
+    (* Repo-local prebuilt CLI shipped via Git LFS.  This is the canonical
+       path for collaborators on a SubTropica-dev clone: nothing for them
+       to build, just `git lfs pull` (and `git lfs install` once per
+       machine).  $SubTropicaInstallDir isn't bound yet at this point in
+       the load, so derive the dir from $InputFileName directly. *)
+    FileNameJoin[{DirectoryName[$InputFileName], "HyperFLINT", "dist",
+        stHFArchDir[], "hyperflint"}],
+    (* Source-tree-build location (devs running cmake locally). *)
+    FileNameJoin[{DirectoryName[$InputFileName], "HyperFLINT",
+        "build-release", "hyperflint"}],
     FileNameJoin[{$HomeDirectory, "Projects", "SubTropica-branchSM", "HyperFLINT", "build-release", "hyperflint"}],
     FileNameJoin[{$HomeDirectory, "Projects", "HyperFLINT", "build-release", "hyperflint"}],
     FileNameJoin[{$HomeDirectory, "HyperFLINT",            "build-release", "hyperflint"}],
@@ -57,19 +78,32 @@ $STHyperFlintSearchPaths = {
 
 stDiscoverHyperFlint[] := SelectFirst[$STHyperFlintSearchPaths, FileExistsQ, ""];
 
-(* Derive the mzv_reductions.json path from the binary path.  Layout is
-   <HF_root>/build-release/hyperflint → <HF_root>/data/mzv_reductions.json. *)
-stResolveHyperFlintDataPath[binPath_String] := Module[{hfRoot, cand},
-    If[binPath === "" || !FileExistsQ[binPath], Return[""]];
-    (* binPath = <hf_root>/build-release/hyperflint; two DirectoryName
-       steps climb to <hf_root>.  (ParentDirectory refuses non-existent
-       paths, and file paths like the binary itself don't qualify as
-       directories, so use DirectoryName instead.) *)
-    hfRoot = DirectoryName[DirectoryName[binPath]];
-    (* Strip any trailing slash so FileNameJoin doesn't emit "//data/..." *)
-    If[StringEndsQ[hfRoot, "/"], hfRoot = StringDrop[hfRoot, -1]];
-    cand   = FileNameJoin[{hfRoot, "data", "mzv_reductions.json"}];
-    If[FileExistsQ[cand], cand, ""]];
+(* Resolve the mzv_reductions.json path.  Searches:
+     1. <HF_root>/data/mzv_reductions.json    (binary's source-tree layout)
+     2. <SubTropica install dir>/HyperFLINT/data/mzv_reductions.json
+        (paclet-bundled copy when SubTropica is installed without HF)
+     3. <SubTropica install dir>/Resources/mzv_reductions.json
+        (alternative paclet bundling)
+     4. ~/.subtropica/mzv_reductions.json   (user override)
+   Returns the first existing path, or "" if none are present.
+   `stHyperFlintDataPathCandidates[binPath]` exposes the same list for
+   diagnostic messages. *)
+stHyperFlintDataPathCandidates[binPath_String] := Module[{hfRoot, cands = {}},
+    If[StringQ[binPath] && binPath =!= "" && FileExistsQ[binPath],
+        hfRoot = DirectoryName[DirectoryName[binPath]];
+        If[StringEndsQ[hfRoot, "/"], hfRoot = StringDrop[hfRoot, -1]];
+        AppendTo[cands, FileNameJoin[{hfRoot, "data", "mzv_reductions.json"}]]];
+    If[StringQ[$SubTropicaInstallDir] && $SubTropicaInstallDir =!= "",
+        AppendTo[cands, FileNameJoin[{$SubTropicaInstallDir, "HyperFLINT",
+            "data", "mzv_reductions.json"}]];
+        AppendTo[cands, FileNameJoin[{$SubTropicaInstallDir, "Resources",
+            "mzv_reductions.json"}]]];
+    AppendTo[cands, FileNameJoin[{$HomeDirectory, ".subtropica",
+        "mzv_reductions.json"}]];
+    cands];
+
+stResolveHyperFlintDataPath[binPath_String] :=
+    SelectFirst[stHyperFlintDataPathCandidates[binPath], FileExistsQ, ""];
 
 $STHyperFlintPath     = stDiscoverHyperFlint[];
 $STHyperFlintDataPath = stResolveHyperFlintDataPath[$STHyperFlintPath];
@@ -87,15 +121,44 @@ $STHFLibHyperFlintSym    = None;  (* Phase γ.2: integrator LibraryLink handle *
 $STHFLibClearState       = None;
 $STHyperFlintUseLibraryLink = False;  (* becomes True after successful load *)
 
-stResolveHyperFlintLibraryPath[binPath_String] := Module[{dir, cand},
-    If[binPath === "" || !FileExistsQ[binPath], Return[""]];
-    dir = DirectoryName[binPath];
-    cand = FileNameJoin[{dir,
-        Which[
-            $OperatingSystem === "MacOSX", "libhyperflint_librarylink.dylib",
-            $OperatingSystem === "Windows", "hyperflint_librarylink.dll",
-            True,                           "libhyperflint_librarylink.so"]}];
-    If[FileExistsQ[cand], cand, ""]];
+stHyperFlintLibraryFileName[] :=
+    Which[
+        $OperatingSystem === "MacOSX",  "libhyperflint_librarylink.dylib",
+        $OperatingSystem === "Windows", "hyperflint_librarylink.dll",
+        True,                            "libhyperflint_librarylink.so"];
+
+(* Resolver: try several locations so paclet-only users without an HF
+   source tree still find the bundled dylib.  Order matches what users
+   are most likely to have:
+     1. Next to the CLI binary (source-tree layout, dev users).
+     2. <CLI parent>/bundle/   (bundled-by-CMake-stage dir).
+     3. <SubTropica install>/HyperFLINT/build-release/  (paclet ships
+        the bundle here for end users without HF compiled).
+     4. <SubTropica install>/HyperFLINT/build-release/bundle/.
+     5. <SubTropica install>/HyperFLINT/                 (alt layout).
+   Returns "" if none exist. *)
+stHyperFlintLibraryPathCandidates[binPath_String] := Module[
+        {libName = stHyperFlintLibraryFileName[], cands = {}, dir},
+    (* If the CLI was found in a dist/<arch>/ tree, the LibraryLink dylib
+       sits in the same directory \[LongDash] check there first. *)
+    If[StringQ[binPath] && binPath =!= "" && FileExistsQ[binPath],
+        dir = DirectoryName[binPath];
+        AppendTo[cands, FileNameJoin[{dir, libName}]];
+        AppendTo[cands, FileNameJoin[{dir, "bundle", libName}]]];
+    If[StringQ[$SubTropicaInstallDir] && $SubTropicaInstallDir =!= "",
+        (* Prebuilt dist/ shipped via Git LFS (SubTropica-dev). *)
+        AppendTo[cands, FileNameJoin[{$SubTropicaInstallDir, "HyperFLINT",
+            "dist", stHFArchDir[], libName}]];
+        AppendTo[cands, FileNameJoin[{$SubTropicaInstallDir, "HyperFLINT",
+            "build-release", libName}]];
+        AppendTo[cands, FileNameJoin[{$SubTropicaInstallDir, "HyperFLINT",
+            "build-release", "bundle", libName}]];
+        AppendTo[cands, FileNameJoin[{$SubTropicaInstallDir, "HyperFLINT",
+            libName}]]];
+    cands];
+
+stResolveHyperFlintLibraryPath[binPath_String] :=
+    SelectFirst[stHyperFlintLibraryPathCandidates[binPath], FileExistsQ, ""];
 
 $STHyperFlintLibraryPath = stResolveHyperFlintLibraryPath[$STHyperFlintPath];
 
@@ -932,9 +995,14 @@ $ShowBenchmarkNudge = True;
 
 (* Auto-load saved config (silent if absent or unreadable).  Runs BEFORE the
    FF auto-detection block below so that a saved FiniteFlowPath gets picked
-   up by FindFile / Needs in the natural way. *)
+   up by FindFile / Needs in the natural way.
+
+   Master kernel only: subkernels skip this block (Global`$STSubkernelMode
+   is True on subkernels during STSetupKernel's parallel Get) because
+   STSetupKernel mirrors the master's already-resolved $*Path /
+   $*Command values back to every subkernel after the load. *)
 Module[{loaded, applyOne},
-    If[FileExistsQ[$STConfigFile],
+    If[!TrueQ[Global`$STSubkernelMode] && FileExistsQ[$STConfigFile],
         loaded = Quiet[Check[Get[$STConfigFile], $Failed]];
         If[AssociationQ[loaded],
             applyOne[k_String, v_] := Switch[k,
@@ -945,6 +1013,8 @@ Module[{loaded, applyOne},
                 "HyperFlintPath",              If[StringQ[v] && v =!= "",
                                                    $STHyperFlintPath = v;
                                                    $STHyperFlintDataPath = stResolveHyperFlintDataPath[v]],
+                "HyperFlintDataPath",          If[StringQ[v] && v =!= "" && FileExistsQ[v],
+                                                   $STHyperFlintDataPath = v],
                 "PythonPath",                  $PythonCommand = v,
                 "PolymakeConcurrencyFraction", $PolymakeConcurrencyFraction = v,
                 "FiniteFlowPath",              $FiniteFlowPath = v,
@@ -964,6 +1034,7 @@ Options[ConfigureSubTropica] = {
     MaplePath                   -> "maple",                                 (* no brew formula; rely on PATH *)
     HyperIntPath                -> "",    (* "" = auto-discover via $STHyperIntSearchPaths; Panzer's Maple package at bitbucket.org/PanzerErik/hyperint *)
     HyperFlintPath              -> "",    (* "" = auto-discover via $STHyperFlintSearchPaths; compiled CLI from HyperFLINT/build-release *)
+    HyperFlintDataPath          -> "",    (* "" = derive from binary's <hf_root>/data; or paclet-bundled / ~/.subtropica fallback *)
     PythonPath                  -> "/opt/homebrew/bin/python3",             (* brew install python; pySecDec deps must be pip-installed *)
     PolymakeConcurrencyFraction -> 0.75,  (* fraction of CPU cores used for concurrent polymake jobs *)
     FiniteFlowPath              -> "",    (* FiniteFlow's mathlink/ dir; "" = rely on standard $Path / paclet *)
@@ -979,7 +1050,7 @@ Options[ConfigureSubTropica] = {
 With[{$SubTropicaDir = DirectoryName[$InputFileName]},
 
 $SubTropicaInstallDir = $SubTropicaDir;
-$SubTropicaVersion = "1.1.6";
+$SubTropicaVersion = "1.1.7";
 
 (* FindRoots root-letter substitutions: W$i -> algebraic root expressions.
    Set by STReadResults when the integration used FindRoots alphabet letters.
@@ -1059,9 +1130,12 @@ ConfigureSubTropica[opts:OptionsPattern[]] := Module[{ffPath, spqrPath, ffLoaded
        don't clobber a valid path with a hardcoded default. *)
     Module[{hp = OptionValue[HyperIntPath]},
         $SThyperIntPath = If[StringQ[hp] && hp =!= "", hp, stDiscoverHyperInt[]]];
-    Module[{hfp = OptionValue[HyperFlintPath]},
+    Module[{hfp = OptionValue[HyperFlintPath],
+            hfd = OptionValue[HyperFlintDataPath]},
         $STHyperFlintPath = If[StringQ[hfp] && hfp =!= "", hfp, stDiscoverHyperFlint[]];
-        $STHyperFlintDataPath = stResolveHyperFlintDataPath[$STHyperFlintPath]];
+        $STHyperFlintDataPath = Which[
+            StringQ[hfd] && hfd =!= "" && FileExistsQ[hfd], hfd,
+            True, stResolveHyperFlintDataPath[$STHyperFlintPath]]];
     $PythonCommand               = OptionValue[PythonPath];
     $PolymakeConcurrencyFraction = OptionValue[PolymakeConcurrencyFraction];
     $FIESTAPath                  = OptionValue[FIESTAPath];
@@ -1339,6 +1413,16 @@ Mathematica subkernels with SubTropica and HyperIntica distributed so the \
 kernels are ready for parallel tropical-data and integration work.  Setting \
 nkernels to 1 or 0 closes any existing pool and forces serial execution.";
 
+STResetKernelCaches::usage = "STResetKernelCaches[] clears the symbolic \
+caches and Mathematica system caches that accumulate across STIntegrate \
+calls, on both the master kernel and every active subkernel.  Mirrors what \
+a kernel restart would do for the caches that are known to affect result \
+correctness or performance: HyperIntica`$LinearFactorsCache, \
+HyperIntica`$HyperAlgebraicLetterTable / Counter, \
+$NoAlgebraicRootsContributions, plus ClearSystemCache[] and \
+ForgetAllMemo[].  Called automatically inside STSetupKernel's warm path so \
+re-using an already-launched pool is as clean as a fresh launch.";
+
 STReadResults::usage = "STReadResults[id:\"NP\"] loads and assembles the \
 saved face-integration results for the given problem id, reconstructing the \
 full series expansion produced by STIntegrate.  Returns the reassembled \
@@ -1503,7 +1587,15 @@ If[!TrueQ[$Notebooks], Off[FrontEndObject::notavail]];
 (*Greeting*)
 
 
-stPrintGreeting[];
+(* Master kernel only: the greeting + dependency-probe pass calls
+   RunProcess for every external tool ($PolymakeCommand, $GinshCommand,
+   $PythonCommand, ...), which dominates the load-time cost.  Subkernels
+   set Global`$STSubkernelMode = True before Get[stPath] (see
+   STSetupKernel) so this block is skipped on the parallel Get; the
+   master then DistributeDefinitions all $*Path / $*Command resolutions
+   so subkernels still see the correctly-resolved paths.  TrueQ on an
+   undefined symbol is False, so the master path runs by default. *)
+If[!TrueQ[Global`$STSubkernelMode], stPrintGreeting[]];
 
 
 (* ::Section::Closed:: *)
@@ -9347,7 +9439,7 @@ If[rawResult === $Failed, $Failed, rawResult /. unflatten]
 STHyperFlint::usage = "STHyperFlint[integrand, {x1, ..., xn}] evaluates the Euler integral over [0, \[Infinity])^n analytically by delegating to the external `hyperflint` CLI (C++/FLINT port of HyperIntica).  Returns the same symbolic form HyperInt[integrand, {x1, ..., xn}] produces on convergent inputs.  Set $STHyperFlintPath or use ConfigureSubTropica[HyperFlintPath -> ...] to override the binary location.";
 
 STHyperFlint::notfound  = "HyperFLINT binary not found at ``.  Set via ConfigureSubTropica[HyperFlintPath -> \"/absolute/path/to/hyperflint\"], or build with `cd ~/Projects/SubTropica-branchSM/HyperFLINT && cmake -S . -B build-release -DCMAKE_BUILD_TYPE=Release && cmake --build build-release`.";
-STHyperFlint::nodata    = "HyperFLINT data file (mzv_reductions.json) not found next to the binary (expected at <hf_root>/data/mzv_reductions.json).";
+STHyperFlint::nodata    = "HyperFLINT data file (mzv_reductions.json) not found.  Tried: ``  -- Fix: re-clone HyperFLINT so <hf_root>/data/mzv_reductions.json is present, OR drop the file at ~/.subtropica/mzv_reductions.json, OR ConfigureSubTropica[HyperFlintDataPath -> \"/abs/path/to/mzv_reductions.json\"].  The file (110 KB) ships with the HyperFLINT source tree.";
 STHyperFlint::badjson   = "HyperFLINT returned non-JSON output: ``";
 STHyperFlint::hferror   = "HyperFLINT error: ``";
 STHyperFlint::divergent = "HyperFLINT reports the integral is divergent (``).";
@@ -9551,6 +9643,23 @@ Options[STHyperFlint] = {
                                 sets on its way down to the integrator.  *)
 };
 
+(* Diagnostic counters \[LongDash] same shape as the
+   stDispatchFubini2 instrumentation.  Useful to see if the HF
+   integrator is actually being exercised on a given diagram and how
+   much wall time it spends.  Reset by STResetKernelCaches. *)
+$STHyperFlintCallCount = 0;
+$STHyperFlintTotalTime = 0.;
+
+(* Timing wrapper.  Used by the per-face integrator dispatch (around
+   line 13411 in STLaunchHyperInticaAllKernelIntegrator) when
+   "Integrator" -> "HyperFLINT" is selected.  Returns whatever
+   STHyperFlint returns, with call count and wall time accumulated. *)
+stTimedHyperFlint[args___] := Module[{t, r},
+    {t, r} = AbsoluteTiming[STHyperFlint[args]];
+    $STHyperFlintCallCount += 1;
+    $STHyperFlintTotalTime += t;
+    r];
+
 (* Main entry point.  Mirrors HyperIntica's HyperInt[integrand, vars]. *)
 STHyperFlint[integrand_, vars_List, opts:OptionsPattern[]] := Module[
     {requestJSON, procResult, stdout, stderr, exitCode, resp, resultList,
@@ -9599,7 +9708,10 @@ STHyperFlint[integrand_, vars_List, opts:OptionsPattern[]] := Module[
             Return[$Failed]];
         If[!StringQ[$STHyperFlintDataPath] || $STHyperFlintDataPath === "" ||
            !FileExistsQ[$STHyperFlintDataPath],
-            Message[STHyperFlint::nodata];
+            Message[STHyperFlint::nodata,
+                StringRiffle[
+                    stHyperFlintDataPathCandidates[$STHyperFlintPath],
+                    "; "]];
             Return[$Failed]]];
 
     requestJSON = stHyperFlintBuildRequest[integrand, vars, findRoots];
@@ -9773,7 +9885,11 @@ STFindLROrdersHF::badjson  = "HyperFLINT returned non-JSON: ``";
 
 Options[STFindLROrdersHF] = {
     "TimeConstraint" -> 1800,   (* 30 min ceiling *)
-    "Threads" -> Automatic       (* Automatic = $ProcessorCount - 1 *)
+    "Threads" -> Automatic,      (* Automatic = $ProcessorCount - 1 *)
+    FindRoots -> False           (* Phase 7-vii: when True, HF accepts
+                                     deg-2 polys in the LR walk; the
+                                     integrator allocates Wm/Wp at
+                                     integration time. *)
 };
 
 (* Convenience single-group dispatch: a flat poly list is wrapped as
@@ -9805,12 +9921,14 @@ Module[{coeffVars, req, procResult, resp, bestOrder, score, respStr,
         Union @@ (Variables /@ allPolys),
         xvars];
 
-    req = ExportString[<|
+    req = ExportString[Join[<|
         "op"         -> "find_lr_orders",
         "groups"     -> ((ToString[#, InputForm] & /@ #) & /@ groupPolys),
         "xvars"      -> (ToString /@ xvars),
         "coeff_vars" -> (ToString /@ coeffVars)
-    |>, "JSON", "Compact" -> True];
+    |>, If[TrueQ[OptionValue[FindRoots]],
+        <|"algebraic_letters" -> True|>, <||>]],
+        "JSON", "Compact" -> True];
 
     (* Phase γ.1: LibraryLink transport if available (in-process,
        eliminates RunProcess spawn overhead), CLI subprocess otherwise.
@@ -9856,13 +9974,29 @@ Module[{coeffVars, req, procResult, resp, bestOrder, score, respStr,
         Message[STFindLROrdersHF::hferror, resp["error"]];
         Return[$Failed]];
 
-    If[TrueQ[resp["nolr"]],
-        Return[{NOLR, Infinity}]];
-
-    bestOrder = ToExpression /@ resp["best_order"];
-    score = resp["score"];
-    {bestOrder, score}
-];
+    (* Result-shape contract (matches Mma's STFasterFubini2):
+         FindRoots=False : {bestOrder, score} | {NOLR, Infinity}
+         FindRoots=True  : {{bestOrder, score}, rootPolys} |
+                           {{NOLR, Infinity}, {} or rootPolys}
+       The FindRoots=True branch's `rootPolys` is the list of deg-2
+       polynomials accepted during the LR walk — the consumer
+       (STApplyRootFactoring) uses this to introduce Wm/Wp atoms at
+       integration time. *)
+    Module[{wantRoots = TrueQ @ OptionValue[FindRoots],
+            rawOrder, rawRoots, rootPolys},
+        If[TrueQ[resp["nolr"]],
+            If[wantRoots,
+                Return[{{NOLR, Infinity}, {}}],
+                Return[{NOLR, Infinity}]]];
+        rawOrder = ToExpression /@ resp["best_order"];
+        score    = resp["score"];
+        rawRoots = Lookup[resp, "root_polys", {}];
+        rootPolys = If[ListQ[rawRoots],
+            ToExpression /@ rawRoots,
+            {}];
+        If[wantRoots,
+            {{rawOrder, score}, rootPolys},
+            {rawOrder, score}]]];
 
 (* ============================================================ *)
 (*  STIntegrateHF: end-to-end Mma -> HF pipeline                *)
@@ -9899,22 +10033,38 @@ $STLROrderBackend = "HyperIntica";
 $STHFFallbackCount  = 0;
 $STHFFallbackWarned = False;
 
+(* Diagnostic counters \[LongDash] populated when $STDispatchProfile = True.
+   Useful for adversarial-review-style "is HF really exercised on this
+   diagram, and how much wall-time does it spend?".  Each entry of
+   $STDispatchProfileLog is {backend, wall_time_seconds, n_xvars,
+   findRootsQ}.  Accumulated counters give Σ time + N calls split by
+   backend.  Reset by STResetKernelCaches[] and at the entry of
+   STEvaluateGraph. *)
+$STDispatchProfile        = False;
+$STDispatchProfileLog     = {};
+$STDispatchHFCount        = 0;
+$STDispatchHICount        = 0;
+$STDispatchHFTime         = 0.;
+$STDispatchHITime         = 0.;
+(* Setup-directory Put-I/O probe counters (used by HF speedup campaign
+   to decide whether per-face Put bundling is worth a multi-site refactor).
+   Reset by STResetKernelCaches[]. *)
+$STSetupDirCallCount      = 0;
+$STSetupDirPutTime        = 0.;
+
 stDispatchFubini2::hffall =
     "HyperFLINT LR-search returned $Failed on a face; falling back to HyperIntica STFasterFubini2.  Further silent fallbacks will be counted (see $STHFFallbackCount).";
 
 Options[stDispatchFubini2] = Options[STFasterFubini2];
 stDispatchFubini2[groupPoly_, xvars_, opts:OptionsPattern[]] :=
-Module[{backend = $STLROrderBackend, findRoots, hfResult},
-    (* FindRoots handling: HF has no Wm/Wp letter support, so when
-       called with FindRoots -> True we fall straight back to Mma
-       STFasterFubini2.  STEvaluateGraph's top-level guard already
-       hard-errors for this combination when the user sets backend
-       directly; this fallback catches any sub-path that sets
-       FindRoots=True after backend selection. *)
+Module[{backend = $STLROrderBackend, findRoots, hfResult, t0, dt, ret,
+        nxv = Length[xvars]},
     findRoots = TrueQ[FindRoots /. {opts} /. {FindRoots -> False}];
-    Which[
-        backend === "HyperFLINT" && !findRoots,
-            hfResult = STFindLROrdersHF[groupPoly, xvars];
+    t0 = AbsoluteTime[];
+    ret = Which[
+        backend === "HyperFLINT",
+            hfResult = STFindLROrdersHF[groupPoly, xvars,
+                FindRoots -> findRoots];
             If[hfResult === $Failed,
                 $STHFFallbackCount++;
                 If[!TrueQ[$STHFFallbackWarned],
@@ -9923,7 +10073,14 @@ Module[{backend = $STLROrderBackend, findRoots, hfResult},
                 STFasterFubini2[groupPoly, xvars, opts],
                 hfResult],
         True,
-            STFasterFubini2[groupPoly, xvars, opts]]];
+            STFasterFubini2[groupPoly, xvars, opts]];
+    dt = AbsoluteTime[] - t0;
+    If[backend === "HyperFLINT",
+        $STDispatchHFCount += 1; $STDispatchHFTime += dt,
+        $STDispatchHICount += 1; $STDispatchHITime += dt];
+    If[TrueQ[$STDispatchProfile],
+        AppendTo[$STDispatchProfileLog, {backend, N[dt], nxv, findRoots}]];
+    ret];
 
 (* Look for linearly reducible orders for given polynomial lists *)
 STtoHyperReduction[polys_,coeffs_]:=Module[{prefix},
@@ -12295,32 +12452,36 @@ fromSetToList,exps,pols}
 			];*)
 			(* prefix pointing to the directory and face*)
 			prefix=directoryName<>"/";
-			(* Variables & Coefficients *)
-			dataFile=prefix<>"vars.m";
-			If[FileExistsQ[dataFile],DeleteFile[dataFile]];
-			Put[variablesAndCoeffs[[i]],dataFile];
-			(* Polys and pairs *)
-			If[polysAndPairsQ,
-				dataFile=prefix<>"polys.m";
+			(* Per-face Put I/O bundle (counter for diagnostics; bare cost). *)
+			SubTropica`$STSetupDirCallCount = SubTropica`$STSetupDirCallCount + 1;
+			SubTropica`$STSetupDirPutTime = SubTropica`$STSetupDirPutTime + First[AbsoluteTiming[
+				(* Variables & Coefficients *)
+				dataFile=prefix<>"vars.m";
 				If[FileExistsQ[dataFile],DeleteFile[dataFile]];
-				Put[polysAndPairs[[i]],dataFile];
-			];
-			(* Integrands *)
-			dataFile=prefix<>"counter_terms_integrands.m";
-			If[FileExistsQ[dataFile],DeleteFile[dataFile]];
-			Put[integrands[[i,;;,ord-minOrder+1]],dataFile];
-			(* eps-order (convenient later) *)
-			dataFile=prefix<>"epsorder.m";
-			If[FileExistsQ[dataFile],DeleteFile[dataFile]];
-			Put[eps^ord,dataFile];
-			(* prefactor (convenient later) *)
-			dataFile=prefix<>"prefactor.m";
-			If[FileExistsQ[dataFile],DeleteFile[dataFile]];
-			Put[prefactor,dataFile];
-			(* counter-terms results directory *)
-			dataFile=prefix<>"partial_results";
-			If[DirectoryQ[dataFile],DeleteDirectory[dataFile]];
-			CreateDirectory[dataFile];
+				Put[variablesAndCoeffs[[i]],dataFile];
+				(* Polys and pairs *)
+				If[polysAndPairsQ,
+					dataFile=prefix<>"polys.m";
+					If[FileExistsQ[dataFile],DeleteFile[dataFile]];
+					Put[polysAndPairs[[i]],dataFile];
+				];
+				(* Integrands *)
+				dataFile=prefix<>"counter_terms_integrands.m";
+				If[FileExistsQ[dataFile],DeleteFile[dataFile]];
+				Put[integrands[[i,;;,ord-minOrder+1]],dataFile];
+				(* eps-order (convenient later) *)
+				dataFile=prefix<>"epsorder.m";
+				If[FileExistsQ[dataFile],DeleteFile[dataFile]];
+				Put[eps^ord,dataFile];
+				(* prefactor (convenient later) *)
+				dataFile=prefix<>"prefactor.m";
+				If[FileExistsQ[dataFile],DeleteFile[dataFile]];
+				Put[prefactor,dataFile];
+				(* counter-terms results directory *)
+				dataFile=prefix<>"partial_results";
+				If[DirectoryQ[dataFile],DeleteDirectory[dataFile]];
+				CreateDirectory[dataFile];
+			]];
 		,{i,1,nfaces}
 		]
 	,{ord,minOrder,maxOrder}
@@ -12936,17 +13097,101 @@ $STJobTrackingDir = FileNameJoin[{$TemporaryDirectory, "STJobTracking"}];
 $STCompletedJobsLog = FileNameJoin[{$TemporaryDirectory, "STJobTracking", "completed_jobs.m"}];
 
 
-(*  STSetupKernel now skips CloseKernels+LaunchKernels when the correct
-   number of kernels are already alive, saving ~2 s per redundant call.
-   The job-tracking directory is always recreated (required for each integration
-   run).  DistributeDefinitions["HyperIntica`"] is only repeated when a kernel
-   restart actually happened.
+(* STResetKernelCaches[] mirrors what a kernel restart does for the
+   caches that affect result correctness or performance, on both the
+   master kernel and every active subkernel.  Called automatically inside
+   STSetupKernel's warm path so re-using an already-launched pool is
+   indistinguishable from a fresh launch.  The Long benchmark suite (22
+   diagrams, back-to-back, single kernel session) has stable result
+   hashes across runs, which is what validates that this set of clears
+   is sufficient. *)
+STResetKernelCaches[] := (
+    Quiet[
+        If[ValueQ[HyperIntica`$LinearFactorsCache],          HyperIntica`$LinearFactorsCache = <||>];
+        If[ValueQ[$NoAlgebraicRootsContributions],           $NoAlgebraicRootsContributions = <||>];
+        If[ValueQ[HyperIntica`$HyperAlgebraicLetterTable],   HyperIntica`$HyperAlgebraicLetterTable = <||>];
+        If[ValueQ[HyperIntica`$HyperAlgebraicLetterCounter], HyperIntica`$HyperAlgebraicLetterCounter = 0];
+        $STDispatchHFCount = 0; $STDispatchHICount = 0;
+        $STDispatchHFTime  = 0.; $STDispatchHITime  = 0.;
+        $STDispatchProfileLog = {};
+        $STHyperFlintCallCount = 0; $STHyperFlintTotalTime = 0.;
+        $STSetupDirCallCount = 0; $STSetupDirPutTime = 0.;
+        ClearSystemCache[];
+        Quiet[ForgetAllMemo[]];
+        (* Clear the proportional-polynomial memos.  These accumulate
+           inside the gauge-scoring ParallelTable and are NOT cleared by
+           ForgetAllMemo (which only resets HyperIntica memos).  When an
+           inner TimeConstrained interrupt fires (e.g. on an entry that
+           overruns the 180s gate), the in-flight LR scan exits before
+           reaching the natural ForgetProportionalPolynomialsQ cleanup
+           at line 16251, leaving up to ~48 MB / 47k entries on master
+           and ~237 MB across 13 subkernels.  Subsequent calls then see
+           a 5-7x slowdown in the gauge phase.  ForgetProportionalPolynomialsQ
+           and its LR sibling already do the parallel cleanup themselves;
+           we just need to invoke them from the central reset. *)
+        Quiet[ForgetProportionalPolynomialsQ[]];
+        Quiet[ForgetProportionalPolynomialsQLR[]]];
+    If[Length[Kernels[]] > 0,
+        Quiet @ ParallelEvaluate[
+            If[ValueQ[HyperIntica`$LinearFactorsCache],          HyperIntica`$LinearFactorsCache = <||>];
+            If[ValueQ[$NoAlgebraicRootsContributions],           $NoAlgebraicRootsContributions = <||>];
+            If[ValueQ[HyperIntica`$HyperAlgebraicLetterTable],   HyperIntica`$HyperAlgebraicLetterTable = <||>];
+            If[ValueQ[HyperIntica`$HyperAlgebraicLetterCounter], HyperIntica`$HyperAlgebraicLetterCounter = 0];
+            (* Mirror the master-side dispatch counter resets so
+               aggregated counts after STIntegrate reflect only the
+               current run, not accumulated history. *)
+            $STDispatchHFCount = 0; $STDispatchHICount = 0;
+            $STDispatchHFTime  = 0.; $STDispatchHITime  = 0.;
+            $STDispatchProfileLog = {};
+            $STHyperFlintCallCount = 0; $STHyperFlintTotalTime = 0.;
+            $STSetupDirCallCount = 0; $STSetupDirPutTime = 0.;
+            ClearSystemCache[];
+            Quiet[ForgetAllMemo[]];
+            $HistoryLength = 0;
+            Share[]]];
+    Share[];);
+
+(* Eager-pool launch task placeholder (set at the end of SubTropica.wl
+   when $STEagerKernelPool is True).  STSetupKernel's entry wrapper waits
+   on it before doing any work so the first user-triggered call benefits
+   from the already-warm pool.  See the kickoff block at the bottom of
+   this file. *)
+$STEagerLaunchTask = None;
+$STEagerKernelPool = True;
+
+(*  STSetupKernel skips CloseKernels+LaunchKernels when the correct
+   number of kernels are already alive, saving ~5.5 s per redundant call,
+   and clears caches on every reuse so warm-path semantics match a fresh
+   launch.  The job-tracking directory is always recreated.
 
    nkernels <= 1 means fully serial mode: all subkernels are closed and
    everything runs on the main kernel.  ParallelTable/ParallelMap/etc.
    automatically fall back to their serial equivalents when no subkernels
-   are alive. *)
-STSetupKernel[nkernels_Integer:3] := Module[{currentDir, kernelsAlreadyOk,
+   are alive.
+
+   The public `STSetupKernel` is a thin wrapper that synchronizes with
+   any pending eager-pool task before delegating to `stSetupKernelImpl`.
+   The eager task itself calls `stSetupKernelImpl` directly so it does
+   not deadlock on its own pending-task slot. *)
+STSetupKernel[nkernels_Integer:3] := Module[{task},
+    If[Head[$STEagerLaunchTask] === TaskObject,
+        task = $STEagerLaunchTask;
+        $STEagerLaunchTask = None;  (* clear before waiting so the wrapper
+                                        doesn't recurse on its own task *)
+        Quiet @ TaskWait[task];
+        (* If the eager task already launched the requested pool size, the
+           kernels are clean and ready \[LongDash] no need to fall through to
+           stSetupKernelImpl, which would re-traverse the warm path and run
+           a redundant STResetKernelCaches.  Fall through only when the
+           eager run does not match (different size requested, or the
+           background task aborted). *)
+        If[TrueQ[$KernelSetupQ] &&
+            $STActiveKernelCount === nkernels &&
+            Length[Kernels[]] >= nkernels,
+            Return[Null]]];
+    stSetupKernelImpl[nkernels]]
+
+stSetupKernelImpl[nkernels_Integer] := Module[{currentDir, kernelsAlreadyOk,
         effectiveNKernels = nkernels},
     currentDir = Directory[];
 
@@ -12996,40 +13241,115 @@ STSetupKernel[nkernels_Integer:3] := Module[{currentDir, kernelsAlreadyOk,
         LaunchKernels[effectiveNKernels];
         $STActiveKernelCount = effectiveNKernels;
 
-        (* Sync working directory on new kernels *)
-        ParallelEvaluate[SetDirectory[#]]&[currentDir];
+        (* Sync working directory + search paths on new kernels.  The path sync
+           must precede the parallel Get below so that SubTropica.wl's
+           FF/SPQR auto-detect inside the subkernel can locate the packages. *)
+        With[{cd = currentDir, mainPath = $Path, mainLibPath = $LibraryPath},
+            ParallelEvaluate[
+                SetDirectory[cd];
+                $Path = mainPath;
+                $LibraryPath = mainLibPath]];
 
-        (* Distribute packages; only needed after a fresh kernel launch *)
+        (* SubTropica` has \[Tilde]4.7 K symbols.  DistributeDefinitions["SubTropica`"]
+           costs \[Tilde]20 s on a 13-subkernel pool because the symbol-table install on
+           each subkernel scales with N_symbols * N_kernels regardless of how
+           little data each definition holds.  Parsing SubTropica.wl locally on
+           each subkernel takes \[Tilde]1 s in parallel when subkernel mode
+           skips the dep-probe banner and persisted-config read (see the
+           Global`$STSubkernelMode gate in SubTropica.wl).  HyperIntica` is
+           loaded as a BeginPackage dependency by the same Get, so it comes
+           up on subkernels in the same step.  Block[Print] suppresses the
+           per-subkernel splash. *)
+        With[{stPath = FileNameJoin[{$SubTropicaInstallDir, "SubTropica.wl"}]},
+            ParallelEvaluate[
+                Global`$STSubkernelMode = True;
+                Block[{Print = (Null)&},
+                    Off[General::shdw]; Off[Integrate::shdw];
+                    Quiet[Get[stPath], {Integrate::shdw, General::shdw}]]]];
+
+        (* Overlay any runtime HyperIntica state that the main kernel mutated
+           between package load and STSetupKernel.  SubTropica's parallel Get
+           above brought up a fresh HyperIntica context on each subkernel; this
+           DistributeDefinitions imprints the main kernel's current values
+           (algebraic letter counters, caches, ...) on top of that.  Cost
+           is \[Tilde]0.4 s. *)
         DistributeDefinitions["HyperIntica`"];
-        (*  distribute SubTropica so sub-kernels can run STExpandIntegral in parallel *)
-        DistributeDefinitions["SubTropica`"];
-        (* If FF is active, load FiniteFlow+SPQR+PolynomialQuotientFF on each subkernel
-           so PartialFractions[] can use SPQRPolynomialQuotient[] in parallel. *)
-        If[$UseFFPolynomialQuotient,
-            DistributeDefinitions[$PolynomialQuotientFFFile];
-            (* Sync $Path so subkernels can locate FiniteFlow and SPQR,
-               which may live in directories not on the default subkernel $Path. *)
-               With[{mainPath = $Path, mainLibPath = $LibraryPath},
-                ParallelEvaluate[
-                    Block[{Print = (Null)&},
-                        $Path = mainPath;
-                        $LibraryPath = mainLibPath;
-                        Needs["FiniteFlow`"];
-                        Needs["SPQR`"];
-                        Get[$PolynomialQuotientFFFile]
-                    ]
-                ]
-            ]
-        ];
+
+        (* Mirror master-resolved $*Path / $*Command / $*PolymakeFraction
+           values to every subkernel.  Required because subkernels skip
+           SubTropica.wl's persisted-config read and dependency-probe banner
+           in subkernel mode (Global`$STSubkernelMode = True), which means
+           any user-side ConfigureSubTropica or runtime mutation that hadn't
+           been persisted yet would otherwise be lost.  This is also
+           important for paths that auto-discover differently between master
+           and subkernel (e.g., a custom HyperFLINT install that the master
+           knows about via persisted config but a fresh subkernel Get does
+           not). *)
+        With[{
+              polymakeCmd  = $PolymakeCommand,
+              ginshCmd     = $GinshCommand,
+              mapleCmd     = $MapleCommand,
+              hyperIntPath = $SThyperIntPath,
+              hfPath       = $STHyperFlintPath,
+              hfDataPath   = $STHyperFlintDataPath,
+              pythonCmd    = $PythonCommand,
+              polymakeFrac = $PolymakeConcurrencyFraction,
+              fiestaPath   = $FIESTAPath,
+              amflowPath   = $AMFlowPath,
+              literedPath  = $LiteRedPath,
+              liteibpPath  = $LiteIBPPath,
+              firePath     = $FIREPath,
+              feyntropPath = $FeyntropPath,
+              ffPath       = $FiniteFlowPath,
+              algLet       = $HyperIntroduceAlgebraicLetters,
+              algSafe      = $STFindRootsParallelSafe,
+              ffOn         = $UseFFPolynomialQuotient,
+              checkDv      = $HyperInticaCheckDivergences},
+            ParallelEvaluate[
+                $PolymakeCommand                = polymakeCmd;
+                $GinshCommand                   = ginshCmd;
+                $MapleCommand                   = mapleCmd;
+                $SThyperIntPath                 = hyperIntPath;
+                $STHyperFlintPath               = hfPath;
+                $STHyperFlintDataPath           = hfDataPath;
+                $PythonCommand                  = pythonCmd;
+                $PolymakeConcurrencyFraction    = polymakeFrac;
+                $FIESTAPath                     = fiestaPath;
+                $AMFlowPath                     = amflowPath;
+                $LiteRedPath                    = literedPath;
+                $LiteIBPPath                    = liteibpPath;
+                $FIREPath                       = firePath;
+                $FeyntropPath                   = feyntropPath;
+                $FiniteFlowPath                 = ffPath;
+                $HyperIntroduceAlgebraicLetters = algLet;
+                $STFindRootsParallelSafe        = algSafe;
+                $UseFFPolynomialQuotient        = ffOn;
+                $HyperInticaCheckDivergences    = checkDv]];
+
         (* Suppress FrontEndObject::notavail on sub-kernels running headlessly *)
         ParallelEvaluate[Off[FrontEndObject::notavail]];
         (*  mirror the main-kernel Off[] calls on sub-kernels so that
            the $Failed[rays] cascade warnings are silenced there too *)
         ParallelEvaluate[Off[Table::iterb]; Off[Part::partd]];
 
+        (* Static-definition broadcasts \[LongDash] cold-launch only.  These
+           function/symbol values don't change after package load, so once
+           the subkernel has them they stay valid for the lifetime of the
+           pool.  Doing this on every warm STSetupKernel was \[Tilde]1 s of
+           wasted DistributeDefinitions overhead per call (per
+           profile_v1.1.6.3 round-2 + adversarial review). *)
+        DistributeDefinitions[$STJobTrackingDir, $STCompletedJobsLog];
+        DistributeDefinitions[STLaunchHyperInticaAllKernelIntegrator];
+        DistributeDefinitions[STLaunchHyperInticaAll];
+
     ,
         (* Kernels already live with correct count; skip the expensive restart.
-           Just re-sync the directory in case it changed between calls. *)
+           Just re-sync the directory in case it changed.  No cache reset
+           here \[LongDash] STSetupKernel is called multiple times inside a
+           single STIntegrate run (gauge scoring, LR search, integration
+           coordination), so clearing caches in the warm path would wipe
+           state mid-integration.  Use the public STResetKernelCaches[]
+           between STIntegrate calls when a clean slate is desired. *)
         ParallelEvaluate[SetDirectory[#]]&[currentDir];
     ];
 
@@ -13038,10 +13358,6 @@ STSetupKernel[nkernels_Integer:3] := Module[{currentDir, kernelsAlreadyOk,
     If[DirectoryQ[$STJobTrackingDir], DeleteDirectory[$STJobTrackingDir, DeleteContents -> True]];
     CreateDirectory[$STJobTrackingDir];
     Put[{}, $STCompletedJobsLog];
-
-    DistributeDefinitions[$STJobTrackingDir, $STCompletedJobsLog];
-    DistributeDefinitions[STLaunchHyperInticaAllKernelIntegrator];
-    DistributeDefinitions[STLaunchHyperInticaAll];
 
     (* Propagate HyperIntica flags from main kernel to all sub-kernels *)
     With[{checkDiv = $HyperInticaCheckDivergences},
@@ -13137,7 +13453,7 @@ STLaunchHyperInticaAllKernelIntegrator[{faceDirectory_, ctId_, ctIntegrand_, LRo
 
     integrator = Switch[OptionValue["Integrator"],
         "HyperInt",   SThyperIntMaple,
-        "HyperFLINT", STHyperFlint,
+        "HyperFLINT", stTimedHyperFlint,
         _,            HyperInt];
 
     (* runIntegrator computes the result in the current dynamic scope.  We
@@ -15069,21 +15385,11 @@ Module[{
     (* Phase β.3: LR-order-search backend.  "HyperFLINT" routes every
        stDispatchFubini2 call site through HF's C++ find_lr_orders op;
        "HyperIntica" (default) keeps the in-process Mma STFasterFubini2
-       path.
-       HF's find_lr_orders does not yet understand Wm/Wp algebraic
-       letters, so FindRoots=True + LRBackend=HyperFLINT is unsupported
-       at the LR-search level.  Since Phase 7-vi-b/c wired HF's integrator
-       to handle FindRoots via Wm/Wp output, the clean behavior when a
-       caller combines the two is to AUTO-DOWNGRADE the LR backend to
-       HyperIntica (keeping HF for integration via the Integrator option).
-       Emit a one-shot info message the first time this happens in a
-       session; subsequent calls are silent. *)
+       path.  As of Phase 7-vii, HF's find_lr_orders accepts deg-2
+       polys when FindRoots=True (the integrator allocates Wm/Wp at
+       integration time), so the two compose cleanly without
+       downgrade. *)
     lrBackendValue = OptionValue["LROrderBackend"];
-    If[lrBackendValue === "HyperFLINT" && TrueQ[findRootsValue],
-        If[!TrueQ[$STLRBackendDowngradeWarned],
-            Message[STEvaluateGraph::findrootshf];
-            $STLRBackendDowngradeWarned = True];
-        lrBackendValue = "HyperIntica"];
     $STLROrderBackend   = lrBackendValue;
     $STHFFallbackCount  = 0;
     $STHFFallbackWarned = False;
@@ -15639,7 +15945,10 @@ Module[{
                             True,                     1];
                         chunkSize = Ceiling[nv / numChunks];
                         chunks    = Partition[Range[nv], UpTo[chunkSize]];
-                        DistributeDefinitions[STsetupDirectoryExpansion];
+                        (* STsetupDirectoryExpansion is a static SubTropica`
+                           function, populated on subkernels by the parallel
+                           Get inside stSetupKernelImpl.  Per-call distribute
+                           was redundant; removed. *)
                         Do[
                             With[{
                                 ci    = chunks[[c]],
@@ -15718,21 +16027,16 @@ Module[{
                     ];
                     
                     useParallel = numChunks < nv;
-                    
-                    If[useParallel,
-                        DistributeDefinitions[
-                            STfindLinearlyReducibleOrders2,
-                            STfindLinearlyReducibleOrdersHighestEpsOrder2,
-                            STEspressoFubini2, STEspressoFubini, STFubini,
-                            STFasterFubini2, STFasterFubini, STFubiniLR,
-                            ppqIntersection,
-                            STListDirectoriesNP, STLinearCrawlWeight,
-                            FastTermCount, ProportionalPolynomialsQ, $ppqMemo,
-                            discriminant, resultant,
-                            generateAnsatzDISPATCH, myPolynomialDecomposition,
-                            NOLR, eeBound
-                        ];
-                    ];
+                    (* DistributeDefinitions of the LR-search helper functions
+                       was previously fired here on every STIntegrate call.
+                       Those are static SubTropica` definitions; they're
+                       already loaded on every subkernel by the parallel Get
+                       inside stSetupKernelImpl.  Re-broadcasting them per
+                       call costs \[Tilde]1\[Dash]3 s on a 13-subkernel pool
+                       depending on $ppqMemo growth.  Removed; relying on
+                       parallel Get to populate subkernels at launch and on
+                       the per-script `STResetKernelCaches[]` to clear
+                       caches between integrations. *)
 
                     chunkSize = Ceiling[nv / numChunks];
                     chunks = Partition[Range[nv], UpTo[chunkSize]];
@@ -16825,7 +17129,10 @@ Module[{
                             True,                     1];
                         chunkSize = Ceiling[nv / numChunks];
                         chunks    = Partition[Range[nv], UpTo[chunkSize]];
-                        DistributeDefinitions[STsetupDirectoryExpansion];
+                        (* STsetupDirectoryExpansion is a static SubTropica`
+                           function, populated on subkernels by the parallel
+                           Get inside stSetupKernelImpl.  Per-call distribute
+                           was redundant; removed. *)
                         Do[
                             With[{
                                 ci    = chunks[[c]],
@@ -16898,21 +17205,10 @@ Module[{
                     ];
 
                     useParallel = numChunks < nv;
-
-                    If[useParallel,
-                        DistributeDefinitions[
-                            STfindLinearlyReducibleOrders2,
-                            STfindLinearlyReducibleOrdersHighestEpsOrder2,
-                            STEspressoFubini2, STEspressoFubini, STFubini,
-                            STFasterFubini2, STFasterFubini, STFubiniLR,
-                            ppqIntersection,
-                            STListDirectoriesNP, STLinearCrawlWeight,
-                            FastTermCount, ProportionalPolynomialsQ, $ppqMemo,
-                            discriminant, resultant,
-                            generateAnsatzDISPATCH, myPolynomialDecomposition,
-                            NOLR, eeBound
-                        ];
-                    ];
+                    (* Same hoist as the Schwinger+Automatic-Gauge branch:
+                       static LR-search helpers are populated on subkernels
+                       via parallel Get inside stSetupKernelImpl, no need
+                       to re-broadcast per call. *)
 
                     chunkSize = Ceiling[nv / numChunks];
                     chunks = Partition[Range[nv], UpTo[chunkSize]];
@@ -18507,34 +18803,18 @@ stBenchmarkRunOneInKernel[record_Association] := Module[
      !AnyTrue[input, MatchQ[#, Rule["CleanOutput", _] | RuleDelayed["CleanOutput", _]] &],
     input = Append[input, "CleanOutput" -> True]];
 
-  (* Phase β.3: HF LR-backend injection on symbolic STIntegrate cases.
-     Logic:
-       * If the user set STBenchmark's "LROrderBackend" -> "HyperFLINT":
-           - Case has "FindRoots" -> True explicitly → skip (Wm/Wp path
-             not implemented in HF; STEvaluateGraph would hard-error).
-           - Otherwise → append FindRoots -> False and
-             "LROrderBackend" -> "HyperFLINT" so every LR-search step
-             routes to HF.
+  (* HF LR-backend injection on symbolic STIntegrate cases.
+       * "HyperFLINT" routes every LR-search step through HF.  Phase 7-vii
+         (deg-2 polynomials accepted during the LR walk, with letter
+         allocation deferred to integration time) means FindRoots -> True
+         cases now run cleanly under HF — no skip, no FindRoots override.
        * "HyperIntica" forces the Mma path (overrides case defaults).
        * Automatic is a no-op (honor the case's own options).         *)
   If[dispatcher === SubTropica`STIntegrate &&
      ValueQ[$stBenchmarkLRBackend],
     Which[
       $stBenchmarkLRBackend === "HyperFLINT",
-        If[AnyTrue[input, MatchQ[#, Rule[FindRoots | "FindRoots", True] |
-                                       RuleDelayed[FindRoots | "FindRoots", True]] &],
-          Return[<|"id" -> record["id"], "label" -> record["label"],
-            "category" -> record["category"], "index" -> record["index"],
-            "status" -> "skipped", "time" -> 0., "memory" -> 0,
-            "messages" -> {"skipped: \"LROrderBackend\" -> \"HyperFLINT\" " <>
-                           "cannot run FindRoots -> True cases " <>
-                           "(Wm/Wp algebraic letters are Phase 3 in HF)"},
-            "hash" -> "", "verified" -> Missing["NotApplicable"]|>]];
-        (* input[[1]] is the graph / propagator list / integrand; options
-           follow.  Append new options to the END so we don't shadow the
-           positional first argument. *)
-        input = Join[input, {FindRoots -> False,
-                             "LROrderBackend" -> "HyperFLINT"}],
+        input = Join[input, {"LROrderBackend" -> "HyperFLINT"}],
       $stBenchmarkLRBackend === "HyperIntica",
         input = Join[input, {"LROrderBackend" -> "HyperIntica"}],
       True, Null]];
@@ -26875,3 +27155,33 @@ On[General::shdw];
    just for the EndPackage[] call by temporarily nulling $FrontEnd. *)
 Block[{$FrontEnd = Null},
   Quiet[EndPackage[], {FrontEndObject::notavail}]];
+
+(* Eager kernel-pool kickoff (master kernel, notebook front end only).
+   Schedules stSetupKernelImpl[$ProcessorCount - 1] as a background
+   SessionSubmit task so the parallel pool comes up while the user's
+   subsequent evaluation (typing, reading library files, composing
+   diagrams) runs.  By the time the first STIntegrate triggers
+   STSetupKernel, the pool is usually already warm and the wrapper just
+   TaskWaits on the (likely-already-finished) handle.
+
+   Restricted to $Notebooks because SessionSubmit's evaluator only
+   progresses during master-kernel idle time.  In a wolframscript /
+   batch run, the master kernel goes straight from Get to STIntegrate
+   with no yield, so the eager task only starts when TaskWait blocks
+   \[LongDash] which makes the launch sequential AND adds 1\[Dash]2 s
+   of scheduling overhead.  In a notebook, idle time between user
+   evaluations gives the task a real async window.
+
+   Suppressed when:
+     - loading on a subkernel (Global`$STSubkernelMode);
+     - the user opted out via SubTropica`$STEagerKernelPool = False;
+     - the machine has < 2 cores (no usable subkernels);
+     - or the front end is absent ($Notebooks === False). *)
+If[!TrueQ[Global`$STSubkernelMode] &&
+    TrueQ[SubTropica`$STEagerKernelPool] &&
+    TrueQ[$Notebooks] &&
+    $ProcessorCount >= 2,
+    Quiet[
+        SubTropica`$STEagerLaunchTask =
+            SessionSubmit[
+                SubTropica`stSetupKernelImpl[Max[1, $ProcessorCount - 1]]]]];

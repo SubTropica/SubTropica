@@ -29,6 +29,49 @@
       "dimScheme": "D=4-2eps",
       "location": "Eq. below Fig. 4, Sec. IV.D",
       "familyName": "I_D"
+    },
+    {
+      "reference": "arXiv:2305.19768",
+      "authors": "",
+      "description": "Two-loop four-point nonplanar integral relevant for HZ production at the LHC. Contains 7 internal edges (4 massive with mass m, 3 massless) across 6 vertices with a crossed (nonplanar) box topology. Two external legs are massless and two are massive with distinct masses m1 and m2. Previously existing pySecDec example used for benchmarking.",
+      "epsOrders": "",
+      "familyName": "hz2L_nonplanar",
+      "method": "sector_decomposition",
+      "tools": [
+        "pySecDec"
+      ],
+      "ancillaryFiles": false,
+      "doi": "",
+      "texkey": "",
+      "masterCount": 0,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "numerical",
+      "location": "Section 3.2, Figure 10(d), Table 3",
+      "recordId": "bx_13aade11f16d",
+      "verified": false,
+      "verifiedAt": ""
+    },
+    {
+      "reference": "arXiv:1508.02512 (Chin.Phys.C 40 (), 2016)",
+      "authors": "Li, Zhao, Wang, Jian, Yan, Qi-Shu, Zhao, Xiaoran",
+      "description": "Two-loop non-planar double box master integral for Higgs pair production via gluon fusion (gg -> HH) with finite top quark mass. Three massless and four massive (Mt) internal propagators. Contains IR divergences with poles up to 1/eps^2. Evaluated in the physical kinematic region via QMC sector decomposition with contour deformation.",
+      "epsOrders": "-2",
+      "familyName": "I_D",
+      "method": "sector_decomposition",
+      "tools": [
+        "MIRACLE",
+        "FIESTA3"
+      ],
+      "ancillaryFiles": true,
+      "doi": "10.1088/1674-1137/40/3/033103",
+      "texkey": "Li:2015foa",
+      "masterCount": 0,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "numerical",
+      "location": "Eq. below Fig. 4, Sec. IV.D",
+      "recordId": "bx_86435cd41d77",
+      "verified": false,
+      "verifiedAt": ""
     }
   ],
   "Names": [
@@ -43,7 +86,7 @@
   "Results": [],
   "edges": "{{{1, 2}, m}, {{1, 3}, m}, {{1, 4}, 0}, {{2, 5}, m}, {{3, 5}, m}, {{4, 6}, 0}, {{5, 6}, 0}}",
   "nodes": "{{2, m}, {3, m}, {4, 0}, {6, 0}}",
-  "CanonicalName": "Non-planar box-pentagon, 4 massive propagators (d)",
+  "CanonicalName": "Non-planar box-pentagon, 4 massive propagators",
   "MassConfig": {
     "numEdges": 7,
     "numMassiveEdges": 4,
