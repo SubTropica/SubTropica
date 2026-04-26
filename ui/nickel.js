@@ -207,18 +207,67 @@ class Nickel {
   }
 
   static nickelFromString(str) {
+    // Two encodings appear in the wild:
+    //   - Loopedia letter form: vertices ≥10 use 'A'..'Z' (single char each).
+    //   - Mathematica decimal form: vertices ≥10 use multi-digit decimals,
+    //     e.g. '910' for vertex-9 connecting to vertex-10.
+    // The library's bundled CNIs are in the decimal form.  Disambiguation:
+    // each '|'-separated group is the upper-triangular neighbor list of one
+    // vertex; for the i-th group, every neighbor j must satisfy
+    // groupIdx < j ≤ V-1, where V is the total vertex count (= number of
+    // groups).  We greedily take the longest digit prefix that fits.
+    //
+    // Pre-fix this routine tokenized char-by-char, so '910' became [9,1,0]
+    // and '11' became [1,1], producing a bogus over-edged graph for any
+    // ≥10-vertex topology.  See commit f9a77b1f8 for the parallel Python
+    // fix in scripts/quarantine_unphysical.py.
+    let V = (str.match(/\|/g) || []).length;
+    if (str.length > 0 && str[str.length - 1] !== '|') V++;
+
     const nickel = [];
     let accum = [];
-    for (const c of str) {
+    let i = 0;
+    let groupIdx = 0;
+    while (i < str.length) {
+      const c = str[i];
       if (c === '|') {
         nickel.push(accum);
         accum = [];
+        groupIdx++;
+        i++;
+      } else if (CHAR_TO_NODE.has(c)) {
+        // Named single-char nodes: 'e' (LEG), 'A'..'Z' (vertex 10..35).
+        accum.push(CHAR_TO_NODE.get(c));
+        i++;
+      } else if (c >= '0' && c <= '9') {
+        let runEnd = i;
+        while (runEnd < str.length && str[runEnd] >= '0' && str[runEnd] <= '9') runEnd++;
+        const runLen = runEnd - i;
+        const minV = groupIdx + 1;
+        const maxV = Math.max(V - 1, 0);
+        let consumed = 0;
+        let value = -1;
+        for (let len = Math.min(runLen, 3); len >= 1; len--) {
+          const v = parseInt(str.substr(i, len), 10);
+          if (v >= minV && v <= maxV) {
+            consumed = len;
+            value = v;
+            break;
+          }
+        }
+        if (consumed === 0) {
+          // Constraint unsatisfiable (e.g. degenerate input).  Fall back to
+          // single-digit interpretation, preserving prior parser behavior.
+          value = parseInt(c, 10);
+          consumed = 1;
+        }
+        accum.push(value);
+        i += consumed;
       } else {
-        const node = CHAR_TO_NODE.has(c) ? CHAR_TO_NODE.get(c) : parseInt(c, 10);
-        accum.push(node);
+        // Unknown char — skip (preserves prior tolerance for stray chars).
+        i++;
       }
     }
-    // Handle case where string doesn't end with '|'
     if (accum.length > 0) nickel.push(accum);
     return nickel;
   }

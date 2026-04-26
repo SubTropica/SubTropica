@@ -39,6 +39,30 @@
       "recordId": "bx_21238f2a7c1b",
       "verified": false,
       "verifiedAt": ""
+    },
+    {
+      "reference": "arXiv:2112.07578 (JHEP 04 (139), 2022)",
+      "authors": "Becchetti, Matteo, Moriello, Francesco, Schweitzer, Armin",
+      "description": "Planar two-loop integral family for the mixed QCD-electroweak corrections to gg -> Hg, with 7 propagators (5 massless, 2 massive with mass mV) and 2 irreducible scalar products. The 48 master integrals satisfy a canonical system of differential equations with a 25-letter alphabet involving 4 square roots. The MIs are expressible in terms of multiple polylogarithms and were computed analytically in arXiv:1805.10235. This paper provides an independent numerical evaluation via generalized power series expansions, with ancillary files for the DE matrices, boundary conditions, and amplitude form factors compatible with DiffExp.",
+      "epsOrders": "",
+      "familyName": "P (Planar)",
+      "method": "DE, IBP, series_expansion",
+      "tools": [
+        "Kira",
+        "FIRE",
+        "LiteRed",
+        "DiffExp"
+      ],
+      "ancillaryFiles": true,
+      "doi": "10.1007/JHEP04(2022)139",
+      "texkey": "Becchetti:2021axs",
+      "masterCount": 48,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "full",
+      "location": "Table 1 (propagator sets), Eq. (4.2), Figure 1 (left), Section 4",
+      "recordId": "bx_e8e3490152a3",
+      "verified": false,
+      "verifiedAt": ""
     }
   ],
   "Names": [
@@ -54,7 +78,7 @@
   "Results": [],
   "edges": "{{{1, 2}, 0}, {{1, 3}, m}, {{1, 4}, 0}, {{2, 3}, m}, {{2, 5}, 0}, {{4, 6}, 0}, {{5, 6}, 0}}",
   "nodes": "{{3, m}, {4, 0}, {6, 0}, {5, 0}}",
-  "CanonicalName": "Triangle-pentagon, 2 massive propagators (a)",
+  "CanonicalName": "Triangle-pentagon, 2 massive propagators",
   "MassConfig": {
     "numEdges": 7,
     "numMassiveEdges": 2,

@@ -1,563 +1,563 @@
 {
-	"CNickelIndex": "e11|e|:123|1|",
-	"MassScales": 2,
-	"FunctionClass": "MPL",
-	"EpsilonOrder": "-1,0",
-	"References": [
-		"arXiv:0712.1851 (JHEP 02 (002), 2008)",
-		"arXiv:1610.08397 (Nucl.Phys.B 916 (94), 2017)",
-		"arXiv:2209.10962 (Lett.Math.Phys. 113 (37), 2023)",
-		"arXiv:2211.01285 (Comput.Phys.Commun. 287 (), 2023)",
-		"arXiv:2502.19168",
-		"arXiv:2510.26874",
-		"arXiv:2412.15962",
-		"arXiv:2508.04309",
-		"arXiv:hep-ph/0501132 (Comput.Phys.Commun. 174 (133), 2006)",
-		"arXiv:1905.07262 (Phys.Rev.D 100 (), 2019)",
-		"arXiv:1807.11466 (doi: 10.1007/978-3-030-04480-0_17)",
-		"arXiv:2207.07843 (Missing[\"KeyAbsent\", \"journal\"] Missing[\"KeyAbsent\", \"volume\"] (Missing[\"KeyAbsent\", \"pages\"]), Missing[\"KeyAbsent\", \"year\"])",
-		"arXiv:2504.02573 (Missing[\"KeyAbsent\", \"journal\"] Missing[\"KeyAbsent\", \"volume\"] (Missing[\"KeyAbsent\", \"pages\"]), Missing[\"KeyAbsent\", \"year\"])"
-	],
-	"Records": [
-		{
-			"authors": "Ellis, R.Keith, Zanderighi, Giulia",
-			"texkey": "Ellis:2007qk",
-			"verified": false,
-			"verifiedAt": "",
-			"reference": "arXiv:0712.1851, JHEP 02 (002), 2008",
-			"ancillaryFiles": [],
-			"recordId": "bf_c079a92548d1",
-			"masterCount": 1,
-			"transcendentalWeight": 1,
-			"computationLevel": "full",
-			"doi": "10.1088/1126-6708/2008/02/002",
-			"tools": [],
-			"description": "General one-loop bubble integral $I_2^D(s;m_1^2,m_2^2)$ with two internal masses. UV-divergent with $1/\\varepsilon$ pole. Analytic results given for the general case and the special cases $(0,m^2)$ and $(0,0)$ to $\\mathcal{O}(\\varepsilon^0)$. Uses the FF library for numerical evaluation.",
-			"epsOrders": "-1,0",
-			"method": [],
-			"dimScheme": "d=4-2*eps",
-			"location": "Sec. 2.1, Sec. 4.2",
-			"familyName": "Bubble"
-		},
-		{
-			"reference": "arXiv:1610.08397 (Nucl.Phys.B 916 (94), 2017)",
-			"authors": "Primo, Amedeo, Tancredi, Lorenzo",
-			"description": "One-loop bubble with two distinct massive propagators and one off-shell leg $p_1^2 = s$, used as an illustrative example to demonstrate that the maximal cut coincides with the homogeneous solution of the differential equation in $s$. The $d$-dimensional homogeneous solution / maximal cut is given in closed form as $\\mathrm{Bub}_H \\sim (-s)^{1-d/2} (m_1^4 - 2 m_1^2 (m_2^2+s) + (m_2^2-s)^2)^{(d-3)/2}$ (Eqs. 2.18, 2.21).",
-			"epsOrders": "",
-			"familyName": "Bub (one-loop massive bubble) / one-loop massive bubble",
-			"method": "DE",
-			"tools": [],
-			"ancillaryFiles": false,
-			"doi": "10.1016/j.nuclphysb.2016.12.021",
-			"texkey": "Primo:2016ebd",
-			"masterCount": 1,
-			"dimScheme": "d=D",
-			"computationLevel": "maximal_cut",
-			"location": "Section 2, Eqs. (2.13)-(2.18)",
-			"recordId": "bx_271dbb3865b5",
-			"verified": false,
-			"verifiedAt": ""
-		},
-		{
-			"reference": "arXiv:2209.10962 (Lett.Math.Phys. 113 (37), 2023)",
-			"authors": "Lairez, Pierre, Vanhove, Pierre",
-			"description": "One-loop sunset (bubble) in $D=2$ with 2 generic masses. Picard-Fuchs operator is order 1. Derived via Griffiths-Dwork reduction.",
-			"epsOrders": "",
-			"familyName": "one-loop sunset",
-			"method": "DE",
-			"tools": [],
-			"ancillaryFiles": true,
-			"doi": "10.1007/s11005-023-01661-3",
-			"texkey": "Lairez:2022zkj",
-			"masterCount": 0,
-			"dimScheme": "d=2",
-			"computationLevel": "DE_only",
-			"location": "Section 3.1",
-			"recordId": "bx_2c859bbc5e5d",
-			"verified": false,
-			"verifiedAt": ""
-		},
-		{
-			"reference": "arXiv:2211.01285 (Comput.Phys.Commun. 287 (), 2023)",
-			"authors": "Ananthanarayan, B., Banik, Sumit, Bera, Souvik, Datta, Sudeepan",
-			"description": "One-loop self-energy with two unequal internal masses and off-shell external momentum, solved via GKZ hypergeometric system using triangulation and Groebner deformation methods. Result expressed in terms of Horn H3 and Humbert G1 double hypergeometric functions.",
-			"epsOrders": "",
-			"familyName": "two-mass bubble",
-			"method": "",
-			"tools": [
-				"FeynGKZ",
-				"polymake",
-				"TOPCOM",
-				"Macaulay2",
-				"Olsson.wl",
-				"AMBRE"
-			],
-			"ancillaryFiles": true,
-			"doi": "10.1016/j.cpc.2023.108699",
-			"texkey": "Ananthanarayan:2022ntm",
-			"masterCount": 0,
-			"dimScheme": "d=4-2*eps",
-			"computationLevel": "full",
-			"location": "Eq.(18), Section 5",
-			"recordId": "bx_956e49fec2c6",
-			"verified": false,
-			"verifiedAt": ""
-		},
-		{
-			"reference": "arXiv:2502.19168",
-			"authors": [
-				{
-					"full_name": "Liang, Ze-Rui",
-					"inspire_id": 1905689
-				},
-				{
-					"full_name": "Chen, Han-Xue",
-					"inspire_id": 2549072
-				},
-				{
-					"full_name": "Guo, Feng-Kun",
-					"inspire_id": 1027513
-				},
-				{
-					"full_name": "Guo, Zhi-Hui",
-					"inspire_id": 1045714
-				},
-				{
-					"full_name": "Yao, De-Liang",
-					"inspire_id": 1198408
-				}
-			],
-			"description": "One-loop nucleon self-energy in BChPT, single mass scale ratio $M^2/m^2$. Passarino-Veltman reduction to 3 masters.",
-			"epsOrders": "all_orders",
-			"familyName": "Nucleon self-energy one-loop family (pion-nucleon)",
-			"method": "IBP, direct_integration, series_expansion",
-			"tools": [],
-			"ancillaryFiles": false,
-			"doi": "",
-			"texkey": "",
-			"masterCount": 3,
-			"dimScheme": "d=4-2*eps",
-			"computationLevel": "full",
-			"location": "Appendix A",
-			"recordId": "bx_31769e61421f",
-			"verified": false,
-			"verifiedAt": ""
-		},
-		{
-			"reference": "arXiv:2510.26874",
-			"authors": [
-				{
-					"full_name": "Brunello, Giacomo",
-					"inspire_id": 2843066
-				},
-				{
-					"full_name": "Chestnov, Vsevolod",
-					"inspire_id": 1760381
-				},
-				{
-					"full_name": "Crisanti, Giulio",
-					"inspire_id": 2686658
-				},
-				{
-					"full_name": "Giroux, Mathieu",
-					"inspire_id": 2170481
-				},
-				{
-					"full_name": "Smith, Sid",
-					"inspire_id": 2787329
-				}
-			],
-			"description": "One-loop two-point Fourier integral family $I(n_1,n_2,n_3)$ that controls the tree-level (leading-order) frequency-domain gravitational waveform from binary black hole scattering, obtained after integrating the momentum-conserving delta functions of the five-point KMOC integrand. After dimensional reduction by the two on-shell delta-functions $u_1.q=u_2.(q-k)=0$, it reduces to a $(D-2)$-dimensional massive bubble with propagators $(q_\\perp^2 - w_2^2)$ and $((q_\\perp - k_\\perp)^2 - w_1^2)$, an irreducible numerator $(i q_\\perp . \\hat{b})^{-n_3}$, and an overall Fourier exponential $\\exp(i q_\\perp . \\hat{b})$. The basis consists of six master integrals $J = (I(1,0,0), I(1,0,-1), I(0,1,0), I(0,1,-1), I(1,1,0), I(1,1,-1))$ whose differential equation matrices $\\Omega_a$ in the variables $\\{\\hat{w_1}, \\hat{w_2}, \\gamma, \\hat{b}.k_\\perp\\}$ are linear in $\\varepsilon$ and block-triangular with 2x2 diagonal blocks. The paper derives an epsilon-factorized (canonical) differential equation via restriction theory and rapid-decay homology, showing that the integration kernels involve Bessel functions and exponentials — a new function class beyond the polylogarithmic, elliptic, and Calabi-Yau cases previously observed in Feynman integrals. Results are evaluated explicitly in the soft-emission and post-Newtonian regimes as series expansions.",
-			"epsOrders": "0",
-			"familyName": "2-mass 1-loop Fourier bubble (impact-parameter waveform)",
-			"method": "IBP, DE, direct_integration",
-			"tools": [],
-			"ancillaryFiles": true,
-			"doi": "",
-			"texkey": "",
-			"masterCount": 6,
-			"dimScheme": "d=4-2*eps",
-			"computationLevel": "full",
-			"location": "Section 3, Eqs. (3.5)-(3.6) for the family and Eq. (3.7) for the 6 master basis",
-			"recordId": "bx_3bcce52ddaa2",
-			"verified": false,
-			"verifiedAt": ""
-		},
-		{
-			"reference": "arXiv:2412.15962",
-			"authors": "Wang, Ziwen, Yang, Li Lin",
-			"description": "Bubble with two distinct internal masses $m_1, m_2$ and external momentum $p^2=s$. Demonstrates contour-based reduction in irreducible sectors.",
-			"epsOrders": "",
-			"familyName": "2-mass 1-loop 2-point bubble",
-			"method": "IBP",
-			"tools": [
-				"Kira"
-			],
-			"ancillaryFiles": false,
-			"doi": "",
-			"texkey": "Wang:2024hsm",
-			"masterCount": 0,
-			"dimScheme": "d=D",
-			"computationLevel": "IBP_only",
-			"location": "Section 2.3, Figure 3",
-			"recordId": "bx_480d4299152e",
-			"verified": false,
-			"verifiedAt": ""
-		},
-		{
-			"reference": "arXiv:2508.04309",
-			"authors": [
-				{
-					"full_name": "Flieger, Wojciech",
-					"inspire_id": 1955301
-				}
-			],
-			"description": "1-loop massive bubble (banana) integral with 2 generic masses. The paper derives the annihilating D-ideal and verifies holonomic rank $r=3=2^2-1$.",
-			"epsOrders": "",
-			"familyName": "1-loop banana (generic masses)",
-			"method": "Griffiths-Dwork, Macaulay_matrix, D-module",
-			"tools": [],
-			"ancillaryFiles": false,
-			"doi": "",
-			"texkey": "",
-			"masterCount": 3,
-			"dimScheme": "",
-			"computationLevel": "annihilating_ideal",
-			"location": "eq. (3.1), Section 3.3 (unnumbered table)",
-			"recordId": "bx_261054834ee1",
-			"verified": false,
-			"verifiedAt": ""
-		},
-		{
-			"reference": "arXiv:hep-ph/0501132 (Comput.Phys.Commun. 174 (133), 2006)",
-			"authors": "Martin, Stephen P., Robertson, David G.",
-			"description": "One-loop self-energy (bubble) integral with two massive propagators in $d=4-2\\varepsilon$. Denoted $B(x,y)$ in the TSIL basis.",
-			"epsOrders": "1",
-			"familyName": "B / one-loop bubble",
-			"method": "direct_integration",
-			"tools": [],
-			"ancillaryFiles": false,
-			"doi": "10.1016/j.cpc.2005.08.005",
-			"texkey": "Martin:2005qm",
-			"masterCount": 1,
-			"dimScheme": "d=4-2*eps",
-			"computationLevel": "full",
-			"location": "eq.(2.12)",
-			"recordId": "bx_01bb8c93a482",
-			"verified": false,
-			"verifiedAt": ""
-		},
-		{
-			"reference": "arXiv:1905.07262 (Phys.Rev.D 100 (), 2019)",
-			"authors": "Gracey, John A., Peláez, Marcela, Reinosa, Urko, Tissier, Matthieu",
-			"description": "One-loop self-energy family for gluon/ghost propagators in Curci-Ferrari model (Yang-Mills with gluon mass $m$, Landau gauge). Each $m_i \\in \\{0,m\\}$ gives 4 mass sectors. 2 master integrals.",
-			"epsOrders": "1",
-			"familyName": "one_loop_CF_self_energy",
-			"method": "IBP",
-			"tools": [
-				"FORM",
-				"Reduze"
-			],
-			"ancillaryFiles": true,
-			"doi": "10.1103/PhysRevD.100.034023",
-			"texkey": "Gracey:2019xom",
-			"masterCount": 2,
-			"dimScheme": "d=4-2*eps",
-			"computationLevel": "full",
-			"location": "Eq. (intfam), Fig. 1",
-			"recordId": "bx_83a33995fa3a",
-			"verified": false,
-			"verifiedAt": ""
-		},
-		{
-			"reference": "arXiv:1807.11466 (doi: 10.1007/978-3-030-04480-0_17)",
-			"authors": "Vanhove, Pierre",
-			"description": "One-loop massive bubble in $D=2$ with two distinct masses. Evaluated via GKZ hypergeometric series and toric geometry. Result is a logarithm.",
-			"epsOrders": "",
-			"familyName": "1L-bubble-2m",
-			"method": "direct_integration",
-			"tools": [],
-			"ancillaryFiles": false,
-			"doi": "10.1007/978-3-030-04480-0_17",
-			"texkey": "Vanhove:2018mto",
-			"masterCount": 1,
-			"dimScheme": "d=2",
-			"computationLevel": "full",
-			"location": "Section 4.1, Eqs. (4.15)-(4.46)",
-			"recordId": "bx_f8fb14b1d0b5",
-			"verified": false,
-			"verifiedAt": ""
-		},
-		{
-			"reference": "arXiv:2207.07843 (PoS LL2022 (015), 2022)",
-			"authors": [
-				{
-					"full_name": "Gardi, Einan",
-					"inspire_id": 1019159
-				},
-				{
-					"full_name": "Abreu, Samuel",
-					"inspire_id": 1287226
-				},
-				{
-					"full_name": "Britto, Ruth",
-					"inspire_id": 1015279
-				},
-				{
-					"full_name": "Duhr, Claude",
-					"inspire_id": 1040449
-				},
-				{
-					"full_name": "Matthew, James",
-					"inspire_id": 1946788
-				}
-			],
-			"description": "One-loop bubble with two distinct massive internal propagators in $d=2-2\\varepsilon$. Figure 2 illustrates the diagrammatic coaction at one loop for both even and odd cut cardinalities via Eq. (3.6).",
-			"epsOrders": "0",
-			"familyName": "1-loop bubble with two massive propagators",
-			"method": "direct_integration",
-			"tools": [],
-			"ancillaryFiles": false,
-			"doi": "10.22323/1.416.0015",
-			"texkey": "Gardi:2022wro",
-			"masterCount": 3,
-			"dimScheme": "d=2-2*eps",
-			"computationLevel": "full",
-			"location": "Section 3, Fig. 2",
-			"recordId": "bx_7c66db9598dc",
-			"verified": false,
-			"verifiedAt": ""
-		},
-		{
-			"reference": "arXiv:2504.02573",
-			"authors": [
-				{
-					"full_name": "Hu, Chang",
-					"inspire_id": 1839161
-				},
-				{
-					"full_name": "Li, Wen-Di",
-					"inspire_id": 1880158
-				},
-				{
-					"full_name": "Li, Xiang",
-					"inspire_id": 2838350
-				}
-			],
-			"description": "Massive bubble with independent masses $m_1, m_2$. Three master integrals. Generating functions derived in closed form with 2F1 hypergeometric functions.",
-			"epsOrders": "",
-			"familyName": "one-loop massive bubble",
-			"method": "IBP",
-			"tools": [
-				"FIRE"
-			],
-			"ancillaryFiles": false,
-			"doi": "",
-			"texkey": "Hu:2025rrt",
-			"masterCount": 3,
-			"dimScheme": "d=D",
-			"computationLevel": "IBP_only",
-			"location": "Section 5.2",
-			"recordId": "bx_65a044d90b28",
-			"verified": false,
-			"verifiedAt": ""
-		}
-	],
-	"Names": [
-		"Bubble",
-		"one-loop massive bubble",
-		"one-loop sunset",
-		"two-mass bubble",
-		"Nucleon self-energy one-loop family (pion-nucleon)",
-		"2-mass 1-loop Fourier bubble (impact-parameter waveform)",
-		"2-mass 1-loop 2-point bubble",
-		"1-loop banana (generic masses)"
-	],
-	"Source": [
-		"arXiv",
-		"Loopedia"
-	],
-	"Loops": 1,
-	"NumPropagators": 2,
-	"edges": "{{{1, 2}, m[1]}, {{1, 2}, m[2]}}",
-	"nodes": "{{1, M}, {2, M}}",
-	"quadruple": "{E^(eps*EulerGamma)*Gamma[eps], (x1 + x2)^(2*(-1 + eps))/(MM*x1*x2 - x1^2*mm[1] - x1*x2*mm[1] - x1*x2*mm[2] - x2^2*mm[2])^eps, {x1, x2}, {MM}}",
-	"CanonicalName": "2-mass bubble",
-	"MassConfig": {
-		"numEdges": 2,
-		"numMassiveEdges": 2,
-		"numMasslessEdges": 0,
-		"distinctInternalMasses": 2,
-		"internalMassLabels": [
-			"m[1]",
-			"m[2]"
-		],
-		"edgeMassPattern": "12",
-		"numExtLegs": 2,
-		"numOnshellMassiveExtLegs": 2,
-		"numMasslessExtLegs": 0,
-		"extLegSignature": "MM"
-	},
-	"commonNames": [
-		"B₀(2 masses)",
-		"B"
-	],
-	"Subsectors": [],
-	"ParentSectors": [
-		"112|e2|e|:123|45|4|"
-	],
-	"Results": [
-		{
-			"resultCompressed": "1:eJxTTMoPSmNjYGAo5gISwalFmanFLoklicXMQG5qQXEmkGJIYwIpYAESPpnFJZmMICEWmFBATmlxJhNcFSuQCMnMTS3O/A8EaSC1YLN88tMhHJCq3FyIIag6UBXjNA0kEY5uQEB+eWoRwp1gR4FVoGuBGES+xQWkW1yAsBhCgLkgAgBxNlOq",
-			"resultTeX": "\\frac{1}{\\varepsilon}+\\left(\\frac{\\log \\left(-W_1^-\\right)}{W_1^-+1}+\\frac{\\log \\left(-W_1^+\\right)}{W_1^++1}-\\log \\left(m_1^2\\right)+2\\right)+O\\left(\\varepsilon^1\\right)",
-			"dimension": "4 - 2*eps",
-			"epsOrder": "0",
-			"epsOrders": "0",
-			"propExponents": [
-				1,
-				1
-			],
-			"propagators": [],
-			"numerators": [],
-			"internalMasses": [],
-			"externalMasses": [],
-			"substitutions": "",
-			"normalization": "Automatic",
-			"stVersion": "SubTropica v1.0.395",
-			"stCommand": "",
-			"contributor": "Sebastian Mizera",
-			"timestamp": "2026-04-19T21:46:31",
-			"verifiedAt": "2026-04-19T21:46:31",
-			"verified": true,
-			"method": "direct_integration",
-			"tools": [
-				"SubTropica"
-			],
-			"methodLR": "Lungo",
-			"byteCount": 1392,
-			"symbolTeX": "\\varepsilon^{0}\\colon\\;-(m_1^2) + \\frac{1}{W_1^-+1}\\,(W_1^-) + \\frac{1}{W_1^++1}\\,(W_1^+)",
-			"alphabet": [
-				"m_1^2",
-				"W_1^-",
-				"W_1^+"
-			],
-			"symbolWeight": 1,
-			"symbolTerms": 3,
-			"normalizedSymbolTeX": "\\varepsilon^{0}&\\colon\\;\\frac{1}{\\left(W_1^-+1\\right) \\left(W_1^++1\\right)}\\!\\left[W_1^++1\\,(W^-_1) + W_1^-+1\\,(W^+_1)\\right]",
-			"wDefinitions": [
-				{
-					"label": "W^-_1",
-					"kind": "algebraic",
-					"pairIndex": 1,
-					"definition": "\\frac{1}{2} m_2^{-2} \\left(\\sqrt{\\left(-m_1^2-m_2^2+M^2\\right)^2-4 m_1^2 m_2^2}-m_1^2-m_2^2+M^2\\right)",
-					"originalLetter": "W_1^-",
-					"polynomialTeX": "x_{2}^2 \\left(-m_2^2\\right)-x_{2} m_1^2-x_{2} m_2^2-m_1^2+x_{2} M^2",
-					"discriminantTeX": "\\left(-m_1^2-m_2^2+M^2\\right)^2-4 m_1^2 m_2^2"
-				},
-				{
-					"label": "W^+_1",
-					"kind": "algebraic",
-					"pairIndex": 1,
-					"definition": "\\frac{1}{2} m_2^{-2} \\left(-\\sqrt{\\left(-m_1^2-m_2^2+M^2\\right)^2-4 m_1^2 m_2^2}-m_1^2-m_2^2+M^2\\right)",
-					"originalLetter": "W_1^+",
-					"polynomialTeX": "x_{2}^2 \\left(-m_2^2\\right)-x_{2} m_1^2-x_{2} m_2^2-m_1^2+x_{2} M^2",
-					"discriminantTeX": "\\left(-m_1^2-m_2^2+M^2\\right)^2-4 m_1^2 m_2^2"
-				}
-			],
-			"normalizedAlphabet": [
-				"W^-_1",
-				"W^+_1"
-			],
-			"symbolScale": "m_1^2",
-			"normalizedSymbolTerms": 2,
-			"legOrder": [],
-			"findRoots": true,
-			"algebraicLetters": [
-				{
-					"index": 1,
-					"variable": "x2",
-					"polynomial": "MM*x2 - mm[1] - x2*mm[1] - x2*mm[2] - x2^2*mm[2]",
-					"LC": "-mm[2]",
-					"sum": "(MM - mm[1] - mm[2])/mm[2]",
-					"product": "mm[1]/mm[2]",
-					"discriminant": "(MM - mm[1] - mm[2])^2 - 4*mm[1]*mm[2]",
-					"minusRoot": "(MM - mm[1] - mm[2] + Sqrt[(MM - mm[1] - mm[2])^2 - 4*mm[1]*mm[2]])/(2*mm[2])",
-					"plusRoot": "(MM - mm[1] - mm[2] - Sqrt[(MM - mm[1] - mm[2])^2 - 4*mm[1]*mm[2]])/(2*mm[2])",
-					"polynomialTeX": "x_{2}^2 \\left(-m_2^2\\right)-x_{2} m_1^2-x_{2} m_2^2-m_1^2+x_{2} M^2",
-					"discriminantTeX": "\\left(-m_1^2-m_2^2+M^2\\right)^2-4 m_1^2 m_2^2",
-					"minusRootTeX": "\\frac{1}{2} m_2^{-2} \\left(\\sqrt{\\left(-m_1^2-m_2^2+M^2\\right)^2-4 m_1^2 m_2^2}-m_1^2-m_2^2+M^2\\right)",
-					"plusRootTeX": "\\frac{1}{2} m_2^{-2} \\left(-\\sqrt{\\left(-m_1^2-m_2^2+M^2\\right)^2-4 m_1^2 m_2^2}-m_1^2-m_2^2+M^2\\right)"
-				}
-			]
-		},
-		{
-			"resultCompressed": "1:eJxTTMoPSmNjYGAo5gISwalFmanFLoklicXMQG5qQXEmkGJIYwIpYAESPpnFJZmMICE2mFBATmlxJhNcFSuQCMnMTS3O/A8EaSC1YLN88tOLQQpyDdNYUNRBRI2KQSqrEGYE5JenFiEsBtmCzQKYmUy4zcR0SBozFtWGaHZDzYDoRpPCYS66H3CEA1bHGkI1Y3OaEd5ggalhxrQWxWgqhAOSQeBUACYAkYSIvw==",
-			"resultTeX": "\\frac{1}{\\varepsilon}+\\left(\\frac{\\text{m2} z \\log \\left(\\frac{\\text{m1}}{\\text{m2} z}\\right)}{\\text{m2} z-\\text{m1}}+\\frac{\\text{m2} \\log \\left(\\frac{\\text{m1} z}{\\text{m2}}\\right)}{\\text{m2}-\\text{m1} z}-\\log (\\text{m1} z)-\\log (\\text{m1})+\\log (z)+2\\right)+O\\left(\\varepsilon^1\\right)",
-			"dimension": "4 - 2*eps",
-			"epsOrder": 0,
-			"propExponents": [
-				1,
-				1
-			],
-			"propagators": [],
-			"numerators": [],
-			"internalMasses": [],
-			"externalMasses": [],
-			"substitutions": "{mm[1] -> m1^2, mm[2] -> m2^2, MM -> ((-m2 + m1*z)*(m1 - m2*z))/z}",
-			"normalization": "Automatic",
-			"stVersion": "SubTropica v1.0.303",
-			"stCommand": "",
-			"contributor": "Sebastian Mizera",
-			"timestamp": "2026-04-17T23:14:04",
-			"byteCount": 1712,
-			"method": "direct_integration+rationalization",
-			"tools": [
-				"SubTropica",
-				"AnTropica"
-			],
-			"symbolTeX": "\\varepsilon^{0}\\colon\\;\\frac{-2 \\text{m1}^2 z+\\text{m1} \\text{m2} z^2+\\text{m1} \\text{m2}}{(\\text{m1} z-\\text{m2}) (\\text{m1}-\\text{m2} z)}\\,(\\text{m1}) - \\frac{\\text{m2} \\left(-\\text{m1} z^2-\\text{m1}+2 \\text{m2} z\\right)}{(\\text{m1} z-\\text{m2}) (\\text{m1}-\\text{m2} z)}\\,(\\text{m2}) + \\frac{\\text{m2} \\left(\\text{m1} z^2-\\text{m1}\\right)}{(\\text{m1} z-\\text{m2}) (\\text{m1}-\\text{m2} z)}\\,(z)",
-			"alphabet": [
-				"\\text{m1}",
-				"\\text{m2}",
-				"z"
-			],
-			"symbolWeight": 1,
-			"symbolTerms": 3,
-			"legOrder": []
-		},
-		{
-			"resultCompressed": "1:eJxTTMoPSmNjYGAo5gISwalFmanFLoklicXMQG5qQXEmkGJIYwQpYAESPpnFJWlMIB4rkAjJzE0tRnAD8stTiyBckNqAnNLiYpDOcjQdmf+BoBgkVp4EZqPqgdgGst8nPx1VKhMkhc00NEdArEWTQVKNaQOad+AWIjkV3Q4kD4BDCew4MAEAfxdWGQ==",
-			"resultTeX": "\\frac{\\log \\left(1-\\frac{1}{w}\\right)-\\log \\left(\\frac{\\text{wb}-1}{\\text{wb}}\\right)}{w-\\text{wb}}+O\\left(\\varepsilon^1\\right)",
-			"dimension": "2 - 2*eps",
-			"epsOrder": 0,
-			"propExponents": [
-				1,
-				1
-			],
-			"propagators": [],
-			"numerators": [],
-			"internalMasses": [],
-			"externalMasses": [],
-			"substitutions": "{MM -> 1, mm1 -> w*wb, mm2 -> (1 - w)*(1 - wb)}",
-			"normalization": "Automatic",
-			"stVersion": "SubTropica v1.0.379",
-			"stCommand": "STIntegrate[{{{{1, 2}, Subscript[m, 1]}, {{1, 2}, Subscript[m, 2]}}, {{1, M}, {2, M}}}, Dimension -> \"2 - 2*eps\", Order -> 0, Substitutions -> {MM -> 1, mm1 -> w*wb, mm2 -> (1 - w)*(1 - wb)}]",
-			"contributor": "SM",
-			"timestamp": "2026-04-19T19:00:00",
-			"byteCount": 1096,
-			"symbolTeX": "\\varepsilon^{0}\\colon\\;\\frac{1}{w-\\text{wb}}\\,(w-1) + \\frac{1}{\\text{wb}-w}\\,(w) + \\frac{1}{\\text{wb}-w}\\,(\\text{wb}-1) + \\frac{1}{w-\\text{wb}}\\,(\\text{wb})",
-			"alphabet": [
-				"w-1",
-				"w",
-				"\\text{wb}-1",
-				"\\text{wb}"
-			],
-			"symbolWeight": 1,
-			"symbolTerms": 4,
-			"legOrder": [
-				1,
-				2
-			]
-		}
-	]
+  "CNickelIndex": "e11|e|:123|1|",
+  "MassScales": 2,
+  "FunctionClass": "MPL",
+  "EpsilonOrder": "-1,0",
+  "References": [
+    "arXiv:0712.1851 (JHEP 02 (002), 2008)",
+    "arXiv:1610.08397 (Nucl.Phys.B 916 (94), 2017)",
+    "arXiv:2209.10962 (Lett.Math.Phys. 113 (37), 2023)",
+    "arXiv:2211.01285 (Comput.Phys.Commun. 287 (), 2023)",
+    "arXiv:2502.19168",
+    "arXiv:2510.26874",
+    "arXiv:2412.15962",
+    "arXiv:2508.04309",
+    "arXiv:hep-ph/0501132 (Comput.Phys.Commun. 174 (133), 2006)",
+    "arXiv:1905.07262 (Phys.Rev.D 100 (), 2019)",
+    "arXiv:1807.11466 (doi: 10.1007/978-3-030-04480-0_17)",
+    "arXiv:2207.07843 (Missing[\"KeyAbsent\", \"journal\"] Missing[\"KeyAbsent\", \"volume\"] (Missing[\"KeyAbsent\", \"pages\"]), Missing[\"KeyAbsent\", \"year\"])",
+    "arXiv:2504.02573 (Missing[\"KeyAbsent\", \"journal\"] Missing[\"KeyAbsent\", \"volume\"] (Missing[\"KeyAbsent\", \"pages\"]), Missing[\"KeyAbsent\", \"year\"])"
+  ],
+  "Records": [
+    {
+      "authors": "Ellis, R.Keith, Zanderighi, Giulia",
+      "texkey": "Ellis:2007qk",
+      "verified": true,
+      "verifiedAt": "auto-loopedia",
+      "reference": "arXiv:0712.1851, JHEP 02 (002), 2008",
+      "ancillaryFiles": [],
+      "recordId": "bf_c079a92548d1",
+      "masterCount": 1,
+      "transcendentalWeight": 1,
+      "computationLevel": "full",
+      "doi": "10.1088/1126-6708/2008/02/002",
+      "tools": [],
+      "description": "General one-loop bubble integral $I_2^D(s;m_1^2,m_2^2)$ with two internal masses. UV-divergent with $1/\\varepsilon$ pole. Analytic results given for the general case and the special cases $(0,m^2)$ and $(0,0)$ to $\\mathcal{O}(\\varepsilon^0)$. Uses the FF library for numerical evaluation.",
+      "epsOrders": "-1,0",
+      "method": [],
+      "dimScheme": "d=4-2*eps",
+      "location": "Sec. 2.1, Sec. 4.2",
+      "familyName": "Bubble"
+    },
+    {
+      "reference": "arXiv:1610.08397 (Nucl.Phys.B 916 (94), 2017)",
+      "authors": "Primo, Amedeo, Tancredi, Lorenzo",
+      "description": "One-loop bubble with two distinct massive propagators and one off-shell leg $p_1^2 = s$, used as an illustrative example to demonstrate that the maximal cut coincides with the homogeneous solution of the differential equation in $s$. The $d$-dimensional homogeneous solution / maximal cut is given in closed form as $\\mathrm{Bub}_H \\sim (-s)^{1-d/2} (m_1^4 - 2 m_1^2 (m_2^2+s) + (m_2^2-s)^2)^{(d-3)/2}$ (Eqs. 2.18, 2.21).",
+      "epsOrders": "",
+      "familyName": "Bub (one-loop massive bubble) / one-loop massive bubble",
+      "method": "DE",
+      "tools": [],
+      "ancillaryFiles": false,
+      "doi": "10.1016/j.nuclphysb.2016.12.021",
+      "texkey": "Primo:2016ebd",
+      "masterCount": 1,
+      "dimScheme": "d=D",
+      "computationLevel": "maximal_cut",
+      "location": "Section 2, Eqs. (2.13)-(2.18)",
+      "recordId": "bx_271dbb3865b5",
+      "verified": true,
+      "verifiedAt": "auto-loopedia"
+    },
+    {
+      "reference": "arXiv:2209.10962 (Lett.Math.Phys. 113 (37), 2023)",
+      "authors": "Lairez, Pierre, Vanhove, Pierre",
+      "description": "One-loop sunset (bubble) in $D=2$ with 2 generic masses. Picard-Fuchs operator is order 1. Derived via Griffiths-Dwork reduction.",
+      "epsOrders": "",
+      "familyName": "one-loop sunset",
+      "method": "DE",
+      "tools": [],
+      "ancillaryFiles": true,
+      "doi": "10.1007/s11005-023-01661-3",
+      "texkey": "Lairez:2022zkj",
+      "masterCount": 0,
+      "dimScheme": "d=2",
+      "computationLevel": "DE_only",
+      "location": "Section 3.1",
+      "recordId": "bx_2c859bbc5e5d",
+      "verified": true,
+      "verifiedAt": "auto-loopedia"
+    },
+    {
+      "reference": "arXiv:2211.01285 (Comput.Phys.Commun. 287 (), 2023)",
+      "authors": "Ananthanarayan, B., Banik, Sumit, Bera, Souvik, Datta, Sudeepan",
+      "description": "One-loop self-energy with two unequal internal masses and off-shell external momentum, solved via GKZ hypergeometric system using triangulation and Groebner deformation methods. Result expressed in terms of Horn H3 and Humbert G1 double hypergeometric functions.",
+      "epsOrders": "",
+      "familyName": "two-mass bubble",
+      "method": "",
+      "tools": [
+        "FeynGKZ",
+        "polymake",
+        "TOPCOM",
+        "Macaulay2",
+        "Olsson.wl",
+        "AMBRE"
+      ],
+      "ancillaryFiles": true,
+      "doi": "10.1016/j.cpc.2023.108699",
+      "texkey": "Ananthanarayan:2022ntm",
+      "masterCount": 0,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "full",
+      "location": "Eq.(18), Section 5",
+      "recordId": "bx_956e49fec2c6",
+      "verified": true,
+      "verifiedAt": "auto-loopedia"
+    },
+    {
+      "reference": "arXiv:2502.19168",
+      "authors": [
+        {
+          "full_name": "Liang, Ze-Rui",
+          "inspire_id": 1905689
+        },
+        {
+          "full_name": "Chen, Han-Xue",
+          "inspire_id": 2549072
+        },
+        {
+          "full_name": "Guo, Feng-Kun",
+          "inspire_id": 1027513
+        },
+        {
+          "full_name": "Guo, Zhi-Hui",
+          "inspire_id": 1045714
+        },
+        {
+          "full_name": "Yao, De-Liang",
+          "inspire_id": 1198408
+        }
+      ],
+      "description": "One-loop nucleon self-energy in BChPT, single mass scale ratio $M^2/m^2$. Passarino-Veltman reduction to 3 masters.",
+      "epsOrders": "all_orders",
+      "familyName": "Nucleon self-energy one-loop family (pion-nucleon)",
+      "method": "IBP, direct_integration, series_expansion",
+      "tools": [],
+      "ancillaryFiles": false,
+      "doi": "",
+      "texkey": "",
+      "masterCount": 3,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "full",
+      "location": "Appendix A",
+      "recordId": "bx_31769e61421f",
+      "verified": true,
+      "verifiedAt": "auto-loopedia"
+    },
+    {
+      "reference": "arXiv:2510.26874",
+      "authors": [
+        {
+          "full_name": "Brunello, Giacomo",
+          "inspire_id": 2843066
+        },
+        {
+          "full_name": "Chestnov, Vsevolod",
+          "inspire_id": 1760381
+        },
+        {
+          "full_name": "Crisanti, Giulio",
+          "inspire_id": 2686658
+        },
+        {
+          "full_name": "Giroux, Mathieu",
+          "inspire_id": 2170481
+        },
+        {
+          "full_name": "Smith, Sid",
+          "inspire_id": 2787329
+        }
+      ],
+      "description": "One-loop two-point Fourier integral family $I(n_1,n_2,n_3)$ that controls the tree-level (leading-order) frequency-domain gravitational waveform from binary black hole scattering, obtained after integrating the momentum-conserving delta functions of the five-point KMOC integrand. After dimensional reduction by the two on-shell delta-functions $u_1.q=u_2.(q-k)=0$, it reduces to a $(D-2)$-dimensional massive bubble with propagators $(q_\\perp^2 - w_2^2)$ and $((q_\\perp - k_\\perp)^2 - w_1^2)$, an irreducible numerator $(i q_\\perp . \\hat{b})^{-n_3}$, and an overall Fourier exponential $\\exp(i q_\\perp . \\hat{b})$. The basis consists of six master integrals $J = (I(1,0,0), I(1,0,-1), I(0,1,0), I(0,1,-1), I(1,1,0), I(1,1,-1))$ whose differential equation matrices $\\Omega_a$ in the variables $\\{\\hat{w_1}, \\hat{w_2}, \\gamma, \\hat{b}.k_\\perp\\}$ are linear in $\\varepsilon$ and block-triangular with 2x2 diagonal blocks. The paper derives an epsilon-factorized (canonical) differential equation via restriction theory and rapid-decay homology, showing that the integration kernels involve Bessel functions and exponentials — a new function class beyond the polylogarithmic, elliptic, and Calabi-Yau cases previously observed in Feynman integrals. Results are evaluated explicitly in the soft-emission and post-Newtonian regimes as series expansions.",
+      "epsOrders": "0",
+      "familyName": "2-mass 1-loop Fourier bubble (impact-parameter waveform)",
+      "method": "IBP, DE, direct_integration",
+      "tools": [],
+      "ancillaryFiles": true,
+      "doi": "",
+      "texkey": "",
+      "masterCount": 6,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "full",
+      "location": "Section 3, Eqs. (3.5)-(3.6) for the family and Eq. (3.7) for the 6 master basis",
+      "recordId": "bx_3bcce52ddaa2",
+      "verified": true,
+      "verifiedAt": "auto-loopedia"
+    },
+    {
+      "reference": "arXiv:2412.15962",
+      "authors": "Wang, Ziwen, Yang, Li Lin",
+      "description": "Bubble with two distinct internal masses $m_1, m_2$ and external momentum $p^2=s$. Demonstrates contour-based reduction in irreducible sectors.",
+      "epsOrders": "",
+      "familyName": "2-mass 1-loop 2-point bubble",
+      "method": "IBP",
+      "tools": [
+        "Kira"
+      ],
+      "ancillaryFiles": false,
+      "doi": "",
+      "texkey": "Wang:2024hsm",
+      "masterCount": 0,
+      "dimScheme": "d=D",
+      "computationLevel": "IBP_only",
+      "location": "Section 2.3, Figure 3",
+      "recordId": "bx_480d4299152e",
+      "verified": true,
+      "verifiedAt": "auto-loopedia"
+    },
+    {
+      "reference": "arXiv:2508.04309",
+      "authors": [
+        {
+          "full_name": "Flieger, Wojciech",
+          "inspire_id": 1955301
+        }
+      ],
+      "description": "1-loop massive bubble (banana) integral with 2 generic masses. The paper derives the annihilating D-ideal and verifies holonomic rank $r=3=2^2-1$.",
+      "epsOrders": "",
+      "familyName": "1-loop banana (generic masses)",
+      "method": "Griffiths-Dwork, Macaulay_matrix, D-module",
+      "tools": [],
+      "ancillaryFiles": false,
+      "doi": "",
+      "texkey": "",
+      "masterCount": 3,
+      "dimScheme": "",
+      "computationLevel": "annihilating_ideal",
+      "location": "eq. (3.1), Section 3.3 (unnumbered table)",
+      "recordId": "bx_261054834ee1",
+      "verified": true,
+      "verifiedAt": "auto-loopedia"
+    },
+    {
+      "reference": "arXiv:hep-ph/0501132 (Comput.Phys.Commun. 174 (133), 2006)",
+      "authors": "Martin, Stephen P., Robertson, David G.",
+      "description": "One-loop self-energy (bubble) integral with two massive propagators in $d=4-2\\varepsilon$. Denoted $B(x,y)$ in the TSIL basis.",
+      "epsOrders": "1",
+      "familyName": "B / one-loop bubble",
+      "method": "direct_integration",
+      "tools": [],
+      "ancillaryFiles": false,
+      "doi": "10.1016/j.cpc.2005.08.005",
+      "texkey": "Martin:2005qm",
+      "masterCount": 1,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "full",
+      "location": "eq.(2.12)",
+      "recordId": "bx_01bb8c93a482",
+      "verified": true,
+      "verifiedAt": "auto-loopedia"
+    },
+    {
+      "reference": "arXiv:1905.07262 (Phys.Rev.D 100 (), 2019)",
+      "authors": "Gracey, John A., Peláez, Marcela, Reinosa, Urko, Tissier, Matthieu",
+      "description": "One-loop self-energy family for gluon/ghost propagators in Curci-Ferrari model (Yang-Mills with gluon mass $m$, Landau gauge). Each $m_i \\in \\{0,m\\}$ gives 4 mass sectors. 2 master integrals.",
+      "epsOrders": "1",
+      "familyName": "one_loop_CF_self_energy",
+      "method": "IBP",
+      "tools": [
+        "FORM",
+        "Reduze"
+      ],
+      "ancillaryFiles": true,
+      "doi": "10.1103/PhysRevD.100.034023",
+      "texkey": "Gracey:2019xom",
+      "masterCount": 2,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "full",
+      "location": "Eq. (intfam), Fig. 1",
+      "recordId": "bx_83a33995fa3a",
+      "verified": true,
+      "verifiedAt": "auto-loopedia"
+    },
+    {
+      "reference": "arXiv:1807.11466 (doi: 10.1007/978-3-030-04480-0_17)",
+      "authors": "Vanhove, Pierre",
+      "description": "One-loop massive bubble in $D=2$ with two distinct masses. Evaluated via GKZ hypergeometric series and toric geometry. Result is a logarithm.",
+      "epsOrders": "",
+      "familyName": "1L-bubble-2m",
+      "method": "direct_integration",
+      "tools": [],
+      "ancillaryFiles": false,
+      "doi": "10.1007/978-3-030-04480-0_17",
+      "texkey": "Vanhove:2018mto",
+      "masterCount": 1,
+      "dimScheme": "d=2",
+      "computationLevel": "full",
+      "location": "Section 4.1, Eqs. (4.15)-(4.46)",
+      "recordId": "bx_f8fb14b1d0b5",
+      "verified": true,
+      "verifiedAt": "auto-loopedia"
+    },
+    {
+      "reference": "arXiv:2207.07843 (PoS LL2022 (015), 2022)",
+      "authors": [
+        {
+          "full_name": "Gardi, Einan",
+          "inspire_id": 1019159
+        },
+        {
+          "full_name": "Abreu, Samuel",
+          "inspire_id": 1287226
+        },
+        {
+          "full_name": "Britto, Ruth",
+          "inspire_id": 1015279
+        },
+        {
+          "full_name": "Duhr, Claude",
+          "inspire_id": 1040449
+        },
+        {
+          "full_name": "Matthew, James",
+          "inspire_id": 1946788
+        }
+      ],
+      "description": "One-loop bubble with two distinct massive internal propagators in $d=2-2\\varepsilon$. Figure 2 illustrates the diagrammatic coaction at one loop for both even and odd cut cardinalities via Eq. (3.6).",
+      "epsOrders": "0",
+      "familyName": "1-loop bubble with two massive propagators",
+      "method": "direct_integration",
+      "tools": [],
+      "ancillaryFiles": false,
+      "doi": "10.22323/1.416.0015",
+      "texkey": "Gardi:2022wro",
+      "masterCount": 3,
+      "dimScheme": "d=2-2*eps",
+      "computationLevel": "full",
+      "location": "Section 3, Fig. 2",
+      "recordId": "bx_7c66db9598dc",
+      "verified": true,
+      "verifiedAt": "auto-loopedia"
+    },
+    {
+      "reference": "arXiv:2504.02573",
+      "authors": [
+        {
+          "full_name": "Hu, Chang",
+          "inspire_id": 1839161
+        },
+        {
+          "full_name": "Li, Wen-Di",
+          "inspire_id": 1880158
+        },
+        {
+          "full_name": "Li, Xiang",
+          "inspire_id": 2838350
+        }
+      ],
+      "description": "Massive bubble with independent masses $m_1, m_2$. Three master integrals. Generating functions derived in closed form with 2F1 hypergeometric functions.",
+      "epsOrders": "",
+      "familyName": "one-loop massive bubble",
+      "method": "IBP",
+      "tools": [
+        "FIRE"
+      ],
+      "ancillaryFiles": false,
+      "doi": "",
+      "texkey": "Hu:2025rrt",
+      "masterCount": 3,
+      "dimScheme": "d=D",
+      "computationLevel": "IBP_only",
+      "location": "Section 5.2",
+      "recordId": "bx_65a044d90b28",
+      "verified": true,
+      "verifiedAt": "auto-loopedia"
+    }
+  ],
+  "Names": [
+    "Bubble",
+    "one-loop massive bubble",
+    "one-loop sunset",
+    "two-mass bubble",
+    "Nucleon self-energy one-loop family (pion-nucleon)",
+    "2-mass 1-loop Fourier bubble (impact-parameter waveform)",
+    "2-mass 1-loop 2-point bubble",
+    "1-loop banana (generic masses)"
+  ],
+  "Source": [
+    "arXiv",
+    "Loopedia"
+  ],
+  "Loops": 1,
+  "NumPropagators": 2,
+  "edges": "{{{1, 2}, m[1]}, {{1, 2}, m[2]}}",
+  "nodes": "{{1, M}, {2, M}}",
+  "quadruple": "{E^(eps*EulerGamma)*Gamma[eps], (x1 + x2)^(2*(-1 + eps))/(MM*x1*x2 - x1^2*mm[1] - x1*x2*mm[1] - x1*x2*mm[2] - x2^2*mm[2])^eps, {x1, x2}, {MM}}",
+  "CanonicalName": "2-mass bubble",
+  "MassConfig": {
+    "numEdges": 2,
+    "numMassiveEdges": 2,
+    "numMasslessEdges": 0,
+    "distinctInternalMasses": 2,
+    "internalMassLabels": [
+      "m[1]",
+      "m[2]"
+    ],
+    "edgeMassPattern": "12",
+    "numExtLegs": 2,
+    "numOnshellMassiveExtLegs": 2,
+    "numMasslessExtLegs": 0,
+    "extLegSignature": "MM"
+  },
+  "commonNames": [
+    "B₀(2 masses)",
+    "B"
+  ],
+  "Subsectors": [],
+  "ParentSectors": [
+    "112|e2|e|:123|45|4|"
+  ],
+  "Results": [
+    {
+      "resultCompressed": "1:eJxTTMoPSmNjYGAo5gISwalFmanFLoklicXMQG5qQXEmkGJIYwIpYAESPpnFJZmMICEWmFBATmlxJhNcFSuQCMnMTS3O/A8EaSC1YLN88tMhHJCq3FyIIag6UBXjNA0kEY5uQEB+eWoRwp1gR4FVoGuBGES+xQWkW1yAsBhCgLkgAgBxNlOq",
+      "resultTeX": "\\frac{1}{\\varepsilon}+\\left(\\frac{\\log \\left(-W_1^-\\right)}{W_1^-+1}+\\frac{\\log \\left(-W_1^+\\right)}{W_1^++1}-\\log \\left(m_1^2\\right)+2\\right)+O\\left(\\varepsilon^1\\right)",
+      "dimension": "4 - 2*eps",
+      "epsOrder": "0",
+      "epsOrders": "0",
+      "propExponents": [
+        1,
+        1
+      ],
+      "propagators": [],
+      "numerators": [],
+      "internalMasses": [],
+      "externalMasses": [],
+      "substitutions": "",
+      "normalization": "Automatic",
+      "stVersion": "SubTropica v1.0.395",
+      "stCommand": "",
+      "contributor": "Sebastian Mizera",
+      "timestamp": "2026-04-19T21:46:31",
+      "verifiedAt": "2026-04-19T21:46:31",
+      "verified": true,
+      "method": "direct_integration",
+      "tools": [
+        "SubTropica"
+      ],
+      "methodLR": "Lungo",
+      "byteCount": 1392,
+      "symbolTeX": "\\varepsilon^{0}\\colon\\;-(m_1^2) + \\frac{1}{W_1^-+1}\\,(W_1^-) + \\frac{1}{W_1^++1}\\,(W_1^+)",
+      "alphabet": [
+        "m_1^2",
+        "W_1^-",
+        "W_1^+"
+      ],
+      "symbolWeight": 1,
+      "symbolTerms": 3,
+      "normalizedSymbolTeX": "\\varepsilon^{0}&\\colon\\;\\frac{1}{\\left(W_1^-+1\\right) \\left(W_1^++1\\right)}\\!\\left[W_1^++1\\,(W^-_1) + W_1^-+1\\,(W^+_1)\\right]",
+      "wDefinitions": [
+        {
+          "label": "W^-_1",
+          "kind": "algebraic",
+          "pairIndex": 1,
+          "definition": "\\frac{1}{2} m_2^{-2} \\left(\\sqrt{\\left(-m_1^2-m_2^2+M^2\\right)^2-4 m_1^2 m_2^2}-m_1^2-m_2^2+M^2\\right)",
+          "originalLetter": "W_1^-",
+          "polynomialTeX": "x_{2}^2 \\left(-m_2^2\\right)-x_{2} m_1^2-x_{2} m_2^2-m_1^2+x_{2} M^2",
+          "discriminantTeX": "\\left(-m_1^2-m_2^2+M^2\\right)^2-4 m_1^2 m_2^2"
+        },
+        {
+          "label": "W^+_1",
+          "kind": "algebraic",
+          "pairIndex": 1,
+          "definition": "\\frac{1}{2} m_2^{-2} \\left(-\\sqrt{\\left(-m_1^2-m_2^2+M^2\\right)^2-4 m_1^2 m_2^2}-m_1^2-m_2^2+M^2\\right)",
+          "originalLetter": "W_1^+",
+          "polynomialTeX": "x_{2}^2 \\left(-m_2^2\\right)-x_{2} m_1^2-x_{2} m_2^2-m_1^2+x_{2} M^2",
+          "discriminantTeX": "\\left(-m_1^2-m_2^2+M^2\\right)^2-4 m_1^2 m_2^2"
+        }
+      ],
+      "normalizedAlphabet": [
+        "W^-_1",
+        "W^+_1"
+      ],
+      "symbolScale": "m_1^2",
+      "normalizedSymbolTerms": 2,
+      "legOrder": [],
+      "findRoots": true,
+      "algebraicLetters": [
+        {
+          "index": 1,
+          "variable": "x2",
+          "polynomial": "MM*x2 - mm[1] - x2*mm[1] - x2*mm[2] - x2^2*mm[2]",
+          "LC": "-mm[2]",
+          "sum": "(MM - mm[1] - mm[2])/mm[2]",
+          "product": "mm[1]/mm[2]",
+          "discriminant": "(MM - mm[1] - mm[2])^2 - 4*mm[1]*mm[2]",
+          "minusRoot": "(MM - mm[1] - mm[2] + Sqrt[(MM - mm[1] - mm[2])^2 - 4*mm[1]*mm[2]])/(2*mm[2])",
+          "plusRoot": "(MM - mm[1] - mm[2] - Sqrt[(MM - mm[1] - mm[2])^2 - 4*mm[1]*mm[2]])/(2*mm[2])",
+          "polynomialTeX": "x_{2}^2 \\left(-m_2^2\\right)-x_{2} m_1^2-x_{2} m_2^2-m_1^2+x_{2} M^2",
+          "discriminantTeX": "\\left(-m_1^2-m_2^2+M^2\\right)^2-4 m_1^2 m_2^2",
+          "minusRootTeX": "\\frac{1}{2} m_2^{-2} \\left(\\sqrt{\\left(-m_1^2-m_2^2+M^2\\right)^2-4 m_1^2 m_2^2}-m_1^2-m_2^2+M^2\\right)",
+          "plusRootTeX": "\\frac{1}{2} m_2^{-2} \\left(-\\sqrt{\\left(-m_1^2-m_2^2+M^2\\right)^2-4 m_1^2 m_2^2}-m_1^2-m_2^2+M^2\\right)"
+        }
+      ]
+    },
+    {
+      "resultCompressed": "1:eJxTTMoPSmNjYGAo5gISwalFmanFLoklicXMQG5qQXEmkGJIYwIpYAESPpnFJZmMICE2mFBATmlxJhNcFSuQCMnMTS3O/A8EaSC1YLN88tOLQQpyDdNYUNRBRI2KQSqrEGYE5JenFiEsBtmCzQKYmUy4zcR0SBozFtWGaHZDzYDoRpPCYS66H3CEA1bHGkI1Y3OaEd5ggalhxrQWxWgqhAOSQeBUACYAkYSIvw==",
+      "resultTeX": "\\frac{1}{\\varepsilon}+\\left(\\frac{\\text{m2} z \\log \\left(\\frac{\\text{m1}}{\\text{m2} z}\\right)}{\\text{m2} z-\\text{m1}}+\\frac{\\text{m2} \\log \\left(\\frac{\\text{m1} z}{\\text{m2}}\\right)}{\\text{m2}-\\text{m1} z}-\\log (\\text{m1} z)-\\log (\\text{m1})+\\log (z)+2\\right)+O\\left(\\varepsilon^1\\right)",
+      "dimension": "4 - 2*eps",
+      "epsOrder": 0,
+      "propExponents": [
+        1,
+        1
+      ],
+      "propagators": [],
+      "numerators": [],
+      "internalMasses": [],
+      "externalMasses": [],
+      "substitutions": "{mm[1] -> m1^2, mm[2] -> m2^2, MM -> ((-m2 + m1*z)*(m1 - m2*z))/z}",
+      "normalization": "Automatic",
+      "stVersion": "SubTropica v1.0.303",
+      "stCommand": "",
+      "contributor": "Sebastian Mizera",
+      "timestamp": "2026-04-17T23:14:04",
+      "byteCount": 1712,
+      "method": "direct_integration+rationalization",
+      "tools": [
+        "SubTropica",
+        "AnTropica"
+      ],
+      "symbolTeX": "\\varepsilon^{0}\\colon\\;\\frac{-2 \\text{m1}^2 z+\\text{m1} \\text{m2} z^2+\\text{m1} \\text{m2}}{(\\text{m1} z-\\text{m2}) (\\text{m1}-\\text{m2} z)}\\,(\\text{m1}) - \\frac{\\text{m2} \\left(-\\text{m1} z^2-\\text{m1}+2 \\text{m2} z\\right)}{(\\text{m1} z-\\text{m2}) (\\text{m1}-\\text{m2} z)}\\,(\\text{m2}) + \\frac{\\text{m2} \\left(\\text{m1} z^2-\\text{m1}\\right)}{(\\text{m1} z-\\text{m2}) (\\text{m1}-\\text{m2} z)}\\,(z)",
+      "alphabet": [
+        "\\text{m1}",
+        "\\text{m2}",
+        "z"
+      ],
+      "symbolWeight": 1,
+      "symbolTerms": 3,
+      "legOrder": []
+    },
+    {
+      "resultCompressed": "1:eJxTTMoPSmNjYGAo5gISwalFmanFLoklicXMQG5qQXEmkGJIYwQpYAESPpnFJWlMIB4rkAjJzE0tRnAD8stTiyBckNqAnNLiYpDOcjQdmf+BoBgkVp4EZqPqgdgGst8nPx1VKhMkhc00NEdArEWTQVKNaQOad+AWIjkV3Q4kD4BDCew4MAEAfxdWGQ==",
+      "resultTeX": "\\frac{\\log \\left(1-\\frac{1}{w}\\right)-\\log \\left(\\frac{\\text{wb}-1}{\\text{wb}}\\right)}{w-\\text{wb}}+O\\left(\\varepsilon^1\\right)",
+      "dimension": "2 - 2*eps",
+      "epsOrder": 0,
+      "propExponents": [
+        1,
+        1
+      ],
+      "propagators": [],
+      "numerators": [],
+      "internalMasses": [],
+      "externalMasses": [],
+      "substitutions": "{MM -> 1, mm1 -> w*wb, mm2 -> (1 - w)*(1 - wb)}",
+      "normalization": "Automatic",
+      "stVersion": "SubTropica v1.0.379",
+      "stCommand": "STIntegrate[{{{{1, 2}, Subscript[m, 1]}, {{1, 2}, Subscript[m, 2]}}, {{1, M}, {2, M}}}, Dimension -> \"2 - 2*eps\", Order -> 0, Substitutions -> {MM -> 1, mm1 -> w*wb, mm2 -> (1 - w)*(1 - wb)}]",
+      "contributor": "SM",
+      "timestamp": "2026-04-19T19:00:00",
+      "byteCount": 1096,
+      "symbolTeX": "\\varepsilon^{0}\\colon\\;\\frac{1}{w-\\text{wb}}\\,(w-1) + \\frac{1}{\\text{wb}-w}\\,(w) + \\frac{1}{\\text{wb}-w}\\,(\\text{wb}-1) + \\frac{1}{w-\\text{wb}}\\,(\\text{wb})",
+      "alphabet": [
+        "w-1",
+        "w",
+        "\\text{wb}-1",
+        "\\text{wb}"
+      ],
+      "symbolWeight": 1,
+      "symbolTerms": 4,
+      "legOrder": [
+        1,
+        2
+      ]
+    }
+  ]
 }

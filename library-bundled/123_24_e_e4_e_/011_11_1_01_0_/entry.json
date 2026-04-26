@@ -32,6 +32,32 @@
       "recordId": "bx_4b67197c1378",
       "verified": false,
       "verifiedAt": ""
+    },
+    {
+      "reference": "arXiv:2501.14435 (Phys.Rev.D 112 (), 2025)",
+      "authors": "Marzucca, Robin, McLeod, Andrew J., Nega, Christoph",
+      "description": "Two-loop integral family for mixed QCD-EW corrections to gg -> H at O(g^3 g_s^2), where the Higgs couples to a top quark. This family depends only on s and mt, and evaluates to multiple polylogarithms with symbol alphabet {x, 1+x, 1-x} after the rationalization s/mt^2 = 4x^2/(x^2-1). Contains 10 master integrals computed through O(epsilon^2) (weight 6). Boundary conditions fixed at s -> 0 using regularity and the method of regions. Top-level topology is a hexagonal two-loop graph with 5 massive (mt) edges and 1 massless internal line.",
+      "epsOrders": "2",
+      "familyName": "Family 1",
+      "method": "DE, IBP",
+      "tools": [
+        "QGRAF",
+        "FORM",
+        "Reduze",
+        "Kira",
+        "AMFlow",
+        "GiNaC"
+      ],
+      "ancillaryFiles": true,
+      "doi": "10.1103/d62t-55k2",
+      "texkey": "Marzucca:2025eak",
+      "masterCount": 10,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "full",
+      "location": "Eq. (3.1)-(3.2), Section 3.1, Appendix A.1",
+      "recordId": "bx_7291a8eae0d3",
+      "verified": false,
+      "verifiedAt": ""
     }
   ],
   "Names": [
@@ -46,7 +72,7 @@
   "Results": [],
   "edges": "{{{1, 2}, 0}, {{1, 3}, m}, {{1, 4}, m}, {{2, 3}, m}, {{2, 5}, m}, {{4, 5}, m}}",
   "nodes": "{{3, m}, {4, 0}, {5, 0}}",
-  "CanonicalName": "Triangle-box, 5 massive propagators (c)",
+  "CanonicalName": "Triangle-box, 5 massive propagators",
   "MassConfig": {
     "numEdges": 6,
     "numMassiveEdges": 5,
