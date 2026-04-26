@@ -36,6 +36,188 @@ $STHyperIntSearchPaths = {
 
 stDiscoverHyperInt[] := SelectFirst[$STHyperIntSearchPaths, FileExistsQ, ""];
 $SThyperIntPath = stDiscoverHyperInt[];
+
+(* ---------------------------------------------------------------- *)
+(*  HyperFLINT CLI backend (analytic, C++/FLINT)                    *)
+(* ---------------------------------------------------------------- *)
+(*  $STHyperFlintPath points to the compiled `hyperflint` binary    *)
+(*  (see HyperFLINT/build-release/).  The binary needs to locate    *)
+(*  its `data/mzv_reductions.json` table; we pass its absolute path *)
+(*  explicitly in every request, so the call site is cwd-agnostic.  *)
+$STHyperFlintPath     = "";    (* auto-discovered from $STHyperFlintSearchPaths below, or set via ConfigureSubTropica[HyperFlintPath -> ...] *)
+$STHyperFlintDataPath = "";    (* absolute path to mzv_reductions.json, derived from $STHyperFlintPath *)
+
+(* Map $SystemID to the dist/ subdirectory convention used by
+   HyperFLINT/scripts/stage_dist.sh.  Currently only macos-arm64 ships in
+   the dev-repo dist/ tree; other arches fall back to the same basename
+   so a future port doesn't need a code change here. *)
+stHFArchDir[] := Switch[$SystemID,
+    "MacOSX-ARM64",  "macos-arm64",
+    "MacOSX-x86-64", "macos-x86_64",
+    "Linux-ARM64",   "linux-arm64",
+    "Linux-x86-64",  "linux-x86_64",
+    _,               "macos-arm64"];
+
+$STHyperFlintSearchPaths = {
+    (* Repo-local prebuilt CLI shipped via Git LFS.  This is the canonical
+       path for collaborators on a SubTropica-dev clone: nothing for them
+       to build, just `git lfs pull` (and `git lfs install` once per
+       machine).  $SubTropicaInstallDir isn't bound yet at this point in
+       the load, so derive the dir from $InputFileName directly. *)
+    FileNameJoin[{DirectoryName[$InputFileName], "HyperFLINT", "dist",
+        stHFArchDir[], "hyperflint"}],
+    (* Source-tree-build location (devs running cmake locally). *)
+    FileNameJoin[{DirectoryName[$InputFileName], "HyperFLINT",
+        "build-release", "hyperflint"}],
+    FileNameJoin[{$HomeDirectory, "Projects", "SubTropica-branchSM", "HyperFLINT", "build-release", "hyperflint"}],
+    FileNameJoin[{$HomeDirectory, "Projects", "HyperFLINT", "build-release", "hyperflint"}],
+    FileNameJoin[{$HomeDirectory, "HyperFLINT",            "build-release", "hyperflint"}],
+    "/opt/hyperflint/bin/hyperflint",
+    "/usr/local/bin/hyperflint"
+};
+
+stDiscoverHyperFlint[] := SelectFirst[$STHyperFlintSearchPaths, FileExistsQ, ""];
+
+(* Resolve the mzv_reductions.json path.  Searches:
+     1. <HF_root>/data/mzv_reductions.json    (binary's source-tree layout)
+     2. <SubTropica install dir>/HyperFLINT/data/mzv_reductions.json
+        (paclet-bundled copy when SubTropica is installed without HF)
+     3. <SubTropica install dir>/Resources/mzv_reductions.json
+        (alternative paclet bundling)
+     4. ~/.subtropica/mzv_reductions.json   (user override)
+   Returns the first existing path, or "" if none are present.
+   `stHyperFlintDataPathCandidates[binPath]` exposes the same list for
+   diagnostic messages. *)
+stHyperFlintDataPathCandidates[binPath_String] := Module[{hfRoot, cands = {}},
+    If[StringQ[binPath] && binPath =!= "" && FileExistsQ[binPath],
+        hfRoot = DirectoryName[DirectoryName[binPath]];
+        If[StringEndsQ[hfRoot, "/"], hfRoot = StringDrop[hfRoot, -1]];
+        AppendTo[cands, FileNameJoin[{hfRoot, "data", "mzv_reductions.json"}]]];
+    If[StringQ[$SubTropicaInstallDir] && $SubTropicaInstallDir =!= "",
+        AppendTo[cands, FileNameJoin[{$SubTropicaInstallDir, "HyperFLINT",
+            "data", "mzv_reductions.json"}]];
+        AppendTo[cands, FileNameJoin[{$SubTropicaInstallDir, "Resources",
+            "mzv_reductions.json"}]]];
+    AppendTo[cands, FileNameJoin[{$HomeDirectory, ".subtropica",
+        "mzv_reductions.json"}]];
+    cands];
+
+stResolveHyperFlintDataPath[binPath_String] :=
+    SelectFirst[stHyperFlintDataPathCandidates[binPath], FileExistsQ, ""];
+
+$STHyperFlintPath     = stDiscoverHyperFlint[];
+$STHyperFlintDataPath = stResolveHyperFlintDataPath[$STHyperFlintPath];
+
+(* Phase γ.1: LibraryLink transport.  `$STHyperFlintLibraryPath` is
+   the path to `libhyperflint_librarylink.dylib` co-located with the
+   CLI binary under `build-release/`.  `$STHFLibFindLROrders` is the
+   resolved LibraryFunction handle (None if the library couldn't load
+   or the versions disagree); `STFindLROrdersHF` dispatches on it and
+   falls back to the CLI subprocess path when None.                   *)
+$STHyperFlintLibraryPath = "";
+$STHFLibVersion          = "";
+$STHFLibFindLROrders     = None;
+$STHFLibHyperFlintSym    = None;  (* Phase γ.2: integrator LibraryLink handle *)
+$STHFLibClearState       = None;
+$STHyperFlintUseLibraryLink = False;  (* becomes True after successful load *)
+
+stHyperFlintLibraryFileName[] :=
+    Which[
+        $OperatingSystem === "MacOSX",  "libhyperflint_librarylink.dylib",
+        $OperatingSystem === "Windows", "hyperflint_librarylink.dll",
+        True,                            "libhyperflint_librarylink.so"];
+
+(* Resolver: try several locations so paclet-only users without an HF
+   source tree still find the bundled dylib.  Order matches what users
+   are most likely to have:
+     1. Next to the CLI binary (source-tree layout, dev users).
+     2. <CLI parent>/bundle/   (bundled-by-CMake-stage dir).
+     3. <SubTropica install>/HyperFLINT/build-release/  (paclet ships
+        the bundle here for end users without HF compiled).
+     4. <SubTropica install>/HyperFLINT/build-release/bundle/.
+     5. <SubTropica install>/HyperFLINT/                 (alt layout).
+   Returns "" if none exist. *)
+stHyperFlintLibraryPathCandidates[binPath_String] := Module[
+        {libName = stHyperFlintLibraryFileName[], cands = {}, dir},
+    (* If the CLI was found in a dist/<arch>/ tree, the LibraryLink dylib
+       sits in the same directory \[LongDash] check there first. *)
+    If[StringQ[binPath] && binPath =!= "" && FileExistsQ[binPath],
+        dir = DirectoryName[binPath];
+        AppendTo[cands, FileNameJoin[{dir, libName}]];
+        AppendTo[cands, FileNameJoin[{dir, "bundle", libName}]]];
+    If[StringQ[$SubTropicaInstallDir] && $SubTropicaInstallDir =!= "",
+        (* Prebuilt dist/ shipped via Git LFS (SubTropica-dev). *)
+        AppendTo[cands, FileNameJoin[{$SubTropicaInstallDir, "HyperFLINT",
+            "dist", stHFArchDir[], libName}]];
+        AppendTo[cands, FileNameJoin[{$SubTropicaInstallDir, "HyperFLINT",
+            "build-release", libName}]];
+        AppendTo[cands, FileNameJoin[{$SubTropicaInstallDir, "HyperFLINT",
+            "build-release", "bundle", libName}]];
+        AppendTo[cands, FileNameJoin[{$SubTropicaInstallDir, "HyperFLINT",
+            libName}]]];
+    cands];
+
+stResolveHyperFlintLibraryPath[binPath_String] :=
+    SelectFirst[stHyperFlintLibraryPathCandidates[binPath], FileExistsQ, ""];
+
+$STHyperFlintLibraryPath = stResolveHyperFlintLibraryPath[$STHyperFlintPath];
+
+stHyperFlintTryLoadLibrary[] := Module[{libPath = $STHyperFlintLibraryPath,
+        verFn, ver, lrFn, symFn, clrFn},
+    If[!StringQ[libPath] || libPath === "" || !FileExistsQ[libPath],
+        Return[False]];
+    verFn = Quiet @ Check[
+        LibraryFunctionLoad[libPath, "hf_version", {}, "UTF8String"],
+        $Failed];
+    If[Head[verFn] =!= LibraryFunction, Return[False]];
+    ver = Quiet @ Check[verFn[], $Failed];
+    $STHFLibVersion = ToString[ver];
+    If[StringQ[ver] && ver =!= $SubTropicaVersion,
+        (* Per Phase-γ adversarial-review recommendation (finding #8):
+           refuse to use a HF library whose version disagrees with the
+           Mma-side SubTropica version.  Prevents ABI drift between
+           a stale .dylib and a newer SubTropica.wl. *)
+        Return[False]];
+    lrFn = Quiet @ Check[
+        LibraryFunctionLoad[libPath, "hf_find_lr_orders",
+            {"UTF8String"}, "UTF8String"],
+        $Failed];
+    If[Head[lrFn] =!= LibraryFunction, Return[False]];
+    (* Phase γ.2: hyperflint_sym is the hot op (integrator core).
+       Optional — if this symbol fails to load (e.g., Mma is pinned
+       to an older libhyperflint_librarylink.dylib), LR-order lookups
+       still transit LibraryLink, but STHyperFlint falls back to the
+       CLI.  Don't abort the whole load on γ.2 absence. *)
+    symFn = Quiet @ Check[
+        LibraryFunctionLoad[libPath, "hf_hyperflint_sym",
+            {"UTF8String"}, "UTF8String"],
+        $Failed];
+    clrFn = Quiet @ Check[
+        LibraryFunctionLoad[libPath, "hf_clear_state", {}, Integer],
+        $Failed];
+    $STHFLibFindLROrders  = lrFn;
+    $STHFLibHyperFlintSym = If[Head[symFn] === LibraryFunction, symFn, None];
+    $STHFLibClearState    = If[Head[clrFn] === LibraryFunction, clrFn, None];
+    $STHyperFlintUseLibraryLink = True;
+    True];
+
+(* The load is deferred behind a one-shot "have we succeeded?" guard.
+   Retries on failure: the eager load at package-init time fires before
+   `$SubTropicaVersion` is bound (the With-scoped definition is further
+   down this file), so the version mismatch guard inside
+   stHyperFlintTryLoadLibrary trips.  The lazy call from STHyperFlint /
+   STFindLROrdersHF retries until success — once the library loads, the
+   guard short-circuits every subsequent call. *)
+stHFLibraryEnsureLoaded[] := If[!TrueQ[$STHyperFlintUseLibraryLink],
+    Quiet @ Check[stHyperFlintTryLoadLibrary[], False]];
+
+(* Attempt eager load for the happy case where Get[] happens after the
+   version bootstrapping (e.g., `<<SubTropica.wl` in a kernel where
+   $SubTropicaVersion was pre-set).  If it fails, the lazy retry path
+   kicks in.  Wrapped in CheckAbort because LibraryFunctionLoad on a
+   mismatched-arch/ABI .dylib can escape the inner Quiet@Check guard. *)
+CheckAbort[stHFLibraryEnsureLoaded[], $STHyperFlintUseLibraryLink = False];
+
 $PythonCommand   = "/opt/homebrew/bin/python3";
 $FIESTAPath      = FileNameJoin[{$HomeDirectory, "fiesta", "FIESTA5"}];
 $FIESTALoaded    = False;
@@ -89,6 +271,15 @@ $STDependencies = <|
     "usedBy" -> {"STIntegrate[\"Integrator\" -> \"HyperInt\"]", "STToFibrationBasis", "SThyperIntMaple", "STlaunchHyperIntMaple"},
     "installHint" -> "git clone https://bitbucket.org/PanzerErik/hyperint ~/HyperInt  (Panzer, arXiv:1403.3385; requires maple)",
     "configHint" -> "Auto-discovered at ~/HyperInt/HyperInt.mpl (or ~/hyperint, /opt/HyperInt); override: ConfigureSubTropica[HyperIntPath -> \"/absolute/path/to/HyperInt.mpl\"]"
+  |>,
+  "HyperFLINT" -> <|
+    "type" -> "binary", "required" -> False,
+    "status" -> "untested", "version" -> "", "statusMsg" -> "",
+    "resolvedPath" -> "",
+    "getPath" -> Function[$STHyperFlintPath],
+    "usedBy" -> {"STIntegrate[\"Integrator\" -> \"HyperFLINT\"]", "STHyperFlint"},
+    "installHint" -> "cd ~/Projects/SubTropica-branchSM/HyperFLINT && cmake -S . -B build-release -DCMAKE_BUILD_TYPE=Release && cmake --build build-release -j",
+    "configHint" -> "Auto-discovered at ~/Projects/SubTropica-branchSM/HyperFLINT/build-release/hyperflint; override: ConfigureSubTropica[HyperFlintPath -> \"/absolute/path/to/hyperflint\"]"
   |>,
   "python3" -> <|
     "type" -> "binary", "required" -> False,
@@ -248,8 +439,13 @@ stGinshVersion[path_] := Module[{abs, m},
     "/ginac/" ~~ v:RegularExpression["[0-9][0-9A-Za-z.\\-]*"] :> "GiNaC " <> v, 1];
   If[Length[m] > 0, First[m], ""]];
 
-(* Test a single dependency and update its registry entry. *)
-stTestOneDependency[name_String] := Module[
+(* Test a single dependency and update its registry entry.
+   The whole probe is wrapped in CheckAbort: if any RunProcess / FindFile
+   / import path aborts (rather than returning $Failed), we mark the dep
+   "error" and move on.  Without this guard a single misbehaving probe
+   can take down the entire package load, since stPrintGreeting runs at
+   top level during Needs["SubTropica`"]. *)
+stTestOneDependency[name_String] := CheckAbort[Module[
   {dep, path, resolved, status, version, msg},
   dep = $STDependencies[name];
   path = dep["getPath"][];
@@ -269,6 +465,19 @@ stTestOneDependency[name_String] := Module[
               (* feyntrop has no version flag and crashes without JSON stdin;
                  report the short git SHA of the checkout if available. *)
               Module[{dir = DirectoryName[resolved], gr},
+                gr = Quiet @ Check[
+                  TimeConstrained[
+                    RunProcess[{"git", "-C", dir, "rev-parse", "--short", "HEAD"}],
+                    5, $TimedOut],
+                  $Failed];
+                If[AssociationQ[gr] && gr["ExitCode"] === 0,
+                  "git " <> StringTrim[gr["StandardOutput"]],
+                  ""]],
+            "HyperFLINT",
+              (* HyperFLINT has no --version flag; report git SHA of the
+                 source checkout (binary lives at <repo>/build-release/, so
+                 go up two levels from the binary to reach the repo). *)
+              Module[{dir = ParentDirectory[DirectoryName[resolved]], gr},
                 gr = Quiet @ Check[
                   TimeConstrained[
                     RunProcess[{"git", "-C", dir, "rev-parse", "--short", "HEAD"}],
@@ -476,6 +685,12 @@ stTestOneDependency[name_String] := Module[
   $STDependencies[name, "version"]   = version;
   $STDependencies[name, "statusMsg"] = msg;
   status
+],
+  (* on Abort: record the failure and continue the sweep. *)
+  $STDependencies[name, "status"]    = "error";
+  $STDependencies[name, "version"]   = "";
+  $STDependencies[name, "statusMsg"] = "dependency probe aborted";
+  "error"
 ];
 
 (* Silent variant of the dependency sweep: runs the smoke tests, sets the
@@ -487,10 +702,15 @@ stRunDependencyTests[] := Module[{names},
   (* FF's status is populated by the separate FF/SPQR load block above
      (it requires Needs[] + FFLoadLib[] to confirm the C library is wired
      in).  SPQR is just a paclet introspection, so we let the generic
-     test handle it. *)
+     test handle it.  Each stTestOneDependency call is double-guarded:
+     CheckAbort inside the definition handles probe-level aborts,
+     CheckAbort here handles the pathological case where the guard
+     itself fails.  Either way, one bad probe never aborts the sweep. *)
   Do[
     If[name =!= "FiniteFlow",
-      stTestOneDependency[name]],
+      CheckAbort[stTestOneDependency[name],
+        $STDependencies[name, "status"]    = "error";
+        $STDependencies[name, "statusMsg"] = "dependency probe aborted"]],
     {name, names}];
 ];
 
@@ -645,7 +865,15 @@ stBenchmarkNudgeLine[] := Module[{data, storedVersion},
 stPrintGreeting[] := Module[
   {skyRow2, integratorsRow, reducersRow, toolsRow,
    content, rendered, nudge},
-  stRunDependencyTests[];
+  CheckAbort[stRunDependencyTests[],
+    Print["[SubTropica] Dependency probe was aborted; continuing with best-effort status."]];
+
+  (* The banner-rendering block below is wrapped in CheckAbort so that a
+     Style/Row/Column/Print failure (e.g., an FE quirk during ASCII art
+     composition) never takes down the whole package load.  The REQUIRED-
+     dep warning loop further down runs outside this guard so users always
+     see the actionable message even if the art silently fails. *)
+  CheckAbort[Module[{},
 
   (* Polymake badge sits on the second sky row, to the right of the
      widening sun.  The sun is drawn as a 5-row half-circle reaching its
@@ -663,7 +891,7 @@ stPrintGreeting[] := Module[
   integratorsRow = stCenterBadgeRow[
     {"pySecDec", "FIESTA", "AMFlow", "feyntrop"}];
   reducersRow = stCenterBadgeRow[
-    {"FiniteFlow", "SPQR", "LiteRed", "FIRE", "HyperInt"}];
+    {"FiniteFlow", "SPQR", "LiteRed", "FIRE", "HyperInt", "HyperFLINT"}];
   toolsRow = stCenterBadgeRow[
     {"maple", "ginsh", "python3", "curl", "make"}];
 
@@ -704,8 +932,13 @@ stPrintGreeting[] := Module[
       BaseStyle -> {FontFamily -> "Courier", FontSize -> 14,
         LineSpacing -> {0.9, 0}}]],
     Print[StringRiffle[content, "\n"]]];
+  ],
+    (* banner-CheckAbort on Abort: *)
+    Print["[SubTropica] Welcome banner rendering was aborted (non-fatal)."]];
 
-  (* Warn loudly about missing REQUIRED deps (currently only polymake). *)
+  (* Warn loudly about missing REQUIRED deps (currently only polymake).
+     OUTSIDE the banner-CheckAbort so users always see this message, even
+     if the art above silently aborted. *)
   Do[Module[{dep = $STDependencies[name]},
        If[TrueQ[dep["required"]] && dep["status"] =!= "ok",
          Print["  \[WarningSign] ", name, " is REQUIRED: ",
@@ -762,9 +995,14 @@ $ShowBenchmarkNudge = True;
 
 (* Auto-load saved config (silent if absent or unreadable).  Runs BEFORE the
    FF auto-detection block below so that a saved FiniteFlowPath gets picked
-   up by FindFile / Needs in the natural way. *)
+   up by FindFile / Needs in the natural way.
+
+   Master kernel only: subkernels skip this block (Global`$STSubkernelMode
+   is True on subkernels during STSetupKernel's parallel Get) because
+   STSetupKernel mirrors the master's already-resolved $*Path /
+   $*Command values back to every subkernel after the load. *)
 Module[{loaded, applyOne},
-    If[FileExistsQ[$STConfigFile],
+    If[!TrueQ[Global`$STSubkernelMode] && FileExistsQ[$STConfigFile],
         loaded = Quiet[Check[Get[$STConfigFile], $Failed]];
         If[AssociationQ[loaded],
             applyOne[k_String, v_] := Switch[k,
@@ -772,6 +1010,11 @@ Module[{loaded, applyOne},
                 "GinshPath",                   $GinshCommand = v,
                 "MaplePath",                   $MapleCommand = v,
                 "HyperIntPath",                If[StringQ[v] && v =!= "", $SThyperIntPath = v] (* else keep auto-discovered value *),
+                "HyperFlintPath",              If[StringQ[v] && v =!= "",
+                                                   $STHyperFlintPath = v;
+                                                   $STHyperFlintDataPath = stResolveHyperFlintDataPath[v]],
+                "HyperFlintDataPath",          If[StringQ[v] && v =!= "" && FileExistsQ[v],
+                                                   $STHyperFlintDataPath = v],
                 "PythonPath",                  $PythonCommand = v,
                 "PolymakeConcurrencyFraction", $PolymakeConcurrencyFraction = v,
                 "FiniteFlowPath",              $FiniteFlowPath = v,
@@ -790,6 +1033,8 @@ Options[ConfigureSubTropica] = {
     GinshPath                   -> "/opt/homebrew/bin/ginsh",               (* brew install ginac *)
     MaplePath                   -> "maple",                                 (* no brew formula; rely on PATH *)
     HyperIntPath                -> "",    (* "" = auto-discover via $STHyperIntSearchPaths; Panzer's Maple package at bitbucket.org/PanzerErik/hyperint *)
+    HyperFlintPath              -> "",    (* "" = auto-discover via $STHyperFlintSearchPaths; compiled CLI from HyperFLINT/build-release *)
+    HyperFlintDataPath          -> "",    (* "" = derive from binary's <hf_root>/data; or paclet-bundled / ~/.subtropica fallback *)
     PythonPath                  -> "/opt/homebrew/bin/python3",             (* brew install python; pySecDec deps must be pip-installed *)
     PolymakeConcurrencyFraction -> 0.75,  (* fraction of CPU cores used for concurrent polymake jobs *)
     FiniteFlowPath              -> "",    (* FiniteFlow's mathlink/ dir; "" = rely on standard $Path / paclet *)
@@ -805,7 +1050,7 @@ Options[ConfigureSubTropica] = {
 With[{$SubTropicaDir = DirectoryName[$InputFileName]},
 
 $SubTropicaInstallDir = $SubTropicaDir;
-$SubTropicaVersion = "1.1.4";
+$SubTropicaVersion = "1.1.7";
 
 (* FindRoots root-letter substitutions: W$i -> algebraic root expressions.
    Set by STReadResults when the integration used FindRoots alphabet letters.
@@ -822,6 +1067,10 @@ $stEuclideanPoint = False;
    $LibraryPath augmented with FiniteFlow package root (parent of mathlink/) so FindLibrary
    locates fflowmlink.dylib. FFLoadLib[] retried if already cached with unloaded library.
    $UseFFPolynomialQuotient verified via FFDefaultNThreadsImplem (reliable C-library indicator). *)
+(* CheckAbort: Check[Quiet[...]] does NOT intercept Abort[] — only messages.
+   A FF C-library load that aborts (e.g., stale .dylib, ABI mismatch) would
+   otherwise bubble past this block and take the whole package load down. *)
+CheckAbort[
 Block[{Print=(Null)&},Module[{xffLoaded, xspqrLoaded, xffFile},
     xffFile = Quiet[FindFile["FiniteFlow`"]];
     If[StringQ[xffFile], (* MG 2026-04-08 *)
@@ -841,7 +1090,10 @@ Block[{Print=(Null)&},Module[{xffLoaded, xspqrLoaded, xffFile},
                                     MatchQ[FiniteFlow`Private`FFDefaultNThreadsImplem, _LibraryFunction], (* MG 2026-04-08 *)
         $UseFFPolynomialQuotient = False
     ]
-]];
+]],
+    (* on Abort: fall back to pure-WL PolynomialQuotient. *)
+    $UseFFPolynomialQuotient = False;
+    Print["[SubTropica] FF/SPQR auto-detect aborted; falling back to PolynomialQuotient[]."]];
 If[$UseFFPolynomialQuotient,
     $STDependencies["FiniteFlow", "status"] = "ok";
     (* Record the FiniteFlow`.m path for the dependency-table view; FindFile
@@ -878,6 +1130,12 @@ ConfigureSubTropica[opts:OptionsPattern[]] := Module[{ffPath, spqrPath, ffLoaded
        don't clobber a valid path with a hardcoded default. *)
     Module[{hp = OptionValue[HyperIntPath]},
         $SThyperIntPath = If[StringQ[hp] && hp =!= "", hp, stDiscoverHyperInt[]]];
+    Module[{hfp = OptionValue[HyperFlintPath],
+            hfd = OptionValue[HyperFlintDataPath]},
+        $STHyperFlintPath = If[StringQ[hfp] && hfp =!= "", hfp, stDiscoverHyperFlint[]];
+        $STHyperFlintDataPath = Which[
+            StringQ[hfd] && hfd =!= "" && FileExistsQ[hfd], hfd,
+            True, stResolveHyperFlintDataPath[$STHyperFlintPath]]];
     $PythonCommand               = OptionValue[PythonPath];
     $PolymakeConcurrencyFraction = OptionValue[PolymakeConcurrencyFraction];
     $FIESTAPath                  = OptionValue[FIESTAPath];
@@ -957,6 +1215,7 @@ ConfigureSubTropica[opts:OptionsPattern[]] := Module[{ffPath, spqrPath, ffLoaded
             "GinshPath"                   -> $GinshCommand,
             "MaplePath"                   -> $MapleCommand,
             "HyperIntPath"                -> $SThyperIntPath,
+            "HyperFlintPath"              -> $STHyperFlintPath,
             "PythonPath"                  -> $PythonCommand,
             "PolymakeConcurrencyFraction" -> $PolymakeConcurrencyFraction,
             "FiniteFlowPath"              -> $FiniteFlowPath,
@@ -1006,7 +1265,7 @@ STPreAnalysis[integrand, xvars, coeffs] performs an extended analysis of the sin
 It returns an association <| trData -> tropical data, rays -> divergent rays, faces -> divergent faces, us -> u-variables |>
 ";
 
-ConfigureSubTropica::usage = "ConfigureSubTropica[opt -> val, ...] sets external-tool paths (PolymakePath, GinshPath, MaplePath, HyperIntPath, PythonPath, FiniteFlowPath, SPQRPath, FIESTAPath, AMFlowPath, LiteRedPath, LiteIBPPath, FIREPath, FeyntropPath, PolymakeConcurrencyFraction). The configuration is auto-persisted to $STConfigFile and reapplied on the next Get[\"SubTropica`\"], so you only need to call this once per machine.";
+ConfigureSubTropica::usage = "ConfigureSubTropica[opt -> val, ...] sets external-tool paths (PolymakePath, GinshPath, MaplePath, HyperIntPath, HyperFlintPath, PythonPath, FiniteFlowPath, SPQRPath, FIESTAPath, AMFlowPath, LiteRedPath, LiteIBPPath, FIREPath, FeyntropPath, PolymakeConcurrencyFraction). The configuration is auto-persisted to $STConfigFile and reapplied on the next Get[\"SubTropica`\"], so you only need to call this once per machine.";
 
 STResetConfig::usage = "STResetConfig[] removes the persistent SubTropica configuration file at $STConfigFile, restoring package defaults at the next package load.";
 
@@ -1153,6 +1412,16 @@ STSetupKernel::usage = "STSetupKernel[nkernels:3] launches a pool of \
 Mathematica subkernels with SubTropica and HyperIntica distributed so the \
 kernels are ready for parallel tropical-data and integration work.  Setting \
 nkernels to 1 or 0 closes any existing pool and forces serial execution.";
+
+STResetKernelCaches::usage = "STResetKernelCaches[] clears the symbolic \
+caches and Mathematica system caches that accumulate across STIntegrate \
+calls, on both the master kernel and every active subkernel.  Mirrors what \
+a kernel restart would do for the caches that are known to affect result \
+correctness or performance: HyperIntica`$LinearFactorsCache, \
+HyperIntica`$HyperAlgebraicLetterTable / Counter, \
+$NoAlgebraicRootsContributions, plus ClearSystemCache[] and \
+ForgetAllMemo[].  Called automatically inside STSetupKernel's warm path so \
+re-using an already-launched pool is as clean as a fresh launch.";
 
 STReadResults::usage = "STReadResults[id:\"NP\"] loads and assembles the \
 saved face-integration results for the given problem id, reconstructing the \
@@ -1318,7 +1587,15 @@ If[!TrueQ[$Notebooks], Off[FrontEndObject::notavail]];
 (*Greeting*)
 
 
-stPrintGreeting[];
+(* Master kernel only: the greeting + dependency-probe pass calls
+   RunProcess for every external tool ($PolymakeCommand, $GinshCommand,
+   $PythonCommand, ...), which dominates the load-time cost.  Subkernels
+   set Global`$STSubkernelMode = True before Get[stPath] (see
+   STSetupKernel) so this block is skipped on the parallel Get; the
+   master then DistributeDefinitions all $*Path / $*Command resolutions
+   so subkernels still see the correctly-resolved paths.  TrueQ on an
+   undefined symbol is False, so the master path runs by default. *)
+If[!TrueQ[Global`$STSubkernelMode], stPrintGreeting[]];
 
 
 (* ::Section::Closed:: *)
@@ -9143,6 +9420,668 @@ If[rawResult === $Failed, $Failed, rawResult /. unflatten]
 ];
 
 
+(* ============================================================ *)
+(*  HyperFLINT CLI backend (analytic C++ integrator)            *)
+(* ============================================================ *)
+(*  STHyperFlint[integrand, {x1,...,xn}] is a drop-in replacement *)
+(*  for HyperIntica's HyperInt on convergent inputs.  It shells  *)
+(*  out to the `hyperflint` binary (see $STHyperFlintPath),      *)
+(*  sends the integrand as an Mma-style `expr` JSON field, and   *)
+(*  translates the returned RegulatorSym back into Mathematica   *)
+(*  syntax via stMzvTokenToZeta.                                 *)
+(*                                                                *)
+(*  Phase 1 scope: result terms with empty regulator `key` only. *)
+(*  Non-empty keys (divergent/continuation residues) and         *)
+(*  algebraic letters (Wm_i / Wp_i) are deferred; STHyperFlint    *)
+(*  throws an STHyperFlint::regkey / ::algletter message and     *)
+(*  returns $Failed so the caller can fall back to HyperIntica.  *)
+
+STHyperFlint::usage = "STHyperFlint[integrand, {x1, ..., xn}] evaluates the Euler integral over [0, \[Infinity])^n analytically by delegating to the external `hyperflint` CLI (C++/FLINT port of HyperIntica).  Returns the same symbolic form HyperInt[integrand, {x1, ..., xn}] produces on convergent inputs.  Set $STHyperFlintPath or use ConfigureSubTropica[HyperFlintPath -> ...] to override the binary location.";
+
+STHyperFlint::notfound  = "HyperFLINT binary not found at ``.  Set via ConfigureSubTropica[HyperFlintPath -> \"/absolute/path/to/hyperflint\"], or build with `cd ~/Projects/SubTropica-branchSM/HyperFLINT && cmake -S . -B build-release -DCMAKE_BUILD_TYPE=Release && cmake --build build-release`.";
+STHyperFlint::nodata    = "HyperFLINT data file (mzv_reductions.json) not found.  Tried: ``  -- Fix: re-clone HyperFLINT so <hf_root>/data/mzv_reductions.json is present, OR drop the file at ~/.subtropica/mzv_reductions.json, OR ConfigureSubTropica[HyperFlintDataPath -> \"/abs/path/to/mzv_reductions.json\"].  The file (110 KB) ships with the HyperFLINT source tree.";
+STHyperFlint::badjson   = "HyperFLINT returned non-JSON output: ``";
+STHyperFlint::hferror   = "HyperFLINT error: ``";
+STHyperFlint::divergent = "HyperFLINT reports the integral is divergent (``).";
+STHyperFlint::hffailed  = "HyperFLINT integration failed: ``";
+STHyperFlint::regkey    = "HyperFLINT returned a non-empty regulator key (``); Phase 1 of the ST-backend integration only handles convergent results with empty keys.  Use \"Integrator\" -> \"HyperIntica\" for now.";
+STHyperFlint::algletter = "HyperFLINT emitted an algebraic letter token (``) in the coefficient without a matching entry in the returned `algebraic_letters` table.  This is a bug in the request wiring (FindRoots -> True flag missing or HF table emission failed).";
+
+(* Translate a single HF mzv token to a Mathematica-syntax "Zeta[...]"
+   string.  Encoding: "mzv_a_b_c", where each of a,b,c is a non-negative
+   integer optionally prefixed with "m" to indicate negation.
+   Examples:
+     "mzv_2"          -> "Zeta[2]"
+     "mzv_1_m3"       -> "Zeta[1, -3]"
+     "mzv_m1_1_1_m3"  -> "Zeta[-1, 1, 1, -3]" *)
+stMzvTokenToZeta[token_String] := Module[{parts, arg},
+    parts = StringSplit[token, "_"];
+    If[Length[parts] < 2 || First[parts] =!= "mzv",
+        Return[token]];
+    arg = Map[
+        If[StringStartsQ[#, "m"],
+            "-" <> StringDrop[#, 1],
+            #] &,
+        Rest[parts]];
+    "Zeta[" <> StringRiffle[arg, ", "] <> "]"];
+
+(* Parse HF's algebraic_letters table and register each entry in
+   HyperIntica`$HyperAlgebraicLetterTable at a fresh Mma index, so
+   Wm[i]/Wp[i] atoms that come out of HF route through the same
+   SimplifyWithVieta / GetAlgebraicBackSubRules machinery as those
+   introduced by HyperInt itself.  Returns an `<|hfIdx -> mmaIdx, ...|>`
+   remap used by stHyperFlintCoefStringToMma to rewrite the coef strings.
+
+   The HF entry carries raw polynomial data (poly, var, lc, sum,
+   product, disc); Mma derives WmValue/WpValue locally as
+   (-b ∓ √disc)/(2·lc), matching HyperIntica.wl:2921-2930.  An empty
+   list returns an empty remap (no-op). *)
+stHyperFlintRegisterAlgLetters[alEntries_List] :=
+Module[{remap = <||>, entry, hfIdx, mmaIdx, polyExpr, varSym, lcExpr,
+        sumExpr, prodExpr, discExpr, wmVal, wpVal},
+    Do[
+        entry = alEntries[[k]];
+        hfIdx   = Lookup[entry, "idx", $Failed];
+        polyExpr = Quiet @ Check[ToExpression[Lookup[entry, "poly", "0"]], $Failed];
+        varSym   = Quiet @ Check[ToExpression[Lookup[entry, "var", "x"]], $Failed];
+        lcExpr   = Quiet @ Check[ToExpression[Lookup[entry, "lc", "1"]], $Failed];
+        sumExpr  = Quiet @ Check[ToExpression[Lookup[entry, "sum", "0"]], $Failed];
+        prodExpr = Quiet @ Check[ToExpression[Lookup[entry, "product", "0"]], $Failed];
+        discExpr = Quiet @ Check[ToExpression[Lookup[entry, "disc", "0"]], $Failed];
+        If[!IntegerQ[hfIdx] || polyExpr === $Failed || varSym === $Failed,
+            Continue[]];
+        (* sum = -b/lc → -b = sum*lc → root formulas as in HyperIntica.wl:2928 *)
+        wmVal = Together[(sumExpr - Sqrt[discExpr]/lcExpr) / 2];
+        wpVal = Together[(sumExpr + Sqrt[discExpr]/lcExpr) / 2];
+        HyperIntica`$HyperAlgebraicLetterCounter++;
+        mmaIdx = HyperIntica`$HyperAlgebraicLetterCounter;
+        HyperIntica`$HyperAlgebraicLetterTable[mmaIdx] = <|
+            "Polynomial"   -> polyExpr,
+            "Variable"     -> varSym,
+            "LC"           -> lcExpr,
+            "Sum"          -> sumExpr,
+            "Product"      -> prodExpr,
+            "Discriminant" -> discExpr,
+            "WmValue"      -> wmVal,
+            "WpValue"      -> wpVal
+        |>;
+        remap[hfIdx] = mmaIdx,
+        {k, Length[alEntries]}];
+    remap];
+
+(* Translate a full HF coefficient string (Rat::to_string format) into
+   something ToExpression can evaluate.
+   * mzv_a_b_...  -> Zeta[a, b, ...]
+   * Log2          -> Log[2]
+   * Wm_<i>        -> Wm[<mmaIdx>]
+   * Wp_<i>        -> Wp[<mmaIdx>]
+   * WmOverWp_<i>  -> Wm[<mmaIdx>]/Wp[<mmaIdx>]
+   * sqrt_disc_<i> -> Sqrt[<discriminant literal>]
+   The algebraic-letter tokens are rewritten via `alRemap`
+   (hfIdx -> mmaIdx) + `alEntries` (hfIdx -> entry Assoc) produced by
+   stHyperFlintRegisterAlgLetters.  If a token without a matching entry
+   is seen, emit STHyperFlint::algletter (which now indicates a real
+   wiring bug, not an unsupported feature). *)
+stHyperFlintCoefStringToMma[s_String] :=
+    stHyperFlintCoefStringToMma[s, <||>, <||>];
+stHyperFlintCoefStringToMma[s_String, alRemap_Association, alEntries_Association] :=
+Module[{out = s, tokens, badPairs, needsMaping, lookupMma, lookupDisc},
+    (* First handle algebraic letters: WmOverWp before Wm/Wp to avoid
+       the shorter prefix eating into it. *)
+    lookupMma[hfIdxStr_String] := Module[{n = ToExpression[hfIdxStr]},
+        Lookup[alRemap, n, $Failed]];
+    lookupDisc[hfIdxStr_String] := Module[{n = ToExpression[hfIdxStr], e},
+        e = Lookup[alEntries, n, <||>];
+        Lookup[e, "Discriminant", $Failed]];
+    (* Replace WmOverWp_<i> first. *)
+    tokens = DeleteDuplicates @ StringCases[out,
+        RegularExpression["\\bWmOverWp_(\\d+)\\b"] :> "$1"];
+    Do[Module[{mmaIdx = lookupMma[tok]},
+            If[mmaIdx === $Failed,
+                Message[STHyperFlint::algletter, "WmOverWp_" <> tok];
+                Return[$Failed, Module]];
+            out = StringReplace[out,
+                "WmOverWp_" <> tok -> "(Wm[" <> ToString[mmaIdx] <> "]/Wp[" <> ToString[mmaIdx] <> "])"]],
+        {tok, tokens}];
+    (* Then Wm_<i> and Wp_<i>. *)
+    tokens = DeleteDuplicates @ StringCases[out,
+        RegularExpression["\\b(?:Wm|Wp)_(\\d+)\\b"] :> "$1"];
+    Do[Module[{mmaIdx = lookupMma[tok]},
+            If[mmaIdx === $Failed,
+                Message[STHyperFlint::algletter, "Wm_" <> tok];
+                Return[$Failed, Module]];
+            out = StringReplace[out,
+                "Wm_" <> tok -> "Wm[" <> ToString[mmaIdx] <> "]"];
+            out = StringReplace[out,
+                "Wp_" <> tok -> "Wp[" <> ToString[mmaIdx] <> "]"]],
+        {tok, tokens}];
+    (* sqrt_disc_<i> — substitute the discriminant literal, then Sqrt[]. *)
+    tokens = DeleteDuplicates @ StringCases[out,
+        RegularExpression["\\bsqrt_disc_(\\d+)\\b"] :> "$1"];
+    Do[Module[{discExpr = lookupDisc[tok]},
+            If[discExpr === $Failed,
+                Message[STHyperFlint::algletter, "sqrt_disc_" <> tok];
+                Return[$Failed, Module]];
+            out = StringReplace[out,
+                "sqrt_disc_" <> tok ->
+                    "Sqrt[(" <> ToString[discExpr, InputForm] <> ")]"]],
+        {tok, tokens}];
+    (* Replace every distinct mzv_... token with Zeta[...].  Replace
+       longest first so a shorter prefix like "mzv_1" can't eat into
+       "mzv_1_m3" before the longer form runs. *)
+    tokens = DeleteDuplicates @ StringCases[out,
+        RegularExpression["mzv(?:_m?\\d+)+"]];
+    tokens = SortBy[tokens, -StringLength[#] &];
+    Do[
+        out = StringReplace[out, tok -> stMzvTokenToZeta[tok]],
+        {tok, tokens}];
+    (* Log2 literal -> Log[2]. *)
+    out = StringReplace[out, RegularExpression["\\bLog2\\b"] -> "Log[2]"];
+    out];
+
+(* Collect the list of free Mma symbols that appear in `integrand` but
+   are not in the integration variable list.  Needed so HF's parser
+   registers them in the PolyCtx before integration. *)
+stHyperFlintFreeSymbols[integrand_, vars_List] := Module[{syms},
+    syms = DeleteDuplicates @ Cases[integrand,
+        _Symbol?(Context[#] =!= "System`" &), {0, Infinity}];
+    Complement[ToString /@ syms, ToString /@ vars]];
+
+(* Strip Mma context prefixes (`SubTropica` / `SubTropica`Private` /
+   `Global`` / etc.) from a string.  HF's parser does not accept `\``
+   in identifier names, so the integrand and variable names must be
+   stripped to their short forms before emission.  This is safe because
+   HF's PolyCtx is per-request and scoped to exactly the strings the
+   caller provides — uniqueness of short names is the caller's
+   responsibility.  The regex matches one or more
+   `<IdentifierChar>+\\\`` groups at the start of an identifier. *)
+stHyperFlintStripContexts[s_String] :=
+    StringReplace[s,
+        RegularExpression["(?:[A-Za-z][A-Za-z0-9$]*`)+"] -> ""];
+
+(* Build the JSON request body for one hyperflint call.
+   `algLetters` (Phase 7-vi-b): when True, pass `"algebraic_letters":true`
+   so HF's degree-2 factor branch introduces Wm_i/Wp_i atoms instead of
+   flagging a NOLR.  On response HF also emits an `"algebraic_letters"`
+   array that STHyperFlint uses to populate $HyperAlgebraicLetterTable. *)
+stHyperFlintBuildRequest[integrand_, vars_List, algLetters_:False] :=
+Module[{freeSyms, exprStr, varStrs, req},
+    freeSyms = stHyperFlintFreeSymbols[integrand, vars];
+    exprStr  = stHyperFlintStripContexts @ ToString[integrand, InputForm];
+    (* Strip contexts from every variable name too.  HF's PolyCtx keys
+       variables by string; Mma-side code that processes the HF response
+       compares against bare Mma symbols (which also render without the
+       context prefix in Context[sym]=="Global`" default scope), so the
+       round trip stays consistent. *)
+    varStrs  = stHyperFlintStripContexts /@ (ToString /@ vars);
+    freeSyms = stHyperFlintStripContexts /@ freeSyms;
+    req = <|
+        "op"            -> "hyperflint",
+        "expr"          -> exprStr,
+        "vars_int"      -> varStrs,
+        "vars"          -> Join[varStrs, freeSyms],
+        "mzv_data_path" -> $STHyperFlintDataPath
+    |>;
+    If[TrueQ[algLetters],
+        req = Append[req, "algebraic_letters" -> True]];
+    ExportString[req, "JSON", "Compact" -> True]];
+
+(* Default thread budget for hyperflint.  Memory-only setting; override
+   with Block[{$STHyperFlintThreads = 1}, ...] inside subkernel contexts
+   to avoid CPU oversubscription when many workers call HF in parallel. *)
+$STHyperFlintThreads = ToString[Max[1, $ProcessorCount - 1]];
+
+Options[STHyperFlint] = {
+    FindRoots -> Automatic  (* Phase 7-vi-b: when True, degree-2 factors
+                                in HF's LinearFactors equivalent become
+                                Wm/Wp algebraic-letter pairs; the
+                                returned table is merged into
+                                HyperIntica's $HyperAlgebraicLetterTable.
+                                Automatic (default) follows HyperIntica's
+                                own $HyperIntroduceAlgebraicLetters flag,
+                                which STIntegrate's FindRoots option
+                                sets on its way down to the integrator.  *)
+};
+
+(* Diagnostic counters \[LongDash] same shape as the
+   stDispatchFubini2 instrumentation.  Useful to see if the HF
+   integrator is actually being exercised on a given diagram and how
+   much wall time it spends.  Reset by STResetKernelCaches. *)
+$STHyperFlintCallCount = 0;
+$STHyperFlintTotalTime = 0.;
+
+(* Timing wrapper.  Used by the per-face integrator dispatch (around
+   line 13411 in STLaunchHyperInticaAllKernelIntegrator) when
+   "Integrator" -> "HyperFLINT" is selected.  Returns whatever
+   STHyperFlint returns, with call count and wall time accumulated. *)
+stTimedHyperFlint[args___] := Module[{t, r},
+    {t, r} = AbsoluteTiming[STHyperFlint[args]];
+    $STHyperFlintCallCount += 1;
+    $STHyperFlintTotalTime += t;
+    r];
+
+(* Main entry point.  Mirrors HyperIntica's HyperInt[integrand, vars]. *)
+STHyperFlint[integrand_, vars_List, opts:OptionsPattern[]] := Module[
+    {requestJSON, procResult, stdout, stderr, exitCode, resp, resultList,
+     terms, badKey, translatedTerms, mmaExpr, useLibLink, respStr,
+     findRoots, alList, alRemap, alEntryMap,
+     origSymbols, contextRehydrate},
+    Module[{v = OptionValue[FindRoots]},
+        findRoots = If[v === Automatic,
+            TrueQ @ HyperIntica`$HyperIntroduceAlgebraicLetters,
+            TrueQ @ v]];
+
+    (* Phase 7-vi-b v2: context-stripping round-trip.  HF can't parse
+       backticks, so we strip contexts on the way in.  To rehydrate on
+       the way out, build a {"stripped-name" -> original-symbol} rule
+       list covering every non-System` symbol in (integrand ∪ vars).
+       Applied post-ToExpression. *)
+    origSymbols = DeleteDuplicates @ Join[
+        Cases[integrand, _Symbol?(Context[#] =!= "System`" &), {0, Infinity}],
+        vars];
+    contextRehydrate = Map[
+        Function[sym,
+            With[{short = stHyperFlintStripContexts @ ToString[sym]},
+                If[short === ToString[sym],
+                    Nothing,
+                    ToExpression[short] -> sym]]],
+        origSymbols];
+
+    (* Phase γ.2: prefer the LibraryLink transport if loaded.  Fall back
+       to the CLI subprocess when the γ.2 integrator handle isn't
+       available (build lag, Mma kernel without WolframLibrary, etc.).
+       Correctness is identical either way — both paths go through
+       hyperflint::handlers::hyperflint_sym on the same JSON body. *)
+    stHFLibraryEnsureLoaded[];
+    useLibLink = TrueQ[$STHyperFlintUseLibraryLink] &&
+                 Head[$STHFLibHyperFlintSym] === LibraryFunction;
+
+    (* Path + data-file sanity.
+       The CLI and data paths are only strictly required for the
+       subprocess transport.  LibraryLink resolves the MZV table on
+       its own (HYPERFLINT_DATA_DIR or the "mzv_data_path" JSON field
+       threaded in below). *)
+    If[!useLibLink,
+        If[!StringQ[$STHyperFlintPath] || $STHyperFlintPath === "" ||
+           !FileExistsQ[$STHyperFlintPath],
+            Message[STHyperFlint::notfound, $STHyperFlintPath];
+            Return[$Failed]];
+        If[!StringQ[$STHyperFlintDataPath] || $STHyperFlintDataPath === "" ||
+           !FileExistsQ[$STHyperFlintDataPath],
+            Message[STHyperFlint::nodata,
+                StringRiffle[
+                    stHyperFlintDataPathCandidates[$STHyperFlintPath],
+                    "; "]];
+            Return[$Failed]]];
+
+    requestJSON = stHyperFlintBuildRequest[integrand, vars, findRoots];
+
+    If[useLibLink,
+        (* LibraryLink path (Phase γ.2).  Synchronous, in-process.  If
+           the handler throws, we get either a JSON `"error"` field
+           (exception caught inside the C++ wrapper) or LIBRARY_FUNCTION_ERROR
+           (which LibraryFunction surfaces as a failed evaluation). *)
+        respStr = Quiet @ Check[$STHFLibHyperFlintSym[requestJSON], $Failed];
+        If[respStr === $Failed || !StringQ[respStr],
+            Message[STHyperFlint::hffailed,
+                "LibraryLink call returned " <> ToString[respStr]];
+            Return[$Failed]];
+        resp = Quiet @ Check[ImportString[respStr, "RawJSON"], $Failed],
+        (* CLI path. *)
+        procResult = RunProcess[
+            {$STHyperFlintPath, "eval-json"},
+            All,
+            requestJSON,
+            ProcessEnvironment -> <|"OMP_NUM_THREADS" -> ToString[$STHyperFlintThreads]|>];
+
+        If[!AssociationQ[procResult],
+            Message[STHyperFlint::hffailed, "RunProcess returned " <> ToString[procResult]];
+            Return[$Failed]];
+        exitCode = Lookup[procResult, "ExitCode", -1];
+        stdout   = Lookup[procResult, "StandardOutput", ""];
+        stderr   = Lookup[procResult, "StandardError", ""];
+        If[exitCode =!= 0,
+            Message[STHyperFlint::hffailed, "exit " <> ToString[exitCode] <>
+                If[StringLength[stderr] > 0, ": " <> StringTake[stderr, UpTo[400]], ""]];
+            Return[$Failed]];
+
+        (* HF prints one JSON line on stdout; ignore any leading progress. *)
+        resp = Quiet @ Check[
+            ImportString[Last[StringSplit[StringTrim[stdout], "\n"]], "RawJSON"],
+            $Failed]];
+
+    If[resp === $Failed || !AssociationQ[resp],
+        Message[STHyperFlint::badjson,
+            If[useLibLink,
+                StringTake[ToString[respStr], UpTo[200]],
+                StringTake[stdout, UpTo[200]]]];
+        Return[$Failed]];
+
+    If[TrueQ[Lookup[resp, "divergent", False]],
+        Message[STHyperFlint::divergent, Lookup[resp, "reason", "<no reason>"]];
+        Return[$Failed]];
+    Module[{err = Lookup[resp, "error", ""]},
+        If[StringQ[err] && err =!= "",
+            Message[STHyperFlint::hferror, err];
+            Return[$Failed, Module]]];
+
+    If[TrueQ[Lookup[resp, "failed", False]],
+        Message[STHyperFlint::hffailed, Lookup[resp, "reason", "<no reason>"]];
+        Return[$Failed]];
+
+    resultList = Lookup[resp, "result", None];
+    If[!ListQ[resultList],
+        Message[STHyperFlint::badjson, "missing 'result' field"];
+        Return[$Failed]];
+
+    (* Empty result list -> integrand integrates to 0. *)
+    If[resultList === {}, Return[0]];
+
+    (* Phase 7-vi-b: both empty keys (rational results) and non-empty
+       keys (Hlog / ZeroInfPeriod results) are handled.  A key is a
+       list of words; each word is a list of letter strings that
+       translates to an Mma letter expression (Wm[i]/Wp[i]/atoms).
+         key = []                contributes coef directly.
+         key = [[w]]              contributes coef * ZeroInfPeriod[<w>].
+         key = [[w1], [w2], ...]  shuffle product of the ZeroInfPeriods:
+                                  coef * ∏ᵢ ZeroInfPeriod[<wᵢ>].
+       Boundary-period values (integration from 0 to ∞) are commutative,
+       so the shuffle product collapses to ordinary multiplication. *)
+
+    (* Phase 7-vi-b: if FindRoots was on, register HF's algebraic-letter
+       entries into $HyperAlgebraicLetterTable at fresh Mma indices.
+       `alRemap` maps HF-local idx -> Mma idx so the coef-string parser
+       can rewrite Wm_<hfIdx>/Wp_<hfIdx> to Wm[<mmaIdx>]/Wp[<mmaIdx>]. *)
+    alList    = Lookup[resp, "algebraic_letters", {}];
+    alRemap   = If[ListQ[alList] && alList =!= {},
+        stHyperFlintRegisterAlgLetters[alList],
+        <||>];
+    (* alEntryMap: hfIdx -> <|"Discriminant" -> ..., "LC" -> ..., ...|>
+       carrying parsed Mma expressions.  Used by the coef-string parser
+       to literal-substitute sqrt_disc_<i> with Sqrt[<disc>]. *)
+    alEntryMap = If[ListQ[alList],
+        Association @ Map[
+            Function[e, Module[{idx = Lookup[e, "idx", $Failed]},
+                If[IntegerQ[idx],
+                    idx -> <|
+                        "Discriminant" -> Quiet @ Check[ToExpression[Lookup[e, "disc", "0"]], 0],
+                        "LC"           -> Quiet @ Check[ToExpression[Lookup[e, "lc", "1"]], 1],
+                        "Sum"          -> Quiet @ Check[ToExpression[Lookup[e, "sum", "0"]], 0],
+                        "Product"      -> Quiet @ Check[ToExpression[Lookup[e, "product", "0"]], 0]|>,
+                    Nothing]]],
+            alList],
+        <||>];
+
+    (* Translate each term: coef * period_factor.  period_factor is 1
+       when key=[], ZeroInfPeriod[{letters...}] when key=[[w]], or bail
+       with regkey when key has more than one word. *)
+    translatedTerms = Map[
+        Function[term,
+            Module[{coefStr, mmaStr, coefVal, key, periodFactors},
+                coefStr = Lookup[term, "coef", ""];
+                mmaStr  = stHyperFlintCoefStringToMma[coefStr, alRemap, alEntryMap];
+                If[mmaStr === $Failed, Return[$Failed, Module]];
+                coefVal = Quiet @ Check[ToExpression[mmaStr], $Failed];
+                If[coefVal === $Failed,
+                    Message[STHyperFlint::badjson,
+                        "ToExpression failed on coef string: " <> coefStr];
+                    Return[$Failed, Module]];
+                key = Lookup[term, "key", {}];
+                If[!MatchQ[key, {___List}],
+                    Message[STHyperFlint::regkey, ToString[key]];
+                    Return[$Failed, Module]];
+                (* Each word -> HyperIntica`ZeroInfPeriod[{letter1,...}].
+                   Product of all words' ZeroInfPeriods = shuffle product
+                   at the boundary (commutative, so ordinary product).
+                   Empty key or all-empty words -> factor is 1. *)
+                periodFactors = Map[
+                    Function[word,
+                        Module[{letters = Map[
+                                Function[letterStr,
+                                    Module[{rw = stHyperFlintCoefStringToMma[
+                                              letterStr, alRemap, alEntryMap]},
+                                        If[rw === $Failed, Return[$Failed, Module]];
+                                        Quiet @ Check[ToExpression[rw], $Failed]]],
+                                word]},
+                            If[MemberQ[letters, $Failed], Return[$Failed, Module]];
+                            If[letters === {}, 1,
+                                HyperIntica`ZeroInfPeriod[letters]]]],
+                    key];
+                If[MemberQ[periodFactors, $Failed], Return[$Failed, Module]];
+                coefVal * Times @@ periodFactors]],
+        resultList];
+    If[MemberQ[translatedTerms, $Failed], Return[$Failed]];
+
+    mmaExpr = Total[translatedTerms];
+    (* Rehydrate context-stripped symbols back to their originals so
+       downstream STIntegrate machinery sees its own SubTropica`mm etc.,
+       not Global`mm. *)
+    If[contextRehydrate =!= {},
+        mmaExpr = mmaExpr /. contextRehydrate];
+    mmaExpr
+];
+
+(* ============================================================ *)
+(*  HyperFLINT LR-order search backend (Phase β.2)              *)
+(* ============================================================ *)
+(*  STFindLROrdersHF[polys, xvars] — drop-in alternative to     *)
+(*  STFasterFubini2[{polys}, xvars, FindRoots -> False] that    *)
+(*  shells out to HF's `find_lr_orders` CLI op.  Single-group,  *)
+(*  LeafCountLinear heuristic, FindRoots=False MVP.             *)
+(*                                                                *)
+(*  On the 1-mass planar double box this was ~1.5x Mma; on      *)
+(*  smaller topologies (≤ 1 s in Mma) HF returns in < 0.1 s.    *)
+(*  Score may differ from Mma by a constant factor — HF uses a  *)
+(*  FLINT-native atom-count proxy for LeafCount that is within  *)
+(*  a factor of ~2 on typical Symanzik inputs, sufficient for   *)
+(*  the MinimalBy tie-break to agree.                           *)
+
+STFindLROrdersHF::usage = "STFindLROrdersHF[groupPolys, xvars] finds the linearly reducible integration order via HF's C++ find_lr_orders op.  `groupPolys` is a list-of-lists (matching STFasterFubini2's convention: one sub-list per polynomial group).  Single-group form `STFindLROrdersHF[polys, xvars]` where `polys` is a flat list is accepted as a convenience.  Remaining symbols auto-detected as kinematic parameters.  Returns {order, score} matching STFasterFubini2; {NOLR, Infinity} if no LR order.";
+
+STFindLROrdersHF::notfound = "HyperFLINT binary not found at ``.  Build with `cd ~/Projects/SubTropica-branchSM/HyperFLINT && cmake --build build-release -j`.";
+STFindLROrdersHF::hferror  = "HyperFLINT error: ``";
+STFindLROrdersHF::timedout = "HyperFLINT find_lr_orders timed out after `` s.";
+STFindLROrdersHF::badjson  = "HyperFLINT returned non-JSON: ``";
+
+Options[STFindLROrdersHF] = {
+    "TimeConstraint" -> 1800,   (* 30 min ceiling *)
+    "Threads" -> Automatic,      (* Automatic = $ProcessorCount - 1 *)
+    FindRoots -> False           (* Phase 7-vii: when True, HF accepts
+                                     deg-2 polys in the LR walk; the
+                                     integrator allocates Wm/Wp at
+                                     integration time. *)
+};
+
+(* Convenience single-group dispatch: a flat poly list is wrapped as
+   a one-group list-of-lists. *)
+STFindLROrdersHF[polys:{__?(FreeQ[#, _List] &)}, xvars_List, opts:OptionsPattern[]] :=
+    STFindLROrdersHF[{polys}, xvars, opts];
+
+STFindLROrdersHF[groupPolys_List, xvars_List, opts:OptionsPattern[]] /;
+        MatchQ[groupPolys, {_List ..}] :=
+Module[{coeffVars, req, procResult, resp, bestOrder, score, respStr,
+        threads, timeout, hfBin = $STHyperFlintPath, allPolys, useLibLink},
+    (* Lazy load if eager autoload failed (e.g., during Get["SubTropica`"]
+       the LibraryFunctionLoad didn't fire cleanly). *)
+    stHFLibraryEnsureLoaded[];
+    useLibLink = TrueQ[$STHyperFlintUseLibraryLink] &&
+                 Head[$STHFLibFindLROrders] === LibraryFunction;
+    If[!useLibLink &&
+       (!StringQ[hfBin] || hfBin === "" || !FileExistsQ[hfBin]),
+        Message[STFindLROrdersHF::notfound, hfBin];
+        Return[$Failed]];
+
+    threads = OptionValue["Threads"];
+    If[threads === Automatic, threads = Max[1, $ProcessorCount - 1]];
+    timeout = OptionValue["TimeConstraint"];
+
+    (* Auto-detect kinematic parameter symbols across every group. *)
+    allPolys = Flatten[groupPolys];
+    coeffVars = Complement[
+        Union @@ (Variables /@ allPolys),
+        xvars];
+
+    req = ExportString[Join[<|
+        "op"         -> "find_lr_orders",
+        "groups"     -> ((ToString[#, InputForm] & /@ #) & /@ groupPolys),
+        "xvars"      -> (ToString /@ xvars),
+        "coeff_vars" -> (ToString /@ coeffVars)
+    |>, If[TrueQ[OptionValue[FindRoots]],
+        <|"algebraic_letters" -> True|>, <||>]],
+        "JSON", "Compact" -> True];
+
+    (* Phase γ.1: LibraryLink transport if available (in-process,
+       eliminates RunProcess spawn overhead), CLI subprocess otherwise.
+       TimeConstraint applies to both paths. *)
+    If[useLibLink,
+        (* LibraryLink path — synchronous, in-process. *)
+        respStr = Quiet @ Check[
+            TimeConstrained[$STHFLibFindLROrders[req], timeout, $TimedOut],
+            $Failed];
+        If[respStr === $TimedOut,
+            Message[STFindLROrdersHF::timedout, timeout];
+            Return[$Failed]];
+        If[respStr === $Failed || !StringQ[respStr],
+            Message[STFindLROrdersHF::hferror,
+                "LibraryLink call returned " <> ToString[respStr]];
+            Return[$Failed]];
+        resp = Quiet @ Check[ImportString[respStr, "RawJSON"], $Failed],
+        (* CLI path. *)
+        procResult = TimeConstrained[
+            RunProcess[{hfBin, "eval-json"}, All, req,
+                ProcessEnvironment -> <|"OMP_NUM_THREADS" -> ToString[threads]|>],
+            timeout, $TimedOut];
+        If[procResult === $TimedOut,
+            Message[STFindLROrdersHF::timedout, timeout];
+            Return[$Failed]];
+        If[!AssociationQ[procResult] || procResult["ExitCode"] =!= 0,
+            Message[STFindLROrdersHF::hferror,
+                "exit " <> ToString[Lookup[procResult, "ExitCode", -1]] <>
+                ": " <> StringTake[Lookup[procResult, "StandardError", ""], UpTo[400]]];
+            Return[$Failed]];
+        resp = Quiet @ Check[
+            ImportString[StringTrim[procResult["StandardOutput"]], "RawJSON"],
+            $Failed];
+    ];
+
+    If[resp === $Failed || !AssociationQ[resp],
+        Message[STFindLROrdersHF::badjson,
+            If[useLibLink, StringTake[respStr, UpTo[200]],
+                StringTake[procResult["StandardOutput"], UpTo[200]]]];
+        Return[$Failed]];
+
+    If[KeyExistsQ[resp, "error"],
+        Message[STFindLROrdersHF::hferror, resp["error"]];
+        Return[$Failed]];
+
+    (* Result-shape contract (matches Mma's STFasterFubini2):
+         FindRoots=False : {bestOrder, score} | {NOLR, Infinity}
+         FindRoots=True  : {{bestOrder, score}, rootPolys} |
+                           {{NOLR, Infinity}, {} or rootPolys}
+       The FindRoots=True branch's `rootPolys` is the list of deg-2
+       polynomials accepted during the LR walk — the consumer
+       (STApplyRootFactoring) uses this to introduce Wm/Wp atoms at
+       integration time. *)
+    Module[{wantRoots = TrueQ @ OptionValue[FindRoots],
+            rawOrder, rawRoots, rootPolys},
+        If[TrueQ[resp["nolr"]],
+            If[wantRoots,
+                Return[{{NOLR, Infinity}, {}}],
+                Return[{NOLR, Infinity}]]];
+        rawOrder = ToExpression /@ resp["best_order"];
+        score    = resp["score"];
+        rawRoots = Lookup[resp, "root_polys", {}];
+        rootPolys = If[ListQ[rawRoots],
+            ToExpression /@ rawRoots,
+            {}];
+        If[wantRoots,
+            {{rawOrder, score}, rootPolys},
+            {rawOrder, score}]]];
+
+(* ============================================================ *)
+(*  STIntegrateHF: end-to-end Mma -> HF pipeline                *)
+(* ============================================================ *)
+(*  graph -> STGenerateIntegrand -> extract U, F, xvars          *)
+(*        -> STFindLROrdersHF -> best LR order                   *)
+(*        -> STHyperFlint[integrand, ordered_vars] -> result     *)
+
+STIntegrateHF::usage = "STIntegrateHF[args...] is a convenience alias for STIntegrate[args..., \"LROrderBackend\" -> \"HyperFLINT\", \"Integrator\" -> \"HyperFLINT\"].  It accepts every input form that STIntegrate does (graph, propagator list, Euler integrand, pre-built {pref, integrand, xvars, coeffs} quadruple) and every option.  The HF backend rules are appended to the argument list, so any explicit \"LROrderBackend\" / \"Integrator\" in the user args overrides them (first-match wins under STIntegrate's OptionValue).  FindRoots is left at its default (Automatic) so cases that need algebraic letters route through HF's Phase-7 Wm/Wp path transparently.";
+
+(* The alias forwards all positional arguments and options verbatim,
+   then appends the two backend rules.  STIntegrate's OptionsPattern[]
+   resolves per-option via OptionValue, which takes the first matching
+   rule — so anything the caller explicitly set on their side wins. *)
+STIntegrateHF[args___] := STIntegrate[args,
+    "LROrderBackend" -> "HyperFLINT",
+    "Integrator"     -> "HyperFLINT"];
+
+(* ============================================================ *)
+(*  Phase β.3: stDispatchFubini2 wrapper + backend globals      *)
+(* ============================================================ *)
+(*  STEvaluateGraph / STIntegrate sets $STLROrderBackend via    *)
+(*  Block; every STFasterFubini2 call site is replaced with     *)
+(*  stDispatchFubini2, which reads the global and dispatches to *)
+(*  HF's STFindLROrdersHF when "HyperFLINT" is active, with     *)
+(*  fall-through to Mma STFasterFubini2 on $Failed.             *)
+
+(* Current backend selection.  Local to Block-scoped callers;
+   ParallelEvaluate receives it via DistributeDefinitions at the
+   entry of STEvaluateGraph when the option is non-default.        *)
+$STLROrderBackend = "HyperIntica";
+
+(* Fallback counters (reset per STEvaluateGraph run).              *)
+$STHFFallbackCount  = 0;
+$STHFFallbackWarned = False;
+
+(* Diagnostic counters \[LongDash] populated when $STDispatchProfile = True.
+   Useful for adversarial-review-style "is HF really exercised on this
+   diagram, and how much wall-time does it spend?".  Each entry of
+   $STDispatchProfileLog is {backend, wall_time_seconds, n_xvars,
+   findRootsQ}.  Accumulated counters give Σ time + N calls split by
+   backend.  Reset by STResetKernelCaches[] and at the entry of
+   STEvaluateGraph. *)
+$STDispatchProfile        = False;
+$STDispatchProfileLog     = {};
+$STDispatchHFCount        = 0;
+$STDispatchHICount        = 0;
+$STDispatchHFTime         = 0.;
+$STDispatchHITime         = 0.;
+(* Setup-directory Put-I/O probe counters (used by HF speedup campaign
+   to decide whether per-face Put bundling is worth a multi-site refactor).
+   Reset by STResetKernelCaches[]. *)
+$STSetupDirCallCount      = 0;
+$STSetupDirPutTime        = 0.;
+
+stDispatchFubini2::hffall =
+    "HyperFLINT LR-search returned $Failed on a face; falling back to HyperIntica STFasterFubini2.  Further silent fallbacks will be counted (see $STHFFallbackCount).";
+
+Options[stDispatchFubini2] = Options[STFasterFubini2];
+stDispatchFubini2[groupPoly_, xvars_, opts:OptionsPattern[]] :=
+Module[{backend = $STLROrderBackend, findRoots, hfResult, t0, dt, ret,
+        nxv = Length[xvars]},
+    findRoots = TrueQ[FindRoots /. {opts} /. {FindRoots -> False}];
+    t0 = AbsoluteTime[];
+    ret = Which[
+        backend === "HyperFLINT",
+            hfResult = STFindLROrdersHF[groupPoly, xvars,
+                FindRoots -> findRoots];
+            If[hfResult === $Failed,
+                $STHFFallbackCount++;
+                If[!TrueQ[$STHFFallbackWarned],
+                    Message[stDispatchFubini2::hffall];
+                    $STHFFallbackWarned = True];
+                STFasterFubini2[groupPoly, xvars, opts],
+                hfResult],
+        True,
+            STFasterFubini2[groupPoly, xvars, opts]];
+    dt = AbsoluteTime[] - t0;
+    If[backend === "HyperFLINT",
+        $STDispatchHFCount += 1; $STDispatchHFTime += dt,
+        $STDispatchHICount += 1; $STDispatchHITime += dt];
+    If[TrueQ[$STDispatchProfile],
+        AppendTo[$STDispatchProfileLog, {backend, N[dt], nxv, findRoots}]];
+    ret];
+
 (* Look for linearly reducible orders for given polynomial lists *)
 STtoHyperReduction[polys_,coeffs_]:=Module[{prefix},
 prefix="with(MmaTranslator);\nread \"HyperInt.mpl\";\n";
@@ -10036,6 +10975,91 @@ ProportionalPolynomialsQLR[poly1_, poly2_, checks_ : 3] :=
         $ppqMemoLR[poly1, poly2, checks]
     ];
 
+(* ---------------------------------------------------------------- *)
+(*  Fast algebraic proportionality dedup (narrow precondition)      *)
+(* ---------------------------------------------------------------- *)
+(*  stCanonicalPolyForm[p] returns Expand[p] divided by the leading *)
+(*  coefficient in Mathematica's default CoefficientRules order.    *)
+(*                                                                  *)
+(*  VALID PRECONDITION: inputs must be polynomials of UNIT RATIONAL *)
+(*  CONTENT, i.e. produced by FactorList[_, Modulus->0][[All, 1]]   *)
+(*  (which strips sign + integer content into the constant slot).   *)
+(*  Under that precondition, two polynomials are equal up to sign   *)
+(*  iff their stCanonicalPolyForm values are structurally SameQ.    *)
+(*                                                                  *)
+(*  GENERAL INPUT WARNING: on polynomials with symbolic kinematic   *)
+(*  content, this is STRICTLY FINER than                            *)
+(*  ProportionalPolynomialsQLR.  Counterexample:                    *)
+(*    p1 = a*b*x + b^2*y,  p2 = a*x + b*y                           *)
+(*  PPQ returns True (proportional over Q(a,b) with ratio b); the   *)
+(*  canonical form gives two structurally distinct expressions.     *)
+(*  Do NOT use this as a general PPQ replacement.                   *)
+(*                                                                  *)
+(*  Edge cases:                                                     *)
+(*    stCanonicalPolyForm[0]       = 0                               *)
+(*    stCanonicalPolyForm[<numeric c>] = Sign[c] (±1 or 0)           *)
+(*                                                                  *)
+(*  See HyperFLINT/docs/lr_order_search_residual_profile.md §"Phase *)
+(*  α.2 null result" for the empirical finding.                     *)
+stCanonicalPolyForm[p_] := Module[{ex, rules, leadCoef},
+    ex = Expand[p];
+    If[ex === 0, Return[0]];
+    If[NumericQ[ex], Return[Sign[ex]]];
+    rules = CoefficientRules[ex];
+    If[rules === {}, Return[0]];
+    leadCoef = rules[[1, 2]];
+    If[leadCoef === 0, Return[0]];
+    Expand[p / leadCoef]];
+
+(* $STUseFastProportionalDedup: feature flag for the Phase-α.2 dedup
+   optimization.  Gates stCanonicalPolyForm-based dedup in STFubiniLR
+   and STFasterFubini2's Intersection step.
+   Default: False (legacy PPQ SameTest path).
+   Reason: on warm-kernel production workloads the PPQ memoization
+   cache achieves ≈ 99 % hit rate, making per-call PPQ ≈ 4 µs while
+   stCanonicalPolyForm stays ≈ 150 µs per call.  Net: fast path is
+   ≈ 0.9× on box-massless, sunrise-3mass (slight LOSS).  The
+   Phase-α.1 profile that motivated this change had the opposite
+   conclusion because the timing wrapper's DownValues save/restore
+   cleared PPQ's self-memo, inflating apparent PPQ cost by 3-5×.
+   Flag kept (set to True) for scenarios where PPQ memoization is
+   not primed (e.g. cold-start tests, CI regression suites).
+   See HyperFLINT/docs/lr_order_search_residual_profile.md §"Phase
+   α.2 null result" for the post-mortem. *)
+$STUseFastProportionalDedup = False;
+
+(* stDedupProportional[list] chooses the dedup path based on the flag.
+   Result set is the same (up to representative choice within each
+   equivalence class, which may differ across paths — caller must not
+   depend on which specific element survives dedup).  *)
+stDedupProportional[list_List] := If[TrueQ[$STUseFastProportionalDedup],
+    DeleteDuplicatesBy[list, stCanonicalPolyForm],
+    DeleteDuplicates[list, ProportionalPolynomialsQLR[#1, #2] &]];
+
+(* stIntersectProportional[lists]: N-way intersection under
+   proportionality equivalence.  Replaces
+     Apply[Intersection[##, SameTest -> PPQ] &, lists]
+   which is O(n²) per pairwise.  Fast version canonicalizes once per
+   element, intersects the canonical-form sets, then pulls one
+   representative from each equivalence class back to the original
+   form (taking the first member from the first list to match).  *)
+stIntersectProportional[lists_List] := If[TrueQ[$STUseFastProportionalDedup],
+    Module[{canonLists, common, firstList, canonFirst, picks},
+        If[Length[lists] === 0, Return[{}]];
+        If[Length[lists] === 1, Return[stDedupProportional[First[lists]]]];
+        canonLists = Map[stCanonicalPolyForm, lists, {2}];
+        common = Fold[Intersection, canonLists];
+        If[common === {}, Return[{}]];
+        firstList = First[lists];
+        canonFirst = stCanonicalPolyForm /@ firstList;
+        picks = Flatten @ Table[
+            Position[canonFirst, c, {1}, 1, Heads -> False],
+            {c, common}];
+        firstList[[picks]]],
+    Apply[Intersection[##, SameTest -> (ProportionalPolynomialsQLR[#1, #2] &)] &,
+        lists]
+];
+
 (* ------------------------------------------------------------ *)
 (*  Espresso-specific helpers                                   *)
 (*  ppqSortKey, ppqDedupSorted, ppqIntersection \[LongDash] used only by  *)
@@ -10273,7 +11297,10 @@ STFubiniLR[polynomials_List, var_, OptionsPattern[]] := Module[
     , {poly, combined}];
     combined =.;
 
-    temp = DeleteDuplicates[temp, ProportionalPolynomialsQLR[#1, #2] &];
+    (* Phase α.2: hash-based dedup via stCanonicalPolyForm is O(n log n)
+       vs the legacy O(n²) SameTest path.  Gated by $STUseFastProportionalDedup
+       (default True).  See HyperFLINT/docs/lr_order_search_residual_profile.md. *)
+    temp = stDedupProportional[temp];
     Snew = Select[temp, Not[NumericQ[#]] &];
     temp =.;
 
@@ -10519,7 +11546,10 @@ STEspressoFubini[
                 , {v, vars}];
 
                 (* Use the LR-strict intersection predicate (ProportionalPolynomialsQLR)
-                   to avoid over-aggressive dedup that loses higher-degree info. *)
+                   to avoid over-aggressive dedup that loses higher-degree info.
+                   Phase α.2 note: NOT gated by $STUseFastProportionalDedup;
+                   only the active STFasterFubini2/STFubiniLR call sites are.
+                   Migrate via stIntersectProportional if the flag default flips. *)
                 intersectionResult = Apply[
                     Intersection[##, SameTest -> (ProportionalPolynomialsQLR[#1, #2] &)] &,
                     preSTable[g]];
@@ -10651,6 +11681,11 @@ STFasterFubini[
             ];
             STFubiniLR[polys, v, FilterRules[{opts}, Options[STFubiniLR]]]
         , {v, vars}];
+        (* Phase α.2 note: NOT gated by $STUseFastProportionalDedup — only
+           the active STFasterFubini2:~11096 Intersection is gated.  Match
+           via stIntersectProportional[preSTable[g]] if the flag's default
+           ever flips and callers of STFasterFubini (this legacy path) need
+           parity. *)
         set[g][Sort[vars]] = Apply[
             Intersection[##, SameTest -> (ProportionalPolynomialsQLR[#1, #2] &)] &,
             preSTable[g]
@@ -10754,10 +11789,11 @@ STFasterFubini2[
                     fubiniResult
                 , {v, vars}];
 
-                intersectionResult = Apply[
-                    Intersection[##, SameTest -> (ProportionalPolynomialsQLR[#1, #2] &)] &,
-                    preSTable[g]
-                ];
+                (* Phase α.2: stIntersectProportional uses hash-based
+                   canonical-form dedup (O(n log n)) vs the legacy
+                   O(n²) SameTest path.  Gated by
+                   $STUseFastProportionalDedup (default True). *)
+                intersectionResult = stIntersectProportional[preSTable[g]];
                 set[g][Sort[vars]] = intersectionResult;
                 Quiet[preSTable[g] =.];
                 Quiet[intersectionResult =.];
@@ -10936,7 +11972,10 @@ STEspressoFubiniFast[
                 , {v, vars}];
 
                 (* Use the LR-strict intersection predicate (ProportionalPolynomialsQLR)
-                   to avoid over-aggressive dedup that loses higher-degree info. *)
+                   to avoid over-aggressive dedup that loses higher-degree info.
+                   Phase α.2 note: NOT gated by $STUseFastProportionalDedup;
+                   only the active STFasterFubini2/STFubiniLR call sites are.
+                   Migrate via stIntersectProportional if the flag default flips. *)
                 intersectionResult = Apply[
                     Intersection[##, SameTest -> (ProportionalPolynomialsQLR[#1, #2] &)] &,
                     preSTable[g]];
@@ -11413,32 +12452,36 @@ fromSetToList,exps,pols}
 			];*)
 			(* prefix pointing to the directory and face*)
 			prefix=directoryName<>"/";
-			(* Variables & Coefficients *)
-			dataFile=prefix<>"vars.m";
-			If[FileExistsQ[dataFile],DeleteFile[dataFile]];
-			Put[variablesAndCoeffs[[i]],dataFile];
-			(* Polys and pairs *)
-			If[polysAndPairsQ,
-				dataFile=prefix<>"polys.m";
+			(* Per-face Put I/O bundle (counter for diagnostics; bare cost). *)
+			SubTropica`$STSetupDirCallCount = SubTropica`$STSetupDirCallCount + 1;
+			SubTropica`$STSetupDirPutTime = SubTropica`$STSetupDirPutTime + First[AbsoluteTiming[
+				(* Variables & Coefficients *)
+				dataFile=prefix<>"vars.m";
 				If[FileExistsQ[dataFile],DeleteFile[dataFile]];
-				Put[polysAndPairs[[i]],dataFile];
-			];
-			(* Integrands *)
-			dataFile=prefix<>"counter_terms_integrands.m";
-			If[FileExistsQ[dataFile],DeleteFile[dataFile]];
-			Put[integrands[[i,;;,ord-minOrder+1]],dataFile];
-			(* eps-order (convenient later) *)
-			dataFile=prefix<>"epsorder.m";
-			If[FileExistsQ[dataFile],DeleteFile[dataFile]];
-			Put[eps^ord,dataFile];
-			(* prefactor (convenient later) *)
-			dataFile=prefix<>"prefactor.m";
-			If[FileExistsQ[dataFile],DeleteFile[dataFile]];
-			Put[prefactor,dataFile];
-			(* counter-terms results directory *)
-			dataFile=prefix<>"partial_results";
-			If[DirectoryQ[dataFile],DeleteDirectory[dataFile]];
-			CreateDirectory[dataFile];
+				Put[variablesAndCoeffs[[i]],dataFile];
+				(* Polys and pairs *)
+				If[polysAndPairsQ,
+					dataFile=prefix<>"polys.m";
+					If[FileExistsQ[dataFile],DeleteFile[dataFile]];
+					Put[polysAndPairs[[i]],dataFile];
+				];
+				(* Integrands *)
+				dataFile=prefix<>"counter_terms_integrands.m";
+				If[FileExistsQ[dataFile],DeleteFile[dataFile]];
+				Put[integrands[[i,;;,ord-minOrder+1]],dataFile];
+				(* eps-order (convenient later) *)
+				dataFile=prefix<>"epsorder.m";
+				If[FileExistsQ[dataFile],DeleteFile[dataFile]];
+				Put[eps^ord,dataFile];
+				(* prefactor (convenient later) *)
+				dataFile=prefix<>"prefactor.m";
+				If[FileExistsQ[dataFile],DeleteFile[dataFile]];
+				Put[prefactor,dataFile];
+				(* counter-terms results directory *)
+				dataFile=prefix<>"partial_results";
+				If[DirectoryQ[dataFile],DeleteDirectory[dataFile]];
+				CreateDirectory[dataFile];
+			]];
 		,{i,1,nfaces}
 		]
 	,{ord,minOrder,maxOrder}
@@ -11820,7 +12863,7 @@ STfindLinearlyReducibleOrdersHighestEpsOrder2[id_:"NP", opts:OptionsPattern[]] :
                 ,
                 Module[{espResult, rootPolys = {}},
                   espResult = If[("MethodLR" /. {opts} /. {"MethodLR" -> "Lungo"}) === "Lungo",
-                      STFasterFubini2[
+                      stDispatchFubini2[
                           Join[#, xvars] & /@ (polysAndPairs[[;; , 1]]),
                           xvars,
                           Heuristic -> OptionValue[Heuristic],
@@ -12054,17 +13097,101 @@ $STJobTrackingDir = FileNameJoin[{$TemporaryDirectory, "STJobTracking"}];
 $STCompletedJobsLog = FileNameJoin[{$TemporaryDirectory, "STJobTracking", "completed_jobs.m"}];
 
 
-(*  STSetupKernel now skips CloseKernels+LaunchKernels when the correct
-   number of kernels are already alive, saving ~2 s per redundant call.
-   The job-tracking directory is always recreated (required for each integration
-   run).  DistributeDefinitions["HyperIntica`"] is only repeated when a kernel
-   restart actually happened.
+(* STResetKernelCaches[] mirrors what a kernel restart does for the
+   caches that affect result correctness or performance, on both the
+   master kernel and every active subkernel.  Called automatically inside
+   STSetupKernel's warm path so re-using an already-launched pool is
+   indistinguishable from a fresh launch.  The Long benchmark suite (22
+   diagrams, back-to-back, single kernel session) has stable result
+   hashes across runs, which is what validates that this set of clears
+   is sufficient. *)
+STResetKernelCaches[] := (
+    Quiet[
+        If[ValueQ[HyperIntica`$LinearFactorsCache],          HyperIntica`$LinearFactorsCache = <||>];
+        If[ValueQ[$NoAlgebraicRootsContributions],           $NoAlgebraicRootsContributions = <||>];
+        If[ValueQ[HyperIntica`$HyperAlgebraicLetterTable],   HyperIntica`$HyperAlgebraicLetterTable = <||>];
+        If[ValueQ[HyperIntica`$HyperAlgebraicLetterCounter], HyperIntica`$HyperAlgebraicLetterCounter = 0];
+        $STDispatchHFCount = 0; $STDispatchHICount = 0;
+        $STDispatchHFTime  = 0.; $STDispatchHITime  = 0.;
+        $STDispatchProfileLog = {};
+        $STHyperFlintCallCount = 0; $STHyperFlintTotalTime = 0.;
+        $STSetupDirCallCount = 0; $STSetupDirPutTime = 0.;
+        ClearSystemCache[];
+        Quiet[ForgetAllMemo[]];
+        (* Clear the proportional-polynomial memos.  These accumulate
+           inside the gauge-scoring ParallelTable and are NOT cleared by
+           ForgetAllMemo (which only resets HyperIntica memos).  When an
+           inner TimeConstrained interrupt fires (e.g. on an entry that
+           overruns the 180s gate), the in-flight LR scan exits before
+           reaching the natural ForgetProportionalPolynomialsQ cleanup
+           at line 16251, leaving up to ~48 MB / 47k entries on master
+           and ~237 MB across 13 subkernels.  Subsequent calls then see
+           a 5-7x slowdown in the gauge phase.  ForgetProportionalPolynomialsQ
+           and its LR sibling already do the parallel cleanup themselves;
+           we just need to invoke them from the central reset. *)
+        Quiet[ForgetProportionalPolynomialsQ[]];
+        Quiet[ForgetProportionalPolynomialsQLR[]]];
+    If[Length[Kernels[]] > 0,
+        Quiet @ ParallelEvaluate[
+            If[ValueQ[HyperIntica`$LinearFactorsCache],          HyperIntica`$LinearFactorsCache = <||>];
+            If[ValueQ[$NoAlgebraicRootsContributions],           $NoAlgebraicRootsContributions = <||>];
+            If[ValueQ[HyperIntica`$HyperAlgebraicLetterTable],   HyperIntica`$HyperAlgebraicLetterTable = <||>];
+            If[ValueQ[HyperIntica`$HyperAlgebraicLetterCounter], HyperIntica`$HyperAlgebraicLetterCounter = 0];
+            (* Mirror the master-side dispatch counter resets so
+               aggregated counts after STIntegrate reflect only the
+               current run, not accumulated history. *)
+            $STDispatchHFCount = 0; $STDispatchHICount = 0;
+            $STDispatchHFTime  = 0.; $STDispatchHITime  = 0.;
+            $STDispatchProfileLog = {};
+            $STHyperFlintCallCount = 0; $STHyperFlintTotalTime = 0.;
+            $STSetupDirCallCount = 0; $STSetupDirPutTime = 0.;
+            ClearSystemCache[];
+            Quiet[ForgetAllMemo[]];
+            $HistoryLength = 0;
+            Share[]]];
+    Share[];);
+
+(* Eager-pool launch task placeholder (set at the end of SubTropica.wl
+   when $STEagerKernelPool is True).  STSetupKernel's entry wrapper waits
+   on it before doing any work so the first user-triggered call benefits
+   from the already-warm pool.  See the kickoff block at the bottom of
+   this file. *)
+$STEagerLaunchTask = None;
+$STEagerKernelPool = True;
+
+(*  STSetupKernel skips CloseKernels+LaunchKernels when the correct
+   number of kernels are already alive, saving ~5.5 s per redundant call,
+   and clears caches on every reuse so warm-path semantics match a fresh
+   launch.  The job-tracking directory is always recreated.
 
    nkernels <= 1 means fully serial mode: all subkernels are closed and
    everything runs on the main kernel.  ParallelTable/ParallelMap/etc.
    automatically fall back to their serial equivalents when no subkernels
-   are alive. *)
-STSetupKernel[nkernels_Integer:3] := Module[{currentDir, kernelsAlreadyOk,
+   are alive.
+
+   The public `STSetupKernel` is a thin wrapper that synchronizes with
+   any pending eager-pool task before delegating to `stSetupKernelImpl`.
+   The eager task itself calls `stSetupKernelImpl` directly so it does
+   not deadlock on its own pending-task slot. *)
+STSetupKernel[nkernels_Integer:3] := Module[{task},
+    If[Head[$STEagerLaunchTask] === TaskObject,
+        task = $STEagerLaunchTask;
+        $STEagerLaunchTask = None;  (* clear before waiting so the wrapper
+                                        doesn't recurse on its own task *)
+        Quiet @ TaskWait[task];
+        (* If the eager task already launched the requested pool size, the
+           kernels are clean and ready \[LongDash] no need to fall through to
+           stSetupKernelImpl, which would re-traverse the warm path and run
+           a redundant STResetKernelCaches.  Fall through only when the
+           eager run does not match (different size requested, or the
+           background task aborted). *)
+        If[TrueQ[$KernelSetupQ] &&
+            $STActiveKernelCount === nkernels &&
+            Length[Kernels[]] >= nkernels,
+            Return[Null]]];
+    stSetupKernelImpl[nkernels]]
+
+stSetupKernelImpl[nkernels_Integer] := Module[{currentDir, kernelsAlreadyOk,
         effectiveNKernels = nkernels},
     currentDir = Directory[];
 
@@ -12114,39 +13241,115 @@ STSetupKernel[nkernels_Integer:3] := Module[{currentDir, kernelsAlreadyOk,
         LaunchKernels[effectiveNKernels];
         $STActiveKernelCount = effectiveNKernels;
 
-        (* Sync working directory on new kernels *)
-        ParallelEvaluate[SetDirectory[#]]&[currentDir];
+        (* Sync working directory + search paths on new kernels.  The path sync
+           must precede the parallel Get below so that SubTropica.wl's
+           FF/SPQR auto-detect inside the subkernel can locate the packages. *)
+        With[{cd = currentDir, mainPath = $Path, mainLibPath = $LibraryPath},
+            ParallelEvaluate[
+                SetDirectory[cd];
+                $Path = mainPath;
+                $LibraryPath = mainLibPath]];
 
-        (* Distribute packages; only needed after a fresh kernel launch *)
+        (* SubTropica` has \[Tilde]4.7 K symbols.  DistributeDefinitions["SubTropica`"]
+           costs \[Tilde]20 s on a 13-subkernel pool because the symbol-table install on
+           each subkernel scales with N_symbols * N_kernels regardless of how
+           little data each definition holds.  Parsing SubTropica.wl locally on
+           each subkernel takes \[Tilde]1 s in parallel when subkernel mode
+           skips the dep-probe banner and persisted-config read (see the
+           Global`$STSubkernelMode gate in SubTropica.wl).  HyperIntica` is
+           loaded as a BeginPackage dependency by the same Get, so it comes
+           up on subkernels in the same step.  Block[Print] suppresses the
+           per-subkernel splash. *)
+        With[{stPath = FileNameJoin[{$SubTropicaInstallDir, "SubTropica.wl"}]},
+            ParallelEvaluate[
+                Global`$STSubkernelMode = True;
+                Block[{Print = (Null)&},
+                    Off[General::shdw]; Off[Integrate::shdw];
+                    Quiet[Get[stPath], {Integrate::shdw, General::shdw}]]]];
+
+        (* Overlay any runtime HyperIntica state that the main kernel mutated
+           between package load and STSetupKernel.  SubTropica's parallel Get
+           above brought up a fresh HyperIntica context on each subkernel; this
+           DistributeDefinitions imprints the main kernel's current values
+           (algebraic letter counters, caches, ...) on top of that.  Cost
+           is \[Tilde]0.4 s. *)
         DistributeDefinitions["HyperIntica`"];
-        (*  distribute SubTropica so sub-kernels can run STExpandIntegral in parallel *)
-        DistributeDefinitions["SubTropica`"];
-        (* If FF is active, load FiniteFlow+SPQR+PolynomialQuotientFF on each subkernel
-           so PartialFractions[] can use SPQRPolynomialQuotient[] in parallel. *)
-        If[$UseFFPolynomialQuotient,
-            DistributeDefinitions[$PolynomialQuotientFFFile];
-            (* Sync $Path so subkernels can locate FiniteFlow and SPQR,
-               which may live in directories not on the default subkernel $Path. *)
-               With[{mainPath = $Path, mainLibPath = $LibraryPath},
-                ParallelEvaluate[
-                    Block[{Print = (Null)&},
-                        $Path = mainPath;
-                        $LibraryPath = mainLibPath;
-                        Needs["FiniteFlow`"];
-                        Needs["SPQR`"];
-                        Get[$PolynomialQuotientFFFile]
-                    ]
-                ]
-            ]
-        ];
+
+        (* Mirror master-resolved $*Path / $*Command / $*PolymakeFraction
+           values to every subkernel.  Required because subkernels skip
+           SubTropica.wl's persisted-config read and dependency-probe banner
+           in subkernel mode (Global`$STSubkernelMode = True), which means
+           any user-side ConfigureSubTropica or runtime mutation that hadn't
+           been persisted yet would otherwise be lost.  This is also
+           important for paths that auto-discover differently between master
+           and subkernel (e.g., a custom HyperFLINT install that the master
+           knows about via persisted config but a fresh subkernel Get does
+           not). *)
+        With[{
+              polymakeCmd  = $PolymakeCommand,
+              ginshCmd     = $GinshCommand,
+              mapleCmd     = $MapleCommand,
+              hyperIntPath = $SThyperIntPath,
+              hfPath       = $STHyperFlintPath,
+              hfDataPath   = $STHyperFlintDataPath,
+              pythonCmd    = $PythonCommand,
+              polymakeFrac = $PolymakeConcurrencyFraction,
+              fiestaPath   = $FIESTAPath,
+              amflowPath   = $AMFlowPath,
+              literedPath  = $LiteRedPath,
+              liteibpPath  = $LiteIBPPath,
+              firePath     = $FIREPath,
+              feyntropPath = $FeyntropPath,
+              ffPath       = $FiniteFlowPath,
+              algLet       = $HyperIntroduceAlgebraicLetters,
+              algSafe      = $STFindRootsParallelSafe,
+              ffOn         = $UseFFPolynomialQuotient,
+              checkDv      = $HyperInticaCheckDivergences},
+            ParallelEvaluate[
+                $PolymakeCommand                = polymakeCmd;
+                $GinshCommand                   = ginshCmd;
+                $MapleCommand                   = mapleCmd;
+                $SThyperIntPath                 = hyperIntPath;
+                $STHyperFlintPath               = hfPath;
+                $STHyperFlintDataPath           = hfDataPath;
+                $PythonCommand                  = pythonCmd;
+                $PolymakeConcurrencyFraction    = polymakeFrac;
+                $FIESTAPath                     = fiestaPath;
+                $AMFlowPath                     = amflowPath;
+                $LiteRedPath                    = literedPath;
+                $LiteIBPPath                    = liteibpPath;
+                $FIREPath                       = firePath;
+                $FeyntropPath                   = feyntropPath;
+                $FiniteFlowPath                 = ffPath;
+                $HyperIntroduceAlgebraicLetters = algLet;
+                $STFindRootsParallelSafe        = algSafe;
+                $UseFFPolynomialQuotient        = ffOn;
+                $HyperInticaCheckDivergences    = checkDv]];
+
         (* Suppress FrontEndObject::notavail on sub-kernels running headlessly *)
         ParallelEvaluate[Off[FrontEndObject::notavail]];
         (*  mirror the main-kernel Off[] calls on sub-kernels so that
            the $Failed[rays] cascade warnings are silenced there too *)
         ParallelEvaluate[Off[Table::iterb]; Off[Part::partd]];
+
+        (* Static-definition broadcasts \[LongDash] cold-launch only.  These
+           function/symbol values don't change after package load, so once
+           the subkernel has them they stay valid for the lifetime of the
+           pool.  Doing this on every warm STSetupKernel was \[Tilde]1 s of
+           wasted DistributeDefinitions overhead per call (per
+           profile_v1.1.6.3 round-2 + adversarial review). *)
+        DistributeDefinitions[$STJobTrackingDir, $STCompletedJobsLog];
+        DistributeDefinitions[STLaunchHyperInticaAllKernelIntegrator];
+        DistributeDefinitions[STLaunchHyperInticaAll];
+
     ,
         (* Kernels already live with correct count; skip the expensive restart.
-           Just re-sync the directory in case it changed between calls. *)
+           Just re-sync the directory in case it changed.  No cache reset
+           here \[LongDash] STSetupKernel is called multiple times inside a
+           single STIntegrate run (gauge scoring, LR search, integration
+           coordination), so clearing caches in the warm path would wipe
+           state mid-integration.  Use the public STResetKernelCaches[]
+           between STIntegrate calls when a clean slate is desired. *)
         ParallelEvaluate[SetDirectory[#]]&[currentDir];
     ];
 
@@ -12155,10 +13358,6 @@ STSetupKernel[nkernels_Integer:3] := Module[{currentDir, kernelsAlreadyOk,
     If[DirectoryQ[$STJobTrackingDir], DeleteDirectory[$STJobTrackingDir, DeleteContents -> True]];
     CreateDirectory[$STJobTrackingDir];
     Put[{}, $STCompletedJobsLog];
-
-    DistributeDefinitions[$STJobTrackingDir, $STCompletedJobsLog];
-    DistributeDefinitions[STLaunchHyperInticaAllKernelIntegrator];
-    DistributeDefinitions[STLaunchHyperInticaAll];
 
     (* Propagate HyperIntica flags from main kernel to all sub-kernels *)
     With[{checkDiv = $HyperInticaCheckDivergences},
@@ -12252,7 +13451,10 @@ STLaunchHyperInticaAllKernelIntegrator[{faceDirectory_, ctId_, ctIntegrand_, LRo
 
     (rules=OptionValue["NumericsQ"]);
 
-    integrator = If[OptionValue["Integrator"] === "HyperInt", SThyperIntMaple, HyperInt];
+    integrator = Switch[OptionValue["Integrator"],
+        "HyperInt",   SThyperIntMaple,
+        "HyperFLINT", stTimedHyperFlint,
+        _,            HyperInt];
 
     (* runIntegrator computes the result in the current dynamic scope.  We
        Block-scope the HyperIntica letter-allocation state around this call
@@ -13840,7 +15042,12 @@ stStageTime[label_String, expr_] := Module[{t0 = SessionTime[], r, dt, bc},
        When $stPostStageInstrumentation is True we also report the
        ByteCount of the output so the caller can tell whether a slow
        stage actually simplified the expression or just churned. *)
-    If[TrueQ[$stPostStageInstrumentation] || dt >= 0.1,
+    (* Quiet by default: only emit the stall line when the user has opted
+       in via $stPostStageInstrumentation, or when a stage has taken long
+       enough (>= 60 s) that a true pipeline stall is likely. The previous
+       0.1 s floor caught every normal post-processing stage and made the
+       log noisy on every STIntegrate run. *)
+    If[TrueQ[$stPostStageInstrumentation] || dt >= 60,
         bc = Quiet @ Check[ByteCount[r], -1];
         WriteString["stdout",
             "  [post] ", label, " : ", Round[dt, 0.01], " s",
@@ -14069,6 +15276,7 @@ STFindSlowestJob[] := Module[{files, jobs, slowest},
 
 STEvaluateGraph::timebound = "No valid gauge found within the specified time and/or memory limit(s). Please increase the TimeUpperBound and/or MemoryPercentCutOff.";
 STEvaluateGraph::nolr = "No linearly reducible integration orders found for any gauge choice.";
+STEvaluateGraph::findrootshf = "\"LROrderBackend\" -> \"HyperFLINT\" combined with FindRoots -> True is unsupported at the LR-search level (HF's find_lr_orders does not yet understand Wm/Wp algebraic letters); downgrading to \"LROrderBackend\" -> \"HyperIntica\" for this call.  Integration still routes through HF if \"Integrator\" -> \"HyperFLINT\" is set.  Warning shown once per kernel session; Off[STEvaluateGraph::findrootshf] to silence.";
 STEvaluateGraph::membound = "Gauge x`1` exceeded memory limit and was skipped.";
 STEvaluateGraph::timeout = "Gauge x`1` exceeded time limit and was skipped.";
 STEvaluateGraph::nogauges = "No valid gauge indices provided in IncludeGauges option. Must be integers between 1 and the number of propagators (`1`).";
@@ -14107,7 +15315,7 @@ Options[STEvaluateGraph] = Join[
                                               memoization caches after an integrand if MemoryInUse[] exceeds the
                                               threshold. Infinity disables. Middle ground between always-flush
                                               (ClearCachesPerIntegrand -> True) and never-flush (default). *)
-        "Integrator"              -> "HyperIntica",  (* "HyperIntica" (default, Mathematica) or "HyperInt" (Maple via SThyperIntMaple) *)
+        "Integrator"              -> "HyperIntica",  (* "HyperIntica" (default, Mathematica), "HyperInt" (Maple via SThyperIntMaple), or "HyperFLINT" (C++/FLINT CLI via STHyperFlint) *)
         "CleanOutput"             -> False,  (* If True, apply CleanZeroInf[] to the final result *)
         "SelectFaces"             -> All,    (* Face-selective integration; see Options[STEvaluateEulerIntegral] for full syntax *)
         "ReuseExistingResults"    -> True,   (* Skip faces that already have result.m + successQ.m on disk *)
@@ -14116,7 +15324,8 @@ Options[STEvaluateGraph] = Join[
         FindRoots                 -> True,   (* Default True as of v1.0.398: factor univariate quadratic+ polynomials into linear roots during LR order search, introducing Wm[i]/Wp[i] algebraic letters when the factors are irreducible (e.g. equal-mass / clustered-mass graphs). True unlocks integrals that False aborts on (equal-mass bubble, equal-mass sunrise triangle, ...). Parallel integration is enabled by default as of v1.0.402: each subkernel Block-scopes $HyperAlgebraicLetterCounter/Table with JobIndex*$STFindRootsJobStride, and the aggregator unions per-subkernel tables. Set $STFindRootsParallelSafe = False to opt out to the legacy serial path. *)
         "AutoRationalize"         -> False,  (* When True, try the M1/M2/M3 rationalization dispatcher (single/double Cheng-Wu, FKV, Kallen, BoxFKV) before falling through to the normal pipeline.  Off by default because the dispatcher may pick a substitution for cases the normal pipeline already handles correctly, producing a DIFFERENTLY-parameterized (FKV-variable) result.  Users who want unlocks should set this True explicitly. *)
         "MethodLR"                -> "Lungo",  (* "Lungo" (default, OLD algorithm: discriminant/resultant + global dedup) or "Espresso" *)
-        "MethodPolysAndPairs"     -> "Fast"   (* "Fast" (default) = extract polys directly from STtoCoeffMonPols; "Standard" = sum renormalized integrands per eps-order and call STpreparePolysAndPairs *)
+        "MethodPolysAndPairs"     -> "Fast",   (* "Fast" (default) = extract polys directly from STtoCoeffMonPols; "Standard" = sum renormalized integrands per eps-order and call STpreparePolysAndPairs *)
+        "LROrderBackend"          -> "HyperIntica"  (* "HyperIntica" (default, in-process Mma STFasterFubini2) or "HyperFLINT" (C++ HF find_lr_orders via stDispatchFubini2).  HF requires FindRoots -> False.  Tie-break-equivalent orders to Mma on 22/26 of a real-face sweep (Phase β.3 validation); 4/26 pick a different valid LR order but all are mathematically equivalent (Fubini guarantees integration-order independence). *)
     },
     Options[STGenerateIntegrand]
 ];
@@ -14135,7 +15344,7 @@ Module[{
     outputOrder, poleGamma, effectiveOrder, scanScoreInterval,
     scoreInParallel, timeUpperBound,
     memPercentCutOff, scoringMemoryFraction, setupInParallel,
-    findRootsValue, methodLRValue, methodPolysAndPairs,
+    findRootsValue, methodLRValue, methodPolysAndPairs, lrBackendValue,
     includeGauges, gaugesToConsider, invalidGauges, bestGaugeIdx,
     stopAt, startAt, resumeFrom,
     uiComms, isScanPath,
@@ -14172,6 +15381,29 @@ Module[{
     includeGauges = OptionValue["IncludeGauges"];
     stopAt        = OptionValue["StopAt"];
     startAt       = OptionValue["StartAt"];
+
+    (* Phase β.3: LR-order-search backend.  "HyperFLINT" routes every
+       stDispatchFubini2 call site through HF's C++ find_lr_orders op;
+       "HyperIntica" (default) keeps the in-process Mma STFasterFubini2
+       path.  As of Phase 7-vii, HF's find_lr_orders accepts deg-2
+       polys when FindRoots=True (the integrator allocates Wm/Wp at
+       integration time), so the two compose cleanly without
+       downgrade. *)
+    lrBackendValue = OptionValue["LROrderBackend"];
+    $STLROrderBackend   = lrBackendValue;
+    $STHFFallbackCount  = 0;
+    $STHFFallbackWarned = False;
+    If[Length[Kernels[]] > 0,
+        (* Propagate the backend selection to every subkernel so
+           ParallelMap-dispatched stDispatchFubini2 calls hit the same
+           path.  DistributeDefinitions on a bare OwnValue-only global
+           doesn't always copy (it holds the symbol but the lookup for
+           distribution misses).  Use an explicit ParallelEvaluate so
+           every subkernel's `$STLROrderBackend` matches the main
+           kernel's.  Counters are main-kernel-only; subkernel
+           fallbacks are best-effort (may be undercounted). *)
+        With[{bk = lrBackendValue},
+            ParallelEvaluate[$STLROrderBackend = bk]]];
 
     (* When FindRoots is active:
          - $NoAlgebraicRootsContributions = False   (no silent zeroing)
@@ -14510,7 +15742,7 @@ Module[{
                     ];
                     Module[{espResult},
                       espResult = Quiet[If[methodLRValue === "Lungo",
-                          STFasterFubini2[
+                          stDispatchFubini2[
                               {Join[polysAndPairs, xvarsAll]},
                               xvarsAll, Heuristic -> heuristicValue, FindRoots -> findRootsValue],
                           STEspressoFubini2[
@@ -14564,7 +15796,7 @@ Module[{
                         ];
                         Module[{espResult},
                           espResult = Quiet[If[methodLRValue === "Lungo",
-                              STFasterFubini2[
+                              stDispatchFubini2[
                                   {Join[polysAndPairs, xv]},
                                   xv, Heuristic -> heuristicValue, FindRoots -> findRootsValue],
                               STEspressoFubini2[
@@ -14713,7 +15945,10 @@ Module[{
                             True,                     1];
                         chunkSize = Ceiling[nv / numChunks];
                         chunks    = Partition[Range[nv], UpTo[chunkSize]];
-                        DistributeDefinitions[STsetupDirectoryExpansion];
+                        (* STsetupDirectoryExpansion is a static SubTropica`
+                           function, populated on subkernels by the parallel
+                           Get inside stSetupKernelImpl.  Per-call distribute
+                           was redundant; removed. *)
                         Do[
                             With[{
                                 ci    = chunks[[c]],
@@ -14792,21 +16027,16 @@ Module[{
                     ];
                     
                     useParallel = numChunks < nv;
-                    
-                    If[useParallel,
-                        DistributeDefinitions[
-                            STfindLinearlyReducibleOrders2,
-                            STfindLinearlyReducibleOrdersHighestEpsOrder2,
-                            STEspressoFubini2, STEspressoFubini, STFubini,
-                            STFasterFubini2, STFasterFubini, STFubiniLR,
-                            ppqIntersection,
-                            STListDirectoriesNP, STLinearCrawlWeight,
-                            FastTermCount, ProportionalPolynomialsQ, $ppqMemo,
-                            discriminant, resultant,
-                            generateAnsatzDISPATCH, myPolynomialDecomposition,
-                            NOLR, eeBound
-                        ];
-                    ];
+                    (* DistributeDefinitions of the LR-search helper functions
+                       was previously fired here on every STIntegrate call.
+                       Those are static SubTropica` definitions; they're
+                       already loaded on every subkernel by the parallel Get
+                       inside stSetupKernelImpl.  Re-broadcasting them per
+                       call costs \[Tilde]1\[Dash]3 s on a 13-subkernel pool
+                       depending on $ppqMemo growth.  Removed; relying on
+                       parallel Get to populate subkernels at launch and on
+                       the per-script `STResetKernelCaches[]` to clear
+                       caches between integrations. *)
 
                     chunkSize = Ceiling[nv / numChunks];
                     chunks = Partition[Range[nv], UpTo[chunkSize]];
@@ -15085,7 +16315,7 @@ Module[{
                     lrBestOrder = xvars,
                     {lrBestOrder, lrScore} = Quiet[
                         If[methodLRValue === "Lungo",
-                            STFasterFubini2[
+                            stDispatchFubini2[
                                 {Join[lrPolysAndPairs, xvars]},
                                 xvars, Heuristic -> heuristicValue],
                             STEspressoFubini2[
@@ -15391,7 +16621,7 @@ Options[STEvaluateEulerIntegral] = Join[
         "SetupInParallel"        -> Automatic, (*  Automatic = all gauges in one parallel batch (original behaviour); 1 = serial on main kernel only; n > 1 = n sequential parallel batches *)
         "ClearCachesPerIntegrand"-> False,
         "ClearCachesMemoryThreshold" -> Infinity, (*  integer in GB; see Options[STIntegrate] for details *)
-        "Integrator"             -> "HyperIntica",  (* "HyperIntica" (default) or "HyperInt" (Maple via SThyperIntMaple) per-integrand worker *)
+        "Integrator"             -> "HyperIntica",  (* "HyperIntica" (default), "HyperInt" (Maple via SThyperIntMaple), or "HyperFLINT" (C++/FLINT CLI via STHyperFlint) per-integrand worker *)
         "CleanOutput"            -> False,  (* If True, apply CleanZeroInf[] to the final result *)
         (* Face-selective integration.
            All              : integrate every face (default).
@@ -15669,7 +16899,7 @@ Module[{
             ];
             Module[{espResult},
               espResult = Quiet[If[methodLRValue === "Lungo",
-                  STFasterFubini2[
+                  stDispatchFubini2[
                       {Join[polysAndPairs, xvars]},
                       xvars, Heuristic -> heuristicValue, FindRoots -> findRootsValue],
                   STEspressoFubini2[
@@ -15720,7 +16950,7 @@ Module[{
             ];
             Module[{espResult},
               espResult = Quiet[If[methodLRValue === "Lungo",
-                  STFasterFubini2[
+                  stDispatchFubini2[
                       {Join[polysAndPairs, xvFixed]},
                       xvFixed, Heuristic -> heuristicValue, FindRoots -> findRootsValue],
                   STEspressoFubini2[
@@ -15899,7 +17129,10 @@ Module[{
                             True,                     1];
                         chunkSize = Ceiling[nv / numChunks];
                         chunks    = Partition[Range[nv], UpTo[chunkSize]];
-                        DistributeDefinitions[STsetupDirectoryExpansion];
+                        (* STsetupDirectoryExpansion is a static SubTropica`
+                           function, populated on subkernels by the parallel
+                           Get inside stSetupKernelImpl.  Per-call distribute
+                           was redundant; removed. *)
                         Do[
                             With[{
                                 ci    = chunks[[c]],
@@ -15972,21 +17205,10 @@ Module[{
                     ];
 
                     useParallel = numChunks < nv;
-
-                    If[useParallel,
-                        DistributeDefinitions[
-                            STfindLinearlyReducibleOrders2,
-                            STfindLinearlyReducibleOrdersHighestEpsOrder2,
-                            STEspressoFubini2, STEspressoFubini, STFubini,
-                            STFasterFubini2, STFasterFubini, STFubiniLR,
-                            ppqIntersection,
-                            STListDirectoriesNP, STLinearCrawlWeight,
-                            FastTermCount, ProportionalPolynomialsQ, $ppqMemo,
-                            discriminant, resultant,
-                            generateAnsatzDISPATCH, myPolynomialDecomposition,
-                            NOLR, eeBound
-                        ];
-                    ];
+                    (* Same hoist as the Schwinger+Automatic-Gauge branch:
+                       static LR-search helpers are populated on subkernels
+                       via parallel Get inside stSetupKernelImpl, no need
+                       to re-broadcast per call. *)
 
                     chunkSize = Ceiling[nv / numChunks];
                     chunks = Partition[Range[nv], UpTo[chunkSize]];
@@ -16598,7 +17820,8 @@ $STOptionValues = <|
     "ScoringMemoryFraction"  -> {"number 0-1 (default: 0.5)"},
     "SetupInParallel"        -> {Automatic, "1 = serial", "integer n > 1 = n parallel batches"},
     "ClearCachesPerIntegrand"-> {True, False},
-    "Integrator"             -> {"HyperIntica", "HyperInt"},
+    "Integrator"             -> {"HyperIntica", "HyperInt", "HyperFLINT"},
+    "LROrderBackend"         -> {"HyperIntica", "HyperFLINT (requires FindRoots -> False)"},
     "CleanOutput"            -> {True, False},
     "SelectFaces"            -> {All, "integer", "{i1, i2, ...}", "epsOrder -> face", "Except[{...}]"},
     "ReuseExistingResults"   -> {True, False},
@@ -17580,6 +18803,38 @@ stBenchmarkRunOneInKernel[record_Association] := Module[
      !AnyTrue[input, MatchQ[#, Rule["CleanOutput", _] | RuleDelayed["CleanOutput", _]] &],
     input = Append[input, "CleanOutput" -> True]];
 
+  (* HF LR-backend injection on symbolic STIntegrate cases.
+       * "HyperFLINT" routes every LR-search step through HF.  Phase 7-vii
+         (deg-2 polynomials accepted during the LR walk, with letter
+         allocation deferred to integration time) means FindRoots -> True
+         cases now run cleanly under HF — no skip, no FindRoots override.
+       * "HyperIntica" forces the Mma path (overrides case defaults).
+       * Automatic is a no-op (honor the case's own options).         *)
+  If[dispatcher === SubTropica`STIntegrate &&
+     ValueQ[$stBenchmarkLRBackend],
+    Which[
+      $stBenchmarkLRBackend === "HyperFLINT",
+        input = Join[input, {"LROrderBackend" -> "HyperFLINT"}],
+      $stBenchmarkLRBackend === "HyperIntica",
+        input = Join[input, {"LROrderBackend" -> "HyperIntica"}],
+      True, Null]];
+
+  (* Phase β.3 + Integrator extension: inject the integrator backend.
+     Phase 7-vi-b unlocked FindRoots -> True for "HyperFLINT" — HF now
+     emits its algebraic-letter table and SubTropica merges it into
+     HyperIntica`$HyperAlgebraicLetterTable.  FindRoots is left alone
+     if explicitly set on the case; otherwise the case default applies. *)
+  If[dispatcher === SubTropica`STIntegrate &&
+     ValueQ[$stBenchmarkIntegrator],
+    Which[
+      $stBenchmarkIntegrator === "HyperFLINT",
+        input = Join[input, {"Integrator" -> "HyperFLINT"}],
+      $stBenchmarkIntegrator === "HyperInt",
+        input = Join[input, {"Integrator" -> "HyperInt"}],
+      $stBenchmarkIntegrator === "HyperIntica",
+        input = Join[input, {"Integrator" -> "HyperIntica"}],
+      True, Null]];
+
   msgList = {};
   memBefore = MemoryInUse[];
   t0 = AbsoluteTime[];
@@ -17741,6 +18996,7 @@ stBenchmarkStreamFooter[] := Print[stBenchmarkTableBorder[]];
 stBenchmarkStatusBadge[status_String] := Switch[status,
   "pass",    "[\[Checkmark]]",
   "warning", "[\[WarningSign]]",
+  "skipped", "[-]",
   "fail",    "[\[Times]]",
   _,         "[?]"];
 
@@ -17749,6 +19005,7 @@ stBenchmarkStatusBadge[status_String] := Switch[status,
 stBenchmarkStatusCell[status_String] := Switch[status,
   "pass",    Style["\[Checkmark] ok",     Darker[Green],         Bold],
   "warning", Style["\[WarningSign] warn", RGBColor[0.8, 0.6, 0], Bold],
+  "skipped", Style["- skip",              Gray,                  Bold],
   "fail",    Style["\[Times] fail",       Red,                    Bold],
   _,         Style["? ???", Gray]];
 
@@ -17852,7 +19109,21 @@ Options[STBenchmark] = {
   "Baseline"         -> Automatic,
   "UpdateBaseline"   -> Automatic,
   "Report"           -> None,
-  "SkipPackageCheck" -> False
+  "SkipPackageCheck" -> False,
+  "LROrderBackend"   -> Automatic,  (* Automatic = honor per-case defaults;
+                                        "HyperFLINT" = inject
+                                        FindRoots -> False and
+                                        "LROrderBackend" -> "HyperFLINT"
+                                        on every compatible case; skip cases
+                                        that explicitly set FindRoots -> True
+                                        (Wm/Wp algebraic-letter path not yet
+                                        in HF). *)
+  "Integrator"       -> Automatic   (* Automatic = honor per-case defaults
+                                        (HyperIntica default); "HyperFLINT"
+                                        routes integration through HF's
+                                        STHyperFlint; "HyperInt" routes
+                                        through Maple SThyperIntMaple.
+                                        Injected on every compatible case. *)
 };
 
 STBenchmark::badsuite = "Unknown value `1` for Suite option.  Use \"Short\" or \"Long\".";
@@ -17865,7 +19136,8 @@ STBeachmark[args___] := STBenchmark[args];
 STBenchmark[selector_, OptionsPattern[]] := Module[
   {records, displayMode, skipPkg, baselinePath, updateBaseline, reportPath,
    suite, results, startTime, endTime, totalDuration, baselineData,
-   baselineCases, summary, failures, warnings, outcome, streamP},
+   baselineCases, summary, failures, warnings, outcome, streamP,
+   lrBackendChoice},
 
   suite           = OptionValue["Suite"];
   displayMode     = OptionValue["Display"];
@@ -17873,6 +19145,12 @@ STBenchmark[selector_, OptionsPattern[]] := Module[
   baselinePath    = OptionValue["Baseline"];
   updateBaseline  = OptionValue["UpdateBaseline"];
   reportPath      = OptionValue["Report"];
+  lrBackendChoice = OptionValue["LROrderBackend"];
+  (* Propagate to the per-case runner via a module-scoped global so
+     stBenchmarkRunOneInKernel can inject per-case options without
+     threading an extra arg through every existing path. *)
+  $stBenchmarkLRBackend = lrBackendChoice;
+  $stBenchmarkIntegrator = OptionValue["Integrator"];
 
   If[!MatchQ[suite, "Short" | "Long"],
     Message[STBenchmark::badsuite, suite]; Return[$Failed]];
@@ -24286,6 +25564,13 @@ STSubmitResult[ir_Association] := Module[
         "legs" -> $nl,
         "propagators" -> $ne,
         "massScales" -> stCountScales[config],
+        (* Graph spec, JSON-safe via InputForm. submit.yml writes these
+           into entry.json's top-level edges/nodes when creating a brand
+           new entry (existing entries already carry them). Mirrors the
+           on-disk encoding so CocoTropica's renderer can use them
+           directly without needing to re-parse from stCommand. *)
+        "edges" -> ToString[Lookup[config, "edges", {}], InputForm],
+        "nodes" -> ToString[Lookup[config, "nodes", {}], InputForm],
         (* Numerical verification record. submit.yml copies these into
            entry.json Results[[i]]; the UI badge (app.js
            revealVerifiedBadge) reads verifiedMethod/MaxRelErr/At from
@@ -24372,251 +25657,78 @@ STSubmitResult[ir_Association] := Module[
 (* \[HorizontalLine]\[HorizontalLine] STBuildLibraryJSON \[HorizontalLine]\[HorizontalLine] *)
 
 STBuildLibraryJSON[outputPath_String : Automatic] := Module[
-    {libDir, arxivDir, topologies, topoCount, configCount,
-     outFile, jsonStr},
+    {outFile, libRoot, buildScript, indexScript, validateScript, proc},
 
-    libDir = FileNameJoin[{$SubTropicaInstallDir, "library-bundled"}];
-    userLibDir = FileNameJoin[{$SubTropicaInstallDir, "library-local"}];
+    (* Thin wrapper around the production library.json pipeline used by
+       scripts/publish-release.sh.  Delegates to the python scripts so that
+       STSubmitResult / STSyncLibrary auto-rebuilds and release cuts produce
+       byte-identical output (single source of truth).
 
-    topologies = <||>;
-    topoCount = 0;
-    configCount = 0;
+       Earlier versions of this function reimplemented the rollup in
+       Mathematica with a divergent lowercase-v3 schema and derived
+       `numericallyVerified` rollup; that schema was never actually shipped
+       (release tooling has always run the python scripts), and the
+       Loopedia auto-verify it performed at runtime is now baked into
+       entry.json by scripts/_migrate_loopedia_verified.py. *)
 
-    (* Process both library trees *)
-    Do[
-        If[!DirectoryQ[dir], Continue[]];
-        Do[
-            Module[{topoFile, topoData, nickel, configs},
-                topoFile = FileNameJoin[{topoDir, "topology.json"}];
-                If[!FileExistsQ[topoFile], Continue[]];
-                topoData = Quiet @ Check[Import[topoFile, "RawJSON"], Continue[]];
-                If[!AssociationQ[topoData], Continue[]];
-                nickel = topoData["NickelIndex"];
-
-                (* Merge: create or reuse topology entry *)
-                If[!KeyExistsQ[topologies, nickel],
-                    topologies[nickel] = <|
-                        "name" -> Lookup[topoData, "Name", ""],
-                        "primaryName" -> Lookup[topoData, "PrimaryName", ""],
-                        "loops" -> Lookup[topoData, "Loops", 0],
-                        "legs" -> Lookup[topoData, "Legs", 0],
-                        "props" -> Lookup[topoData, "Propagators", 0],
-                        "loopediaURL" -> Lookup[topoData, "LoopediaURL", ""],
-                        "configs" -> <||>
-                    |>;
-                    topoCount++;
-                ];
-
-                (* Walk config subdirectories *)
-                Do[
-                    Module[{entryFile, entryData, massNickel, configKey,
-                            results, records},
-                        entryFile = FileNameJoin[{configSubdir, "entry.json"}];
-                        If[!FileExistsQ[entryFile], Continue[]];
-                        entryData = Quiet @ Check[Import[entryFile, "RawJSON"], Continue[]];
-                        If[!AssociationQ[entryData], Continue[]];
-
-                        (* Extract mass config key \[LongDash] part after ':' in CNickelIndex.
-                           Massless topologies have no colon; build an all-zeros key
-                           with the same pipe structure so the UI can match it. *)
-                        configKey = If[StringContainsQ[entryData["CNickelIndex"], ":"],
-                            StringSplit[entryData["CNickelIndex"], ":"][[2]],
-                            StringReplace[entryData["CNickelIndex"],
-                                c:Except["|"] :> "0"]];
-
-                        (* Convert Results to JSON-safe form *)
-                        results = Map[
-                            Function[r, <|
-                                "resultCompressed" -> Lookup[r, "resultCompressed", ""],
-                                "resultTeX" -> Lookup[r, "resultTeX", ""],
-                                "dimension" -> Lookup[r, "dimension", ""],
-                                "epsOrder" -> Lookup[r, "epsOrder", ""],
-                                "epsOrders" -> Lookup[r, "epsOrders", ""],
-                                "propExponents" -> Lookup[r, "propExponents", {}],
-                                "propagators" -> Lookup[r, "propagators", {}],
-                                "numerators" -> Lookup[r, "numerators", {}],
-                                "internalMasses" -> Lookup[r, "internalMasses", {}],
-                                "externalMasses" -> Lookup[r, "externalMasses", {}],
-                                "substitutions" -> Lookup[r, "substitutions", ""],
-                                "normalization" -> Lookup[r, "normalization", ""],
-                                "stVersion" -> Lookup[r, "stVersion", ""],
-                                "stCommand" -> Lookup[r, "stCommand", ""],
-                                "contributor" -> Lookup[r, "contributor", ""],
-                                "timestamp" -> Lookup[r, "timestamp", ""],
-                                "verified" -> TrueQ[Lookup[r, "verified", False]],
-                                "verifiedAt" -> Lookup[r, "verifiedAt", ""],
-                                "method" -> Lookup[r, "method", ""],
-                                "methodLR" -> Lookup[r, "methodLR", ""],
-                                "tools" -> Lookup[r, "tools", {}],
-                                "byteCount" -> Lookup[r, "byteCount", 0],
-                                "symbolTeX" -> Lookup[r, "symbolTeX", ""],
-                                "alphabet" -> Lookup[r, "alphabet", {}],
-                                "symbolWeight" -> Lookup[r, "symbolWeight", 0],
-                                "symbolTerms" -> Lookup[r, "symbolTerms", 0],
-                                "symbolScale" -> Lookup[r, "symbolScale", ""],
-                                "wDefinitions" -> Lookup[r, "wDefinitions", {}],
-                                "normalizedAlphabet" -> Lookup[r, "normalizedAlphabet", {}],
-                                "normalizedSymbolTeX" -> Lookup[r, "normalizedSymbolTeX", ""],
-                                "normalizedSymbolTerms" -> Lookup[r, "normalizedSymbolTerms", 0],
-                                "algebraicLetters" -> Lookup[r, "algebraicLetters", {}],
-                                "legOrder" -> Lookup[r, "legOrder", {}]
-                            |>],
-                            Lookup[entryData, "Results", {}]
-                        ];
-
-                        (* Convert Records \[LongDash] auto-verify Loopedia-sourced entries *)
-                        Module[{isLoopedia = MemberQ[Flatten[{Lookup[entryData, "Source", {}]}], "Loopedia"]},
-                        records = Map[
-                            Function[r, <|
-                                "epsOrders" -> Lookup[r, "epsOrders", ""],
-                                "reference" -> Lookup[r, "reference", ""],
-                                "authors" -> Lookup[r, "authors", ""],
-                                "description" -> Lookup[r, "description", ""],
-                                "texkey" -> Lookup[r, "texkey", ""],
-                                "doi" -> Lookup[r, "doi", ""],
-                                "familyName" -> Lookup[r, "familyName", ""],
-                                "location" -> Lookup[r, "location", ""],
-                                "method" -> Lookup[r, "method", ""],
-                                "recordId" -> Lookup[r, "recordId", ""],
-                                "verified" -> If[isLoopedia, True, Lookup[r, "verified", False]],
-                                "verifiedAt" -> If[isLoopedia && !TrueQ[Lookup[r, "verified", False]],
-                                    "auto-loopedia", Lookup[r, "verifiedAt", ""]]
-                            |>],
-                            Lookup[entryData, "Records", {}]
-                        ]];
-
-                        (* Derive config-level numericallyVerified from any
-                           per-Result `verified: True`, falling back to the
-                           legacy config-level field for entries written before
-                           Results carried a verified flag. *)
-                        Module[{anyResultVerified, latestVerifiedAt},
-                            anyResultVerified = AnyTrue[results,
-                                TrueQ[Lookup[#, "verified", False]] &];
-                            latestVerifiedAt = Module[{stamps},
-                                stamps = DeleteCases[
-                                    Lookup[#, "verifiedAt", ""] & /@ results,
-                                    ""];
-                                (* ISO-8601 strings sort lexically == chronologically *)
-                                If[stamps === {}, "", Last[Sort[stamps]]]];
-                            topologies[nickel]["configs"][configKey] = <|
-                                "nickel" -> entryData["CNickelIndex"],
-                                "canonicalName" -> Lookup[entryData, "CanonicalName", ""],
-                                "massScales" -> Lookup[entryData, "MassScales", 0],
-                                "functionClass" -> Lookup[entryData, "FunctionClass", "unknown"],
-                                "epsilonOrder" -> Lookup[entryData, "EpsilonOrder", ""],
-                                "edges" -> Lookup[entryData, "edges", ""],
-                                "nodes" -> Lookup[entryData, "nodes", ""],
-                                "propagators" -> Lookup[entryData, "propagators", ""],
-                                "quadruple" -> Lookup[entryData, "quadruple", ""],
-                                "references" -> Lookup[entryData, "References", {}],
-                                "records" -> records,
-                                "names" -> Lookup[entryData, "Names", {}],
-                                "source" -> Lookup[entryData, "Source", ""],
-                                "results" -> results,
-                                "cutDiagram" -> TrueQ[Lookup[entryData, "CutDiagram", False]],
-                                "cutDiagramNote" -> Lookup[entryData, "CutDiagramNote", ""],
-                                "massConfig" -> Lookup[entryData, "MassConfig", <||>],
-                                "numericallyVerified" -> (anyResultVerified ||
-                                    TrueQ[Lookup[entryData, "numericallyVerified", False]]),
-                                "numericallyVerifiedAt" -> Which[
-                                    anyResultVerified && latestVerifiedAt =!= "",
-                                        latestVerifiedAt,
-                                    True,
-                                        Lookup[entryData, "numericallyVerifiedAt", ""]]
-                            |>;
-                        ];
-                        configCount++;
-                    ],
-                    {configSubdir, Select[FileNames["*", topoDir], DirectoryQ]}
-                ];
-            ],
-            {topoDir, Select[FileNames["*", dir], DirectoryQ]}
-        ],
-        {dir, {libDir, userLibDir}}
-    ];
-
-    (* Determine output path *)
+    libRoot = $SubTropicaInstallDir;
     outFile = If[outputPath === Automatic,
-        FileNameJoin[{$SubTropicaInstallDir, "ui", "library.json"}],
+        FileNameJoin[{libRoot, "ui", "library.json"}],
         outputPath];
 
-    (* Merge _stats.json into _meta if it exists *)
-    Module[{statsPath, statsData},
-        statsPath = FileNameJoin[{$SubTropicaInstallDir, "library-bundled", "_stats.json"}];
-        statsData = <||>;
-        If[FileExistsQ[statsPath],
-            Quiet @ Check[
-                statsData = Import[statsPath, "RawJSON"],
-                statsData = <||>]];
-        jsonStr = ExportString[<|
-            "topologies" -> topologies,
-            "_meta" -> Join[<|
-                "topologyCount" -> topoCount,
-                "configCount" -> configCount,
-                "sourceDir" -> "library-bundled",
-                "builtAt" -> DateString[],
-                "schemaVersion" -> 3,
-                "schemaChangelog" -> "v3 (1.0.455+): legacy rootSubstitutions string dropped; use algebraicLetters. v2 (1.0.389+): structured algebraicLetters, wDefinitions with kind+pairIndex",
-                "license" -> "CC BY-NC-SA 4.0",
-                "licenseURL" -> "https://creativecommons.org/licenses/by-nc-sa/4.0/",
-                "citation" -> "S. Mizera, M. Giroux, G. Salvatori, \"SubTropica\" (2025), https://subtropi.ca"
-            |>, statsData]
-        |>, "RawJSON"];
+    buildScript    = FileNameJoin[{libRoot, "scripts", "_build_library_json.py"}];
+    indexScript    = FileNameJoin[{libRoot, "ui", "build_subtopology_index.py"}];
+    validateScript = FileNameJoin[{libRoot, "scripts", "library_audit",
+        "validate_library.py"}];
+
+    If[!FileExistsQ[buildScript],
+        stErr["[SubTropica] STBuildLibraryJSON: missing ", buildScript];
+        Return[$Failed]];
+
+    (* Run python scripts from libRoot so their relative-path defaults
+       (library-bundled, ui/library.json) resolve correctly and the
+       _meta.sourceDir value matches what publish-release.sh produces. *)
+
+    (* Stage 1: rollup library-bundled/ -> outFile (compact passthrough). *)
+    proc = RunProcess[{"python3", buildScript, "--out", outFile},
+        ProcessDirectory -> libRoot];
+    If[proc["ExitCode"] =!= 0,
+        stErr["[SubTropica] STBuildLibraryJSON: rollup failed (exit ",
+            proc["ExitCode"], "): ",
+            StringTake[proc["StandardError"], UpTo[500]]];
+        Return[$Failed]];
+
+    (* Stage 2: append subtopologies + canonicalize formatting (tab indent). *)
+    If[FileExistsQ[indexScript],
+        proc = RunProcess[{"python3", indexScript,
+            "--quiet", "--library", outFile},
+            ProcessDirectory -> libRoot];
+        If[proc["ExitCode"] =!= 0,
+            stErr["[SubTropica] STBuildLibraryJSON: subtopology indexer ",
+                "failed (exit ", proc["ExitCode"], "): ",
+                StringTake[proc["StandardError"], UpTo[500]]]
+        ],
+        stErr["[SubTropica] STBuildLibraryJSON: subtopology indexer missing ",
+            "at ", indexScript, " -- the UI won't show subtopology matches ",
+            "until this is restored."]
     ];
 
-    (* ExportString[..., "RawJSON"] outputs UTF-8 bytes as characters (e.g.,
-       "\[ODoubleDot]" (U+00F6) comes out as chars {195, 182} = "\[CapitalATilde]\[Paragraph]"). Writing with
-       CharacterEncoding -> "UTF-8" would re-encode those, producing the
-       double-encoded C3 83 C2 B6 mojibake seen in library.json. Write the
-       char codes as raw bytes instead. *)
-    Module[{stream = OpenWrite[outFile, BinaryFormat -> True]},
-        BinaryWrite[stream, ToCharacterCode[jsonStr]];
-        Close[stream]];
-    stLog["[SubTropica] library.json written: ", topoCount, " topologies, ",
-        configCount, " configs -> ", outFile];
+    stLog["[SubTropica] library.json rebuilt -> ", outFile];
 
-    (* Build subtopology index (adds 'subtopologies' key to library.json).
-       The indexer lives alongside the UI (ui/build_subtopology_index.py)
-       since its sole purpose is enriching ui/library.json for the
-       frontend's subtopology-matching feature. stErr on failure -- not
-       stLog -- so a missing script or a Python crash is visible instead
-       of disappearing into verbose-only logging (the mode that hid an
-       earlier regression from us). *)
-    Module[{scriptPath, proc},
-        scriptPath = FileNameJoin[{$SubTropicaInstallDir, "ui",
-            "build_subtopology_index.py"}];
-        If[FileExistsQ[scriptPath],
-            proc = RunProcess[{"python3", scriptPath,
-                "--quiet", "--library", outFile}];
-            If[proc["ExitCode"] =!= 0,
-                stErr["[SubTropica] ERROR: subtopology index build failed ",
-                    "(exit ", proc["ExitCode"], "): ",
-                    StringTake[proc["StandardError"], UpTo[500]]]
-            ],
-            stErr["[SubTropica] ERROR: subtopology indexer missing at ",
-                scriptPath, " -- the UI won't show subtopology matches ",
-                "until this is restored."]
+    (* Validate naming invariants (T1-T8, E1-E5).  Non-fatal: prints a warning
+       and the offending rule-IDs if any violation is found, but does not
+       abort so one-off calls still succeed. *)
+    If[FileExistsQ[validateScript],
+        proc = RunProcess[{"python3", validateScript, "--quiet"}];
+        If[proc["ExitCode"] =!= 0,
+            stLog["[SubTropica] \:26a0 library validation FAILED -- naming "
+                <> "invariants violated. Run `python3 "
+                <> "scripts/library_audit/validate_library.py` for "
+                <> "details. First issues:\n"
+                <> StringTake[proc["StandardOutput"], UpTo[800]]]
         ]
     ];
 
-    (* Validate naming invariants (T1-T8, E1-E5). Prints a warning and the
-       offending rule-IDs if any violation is found; does not abort the
-       build so one-off calls still succeed, but the warning is loud enough
-       to catch during commit review. *)
-    Module[{scriptPath, proc},
-        scriptPath = FileNameJoin[{$SubTropicaInstallDir, "scripts",
-            "library_audit", "validate_library.py"}];
-        If[FileExistsQ[scriptPath],
-            proc = RunProcess[{"python3", scriptPath, "--quiet"}];
-            If[proc["ExitCode"] =!= 0,
-                stLog["[SubTropica] \:26a0 library validation FAILED \[LongDash] naming "
-                    <> "invariants violated. Run `python3 "
-                    <> "scripts/library_audit/validate_library.py` for "
-                    <> "details. First issues:\n"
-                    <> StringTake[proc["StandardOutput"], UpTo[800]]]
-            ]
-        ]
-    ];
     outFile
 ];
 
@@ -26043,3 +27155,33 @@ On[General::shdw];
    just for the EndPackage[] call by temporarily nulling $FrontEnd. *)
 Block[{$FrontEnd = Null},
   Quiet[EndPackage[], {FrontEndObject::notavail}]];
+
+(* Eager kernel-pool kickoff (master kernel, notebook front end only).
+   Schedules stSetupKernelImpl[$ProcessorCount - 1] as a background
+   SessionSubmit task so the parallel pool comes up while the user's
+   subsequent evaluation (typing, reading library files, composing
+   diagrams) runs.  By the time the first STIntegrate triggers
+   STSetupKernel, the pool is usually already warm and the wrapper just
+   TaskWaits on the (likely-already-finished) handle.
+
+   Restricted to $Notebooks because SessionSubmit's evaluator only
+   progresses during master-kernel idle time.  In a wolframscript /
+   batch run, the master kernel goes straight from Get to STIntegrate
+   with no yield, so the eager task only starts when TaskWait blocks
+   \[LongDash] which makes the launch sequential AND adds 1\[Dash]2 s
+   of scheduling overhead.  In a notebook, idle time between user
+   evaluations gives the task a real async window.
+
+   Suppressed when:
+     - loading on a subkernel (Global`$STSubkernelMode);
+     - the user opted out via SubTropica`$STEagerKernelPool = False;
+     - the machine has < 2 cores (no usable subkernels);
+     - or the front end is absent ($Notebooks === False). *)
+If[!TrueQ[Global`$STSubkernelMode] &&
+    TrueQ[SubTropica`$STEagerKernelPool] &&
+    TrueQ[$Notebooks] &&
+    $ProcessorCount >= 2,
+    Quiet[
+        SubTropica`$STEagerLaunchTask =
+            SessionSubmit[
+                SubTropica`stSetupKernelImpl[Max[1, $ProcessorCount - 1]]]]];

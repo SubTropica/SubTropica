@@ -1,125 +1,125 @@
 {
-	"CNickelIndex": "e112|e2|e|:1000|10|0|",
-	"MassScales": 1,
-	"FunctionClass": "hypergeometric",
-	"EpsilonOrder": "3",
-	"References": [
-		"arXiv:1701.07356 (JHEP 04 (083), 2017)",
-		"arXiv:2412.21053"
-	],
-	"Records": [
-		{
-			"reference": "arXiv:1701.07356 (JHEP 04 (083), 2017)",
-			"authors": "Frellesvig, Hjalte, Papadopoulos, Costas G.",
-			"description": "Two-loop three-point triangle with a massless bubble insertion on one internal line, with two off-shell external legs $(p_1^2, p_2^2)$ and one massless propagator $x_5 = k_1^2$ promoted to a numerator/ISP. The 4xcut is computed in $d$ dimensions for arbitrary propagator powers, yielding 2F1 hypergeometric functions for the two canonical-basis integrals $I_1 = \\varepsilon R_{12} F_{11210}$ and $I_2 = (s F_{1221,-1} - \\varepsilon(p_1^2-p_2^2-s)/2 F_{11210})$. Results are expanded through $\\mathcal{O}(\\varepsilon^3)$ in the variables $x, y$ defined by $s = p_1^2 (1+x)(1+xy)$, $p_2^2 = p_1^2 x^2 y$, exhibiting uniform transcendentality.",
-			"epsOrders": "3",
-			"familyName": "bubble-triangle (triangle with bubble insertion)",
-			"method": "direct_integration",
-			"tools": [],
-			"ancillaryFiles": true,
-			"doi": "10.1007/JHEP04(2017)083",
-			"texkey": "Frellesvig:2017aai",
-			"masterCount": 2,
-			"dimScheme": "d=4-2*eps",
-			"computationLevel": "maximal_cut",
-			"location": "Appendix A.3 (subs:bubble-triangle), Eqs. (A.28)-(A.41)",
-			"recordId": "bx_6b6c568acae8",
-			"verified": false,
-			"verifiedAt": ""
-		},
-		{
-			"reference": "arXiv:2412.21053",
-			"authors": [
-				{
-					"full_name": "Huang, Li-Hong",
-					"inspire_id": 3069105
-				},
-				{
-					"full_name": "Huang, Rui-Jun",
-					"inspire_id": 1066027
-				},
-				{
-					"full_name": "Ma, Yan-Qing",
-					"inspire_id": 1056966
-				}
-			],
-			"description": "Two-loop 3-point integral with massless internal propagators, obtained by splitting the top arc of the sunrise graph by inserting one external leg; two horizontal external legs are massive, the inserted leg is massless. Computed numerically to 6-digit precision via the FBI representation with DCT; 726 sample points, 0.19 ms/point. Cross-checked against AMFlow. Called graph $e_3$ in Table I of the paper.",
-			"epsOrders": "",
-			"familyName": "2-mass 2-loop 3-point sunrise-type (4 propagators)",
-			"method": "direct_integration, series_expansion",
-			"tools": [
-				"AMFlow"
-			],
-			"ancillaryFiles": false,
-			"doi": "",
-			"texkey": "",
-			"masterCount": 0,
-			"dimScheme": "d=4-2*eps",
-			"computationLevel": "numerical",
-			"location": "Table I (graph e3), Two-loop examples section",
-			"recordId": "bx_0716ac1f4f17",
-			"verified": false,
-			"verifiedAt": ""
-		}
-	],
-	"Names": [
-		"bubble-triangle (triangle with bubble insertion)",
-		"2-mass 2-loop 3-point sunrise-type (4 propagators)"
-	],
-	"Source": [
-		"arXiv"
-	],
-	"Loops": 2,
-	"NumPropagators": 4,
-	"Results": [
-		{
-			"resultCompressed": "1:eJyNkU0OgjAQhQuIqEtv4Fl0CQlBL1CT1kwCljD1J97XG7gy8WemQUOTLmDxYNo30+/R1d5UeiqEwAXJVnWgcCOtxIRK1SLQS2gucEKSA1odczUjqaQFc5Q1fOiB2HOW9QkDztff6fZSkh00qrdmJGvTtLW6uoMh4lXeKkG7b56fm4NbK4rgEO88bgLOp7MhGdyJYxzCcoDgN0Dq5SjNRXW9MxTRTQqmSMZwPIh4/K+ApxfQsYXagqBzD7S5nZ0L3nx30e9avgr3eMw=",
-			"resultTeX": "-\\frac{1}{2 \\varepsilon^2}+\\frac{\\log \\left(M^2\\right)+i \\pi -\\frac{3}{2}}{\\varepsilon}+\\frac{1}{6} \\left(-6 \\log ^2\\left(M^2\\right)-12 i \\pi  \\log \\left(M^2\\right)+18 \\log \\left(M^2\\right)+9 \\zeta(2)+5 \\pi ^2+18 i \\pi -27\\right)+O\\left(\\varepsilon^1\\right)",
-			"dimension": "4 - 2*eps",
-			"epsOrder": "0",
-			"epsOrders": "0",
-			"propExponents": [
-				1,
-				1,
-				1,
-				1
-			],
-			"propagators": [],
-			"numerators": [],
-			"internalMasses": [],
-			"externalMasses": [],
-			"substitutions": "",
-			"normalization": "Automatic",
-			"stVersion": "SubTropica v1.0.293",
-			"stCommand": "",
-			"contributor": "Sebastian Mizera",
-			"timestamp": "2026-04-15T16:10:33",
-			"verifiedAt": "2026-04-15T16:10:33",
-			"verified": true,
-			"method": "direct_integration",
-			"tools": [
-				"SubTropica"
-			],
-			"methodLR": "Lungo",
-			"findRoots": false,
-			"byteCount": 1648
-		}
-	],
-	"edges": "{{{1, 2}, 0}, {{1, 2}, 0}, {{1, 3}, 0}, {{2, 3}, 0}}",
-	"nodes": "{{1, M}, {2, M}, {3, 0}}",
-	"CanonicalName": "2-mass sunrise triangle",
-	"MassConfig": {
-		"numEdges": 4,
-		"numMassiveEdges": 0,
-		"numMasslessEdges": 4,
-		"distinctInternalMasses": 0,
-		"internalMassLabels": [],
-		"edgeMassPattern": "0000",
-		"numExtLegs": 3,
-		"numOnshellMassiveExtLegs": 2,
-		"numMasslessExtLegs": 1,
-		"extLegSignature": "MM0"
-	},
-	"Subsectors": [],
-	"ParentSectors": []
+  "CNickelIndex": "e112|e2|e|:1000|10|0|",
+  "MassScales": 1,
+  "FunctionClass": "hypergeometric",
+  "EpsilonOrder": "3",
+  "References": [
+    "arXiv:1701.07356 (JHEP 04 (083), 2017)",
+    "arXiv:2412.21053"
+  ],
+  "Records": [
+    {
+      "reference": "arXiv:1701.07356 (JHEP 04 (083), 2017)",
+      "authors": "Frellesvig, Hjalte, Papadopoulos, Costas G.",
+      "description": "Two-loop three-point triangle with a massless bubble insertion on one internal line, with two off-shell external legs $(p_1^2, p_2^2)$ and one massless propagator $x_5 = k_1^2$ promoted to a numerator/ISP. The 4xcut is computed in $d$ dimensions for arbitrary propagator powers, yielding 2F1 hypergeometric functions for the two canonical-basis integrals $I_1 = \\varepsilon R_{12} F_{11210}$ and $I_2 = (s F_{1221,-1} - \\varepsilon(p_1^2-p_2^2-s)/2 F_{11210})$. Results are expanded through $\\mathcal{O}(\\varepsilon^3)$ in the variables $x, y$ defined by $s = p_1^2 (1+x)(1+xy)$, $p_2^2 = p_1^2 x^2 y$, exhibiting uniform transcendentality.",
+      "epsOrders": "3",
+      "familyName": "bubble-triangle (triangle with bubble insertion)",
+      "method": "direct_integration",
+      "tools": [],
+      "ancillaryFiles": true,
+      "doi": "10.1007/JHEP04(2017)083",
+      "texkey": "Frellesvig:2017aai",
+      "masterCount": 2,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "maximal_cut",
+      "location": "Appendix A.3 (subs:bubble-triangle), Eqs. (A.28)-(A.41)",
+      "recordId": "bx_6b6c568acae8",
+      "verified": false,
+      "verifiedAt": ""
+    },
+    {
+      "reference": "arXiv:2412.21053",
+      "authors": [
+        {
+          "full_name": "Huang, Li-Hong",
+          "inspire_id": 3069105
+        },
+        {
+          "full_name": "Huang, Rui-Jun",
+          "inspire_id": 1066027
+        },
+        {
+          "full_name": "Ma, Yan-Qing",
+          "inspire_id": 1056966
+        }
+      ],
+      "description": "Two-loop 3-point integral with massless internal propagators, obtained by splitting the top arc of the sunrise graph by inserting one external leg; two horizontal external legs are massive, the inserted leg is massless. Computed numerically to 6-digit precision via the FBI representation with DCT; 726 sample points, 0.19 ms/point. Cross-checked against AMFlow. Called graph $e_3$ in Table I of the paper.",
+      "epsOrders": "",
+      "familyName": "2-mass 2-loop 3-point sunrise-type (4 propagators)",
+      "method": "direct_integration, series_expansion",
+      "tools": [
+        "AMFlow"
+      ],
+      "ancillaryFiles": false,
+      "doi": "",
+      "texkey": "",
+      "masterCount": 0,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "numerical",
+      "location": "Table I (graph e3), Two-loop examples section",
+      "recordId": "bx_0716ac1f4f17",
+      "verified": false,
+      "verifiedAt": ""
+    }
+  ],
+  "Names": [
+    "bubble-triangle (triangle with bubble insertion)",
+    "2-mass 2-loop 3-point sunrise-type (4 propagators)"
+  ],
+  "Source": [
+    "arXiv"
+  ],
+  "Loops": 2,
+  "NumPropagators": 4,
+  "Results": [
+    {
+      "resultCompressed": "1:eJyNkU0OgjAQhQuIqEtv4Fl0CQlBL1CT1kwCljD1J97XG7gy8WemQUOTLmDxYNo30+/R1d5UeiqEwAXJVnWgcCOtxIRK1SLQS2gucEKSA1odczUjqaQFc5Q1fOiB2HOW9QkDztff6fZSkh00qrdmJGvTtLW6uoMh4lXeKkG7b56fm4NbK4rgEO88bgLOp7MhGdyJYxzCcoDgN0Dq5SjNRXW9MxTRTQqmSMZwPIh4/K+ApxfQsYXagqBzD7S5nZ0L3nx30e9avgr3eMw=",
+      "resultTeX": "-\\frac{1}{2 \\varepsilon^2}+\\frac{\\log \\left(M^2\\right)+i \\pi -\\frac{3}{2}}{\\varepsilon}+\\frac{1}{6} \\left(-6 \\log ^2\\left(M^2\\right)-12 i \\pi  \\log \\left(M^2\\right)+18 \\log \\left(M^2\\right)+9 \\zeta(2)+5 \\pi ^2+18 i \\pi -27\\right)+O\\left(\\varepsilon^1\\right)",
+      "dimension": "4 - 2*eps",
+      "epsOrder": "0",
+      "epsOrders": "0",
+      "propExponents": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "propagators": [],
+      "numerators": [],
+      "internalMasses": [],
+      "externalMasses": [],
+      "substitutions": "",
+      "normalization": "Automatic",
+      "stVersion": "SubTropica v1.0.293",
+      "stCommand": "",
+      "contributor": "Sebastian Mizera",
+      "timestamp": "2026-04-15T16:10:33",
+      "verifiedAt": "2026-04-15T16:10:33",
+      "verified": true,
+      "method": "direct_integration",
+      "tools": [
+        "SubTropica"
+      ],
+      "methodLR": "Lungo",
+      "findRoots": false,
+      "byteCount": 1648
+    }
+  ],
+  "edges": "{{{1, 2}, 0}, {{1, 2}, 0}, {{1, 3}, 0}, {{2, 3}, 0}}",
+  "nodes": "{{1, M}, {2, M}, {3, 0}}",
+  "CanonicalName": "2-mass sunrise triangle",
+  "MassConfig": {
+    "numEdges": 4,
+    "numMassiveEdges": 0,
+    "numMasslessEdges": 4,
+    "distinctInternalMasses": 0,
+    "internalMassLabels": [],
+    "edgeMassPattern": "0000",
+    "numExtLegs": 3,
+    "numOnshellMassiveExtLegs": 2,
+    "numMasslessExtLegs": 1,
+    "extLegSignature": "MM0"
+  },
+  "Subsectors": [],
+  "ParentSectors": []
 }

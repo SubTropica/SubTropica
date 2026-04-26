@@ -39,6 +39,54 @@
       "recordId": "bx_c8aa19e6671d",
       "verified": false,
       "verifiedAt": ""
+    },
+    {
+      "reference": "arXiv:1810.05138 (JHEP 12 (019), 2018)",
+      "authors": "Becchetti, Matteo, Bonciani, Roberto, Casconi, Valerio, Del Duca, Vittorio, Moriello, Francesco",
+      "description": "Single planar 7-denominator two-loop topology with 2 ISPs contributing to the light-fermion electroweak corrections to Higgs plus jet production (gg→Hg, gq→qH, qq̄→gH). Three external massless legs (p1²=p2²=p3²=0), one off-shell Higgs leg (p4²≠0), and two internal massive propagators carrying the electroweak boson mass mB (W or Z). The 48 master integrals are computed analytically via the canonical differential equations method after IBP reduction with FIRE5 and LiteRed. The alphabet contains a single square root √(z(1+z)) which is rationalized by the substitution z→w²/(1+2w), where z=−p4²/(4mB²). All results are expressed as Goncharov multiple polylogarithms (GPLs) up to weight 4 in variables x=−s/(4mB²), y=−t/(4mB²), w. Boundary conditions are fixed at s=t=p4²=0 for most MIs. Numerical evaluation uses GiNaC, cross-checked against FIESTA in both Euclidean and Minkowski regions.",
+      "epsOrders": "4",
+      "familyName": "Planar 7-denominator topology",
+      "method": "DE, IBP",
+      "tools": [
+        "FIRE",
+        "LiteRed",
+        "GiNaC",
+        "FIESTA"
+      ],
+      "ancillaryFiles": true,
+      "doi": "10.1007/JHEP12(2018)019",
+      "texkey": "Becchetti:2018xsk",
+      "masterCount": 48,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "full",
+      "location": "Eq. (2.7) [DefTop] for propagators, Fig. 1 for topology, Appendix A for pre-canonical MIs, Appendix B for canonical basis",
+      "recordId": "bx_72e3d158f5ea",
+      "verified": false,
+      "verifiedAt": ""
+    },
+    {
+      "reference": "arXiv:2112.07578 (JHEP 04 (139), 2022)",
+      "authors": "Becchetti, Matteo, Moriello, Francesco, Schweitzer, Armin",
+      "description": "Non-planar two-loop integral family for the mixed QCD-electroweak corrections to gg -> Hg, with 7 propagators (5 massless, 2 massive with mass mV) and 2 irreducible scalar products. The 61 master integrals satisfy a canonical system of differential equations with a 62-letter alphabet involving 4 square roots. The MIs are expressible in terms of multiple polylogarithms and were computed analytically in arXiv:2006.05510. This paper provides an independent numerical evaluation via generalized power series expansions, with ancillary files for the DE matrices, boundary conditions, and amplitude form factors compatible with DiffExp.",
+      "epsOrders": "",
+      "familyName": "NP (Non-Planar)",
+      "method": "DE, IBP, series_expansion",
+      "tools": [
+        "Kira",
+        "FIRE",
+        "LiteRed",
+        "DiffExp"
+      ],
+      "ancillaryFiles": true,
+      "doi": "10.1007/JHEP04(2022)139",
+      "texkey": "Becchetti:2021axs",
+      "masterCount": 61,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "full",
+      "location": "Table 1 (propagator sets), Eq. (4.2), Figure 1 (right), Section 4",
+      "recordId": "bx_0a5d08d7a954",
+      "verified": false,
+      "verifiedAt": ""
     }
   ],
   "Names": [
@@ -53,7 +101,7 @@
   "Results": [],
   "edges": "{{{1, 2}, 0}, {{1, 3}, m}, {{1, 4}, 0}, {{2, 5}, 0}, {{3, 5}, m}, {{4, 6}, 0}, {{5, 6}, 0}}",
   "nodes": "{{2, 0}, {3, m}, {4, 0}, {6, 0}}",
-  "CanonicalName": "Non-planar box-pentagon, 2 massive propagators (d)",
+  "CanonicalName": "Non-planar box-pentagon, 2 massive propagators",
   "MassConfig": {
     "numEdges": 7,
     "numMassiveEdges": 2,

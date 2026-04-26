@@ -38,6 +38,29 @@
       "recordId": "bx_0a991854570d",
       "verified": false,
       "verifiedAt": ""
+    },
+    {
+      "reference": "arXiv:1705.05610 (Comput.Phys.Commun. 230 (99), 2018)",
+      "authors": "Maierhöfer, Philipp, Usovitsch, Johann, Uwer, Peter",
+      "description": "Two-loop planar double box appearing in NNLO QCD corrections to t-channel single top-quark production. Seven internal lines (P1-P7) plus two auxiliary ISP propagators (P8,P9). One massive internal propagator (P4 with W mass m2) and one massive external leg (q1, top mass m1). Used as the worked example to illustrate Kira usage and as the first benchmark topology; reduction performance compared with Reduze 2 and FIRE5. No analytic master-integral results computed in this paper.",
+      "epsOrders": "",
+      "familyName": "topo7",
+      "method": "IBP",
+      "tools": [
+        "Kira",
+        "FIRE",
+        "Reduze"
+      ],
+      "ancillaryFiles": false,
+      "doi": "10.1016/j.cpc.2018.04.012",
+      "texkey": "Maierhofer:2017gsa",
+      "masterCount": 0,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "IBP_only",
+      "location": "",
+      "recordId": "bx_004b492bb16c",
+      "verified": false,
+      "verifiedAt": ""
     }
   ],
   "Names": [
@@ -53,7 +76,7 @@
   "Results": [],
   "edges": "{{{1, 2}, 0}, {{1, 3}, 0}, {{1, 4}, 0}, {{2, 5}, 0}, {{2, 6}, m}, {{3, 5}, 0}, {{4, 6}, 0}}",
   "nodes": "{{3, 0}, {4, 0}, {6, 0}, {5, 0}}",
-  "CanonicalName": "Double box, 1 massive propagator (d)",
+  "CanonicalName": "Double box, 1 massive propagator",
   "MassConfig": {
     "numEdges": 7,
     "numMassiveEdges": 1,

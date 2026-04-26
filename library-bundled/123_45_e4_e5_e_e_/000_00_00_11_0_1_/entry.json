@@ -5,7 +5,8 @@
   "EpsilonOrder": "0",
   "References": [
     "arXiv:2201.11669 (Comput.Phys.Commun. 283 (), 2023)",
-    "arXiv:2409.08879 (Missing[\"KeyAbsent\", \"journal\"] Missing[\"KeyAbsent\", \"volume\"] (Missing[\"KeyAbsent\", \"pages\"]), Missing[\"KeyAbsent\", \"year\"])"
+    "arXiv:2409.08879 (Missing[\"KeyAbsent\", \"journal\"] Missing[\"KeyAbsent\", \"volume\"] (Missing[\"KeyAbsent\", \"pages\"]), Missing[\"KeyAbsent\", \"year\"])",
+    "arXiv:2409.08879"
   ],
   "Records": [
     {
@@ -94,6 +95,31 @@
       "recordId": "bx_84c01fb33866",
       "verified": false,
       "verifiedAt": ""
+    },
+    {
+      "reference": "arXiv:2201.11669 (Comput.Phys.Commun. 283 (), 2023)",
+      "authors": "Liu, Xiao, Ma, Yan-Qing",
+      "description": "Two-loop planar double-box integral family for NNLO QCD corrections to ttbar hadroproduction (paper label: tt). Seven inverse propagators (one massive internal line D5) and two ISPs (D8, D9). External momenta: p1, p2 massless; p3, p4 massive (p3^2=p4^2=m^2). Four top-sector integrals computed numerically from eps^-4 to eps^0 with 20-digit precision at s=30, t=-10/3, m^2=1, using both automatic (SolveIntegrals) and manual (BlackBoxAMFlow+FitEps) workflows. IBP reduction via FiniteFlow+LiteRed, FIRE+LiteRed, or Kira.",
+      "epsOrders": "0",
+      "familyName": "1-massive 2-loop 4-point planar double box",
+      "method": "IBP, DE, series_expansion",
+      "tools": [
+        "AMFlow",
+        "FiniteFlow",
+        "LiteRed",
+        "FIRE",
+        "Kira"
+      ],
+      "ancillaryFiles": true,
+      "doi": "10.1016/j.cpc.2022.108565",
+      "texkey": "Liu:2022chg",
+      "masterCount": 0,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "numerical",
+      "location": "Section 3, Fig. 4 (fig:tt), Eqs. (3.1)-(3.2); example in examples/automatic_vs_manual/run.wl",
+      "recordId": "bx_30d327b92a39",
+      "verified": false,
+      "verifiedAt": ""
     }
   ],
   "Names": [
@@ -109,7 +135,7 @@
   "Results": [],
   "edges": "{{{1, 2}, 0}, {{1, 3}, 0}, {{1, 4}, 0}, {{2, 5}, 0}, {{2, 6}, 0}, {{3, 5}, 0}, {{4, 6}, m}}",
   "nodes": "{{3, 0}, {4, m}, {5, 0}, {6, m}}",
-  "CanonicalName": "Double box, 1 massive propagator (c)",
+  "CanonicalName": "Double box, 1 massive propagator",
   "MassConfig": {
     "numEdges": 7,
     "numMassiveEdges": 1,

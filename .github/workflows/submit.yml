@@ -34,6 +34,120 @@ jobs:
 
           payload = json.loads(os.environ["PAYLOAD"])
 
+          def _extract_graph_from_stcommand(cmd):
+              # Pulls "{edges, nodes}" out of "STIntegrate[{edges,nodes}, ...]"
+              # by balanced-brace scanning. Returns (edges_str, nodes_str)
+              # both as Mma list strings, or None on parse failure.
+              if not cmd or not isinstance(cmd, str):
+                  return None
+              ob = cmd.find("[")
+              if ob < 0:
+                  return None
+              depth = 1
+              arg_start = -1
+              for i in range(ob + 1, len(cmd)):
+                  c = cmd[i]
+                  if c == "[":
+                      depth += 1
+                  elif c == "]":
+                      depth -= 1
+                      if depth == 0:
+                          break
+                  elif c == "{" and depth == 1:
+                      arg_start = i
+                      break
+              if arg_start < 0:
+                  return None
+              bdepth = 0
+              j = arg_start
+              while j < len(cmd):
+                  if cmd[j] == "{":
+                      bdepth += 1
+                  elif cmd[j] == "}":
+                      bdepth -= 1
+                      if bdepth == 0:
+                          j += 1
+                          break
+                  j += 1
+              inner = cmd[arg_start + 1: j - 1]  # strip outer {}
+              bdepth = 0
+              split_at = -1
+              for i, c in enumerate(inner):
+                  if c == "{" or c == "[":
+                      bdepth += 1
+                  elif c == "}" or c == "]":
+                      bdepth -= 1
+                  elif c == "," and bdepth == 0:
+                      split_at = i
+                      break
+              if split_at < 0:
+                  return None
+              return inner[:split_at].strip(), inner[split_at + 1:].strip()
+
+          # Backwards compat: kernels prior to the v1.1.5+ payload bump
+          # don't ship "edges"/"nodes" as top-level fields, but stCommand
+          # always contains the graph as its first argument.
+          if (not payload.get("edges") or not payload.get("nodes")) and payload.get("stCommand"):
+              g = _extract_graph_from_stcommand(payload["stCommand"])
+              if g is not None:
+                  if not payload.get("edges"):
+                      payload["edges"] = g[0]
+                  if not payload.get("nodes"):
+                      payload["nodes"] = g[1]
+
+          import re
+
+          def _count_top_brace_items(s):
+              """Count top-level {...} items in a Mma list string '{a, b, c}'."""
+              if not isinstance(s, str):
+                  return 0
+              s = s.strip()
+              if not s or s == "{}":
+                  return 0
+              if s.startswith("{") and s.endswith("}"):
+                  s = s[1:-1].strip()
+              if not s:
+                  return 0
+              depth, count = 0, 1
+              for ch in s:
+                  if ch in "{[":
+                      depth += 1
+                  elif ch in "}]":
+                      depth -= 1
+                  elif ch == "," and depth == 0:
+                      count += 1
+              return count
+
+          def _count_distinct_internal_vertices(edges_str):
+              """Distinct vertex IDs in '{{{v1,v2},m},{{v3,v4},m},...}'."""
+              if not isinstance(edges_str, str):
+                  return 0
+              verts = set()
+              for m in re.finditer(r"\{\s*(\d+)\s*,\s*(\d+)\s*\}", edges_str):
+                  verts.add(int(m.group(1)))
+                  verts.add(int(m.group(2)))
+              return len(verts)
+
+          # Derive Loops/Legs/Propagators from edges/nodes.  STSubmitResult
+          # ships these as integers via $nloops/$nl/$ne (SubTropica.wl ~25283),
+          # but those globals are only populated by the kernel-server /api/lock
+          # path; notebook users calling STIntegrate directly then
+          # STSubmitResult[] ship zeros.  Fall back to the payload integers
+          # only if the edges/nodes parse yields nothing usable.
+          n_props_derived = _count_top_brace_items(payload.get("edges", ""))
+          n_legs_derived  = _count_top_brace_items(payload.get("nodes", ""))
+          n_verts_derived = _count_distinct_internal_vertices(payload.get("edges", ""))
+          n_loops_derived = (n_props_derived - n_verts_derived + 1
+                             if n_props_derived > 0 and n_verts_derived > 0 else 0)
+
+          def _payload_int(k):
+              v = payload.get(k, 0)
+              return v if isinstance(v, int) else 0
+
+          loops_val = n_loops_derived if n_loops_derived > 0 else _payload_int("loops")
+          legs_val  = n_legs_derived  if n_legs_derived  > 0 else _payload_int("legs")
+          props_val = n_props_derived if n_props_derived > 0 else _payload_int("propagators")
+
           cnickel = payload["cnickelIndex"]
           parts = cnickel.split(":", 1)
           topo_nickel = parts[0]
@@ -56,9 +170,9 @@ jobs:
               topo_data = {
                   "NickelIndex": topo_nickel,
                   "Name": "",
-                  "Loops": payload.get("loops", 0),
-                  "Legs": payload.get("legs", 0),
-                  "Propagators": payload.get("propagators", 0),
+                  "Loops": loops_val,
+                  "Legs": legs_val,
+                  "Propagators": props_val,
                   "LoopediaURL": ""
               }
               with open(topo_path, "w") as f:
@@ -95,6 +209,19 @@ jobs:
               "verifiedKinPoint": payload.get("verifiedKinPoint", [])
           }
 
+          # Pass-through symbol-level fields computed by STSubmitResult
+          # (SubTropica.wl ~25307-25322): symbolTeX/alphabet/symbolWeight/
+          # symbolTerms always; normalizedSymbolTeX/wDefinitions/
+          # normalizedAlphabet/symbolScale/normalizedSymbolTerms when
+          # stComputeNormalizedSymbolFields succeeded; algebraicLetters
+          # only for results carrying Wm/Wp letters.  Add each field only
+          # when the kernel sent it, so legacy payloads stay clean.
+          for k in ("symbolTeX", "alphabet", "symbolWeight", "symbolTerms",
+                    "normalizedSymbolTeX", "normalizedAlphabet", "wDefinitions",
+                    "symbolScale", "normalizedSymbolTerms", "algebraicLetters"):
+              if k in payload:
+                  result_record[k] = payload[k]
+
           # Read existing entry.json or create new
           entry_path = f"{config_dir}/entry.json"
           if os.path.exists(entry_path):
@@ -117,6 +244,14 @@ jobs:
               else:
                   entry["Results"].append(result_record)
           else:
+              # New-entry skeleton.  Field set + types match the canonical
+              # entry.json schema documented in docs/naming-conventions.md
+              # §9 (CanonicalName / MassConfig / Subsectors / ParentSectors
+              # are populated empty so post-processing scripts —
+              # _build_manifest.py, build_subtopology_index.py, the diagram-
+              # naming pipeline — can fill them in without conditional
+              # key-existence checks).  Source is a list (290/300 sampled
+              # entries store it as a list; the string form was a bug).
               entry = {
                   "CNickelIndex": cnickel,
                   "MassScales": payload.get("massScales", 0),
@@ -124,7 +259,18 @@ jobs:
                   "EpsilonOrder": str(payload["epsOrder"]),
                   "References": [],
                   "Records": [],
-                  "Source": "SubTropica",
+                  "Source": ["SubTropica"],
+                  "Loops": loops_val,
+                  "NumPropagators": props_val,
+                  # Stringified Mma lists ("{{{1,2},0},...}" form) supplied
+                  # by STSubmitResult so CocoTropica + the public UI can
+                  # render the diagram without round-tripping the kernel.
+                  "edges": payload.get("edges", ""),
+                  "nodes": payload.get("nodes", ""),
+                  "CanonicalName": "",
+                  "MassConfig": {},
+                  "Subsectors": [],
+                  "ParentSectors": [],
                   "Results": [result_record],
                   "Names": []
               }

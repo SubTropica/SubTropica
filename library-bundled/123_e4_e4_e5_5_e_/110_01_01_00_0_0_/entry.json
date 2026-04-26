@@ -122,6 +122,30 @@
       "recordId": "bx_df043b746c4a",
       "verified": false,
       "verifiedAt": ""
+    },
+    {
+      "reference": "arXiv:2308.11412 (JHEP 12 (105), 2023)",
+      "authors": "Becchetti, Matteo, Bonciani, Roberto, Cieri, Leandro, Coro, Federico, Ripani, Federico",
+      "description": "Called 'NPL' in the paper. Non-planar double box family for two-loop QCD corrections to diphoton production (q qbar -> gamma gamma) with a closed massive top-quark loop. One massless sub-loop and one massive sub-loop (4 propagators with m_t^2) with non-planar routing. 36 master integrals. Contains elliptic sectors: a non-planar triangle with massive loop and the non-planar double-box top sector with 4 elliptic MIs. Canonical form only for the polylogarithmic subset (30-letter alphabet).",
+      "epsOrders": "0",
+      "familyName": "massive 2-loop 4-point non-planar double box",
+      "method": "IBP, DE, series_expansion",
+      "tools": [
+        "Kira",
+        "FORM",
+        "DiffExp",
+        "AMFlow"
+      ],
+      "ancillaryFiles": true,
+      "doi": "10.1007/JHEP12(2023)105",
+      "texkey": "Becchetti:2023wev",
+      "masterCount": 36,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "full",
+      "location": "Table 1 (propagator definitions), Section 3.1 (general setup), Section 3.3 (non-planar DEQs and elliptic analysis), Eqs. (20)-(22) (alphabet and roots), Appendix A (MI list: J17,J19,J20,J30-J34,J39-J42)",
+      "recordId": "bx_e06c2d6a58de",
+      "verified": false,
+      "verifiedAt": ""
     }
   ],
   "Names": [
@@ -139,7 +163,7 @@
   "Results": [],
   "edges": "{{{1, 2}, m}, {{1, 3}, m}, {{1, 4}, 0}, {{2, 5}, m}, {{3, 5}, m}, {{4, 6}, 0}, {{5, 6}, 0}}",
   "nodes": "{{2, 0}, {3, 0}, {4, 0}, {6, 0}}",
-  "CanonicalName": "Non-planar box-pentagon, 4 massive propagators (a)",
+  "CanonicalName": "Non-planar box-pentagon, 4 massive propagators",
   "MassConfig": {
     "numEdges": 7,
     "numMassiveEdges": 4,

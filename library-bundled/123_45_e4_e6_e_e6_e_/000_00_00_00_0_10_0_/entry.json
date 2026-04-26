@@ -61,6 +61,58 @@
       "recordId": "bx_56efda0cabd6",
       "verified": false,
       "verifiedAt": ""
+    },
+    {
+      "reference": "arXiv:2306.15431",
+      "authors": "",
+      "description": "Planar penta-box family with massive external leg p1 adjacent to the pentagon subloop. Three external legs on the pentagon side have mass pattern (massive, zero, zero). 74 master integrals, 3 in the top sector with 8 propagators.",
+      "epsOrders": "4",
+      "familyName": "PBmzz",
+      "method": "IBP",
+      "tools": [
+        "FiniteFlow",
+        "LiteRed",
+        "Kira 2.0",
+        "FIRE6",
+        "AMFlow",
+        "PentagonFunctions++"
+      ],
+      "ancillaryFiles": true,
+      "doi": "",
+      "texkey": "",
+      "masterCount": 74,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "basis",
+      "location": "arXiv:2005.04195 ancillary files: anc/mzz/input-mzz.m; arXiv:2306.15431 Zenodo:8082812",
+      "recordId": "bx_37998c1d4ac3",
+      "verified": false,
+      "verifiedAt": ""
+    },
+    {
+      "reference": "arXiv:2306.15431",
+      "authors": "",
+      "description": "Planar penta-box family with massive external leg p1 not adjacent to the pentagon subloop. Three external legs on the pentagon side have mass pattern (zero, zero, zero). 86 master integrals, 3 in the top sector with 8 propagators.",
+      "epsOrders": "4",
+      "familyName": "PBzzz",
+      "method": "IBP",
+      "tools": [
+        "FiniteFlow",
+        "LiteRed",
+        "Kira 2.0",
+        "FIRE6",
+        "AMFlow",
+        "PentagonFunctions++"
+      ],
+      "ancillaryFiles": true,
+      "doi": "",
+      "texkey": "",
+      "masterCount": 86,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "basis",
+      "location": "arXiv:2005.04195 ancillary files: anc/zzz/input-zzz.m; arXiv:2306.15431 Zenodo:8082812",
+      "recordId": "bx_2b4889fb7838",
+      "verified": false,
+      "verifiedAt": ""
     }
   ],
   "Names": [
@@ -76,7 +128,7 @@
   "Results": [],
   "edges": "{{{1, 2}, 0}, {{1, 3}, 0}, {{1, 4}, 0}, {{2, 5}, 0}, {{2, 6}, 0}, {{3, 5}, 0}, {{4, 7}, 0}, {{6, 7}, 0}}",
   "nodes": "{{3, 0}, {4, 0}, {7, 0}, {6, M}, {5, 0}}",
-  "CanonicalName": "1-mass box-pentagon (a)",
+  "CanonicalName": "1-mass box-pentagon",
   "MassConfig": {
     "numEdges": 8,
     "numMassiveEdges": 0,

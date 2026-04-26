@@ -27,6 +27,27 @@
         "pySecDec"
       ],
       "doi": ""
+    },
+    {
+      "reference": "arXiv:2112.09145",
+      "authors": "Winterhalder, R., Magerya, V., Villa, E., Jones, S.P., Kerner, M., Butter, A., Heinrich, G., Plehn, T.",
+      "description": "One-loop massive pentagon integral occurring in ttV or ttH production. Five propagators: four massive (mass m, top quark) and one massless. Five external legs: p1, p2 massless; p3, p4 on-shell with mass m; p5 off-shell with invariant mass M. Depends on four independent Mandelstam invariants plus m^2 and M^2. Has 4 independent Feynman parameters. Used as benchmark for neural network contour deformation optimization in pySecDec.",
+      "epsOrders": "0",
+      "familyName": "pentagon1L",
+      "method": "sector_decomposition",
+      "tools": [
+        "pySecDec"
+      ],
+      "ancillaryFiles": false,
+      "doi": "",
+      "texkey": "",
+      "masterCount": 0,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "numerical",
+      "location": "Figure 1 (top left), Section 2",
+      "recordId": "bx_77a1f02ffdf0",
+      "verified": false,
+      "verifiedAt": ""
     }
   ],
   "Names": [
@@ -40,7 +61,7 @@
   "Results": [],
   "edges": "{{{1, 2}, 0}, {{1, 3}, m}, {{2, 4}, m}, {{3, 5}, m}, {{4, 5}, m}}",
   "nodes": "{{1, 0}, {2, m}, {4, m}, {5, m}, {3, 0}}",
-  "CanonicalName": "Pentagon, 4 massive propagators (b)",
+  "CanonicalName": "Pentagon, 4 massive propagators",
   "MassConfig": {
     "numEdges": 5,
     "numMassiveEdges": 4,

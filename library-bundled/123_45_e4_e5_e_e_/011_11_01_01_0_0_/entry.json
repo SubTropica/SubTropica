@@ -10,15 +10,18 @@
     "arXiv:1701.07356 (JHEP 04 (083), 2017)",
     "arXiv:2509.15315 (Missing[\"KeyAbsent\", \"journal\"] Missing[\"KeyAbsent\", \"volume\"] (Missing[\"KeyAbsent\", \"pages\"]), Missing[\"KeyAbsent\", \"year\"])",
     "arXiv:2507.17815 (Missing[\"KeyAbsent\", \"journal\"] Missing[\"KeyAbsent\", \"volume\"] (Missing[\"KeyAbsent\", \"pages\"]), Missing[\"KeyAbsent\", \"year\"])",
-    "arXiv:2405.18755"
+    "arXiv:2405.18755",
+    "arXiv:1801.09696",
+    "arXiv:2509.15315",
+    "arXiv:2507.17815"
   ],
   "Records": [
     {
       "dimScheme": "d=4-2*eps",
       "recordId": "bf_681891337b94",
       "familyName": "TP2",
-      "verified": false,
-      "verifiedAt": "",
+      "verified": true,
+      "verifiedAt": "auto-loopedia",
       "authors": "Anastasiou, Charalampos, Beerli, Stefan, Bucherer, Stefan, Daleo, Alejandro, Kunszt, Zoltan",
       "texkey": "Anastasiou:2006hc",
       "computationLevel": "full",
@@ -40,8 +43,8 @@
       "dimScheme": "d=4-2*eps",
       "recordId": "bf_72fc5698996e",
       "familyName": "D_6",
-      "verified": false,
-      "verifiedAt": "",
+      "verified": true,
+      "verifiedAt": "auto-loopedia",
       "authors": [
         {
           "full_name": "Davies, Joshua",
@@ -97,8 +100,8 @@
       "computationLevel": "full",
       "location": "eq. (2.3), Appendix A eqs. (A.1)-(A.30)",
       "recordId": "bx_ce85f1702e61",
-      "verified": false,
-      "verifiedAt": ""
+      "verified": true,
+      "verifiedAt": "auto-loopedia"
     },
     {
       "reference": "arXiv:1701.07356 (JHEP 04 (083), 2017)",
@@ -116,8 +119,8 @@
       "computationLevel": "maximal_cut",
       "location": "Appendix A.5 (subs:double-box-ell), Eqs. (A.51)-(A.58)",
       "recordId": "bx_7d73a0730af3",
-      "verified": false,
-      "verifiedAt": ""
+      "verified": true,
+      "verifiedAt": "auto-loopedia"
     },
     {
       "reference": "arXiv:2509.15315 (JHEP 01 (090), 2026)",
@@ -157,8 +160,8 @@
       "computationLevel": "full",
       "location": "Appendix B, Table (fig:toposPL); Fig. (fig:gg_aa_diagrams); Sec. 3",
       "recordId": "bx_4e3e6dc358b8",
-      "verified": false,
-      "verifiedAt": ""
+      "verified": true,
+      "verifiedAt": "auto-loopedia"
     },
     {
       "reference": "arXiv:2507.17815 (JHEP 01 (014), 2026)",
@@ -204,8 +207,8 @@
       "computationLevel": "full",
       "location": "Eq. (32), Section 4.4",
       "recordId": "bx_8fd44621abf7",
-      "verified": false,
-      "verifiedAt": ""
+      "verified": true,
+      "verifiedAt": "auto-loopedia"
     },
     {
       "reference": "arXiv:2405.18755",
@@ -228,6 +231,50 @@
       "computationLevel": "full",
       "location": "Section 5.7",
       "recordId": "bx_241bfa0d3e82",
+      "verified": true,
+      "verifiedAt": "auto-loopedia"
+    },
+    {
+      "reference": "arXiv:hep-ph/0611236 (JHEP 01 (082), 2007)",
+      "authors": "Anastasiou, Charalampos, Beerli, Stefan, Bucherer, Stefan, Daleo, Alejandro, Kunszt, Zoltan",
+      "description": "Parent topology TP2 for two-loop gg->H via massive quark loop. All-massive box-triangle with one massless internal line (k1-k2)^2. Six massive and one massless propagator. Hosts master integrals GLASSES, TRIBUB, MP5, MP6.",
+      "epsOrders": "4",
+      "familyName": "TP2",
+      "method": "DE, IBP",
+      "tools": [],
+      "ancillaryFiles": false,
+      "doi": "10.1088/1126-6708/2007/01/082",
+      "texkey": "Anastasiou:2006hc",
+      "masterCount": 17,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "full",
+      "location": "Section 2, Eq. below Eq.(2)",
+      "recordId": "bx_7918817795f4",
+      "verified": false,
+      "verifiedAt": ""
+    },
+    {
+      "reference": "arXiv:1801.09696",
+      "authors": "",
+      "description": "Two-loop planar double-box family for gg->HH with 6 massive (mt) and 1 massless internal propagator. The massless propagator is the rung (k1-k2)^2 connecting the two loops. Master integrals defined with 9 propagators but the last 2 indices (ISPs) are always zero. Expanded in small mt^2 to sufficient depth for the amplitude at O(mt^16), results in HPLs with alphabet {-1,0} in variable t/s and powers of log(-mt^2/s). Boundary conditions from method of regions + Mellin-Barnes + PSLQ. Five crossing families defined: D_4 = D_6(p1,p4,p3,p2), D_5 = D_6(p1,p2,p4,p3), D_8 = D_6(p4,p1,p3,p2), D_10 = D_6(p3,p1,p4,p2), D_11 = D_6(p3,p1,p2,p4). Total 27 master integrals across D_6 and its crossings. Integration measure: (mu^2)^{(4-d)/2} e^{eps*gamma_E} d^d k / (i pi^{d/2}).",
+      "epsOrders": "",
+      "familyName": "D_6",
+      "method": "DE, IBP, Mellin-Barnes, series_expansion",
+      "tools": [
+        "FIRE",
+        "LiteRed",
+        "FORM",
+        "FIESTA",
+        "pySecDec"
+      ],
+      "ancillaryFiles": true,
+      "doi": "",
+      "texkey": "",
+      "masterCount": 6,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "full",
+      "location": "Appendix A, two-loop family definitions",
+      "recordId": "bx_d9ec87a51853",
       "verified": false,
       "verifiedAt": ""
     }
@@ -252,7 +299,7 @@
   "Results": [],
   "edges": "{{{1, 2}, 0}, {{1, 3}, m}, {{1, 4}, m}, {{2, 5}, m}, {{2, 6}, m}, {{3, 5}, m}, {{4, 6}, m}}",
   "nodes": "{{3, 0}, {4, 0}, {5, 0}, {6, 0}}",
-  "CanonicalName": "Double box, 6 massive propagators (a)",
+  "CanonicalName": "Double box, 6 massive propagators",
   "MassConfig": {
     "numEdges": 7,
     "numMassiveEdges": 6,

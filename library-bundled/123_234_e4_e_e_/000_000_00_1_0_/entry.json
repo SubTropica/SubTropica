@@ -1,55 +1,97 @@
 {
-  "CNickelIndex": "123|234|e4|e|e|:000|000|00|1|0|",
-  "MassScales": 1,
-  "FunctionClass": "unknown",
-  "EpsilonOrder": "-1,0",
-  "References": [
-    "arXiv:1004.3653",
-    "hep-ph/0607185"
-  ],
-  "Records": [
-    {
-      "epsOrders": "-1,0",
-      "reference": "arXiv:1004.3653",
-      "authors": "T. Gehrmann, E.W.N. Glover, T. Huber, N. Ikizlerli, C. Studerus",
-      "description": "The authors give all master integrals used in the computation of quark and gluon form factors to three loops in QCD. These integrals are available in the annex A and have all a prefactor given by equation A.1.",
-      "recordId": "1499084266.5v8z",
-      "verified": false,
-      "verifiedAt": ""
-    },
-    {
-      "reference": "hep-ph/0607185",
-      "authors": "T. Gehrmann, G. Heinrich, T. Huber, C. Studerus",
-      "recordId": "1479981065.rOZK",
-      "verified": false,
-      "verifiedAt": ""
-    }
-  ],
-  "Source": [
-    "arXiv",
-    "Loopedia"
-  ],
-  "Results": [],
-  "Names": [
-    "1-mass planar ladder vertex (3-point)",
-    "one-mass planar ladder vertex (3-point)",
-    "Planar ladder vertex (3-point)"
-  ],
-  "edges": "{{{1, 2}, 0}, {{1, 3}, 0}, {{1, 4}, 0}, {{2, 3}, 0}, {{2, 4}, 0}, {{2, 5}, 0}, {{3, 5}, 0}}",
-  "nodes": "{{3, 0}, {5, 0}, {4, M}}",
-  "CanonicalName": "1-mass triple triangle",
-  "MassConfig": {
-    "numEdges": 7,
-    "numMassiveEdges": 0,
-    "numMasslessEdges": 7,
-    "distinctInternalMasses": 0,
-    "internalMassLabels": [],
-    "edgeMassPattern": "0000000",
-    "numExtLegs": 3,
-    "numOnshellMassiveExtLegs": 1,
-    "numMasslessExtLegs": 2,
-    "extLegSignature": "00M"
-  },
-  "Subsectors": [],
-  "ParentSectors": []
+	"CNickelIndex": "123|234|e4|e|e|:000|000|00|1|0|",
+	"MassScales": 1,
+	"FunctionClass": "unknown",
+	"EpsilonOrder": "-1,0",
+	"References": [
+		"arXiv:1004.3653",
+		"hep-ph/0607185"
+	],
+	"Records": [
+		{
+			"epsOrders": "-1,0",
+			"reference": "arXiv:1004.3653",
+			"authors": "T. Gehrmann, E.W.N. Glover, T. Huber, N. Ikizlerli, C. Studerus",
+			"description": "The authors give all master integrals used in the computation of quark and gluon form factors to three loops in QCD. These integrals are available in the annex A and have all a prefactor given by equation A.1.",
+			"recordId": "1499084266.5v8z",
+			"verified": true,
+			"verifiedAt": "auto-loopedia"
+		},
+		{
+			"reference": "hep-ph/0607185",
+			"authors": "T. Gehrmann, G. Heinrich, T. Huber, C. Studerus",
+			"recordId": "1479981065.rOZK",
+			"verified": true,
+			"verifiedAt": "auto-loopedia"
+		}
+	],
+	"Source": [
+		"arXiv",
+		"Loopedia"
+	],
+	"Results": [
+		{
+			"resultCompressed": "1:eJytV8FOwkAQbUupxpOJHryYYGI8ezThQqIHD0AIevJkSVrcBCxhEYlfoDd/wMSbV/kDE/kAjx6JX+DBmGgC2G2x0O3Msi3lsLTdnTczb2Z3ZndqTtU2FEWha+5wYrWJRY/Mjkkz7qvVosT9U2yNLdDdoUhox2ZTNOsOp6RpUX9y1R2qZoc4l2aDTNwfMQJBtrTiXFttyl5LJW/eXvnHrDSuKIdJNES4QuammPBxw6kTlX3KzNvome199ye1MPwXMwDAyEYxZgOK9hsTTQ09LYGmLkbbQtgSomGeiiLClntJ07zpkkwQkJklRmTVTI4ZcmZ1TEgQy6/1vDi/dkP5xdHyGpAc8cYAbB8OYqejLgq+Cui43U5DB5cNnI6LJ9TtuDowP3wMtrkPnWarYfV8mfOaqkxVLbHxpFTt95UkqoTMpaYK2rJSqgr50SSpKvTkYlGB0AxROJT0IcVn2GNZSwiJWjk7POQg1Sg4D/n8PgbP7cWQOJf9UXxIMZeFBz2+42Iuc11pLjkaUSuHd3ANXAyJWvmykQBSzGWMVAeCDULe16STiAs2amWMVAfyJxUuJfIyt/mTEBItqFh4JGtN0KoUnfq0seA1sON/iRKTrgaIZAkNrK4sUVAkNOypaGOjhyCCnlCqIPY+0F4mE4H1vuhhuwQAGuZaFBSqVaFVUD/5OYA3kPAOE0wCDS3CUXinRTlK0N7PkcG5PmY9NdDO6zKWvpUnQXsjdUnggsnkF0dM7sbhV7RoqAFBjoKD7zGfUoCUZ4Z/iQmi+weRQq91",
+			"resultTeX": "-\\frac{M^{-2} \\left(2 \\pi ^2 H(0,1,1\\,;1)-12 H(0,0,0,1,1\\,;1)-6 H(0,0,1,0,1\\,;1)-6 H(0,1,1,0,1\\,;1)+24 H(0,1,1,1,1\\,;1)+6 \\zeta(2) \\zeta(3)+\\pi ^2 \\zeta(3)\\right)}{6 \\varepsilon}-\\frac{M^{-2} \\left(-15120 H(0,1,1\\,;1) \\left(\\pi ^2 \\log \\left(M^2\\right)-2 \\zeta(3)+i \\pi ^3\\right)+90720 H(0,0,0,1,1\\,;1) \\log \\left(M^2\\right)+45360 H(0,0,1,0,1\\,;1) \\log \\left(M^2\\right)+45360 H(0,1,1,0,1\\,;1) \\log \\left(M^2\\right)-181440 H(0,1,1,1,1\\,;1) \\log \\left(M^2\\right)+50400 \\pi ^2 H(0,0,1,1\\,;1)+7560 \\pi ^2 H(0,1,0,1\\,;1)-22680 \\pi ^2 H(0,1,1,1\\,;1)+90720 i \\pi  H(0,0,0,1,1\\,;1)+45360 i \\pi  H(0,0,1,0,1\\,;1)+45360 i \\pi  H(0,1,1,0,1\\,;1)-181440 i \\pi  H(0,1,1,1,1\\,;1)+90720 H(0,0,0,0,1,1\\,;1)+90720 H(0,0,0,1,0,1\\,;1)+151200 H(0,0,0,1,1,1\\,;1)+15120 H(0,0,1,0,0,1\\,;1)-75600 H(0,0,1,0,1,1\\,;1)-151200 H(0,0,1,1,0,1\\,;1)+302400 H(0,0,1,1,1,1\\,;1)+30240 H(0,1,0,0,0,1\\,;1)-30240 H(0,1,0,0,1,1\\,;1)-60480 H(0,1,0,1,0,1\\,;1)+90720 H(0,1,0,1,1,1\\,;1)-105840 H(0,1,1,0,0,1\\,;1)+15120 H(0,1,1,0,1,1\\,;1)-60480 H(0,1,1,1,0,1\\,;1)-453600 H(0,1,1,1,1,1\\,;1)-45360 \\zeta(2) \\zeta(3) \\log \\left(M^2\\right)-7560 \\pi ^2 \\zeta(3) \\log \\left(M^2\\right)-45360 i \\pi  \\zeta(2) \\zeta(3)+30240 \\zeta(3) \\zeta(3)+294 \\pi ^4 \\zeta(2)-7560 i \\pi ^3 \\zeta(3)+151200 \\zeta(6)-68040 \\zeta(3)^2-61 \\pi ^6\\right)}{15120}+O\\left(\\varepsilon^1\\right)",
+			"dimension": "4 - 2*eps",
+			"epsOrder": 0,
+			"propExponents": [
+				1,
+				1,
+				1,
+				1,
+				1,
+				1,
+				1
+			],
+			"propagators": 0,
+			"numerators": [],
+			"internalMasses": [],
+			"externalMasses": [],
+			"substitutions": "{}",
+			"normalization": "Automatic",
+			"stVersion": "SubTropica v1.1.6.4",
+			"stCommand": "STIntegrate[{{{{4, 5}, 0}, {{1, 4}, 0}, {{2, 4}, 0}, {{1, 5}, 0}, {{2, 5}, 0}, {{3, 5}, 0}, {{1, 3}, 0}}, {{1, 0}, {2, M}, {3, 0}}}, \"Dimension\" -> \"4 - 2*eps\", \"Order\" -> 0]",
+			"contributor": "MG",
+			"timestamp": "Sat 25 Apr 2026 15:40:45",
+			"byteCount": 14608,
+			"verified": true,
+			"verifiedMethod": "pySecDec",
+			"verifiedTolerance": 0.001,
+			"verifiedMaxRelErr": 2.940195029213885e-05,
+			"verifiedAt": "Sat 25 Apr 2026 15:40:45",
+			"verifiedKinPoint": [
+				{
+					"var": "Msq",
+					"value": "-97/61"
+				}
+			],
+			"symbolTeX": "\\begin{aligned}\\varepsilon^{-1}&\\colon\\;-\\frac{1}{6} M^{-2} \\left(2 \\pi ^2 \\text{Hlog}(1,\\{0,1,1\\})-12 \\text{Hlog}(1,\\{0,0,0,1,1\\})-6 \\text{Hlog}(1,\\{0,0,1,0,1\\})-6 \\text{Hlog}(1,\\{0,1,1,0,1\\})+24 \\text{Hlog}(1,\\{0,1,1,1,1\\})+6 \\zeta(2) \\zeta(3)+\\pi ^2 \\zeta(3)\\right) \\\\ \\varepsilon^{0}&\\colon\\;-\\frac{M^{-2} \\left(-15120 \\text{Hlog}(1,\\{0,1,1\\}) \\left(\\pi ^2 \\log \\left(M^2\\right)-2 \\zeta(3)+i \\pi ^3\\right)+90720 \\log \\left(M^2\\right) \\text{Hlog}(1,\\{0,0,0,1,1\\})+45360 \\log \\left(M^2\\right) \\text{Hlog}(1,\\{0,0,1,0,1\\})+45360 \\log \\left(M^2\\right) \\text{Hlog}(1,\\{0,1,1,0,1\\})-181440 \\log \\left(M^2\\right) \\text{Hlog}(1,\\{0,1,1,1,1\\})+50400 \\pi ^2 \\text{Hlog}(1,\\{0,0,1,1\\})+7560 \\pi ^2 \\text{Hlog}(1,\\{0,1,0,1\\})-22680 \\pi ^2 \\text{Hlog}(1,\\{0,1,1,1\\})+90720 i \\pi  \\text{Hlog}(1,\\{0,0,0,1,1\\})+45360 i \\pi  \\text{Hlog}(1,\\{0,0,1,0,1\\})+45360 i \\pi  \\text{Hlog}(1,\\{0,1,1,0,1\\})-181440 i \\pi  \\text{Hlog}(1,\\{0,1,1,1,1\\})+90720 \\text{Hlog}(1,\\{0,0,0,0,1,1\\})+90720 \\text{Hlog}(1,\\{0,0,0,1,0,1\\})+151200 \\text{Hlog}(1,\\{0,0,0,1,1,1\\})+15120 \\text{Hlog}(1,\\{0,0,1,0,0,1\\})-75600 \\text{Hlog}(1,\\{0,0,1,0,1,1\\})-151200 \\text{Hlog}(1,\\{0,0,1,1,0,1\\})+302400 \\text{Hlog}(1,\\{0,0,1,1,1,1\\})+30240 \\text{Hlog}(1,\\{0,1,0,0,0,1\\})-30240 \\text{Hlog}(1,\\{0,1,0,0,1,1\\})-60480 \\text{Hlog}(1,\\{0,1,0,1,0,1\\})+90720 \\text{Hlog}(1,\\{0,1,0,1,1,1\\})-105840 \\text{Hlog}(1,\\{0,1,1,0,0,1\\})+15120 \\text{Hlog}(1,\\{0,1,1,0,1,1\\})-60480 \\text{Hlog}(1,\\{0,1,1,1,0,1\\})-453600 \\text{Hlog}(1,\\{0,1,1,1,1,1\\})-45360 \\zeta(2) \\zeta(3) \\log \\left(M^2\\right)-7560 \\pi ^2 \\zeta(3) \\log \\left(M^2\\right)-45360 i \\pi  \\zeta(2) \\zeta(3)+30240 \\zeta(3) \\zeta(3)+294 \\pi ^4 \\zeta(2)-7560 i \\pi ^3 \\zeta(3)+151200 \\zeta(6)-68040 \\zeta(3)^2-61 \\pi ^6\\right)}{15120}\\end{aligned}",
+			"alphabet": [],
+			"symbolWeight": 0,
+			"symbolTerms": 2
+		}
+	],
+	"Names": [
+		"1-mass planar ladder vertex (3-point)",
+		"one-mass planar ladder vertex (3-point)",
+		"Planar ladder vertex (3-point)"
+	],
+	"edges": "{{{1, 2}, 0}, {{1, 3}, 0}, {{1, 4}, 0}, {{2, 3}, 0}, {{2, 4}, 0}, {{2, 5}, 0}, {{3, 5}, 0}}",
+	"nodes": "{{3, 0}, {5, 0}, {4, M}}",
+	"CanonicalName": "1-mass triple triangle",
+	"MassConfig": {
+		"numEdges": 7,
+		"numMassiveEdges": 0,
+		"numMasslessEdges": 7,
+		"distinctInternalMasses": 0,
+		"internalMassLabels": [],
+		"edgeMassPattern": "0000000",
+		"numExtLegs": 3,
+		"numOnshellMassiveExtLegs": 1,
+		"numMasslessExtLegs": 2,
+		"extLegSignature": "00M"
+	},
+	"Subsectors": [],
+	"ParentSectors": []
 }

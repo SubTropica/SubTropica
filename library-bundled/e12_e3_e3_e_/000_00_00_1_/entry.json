@@ -1,256 +1,296 @@
 {
-	"CNickelIndex": "e12|e3|e3|e|:000|00|00|1|",
-	"MassScales": 3,
-	"FunctionClass": "MPL",
-	"EpsilonOrder": "0",
-	"References": [
-		"arXiv:0712.1851 (JHEP 02 (002), 2008)",
-		"arXiv:2201.03593 (doi: 10.1007/978-3-030-99558-4)",
-		"arXiv:hep-ph/0106243",
-		"arXiv:2506.10456"
-	],
-	"Records": [
-		{
-			"dimScheme": "d=4-2*eps",
-			"recordId": "bf_47f0c788b794",
-			"familyName": "Box_2",
-			"verified": false,
-			"verifiedAt": "",
-			"authors": "Ellis, R.Keith, Zanderighi, Giulia",
-			"texkey": "Ellis:2007qk",
-			"computationLevel": "full",
-			"masterCount": 1,
-			"location": "Sec. 3.2.1, Sec. 4.4.2",
-			"transcendentalWeight": 2,
-			"method": [],
-			"reference": "arXiv:0712.1851, JHEP 02 (002), 2008",
-			"ancillaryFiles": [],
-			"description": "Divergent one-loop box $I_4^D(0,0,0,p_4^2;s_{12},s_{23};0,0,0,0)$ with all massless internal lines and one off-shell external leg. Contains double $1/\\varepsilon^2$ poles. Result from Ellis-Ross-Terrano and Bern-Dixon-Kosower.",
-			"epsOrders": "-1,0",
-			"tools": [],
-			"doi": "10.1088/1126-6708/2008/02/002"
-		},
-		{
-			"reference": "arXiv:2201.03593 (doi: 10.1007/978-3-030-99558-4)",
-			"authors": "Weinzierl, Stefan",
-			"description": "Massless one-loop four-point function with one off-shell leg $p_4^2 \\neq 0$ and three light-like legs. Used as the worked example for the canonical eps-form: starting basis $I = (I_{0011},I_{0101},I_{1010},I_{1111})$, the rescaled basis $I'$ produces a five-letter dlog alphabet $\\{x_1, x_1-1, x_2, x_2-1, x_1+x_2-1\\}$ and an eps-factorized DE (eq. Aprime_box). Result reinstated as $I_{1111}(\\varepsilon,s,t,p_4^2,\\mu^2)$ in Sec. solution.",
-			"epsOrders": "0",
-			"familyName": "one-mass massless one-loop box (Example 2)",
-			"method": "IBP, DE",
-			"tools": [
-				"Kira"
-			],
-			"ancillaryFiles": false,
-			"doi": "10.1007/978-3-030-99558-4",
-			"texkey": "Weinzierl:2022eaz",
-			"masterCount": 4,
-			"dimScheme": "d=4-2*eps",
-			"computationLevel": "full",
-			"location": "Chapter 'Iterated integrals', Sec. 'Differential equations', Example 2, Eq. (chapter_iterated_integrals:example_box, line ~993)",
-			"recordId": "bx_dc9cb01877f8",
-			"verified": false,
-			"verifiedAt": ""
-		},
-		{
-			"reference": "arXiv:hep-ph/0106243",
-			"authors": [
-				{
-					"full_name": "Binoth, T.",
-					"inspire_id": 1016306
-				},
-				{
-					"full_name": "Guillet, J.P.",
-					"inspire_id": 1007287
-				},
-				{
-					"full_name": "Heinrich, G.",
-					"inspire_id": 1006298
-				},
-				{
-					"full_name": "Schubert, C.",
-					"inspire_id": 989669
-				}
-			],
-			"description": "One-loop massless scalar box with three light-like legs and one off-shell leg. Explicit $\\mathcal{O}(\\varepsilon^0)$ result via $r_\\Gamma/\\varepsilon^2$ combinations and finite part $F_1$ in dilogarithms.",
-			"epsOrders": "0",
-			"familyName": "massless 1-loop box with one off-shell leg",
-			"method": "direct_integration",
-			"tools": [],
-			"ancillaryFiles": false,
-			"doi": "",
-			"texkey": "",
-			"masterCount": 0,
-			"dimScheme": "d=4-2*eps",
-			"computationLevel": "full",
-			"location": "Appendix Eq. (1m)",
-			"recordId": "bx_ef15a2b5b4f2",
-			"verified": false,
-			"verifiedAt": ""
-		},
-		{
-			"reference": "arXiv:2506.10456",
-			"authors": [
-				{
-					"full_name": "Chestnov, Vsevolod",
-					"inspire_id": 1760381
-				},
-				{
-					"full_name": "Flieger, Wojciech",
-					"inspire_id": 1955301
-				},
-				{
-					"full_name": "Mastrolia, Pierpaolo",
-					"inspire_id": 1025886
-				},
-				{
-					"full_name": "Matsubara-Heo, Saiei-Jaeyeong",
-					"inspire_id": 2016791
-				},
-				{
-					"full_name": "Takayama, Nobuki",
-					"inspire_id": 2072902
-				},
-				{
-					"full_name": "Torres Bobadilla, William J.",
-					"inspire_id": 1335604
-				}
-			],
-			"description": "One-loop four-point box with one off-shell external leg ($p_2^2 = m^2$) in the parametric representation. Second Symanzik $F = \\alpha_1 \\alpha_3 s + \\alpha_2 \\alpha_4 t + \\alpha_2 \\alpha_3 m^2$. Two degree-2 annihilators $A_{2,1}$ and $A_{2,2}$ together with the Euler homogeneity operator generate the D-module of holonomic rank $r=4$, with singular locus $s t m^2 (s-m^2)(t-m^2)(s+t-m^2)$. A factorized fourth-order Picard-Fuchs operator in $d-s$ with a double factor is derived; no explicit MPL evaluation.",
-			"epsOrders": "",
-			"familyName": "1-mass 1-loop 4-point box (4 propagators)",
-			"method": "direct_integration",
-			"tools": [
-				"FiniteFlow"
-			],
-			"ancillaryFiles": false,
-			"doi": "",
-			"texkey": "",
-			"masterCount": 4,
-			"dimScheme": "d=4-2*eps",
-			"computationLevel": "DE_only",
-			"location": "Section Applications b), around Eqs. for one_mass_box, eq:pf_one_mass_box",
-			"recordId": "bx_d4134d32f2ee",
-			"verified": false,
-			"verifiedAt": ""
-		}
-	],
-	"Source": [
-		"arXiv",
-		"QCDLoop"
-	],
-	"Results": [
-		{
-			"resultCompressed": "1:eJzNVF0OgjAMRkFj9BQeQbiCDz5gQtQLYDJJE3SGoSae2AP46k/LRGQsBpkm8lDSrf36rfvW4ZLPVl3LskQfzZwlwMQ4TENho8u2AvBnrcgRDhofRCq9DpoFrJmANkW087WAH1iSZYuRCzf8tHuuJ/fKWI1hnJxgEO9eUCTBK0W0aI1yfB6pAQSR19LtvUtWaZE7nf4W0vVMIV8b+8R0NCk9NLMwBb4JY6AC0DW57oH+nopzBqDoSZ7v/ASm5EnMo4xMsUTClFotZz6ap5Qq8ohHJaaqCuVk/0Aqb6kSoLme2trXtt7+DLDGe5BlbA1vw3dW75yo9A9r167S4OV+u70oiybtLXM0nSQK9qU6FkxLaKV6Kk3B9XGfRWXzX84uMnchd6wo",
-			"resultTeX": "\\frac{2}{\\varepsilon^2 s_{12} s_{23}}+\\frac{-\\log \\left(s_{12} M^{-2}\\right)-\\log \\left(s_{23} M^{-2}\\right)-\\log \\left(\\frac{s_{23}}{s_{12}}\\right)-2 \\log (-s_{12})}{\\varepsilon s_{12} s_{23}}+\\frac{-12 H\\left(0,\\frac{M^2}{M^2-s_{12}}\\,;1\\right)-12 H\\left(0,\\frac{M^2}{M^2-s_{23}}\\,;1\\right)+6 \\log (-s_{12}) \\log \\left(s_{23} M^{-2}\\right)+6 \\log (-s_{23}) \\log \\left(s_{12} M^{-2}\\right)+3 \\log ^2\\left(s_{12} M^{-2}\\right)+3 \\log ^2\\left(s_{23} M^{-2}\\right)-24 \\zeta(2)-3 \\log ^2\\left(\\frac{s_{23}}{s_{12}}\\right)+6 \\log (-s_{23}) \\log \\left(\\frac{s_{23}}{s_{12}}\\right)+6 \\log ^2(-s_{12})+\\pi ^2}{6 s_{12} s_{23}}+O\\left(\\varepsilon^1\\right)",
-			"dimension": "4 - 2*eps",
-			"epsOrder": "0",
-			"epsOrders": "0",
-			"propExponents": [
-				1,
-				1,
-				1,
-				1
-			],
-			"propagators": [],
-			"numerators": [],
-			"internalMasses": [],
-			"externalMasses": [],
-			"substitutions": "",
-			"normalization": "Automatic",
-			"stVersion": "SubTropica v1.0.277",
-			"stCommand": "",
-			"contributor": "Sebastian Mizera",
-			"timestamp": "2026-04-14T02:23:34",
-			"verifiedAt": "2026-04-14T02:23:34",
-			"verified": true,
-			"method": "direct_integration",
-			"tools": [
-				"SubTropica"
-			],
-			"methodLR": "Lungo",
-			"byteCount": 5560,
-			"symbolTeX": "\\begin{aligned}\\varepsilon^{-1}&\\colon\\;-\\frac{2}{s_{12} s_{23}}\\,(s_{12}) + \\frac{2}{s_{12} s_{23}}\\,(M^2) - \\frac{2}{s_{12} s_{23}}\\,(s_{23}) \\\\ \\varepsilon^{0}&\\colon\\;-\\frac{2}{s_{12} s_{23}}\\,(M^2 \\otimes M^2) + \\frac{2}{s_{12} s_{23}}\\,(M^2-s_{12} \\otimes M^2) - \\frac{2}{s_{12} s_{23}}\\,(M^2-s_{12} \\otimes s_{12}) + \\frac{2}{s_{12} s_{23}}\\,(M^2-s_{23} \\otimes M^2) - \\frac{2}{s_{12} s_{23}}\\,(M^2-s_{23} \\otimes s_{23}) + \\frac{2}{s_{12} s_{23}}\\,(s_{12} \\otimes s_{12}) - \\frac{2}{s_{12} s_{23}}\\,(s_{12} \\otimes M^2) + \\frac{2}{s_{12} s_{23}}\\,(s_{12} \\otimes s_{23}) - \\frac{2}{s_{12} s_{23}}\\,(s_{23} \\otimes M^2) + \\frac{2}{s_{12} s_{23}}\\,(s_{23} \\otimes s_{12}) + \\frac{2}{s_{12} s_{23}}\\,(s_{23} \\otimes s_{23})\\end{aligned}",
-			"alphabet": [
-				"s_{12}",
-				"M^2",
-				"s_{23}",
-				"M^2-s_{12}",
-				"M^2-s_{23}"
-			],
-			"symbolWeight": 2,
-			"symbolTerms": 14,
-			"normalizedSymbolTeX": "\\begin{aligned}\\varepsilon^{-1}&\\colon\\;\\frac{2}{s_{12} s_{23}}\\!\\left[-(W_1) - (W_2)\\right] \\\\ \\varepsilon^{0}&\\colon\\;\\frac{2}{s_{12} s_{23}}\\!\\left[-(W_3 \\otimes W_1) - (W_4 \\otimes W_2) + (W_1 \\otimes W_1) + (W_1 \\otimes W_2) + (W_2 \\otimes W_1) + (W_2 \\otimes W_2)\\right]\\end{aligned}",
-			"wDefinitions": [
-				{
-					"label": "W_1",
-					"definition": "\\frac{s_{12}}{M^2}",
-					"originalLetter": "s_{12}"
-				},
-				{
-					"label": "W_2",
-					"definition": "\\frac{s_{23}}{M^2}",
-					"originalLetter": "s_{23}"
-				},
-				{
-					"label": "W_3",
-					"definition": "\\frac{-s_{12}+M^2}{M^2}",
-					"originalLetter": "M^2-s_{12}"
-				},
-				{
-					"label": "W_4",
-					"definition": "\\frac{-s_{23}+M^2}{M^2}",
-					"originalLetter": "M^2-s_{23}"
-				}
-			],
-			"normalizedAlphabet": [
-				"W_1",
-				"W_2",
-				"W_3",
-				"W_4"
-			],
-			"symbolScale": "M^2",
-			"normalizedSymbolTerms": 8,
-			"legOrder": []
-		}
-	],
-	"Names": [
-		"one-mass box",
-		"Box",
-		"D0",
-		"Box_2",
-		"one-mass massless one-loop box (Example 2)",
-		"massless 1-loop box with one off-shell leg",
-		"1-mass 1-loop 4-point box (4 propagators)"
-	],
-	"QCDLoopURL": "https://qcdloop.fnal.gov/boxdiv2.pdf",
-	"edges": "{{{1, 2}, 0}, {{1, 3}, 0}, {{2, 4}, 0}, {{3, 4}, 0}}",
-	"nodes": "{{1, 0}, {2, 0}, {4, M}, {3, 0}}",
-	"quadruple": "{E^(eps*EulerGamma)*Gamma[2 + eps], (x1 + x2 + x3 + x4)^(2*eps)*(s12*x2*x3 + MM*x1*x4 - s12*x1*x4 - s23*x1*x4 + MM*x2*x4)^(-2 - eps), {x1, x2, x3, x4}, {MM, s12, s23}}",
-	"Loops": 1,
-	"NumPropagators": 4,
-	"CanonicalName": "1-mass box",
-	"MassConfig": {
-		"numEdges": 4,
-		"numMassiveEdges": 0,
-		"numMasslessEdges": 4,
-		"distinctInternalMasses": 0,
-		"internalMassLabels": [],
-		"edgeMassPattern": "0000",
-		"numExtLegs": 4,
-		"numOnshellMassiveExtLegs": 1,
-		"numMasslessExtLegs": 3,
-		"extLegSignature": "00M0"
-	},
-	"commonNames": [
-		"D₀"
-	],
-	"Subsectors": [
-		"e12|e2|e|:000|00|1|",
-		"e12|e2|e|:000|10|2|"
-	],
-	"ParentSectors": [
-		"e12|e3|e4|e4|e|:000|00|00|00|0|",
-		"e12|e3|e4|e4|e|:000|00|00|00|1|",
-		"e12|e3|e4|e4|e|:000|00|00|01|0|"
-	]
+  "CNickelIndex": "e12|e3|e3|e|:000|00|00|1|",
+  "MassScales": 3,
+  "FunctionClass": "MPL",
+  "EpsilonOrder": "0",
+  "References": [
+    "arXiv:0712.1851 (JHEP 02 (002), 2008)",
+    "arXiv:2201.03593 (doi: 10.1007/978-3-030-99558-4)",
+    "arXiv:hep-ph/0106243",
+    "arXiv:2506.10456",
+    "arXiv:1104.2661 (Int.J.Mod.Phys.A 26 (2557), 2011)"
+  ],
+  "Records": [
+    {
+      "dimScheme": "d=4-2*eps",
+      "recordId": "bf_47f0c788b794",
+      "familyName": "Box_2",
+      "verified": false,
+      "verifiedAt": "",
+      "authors": "Ellis, R.Keith, Zanderighi, Giulia",
+      "texkey": "Ellis:2007qk",
+      "computationLevel": "full",
+      "masterCount": 1,
+      "location": "Sec. 3.2.1, Sec. 4.4.2",
+      "transcendentalWeight": 2,
+      "method": [],
+      "reference": "arXiv:0712.1851, JHEP 02 (002), 2008",
+      "ancillaryFiles": [],
+      "description": "Divergent one-loop box $I_4^D(0,0,0,p_4^2;s_{12},s_{23};0,0,0,0)$ with all massless internal lines and one off-shell external leg. Contains double $1/\\varepsilon^2$ poles. Result from Ellis-Ross-Terrano and Bern-Dixon-Kosower.",
+      "epsOrders": "-1,0",
+      "tools": [],
+      "doi": "10.1088/1126-6708/2008/02/002"
+    },
+    {
+      "reference": "arXiv:2201.03593 (doi: 10.1007/978-3-030-99558-4)",
+      "authors": "Weinzierl, Stefan",
+      "description": "Massless one-loop four-point function with one off-shell leg $p_4^2 \\neq 0$ and three light-like legs. Used as the worked example for the canonical eps-form: starting basis $I = (I_{0011},I_{0101},I_{1010},I_{1111})$, the rescaled basis $I'$ produces a five-letter dlog alphabet $\\{x_1, x_1-1, x_2, x_2-1, x_1+x_2-1\\}$ and an eps-factorized DE (eq. Aprime_box). Result reinstated as $I_{1111}(\\varepsilon,s,t,p_4^2,\\mu^2)$ in Sec. solution.",
+      "epsOrders": "0",
+      "familyName": "one-mass massless one-loop box (Example 2)",
+      "method": "IBP, DE",
+      "tools": [
+        "Kira"
+      ],
+      "ancillaryFiles": false,
+      "doi": "10.1007/978-3-030-99558-4",
+      "texkey": "Weinzierl:2022eaz",
+      "masterCount": 4,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "full",
+      "location": "Chapter 'Iterated integrals', Sec. 'Differential equations', Example 2, Eq. (chapter_iterated_integrals:example_box, line ~993)",
+      "recordId": "bx_dc9cb01877f8",
+      "verified": false,
+      "verifiedAt": ""
+    },
+    {
+      "reference": "arXiv:hep-ph/0106243",
+      "authors": [
+        {
+          "full_name": "Binoth, T.",
+          "inspire_id": 1016306
+        },
+        {
+          "full_name": "Guillet, J.P.",
+          "inspire_id": 1007287
+        },
+        {
+          "full_name": "Heinrich, G.",
+          "inspire_id": 1006298
+        },
+        {
+          "full_name": "Schubert, C.",
+          "inspire_id": 989669
+        }
+      ],
+      "description": "One-loop massless scalar box with three light-like legs and one off-shell leg. Explicit $\\mathcal{O}(\\varepsilon^0)$ result via $r_\\Gamma/\\varepsilon^2$ combinations and finite part $F_1$ in dilogarithms.",
+      "epsOrders": "0",
+      "familyName": "massless 1-loop box with one off-shell leg",
+      "method": "direct_integration",
+      "tools": [],
+      "ancillaryFiles": false,
+      "doi": "",
+      "texkey": "",
+      "masterCount": 0,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "full",
+      "location": "Appendix Eq. (1m)",
+      "recordId": "bx_ef15a2b5b4f2",
+      "verified": false,
+      "verifiedAt": ""
+    },
+    {
+      "reference": "arXiv:2506.10456",
+      "authors": [
+        {
+          "full_name": "Chestnov, Vsevolod",
+          "inspire_id": 1760381
+        },
+        {
+          "full_name": "Flieger, Wojciech",
+          "inspire_id": 1955301
+        },
+        {
+          "full_name": "Mastrolia, Pierpaolo",
+          "inspire_id": 1025886
+        },
+        {
+          "full_name": "Matsubara-Heo, Saiei-Jaeyeong",
+          "inspire_id": 2016791
+        },
+        {
+          "full_name": "Takayama, Nobuki",
+          "inspire_id": 2072902
+        },
+        {
+          "full_name": "Torres Bobadilla, William J.",
+          "inspire_id": 1335604
+        }
+      ],
+      "description": "One-loop four-point box with one off-shell external leg ($p_2^2 = m^2$) in the parametric representation. Second Symanzik $F = \\alpha_1 \\alpha_3 s + \\alpha_2 \\alpha_4 t + \\alpha_2 \\alpha_3 m^2$. Two degree-2 annihilators $A_{2,1}$ and $A_{2,2}$ together with the Euler homogeneity operator generate the D-module of holonomic rank $r=4$, with singular locus $s t m^2 (s-m^2)(t-m^2)(s+t-m^2)$. A factorized fourth-order Picard-Fuchs operator in $d-s$ with a double factor is derived; no explicit MPL evaluation.",
+      "epsOrders": "",
+      "familyName": "1-mass 1-loop 4-point box (4 propagators)",
+      "method": "direct_integration",
+      "tools": [
+        "FiniteFlow"
+      ],
+      "ancillaryFiles": false,
+      "doi": "",
+      "texkey": "",
+      "masterCount": 4,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "DE_only",
+      "location": "Section Applications b), around Eqs. for one_mass_box, eq:pf_one_mass_box",
+      "recordId": "bx_d4134d32f2ee",
+      "verified": false,
+      "verifiedAt": ""
+    },
+    {
+      "reference": "arXiv:0712.1851 (JHEP 02 (002), 2008)",
+      "authors": "Ellis, R.Keith, Zanderighi, Giulia",
+      "description": "Divergent one-loop box I_4^D(0,0,0,p_4^2;s12,s23;0,0,0,0) with all massless internal lines and one off-shell external leg. Contains double 1/eps^2 poles. Result from Ellis-Ross-Terrano and Bern-Dixon-Kosower.",
+      "epsOrders": "0",
+      "familyName": "Box_2",
+      "method": "direct_integration",
+      "tools": [],
+      "ancillaryFiles": false,
+      "doi": "10.1088/1126-6708/2008/02/002",
+      "texkey": "Ellis:2007qk",
+      "masterCount": 1,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "full",
+      "location": "Sec. 3.2.1, Sec. 4.4.2",
+      "recordId": "bx_f8d1cab0d42a",
+      "verified": false,
+      "verifiedAt": ""
+    },
+    {
+      "reference": "arXiv:1104.2661 (Int.J.Mod.Phys.A 26 (2557), 2011)",
+      "authors": "Valtancoli, Paolo",
+      "description": "One-loop scalar box integral I^m(s,t,m) with one external mass (p1^2 = m^2, other legs on-shell massless) and massless internal lines, in d=4-2*eps. Symanzik polynomial F = x1*x3*(-s) + x2*x4*(-t) + x1*x4*(-m^2) (Eq. 4.1). Solved exactly via Feynman parameters as a sum of three 2F1 hypergeometric functions in arguments (s+t-m^2)/t, (s+t-m^2)/s, m^2(s+t-m^2)/(s*t) (Eqs. 4.7-4.9). Reduces to the massless box in the limit m^2 -> 0. Also reproduced via a two-fold Mellin-Barnes representation in Section 5 (Eq. 5.2), with the F_2 Appell function reduced to a single-variable 2F1 via the Bailey identity (Eq. 5.15) and spurious terms cancelling among I^m_1, I^m_{2a}, I^m_{2b} (Eq. 5.20).",
+      "epsOrders": "all_orders",
+      "familyName": "1-mass 1-loop 4-point scalar box",
+      "method": "direct_integration, Mellin-Barnes",
+      "tools": [],
+      "ancillaryFiles": false,
+      "doi": "10.1142/S0217751X11053444",
+      "texkey": "Valtancoli:2011kr",
+      "masterCount": 1,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "full",
+      "location": "Section 4, Eq. (4.1); Mellin-Barnes form Section 5, Eq. (5.2)",
+      "recordId": "bx_0d1d868d63fb",
+      "verified": false,
+      "verifiedAt": ""
+    }
+  ],
+  "Source": [
+    "arXiv",
+    "QCDLoop"
+  ],
+  "Results": [
+    {
+      "resultCompressed": "1:eJzNVF0OgjAMRkFj9BQeQbiCDz5gQtQLYDJJE3SGoSae2AP46k/LRGQsBpkm8lDSrf36rfvW4ZLPVl3LskQfzZwlwMQ4TENho8u2AvBnrcgRDhofRCq9DpoFrJmANkW087WAH1iSZYuRCzf8tHuuJ/fKWI1hnJxgEO9eUCTBK0W0aI1yfB6pAQSR19LtvUtWaZE7nf4W0vVMIV8b+8R0NCk9NLMwBb4JY6AC0DW57oH+nopzBqDoSZ7v/ASm5EnMo4xMsUTClFotZz6ap5Qq8ohHJaaqCuVk/0Aqb6kSoLme2trXtt7+DLDGe5BlbA1vw3dW75yo9A9r167S4OV+u70oiybtLXM0nSQK9qU6FkxLaKV6Kk3B9XGfRWXzX84uMnchd6wo",
+      "resultTeX": "\\frac{2}{\\varepsilon^2 s_{12} s_{23}}+\\frac{-\\log \\left(s_{12} M^{-2}\\right)-\\log \\left(s_{23} M^{-2}\\right)-\\log \\left(\\frac{s_{23}}{s_{12}}\\right)-2 \\log (-s_{12})}{\\varepsilon s_{12} s_{23}}+\\frac{-12 H\\left(0,\\frac{M^2}{M^2-s_{12}}\\,;1\\right)-12 H\\left(0,\\frac{M^2}{M^2-s_{23}}\\,;1\\right)+6 \\log (-s_{12}) \\log \\left(s_{23} M^{-2}\\right)+6 \\log (-s_{23}) \\log \\left(s_{12} M^{-2}\\right)+3 \\log ^2\\left(s_{12} M^{-2}\\right)+3 \\log ^2\\left(s_{23} M^{-2}\\right)-24 \\zeta(2)-3 \\log ^2\\left(\\frac{s_{23}}{s_{12}}\\right)+6 \\log (-s_{23}) \\log \\left(\\frac{s_{23}}{s_{12}}\\right)+6 \\log ^2(-s_{12})+\\pi ^2}{6 s_{12} s_{23}}+O\\left(\\varepsilon^1\\right)",
+      "dimension": "4 - 2*eps",
+      "epsOrder": "0",
+      "epsOrders": "0",
+      "propExponents": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "propagators": [],
+      "numerators": [],
+      "internalMasses": [],
+      "externalMasses": [],
+      "substitutions": "",
+      "normalization": "Automatic",
+      "stVersion": "SubTropica v1.0.277",
+      "stCommand": "",
+      "contributor": "Sebastian Mizera",
+      "timestamp": "2026-04-14T02:23:34",
+      "verifiedAt": "2026-04-14T02:23:34",
+      "verified": true,
+      "method": "direct_integration",
+      "tools": [
+        "SubTropica"
+      ],
+      "methodLR": "Lungo",
+      "byteCount": 5560,
+      "symbolTeX": "\\begin{aligned}\\varepsilon^{-1}&\\colon\\;-\\frac{2}{s_{12} s_{23}}\\,(s_{12}) + \\frac{2}{s_{12} s_{23}}\\,(M^2) - \\frac{2}{s_{12} s_{23}}\\,(s_{23}) \\\\ \\varepsilon^{0}&\\colon\\;-\\frac{2}{s_{12} s_{23}}\\,(M^2 \\otimes M^2) + \\frac{2}{s_{12} s_{23}}\\,(M^2-s_{12} \\otimes M^2) - \\frac{2}{s_{12} s_{23}}\\,(M^2-s_{12} \\otimes s_{12}) + \\frac{2}{s_{12} s_{23}}\\,(M^2-s_{23} \\otimes M^2) - \\frac{2}{s_{12} s_{23}}\\,(M^2-s_{23} \\otimes s_{23}) + \\frac{2}{s_{12} s_{23}}\\,(s_{12} \\otimes s_{12}) - \\frac{2}{s_{12} s_{23}}\\,(s_{12} \\otimes M^2) + \\frac{2}{s_{12} s_{23}}\\,(s_{12} \\otimes s_{23}) - \\frac{2}{s_{12} s_{23}}\\,(s_{23} \\otimes M^2) + \\frac{2}{s_{12} s_{23}}\\,(s_{23} \\otimes s_{12}) + \\frac{2}{s_{12} s_{23}}\\,(s_{23} \\otimes s_{23})\\end{aligned}",
+      "alphabet": [
+        "s_{12}",
+        "M^2",
+        "s_{23}",
+        "M^2-s_{12}",
+        "M^2-s_{23}"
+      ],
+      "symbolWeight": 2,
+      "symbolTerms": 14,
+      "normalizedSymbolTeX": "\\begin{aligned}\\varepsilon^{-1}&\\colon\\;\\frac{2}{s_{12} s_{23}}\\!\\left[-(W_1) - (W_2)\\right] \\\\ \\varepsilon^{0}&\\colon\\;\\frac{2}{s_{12} s_{23}}\\!\\left[-(W_3 \\otimes W_1) - (W_4 \\otimes W_2) + (W_1 \\otimes W_1) + (W_1 \\otimes W_2) + (W_2 \\otimes W_1) + (W_2 \\otimes W_2)\\right]\\end{aligned}",
+      "wDefinitions": [
+        {
+          "label": "W_1",
+          "definition": "\\frac{s_{12}}{M^2}",
+          "originalLetter": "s_{12}"
+        },
+        {
+          "label": "W_2",
+          "definition": "\\frac{s_{23}}{M^2}",
+          "originalLetter": "s_{23}"
+        },
+        {
+          "label": "W_3",
+          "definition": "\\frac{-s_{12}+M^2}{M^2}",
+          "originalLetter": "M^2-s_{12}"
+        },
+        {
+          "label": "W_4",
+          "definition": "\\frac{-s_{23}+M^2}{M^2}",
+          "originalLetter": "M^2-s_{23}"
+        }
+      ],
+      "normalizedAlphabet": [
+        "W_1",
+        "W_2",
+        "W_3",
+        "W_4"
+      ],
+      "symbolScale": "M^2",
+      "normalizedSymbolTerms": 8,
+      "legOrder": []
+    }
+  ],
+  "Names": [
+    "one-mass box",
+    "Box",
+    "D0",
+    "Box_2",
+    "one-mass massless one-loop box (Example 2)",
+    "massless 1-loop box with one off-shell leg",
+    "1-mass 1-loop 4-point box (4 propagators)",
+    "1-mass 1-loop 4-point scalar box"
+  ],
+  "QCDLoopURL": "https://qcdloop.fnal.gov/boxdiv2.pdf",
+  "edges": "{{{1, 2}, 0}, {{1, 3}, 0}, {{2, 4}, 0}, {{3, 4}, 0}}",
+  "nodes": "{{1, 0}, {2, 0}, {4, M}, {3, 0}}",
+  "quadruple": "{E^(eps*EulerGamma)*Gamma[2 + eps], (x1 + x2 + x3 + x4)^(2*eps)*(s12*x2*x3 + MM*x1*x4 - s12*x1*x4 - s23*x1*x4 + MM*x2*x4)^(-2 - eps), {x1, x2, x3, x4}, {MM, s12, s23}}",
+  "Loops": 1,
+  "NumPropagators": 4,
+  "CanonicalName": "1-mass box",
+  "MassConfig": {
+    "numEdges": 4,
+    "numMassiveEdges": 0,
+    "numMasslessEdges": 4,
+    "distinctInternalMasses": 0,
+    "internalMassLabels": [],
+    "edgeMassPattern": "0000",
+    "numExtLegs": 4,
+    "numOnshellMassiveExtLegs": 1,
+    "numMasslessExtLegs": 3,
+    "extLegSignature": "00M0"
+  },
+  "commonNames": [
+    "D₀"
+  ],
+  "Subsectors": [
+    "e12|e2|e|:000|00|1|",
+    "e12|e2|e|:000|10|2|"
+  ],
+  "ParentSectors": [
+    "e12|e3|e4|e4|e|:000|00|00|00|0|",
+    "e12|e3|e4|e4|e|:000|00|00|00|1|",
+    "e12|e3|e4|e4|e|:000|00|00|01|0|"
+  ]
 }
