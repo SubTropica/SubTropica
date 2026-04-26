@@ -1,0 +1,429 @@
+[
+  {
+    "at": "2026-04-25T06:29:52Z",
+    "topoKey": "1111_22__",
+    "status": "moved",
+    "mark_legit": false,
+    "extra_flags": [],
+    "action": "auto_reinstate"
+  },
+  {
+    "at": "2026-04-25T06:29:52Z",
+    "topoKey": "11123_23___",
+    "status": "marked_reject",
+    "reason": "The paper (Zhang & Feng, arXiv:2403.13025, Sec. 5.1, Eq. (51) / GKZ7A0 and Fig. fig-4loop-4q) defines the U-type 4-loop vacuum integral with 7 propagators carrying momenta {q1, q1+q3+q4, q2, q2+q3+q4, q3+q4, q3, q4}. Decomposing into independent loop cycles, q1 lives only in propagators 1 and 2 (so they form a parallel pair between two vertices), q2 lives only in 3 and 4 (parallel pair), and the difference of the q3 and q4 cycles is supported on propagators 6 and 7 (parallel pair). Solving momen",
+    "action": "reject_permanent"
+  },
+  {
+    "at": "2026-04-25T06:29:52Z",
+    "topoKey": "1112_23_3__",
+    "status": "marked_reject",
+    "reason": "The paper's Fig. 5 (fig-4loop-5q.pdf, Sec. 5.2 'Z-type', Eq. (66)/GKZ7B0) shows a 4-vertex 4-loop vacuum graph with TWO separate double edges and one diagonal. Reading off the seven propagators of Eq. (66) with momentum conservation at each vertex (A=upper-left, B=upper-right, C=lower-left, D=lower-right): m1 and m2 are two parallel propagators A-B; m3 is A-C; m4 is the Z-diagonal C-B; m5 is B-D; m6 and m7 are two parallel propagators C-D. All four vertices have valence >=3 (A:3, B:4, C:4, D:3).",
+    "action": "reject_permanent"
+  },
+  {
+    "at": "2026-04-25T06:29:52Z",
+    "topoKey": "1112_2__",
+    "status": "moved",
+    "mark_legit": true,
+    "extra_flags": [],
+    "action": "reinstate_legit"
+  },
+  {
+    "at": "2026-04-25T06:29:52Z",
+    "topoKey": "1112_3_4_e5_555_e_",
+    "status": "moved",
+    "mark_legit": true,
+    "extra_flags": [],
+    "action": "reinstate_legit"
+  },
+  {
+    "at": "2026-04-25T06:29:52Z",
+    "topoKey": "1112_e3_3_44_55_e_",
+    "status": "moved",
+    "mark_legit": true,
+    "extra_flags": [],
+    "action": "reinstate_legit"
+  },
+  {
+    "at": "2026-04-25T06:29:52Z",
+    "topoKey": "1112_e3_4_e45_55__",
+    "status": "moved",
+    "mark_legit": true,
+    "extra_flags": [],
+    "action": "reinstate_legit"
+  },
+  {
+    "at": "2026-04-25T06:29:52Z",
+    "topoKey": "11_e_",
+    "status": "moved",
+    "mark_legit": false,
+    "extra_flags": [],
+    "action": "auto_reinstate"
+  },
+  {
+    "at": "2026-04-25T06:29:52Z",
+    "topoKey": "11_ee22__",
+    "status": "moved",
+    "mark_legit": false,
+    "extra_flags": [],
+    "action": "auto_reinstate"
+  },
+  {
+    "at": "2026-04-25T06:29:52Z",
+    "topoKey": "123456_e_e_e_e_e_e_",
+    "status": "marked_reject",
+    "reason": "The extracted graph is a 7-vertex star (central vertex 1 connected by single edges to vertices 2-7, each carrying one external leg), which decodes the figure 'Hexagon.png' literally. However, that figure is the DUAL-momentum-space depiction of the hexagon: the paper integrates over a single dual point x_0 against six external dual coordinates x_1..x_6 (Eq.(11), line 132: I_6 = int d^D x_0 / [x_{10}^{2a} x_{20}^{2b} x_{30}^{2c} x_{40}^{2d} x_{50}^{2e} x_{60}^{2f}]). The actual Feynman integral I_",
+    "action": "reject_permanent"
+  },
+  {
+    "at": "2026-04-25T06:29:52Z",
+    "topoKey": "1234_235_e_e_e_e_",
+    "status": "marked_reject",
+    "reason": "Both source papers (arXiv:1709.06055, Fig. dbox-dual.pdf; arXiv:2309.16441, Fig. dbfigure.pdf / diagram.png with propagators D_1...D_7 in eq. (3.10)-(3.11)) unambiguously depict the standard planar two-loop double-box: two adjacent boxes sharing a central rung, with the four external legs attached to the four corner vertices. The correct topology has 6 internal vertices (4 corners of valence 3 = 2 internal + 1 external, plus 2 rung-end vertices of valence 3 = 3 internal) and 7 internal edges for",
+    "action": "reject_permanent"
+  },
+  {
+    "at": "2026-04-25T06:29:52Z",
+    "topoKey": "1234_23_e_e_e_",
+    "status": "marked_reject",
+    "reason": "The bare Nickel '1234|23|e|e|e|' decodes to a 5-vertex graph in which v0 is a 4-valent hub adjacent to {v1,v2,v3,v4}, v1 is adjacent to {v2,v3}, externals attach at v2,v3,v4. This produces a 'two triangles sharing an edge plus a pendant external leg at v4' topology with a bridge-kink at v4 (1 internal + 1 external). This does NOT match Fig. 6 (tbox.pdf) of arXiv:1709.06055, which is the planar two-loop triangle-box: a box (4-cycle A-B-C-D) sharing one edge (B-C) with a triangle (B-C-E), three ex",
+    "action": "reject_permanent"
+  },
+  {
+    "at": "2026-04-25T06:29:52Z",
+    "topoKey": "1234_567_e_e_e_e_e_e_",
+    "status": "marked_reject",
+    "reason": "The extracted graph faithfully reproduces Fig. 1 (left) of arXiv:2007.08360 and Eq. (1): two integration points x_0 and x_{0'} (Mma vertices 1 and 2), connected by the propagator x_{00'}^{2l}, with three external dual-coordinate points x_1,x_2,x_3 attached to x_0 and x_4,x_5,x_6 attached to x_{0'}. The figure DB.png matches the extracted edges {{1,2},{1,3},{1,4},{1,5},{2,6},{2,7},{2,8}} exactly, and the 6 'bridge-kink' vertices are the dual-position-space external points x_i. However, this is th",
+    "action": "reject_permanent"
+  },
+  {
+    "at": "2026-04-25T06:29:52Z",
+    "topoKey": "1234_e25_e_ee5_e_e_",
+    "status": "marked_reject",
+    "reason": "The paper (arXiv:2602.02783) defines the hexa-box integral I_{n,jk}^{hb} in Eq. (eq:Ihb), explicitly stating it is a 'penta-triangle' topology: a triangle glued to a pentagon along one shared internal edge, with 6 internal vertices, 7 massless propagators, and 6 external gluons. The TikZ source at lines 6160-6182 of main.tex draws exactly that: a right-side triangle with vertices A=(0,0), B=(1.5,0.675), C=(0,1.5), and a left-side pentagon A-D-E-F-C through D=(-1.2,-0.525), E=(-2,0.75), F=(-1.2,2",
+    "action": "reject_permanent"
+  },
+  {
+    "at": "2026-04-25T06:29:52Z",
+    "topoKey": "123_234_e_e_e_",
+    "status": "marked_reject",
+    "reason": "The paper (Bern, Enciso, Ita, Zeng, arXiv:1709.06055, Section 4.2 'The triangle-box', Fig. 6, tbox.pdf) shows a planar 2-loop triangle-box with 5 internal vertices, all of valence 3, and 6 propagators defined in Eq. (4.11): D1=(l1+p1)^2, D2=l1^2, D3=(l1-p2)^2, D4=(l2+p1)^2, D5=(l2-p2)^2, D6=(l2-l1)^2. The figure shows a box (vertices A=top-left with leg p2, B=top-right, C=bottom-right, D=bottom-left with leg p1) fused to a triangle with apex E carrying the single massive leg P (with P^2=s). All ",
+    "action": "reject_permanent"
+  },
+  {
+    "at": "2026-04-25T06:29:52Z",
+    "topoKey": "123_23_45_e_e_e_",
+    "status": "marked_reject",
+    "reason": "The paper (arXiv:1905.11463, Wang-Xu-Yang, 'Two-loop triangle integrals with 4 scales for the HZV vertex') describes a single physical 2-loop diagram (Fig. 1, VZH-eps-converted-to.pdf) that is a heavy-quark TRIANGLE with corners V, Z, H, containing a single gluon (D3 = (k1-k2)^2) joining a point on the V-Z side to a point on the V-H side. That is a 5-vertex, 6-edge graph (3 corner vertices each carrying one external leg, plus 2 internal gluon-attach vertices), not the 6-vertex extracted graph. T",
+    "action": "reject_permanent"
+  },
+  {
+    "at": "2026-04-25T06:29:52Z",
+    "topoKey": "123_2456_e_e4_7__e7_e_",
+    "status": "marked_reject",
+    "reason": "all low-valence vertices are dangling lines (1-valent) — tree-level or extraction artifact",
+    "action": "reject_permanent"
+  },
+  {
+    "at": "2026-04-25T06:29:52Z",
+    "topoKey": "123_24_e_45_e_e_",
+    "status": "marked_reject",
+    "reason": "The bare Nickel 123|24|e|45|e|e| encodes a 6-vertex, 7-internal-edge, 2-loop graph in which Mma vertex 6 (Python idx 5) is a 2-valent bridge-kink pendant carrying one massless external leg attached to Mma vertex 4 via a single propagator. This does not match either source paper. (i) For arXiv:1412.2296 (Henn lectures, config 000_00_0_00_0_0_), Section 6 / Fig. 4 (ff_7) shows the standard two-loop non-planar (crossed-ladder) massless form factor: integrand G_{a_1..a_7} in Eq. defining the family ",
+    "action": "reject_permanent"
+  },
+  {
+    "at": "2026-04-25T06:29:52Z",
+    "topoKey": "123_24_e_e5_e5__",
+    "status": "marked_reject",
+    "reason": "The bare Nickel 123|24|e|e5|e5|| encodes a 6-vertex 7-edge graph with a 2-valent kink at Mma vertex 6 (between vertices 4 and 5). This forces the two edges {4,6} and {5,6} to carry the SAME propagator momentum (a doubled propagator), but the cited families v2 (FIRE6, arXiv:1901.07808, Sec 4.4) and F1 (arXiv:2111.14130, Appendix A) are both defined with 7 DISTINCT propagator momenta. F1's seven propagators are D1=l1^2, D2=(l1+p1)^2, D3=(l1-p2)^2, D4=l2^2, D5=(l2+p1)^2, D6=(l2-p2)^2, D7=(l1-l2)^2 ",
+    "action": "reject_permanent"
+  },
+  {
+    "at": "2026-04-25T06:29:52Z",
+    "topoKey": "123_24_e_e_e_",
+    "status": "moved",
+    "mark_legit": true,
+    "extra_flags": [],
+    "action": "reinstate_legit"
+  },
+  {
+    "at": "2026-04-25T06:29:52Z",
+    "topoKey": "123_2__e4_e_",
+    "status": "marked_reject",
+    "reason": "The paper (Broedel, Duhr, Dulat, Penante, Tancredi, arXiv:1902.09971, Sec. 6, eq. (6.1) and Fig. 6/kite3M.pdf) defines a TWO-LOOP kite with 4 internal vertices arranged as a diamond and 5 propagators: l^2, (k-p)^2, k^2-m_1^2, (k-l)^2-m_2^2, (l-p)^2-m_3^2. The figure shows a diamond with two massless edges (left tips) and three massive edges (m_1 top-left, m_2 central rung, m_3 bottom-right), with the external momentum p flowing in/out at the two horizontal tips. The extracted graph (edges {{1,2}",
+    "action": "reject_permanent"
+  },
+  {
+    "at": "2026-04-25T06:29:52Z",
+    "topoKey": "123_2_e3_e_",
+    "status": "marked_reject",
+    "reason": "The paper (Bogner-Schweitzer-Weinzierl, arXiv:1705.08952, fig. fig_kite_graph and Eq. (43)-(44) defining D_1..D_5) defines the kite as a graph with 4 vertices (T,B,L,R) and 5 propagators: T-L (m), T-R (0), T-B (m, the diagonal), L-B (0), R-B (m). Both external legs attach to the two side vertices L and R, which have internal valence 2. The bare Nickel for the canonical kite is 123|23|e|e|, NOT 123|2|e3|e|. The extracted graph (edges {{1,2},0},{{1,3},m},{{1,4},m},{{2,3},m},{{3,4},0} with nodes {{",
+    "action": "reject_permanent"
+  },
+  {
+    "at": "2026-04-25T06:29:52Z",
+    "topoKey": "123_2_e_e_",
+    "status": "marked_reject",
+    "reason": "The cited paper Martin-Robertson hep-ph/0501132 defines U(x,y,z,u) in eq. (2.16) / line 413-416 (\\label{defineboldU}) as the two-loop self-energy integral C^2 \\int d^d k d^d q / {[k^2+x][(k-p)^2+y][q^2+z][(q+k-p)^2+u]}, depicted as the topology 'U' in fig. 1 (line 317-331) where mass z and mass u sit on TWO PARALLEL propagators between the same pair of internal vertices (a bubble inside a triangle). That graph has 3 internal vertices, 4 propagators (with one doubled edge between the upper pair o",
+    "action": "reject_permanent"
+  },
+  {
+    "at": "2026-04-25T06:29:52Z",
+    "topoKey": "123_4_45_67_e6_67__e_",
+    "status": "moved",
+    "mark_legit": true,
+    "extra_flags": [],
+    "action": "reinstate_legit"
+  },
+  {
+    "at": "2026-04-25T06:29:52Z",
+    "topoKey": "123_4_5_e46_e_e7_e7_e_",
+    "status": "marked_reject",
+    "reason": "The paper (Borowka et al., arXiv:1502.06595, Sec. 5.5, Fig. 11, 'pentagon-eps-converted-to.pdf') shows a massless two-loop five-point integral with exactly 7 vertices (labelled 1..7 with externals p_i attached at vertex i for i=1..5) and 8 internal propagators: the planar 'box+pentagon' formed by edges {1-2, 1-7, 2-6, 7-6, 7-5, 5-4, 4-3, 3-6}. The extracted entry, however, has 9 internal edges and 8 internal vertices: it inserts two spurious 2-valent intermediate nodes (Mma vertices 2 and 3, i.e",
+    "action": "reject_permanent"
+  },
+  {
+    "at": "2026-04-25T06:29:52Z",
+    "topoKey": "123_4_e45_e5_e_e_",
+    "status": "marked_reject",
+    "reason": "The paper's figure DoubleBoxThin.pdf and Fig. 1 of arXiv:1703.05273 show the standard planar massless on-shell double-box: two 4-cycles fused along a central rung, with exactly four external legs attached at the four outer corners (not on the central rung). The extracted edges {{1,2},{1,3},{1,4},{2,5},{3,5},{3,6},{4,6}} do form a valid double-box topology (cycle basis: v1-v2-v5-v3-v1 and v1-v3-v6-v4-v1, sharing the central rung edge {1,3}), but the stored nodes {3,5,4,6} attach an external leg t",
+    "action": "reject_permanent"
+  },
+  {
+    "at": "2026-04-25T06:29:52Z",
+    "topoKey": "123_e24_e_e4_5_e_",
+    "status": "marked_reject",
+    "reason": "The paper (Sogaard-Zhang, arXiv:1403.2463, Sec. 5, eq. defining the propagators tilde{f}_1..tilde{f}_7 around eqs. (5.1)-(5.3), figure XBOXDIAGRAM at line 887 = xbox.pdf) is the standard massless nonplanar / crossed double box X(1,...,1,0,0): six trivalent vertices, seven internal propagators, four massless external legs k_1..k_4 attached one-per-corner. Every vertex of that diagram is 3-valent (phi^3 topology). The extracted edges {{1,2},{1,3},{1,4},{2,3},{2,5},{4,5},{5,6}} with external nodes ",
+    "action": "reject_permanent"
+  },
+  {
+    "at": "2026-04-25T06:29:52Z",
+    "topoKey": "123_e24_e_e5_e5__",
+    "status": "marked_reject",
+    "reason": "Both cited papers describe the standard massless planar two-loop on-shell double box with 7 propagators (1703.09692 Sec. 5.3 propagators D1=k1^2, D2=(k1+p2)^2, D3=(k1-p1)^2, D4=(k1-k2)^2, D5=(k2+p2)^2, D6=(k2-p1)^2, D7=(k2+p2+p3)^2; 2511.15381 Sec. 5.2 sigma_1..sigma_7, with figure double_box.pdf clearly showing 6 trivalent vertices arranged as two adjacent boxes sharing a rung, externals on the 4 corners). The canonical Nickel for that graph is 123|45|e4|e5|e|e| (already present in the SubTropi",
+    "action": "reject_permanent"
+  },
+  {
+    "at": "2026-04-25T06:29:52Z",
+    "topoKey": "123_e44_e5_e5_e__",
+    "status": "marked_reject",
+    "reason": "The entry claims to be the parent topology TP3 (crossed triangle) of Anastasiou-Beerli-Bucherer-Daleo-Kunszt (hep-ph/0611236). The TP3 figure (\\def\\tpthree in mastergraphs.tex, lines 52-78) is a 6-vertex graph in which every vertex has valence 3: vertices A=(30,20), B=(30,80), C=(150,80), D=(90,20), E=(150,20), F=(90,80) with 7 internal propagators D_31=B-F, D_32=D-C, D_33=A-D, D_34=E-F (gluon), D_35=F-C, D_36=A-B, D_37=D-E (gluon) and 4 external gluon legs at A,B,C,E. There is no double propaga",
+    "action": "reject_permanent"
+  },
+  {
+    "at": "2026-04-25T06:29:52Z",
+    "topoKey": "123_e45_e4_e6__e7_e7__",
+    "status": "marked_reject",
+    "reason": "The paper (arXiv:2407.01395, Sec. 4.2 Fig. 5, fig file figs/double-pentagon.eps) shows a standard 2-loop massless 5-point planar pentabox/double-pentagon: 7 vertices, 8 internal propagators, all vertices 3-valent (top-level sector b$11111111000$ with 8 propagators, as stated in the text). I parsed the EPS (Jaxodraw-generated) line by line: top horizontal y=-78 spans x=176..464 with junctions at x=240,320,400; bottom horizontal y=-158 with the same x-junctions; three full verticals at x=240, 320,",
+    "action": "reject_permanent"
+  },
+  {
+    "at": "2026-04-25T06:29:52Z",
+    "topoKey": "12_23_3__",
+    "status": "marked_reject",
+    "reason": "The paper (Freitas, arXiv:1609.09159) defines U5 = M(1,1,1,1,1,0) in eq.(5)-(7) and Fig.1 as a THREE-loop vacuum master integral with 5 propagators. From the integral definition (lines 244-253 of paper7.tex) the propagator momenta are q1, q1-q2, q2-q3, q3, q2 (3 independent loop momenta), so V = E - L + 1 = 5 - 3 + 1 = 3 vertices. The Fig.1 U5 panel confirms this: 3 dots on a circle (top-left A, bottom B, top-right C) with the circle providing arcs A-B, B-C, A-C and two chord lines from B to A a",
+    "action": "reject_permanent"
+  },
+  {
+    "at": "2026-04-25T06:29:52Z",
+    "topoKey": "12_23__e4_e_",
+    "status": "marked_reject",
+    "reason": "The paper (arXiv:1902.09971, Sec. 6, Eq. (6.1) and Fig. kite3M.pdf) defines the three-mass kite as a two-loop two-point function with 5 internal propagators K(p^2,m_1^2,m_2^2,m_3^2) = int d^Dk d^Dl / [ l^2 (k-p)^2 (k^2-m_1^2) ((k-l)^2-m_2^2) ((l-p)^2-m_3^2) ]. The figure shows the standard kite topology: 4 internal vertices forming two triangles that share the m_2 diagonal, with the two massless propagators (l^2 and (k-p)^2) running along the outer kite edges and the external momentum p entering",
+    "action": "reject_permanent"
+  },
+  {
+    "at": "2026-04-25T06:29:52Z",
+    "topoKey": "12_23_e3_e_",
+    "status": "marked_reject",
+    "reason": "Bogner-Schweitzer-Weinzierl arXiv:1705.08952 defines the kite family by Eq.(43)-(44) with five propagators D1..D5 (massive D1,D3,D5; massless D2,D4) and shows the diagram in fig_kite_graph (kite_graph.png): two external lines attach at the two opposite 'tip' vertices (L and R), each of internal valence 2. The skeleton edges stored in the entry ({(1,2),0},{(1,3),m},{(2,3),m},{(2,4),m},{(3,4),0}) correctly encode the kite skeleton (K4 minus an edge), and with the mapping L=1, T=3, B=2, R=4 every e",
+    "action": "reject_permanent"
+  },
+  {
+    "at": "2026-04-25T06:29:52Z",
+    "topoKey": "12_23_e4_e4_e_",
+    "status": "marked_reject",
+    "reason": "The cited paper (arXiv:1502.06595, Sec. 5.2 / Fig. 8, the 'P126' two-loop three-point function) shows a 5-vertex, 6-edge graph in which all five vertices are trivalent: a massive triangle on vertices {3,4,5} (all three sides carry the internal mass m) glued along edge (4,5) to a massless 'box' subloop on vertices {1,2,4,5} with massless edges {1,4},{1,2},{2,5}. External legs attach at vertex 3 (massive, double-line) and at vertices 1 and 2 (massless dashed lines). The extracted entry decodes to ",
+    "action": "reject_permanent"
+  },
+  {
+    "at": "2026-04-25T06:29:52Z",
+    "topoKey": "12_23_e_e_",
+    "status": "marked_reject",
+    "reason": "The paper (Martin & Robertson, hep-ph/0501132) defines U(x,y,z,u) in eq. (defineboldU) (line 413 of paper.tex) as the two-loop self-energy integral with propagators [k^2+x][(k-p)^2+y][q^2+z][(q+k-p)^2+u]. The corresponding diagram in fig.~\\ref{fig:topologies} (the 'U' picture, lines 301-314) has exactly 3 internal vertices: A=(-22,-14), B=(22,-14), C=(0,14), with edges A-B (bottom horizontal, mass x via k), A-C (left, mass y via k-p), and a DOUBLED edge B-C (one straight line plus one arc, masse",
+    "action": "reject_permanent"
+  },
+  {
+    "at": "2026-04-25T06:29:52Z",
+    "topoKey": "12_2_3_e4_e_",
+    "status": "marked_reject",
+    "reason": "The paper (Broedel, Duhr, Dulat, Penante, Tancredi, arXiv:1902.09971, Section 6, Eq. 6.1, Fig. 'kite3M.pdf') defines a two-loop kite integral with the propagator structure 1/[l^2 (k-p)^2 (k^2-m1^2) ((k-l)^2-m2^2) ((l-p)^2-m3^2)] and the figure shows a 4-vertex kite (rhombus with a vertical diagonal): vertices L (external p in), T (top), B (bottom), R (external p out), with internal edges L-T (m1), L-B (massless), T-B (m2), T-R (massless), B-R (m3). The extracted graph (5 internal vertices, edges",
+    "action": "reject_permanent"
+  },
+  {
+    "at": "2026-04-25T06:29:52Z",
+    "topoKey": "12_2__",
+    "status": "marked_reject",
+    "reason": "All three cited papers describe the 2-loop vacuum sunrise (sunset) topology — two vertices joined by three parallel propagators — yet the stored bare Nickel '12|2||' decodes to a 1-loop triangle (three vertices on a 3-cycle, edges {1,2},{1,3},{2,3}), and the entry's Loops=1 / NumPropagators=3 is consistent with that triangle. Concretely: 2201.11637 Fig.1(b) and Eq. defining I_(1,1,1) = ∫ 1/[(l₁²-1) l₂² (l₁+l₂)²] is the standard 2-loop sunset with one massive line and two massless lines between t",
+    "action": "reject_permanent"
+  },
+  {
+    "at": "2026-04-25T06:29:52Z",
+    "topoKey": "12_34_34_e_e_",
+    "status": "moved",
+    "mark_legit": true,
+    "extra_flags": [],
+    "action": "reinstate_legit"
+  },
+  {
+    "at": "2026-04-25T06:29:52Z",
+    "topoKey": "12_34_35_e6_e6_e7_7_e_",
+    "status": "marked_reject",
+    "reason": "The extracted graph has 8 internal vertices and 10 edges with externals at Mma vertices {4,5,6,8}, but Mma vertex 1 has internal degree 2 (only connected to vertices 2 and 3, with no external). Decoding the bare Nickel '12|34|35|e6|e6|e7|7|e|' confirms this: 0-indexed vertex 0 has forward edges only to {1,2} and no 'e' marker, so it is a non-external degree-2 chain vertex (a doubled propagator). HMSW family E (row 5 of anc/FamilyDefinition.m, drawn in Fig. 1(e) of the paper at scope shift (10,-1",
+    "action": "reject_permanent"
+  },
+  {
+    "at": "2026-04-25T06:29:52Z",
+    "topoKey": "12_34_5_e67_e6_e7_e_e_",
+    "status": "marked_reject",
+    "reason": "The paper (Borowka et al., arXiv:1502.06595, Section 5.5, Fig. 11, 'pentagon-eps-converted-to.pdf') describes the massless two-loop five-point integral '5_pentagon_2L' with EIGHT propagators (explicitly stated and visible in the figure). The figure shows 7 internal vertices labelled 1-7, with external legs at vertices 1,2,3,4,5; internal edges form a box (1-2, 1-7, 2-6, 6-7) sharing edge (6-7) with a pentagon (7-5, 5-4, 4-3, 3-6). All seven internal vertices have valence >= 3. The extracted entr",
+    "action": "reject_permanent"
+  },
+  {
+    "at": "2026-04-25T06:29:52Z",
+    "topoKey": "12_34_e34_e_e_",
+    "status": "marked_reject",
+    "reason": "The paper (arXiv:2311.02370, Sec. 3.1, Fig. 1) shows a two-loop nonplanar vertex with three external legs (p, q, outgoing) and 5 internal vertices, ALL trivalent. Decoding the figure: vertices A (carries ext p), B (carries ext q), E (carries outgoing leg) each have internal degree 2; vertices C, D (the crossing pair) each have internal degree 3. Internal edges form a K_{2,3} bipartition between {A,B,E} (size-3 side, all carrying externals) and {C,D} (size-2 side, internal only). The propagators ",
+    "action": "reject_permanent"
+  },
+  {
+    "at": "2026-04-25T06:29:52Z",
+    "topoKey": "12_34_e3_e5_e5_e_",
+    "status": "marked_reject",
+    "reason": "The paper (arXiv:1703.05273) computes the standard massless on-shell planar two-loop double-box for four-gluon scattering, shown in Fig. 1 (DoubleBoxThin.pdf, referenced at line 188 of twoloop_4gluon.tex). The textbook planar double-box has 6 vertices, 7 internal propagators, 4 external legs, and every vertex is 3-valent (4 corner vertices each carry one external leg plus 2 internal edges; the 2 middle vertices on the central rung are pure 3-valent internal). The extracted bare Nickel '12|34|e3|",
+    "action": "reject_permanent"
+  },
+  {
+    "at": "2026-04-25T06:29:52Z",
+    "topoKey": "12_3_3__",
+    "status": "marked_reject",
+    "reason": "The paper (Freitas, arXiv:1609.09159, Sec. 'Definition of basic integrals' and Fig. 1 / fig:diag1, lines 162-220 of paper7.tex) defines U_4 = M(2,1,1,1,0,0) as the three-loop vacuum master integral with four propagators between two vertices and propagator 1 raised to power 2 (the propagator definition is in eq. around line 245-251). Topologically this is two vertices joined by four propagators (loops = 4 - 2 + 1 = 3), with the doubled m_1 propagator commonly drawn as two consecutive arcs T-L-B m",
+    "action": "reject_permanent"
+  },
+  {
+    "at": "2026-04-25T06:29:52Z",
+    "topoKey": "12_3_4_5_e5_e_",
+    "status": "marked_reject",
+    "reason": "The paper (Forum & von Hippel, arXiv:2209.03922) defines the l-loop sunrise/banana family in Section 2.1, eqs. (1)-(3) and Figure 1: two internal vertices a, b joined by l+1 = 6 parallel propagators of masses m_1,...,m_{l+1}, with a single external momentum p flowing in at a and out at b. The extracted edges {{1,2},{1,3},{2,4},{3,5},{4,6},{5,6}} (0-indexed: (0,1),(0,2),(1,3),(2,4),(3,5),(4,5)) describe a hexagonal cycle 0-1-3-5-4-2-0 with externals on adjacent vertices 4 and 5. As a Feynman grap",
+    "action": "reject_permanent"
+  },
+  {
+    "at": "2026-04-25T06:29:52Z",
+    "topoKey": "12_3_4_e4_e_",
+    "status": "marked_reject",
+    "reason": "The extracted bare Nickel `12|3|4|e4|e|` decodes (0-indexed) to vertices {0,1,2,3,4} with edges (0,1),(0,2),(1,3),(2,4),(3,4) and external legs on vertices 3 and 4. With 5 internal edges and 5 vertices this is a 1-loop graph (L=I-V+1=1), specifically a pentagon cycle 3-1-0-2-4-3 carrying two adjacent external legs at 3 and 4. Smoothing the three flagged 2-valent kinks (vertices 0,1,2) collapses the long arc 3-1-0-2-4 into a single edge, leaving a one-loop bubble (two parallel edges between two e",
+    "action": "reject_permanent"
+  },
+  {
+    "at": "2026-04-25T06:29:52Z",
+    "topoKey": "12_3_e3_e_",
+    "status": "marked_reject",
+    "reason": "Both source papers (arXiv:2209.03922 fig.~1 and arXiv:2502.15326 fig.~1, eq.~(4.1)) explicitly depict and define the three-loop banana/sunrise integral as TWO internal vertices joined by FOUR parallel propagators, with one external leg attached to each of the two vertices (carrying momentum p in and p out). The correct bare Nickel for this graph is `e1111|e|` (V=2, E=4, L=4-2+1=3 loops). However the stored bare Nickel `12|3|e3|e|` decodes to FOUR internal vertices (0,1,2,3) with edges {0-1, 0-2,",
+    "action": "reject_permanent"
+  },
+  {
+    "at": "2026-04-25T06:29:52Z",
+    "topoKey": "12_3_e4_e5_6_e6_e_",
+    "status": "marked_reject",
+    "reason": "The paper (arXiv:2201.02576, supplemental.tex Sec. 'Two-loop box diagram', Eq. (S8)/eq:box2l, Fig. fig:2lboxm1m2 / Box_m1m2v2.png) defines the box2l family as a TWO-LOOP planar double box with 7 propagators built from two loop momenta q1, q2 and four external momenta p1..p4. The figure clearly shows the standard double-box: 4 corner vertices with externals (p1 with m1 mass, p3 with m1, p2 with m2, p4 with m2), 2 middle vertices on the central rung, 6 internal vertices and 7 internal edges (top 0",
+    "action": "reject_permanent"
+  },
+  {
+    "at": "2026-04-25T06:29:52Z",
+    "topoKey": "12_e23_e3__",
+    "status": "marked_reject",
+    "reason": "The cited paper (arXiv:2309.16441, He-Jiang-Liu-Yang) and its diagram.png show a four-mass double-box family with FOUR external massive legs (one at each of the four corner vertices BL/TL/TR/BR, with masses m_1^2..m_4^2) and SEVEN propagators (D_1..D_7) on six internal vertices. The double-triangle sub-sector mentioned in the description (a_3=a_6=0, J_27..J_33 in Sec. 3.2) keeps five of those propagators and IS still a four-leg integral over the same four-mass kinematics. The extracted entry, ho",
+    "action": "reject_permanent"
+  },
+  {
+    "at": "2026-04-25T06:29:52Z",
+    "topoKey": "12_e23_e3_e_",
+    "status": "moved",
+    "mark_legit": true,
+    "extra_flags": [],
+    "action": "reinstate_legit"
+  },
+  {
+    "at": "2026-04-25T06:29:52Z",
+    "topoKey": "12_e2_e_",
+    "status": "moved",
+    "mark_legit": true,
+    "extra_flags": [],
+    "action": "reinstate_legit"
+  },
+  {
+    "at": "2026-04-25T06:29:52Z",
+    "topoKey": "_",
+    "status": "marked_reject",
+    "reason": "all low-valence vertices are dangling lines (1-valent) — tree-level or extraction artifact",
+    "action": "reject_permanent"
+  },
+  {
+    "at": "2026-04-25T06:29:52Z",
+    "topoKey": "e11112_e2_e3_e4_e512_e6_e7_e8_e912_e10_e11_e__",
+    "status": "marked_reject",
+    "reason": "The paper (Henn, Korchemsky, Mistlberger, arXiv:1911.10174) defines in Eq. (3.10) (definitionFamily) a 15-propagator three-loop four-point integral family in dual coordinates with 7 dual points: four external duals x1=0, x2=p1, x3=p1+p2, x4=-p4 and three loop duals x6=k1, x7=k2, x8=k3, with all four external momenta p_i light-like (p_i^2=0). Figuregintegrals(b) shows the underlying graph (a circle of 3 inner points x6,x7,x8 with 15 lines linking them to x1,x2,x3,x4); the all-ones top sector (the",
+    "action": "reject_permanent"
+  },
+  {
+    "at": "2026-04-25T06:29:52Z",
+    "topoKey": "e12_e23_e3__",
+    "status": "marked_reject",
+    "reason": "The paper (arXiv:1306.3504, Eq. 2.7-2.8 for sector tt2pE:5:333) defines a 4-point two-loop integral with propagators {D_0(k_1), D_m(k_1-k_2), D_0(k_1-p_1), D_0(k_2+p_23), D_0(k_2-p_3)} and four external legs p_1, p_2 (massless, p_i^2=0) and p_3, p_4 (massive, p_3^2=p_4^2=m^2). Decoding the propagator structure gives two triangles glued along the shared (massive) edge k_1-k_2: vertex V1 carries leg p_1 between edges k_1 and k_1-p_1; vertex VA between edges k_1, k_1-k_2, k_2-p_3 carries leg p_3; v",
+    "action": "reject_permanent"
+  },
+  {
+    "at": "2026-04-25T06:29:52Z",
+    "topoKey": "e12_e3_34_5_56_7_78_9_910_11_e11_e_",
+    "status": "moved",
+    "mark_legit": false,
+    "extra_flags": [],
+    "action": "auto_reinstate"
+  },
+  {
+    "at": "2026-04-25T06:29:52Z",
+    "topoKey": "e13_e2_e10_44_5_66_7_88_9_1010__",
+    "status": "marked_reject",
+    "reason": "The bare Nickel index 'e13|e2|e10|44|5|66|7|88|9|1010||' correctly encodes the Fig. 13 topology of arXiv:2406.16645 (Solovtsova-Lashkevich-Kaptari): a 3-vertex lepton triangle with the external photon at the apex and the bottom triangle edge replaced by a chain of four VP bubbles linked by photon propagators (1 same-flavor L bubble + 3 different-flavor ell bubbles), giving 11 vertices and 15 propagators (matches NumPropagators=15). However, the stored 'edges' field is corrupted: it lists 18 inte",
+    "action": "reject_permanent"
+  },
+  {
+    "at": "2026-04-25T06:29:52Z",
+    "topoKey": "e_",
+    "status": "marked_reject",
+    "reason": "all low-valence vertices are dangling lines (1-valent) — tree-level or extraction artifact",
+    "action": "reject_permanent"
+  },
+  {
+    "at": "2026-04-25T06:29:52Z",
+    "topoKey": "11_22__",
+    "status": "moved",
+    "mark_legit": false,
+    "extra_flags": [],
+    "action": "auto_reinstate"
+  },
+  {
+    "at": "2026-04-25T06:29:52Z",
+    "topoKey": "e3_e34_e4_5_8_66_7_88__",
+    "status": "marked_reject",
+    "reason": "The paper (arXiv:2003.12030, Fig. 1 / 'g-2_3loop' inline TikZ at lines 100-126 of g-2.tex) shows the standard 3-loop QED vertex contributing to A_3^{(6)}: an external lepton line carrying mass m_l with photon vertices at b, c (the external photon current marked by a cross), and d, plus two vacuum-polarization bubbles f-g (mass m2) and h-i (mass m3) connected to b and d via photons, with a third photon connecting the two bubbles (g-h). The TikZ source draws the external lepton legs as visual segm",
+    "action": "reject_permanent"
+  },
+  {
+    "at": "2026-04-25T06:29:52Z",
+    "topoKey": "123456_23456_3456_456_56_e_e_",
+    "status": "marked_reject",
+    "reason": "manifest reason is a hand-rejection ('invalid'/'malformed'/'unphysical')",
+    "action": "reject_permanent"
+  }
+]

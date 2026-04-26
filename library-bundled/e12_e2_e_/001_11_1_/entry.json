@@ -1,118 +1,137 @@
 {
-	"CNickelIndex": "e12|e2|e|:001|11|1|",
-	"MassScales": 1,
-	"FunctionClass": "MPL",
-	"EpsilonOrder": "",
-	"References": [
-		"arXiv:1709.06055 (Phys.Rev.D 96 (), 2017)"
-	],
-	"Records": [
-		{
-			"authors": "Bern, Zvi, Enciso, Michael, Ita, Harald, Zeng, Mao",
-			"ancillaryFiles": [],
-			"recordId": "bf_6145f0e1e64d",
-			"epsOrders": "",
-			"location": "Section 3.3, Eqs. (3.39)-(3.45), Fig. 4",
-			"texkey": "Bern:2017gdk",
-			"verified": false,
-			"verifiedAt": "",
-			"reference": "arXiv:1709.06055, Phys.Rev.D 96, 2017",
-			"masterCount": 0,
-			"computationLevel": "IBP_only",
-			"doi": "10.1103/PhysRevD.96.096017",
-			"tools": [],
-			"description": "One-loop triangle with three massive internal propagators (b-quark mass) for Hbb decay. Embedding formalism extended to internal masses. No integral evaluation.",
-			"method": [],
-			"dimScheme": "d=4-2*eps",
-			"familyName": "Hbb triangle"
-		}
-	],
-	"Names": [
-		"Hbb triangle"
-	],
-	"Source": [
-		"arXiv"
-	],
-	"Loops": 1,
-	"NumPropagators": 3,
-	"edges": "{{{1, 2}, 0}, {{1, 3}, m}, {{2, 3}, m}}",
-	"nodes": "{{1, 0}, {2, m}, {3, m}}",
-	"CanonicalName": "Triangle, 2 massive propagators (c)",
-	"MassConfig": {
-		"numEdges": 3,
-		"numMassiveEdges": 2,
-		"numMasslessEdges": 1,
-		"distinctInternalMasses": 1,
-		"internalMassLabels": [
-			"m"
-		],
-		"edgeMassPattern": "011",
-		"numExtLegs": 3,
-		"numOnshellMassiveExtLegs": 2,
-		"numMasslessExtLegs": 1,
-		"extLegSignature": "0MM"
-	},
-	"commonNames": [
-		"C₀(2×m)"
-	],
-	"Subsectors": [],
-	"ParentSectors": [],
-	"Results": [
-		{
-			"resultCompressed": "1:eJxTTMoPSmNjYGAo5gISwalFmanFLoklicXMQG5qQXEmkGJIYwQpYAESPpnFJWmsMF5ATmlxGhOIBxIKyC9PLSoGcXNzM/8DAUIqJDM3lTiVYCmIfSCx8NxMEBuiiJlo48D6Qcp98tPRXIGkAMkC4hxABf8U0No/BQT8g+QAcNxCuCACAM6/gT8=",
-			"resultTeX": "\\left(\\frac{W_1^-^{-1}}{m^2}+\\frac{W_1^-^{-1} \\log \\left(-W_1^-\\right)}{m^2}+\\frac{W_1^+^{-1}}{m^2}+\\frac{W_1^+^{-1} \\log \\left(-W_1^+\\right)}{m^2}+\\frac{1}{m^2}\\right)+O\\left(\\varepsilon^1\\right)",
-			"dimension": "4 - 2*eps",
-			"epsOrder": "0",
-			"epsOrders": "0",
-			"propExponents": [
-				1,
-				1,
-				1
-			],
-			"propagators": [],
-			"numerators": [],
-			"internalMasses": [],
-			"externalMasses": [],
-			"substitutions": "",
-			"normalization": "Automatic",
-			"stVersion": "SubTropica v1.0.395",
-			"stCommand": "",
-			"contributor": "Sebastian Mizera",
-			"timestamp": "2026-04-19T22:09:43",
-			"verifiedAt": "2026-04-19T22:09:43",
-			"verified": true,
-			"method": "direct_integration",
-			"tools": [
-				"SubTropica"
-			],
-			"methodLR": "Lungo",
-			"byteCount": 1792,
-			"symbolTeX": "\\varepsilon^{0}\\colon\\;m^{-2} W_1^-^{-1}\\,(W_1^-) + m^{-2} W_1^+^{-1}\\,(W_1^+)",
-			"alphabet": [
-				"W_1^-",
-				"W_1^+"
-			],
-			"symbolWeight": 1,
-			"symbolTerms": 2,
-			"legOrder": [],
-			"findRoots": true,
-			"algebraicLetters": [
-				{
-					"index": 1,
-					"variable": "x3",
-					"polynomial": "1 + x3 + x3^2",
-					"LC": "1",
-					"sum": "-1",
-					"product": "1",
-					"discriminant": "-3",
-					"minusRoot": "(-1/2*I)*(-I + Sqrt[3])",
-					"plusRoot": "(I/2)*(I + Sqrt[3])",
-					"polynomialTeX": "x_{3}^2+x_{3}+1",
-					"discriminantTeX": "-3",
-					"minusRootTeX": "-\\frac{1}{2} i \\left(\\sqrt{3}-i\\right)",
-					"plusRootTeX": "\\frac{1}{2} i \\left(\\sqrt{3}+i\\right)"
-				}
-			]
-		}
-	]
+  "CNickelIndex": "e12|e2|e|:001|11|1|",
+  "MassScales": 1,
+  "FunctionClass": "MPL",
+  "EpsilonOrder": "",
+  "References": [
+    "arXiv:1709.06055 (Phys.Rev.D 96 (), 2017)"
+  ],
+  "Records": [
+    {
+      "authors": "Bern, Zvi, Enciso, Michael, Ita, Harald, Zeng, Mao",
+      "ancillaryFiles": [],
+      "recordId": "bf_6145f0e1e64d",
+      "epsOrders": "",
+      "location": "Section 3.3, Eqs. (3.39)-(3.45), Fig. 4",
+      "texkey": "Bern:2017gdk",
+      "verified": false,
+      "verifiedAt": "",
+      "reference": "arXiv:1709.06055, Phys.Rev.D 96, 2017",
+      "masterCount": 0,
+      "computationLevel": "IBP_only",
+      "doi": "10.1103/PhysRevD.96.096017",
+      "tools": [],
+      "description": "One-loop triangle with three massive internal propagators (b-quark mass) for Hbb decay. Embedding formalism extended to internal masses. No integral evaluation.",
+      "method": [],
+      "dimScheme": "d=4-2*eps",
+      "familyName": "Hbb triangle"
+    },
+    {
+      "reference": "arXiv:1709.06055 (Phys.Rev.D 96 (), 2017)",
+      "authors": "Bern, Zvi, Enciso, Michael, Ita, Harald, Zeng, Mao",
+      "description": "One-loop triangle with three massive internal propagators (b-quark mass) for Hbb decay. Embedding formalism extended to internal masses. No integral evaluation.",
+      "epsOrders": "",
+      "familyName": "Hbb triangle",
+      "method": "IBP",
+      "tools": [],
+      "ancillaryFiles": false,
+      "doi": "10.1103/PhysRevD.96.096017",
+      "texkey": "Bern:2017gdk",
+      "masterCount": 0,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "IBP_only",
+      "location": "Section 3.3, Eqs. (3.39)-(3.45), Fig. 4",
+      "recordId": "bx_a878054516fb",
+      "verified": false,
+      "verifiedAt": ""
+    }
+  ],
+  "Names": [
+    "Hbb triangle"
+  ],
+  "Source": [
+    "arXiv"
+  ],
+  "Loops": 1,
+  "NumPropagators": 3,
+  "edges": "{{{1, 2}, 0}, {{1, 3}, m}, {{2, 3}, m}}",
+  "nodes": "{{1, 0}, {2, m}, {3, m}}",
+  "CanonicalName": "Triangle, 2 massive propagators",
+  "MassConfig": {
+    "numEdges": 3,
+    "numMassiveEdges": 2,
+    "numMasslessEdges": 1,
+    "distinctInternalMasses": 1,
+    "internalMassLabels": [
+      "m"
+    ],
+    "edgeMassPattern": "011",
+    "numExtLegs": 3,
+    "numOnshellMassiveExtLegs": 2,
+    "numMasslessExtLegs": 1,
+    "extLegSignature": "0MM"
+  },
+  "commonNames": [
+    "C₀(2×m)"
+  ],
+  "Subsectors": [],
+  "ParentSectors": [],
+  "Results": [
+    {
+      "resultCompressed": "1:eJxTTMoPSmNjYGAo5gISwalFmanFLoklicXMQG5qQXEmkGJIYwQpYAESPpnFJWmsMF5ATmlxGhOIBxIKyC9PLSoGcXNzM/8DAUIqJDM3lTiVYCmIfSCx8NxMEBuiiJlo48D6Qcp98tPRXIGkAMkC4hxABf8U0No/BQT8g+QAcNxCuCACAM6/gT8=",
+      "resultTeX": "\\left(\\frac{W_1^-^{-1}}{m^2}+\\frac{W_1^-^{-1} \\log \\left(-W_1^-\\right)}{m^2}+\\frac{W_1^+^{-1}}{m^2}+\\frac{W_1^+^{-1} \\log \\left(-W_1^+\\right)}{m^2}+\\frac{1}{m^2}\\right)+O\\left(\\varepsilon^1\\right)",
+      "dimension": "4 - 2*eps",
+      "epsOrder": "0",
+      "epsOrders": "0",
+      "propExponents": [
+        1,
+        1,
+        1
+      ],
+      "propagators": [],
+      "numerators": [],
+      "internalMasses": [],
+      "externalMasses": [],
+      "substitutions": "",
+      "normalization": "Automatic",
+      "stVersion": "SubTropica v1.0.395",
+      "stCommand": "",
+      "contributor": "Sebastian Mizera",
+      "timestamp": "2026-04-19T22:09:43",
+      "verifiedAt": "2026-04-19T22:09:43",
+      "verified": true,
+      "method": "direct_integration",
+      "tools": [
+        "SubTropica"
+      ],
+      "methodLR": "Lungo",
+      "byteCount": 1792,
+      "symbolTeX": "\\varepsilon^{0}\\colon\\;m^{-2} W_1^-^{-1}\\,(W_1^-) + m^{-2} W_1^+^{-1}\\,(W_1^+)",
+      "alphabet": [
+        "W_1^-",
+        "W_1^+"
+      ],
+      "symbolWeight": 1,
+      "symbolTerms": 2,
+      "legOrder": [],
+      "findRoots": true,
+      "algebraicLetters": [
+        {
+          "index": 1,
+          "variable": "x3",
+          "polynomial": "1 + x3 + x3^2",
+          "LC": "1",
+          "sum": "-1",
+          "product": "1",
+          "discriminant": "-3",
+          "minusRoot": "(-1/2*I)*(-I + Sqrt[3])",
+          "plusRoot": "(I/2)*(I + Sqrt[3])",
+          "polynomialTeX": "x_{3}^2+x_{3}+1",
+          "discriminantTeX": "-3",
+          "minusRootTeX": "-\\frac{1}{2} i \\left(\\sqrt{3}-i\\right)",
+          "plusRootTeX": "\\frac{1}{2} i \\left(\\sqrt{3}+i\\right)"
+        }
+      ]
+    }
+  ]
 }

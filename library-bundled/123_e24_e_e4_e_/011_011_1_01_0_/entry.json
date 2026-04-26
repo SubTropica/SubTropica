@@ -73,6 +73,67 @@
       "epsOrders": "",
       "tools": [],
       "doi": "10.1016/j.cpc.2025.109970"
+    },
+    {
+      "reference": "arXiv:2305.19768",
+      "authors": "",
+      "description": "Two-loop four-point integral with elliptic function class, containing 5 massive and 1 massless internal propagator across 5 vertices. Three external legs massless, one massive (p4^2=m^2). Used extensively in the paper to benchmark median QMC rules vs CBC lattice construction, demonstrating the effect of unlucky lattices. Previously existing pySecDec example.",
+      "epsOrders": "",
+      "familyName": "elliptic2L_physical",
+      "method": "sector_decomposition",
+      "tools": [
+        "pySecDec"
+      ],
+      "ancillaryFiles": false,
+      "doi": "",
+      "texkey": "",
+      "masterCount": 0,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "numerical",
+      "location": "Section 3.2, Figure 10(e), Table 3, also Sections 2.2 and 2.1",
+      "recordId": "bx_3f286e6f0e44",
+      "verified": false,
+      "verifiedAt": ""
+    },
+    {
+      "reference": "arXiv:2112.09145",
+      "authors": "Winterhalder, R., Magerya, V., Villa, E., Jones, S.P., Kerner, M., Butter, A., Heinrich, G., Plehn, T.",
+      "description": "Two-loop four-point function occurring in Higgs+jet production via gluon fusion at two loops, with an elliptic sub-sector. Six propagators: five massive (mass m, top quark) and one massless. Four external legs: p1, p2, p3 massless (gluons/jet); p4 off-shell (Higgs, p4^2=m_H^2). Has 5 Feynman parameters and depends on four kinematic invariants (s, t, m^2, p4^2). Analytic results contain elliptic functions. Matches pySecDec example elliptic2L_physical. Used as benchmark for neural network contour deformation optimization.",
+      "epsOrders": "0",
+      "familyName": "elliptic2L",
+      "method": "sector_decomposition",
+      "tools": [
+        "pySecDec"
+      ],
+      "ancillaryFiles": false,
+      "doi": "",
+      "texkey": "",
+      "masterCount": 0,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "numerical",
+      "location": "Figure 1 (bottom right), Section 2",
+      "recordId": "bx_d4d422376513",
+      "verified": false,
+      "verifiedAt": ""
+    },
+    {
+      "reference": "arXiv:2503.16601 (Comput.Phys.Commun. 320 (), 2026)",
+      "authors": "Correia, Miguel, Giroux, Mathieu, Mizera, Sebastian",
+      "description": "Two-loop H+jet with closed top loop. 6 propagators (5 massive top, 1 massless). Maximal cut reveals elliptic curve.",
+      "epsOrders": "",
+      "familyName": "H+jet top loop",
+      "method": "",
+      "tools": [],
+      "ancillaryFiles": false,
+      "doi": "10.1016/j.cpc.2025.109970",
+      "texkey": "Correia:2025wtb",
+      "masterCount": 0,
+      "dimScheme": "d=4",
+      "computationLevel": "maximal_cut",
+      "location": "Section 5.2",
+      "recordId": "bx_993a2ef79f57",
+      "verified": false,
+      "verifiedAt": ""
     }
   ],
   "Names": [
@@ -90,7 +151,7 @@
   "Results": [],
   "edges": "{{{1, 2}, 0}, {{1, 3}, m}, {{1, 4}, m}, {{2, 3}, m}, {{2, 5}, m}, {{4, 5}, m}}",
   "nodes": "{{2, 0}, {3, m}, {4, 0}, {5, 0}}",
-  "CanonicalName": "Triangle-box, 5 massive propagators (b)",
+  "CanonicalName": "Triangle-box, 5 massive propagators",
   "MassConfig": {
     "numEdges": 6,
     "numMassiveEdges": 5,

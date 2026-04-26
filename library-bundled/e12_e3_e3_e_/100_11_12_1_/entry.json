@@ -30,6 +30,44 @@
       "recordId": "bx_0200f3ffa62a",
       "verified": false,
       "verifiedAt": ""
+    },
+    {
+      "reference": "arXiv:2005.03071 (Phys.Rev.D 104 (), 2021)",
+      "authors": "Bern, Zvi, Luna, Andres, Roiban, Radu, Shen, Chia-Hsien, Zeng, Mao",
+      "description": "One-loop scalar box integral I_B for 2-to-2 scattering of two distinct massive scalars (matter lines of mass m1 and m2) exchanging gravitons in the t-channel. Two opposite edges are massless (graviton exchanges) and two opposite edges are massive matter propagators of masses m1 and m2. Used as one of the basis integrals (with crossed-box, triangle, and triangle-down) in the reduction of the one-loop four-point amplitude in Eq. (Org_Scalar_Integrals). Result is taken from the literature (Beenakker-Denner) and expanded in the classical (small-q) limit; the box is more singular than classical so subleading terms in the polarization-to-spin map must be retained. The relevant nonrelativistic 3D form used in the EFT matching is given near Eq. (4.49).",
+      "epsOrders": "0",
+      "familyName": "Box (I_B)",
+      "method": "unitarity, direct_integration",
+      "tools": [],
+      "ancillaryFiles": true,
+      "doi": "10.1103/PhysRevD.104.065014",
+      "texkey": "Bern:2020buy",
+      "masterCount": 0,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "full",
+      "location": "Sec. 4 (one-loop amplitudes), Eq. (4.??), Fig. OneLoopIntegralsFigure (a); explicit nonrelativistic form Eq. near (4.49)-(4.51)",
+      "recordId": "bx_3f98aa9ef730",
+      "verified": false,
+      "verifiedAt": ""
+    },
+    {
+      "reference": "arXiv:2005.03071 (Phys.Rev.D 104 (), 2021)",
+      "authors": "Bern, Zvi, Luna, Andres, Roiban, Radu, Shen, Chia-Hsien, Zeng, Mao",
+      "description": "One-loop scalar crossed (u-channel) box integral I_Bbar for 2-to-2 scattering of two massive scalars of masses m1 and m2 exchanging gravitons. Obtained from I_B by crossing p2 <-> p3. Together with I_B, I_triangle, and I_triangledown forms the basis of scalar one-loop integrals appearing in the classical four-point amplitude in Eq. (Org_Scalar_Integrals). Evaluated using the result of Beenakker-Denner and expanded in the classical limit.",
+      "epsOrders": "0",
+      "familyName": "Crossed box (I_Bbar)",
+      "method": "unitarity, direct_integration",
+      "tools": [],
+      "ancillaryFiles": true,
+      "doi": "10.1103/PhysRevD.104.065014",
+      "texkey": "Bern:2020buy",
+      "masterCount": 0,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "full",
+      "location": "Sec. 4, Eq. (Org_Scalar_Integrals), Fig. OneLoopIntegralsFigure (b)",
+      "recordId": "bx_66adf53428f6",
+      "verified": false,
+      "verifiedAt": ""
     }
   ],
   "Names": [
@@ -44,7 +82,7 @@
   "NumPropagators": 4,
   "edges": "{{{1, 2}, 0}, {{1, 3}, 0}, {{2, 4}, m[1]}, {{3, 4}, m[2]}}",
   "nodes": "{{1, m[1]}, {2, m[1]}, {4, m[1]}, {3, m[1]}}",
-  "CanonicalName": "2-mass box, 2 massive propagators (e)",
+  "CanonicalName": "2-mass box, 2 massive propagators",
   "MassConfig": {
     "numEdges": 4,
     "numMassiveEdges": 2,
@@ -61,7 +99,7 @@
     "extLegSignature": "MMMM"
   },
   "commonNames": [
-    "D\u2080(2 masses)"
+    "D₀(2 masses)"
   ],
   "Subsectors": [],
   "ParentSectors": [],

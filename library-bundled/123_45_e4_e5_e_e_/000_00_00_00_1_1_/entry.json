@@ -15,8 +15,8 @@
       "authors": "Thomas Gehrmann, Lorenzo Tancredi, Erich Weihs",
       "description": "The authors give the two-loop four-point master integrals with two massive external legs, with the same mass (in the appendix). All results are given in terms of generalized harmonic polylogarithms and all integrals have a common prefactor given in Eq. A.1. This integral can have a numerator (the epsilon order is then $-2,-1,0$ or $-4,-3-2,-1,0$; see the paper for more details).",
       "recordId": "1499420175.UooW",
-      "verified": false,
-      "verifiedAt": ""
+      "verified": true,
+      "verifiedAt": "auto-loopedia"
     },
     {
       "epsOrders": "0,1,2,3,4",
@@ -25,8 +25,8 @@
       "description": "The authors compute the full set of massless two-loop four-point functions with two off-shell legs with the same invariant mass relevant for diboson production at hadron colliders ($q\\bar{q}\\to VV$ and $gg\\to VV$). The $\\varepsilon$ expansion is given in terms of multiple polylogarithms of uniform weight through to weight four. Results for physical scattering kinematics are optimized for numerical evaluations using $\\operatorname{Li}_{2,2}$, $\\operatorname{Li}_n$ and $\\log$ functions. In addition, expansions are provided at the production threshold and in the small mass limit.",
       "masterCount": 3,
       "recordId": "1503427764.pwbT",
-      "verified": false,
-      "verifiedAt": ""
+      "verified": true,
+      "verifiedAt": "auto-loopedia"
     },
     {
       "reference": "arXiv:1802.02419",
@@ -64,6 +64,28 @@
       "computationLevel": "basis",
       "location": "Section 5.6, Topology 1, Eq. (5.66)",
       "recordId": "bx_267c0f9eceaa",
+      "verified": true,
+      "verifiedAt": "auto-loopedia"
+    },
+    {
+      "reference": "arXiv:1802.02419",
+      "authors": "",
+      "description": "Two-loop 4-point topology with massless internal lines and two on-shell massive external legs p3^2=m3^2, p4^2=m4^2 (V V'); called VV2 in the paper. 29 master integrals; 14-letter alphabet in (x,y,z). Contributes to NNLO QCD corrections to massive vector-boson pair production. Canonical basis computed with CANONICA in about 15 minutes.",
+      "epsOrders": "",
+      "familyName": "2-loop 4-point planar double box with two massive external legs (VV topology 2)",
+      "method": "IBP, DE",
+      "tools": [
+        "Reduze",
+        "Canonica"
+      ],
+      "ancillaryFiles": false,
+      "doi": "",
+      "texkey": "",
+      "masterCount": 29,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "basis",
+      "location": "Section 5.6, Topology 2, Eq. (5.67)",
+      "recordId": "bx_3dc2dcbe462a",
       "verified": false,
       "verifiedAt": ""
     }
@@ -85,7 +107,7 @@
   "nodes": "{{3, 0}, {4, 0}, {6, M}, {5, M}}",
   "Loops": 2,
   "NumPropagators": 7,
-  "CanonicalName": "2-mass double box (a)",
+  "CanonicalName": "2-mass double box",
   "MassConfig": {
     "numEdges": 7,
     "numMassiveEdges": 0,

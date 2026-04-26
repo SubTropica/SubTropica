@@ -1,309 +1,309 @@
 {
-	"CNickelIndex": "e12|e2|e|:100|20|3|",
-	"MassScales": 3,
-	"FunctionClass": "hypergeometric",
-	"EpsilonOrder": "-2,-1,0",
-	"References": [
-		"arXiv:1401.4361",
-		"arXiv:1401.3546",
-		"arXiv:2309.12772",
-		"arXiv:2303.11105"
-	],
-	"Records": [
-		{
-			"authors": "Panzer, Erik",
-			"texkey": "Panzer:2014gra",
-			"verified": false,
-			"verifiedAt": "",
-			"reference": "arXiv:1401.4361, JHEP 03 (071), 2014",
-			"ancillaryFiles": [],
-			"recordId": "bf_aef35e2fd589",
-			"masterCount": 0,
-			"computationLevel": "full",
-			"doi": "10.1007/JHEP03(2014)071",
-			"tools": [
-				"HyperInt"
-			],
-			"description": "One-loop massless triangle with three off-shell legs. Leading order is the Bloch-Wigner dilogarithm.",
-			"epsOrders": "all orders",
-			"method": [],
-			"dimScheme": "d=4-2*eps",
-			"location": "Example 4.3",
-			"familyName": "Delta1_triangle"
-		},
-		{
-			"authors": "Abreu, Samuel, Britto, Ruth, Duhr, Claude, Gardi, Einan",
-			"texkey": "Abreu:2014cla",
-			"verified": false,
-			"verifiedAt": "",
-			"reference": "arXiv:1401.3546, JHEP 10 (125), 2014",
-			"ancillaryFiles": [],
-			"recordId": "bf_8f4ed77a1ffa",
-			"masterCount": 1,
-			"transcendentalWeight": 2,
-			"computationLevel": "full",
-			"doi": "10.1007/JHEP10(2014)125",
-			"tools": [],
-			"description": "One-loop triangle with massless propagators and three nonzero external masses, finite in $D=4$. Weight-2 result in $z,\\bar{z}$ variables. Single and double cuts computed, integral reconstructed from cuts via dispersion.",
-			"epsOrders": "-2,-1,0",
-			"method": [],
-			"dimScheme": "d=4-2*eps",
-			"location": "Section 4.1, eqs.(4.1)-(4.11)",
-			"familyName": "T (three-mass triangle)"
-		},
-		{
-			"authors": "Duhr, Claude, Porkert, Franziska",
-			"texkey": "Duhr:2023bku",
-			"verified": false,
-			"verifiedAt": "",
-			"reference": "arXiv:2309.12772, JHEP 02 (179), 2024",
-			"ancillaryFiles": [],
-			"recordId": "bf_412cef2c4ea8",
-			"masterCount": 1,
-			"computationLevel": "full",
-			"doi": "10.1007/JHEP02(2024)179",
-			"tools": [],
-			"description": "One-loop massless triangle in $d=2$ with generic propagator powers. Result: sv Gauss $_2F_1$.",
-			"epsOrders": "all orders",
-			"method": [],
-			"dimScheme": "d=2",
-			"location": "Section 4.2",
-			"familyName": "Star_3 (triangle d=2)"
-		},
-		{
-			"authors": "Henn, Johannes, Pratt, Elizabeth, Sattelberger, Anna-Laura, Zoia, Simone",
-			"texkey": "Henn:2023tbo",
-			"verified": false,
-			"verifiedAt": "",
-			"reference": "arXiv:2303.11105, Lett.Math.Phys. 114 (87), 2024",
-			"ancillaryFiles": [],
-			"recordId": "bf_77f8938acc3d",
-			"masterCount": 4,
-			"transcendentalWeight": 2,
-			"computationLevel": "full",
-			"doi": "10.1007/s11005-024-01835-7",
-			"tools": [
-				"HolonomicFunctions",
-				"Singular"
-			],
-			"description": "One-loop massless triangle integral with three off-shell external legs ($x_1=p_1^2, x_2=p_2^2, x_3=(p_1+p_2)^2$) in $d=4$, with general conformal weights specialized to $c_0=4, c_1=c_2=c_3=2$ (unit propagator powers $\\nu_1=\\nu_2=\\nu_3=1$). The integral satisfies a system of three conformal second-order PDEs generating a holonomic $D_3$-ideal $I_3$ of rank 4. The four linearly independent solutions (eq. 2.11) span the analytic continuation space and are expressed in terms of dilogarithms $\\operatorname{Li}_2$ and logarithms. Canonical series solutions are computed via the SST (Saito-Sturmfels-Takayama) algorithm and independently recovered via Wasow's method for Fuchsian systems. Singular locus: $\\{x_1=0\\} \\cup \\{x_2=0\\} \\cup \\{x_3=0\\} \\cup \\{\\lambda=0\\}$ where $\\lambda = x_1^2+x_2^2+x_3^2-2(x_1 x_2+x_1 x_3+x_2 x_3)$.",
-			"epsOrders": "",
-			"method": [],
-			"dimScheme": "d=4",
-			"location": "Eq. (2.1), Fig. 1; analytic result Eq. (2.7); solutions Eqs. (2.11)-(2.14); conformal PDE system Eqs. (2.3)-(2.5)",
-			"familyName": "one-loop triangle (three-mass)"
-		}
-	],
-	"Names": [
-		"Delta1_triangle",
-		"T (three-mass triangle)",
-		"Star_3 (triangle d=2)",
-		"one-loop triangle (three-mass)"
-	],
-	"Source": [
-		"arXiv",
-		"Loopedia"
-	],
-	"Loops": 1,
-	"NumPropagators": 3,
-	"edges": "{{{1, 2}, 0}, {{1, 3}, 0}, {{2, 3}, 0}}",
-	"nodes": "{{1, M[1]}, {2, M[2]}, {3, M[3]}}",
-	"CanonicalName": "3-mass triangle (c)",
-	"MassConfig": {
-		"numEdges": 3,
-		"numMassiveEdges": 0,
-		"numMasslessEdges": 3,
-		"distinctInternalMasses": 0,
-		"internalMassLabels": [],
-		"edgeMassPattern": "000",
-		"numExtLegs": 3,
-		"numOnshellMassiveExtLegs": 3,
-		"numMasslessExtLegs": 0,
-		"extLegSignature": "MMM"
-	},
-	"commonNames": [
-		"C₀"
-	],
-	"Subsectors": [],
-	"ParentSectors": [
-		"e12|e3|e3|e|:000|00|10|2|",
-		"e12|e3|e3|e|:000|10|20|3|",
-		"e12|e3|e3|e|:100|20|30|4|"
-	],
-	"Results": [
-		{
-			"resultCompressed": "1:eJzVVdEKwjAMrJ2K+Bf+iw8+KMgUfJ7QSmDaYif+vbVp2Wo3pxMV60u2lMslF67bZCtSPiSEqLEJK3YEpqZZkanEpEwqMA/CewjomzAHVfBRmS3zk+L4ogYmrGHPFFy01pyWiFkudoDV/ggpHCstK5fizI4egbSuyPbF883eHoCu2H1dBVosIGkDBeQNXo92IiyDB8mb5jW5NND2MbkyFrlJgHyqtIPI5FFvo4mS5q7uan4u/F9MpLvcmbhXG41hw9U6EHadi12NJRgs7NIcnFYNHjDW56oPH8E+bCF+wNOsAHHIcgdtdcYrQrv762tqB23IX1lA/oMF7JV/0wIyEgvYf61LMVwB7O8Isg==",
-			"resultTeX": "\\left(-\\frac{2 M_3^{-2} H\\left(0,\\frac{1}{W_1^-+1}\\,;1\\right)}{W_1^--W_1^+}+\\frac{2 M_3^{-2} H\\left(0,\\frac{1}{W_1^++1}\\,;1\\right)}{W_1^--W_1^+}+\\frac{M_3^{-2} H\\left(\\frac{1}{1-M_2^2 M_3^{-2}},\\frac{1}{W_1^-+1}\\,;1\\right)}{W_1^--W_1^+}-\\frac{M_3^{-2} H\\left(\\frac{1}{1-M_2^2 M_3^{-2}},\\frac{1}{W_1^++1}\\,;1\\right)}{W_1^--W_1^+}+\\frac{M_3^{-2} \\log ^2\\left(-W_1^-\\right)}{2 \\left(W_1^--W_1^+\\right)}-\\frac{M_3^{-2} \\log ^2\\left(-W_1^+\\right)}{2 \\left(W_1^--W_1^+\\right)}+\\frac{M_3^{-2} \\log \\left(M_1^2 M_2^{-2}\\right) \\log \\left(-W_1^-\\right)}{W_1^--W_1^+}-\\frac{M_3^{-2} \\log \\left(M_1^2 M_2^{-2}\\right) \\log \\left(-W_1^+\\right)}{W_1^--W_1^+}\\right)+O\\left(\\varepsilon^1\\right)",
-			"dimension": "4 - 2*eps",
-			"epsOrder": "0",
-			"epsOrders": "0",
-			"propExponents": [
-				1,
-				1,
-				1
-			],
-			"propagators": [],
-			"numerators": [],
-			"internalMasses": [],
-			"externalMasses": [],
-			"substitutions": "",
-			"normalization": "Automatic",
-			"stVersion": "SubTropica v1.0.395",
-			"stCommand": "",
-			"contributor": "Sebastian Mizera",
-			"timestamp": "2026-04-19T22:14:48",
-			"verifiedAt": "2026-04-19T22:14:48",
-			"verified": true,
-			"method": "direct_integration",
-			"tools": [
-				"SubTropica"
-			],
-			"methodLR": "Lungo",
-			"byteCount": 8480,
-			"symbolTeX": "\\varepsilon^{0}\\colon\\;-\\frac{M_3^{-2}}{W_1^--W_1^+}\\,(W_1^-+1 \\otimes W_1^-) + \\frac{M_3^{-2}}{W_1^--W_1^+}\\,(W_1^++1 \\otimes W_1^+) - \\frac{M_3^{-2}}{W_1^--W_1^+}\\,(M_3^2 W_1^-+M_2^2 \\otimes W_1^-) + \\frac{M_3^{-2}}{W_1^--W_1^+}\\,(M_3^2 W_1^-+M_2^2 \\otimes M_2^2) - \\frac{M_3^{-2}}{W_1^--W_1^+}\\,(M_3^2 W_1^-+M_2^2 \\otimes M_3^2) + \\frac{M_3^{-2}}{W_1^--W_1^+}\\,(M_3^2 W_1^++M_2^2 \\otimes W_1^+) - \\frac{M_3^{-2}}{W_1^--W_1^+}\\,(M_3^2 W_1^++M_2^2 \\otimes M_2^2) + \\frac{M_3^{-2}}{W_1^--W_1^+}\\,(M_3^2 W_1^++M_2^2 \\otimes M_3^2) + \\frac{M_3^{-2}}{W_1^--W_1^+}\\,(M_1^2 \\otimes W_1^-) + \\frac{M_3^{-2}}{W_1^--W_1^+}\\,(W_1^- \\otimes M_1^2) - \\frac{M_3^{-2}}{W_1^--W_1^+}\\,(W_1^- \\otimes M_2^2) + \\frac{M_3^{-2}}{W_1^--W_1^+}\\,(W_1^- \\otimes W_1^-) - \\frac{M_3^{-2}}{W_1^--W_1^+}\\,(M_1^2 \\otimes W_1^+) - \\frac{M_3^{-2}}{W_1^--W_1^+}\\,(W_1^+ \\otimes M_1^2) + \\frac{M_3^{-2}}{W_1^--W_1^+}\\,(W_1^+ \\otimes M_2^2) - \\frac{M_3^{-2}}{W_1^--W_1^+}\\,(W_1^+ \\otimes W_1^+)",
-			"alphabet": [
-				"W_1^-+1",
-				"W_1^-",
-				"W_1^++1",
-				"W_1^+",
-				"M_3^2 W_1^-+M_2^2",
-				"M_2^2",
-				"M_3^2",
-				"M_3^2 W_1^++M_2^2",
-				"M_1^2"
-			],
-			"symbolWeight": 2,
-			"symbolTerms": 16,
-			"normalizedSymbolTeX": "\\varepsilon^{0}&\\colon\\;\\frac{M_3^{-2}}{W_1^--W_1^+}\\!\\left[-(W_1 \\otimes W^-_1) + (W_2 \\otimes W^+_1) - (W_3 \\otimes W^-_1) + (W_3 \\otimes W_4) - (W_3 \\otimes W_5) + (W_6 \\otimes W^+_1) - (W_6 \\otimes W_4) + (W_6 \\otimes W_5) - (W^-_1 \\otimes W_4) + (W^-_1 \\otimes W^-_1) + (W^+_1 \\otimes W_4) - (W^+_1 \\otimes W^+_1)\\right]",
-			"wDefinitions": [
-				{
-					"label": "W_1",
-					"kind": "rational",
-					"pairIndex": null,
-					"definition": "\\frac{1+W_1^-}{M_1^2}",
-					"originalLetter": "W_1^-+1"
-				},
-				{
-					"label": "W^-_1",
-					"kind": "algebraic",
-					"pairIndex": 1,
-					"definition": "\\frac{1}{2} M_3^{-2} \\left(M_1^2-M_2^2-M_3^2-\\sqrt{\\left(-M_1^2+M_2^2+M_3^2\\right)^2-4 M_2^2 M_3^2}\\right)",
-					"originalLetter": "W_1^-",
-					"polynomialTeX": "x_{2}^2 M_3^2-x_{2} M_1^2+x_{2} M_2^2+x_{2} M_3^2+M_2^2",
-					"discriminantTeX": "\\left(-M_1^2+M_2^2+M_3^2\\right)^2-4 M_2^2 M_3^2"
-				},
-				{
-					"label": "W_2",
-					"kind": "rational",
-					"pairIndex": null,
-					"definition": "\\frac{1+W_1^+}{M_1^2}",
-					"originalLetter": "W_1^++1"
-				},
-				{
-					"label": "W^+_1",
-					"kind": "algebraic",
-					"pairIndex": 1,
-					"definition": "\\frac{1}{2} M_3^{-2} \\left(M_1^2-M_2^2-M_3^2+\\sqrt{\\left(-M_1^2+M_2^2+M_3^2\\right)^2-4 M_2^2 M_3^2}\\right)",
-					"originalLetter": "W_1^+",
-					"polynomialTeX": "x_{2}^2 M_3^2-x_{2} M_1^2+x_{2} M_2^2+x_{2} M_3^2+M_2^2",
-					"discriminantTeX": "\\left(-M_1^2+M_2^2+M_3^2\\right)^2-4 M_2^2 M_3^2"
-				},
-				{
-					"label": "W_3",
-					"kind": "rational",
-					"pairIndex": null,
-					"definition": "\\frac{M_2^2+W_1^- M_3^2}{M_1^2}",
-					"originalLetter": "M_3^2 W_1^-+M_2^2"
-				},
-				{
-					"label": "W_4",
-					"kind": "rational",
-					"pairIndex": null,
-					"definition": "\\frac{M_2^2}{M_1^2}",
-					"originalLetter": "M_2^2"
-				},
-				{
-					"label": "W_5",
-					"kind": "rational",
-					"pairIndex": null,
-					"definition": "\\frac{M_3^2}{M_1^2}",
-					"originalLetter": "M_3^2"
-				},
-				{
-					"label": "W_6",
-					"kind": "rational",
-					"pairIndex": null,
-					"definition": "\\frac{M_2^2+W_1^+ M_3^2}{M_1^2}",
-					"originalLetter": "M_3^2 W_1^++M_2^2"
-				}
-			],
-			"normalizedAlphabet": [
-				"W_1",
-				"W^-_1",
-				"W_2",
-				"W^+_1",
-				"W_3",
-				"W_4",
-				"W_5",
-				"W_6"
-			],
-			"symbolScale": "M_1^2",
-			"normalizedSymbolTerms": 12,
-			"legOrder": [],
-			"findRoots": true,
-			"algebraicLetters": [
-				{
-					"index": 1,
-					"variable": "x2",
-					"polynomial": "-(x2*MM[1]) + MM[2] + x2*MM[2] + x2*MM[3] + x2^2*MM[3]",
-					"LC": "MM[3]",
-					"sum": "(MM[1] - MM[2] - MM[3])/MM[3]",
-					"product": "MM[2]/MM[3]",
-					"discriminant": "-4*MM[2]*MM[3] + (-MM[1] + MM[2] + MM[3])^2",
-					"minusRoot": "(MM[1] - MM[2] - MM[3] - Sqrt[-4*MM[2]*MM[3] + (-MM[1] + MM[2] + MM[3])^2])/(2*MM[3])",
-					"plusRoot": "(MM[1] - MM[2] - MM[3] + Sqrt[-4*MM[2]*MM[3] + (-MM[1] + MM[2] + MM[3])^2])/(2*MM[3])",
-					"polynomialTeX": "x_{2}^2 M_3^2-x_{2} M_1^2+x_{2} M_2^2+x_{2} M_3^2+M_2^2",
-					"discriminantTeX": "\\left(-M_1^2+M_2^2+M_3^2\\right)^2-4 M_2^2 M_3^2",
-					"minusRootTeX": "\\frac{1}{2} M_3^{-2} \\left(M_1^2-M_2^2-M_3^2-\\sqrt{\\left(-M_1^2+M_2^2+M_3^2\\right)^2-4 M_2^2 M_3^2}\\right)",
-					"plusRootTeX": "\\frac{1}{2} M_3^{-2} \\left(M_1^2-M_2^2-M_3^2+\\sqrt{\\left(-M_1^2+M_2^2+M_3^2\\right)^2-4 M_2^2 M_3^2}\\right)"
-				}
-			]
-		},
-		{
-			"resultCompressed": "1:eJzVVEsKwjAQ7U8Rb+FdXLjooqgXaCEpgUqkUxF6djHm0zZpUqqgNLiZdKYz8958kl1Bj3gdBAFsuTihmiDY500OMVfRFQg/AhwKh4SLlECDN72WVTfAwhFWXJzJBQERdhz1tozeUa3UISAaB0hVALT2nydjDIStLQj/ZDrPoaIlCQeknpkiOwduBGkckVsxUDBWRY8B+r8qMnFil4evkj6oJp6oRoK7QD+cc+Rxcz03ZWZV3mb9tis6rXxlBHxKy25OcibJcsvrUhiZLCpWe/VILHrm0k2EKAJ2jEkrcQtaogO+yh1NwXY3qCy7kZ2fOOSzLK+TFC/aJNSs",
-			"resultTeX": "\\left(\\frac{4 H\\left(0,\\frac{1}{1-z}\\,;1\\right)}{2 z-2 \\text{zb}}-\\frac{4 H\\left(0,\\frac{1}{1-\\text{zb}}\\,;1\\right)}{2 z-2 \\text{zb}}-\\frac{2 H\\left(\\frac{1}{1-z \\text{zb}},\\frac{1}{1-z}\\,;1\\right)}{2 z-2 \\text{zb}}+\\frac{2 H\\left(\\frac{1}{1-z \\text{zb}},\\frac{1}{1-\\text{zb}}\\,;1\\right)}{2 z-2 \\text{zb}}-\\frac{\\log ^2(z)}{2 z-2 \\text{zb}}+\\frac{\\log ^2(\\text{zb})}{2 z-2 \\text{zb}}-\\frac{2 \\log (z) \\log \\left(\\frac{(z-1) (\\text{zb}-1)}{z \\text{zb}}\\right)}{2 z-2 \\text{zb}}+\\frac{2 \\log (\\text{zb}) \\log \\left(\\frac{(z-1) (\\text{zb}-1)}{z \\text{zb}}\\right)}{2 z-2 \\text{zb}}\\right)+O\\left(\\varepsilon^1\\right)",
-			"dimension": "4 - 2*eps",
-			"epsOrder": 0,
-			"propExponents": [
-				1,
-				1,
-				1
-			],
-			"propagators": [],
-			"numerators": [],
-			"internalMasses": [],
-			"externalMasses": [],
-			"substitutions": "{MM1 -> (1 - z)*(1 - zb), MM2 -> z*zb, MM3 -> 1}",
-			"normalization": "Automatic",
-			"stVersion": "SubTropica v1.0.379",
-			"stCommand": "STIntegrate[{{{{1, 2}, 0}, {{1, 3}, 0}, {{2, 3}, 0}}, {{1, Subscript[M, 1]}, {2, Subscript[M, 2]}, {3, Subscript[M, 3]}}}, Dimension -> \"4 - 2*eps\", Order -> 0, Substitutions -> {MM1 -> (1 - z)*(1 - zb), MM2 -> z*zb, MM3 -> 1}]",
-			"contributor": "SM",
-			"timestamp": "2026-04-19T18:59:37",
-			"byteCount": 6120,
-			"symbolTeX": "\\varepsilon^{0}\\colon\\;\\frac{1}{z-\\text{zb}}\\,(z-1 \\otimes z) + \\frac{1}{\\text{zb}-z}\\,(\\text{zb}-1 \\otimes \\text{zb}) + \\frac{1}{\\text{zb}-z}\\,(\\text{zb}-1 \\otimes z) + \\frac{1}{z-\\text{zb}}\\,(z-1 \\otimes \\text{zb}) + \\frac{1}{\\text{zb}-z}\\,(z \\otimes z-1) + \\frac{1}{\\text{zb}-z}\\,(z \\otimes \\text{zb}-1) + \\frac{1}{z-\\text{zb}}\\,(\\text{zb} \\otimes z-1) + \\frac{1}{z-\\text{zb}}\\,(\\text{zb} \\otimes \\text{zb}-1)",
-			"alphabet": [
-				"z-1",
-				"z",
-				"\\text{zb}-1",
-				"\\text{zb}"
-			],
-			"symbolWeight": 2,
-			"symbolTerms": 8,
-			"legOrder": [
-				1,
-				2,
-				3
-			]
-		}
-	]
+  "CNickelIndex": "e12|e2|e|:100|20|3|",
+  "MassScales": 3,
+  "FunctionClass": "hypergeometric",
+  "EpsilonOrder": "-2,-1,0",
+  "References": [
+    "arXiv:1401.4361",
+    "arXiv:1401.3546",
+    "arXiv:2309.12772",
+    "arXiv:2303.11105"
+  ],
+  "Records": [
+    {
+      "authors": "Panzer, Erik",
+      "texkey": "Panzer:2014gra",
+      "verified": true,
+      "verifiedAt": "auto-loopedia",
+      "reference": "arXiv:1401.4361, JHEP 03 (071), 2014",
+      "ancillaryFiles": [],
+      "recordId": "bf_aef35e2fd589",
+      "masterCount": 0,
+      "computationLevel": "full",
+      "doi": "10.1007/JHEP03(2014)071",
+      "tools": [
+        "HyperInt"
+      ],
+      "description": "One-loop massless triangle with three off-shell legs. Leading order is the Bloch-Wigner dilogarithm.",
+      "epsOrders": "all orders",
+      "method": [],
+      "dimScheme": "d=4-2*eps",
+      "location": "Example 4.3",
+      "familyName": "Delta1_triangle"
+    },
+    {
+      "authors": "Abreu, Samuel, Britto, Ruth, Duhr, Claude, Gardi, Einan",
+      "texkey": "Abreu:2014cla",
+      "verified": true,
+      "verifiedAt": "auto-loopedia",
+      "reference": "arXiv:1401.3546, JHEP 10 (125), 2014",
+      "ancillaryFiles": [],
+      "recordId": "bf_8f4ed77a1ffa",
+      "masterCount": 1,
+      "transcendentalWeight": 2,
+      "computationLevel": "full",
+      "doi": "10.1007/JHEP10(2014)125",
+      "tools": [],
+      "description": "One-loop triangle with massless propagators and three nonzero external masses, finite in $D=4$. Weight-2 result in $z,\\bar{z}$ variables. Single and double cuts computed, integral reconstructed from cuts via dispersion.",
+      "epsOrders": "-2,-1,0",
+      "method": [],
+      "dimScheme": "d=4-2*eps",
+      "location": "Section 4.1, eqs.(4.1)-(4.11)",
+      "familyName": "T (three-mass triangle)"
+    },
+    {
+      "authors": "Duhr, Claude, Porkert, Franziska",
+      "texkey": "Duhr:2023bku",
+      "verified": true,
+      "verifiedAt": "auto-loopedia",
+      "reference": "arXiv:2309.12772, JHEP 02 (179), 2024",
+      "ancillaryFiles": [],
+      "recordId": "bf_412cef2c4ea8",
+      "masterCount": 1,
+      "computationLevel": "full",
+      "doi": "10.1007/JHEP02(2024)179",
+      "tools": [],
+      "description": "One-loop massless triangle in $d=2$ with generic propagator powers. Result: sv Gauss $_2F_1$.",
+      "epsOrders": "all orders",
+      "method": [],
+      "dimScheme": "d=2",
+      "location": "Section 4.2",
+      "familyName": "Star_3 (triangle d=2)"
+    },
+    {
+      "authors": "Henn, Johannes, Pratt, Elizabeth, Sattelberger, Anna-Laura, Zoia, Simone",
+      "texkey": "Henn:2023tbo",
+      "verified": true,
+      "verifiedAt": "auto-loopedia",
+      "reference": "arXiv:2303.11105, Lett.Math.Phys. 114 (87), 2024",
+      "ancillaryFiles": [],
+      "recordId": "bf_77f8938acc3d",
+      "masterCount": 4,
+      "transcendentalWeight": 2,
+      "computationLevel": "full",
+      "doi": "10.1007/s11005-024-01835-7",
+      "tools": [
+        "HolonomicFunctions",
+        "Singular"
+      ],
+      "description": "One-loop massless triangle integral with three off-shell external legs ($x_1=p_1^2, x_2=p_2^2, x_3=(p_1+p_2)^2$) in $d=4$, with general conformal weights specialized to $c_0=4, c_1=c_2=c_3=2$ (unit propagator powers $\\nu_1=\\nu_2=\\nu_3=1$). The integral satisfies a system of three conformal second-order PDEs generating a holonomic $D_3$-ideal $I_3$ of rank 4. The four linearly independent solutions (eq. 2.11) span the analytic continuation space and are expressed in terms of dilogarithms $\\operatorname{Li}_2$ and logarithms. Canonical series solutions are computed via the SST (Saito-Sturmfels-Takayama) algorithm and independently recovered via Wasow's method for Fuchsian systems. Singular locus: $\\{x_1=0\\} \\cup \\{x_2=0\\} \\cup \\{x_3=0\\} \\cup \\{\\lambda=0\\}$ where $\\lambda = x_1^2+x_2^2+x_3^2-2(x_1 x_2+x_1 x_3+x_2 x_3)$.",
+      "epsOrders": "",
+      "method": [],
+      "dimScheme": "d=4",
+      "location": "Eq. (2.1), Fig. 1; analytic result Eq. (2.7); solutions Eqs. (2.11)-(2.14); conformal PDE system Eqs. (2.3)-(2.5)",
+      "familyName": "one-loop triangle (three-mass)"
+    }
+  ],
+  "Names": [
+    "Delta1_triangle",
+    "T (three-mass triangle)",
+    "Star_3 (triangle d=2)",
+    "one-loop triangle (three-mass)"
+  ],
+  "Source": [
+    "arXiv",
+    "Loopedia"
+  ],
+  "Loops": 1,
+  "NumPropagators": 3,
+  "edges": "{{{1, 2}, 0}, {{1, 3}, 0}, {{2, 3}, 0}}",
+  "nodes": "{{1, M[1]}, {2, M[2]}, {3, M[3]}}",
+  "CanonicalName": "3-mass triangle (c)",
+  "MassConfig": {
+    "numEdges": 3,
+    "numMassiveEdges": 0,
+    "numMasslessEdges": 3,
+    "distinctInternalMasses": 0,
+    "internalMassLabels": [],
+    "edgeMassPattern": "000",
+    "numExtLegs": 3,
+    "numOnshellMassiveExtLegs": 3,
+    "numMasslessExtLegs": 0,
+    "extLegSignature": "MMM"
+  },
+  "commonNames": [
+    "C₀"
+  ],
+  "Subsectors": [],
+  "ParentSectors": [
+    "e12|e3|e3|e|:000|00|10|2|",
+    "e12|e3|e3|e|:000|10|20|3|",
+    "e12|e3|e3|e|:100|20|30|4|"
+  ],
+  "Results": [
+    {
+      "resultCompressed": "1:eJzVVdEKwjAMrJ2K+Bf+iw8+KMgUfJ7QSmDaYif+vbVp2Wo3pxMV60u2lMslF67bZCtSPiSEqLEJK3YEpqZZkanEpEwqMA/CewjomzAHVfBRmS3zk+L4ogYmrGHPFFy01pyWiFkudoDV/ggpHCstK5fizI4egbSuyPbF883eHoCu2H1dBVosIGkDBeQNXo92IiyDB8mb5jW5NND2MbkyFrlJgHyqtIPI5FFvo4mS5q7uan4u/F9MpLvcmbhXG41hw9U6EHadi12NJRgs7NIcnFYNHjDW56oPH8E+bCF+wNOsAHHIcgdtdcYrQrv762tqB23IX1lA/oMF7JV/0wIyEgvYf61LMVwB7O8Isg==",
+      "resultTeX": "\\left(-\\frac{2 M_3^{-2} H\\left(0,\\frac{1}{W_1^-+1}\\,;1\\right)}{W_1^--W_1^+}+\\frac{2 M_3^{-2} H\\left(0,\\frac{1}{W_1^++1}\\,;1\\right)}{W_1^--W_1^+}+\\frac{M_3^{-2} H\\left(\\frac{1}{1-M_2^2 M_3^{-2}},\\frac{1}{W_1^-+1}\\,;1\\right)}{W_1^--W_1^+}-\\frac{M_3^{-2} H\\left(\\frac{1}{1-M_2^2 M_3^{-2}},\\frac{1}{W_1^++1}\\,;1\\right)}{W_1^--W_1^+}+\\frac{M_3^{-2} \\log ^2\\left(-W_1^-\\right)}{2 \\left(W_1^--W_1^+\\right)}-\\frac{M_3^{-2} \\log ^2\\left(-W_1^+\\right)}{2 \\left(W_1^--W_1^+\\right)}+\\frac{M_3^{-2} \\log \\left(M_1^2 M_2^{-2}\\right) \\log \\left(-W_1^-\\right)}{W_1^--W_1^+}-\\frac{M_3^{-2} \\log \\left(M_1^2 M_2^{-2}\\right) \\log \\left(-W_1^+\\right)}{W_1^--W_1^+}\\right)+O\\left(\\varepsilon^1\\right)",
+      "dimension": "4 - 2*eps",
+      "epsOrder": "0",
+      "epsOrders": "0",
+      "propExponents": [
+        1,
+        1,
+        1
+      ],
+      "propagators": [],
+      "numerators": [],
+      "internalMasses": [],
+      "externalMasses": [],
+      "substitutions": "",
+      "normalization": "Automatic",
+      "stVersion": "SubTropica v1.0.395",
+      "stCommand": "",
+      "contributor": "Sebastian Mizera",
+      "timestamp": "2026-04-19T22:14:48",
+      "verifiedAt": "2026-04-19T22:14:48",
+      "verified": true,
+      "method": "direct_integration",
+      "tools": [
+        "SubTropica"
+      ],
+      "methodLR": "Lungo",
+      "byteCount": 8480,
+      "symbolTeX": "\\varepsilon^{0}\\colon\\;-\\frac{M_3^{-2}}{W_1^--W_1^+}\\,(W_1^-+1 \\otimes W_1^-) + \\frac{M_3^{-2}}{W_1^--W_1^+}\\,(W_1^++1 \\otimes W_1^+) - \\frac{M_3^{-2}}{W_1^--W_1^+}\\,(M_3^2 W_1^-+M_2^2 \\otimes W_1^-) + \\frac{M_3^{-2}}{W_1^--W_1^+}\\,(M_3^2 W_1^-+M_2^2 \\otimes M_2^2) - \\frac{M_3^{-2}}{W_1^--W_1^+}\\,(M_3^2 W_1^-+M_2^2 \\otimes M_3^2) + \\frac{M_3^{-2}}{W_1^--W_1^+}\\,(M_3^2 W_1^++M_2^2 \\otimes W_1^+) - \\frac{M_3^{-2}}{W_1^--W_1^+}\\,(M_3^2 W_1^++M_2^2 \\otimes M_2^2) + \\frac{M_3^{-2}}{W_1^--W_1^+}\\,(M_3^2 W_1^++M_2^2 \\otimes M_3^2) + \\frac{M_3^{-2}}{W_1^--W_1^+}\\,(M_1^2 \\otimes W_1^-) + \\frac{M_3^{-2}}{W_1^--W_1^+}\\,(W_1^- \\otimes M_1^2) - \\frac{M_3^{-2}}{W_1^--W_1^+}\\,(W_1^- \\otimes M_2^2) + \\frac{M_3^{-2}}{W_1^--W_1^+}\\,(W_1^- \\otimes W_1^-) - \\frac{M_3^{-2}}{W_1^--W_1^+}\\,(M_1^2 \\otimes W_1^+) - \\frac{M_3^{-2}}{W_1^--W_1^+}\\,(W_1^+ \\otimes M_1^2) + \\frac{M_3^{-2}}{W_1^--W_1^+}\\,(W_1^+ \\otimes M_2^2) - \\frac{M_3^{-2}}{W_1^--W_1^+}\\,(W_1^+ \\otimes W_1^+)",
+      "alphabet": [
+        "W_1^-+1",
+        "W_1^-",
+        "W_1^++1",
+        "W_1^+",
+        "M_3^2 W_1^-+M_2^2",
+        "M_2^2",
+        "M_3^2",
+        "M_3^2 W_1^++M_2^2",
+        "M_1^2"
+      ],
+      "symbolWeight": 2,
+      "symbolTerms": 16,
+      "normalizedSymbolTeX": "\\varepsilon^{0}&\\colon\\;\\frac{M_3^{-2}}{W_1^--W_1^+}\\!\\left[-(W_1 \\otimes W^-_1) + (W_2 \\otimes W^+_1) - (W_3 \\otimes W^-_1) + (W_3 \\otimes W_4) - (W_3 \\otimes W_5) + (W_6 \\otimes W^+_1) - (W_6 \\otimes W_4) + (W_6 \\otimes W_5) - (W^-_1 \\otimes W_4) + (W^-_1 \\otimes W^-_1) + (W^+_1 \\otimes W_4) - (W^+_1 \\otimes W^+_1)\\right]",
+      "wDefinitions": [
+        {
+          "label": "W_1",
+          "kind": "rational",
+          "pairIndex": null,
+          "definition": "\\frac{1+W_1^-}{M_1^2}",
+          "originalLetter": "W_1^-+1"
+        },
+        {
+          "label": "W^-_1",
+          "kind": "algebraic",
+          "pairIndex": 1,
+          "definition": "\\frac{1}{2} M_3^{-2} \\left(M_1^2-M_2^2-M_3^2-\\sqrt{\\left(-M_1^2+M_2^2+M_3^2\\right)^2-4 M_2^2 M_3^2}\\right)",
+          "originalLetter": "W_1^-",
+          "polynomialTeX": "x_{2}^2 M_3^2-x_{2} M_1^2+x_{2} M_2^2+x_{2} M_3^2+M_2^2",
+          "discriminantTeX": "\\left(-M_1^2+M_2^2+M_3^2\\right)^2-4 M_2^2 M_3^2"
+        },
+        {
+          "label": "W_2",
+          "kind": "rational",
+          "pairIndex": null,
+          "definition": "\\frac{1+W_1^+}{M_1^2}",
+          "originalLetter": "W_1^++1"
+        },
+        {
+          "label": "W^+_1",
+          "kind": "algebraic",
+          "pairIndex": 1,
+          "definition": "\\frac{1}{2} M_3^{-2} \\left(M_1^2-M_2^2-M_3^2+\\sqrt{\\left(-M_1^2+M_2^2+M_3^2\\right)^2-4 M_2^2 M_3^2}\\right)",
+          "originalLetter": "W_1^+",
+          "polynomialTeX": "x_{2}^2 M_3^2-x_{2} M_1^2+x_{2} M_2^2+x_{2} M_3^2+M_2^2",
+          "discriminantTeX": "\\left(-M_1^2+M_2^2+M_3^2\\right)^2-4 M_2^2 M_3^2"
+        },
+        {
+          "label": "W_3",
+          "kind": "rational",
+          "pairIndex": null,
+          "definition": "\\frac{M_2^2+W_1^- M_3^2}{M_1^2}",
+          "originalLetter": "M_3^2 W_1^-+M_2^2"
+        },
+        {
+          "label": "W_4",
+          "kind": "rational",
+          "pairIndex": null,
+          "definition": "\\frac{M_2^2}{M_1^2}",
+          "originalLetter": "M_2^2"
+        },
+        {
+          "label": "W_5",
+          "kind": "rational",
+          "pairIndex": null,
+          "definition": "\\frac{M_3^2}{M_1^2}",
+          "originalLetter": "M_3^2"
+        },
+        {
+          "label": "W_6",
+          "kind": "rational",
+          "pairIndex": null,
+          "definition": "\\frac{M_2^2+W_1^+ M_3^2}{M_1^2}",
+          "originalLetter": "M_3^2 W_1^++M_2^2"
+        }
+      ],
+      "normalizedAlphabet": [
+        "W_1",
+        "W^-_1",
+        "W_2",
+        "W^+_1",
+        "W_3",
+        "W_4",
+        "W_5",
+        "W_6"
+      ],
+      "symbolScale": "M_1^2",
+      "normalizedSymbolTerms": 12,
+      "legOrder": [],
+      "findRoots": true,
+      "algebraicLetters": [
+        {
+          "index": 1,
+          "variable": "x2",
+          "polynomial": "-(x2*MM[1]) + MM[2] + x2*MM[2] + x2*MM[3] + x2^2*MM[3]",
+          "LC": "MM[3]",
+          "sum": "(MM[1] - MM[2] - MM[3])/MM[3]",
+          "product": "MM[2]/MM[3]",
+          "discriminant": "-4*MM[2]*MM[3] + (-MM[1] + MM[2] + MM[3])^2",
+          "minusRoot": "(MM[1] - MM[2] - MM[3] - Sqrt[-4*MM[2]*MM[3] + (-MM[1] + MM[2] + MM[3])^2])/(2*MM[3])",
+          "plusRoot": "(MM[1] - MM[2] - MM[3] + Sqrt[-4*MM[2]*MM[3] + (-MM[1] + MM[2] + MM[3])^2])/(2*MM[3])",
+          "polynomialTeX": "x_{2}^2 M_3^2-x_{2} M_1^2+x_{2} M_2^2+x_{2} M_3^2+M_2^2",
+          "discriminantTeX": "\\left(-M_1^2+M_2^2+M_3^2\\right)^2-4 M_2^2 M_3^2",
+          "minusRootTeX": "\\frac{1}{2} M_3^{-2} \\left(M_1^2-M_2^2-M_3^2-\\sqrt{\\left(-M_1^2+M_2^2+M_3^2\\right)^2-4 M_2^2 M_3^2}\\right)",
+          "plusRootTeX": "\\frac{1}{2} M_3^{-2} \\left(M_1^2-M_2^2-M_3^2+\\sqrt{\\left(-M_1^2+M_2^2+M_3^2\\right)^2-4 M_2^2 M_3^2}\\right)"
+        }
+      ]
+    },
+    {
+      "resultCompressed": "1:eJzVVEsKwjAQ7U8Rb+FdXLjooqgXaCEpgUqkUxF6djHm0zZpUqqgNLiZdKYz8958kl1Bj3gdBAFsuTihmiDY500OMVfRFQg/AhwKh4SLlECDN72WVTfAwhFWXJzJBQERdhz1tozeUa3UISAaB0hVALT2nydjDIStLQj/ZDrPoaIlCQeknpkiOwduBGkckVsxUDBWRY8B+r8qMnFil4evkj6oJp6oRoK7QD+cc+Rxcz03ZWZV3mb9tis6rXxlBHxKy25OcibJcsvrUhiZLCpWe/VILHrm0k2EKAJ2jEkrcQtaogO+yh1NwXY3qCy7kZ2fOOSzLK+TFC/aJNSs",
+      "resultTeX": "\\left(\\frac{4 H\\left(0,\\frac{1}{1-z}\\,;1\\right)}{2 z-2 \\text{zb}}-\\frac{4 H\\left(0,\\frac{1}{1-\\text{zb}}\\,;1\\right)}{2 z-2 \\text{zb}}-\\frac{2 H\\left(\\frac{1}{1-z \\text{zb}},\\frac{1}{1-z}\\,;1\\right)}{2 z-2 \\text{zb}}+\\frac{2 H\\left(\\frac{1}{1-z \\text{zb}},\\frac{1}{1-\\text{zb}}\\,;1\\right)}{2 z-2 \\text{zb}}-\\frac{\\log ^2(z)}{2 z-2 \\text{zb}}+\\frac{\\log ^2(\\text{zb})}{2 z-2 \\text{zb}}-\\frac{2 \\log (z) \\log \\left(\\frac{(z-1) (\\text{zb}-1)}{z \\text{zb}}\\right)}{2 z-2 \\text{zb}}+\\frac{2 \\log (\\text{zb}) \\log \\left(\\frac{(z-1) (\\text{zb}-1)}{z \\text{zb}}\\right)}{2 z-2 \\text{zb}}\\right)+O\\left(\\varepsilon^1\\right)",
+      "dimension": "4 - 2*eps",
+      "epsOrder": 0,
+      "propExponents": [
+        1,
+        1,
+        1
+      ],
+      "propagators": [],
+      "numerators": [],
+      "internalMasses": [],
+      "externalMasses": [],
+      "substitutions": "{MM1 -> (1 - z)*(1 - zb), MM2 -> z*zb, MM3 -> 1}",
+      "normalization": "Automatic",
+      "stVersion": "SubTropica v1.0.379",
+      "stCommand": "STIntegrate[{{{{1, 2}, 0}, {{1, 3}, 0}, {{2, 3}, 0}}, {{1, Subscript[M, 1]}, {2, Subscript[M, 2]}, {3, Subscript[M, 3]}}}, Dimension -> \"4 - 2*eps\", Order -> 0, Substitutions -> {MM1 -> (1 - z)*(1 - zb), MM2 -> z*zb, MM3 -> 1}]",
+      "contributor": "SM",
+      "timestamp": "2026-04-19T18:59:37",
+      "byteCount": 6120,
+      "symbolTeX": "\\varepsilon^{0}\\colon\\;\\frac{1}{z-\\text{zb}}\\,(z-1 \\otimes z) + \\frac{1}{\\text{zb}-z}\\,(\\text{zb}-1 \\otimes \\text{zb}) + \\frac{1}{\\text{zb}-z}\\,(\\text{zb}-1 \\otimes z) + \\frac{1}{z-\\text{zb}}\\,(z-1 \\otimes \\text{zb}) + \\frac{1}{\\text{zb}-z}\\,(z \\otimes z-1) + \\frac{1}{\\text{zb}-z}\\,(z \\otimes \\text{zb}-1) + \\frac{1}{z-\\text{zb}}\\,(\\text{zb} \\otimes z-1) + \\frac{1}{z-\\text{zb}}\\,(\\text{zb} \\otimes \\text{zb}-1)",
+      "alphabet": [
+        "z-1",
+        "z",
+        "\\text{zb}-1",
+        "\\text{zb}"
+      ],
+      "symbolWeight": 2,
+      "symbolTerms": 8,
+      "legOrder": [
+        1,
+        2,
+        3
+      ]
+    }
+  ]
 }

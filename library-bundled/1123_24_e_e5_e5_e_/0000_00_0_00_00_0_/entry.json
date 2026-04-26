@@ -5,7 +5,8 @@
   "EpsilonOrder": "6",
   "References": [
     "arXiv:2412.06972 (JHEP 02 (088), 2025)",
-    "arXiv:2512.02999 (Missing[\"KeyAbsent\", \"journal\"] Missing[\"KeyAbsent\", \"volume\"] (Missing[\"KeyAbsent\", \"pages\"]), Missing[\"KeyAbsent\", \"year\"])"
+    "arXiv:2512.02999 (Missing[\"KeyAbsent\", \"journal\"] Missing[\"KeyAbsent\", \"volume\"] (Missing[\"KeyAbsent\", \"pages\"]), Missing[\"KeyAbsent\", \"year\"])",
+    "arXiv:2512.02999"
   ],
   "Records": [
     {
@@ -68,6 +69,48 @@
       "computationLevel": "full",
       "location": "Table 1, Fig. 1a",
       "recordId": "bx_938bc0e45357",
+      "verified": false,
+      "verifiedAt": ""
+    },
+    {
+      "reference": "arXiv:2412.06972 (JHEP 02 (088), 2025)",
+      "authors": "Canko, Dhimiter, Pozzoli, Mattia",
+      "description": "Three-loop reducible ladder-box family RL1 for production of two off-shell vector bosons with different masses m3, m4. 27 masters in canonical dlog basis, solved analytically through weight 6 via DE in rationalized variables (x,y,z). Cross-checked semi-numerically via DiffExp. Called `RL1` in the paper.",
+      "epsOrders": "6",
+      "familyName": "2-off-shell-mass three-loop 4-point reducible ladder-box (8 propagators) - family RL1",
+      "method": "DE, IBP, series_expansion",
+      "tools": [],
+      "ancillaryFiles": true,
+      "doi": "10.1007/JHEP02(2025)088",
+      "texkey": "Canko:2024ara",
+      "masterCount": 27,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "full",
+      "location": "Section 2, Fig. RL1, top-sector (1,1,1,1,0,0,0,0,1,0,0,1,1,0,1)",
+      "recordId": "bx_f876134c0a2a",
+      "verified": false,
+      "verifiedAt": ""
+    },
+    {
+      "reference": "arXiv:2512.02999",
+      "authors": "",
+      "description": "Planar 3-loop family RL2 reducible ladder-box for N3LO QCD VV production. 25 MIs (different mass). Massless internal, 2 massive external legs. Canonical DEs + generalized power series.",
+      "epsOrders": "",
+      "familyName": "Massless 3-loop 4-point RL2 reducible ladder-box (diboson production)",
+      "method": "IBP, DE, series_expansion",
+      "tools": [
+        "FiniteFlow",
+        "AMFlow",
+        "DiffExp"
+      ],
+      "ancillaryFiles": false,
+      "doi": "",
+      "texkey": "",
+      "masterCount": 25,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "full",
+      "location": "Table 1, Fig. 1b",
+      "recordId": "bx_b0311ae8e758",
       "verified": false,
       "verifiedAt": ""
     }

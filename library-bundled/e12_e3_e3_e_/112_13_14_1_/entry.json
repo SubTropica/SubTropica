@@ -6,7 +6,8 @@
   "References": [
     "arXiv:1005.2076 (Nucl.Phys.B 844 (199), 2011)",
     "arXiv:2501.09454 (JHEP 04 (116), 2025)",
-    "arXiv:2512.14363"
+    "arXiv:2512.14363",
+    "arXiv:1911.01540 (Commun.Num.Theor.Phys. 15 (221), 2021)"
   ],
   "Records": [
     {
@@ -46,12 +47,51 @@
       "recordId": "bx_84884d9cee9e",
       "verified": false,
       "verifiedAt": ""
+    },
+    {
+      "reference": "arXiv:1005.2076 (Nucl.Phys.B 844 (199), 2011)",
+      "authors": "Denner, A., Dittmaier, S.",
+      "description": "The general scalar one-loop 4-point (box) integral D0 with four arbitrary complex internal masses and general external momenta in D=4-2*eps dimensions. The paper provides closed-form analytic results in terms of dilogarithms and logarithms for all kinematic configurations, including regular and singular (IR-divergent) cases.",
+      "epsOrders": "0",
+      "familyName": "D0",
+      "method": "direct_integration",
+      "tools": [],
+      "ancillaryFiles": false,
+      "doi": "10.1016/j.nuclphysb.2010.11.002",
+      "texkey": "Denner:2010tr",
+      "masterCount": 1,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "full",
+      "location": "Eq. (2.1), Eq. (2.2), Eq. (3.1)",
+      "recordId": "bx_ac8094dfcbc5",
+      "verified": false,
+      "verifiedAt": ""
+    },
+    {
+      "reference": "arXiv:1911.01540 (Commun.Num.Theor.Phys. 15 (221), 2021)",
+      "authors": "Tapušković, Matija",
+      "description": "One-loop four-edge cycle (box) graph with all four internal masses m_1,...,m_4 non-vanishing and all four external momenta q_1,...,q_4 generic (non-vanishing). Symanzik polynomials given in Eq. labeled `Symanzik-four-edge`: Psi_G = sum alpha_i, Xi_G as quadratic in alpha with mass and momentum dependence. Theorem 1 of the paper computes the motivic Galois coaction Delta I_G^m on the associated motivic Feynman amplitude in d=4 dimensions, expressing it in terms of motivic periods of bubble subquotients (in d=2) and de Rham logarithms log^dr(f_{j,k}) with arguments built from the matrix C of Xi_G. The Feynman integral evaluates to dilogarithms (weight 2). Section 3 of the paper checks compatibility with the explicit dilogarithmic expression of Olesen-Williams. Reduction lemma (Section 2) shows any one-loop graph with N>=5 edges in d=4 is a k_S-linear combination of motivic periods of 4-edge quotients of G.",
+      "epsOrders": "",
+      "familyName": "all-mass one-loop box (generic kinematics)",
+      "method": "direct_integration",
+      "tools": [],
+      "ancillaryFiles": false,
+      "doi": "10.4310/CNTP.2021.v15.n2.a1",
+      "texkey": "Tapuskovic:2019cpr",
+      "masterCount": 0,
+      "dimScheme": "d=4",
+      "computationLevel": "full",
+      "location": "Section 1 (Theorem 1, Eq. after first-integral); Section 3 (Eq. (Symanzik-four-edge), proof of Theorem 1); box-graph figure",
+      "recordId": "bx_fc8749ee7a58",
+      "verified": false,
+      "verifiedAt": ""
     }
   ],
   "Names": [
     "D0",
     "4-mass one-loop 4-point box (Coulomb branch of N=4 sYM)",
-    "fully massive 1-loop box (10 scales, higher eps)"
+    "fully massive 1-loop box (10 scales, higher eps)",
+    "all-mass one-loop box (generic kinematics)"
   ],
   "Source": [
     "arXiv"
@@ -61,7 +101,7 @@
   "Results": [],
   "edges": "{{{1, 2}, m[1]}, {{1, 3}, m[2]}, {{2, 4}, m[3]}, {{3, 4}, m[4]}}",
   "nodes": "{{1, m[1]}, {2, m[1]}, {4, m[1]}, {3, m[1]}}",
-  "CanonicalName": "4-mass box (d)",
+  "CanonicalName": "4-mass box",
   "MassConfig": {
     "numEdges": 4,
     "numMassiveEdges": 4,

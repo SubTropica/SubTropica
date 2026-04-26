@@ -12,7 +12,14 @@
     "arXiv:2411.16941 (Missing[\"KeyAbsent\", \"journal\"] Missing[\"KeyAbsent\", \"volume\"] (Missing[\"KeyAbsent\", \"pages\"]), Missing[\"KeyAbsent\", \"year\"])",
     "arXiv:2207.07843 (Missing[\"KeyAbsent\", \"journal\"] Missing[\"KeyAbsent\", \"volume\"] (Missing[\"KeyAbsent\", \"pages\"]), Missing[\"KeyAbsent\", \"year\"])",
     "arXiv:2408.14304 (Missing[\"KeyAbsent\", \"journal\"] Missing[\"KeyAbsent\", \"volume\"] (Missing[\"KeyAbsent\", \"pages\"]), Missing[\"KeyAbsent\", \"year\"])",
-    "arXiv:2507.17815 (Missing[\"KeyAbsent\", \"journal\"] Missing[\"KeyAbsent\", \"volume\"] (Missing[\"KeyAbsent\", \"pages\"]), Missing[\"KeyAbsent\", \"year\"])"
+    "arXiv:2507.17815 (Missing[\"KeyAbsent\", \"journal\"] Missing[\"KeyAbsent\", \"volume\"] (Missing[\"KeyAbsent\", \"pages\"]), Missing[\"KeyAbsent\", \"year\"])",
+    "arXiv:hep-ph/0106243",
+    "arXiv:2411.16941",
+    "arXiv:2207.07843",
+    "arXiv:2408.14304",
+    "arXiv:2507.17815",
+    "arXiv:1004.4613 (Phys.Rev.D 82 (), 2010)",
+    "arXiv:1911.01540 (Commun.Num.Theor.Phys. 15 (221), 2021)"
   ],
   "Records": [
     {
@@ -214,6 +221,108 @@
       "recordId": "bx_b93866f2bb02",
       "verified": false,
       "verifiedAt": ""
+    },
+    {
+      "reference": "arXiv:1401.4361 (JHEP 03 (071), 2014)",
+      "authors": "Panzer, Erik",
+      "description": "One-loop massless triangle with three off-shell legs. Leading order is the Bloch-Wigner dilogarithm.",
+      "epsOrders": "all_orders",
+      "familyName": "Delta1_triangle",
+      "method": "direct_integration",
+      "tools": [
+        "HyperInt"
+      ],
+      "ancillaryFiles": false,
+      "doi": "10.1007/JHEP03(2014)071",
+      "texkey": "Panzer:2014gra",
+      "masterCount": 0,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "full",
+      "location": "",
+      "recordId": "bx_d794cd5967ca",
+      "verified": false,
+      "verifiedAt": ""
+    },
+    {
+      "reference": "arXiv:1401.3546 (JHEP 10 (125), 2014)",
+      "authors": "Abreu, Samuel, Britto, Ruth, Duhr, Claude, Gardi, Einan",
+      "description": "One-loop triangle with massless propagators and three nonzero external masses, finite in D=4. Weight-2 result in z,zbar variables. Single and double cuts computed, integral reconstructed from cuts via dispersion.",
+      "epsOrders": "0",
+      "familyName": "T (three-mass triangle)",
+      "method": "direct_integration, unitarity, dispersion",
+      "tools": [],
+      "ancillaryFiles": false,
+      "doi": "10.1007/JHEP10(2014)125",
+      "texkey": "Abreu:2014cla",
+      "masterCount": 1,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "full",
+      "location": "Section 4.1, eqs.(4.1)-(4.11)",
+      "recordId": "bx_53cae8948163",
+      "verified": false,
+      "verifiedAt": ""
+    },
+    {
+      "reference": "arXiv:2309.12772 (JHEP 02 (179), 2024)",
+      "authors": "Duhr, Claude, Porkert, Franziska",
+      "description": "One-loop massless triangle in d=2 with generic propagator powers. Result: sv Gauss 2F1.",
+      "epsOrders": "all_orders",
+      "familyName": "Star_3 (triangle d=2)",
+      "method": "direct_integration, intersection",
+      "tools": [],
+      "ancillaryFiles": false,
+      "doi": "10.1007/JHEP02(2024)179",
+      "texkey": "Duhr:2023bku",
+      "masterCount": 1,
+      "dimScheme": "d=2",
+      "computationLevel": "full",
+      "location": "Section 5.3",
+      "recordId": "bx_bd8f208336aa",
+      "verified": false,
+      "verifiedAt": ""
+    },
+    {
+      "reference": "arXiv:1004.4613 (Phys.Rev.D 82 (), 2010)",
+      "authors": "Almeida, Leandro G., Sturm, Christian",
+      "description": "One-loop massless triangle integral at the symmetric subtraction point p1^2=p2^2=p3^2=-mu^2 with p1+p2+p3=0. Called M^{(1)}_{3,1} in the paper. Three massless propagators D_1=l1^2, D_2=(l1+q3)^2, D_3=(l1-q2)^2. Single master integral; analytic result expanded through O(eps^2) using HypExp/HPL, expressed in terms of Cl_n(pi/3), psi'(1/3), s_n(pi/k), pi powers and zeta values; closed form to all orders in eps available from Davydychev hypergeometric form (Davydychev:1992xr). Used as a building block for two-loop factorized integrals M^{(2)}_{4,2}, M^{(2)}_{4,3} and combined with the bubble M^{(1)}_{2,1} to form the factorized M^{(2)}_{5,1}, M^{(2)}_{6,1} sub-product structures.",
+      "epsOrders": "2",
+      "familyName": "1-loop massless 3-point at symmetric point",
+      "method": "IBP, direct_integration",
+      "tools": [
+        "FORM",
+        "FERMAT",
+        "HypExp",
+        "HPL"
+      ],
+      "ancillaryFiles": false,
+      "doi": "10.1103/PhysRevD.82.054017",
+      "texkey": "Almeida:2010ns",
+      "masterCount": 1,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "full",
+      "location": "Section III, master integral M^{(1)}_{3,1} (Eq. defining M^{(1)}_{3,1}); explicit denominators D_1, D_2, D_3 in the denominator list following Eq. for the M-integrals; result expansion Eq. (eq:M131).",
+      "recordId": "bx_7a7671df5f3c",
+      "verified": false,
+      "verifiedAt": ""
+    },
+    {
+      "reference": "arXiv:1911.01540 (Commun.Num.Theor.Phys. 15 (221), 2021)",
+      "authors": "Tapušković, Matija",
+      "description": "One-loop three-edge cycle (triangle) graph with all three internal masses vanishing and all three external momenta q_1,q_2,q_3 non-vanishing (off-shell). Theorem 2 of the paper computes the motivic Galois coaction in d=4 dimensions: Delta I_G^m = I_G^m tensor (L^dr)^2 + (a_1 log^m(q_2^2/q_3^2) + a_2 log^m(q_1^2/q_3^2)) tensor (log^dr(f_1) + log^dr(f_2)) L^dr + 1 tensor I_G^dr, where f_1, f_2 are explicit functions of q_1^2, q_2^2, q_3^2 involving the Kallen square root. The result lives at weight 2 (dilog), but motivic logarithms in the coaction cannot be straightforwardly identified with motivic periods of subquotient graphs since the contracted bubble subgraphs are divergent; the paper resolves this via blow-ups / affine motives.",
+      "epsOrders": "",
+      "familyName": "fully off-shell massless one-loop triangle",
+      "method": "direct_integration",
+      "tools": [],
+      "ancillaryFiles": false,
+      "doi": "10.4310/CNTP.2021.v15.n2.a1",
+      "texkey": "Tapuskovic:2019cpr",
+      "masterCount": 0,
+      "dimScheme": "d=4",
+      "computationLevel": "full",
+      "location": "Section 1 (Theorem 2); Section 4.2 (triangle with all internal masses vanishing)",
+      "recordId": "bx_0a38333274b1",
+      "verified": false,
+      "verifiedAt": ""
     }
   ],
   "Names": [
@@ -225,7 +334,9 @@
     "3-mass one-loop triangle (off-shell 3-particle form factor)",
     "off-shell massless 1-loop triangle (3 propagators)",
     "off-shell massless 1-loop triangle",
-    "1-loop massless three-mass triangle"
+    "1-loop massless three-mass triangle",
+    "1-loop massless 3-point at symmetric point",
+    "fully off-shell massless one-loop triangle"
   ],
   "Source": [
     "arXiv"
@@ -273,7 +384,7 @@
   ],
   "edges": "{{{1, 2}, 0}, {{1, 3}, 0}, {{2, 3}, 0}}",
   "nodes": "{{1, M}, {2, M}, {3, M}}",
-  "CanonicalName": "3-mass triangle (b)",
+  "CanonicalName": "3-mass triangle",
   "MassConfig": {
     "numEdges": 3,
     "numMassiveEdges": 0,

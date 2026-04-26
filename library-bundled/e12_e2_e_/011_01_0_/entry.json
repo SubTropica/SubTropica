@@ -1,108 +1,108 @@
 {
-	"CNickelIndex": "e12|e2|e|:011|01|0|",
-	"MassScales": 1,
-	"FunctionClass": "MPL",
-	"EpsilonOrder": "2",
-	"References": [
-		"arXiv:2001.06295"
-	],
-	"Records": [
-		{
-			"reference": "arXiv:2001.06295",
-			"authors": [
-				{
-					"full_name": "Anastasiou, Charalampos",
-					"inspire_id": 1018459
-				},
-				{
-					"full_name": "Deutschmann, Nicolas",
-					"inspire_id": 1270439
-				},
-				{
-					"full_name": "Schweitzer, Armin",
-					"inspire_id": 1708824
-				}
-			],
-			"description": "One-loop triangle family with three massive (top) internal lines parametrizing the LO ggH form factor. Three MIs: $f_1=\\varepsilon i_{0,0,2}$, $f_2=\\varepsilon (x^2-1) m_t^2/x \\cdot i_{0,1,2}$, $f_3=-\\varepsilon^2 (x-1)^2 m_t^2/x \\cdot i_{1,1,1}$. Computed via direct Feynman parameter integration with HyperInt to $\\mathcal{O}(\\varepsilon^2)$.",
-			"epsOrders": "2",
-			"familyName": "Family i: one-loop top triangle for gg -> H LO form factor",
-			"method": "Feynman-parameter direct integration",
-			"tools": [
-				"HyperInt"
-			],
-			"ancillaryFiles": true,
-			"doi": "",
-			"texkey": "",
-			"masterCount": 3,
-			"dimScheme": "",
-			"computationLevel": "full",
-			"location": "Sec. 4.1 (subsec:ggH_MIs_LO), Table/fig. completed_families_LO, scalarFamilies_LO.tex",
-			"recordId": "bx_fed2e2635615",
-			"verified": false,
-			"verifiedAt": ""
-		}
-	],
-	"Names": [
-		"Family i: one-loop top triangle for gg -> H LO form factor"
-	],
-	"Source": [
-		"arXiv"
-	],
-	"Loops": 1,
-	"NumPropagators": 3,
-	"Results": [
-		{
-			"resultCompressed": "1:eJxTTMoPSmNjYGAo5gISwalFmanFLoklicXMQG5qQXEmkGJIYwQpYAESPpnFJWlMIB4rkAjJzE0thnA5gERQYklmfl5iTuZ/IMgECSOUBuSXpxYVg7i5uRB5kMGZjDACAELnIGE=",
-			"resultTeX": "-\\frac{1}{2 m^2}+O\\left(\\varepsilon^1\\right)",
-			"dimension": "4 - 2*eps",
-			"epsOrder": "0",
-			"epsOrders": "0",
-			"propExponents": [
-				1,
-				1,
-				1
-			],
-			"propagators": [],
-			"numerators": [],
-			"internalMasses": [],
-			"externalMasses": [],
-			"substitutions": "",
-			"normalization": "Automatic",
-			"stVersion": "SubTropica v1.0.293",
-			"stCommand": "",
-			"contributor": "Sebastian Mizera",
-			"timestamp": "2026-04-15T15:52:25",
-			"verifiedAt": "2026-04-15T15:52:25",
-			"verified": true,
-			"method": "direct_integration",
-			"tools": [
-				"SubTropica"
-			],
-			"methodLR": "Lungo",
-			"findRoots": false,
-			"byteCount": 384
-		}
-	],
-	"edges": "{{{1, 2}, m}, {{1, 3}, m}, {{2, 3}, m}}",
-	"nodes": "{{1, 0}, {2, 0}, {3, 0}}",
-	"CanonicalName": "Equal-mass triangle (a)",
-	"MassConfig": {
-		"numEdges": 3,
-		"numMassiveEdges": 3,
-		"numMasslessEdges": 0,
-		"distinctInternalMasses": 1,
-		"internalMassLabels": [
-			"m"
-		],
-		"edgeMassPattern": "111",
-		"numExtLegs": 3,
-		"numOnshellMassiveExtLegs": 0,
-		"numMasslessExtLegs": 3,
-		"extLegSignature": "000"
-	},
-	"commonNames": [
-		"C₀(m)"
-	],
-	"Subsectors": [],
-	"ParentSectors": []
+  "CNickelIndex": "e12|e2|e|:011|01|0|",
+  "MassScales": 1,
+  "FunctionClass": "MPL",
+  "EpsilonOrder": "2",
+  "References": [
+    "arXiv:2001.06295"
+  ],
+  "Records": [
+    {
+      "reference": "arXiv:2001.06295",
+      "authors": [
+        {
+          "full_name": "Anastasiou, Charalampos",
+          "inspire_id": 1018459
+        },
+        {
+          "full_name": "Deutschmann, Nicolas",
+          "inspire_id": 1270439
+        },
+        {
+          "full_name": "Schweitzer, Armin",
+          "inspire_id": 1708824
+        }
+      ],
+      "description": "One-loop triangle family with three massive (top) internal lines parametrizing the LO ggH form factor. Three MIs: $f_1=\\varepsilon i_{0,0,2}$, $f_2=\\varepsilon (x^2-1) m_t^2/x \\cdot i_{0,1,2}$, $f_3=-\\varepsilon^2 (x-1)^2 m_t^2/x \\cdot i_{1,1,1}$. Computed via direct Feynman parameter integration with HyperInt to $\\mathcal{O}(\\varepsilon^2)$.",
+      "epsOrders": "2",
+      "familyName": "Family i: one-loop top triangle for gg -> H LO form factor",
+      "method": "Feynman-parameter direct integration",
+      "tools": [
+        "HyperInt"
+      ],
+      "ancillaryFiles": true,
+      "doi": "",
+      "texkey": "",
+      "masterCount": 3,
+      "dimScheme": "",
+      "computationLevel": "full",
+      "location": "Sec. 4.1 (subsec:ggH_MIs_LO), Table/fig. completed_families_LO, scalarFamilies_LO.tex",
+      "recordId": "bx_fed2e2635615",
+      "verified": false,
+      "verifiedAt": ""
+    }
+  ],
+  "Names": [
+    "Family i: one-loop top triangle for gg -> H LO form factor"
+  ],
+  "Source": [
+    "arXiv"
+  ],
+  "Loops": 1,
+  "NumPropagators": 3,
+  "Results": [
+    {
+      "resultCompressed": "1:eJxTTMoPSmNjYGAo5gISwalFmanFLoklicXMQG5qQXEmkGJIYwQpYAESPpnFJWlMIB4rkAjJzE0thnA5gERQYklmfl5iTuZ/IMgECSOUBuSXpxYVg7i5uRB5kMGZjDACAELnIGE=",
+      "resultTeX": "-\\frac{1}{2 m^2}+O\\left(\\varepsilon^1\\right)",
+      "dimension": "4 - 2*eps",
+      "epsOrder": "0",
+      "epsOrders": "0",
+      "propExponents": [
+        1,
+        1,
+        1
+      ],
+      "propagators": [],
+      "numerators": [],
+      "internalMasses": [],
+      "externalMasses": [],
+      "substitutions": "",
+      "normalization": "Automatic",
+      "stVersion": "SubTropica v1.0.293",
+      "stCommand": "",
+      "contributor": "Sebastian Mizera",
+      "timestamp": "2026-04-15T15:52:25",
+      "verifiedAt": "2026-04-15T15:52:25",
+      "verified": true,
+      "method": "direct_integration",
+      "tools": [
+        "SubTropica"
+      ],
+      "methodLR": "Lungo",
+      "findRoots": false,
+      "byteCount": 384
+    }
+  ],
+  "edges": "{{{1, 2}, m}, {{1, 3}, m}, {{2, 3}, m}}",
+  "nodes": "{{1, 0}, {2, 0}, {3, 0}}",
+  "CanonicalName": "Equal-mass triangle",
+  "MassConfig": {
+    "numEdges": 3,
+    "numMassiveEdges": 3,
+    "numMasslessEdges": 0,
+    "distinctInternalMasses": 1,
+    "internalMassLabels": [
+      "m"
+    ],
+    "edgeMassPattern": "111",
+    "numExtLegs": 3,
+    "numOnshellMassiveExtLegs": 0,
+    "numMasslessExtLegs": 3,
+    "extLegSignature": "000"
+  },
+  "commonNames": [
+    "C₀(m)"
+  ],
+  "Subsectors": [],
+  "ParentSectors": []
 }
