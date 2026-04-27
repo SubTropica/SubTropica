@@ -30,7 +30,7 @@ The library currently contains:
 |                         |       |
 | :---------------------- | ----: |
 | **Topologies**          |   329 |
-| **Mass configurations** | 732 |
+| **Mass configurations** | 737 |
 | **Literature records**  | 1,511 |
 | **Papers scanned**      | 1,283 |
 | **Computed results**    |   190 |
