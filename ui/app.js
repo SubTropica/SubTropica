@@ -1303,8 +1303,20 @@ const COMPUTE_CONFIG_DEFAULTS = {
   stopAt: 'Automatic',
   startAt: 'None',
   setupInParallel: 'Automatic',
-  findRoots: false,
-  methodLR: 'Espresso',
+  // B13: default ON.  Without FindRoots, integrals whose F polynomial
+  // has degree-2 factors in some variable (e.g. the 1L equal-mass
+  // bubble) are not linearly reducible at any gauge and STEvaluate
+  // returns nolr.  Default ON matches the kernel-side JSON fallback
+  // (SubTropica.wl: toBool["findRoots", True]) and avoids surprising
+  // "not linearly reducible" failures on cases that look like they
+  // ought to work.  Users who want the cheaper non-FindRoots path can
+  // uncheck.
+  findRoots: true,
+  // B13: same kind of mismatch.  STIntegrate's MethodLR default is
+  // "Lungo" (and the kernel JSON parser falls back to "Lungo" when
+  // missing); the UI was hardcoding "Espresso", which is the cheaper
+  // path that doesn't handle as many topologies.
+  methodLR: 'Lungo',
 };
 
 const computeConfig = { ...COMPUTE_CONFIG_DEFAULTS };
@@ -2781,17 +2793,37 @@ let _massPickerJustOpened = false;
  * Get the LaTeX display label for a mass value.
  * User-typed labels like m_H become m_{H}, M_W becomes M_{W}, etc.
  */
-// Kind of a mass slot: 'm' for internal-propagator masses (default on
-// interior edges) or 'M' for external-leg masses (square roots of squared
-// external momenta). Read from edge.massKind if the user set it explicitly;
-// otherwise inferred from edge topology — a degree-1-endpoint edge is an
-// external leg and defaults to 'M'. Returns null for the massless case.
+// Classify each mass digit on the canvas as internal-only, external-only,
+// or shared. Mirrors the conventions in notes/conventions.md §6.7 ("the
+// internal symbol takes precedence"): a digit that appears on at least one
+// propagator gets rendered as 'm'-kind, even if it also appears on a leg.
+// Only digits that live exclusively on legs become 'M'-kind. Used by
+// getEdgeMassKind so every downstream emit (label rendering, kernel
+// payload, notebook export) agrees with the library / kernel convention.
+function classifyEdgeMassDigits() {
+  const deg = getVertexDegrees();
+  const onInternal = new Set();
+  const onExternal = new Set();
+  for (const e of state.edges) {
+    if (!e || !e.mass || e.mass <= 0) continue;
+    const isLeg = (deg[e.a] || 0) <= 1 || (deg[e.b] || 0) <= 1;
+    (isLeg ? onExternal : onInternal).add(e.mass);
+  }
+  const externalOnly = new Set();
+  onExternal.forEach(d => { if (!onInternal.has(d)) externalOnly.add(d); });
+  return { externalOnly };
+}
+
+// Kind of a mass slot: 'm' for internal/shared masses, 'M' for masses that
+// live exclusively on external legs. Read from edge.massKind if the user
+// set it explicitly; otherwise inferred from the canvas-wide digit
+// classification (§6.7: shared digits use the internal symbol). Returns
+// null for the massless case.
 function getEdgeMassKind(edge) {
   if (!edge || !edge.mass || edge.mass === 0) return null;
   if (edge.massKind === 'M' || edge.massKind === 'm') return edge.massKind;
-  const deg = getVertexDegrees();
-  const isExtLeg = (deg[edge.a] || 0) === 1 || (deg[edge.b] || 0) === 1;
-  return isExtLeg ? 'M' : 'm';
+  const { externalOnly } = classifyEdgeMassDigits();
+  return externalOnly.has(edge.mass) ? 'M' : 'm';
 }
 
 // Count distinct (kind, mass) slots in use. Used by the label renderer to
@@ -2846,6 +2878,21 @@ function edgeMassToMma(edge) {
   const kind = getEdgeMassKind(edge) || 'm';
   const count = getDistinctMassSlots(kind).size;
   return count <= 1 ? kind : `Subscript[${kind}, ${edge.mass}]`;
+}
+
+// External-leg node-mass emitter, indexed by canonical vertex ID.
+//
+// Matches the kernel's STCNickelToGraph output: nodes carry M[v] for legs
+// when there are multiple distinct external mass slots. stFindEuclideanRegion
+// /stMakeVerificationPoint recognise M[_]/m[_] (head-based FreeQ pattern),
+// but reject Subscript[M, slot]; emitting that form leaves verify unable to
+// find a Euclidean point.
+function legNodeMassMma(edge, vId) {
+  if (!edge || !edge.mass || edge.mass === 0) return '0';
+  if (edge.massLabel) return massLabelToMma(edge.massLabel);
+  const kind = getEdgeMassKind(edge) || 'm';
+  const count = getDistinctMassSlots(kind).size;
+  return count <= 1 ? kind : `${kind}[${vId}]`;
 }
 
 // Map a small set of common unicode symbols to Mma-legal ASCII.
@@ -5116,6 +5163,28 @@ function generateThumbnail(topoNickel, configKey, options) {
   // Run force layout
   const laid = computeForceLayout(initVerts, layoutEdges);
 
+  // Shrink external-leg stubs toward their internal partner. The shared FR
+  // layout places each leg vertex at distance ~k*0.8 from its partner,
+  // which is fine on the editor canvas but visually overpowers small
+  // thumbnails. Pull each leg back to LEG_SHRINK * (FR distance) so the
+  // diagram body dominates the thumbnail. Walk edgeList in the same order
+  // legs were appended above so the index alignment is exact.
+  {
+    const LEG_SHRINK = 0.45;
+    let _legAt = numInt;
+    for (const [a, b] of edgeList) {
+      let parent = -1;
+      if (a < 0 && b >= 0) parent = b;
+      else if (b < 0 && a >= 0) parent = a;
+      else continue;
+      const lv = laid[_legAt++];
+      const pp = laid[parent];
+      if (!lv || !pp) continue;
+      lv.x = pp.x + (lv.x - pp.x) * LEG_SHRINK;
+      lv.y = pp.y + (lv.y - pp.y) * LEG_SHRINK;
+    }
+  }
+
   // Normalize to fit thumbnail: center and scale to [-35, 35]
   let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
   laid.forEach(v => { minX = Math.min(minX, v.x); maxX = Math.max(maxX, v.x); minY = Math.min(minY, v.y); maxY = Math.max(maxY, v.y); });
@@ -6563,10 +6632,17 @@ function openDetailPanel(topoKey, topo, configMatches, configKey, opts) {
           html += `<div class="popup-record-links">${linkBtns.join(' ')}</div>`;
         }
 
-        // Paper thumbnail (page 1 preview, float left)
+        // Paper thumbnail (page 1 preview, float left).
+        // Loaded from the public-repo jsDelivr CDN so the live site stays
+        // current with paper additions on `SubTropica/SubTropica@main`
+        // without a Firebase redeploy (mirrors how loadLibrary() resolves
+        // library.json).  Same-origin path is the fallback when jsDelivr
+        // is unreachable; if both fail, the img hides itself.
         if (arxivId) {
           const safeId = arxivId.replace(/\//g, '_');
-          html += `<img class="popup-record-pdf-thumb" src="paper-thumbs/${safeId}.jpg" alt="" data-arxiv-id="${escapeHtml(arxivId)}" loading="lazy" onerror="this.style.display='none'">`;
+          const cdnSrc = `https://cdn.jsdelivr.net/gh/SubTropica/SubTropica@main/ui/paper-thumbs/${safeId}.jpg`;
+          const localSrc = `paper-thumbs/${safeId}.jpg`;
+          html += `<img class="popup-record-pdf-thumb" src="${cdnSrc}" data-fallback="${localSrc}" alt="" data-arxiv-id="${escapeHtml(arxivId)}" loading="lazy" onerror="if(this.dataset.fallback){this.src=this.dataset.fallback;delete this.dataset.fallback;}else{this.style.display='none';}">`;
         }
 
         // Title slot (above authors). We look up the durable INSPIRE cache
@@ -8435,6 +8511,24 @@ function loadFromNickel(nickelStr, configKey) {
     applyZoom();
     onGraphChanged();
     if (configKey) renderMassLegend();
+
+    // Pre-fill the diagram name from the library entry. Per-config
+    // CanonicalName (e.g. "double box, 1 mass") wins over the topology-level
+    // primaryName because it captures the mass configuration the user just
+    // loaded. Mark the field as user-edited so the auto-name pass inside
+    // doLiveMatch (debounced ~80ms after onGraphChanged) doesn't clobber it
+    // with the bare Nickel string.
+    const cfg = (topo && topo.configs && configKey) ? topo.configs[configKey] : null;
+    const loadedName =
+      (cfg && (cfg.CanonicalName || cfg.canonicalName)) ||
+      (topo && (topo.primaryName || topo.name || topo.Name)) ||
+      '';
+    if (loadedName && $('ic-name')) {
+      $('ic-name').value = loadedName;
+      computeConfig.diagramName = loadedName;
+      if (typeof _nameEditedByUser !== 'undefined') _nameEditedByUser = true;
+      try { populateExportTab(); } catch (_) {}
+    }
   } catch (e) { console.error('Load failed:', e); }
 }
 
@@ -10337,6 +10431,18 @@ function buildPropsInfoJS() {
 // ["M[1] -> 0", "M[2] -> m", ...].
 function buildPropsExtMassSubsJS() {
   const deg = getVertexDegrees();
+  // Canonicalize vertex IDs in lock-step with buildGraphArgJS so the leg
+  // mass labels line up with what the graph form puts in the nodes list
+  // (and what STCNickelToGraph emits as the kernel-canonical form).
+  // Mirrors buildGraphArgJS's iteration: each leg edge canonicalizes its
+  // internal endpoint; each internal edge canonicalizes both endpoints.
+  const canon = new Map();
+  let nextId = 0;
+  const getId = raw => {
+    let id = canon.get(raw);
+    if (id === undefined) { id = ++nextId; canon.set(raw, id); }
+    return id;
+  };
   const rules = [];
   let legIdx = 0;
   for (let i = 0; i < state.edges.length; i++) {
@@ -10344,10 +10450,20 @@ function buildPropsExtMassSubsJS() {
     if (e.a === e.b) continue;  // self-loop can't be external
     const extA = (deg[e.a] || 0) <= 1;
     const extB = (deg[e.b] || 0) <= 1;
-    if (!(extA || extB)) continue;
-    legIdx += 1;
-    const label = edgeMassToMma(e);
-    rules.push(`M[${legIdx}] -> ${label}`);
+    if (extA || extB) {
+      const intV = extA ? e.b : e.a;
+      const vId = getId(intV);
+      legIdx += 1;
+      // Use the leg-node-form emitter so multi-M canvases get M[v] (vertex
+      // ID indexed) rather than Subscript[M, slot]. The latter triggered
+      // the collaborator's permutation rule (M[1] -> Subscript[M, 3], ...)
+      // that the kernel can't process: head Subscript[M, _] is opaque to
+      // the F-factor / Symanzik machinery, so any downstream code that
+      // matches `M | MM | ...` head-wise misses it.
+      rules.push(`M[${legIdx}] -> ${legNodeMassMma(e, vId)}`);
+    } else {
+      getId(e.a); getId(e.b);
+    }
   }
   return rules;
 }
@@ -10377,10 +10493,10 @@ function buildGraphArgJS() {
     const e = state.edges[i];
     const extA = (e.a !== e.b) && (deg[e.a] || 0) <= 1;
     const extB = (e.a !== e.b) && (deg[e.b] || 0) <= 1;
-    const mLabel = edgeMassToMma(e);
     if (extA || extB) {
       const intV = extA ? e.b : e.a;
-      nodes.push(`{${getId(intV)}, ${mLabel}}`);
+      const vId = getId(intV);
+      nodes.push(`{${vId}, ${legNodeMassMma(e, vId)}}`);
     } else {
       // Normalize endpoint order so the emitted pair is always sorted.
       // state.edges can hold unsorted (a,b) for edges created via the
@@ -10392,7 +10508,7 @@ function buildGraphArgJS() {
       const ib = getId(e.b);
       const la = Math.min(ia, ib);
       const lb = Math.max(ia, ib);
-      edges.push(`{{${la}, ${lb}}, ${mLabel}}`);
+      edges.push(`{{${la}, ${lb}}, ${edgeMassToMma(e)}}`);
     }
   }
   if (edges.length === 0) return null;
@@ -10637,7 +10753,14 @@ function collectIntegrationPayload() {
     propExponents.push(e.propExponent ?? 1);
   }
 
-  // External masses: prefer config panel inputs, fall back to edge state
+  // External masses: prefer config panel inputs, fall back to edge state.
+  // For the edge-state fallback, mirror buildGraphArgJS's canonical vertex
+  // numbering and emit M[v] / m[v] for multi-slot leg masses.  The kernel
+  // (SubTropica.wl:20793-20794) stores `nodes = Table[{$n0r[[i]], $extm[[i]]}]`
+  // straight from this payload; if $extm uses Subscript[M, slot], the
+  // stored nodes also do, and stFindEuclideanRegion (head-based FreeQ on
+  // M | MM | ...) drops them at verify time → "no Euclidean kinematic
+  // point found".
   const extMassInputs = document.querySelectorAll('#cfg-ext-masses [data-ext-mass]');
   let externalMasses;
   if (extMassInputs.length > 0) {
@@ -10647,14 +10770,29 @@ function collectIntegrationPayload() {
       return massLabelToMma(v);
     });
   } else {
-    // Config panel not opened — read directly from edge state
+    const canon = new Map();
+    let nextId = 0;
+    const getId = raw => {
+      let id = canon.get(raw);
+      if (id === undefined) { id = ++nextId; canon.set(raw, id); }
+      return id;
+    };
     const extEdgeList = [];
     for (let i = 0; i < nEdges; i++) {
       const e = state.edges[i];
       if (e.a === e.b) continue;
-      if ((deg[e.a]||0) <= 1 || (deg[e.b]||0) <= 1) extEdgeList.push(i);
+      const extA = (deg[e.a]||0) <= 1;
+      const extB = (deg[e.b]||0) <= 1;
+      if (extA || extB) {
+        const intV = extA ? e.b : e.a;
+        const vId = getId(intV);
+        extEdgeList.push({ idx: i, vId });
+      } else {
+        getId(e.a); getId(e.b);
+      }
     }
-    externalMasses = extEdgeList.map(i => edgeMassToMma(state.edges[i]));
+    externalMasses = extEdgeList.map(({ idx, vId }) =>
+      legNodeMassMma(state.edges[idx], vId));
   }
 
   // Compute JS chord positions for kernel sync.
@@ -12635,6 +12773,25 @@ function diagnoseFriendlyError(rawError, progressLog) {
       'Integration exceeded the time or memory limit. Try increasing <code>TimeUpperBound</code> or reducing the number of gauges.';
   }
 
+  // B16: STVerify::backendTimeout — a numeric backend exceeded the
+  // wall-clock cap.  Surfaced to the user via the verify-result error
+  // path; included here for completeness in case it ever bubbles into
+  // an integration-style message stream.
+  if (/backendTimeout|exceeded the wall-clock cap/.test(err + log)) {
+    return '<b>Backend timed out.</b> ' +
+      'The numeric backend hit its wall-clock cap. Pass ' +
+      '<code>"MaxTime" -> &lt;seconds&gt;</code> or <code>Infinity</code> ' +
+      'to <code>STVerify</code>, reduce <code>MaxEval</code>, or pick a ' +
+      'different backend.';
+  }
+
+  // B16: STVerify::feyntropPoles — feyntrop only handles finite integrals.
+  if (/feyntropPoles|feyntrop only verifies finite|no eps poles/.test(err + log)) {
+    return '<b>feyntrop only handles finite integrals.</b> ' +
+      'The symbolic result has 1/&epsilon; poles. Use <code>pySecDec</code>, ' +
+      '<code>FIESTA</code>, or <code>AMFlow</code> for divergent integrals.';
+  }
+
   // Aborted
   if (/\$Aborted|[Rr]ecursion[Ll]imit|user abort/.test(err)) {
     return '<b>Integration aborted.</b> ' +
@@ -12998,11 +13155,26 @@ function onIntegrationComplete(data) {
           const pick = (candidates) => candidates.find(
             k => names.includes(k) && k !== currentMethod) || null;
           const r = String(reason || '').toLowerCase();
-          if (r.includes('shared-mass') || r.includes('euclidean')) {
-            return pick(['AMFlow', 'FIESTA']);
+          // B16: feyntrop pole refusal -> pick a backend that handles
+          // divergent integrals.  Matches both the STVerify::feyntropPoles
+          // message text and the graph-form's reason string.
+          if (r.includes('feyntrop') &&
+              (r.includes('finite') || r.includes('eps poles') ||
+               r.includes('feyntroppoles'))) {
+            return pick(['pySecDec', 'FIESTA', 'AMFlow']);
+          }
+          if (r.includes('shared-mass') || r.includes('shared mass') ||
+              r.includes('euclidean')) {
+            // feyntrop's shared-mass refusal also wants a different backend.
+            return pick(['AMFlow', 'FIESTA', 'pySecDec']);
           }
           if (r.includes('ginsh') || r.includes('non-numeric')) {
             return pick(['AMFlow', 'pySecDec', 'FIESTA']);
+          }
+          // B16: backend timeout -> any other available backend is worth a try.
+          if (r.includes('backendtimeout') || r.includes('exceeded the wall-clock') ||
+              r.includes('timed out')) {
+            return pick(['pySecDec', 'AMFlow', 'FIESTA', 'feyntrop']);
           }
           if (r.includes('numeric backend failed') || r.includes('network')) {
             return pick(['AMFlow', 'pySecDec', 'FIESTA', 'feyntrop']);
@@ -13220,12 +13392,38 @@ function onIntegrationComplete(data) {
   } else {
     // Failed — fetch progress log for detailed error diagnosis
     if (box) box.classList.add('failed');
+    // B15: when the kernel surfaces the richer message stream + raw
+    // $Failed/$Aborted under data.messages and data.raw, attach a
+    // collapsed <details> disclosure below the friendly error so the
+    // full message text is one click away without dominating the UI.
+    const buildMessagesDisclosure = () => {
+      const msgs = Array.isArray(data.messages) ? data.messages : [];
+      const raw = data.raw || '';
+      if (msgs.length === 0 && !raw) return '';
+      const items = msgs.map(m =>
+        '<li style="font-family:var(--mono);font-size:11px;line-height:1.4;' +
+        'word-break:break-word;color:var(--text)">' + escapeHtml(m) + '</li>'
+      ).join('');
+      const rawLine = raw
+        ? '<div style="font-family:var(--mono);font-size:11px;color:var(--text-dim);' +
+            'margin-top:6px">Raw kernel return: <b>' + escapeHtml(raw) + '</b></div>'
+        : '';
+      return '<details style="margin-top:10px;font-size:12px;color:var(--text-dim)">' +
+        '<summary style="cursor:pointer;user-select:none">' +
+        'Show full message stream (' + (msgs.length || (raw ? 1 : 0)) + ')' +
+        '</summary>' +
+        (msgs.length
+          ? '<ul style="margin:6px 0 0 0;padding-left:18px">' + items + '</ul>'
+          : '') +
+        rawLine +
+        '</details>';
+    };
     const showError = (msg) => {
       setTimeout(() => {
         if (loading) loading.style.display = 'none';
         if (resultContent) {
           resultContent.innerHTML = '<div style="color:var(--red);font-size:13px;padding:8px 0">' +
-            msg + '</div>';
+            msg + buildMessagesDisclosure() + '</div>';
           resultContent.classList.add('visible');
         }
       }, 300);
@@ -13828,11 +14026,14 @@ async function cancelIntegration() {
 
 // ── Linear reducibility (MPL) check ─────────────────────────────────
 //
-// Renders an inline spinner to the right of the difficulty stars while
-// the kernel runs, then swaps in the existing MPL / ×MPL badge via
-// renderDifficultyStars. No modal. The verdict is cached in _cachedLR
-// (same key as _cachedTier2) so a subsequent Integrate click, Check
-// complexity, or repeat MPL click is a pure cache hit.
+// Two-pass probe: cheap FindRoots=False first, then escalate to
+// FindRoots=True only if the first pass returns NOLR. The badge means
+// "linearly reducible, with algebraic letters if needed", so a topology
+// that is MPL only after rationalization is still flagged MPL. If the
+// user has FindRoots=True checked in the panel, skip the first pass.
+//
+// The verdict is cached in _cachedLR (same key as _cachedTier2) — the
+// cache stores the post-retry answer, so future hits skip both passes.
 
 let _lrRunning = false;
 
@@ -13855,8 +14056,8 @@ async function checkLinearReducibility() {
   }
   if (_lrRunning) return;     // already running for the same graph
 
-  const payload = collectIntegrationPayload();
-  if (payload.edgePairs.length === 0) {
+  const basePayload = collectIntegrationPayload();
+  if (basePayload.edgePairs.length === 0) {
     showWarningToast('Draw a diagram first');
     return;
   }
@@ -13871,43 +14072,76 @@ async function checkLinearReducibility() {
     if (errMsg) showWarningToast('MPL check: ' + errMsg);
   };
 
+  // Run a single LR check at the given FindRoots setting. Resolves to
+  // { isLR, gauges } or rejects with an Error. To distinguish a fresh
+  // result from a stale one left over by a prior submission, we snapshot
+  // /api/result's body before the new submit and accept any response
+  // whose body differs from that snapshot — robust whether or not the
+  // poll interval catches the brief "pending" window.
+  const POLL_TIMEOUT_MS = 5 * 60 * 1000;
+  const runPass = async (findRoots) => {
+    const before = JSON.stringify(await kernel.get('result'));
+    const lrPayload = {
+      ...basePayload,
+      findRoots,
+      stopAt: 'AfterMinimalLRCheck',
+      suppressCommand: true,
+    };
+    const intResult = await kernel.post('integrate', lrPayload);
+    if (intResult.status === 'error') {
+      throw new Error(intResult.error || 'submit failed');
+    }
+    return new Promise((resolve, reject) => {
+      const startedAt = Date.now();
+      const poll = setInterval(async () => {
+        try {
+          if (Date.now() - startedAt > POLL_TIMEOUT_MS) {
+            clearInterval(poll);
+            reject(new Error('timed out after 5 min'));
+            return;
+          }
+          const res = await kernel.get('result');
+          // Ignore anything matching the pre-submit snapshot — it's stale.
+          if (JSON.stringify(res) === before) return;
+          if (res.status === 'pending') return;
+          if (res.status === 'ok') {
+            clearInterval(poll);
+            const rStr = res.result || '';
+            const isLR = rStr.includes('AnyLR -> True') || rStr.includes('"AnyLR" -> True');
+            let gauges = [];
+            const m = rStr.match(/LRGauges\s*->\s*\{([^}]*)\}/);
+            if (m) gauges = m[1].replace(/\s/g, '').split(',').filter(Boolean);
+            resolve({ isLR, gauges });
+          } else if (res.status === 'error') {
+            clearInterval(poll);
+            reject(new Error(res.error || 'kernel error'));
+          }
+        } catch {}
+      }, 500);
+    });
+  };
+
   try {
     const lockResult = await kernel.post('lock', {
-      edgePairs: payload.edgePairs,
-      jsChordPositions: payload.jsChordPositions
+      edgePairs: basePayload.edgePairs,
+      jsChordPositions: basePayload.jsChordPositions
     });
     if (lockResult.status === 'error') {
       finish(null, lockResult.error || 'lock failed');
       return;
     }
 
-    const lrPayload = { ...payload, stopAt: 'AfterMinimalLRCheck', suppressCommand: true };
-    const intResult = await kernel.post('integrate', lrPayload);
-    if (intResult.status === 'error') {
-      finish(null, intResult.error || 'submit failed');
-      return;
+    let verdict;
+    if (basePayload.findRoots) {
+      // Panel already has FindRoots on — single pass is enough.
+      verdict = await runPass(true);
+    } else {
+      verdict = await runPass(false);
+      if (!verdict.isLR) verdict = await runPass(true);
     }
-
-    // Poll for the LR verdict.
-    const poll = setInterval(async () => {
-      try {
-        const res = await kernel.get('result');
-        if (res.status === 'ok') {
-          clearInterval(poll);
-          const rStr = res.result || '';
-          const isLR = rStr.includes('AnyLR -> True') || rStr.includes('"AnyLR" -> True');
-          let gauges = [];
-          const m = rStr.match(/LRGauges\s*->\s*\{([^}]*)\}/);
-          if (m) gauges = m[1].replace(/\s/g, '').split(',').filter(Boolean);
-          finish({ hash, result: { isLR, lrGauges: gauges } }, null);
-        } else if (res.status === 'error') {
-          clearInterval(poll);
-          finish(null, res.error || 'kernel error');
-        }
-      } catch {}
-    }, 500);
+    finish({ hash, result: { isLR: verdict.isLR, lrGauges: verdict.gauges } }, null);
   } catch (e) {
-    finish(null, 'connection error: ' + (e.message || e));
+    finish(null, e.message || String(e));
   }
 }
 
@@ -13969,16 +14203,16 @@ function buildNotebookPayloadFromState() {
     const e = state.edges[i];
     const extA = (e.a !== e.b) && (deg[e.a] || 0) <= 1;
     const extB = (e.a !== e.b) && (deg[e.b] || 0) <= 1;
-    const mLabel = edgeMassToMma(e);
     if (extA || extB) {
       const intV = extA ? e.b : e.a;
-      nodes.push(`{${getId(intV)}, ${mLabel}}`);
+      const vId = getId(intV);
+      nodes.push(`{${vId}, ${legNodeMassMma(e, vId)}}`);
     } else {
       const ia = getId(e.a);
       const ib = getId(e.b);
       const la = Math.min(ia, ib);
       const lb = Math.max(ia, ib);
-      edges.push(`{{${la}, ${lb}}, ${mLabel}}`);
+      edges.push(`{{${la}, ${lb}}, ${edgeMassToMma(e)}}`);
     }
   }
 
@@ -15336,13 +15570,31 @@ function buildEstimatePayload() {
       return (!v || v === '0') ? '0' : massLabelToMma(v);
     });
   } else {
+    // Same vertex-id-aware leg-mass emit as collectIntegrationPayload, so
+    // the estimate path agrees with the integrate path when the kernel
+    // builds its $extm / nodes lists.
+    const canon = new Map();
+    let nextId = 0;
+    const getId = raw => {
+      let id = canon.get(raw);
+      if (id === undefined) { id = ++nextId; canon.set(raw, id); }
+      return id;
+    };
     const extEdgeList = [];
     for (let i = 0; i < nEdges; i++) {
       const e = state.edges[i];
       if (e.a === e.b) continue;
-      if ((deg[e.a]||0) <= 1 || (deg[e.b]||0) <= 1) extEdgeList.push(i);
+      const extA = (deg[e.a]||0) <= 1;
+      const extB = (deg[e.b]||0) <= 1;
+      if (extA || extB) {
+        const intV = extA ? e.b : e.a;
+        extEdgeList.push({ idx: i, vId: getId(intV) });
+      } else {
+        getId(e.a); getId(e.b);
+      }
     }
-    externalMasses = extEdgeList.map(i => edgeMassToMma(state.edges[i]));
+    externalMasses = extEdgeList.map(({ idx, vId }) =>
+      legNodeMassMma(state.edges[idx], vId));
   }
 
   // Pass numerator rows to handleEstimate so the Tier 2 propagator / quad
@@ -15429,12 +15681,16 @@ async function requestIntegrandBuild() {
     if (ctrl.signal.aborted) return;
     if (data.status === 'ok') {
       _cachedIntegrand = { hash, result: data };
-      // Also fill the LR cache from the side-effect isLR / lrGauge.
-      if (typeof data.isLR === 'boolean') {
+      // Side-effect LR cache: only trust *positive* verdicts. The prefetch
+      // runs with FindRoots=False so its `isLR=false` may be a false
+      // negative; leaving the cache empty in that case lets the explicit
+      // "Check if MPL" button run its two-pass (FindRoots=False then
+      // FindRoots=True) and reach the correct verdict.
+      if (data.isLR === true) {
         _cachedLR = {
           hash,
           result: {
-            isLR: data.isLR,
+            isLR: true,
             lrGauges: data.lrGauge ? [String(data.lrGauge)] : [],
           },
         };
@@ -15462,14 +15718,15 @@ function scheduleIntegrandPrefetch() {
 
 function applyTier2Result(data) {
   if (data.timeout || data.nTerms < 0) return;  // keep Tier 1
-  // handleEstimate ships isLR / lrGauge alongside the complexity metrics,
-  // so every Tier-2 run also fills the LR cache. A later "Check if MPL"
-  // click with the same graph is then a pure cache hit.
-  if (typeof data.isLR === 'boolean' && _lastEstimateHash) {
+  // handleEstimate ships isLR / lrGauge alongside the complexity metrics.
+  // Only trust *positive* verdicts (FindRoots=False finding LR is reliable);
+  // a false here may be a FindRoots=False false-negative, so leave the cache
+  // empty and let the explicit "Check if MPL" two-pass settle it.
+  if (data.isLR === true && _lastEstimateHash) {
     _cachedLR = {
       hash: _lastEstimateHash,
       result: {
-        isLR: data.isLR,
+        isLR: true,
         lrGauges: data.lrGauge ? [String(data.lrGauge)] : [],
       },
     };

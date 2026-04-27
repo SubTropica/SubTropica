@@ -7,6 +7,76 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.1.8] — 2026-04-27
+
+UI and numerical-verification stability release.  Closes a systematic
+30-case regression campaign over the live UI → kernel → backend path.
+
+### Added
+
+- **Per-call FIESTA `DataPath` isolation.**  `STNIntegrate[..., Method ->
+  "FIESTA"]` now writes each call into its own scratch directory; back-to-back
+  FIESTA verifications no longer trip on stale workspace artefacts.
+- **`STVerify[..., MaxTime -> N]`.**  Per-call wall-clock cap, propagated to
+  every backend's own time controls and to the outer `TimeConstrained`
+  boundary.
+- **Notebook output is no longer flooded by UI activity.**  `Print` / `Echo`
+  emitted by request handlers (and by third-party numerical backends) is
+  redirected to a per-session `kernel.log`; the JSON response file
+  remains the single user-visible channel.
+
+### Changed
+
+- **Library "Load to editor" pre-fills the diagram name** with the per-config
+  `CanonicalName` (e.g. *"double box, 1 mass"*), falling back to the
+  topology-level name.
+- **UI default LR algorithm is `Lungo`** in the Advanced panel; the old
+  `Espresso` selection in the HTML disagreed with the JS default and could
+  silently flip the active method on first interaction.
+- **Export tab no longer emits `MethodLR` / `FindRoots` options when they
+  match the current defaults** — only non-default options surface in the
+  emitted `STIntegrate` command.
+- **Library thumbnails: shorter external legs.**  Force-layout shrink applied
+  to leg vertices in thumbnails so the diagram body dominates small previews.
+- **UI multi-slot leg masses now emit kernel-canonical `M[v]` form**, matching
+  `STCNickelToGraph`.  Single-slot legs still emit the bare symbol `M`.
+
+### Fixed
+
+- **`handleIntegrate` / verify IPC handlers surface the real exception** from
+  the inner `STIntegrate` / `STVerify` call instead of a generic
+  *"STIntegrate crashed"* / *"STVerify crashed"* string.  Errors like
+  `STEspressoFubini::noorder`, `Symbolic::ivar`, and `STSymanzik::nodim`
+  now reach the UI banner and the friendly-error classifier.
+- **AMFlow result-shape and shared/massless-leg handling.**  AMFlow's IBP/DE
+  output was being parsed in one shape on physical inputs and a different
+  shape on shared-mass / massless-leg edge cases; both are now normalized
+  before comparison against the analytic series.
+- **`STToGinsh` `N[]` fallback no longer produces silently-wrong numbers.**
+  The fallback path (used when ginsh isn't on `$Path`) skipped the
+  `Sqrt[...]` unwrapping step, returning numerically incorrect values
+  without any error.  The fallback now asserts the same prerequisites
+  ginsh does and refuses to run if they don't hold.
+- **`ConfigureSubTropica[<partial>]` no longer clobbers globals.**  Partial
+  calls (e.g. `ConfigureSubTropica[PythonPath -> "..."]`) were resetting
+  every unspecified global to its package default; the setter now writes
+  only the arguments the caller passed.
+- **Several UI shared-mass topologies (1-mass triangles, boxes) no longer
+  return empty `SeriesData`.**  Two independent bugs were fused: the UI
+  was emitting `Subscript[M, slot]` for multi-slot leg masses (kernel
+  expected `M[v]`), tripping `stFindEuclideanRegion`'s head-based check
+  and selecting a degenerate kinematic point; and the kernel-side
+  memoization cache key ignored `MassConfig`, so a stale hit from a
+  prior different-mass run shadowed the recomputation.  Both ends fixed;
+  the misleading reason string *"shared-mass on-shell — unsupported"*
+  is replaced by *"no Euclidean kinematic point found."*
+- **UI ×MPL false-negative on diagrams that need rationalization.**  The
+  "Check if MPL" button reported ×MPL on topologies whose Symanzik
+  polynomial requires fibered rationalization first, even though a route
+  to MPLs exists once `FindRoots` is enabled; the Tier-2 estimate now
+  consults `FindRoots` state before issuing the verdict.
+
+
 ## [1.1.4] — 2026-04-23
 
 ### Fixed

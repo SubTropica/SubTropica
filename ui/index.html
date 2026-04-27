@@ -352,12 +352,12 @@
                    data-tip-html="<strong>Linear-reducibility algorithm</strong>. <code>Espresso</code> is a fast heuristic that uses hints from the gauge-scoring pass. <code>Lungo</code> is the thorough older algorithm (discriminant+resultant with global deduplication) — slower but more likely to find an integration order for integrals where Espresso fails.">LR method</label>
             <select class="cfg-select" id="cfg-method-lr"
                     data-tip-html="<strong>Linear-reducibility algorithm</strong>. <code>Espresso</code> is a fast heuristic that uses hints from the gauge-scoring pass. <code>Lungo</code> is the thorough older algorithm (discriminant+resultant with global deduplication) — slower but more likely to find an integration order for integrals where Espresso fails.">
-              <option value="Espresso" selected>Espresso</option>
-              <option value="Lungo">Lungo</option>
+              <option value="Espresso">Espresso</option>
+              <option value="Lungo" selected>Lungo</option>
             </select>
           </div>
           <div class="cfg-row"><label class="cfg-check-inline"
-                 data-tip-html="<strong>Fibered rationalization</strong>. Tries nested square-root substitutions so integrands with algebraic letters (W<sub>i</sub>) become rational in the remaining variables. Needed whenever vanilla linear-reducibility analysis gives &ldquo;No linearly reducible order&rdquo;."><input type="checkbox" id="cfg-find-roots"/> Find roots</label></div>
+                 data-tip-html="<strong>Fibered rationalization</strong>. Tries nested square-root substitutions so integrands with algebraic letters (W<sub>i</sub>) become rational in the remaining variables. Needed whenever vanilla linear-reducibility analysis gives &ldquo;No linearly reducible order&rdquo;."><input type="checkbox" id="cfg-find-roots" checked/> Find roots</label></div>
         </details>
 
         <!-- Scoring -->

@@ -79,20 +79,28 @@ $STHyperFlintSearchPaths = {
 stDiscoverHyperFlint[] := SelectFirst[$STHyperFlintSearchPaths, FileExistsQ, ""];
 
 (* Resolve the mzv_reductions.json path.  Searches:
-     1. <HF_root>/data/mzv_reductions.json    (binary's source-tree layout)
-     2. <SubTropica install dir>/HyperFLINT/data/mzv_reductions.json
+     1. <HF_root>/data/mzv_reductions.json     (build-tree layout: hfRoot 2 levels above binary)
+     2. <HF_root>/data/mzv_reductions.json     (dist/<arch>/ layout: hfRoot 3 levels above binary)
+     3. <SubTropica install dir>/HyperFLINT/data/mzv_reductions.json
         (paclet-bundled copy when SubTropica is installed without HF)
-     3. <SubTropica install dir>/Resources/mzv_reductions.json
+     4. <SubTropica install dir>/Resources/mzv_reductions.json
         (alternative paclet bundling)
-     4. ~/.subtropica/mzv_reductions.json   (user override)
+     5. ~/.subtropica/mzv_reductions.json   (user override)
    Returns the first existing path, or "" if none are present.
    `stHyperFlintDataPathCandidates[binPath]` exposes the same list for
    diagnostic messages. *)
-stHyperFlintDataPathCandidates[binPath_String] := Module[{hfRoot, cands = {}},
+stHyperFlintDataPathCandidates[binPath_String] := Module[{hfRoot, hfRoot2, cands = {}},
     If[StringQ[binPath] && binPath =!= "" && FileExistsQ[binPath],
         hfRoot = DirectoryName[DirectoryName[binPath]];
         If[StringEndsQ[hfRoot, "/"], hfRoot = StringDrop[hfRoot, -1]];
-        AppendTo[cands, FileNameJoin[{hfRoot, "data", "mzv_reductions.json"}]]];
+        AppendTo[cands, FileNameJoin[{hfRoot, "data", "mzv_reductions.json"}]];
+        (* dist/<arch>/ layout: data lives one level higher than the build *)
+        (* layout's hfRoot, e.g. binary at HyperFLINT/dist/<arch>/hyperflint *)
+        (* needs HyperFLINT/data, not HyperFLINT/dist/data. *)
+        hfRoot2 = DirectoryName[hfRoot];
+        If[StringEndsQ[hfRoot2, "/"], hfRoot2 = StringDrop[hfRoot2, -1]];
+        If[hfRoot2 =!= "" && hfRoot2 =!= hfRoot,
+            AppendTo[cands, FileNameJoin[{hfRoot2, "data", "mzv_reductions.json"}]]]];
     If[StringQ[$SubTropicaInstallDir] && $SubTropicaInstallDir =!= "",
         AppendTo[cands, FileNameJoin[{$SubTropicaInstallDir, "HyperFLINT",
             "data", "mzv_reductions.json"}]];
@@ -221,6 +229,15 @@ CheckAbort[stHFLibraryEnsureLoaded[], $STHyperFlintUseLibraryLink = False];
 $PythonCommand   = "/opt/homebrew/bin/python3";
 $FIESTAPath      = FileNameJoin[{$HomeDirectory, "fiesta", "FIESTA5"}];
 $FIESTALoaded    = False;
+
+(* B5 mitigation: FIESTA's default DataPath is keyed off ProcessID only,
+   so multiple SDEvaluate calls in the same long-running kernel write to
+   the same db<PID>... files.  FIESTA cleans up bare in/out/1/2.kch at
+   the start of each call, but task-prefixed and queue files (qhi/qho,
+   out.kch-<TaskPrefix>-...) can leak.  Give every stNIntegrateFIESTA
+   call its own subdirectory under $FIESTAPath/temp by appending a
+   monotonic counter; remove the dir on exit. *)
+$stFIESTACallCounter = 0;
 $AMFlowPath      = FileNameJoin[{$HomeDirectory, "amflow"}];
 $AMFlowLoaded    = False;
 $FiniteFlowPath  = "";  (* mirror of ConfigureSubTropica's FiniteFlowPath option;
@@ -891,9 +908,9 @@ stPrintGreeting[] := Module[
   integratorsRow = stCenterBadgeRow[
     {"pySecDec", "FIESTA", "AMFlow", "feyntrop"}];
   reducersRow = stCenterBadgeRow[
-    {"FiniteFlow", "SPQR", "LiteRed", "FIRE", "HyperInt", "HyperFLINT"}];
+    {"FiniteFlow", "SPQR", "LiteRed", "FIRE", "HyperInt"}];
   toolsRow = stCenterBadgeRow[
-    {"maple", "ginsh", "python3", "curl", "make"}];
+    {"maple", "ginsh", "python3", "curl", "make", "HyperFLINT"}];
 
   nudge = stBenchmarkNudgeLine[];
 
@@ -1028,29 +1045,44 @@ Module[{loaded, applyOne},
                 _, Null];
             KeyValueMap[applyOne, loaded]]]];
 
+(* Option defaults are all `Inherited` so a partial call leaves un-named
+   globals alone (rather than resetting them to a hard-coded default and
+   persisting the reset to disk).  Initial-load defaults come from the
+   $-variable bindings near the top of this file (around line 232) and
+   from the persisted $STConfigFile loader (around line 1012).  This is
+   the fix for B1 in notes/test_campaign_bugs.md. *)
 Options[ConfigureSubTropica] = {
-    PolymakePath                -> "/opt/homebrew/bin/polymake",           (* brew install polymake *)
-    GinshPath                   -> "/opt/homebrew/bin/ginsh",               (* brew install ginac *)
-    MaplePath                   -> "maple",                                 (* no brew formula; rely on PATH *)
-    HyperIntPath                -> "",    (* "" = auto-discover via $STHyperIntSearchPaths; Panzer's Maple package at bitbucket.org/PanzerErik/hyperint *)
-    HyperFlintPath              -> "",    (* "" = auto-discover via $STHyperFlintSearchPaths; compiled CLI from HyperFLINT/build-release *)
-    HyperFlintDataPath          -> "",    (* "" = derive from binary's <hf_root>/data; or paclet-bundled / ~/.subtropica fallback *)
-    PythonPath                  -> "/opt/homebrew/bin/python3",             (* brew install python; pySecDec deps must be pip-installed *)
-    PolymakeConcurrencyFraction -> 0.75,  (* fraction of CPU cores used for concurrent polymake jobs *)
-    FiniteFlowPath              -> "",    (* FiniteFlow's mathlink/ dir; "" = rely on standard $Path / paclet *)
-    SPQRPath                    -> "",    (* SPQR package dir; "" = rely on paclet auto-load *)
-    FIESTAPath                  -> FileNameJoin[{$HomeDirectory, "fiesta", "FIESTA5"}],                   (* secdec.hepforge.org FIESTA5 *)
-    AMFlowPath                  -> FileNameJoin[{$HomeDirectory, "amflow"}],                               (* gitlab.com/multiloop-pku/amflow *)
-    LiteRedPath                 -> FileNameJoin[{$HomeDirectory, "LiteRed"}],                              (* inp.nsk.su/~lee/programs/LiteRed (v1.83+) *)
-    LiteIBPPath                 -> FileNameJoin[{$HomeDirectory, "finiteflow-mathtools", "packages"}],     (* github.com/peraro/finiteflow-mathtools *)
-    FIREPath                    -> FileNameJoin[{$HomeDirectory, "fire", "FIRE6"}],                       (* gitlab.com/feynmanintegrals/fire/FIRE6 *)
-    FeyntropPath                -> FileNameJoin[{$HomeDirectory, "feyntrop"}],                             (* github.com/michibo/feyntrop; dir containing the compiled `feyntrop` binary *)
-    BenchmarkNudge              -> True                                                                    (* show "run STBenchmark[]" hint in welcome banner when the installed version hasn't been benchmarked yet *)
+    PolymakePath                -> Inherited,
+    GinshPath                   -> Inherited,
+    MaplePath                   -> Inherited,
+    HyperIntPath                -> Inherited,    (* "" = re-run auto-discovery; Inherited = no change *)
+    HyperFlintPath              -> Inherited,    (* "" = re-run auto-discovery; Inherited = no change *)
+    HyperFlintDataPath          -> Inherited,    (* "" = derive from binary; Inherited = no change *)
+    PythonPath                  -> Inherited,
+    PolymakeConcurrencyFraction -> Inherited,
+    FiniteFlowPath              -> Inherited,    (* "" = no FF; Inherited = no change *)
+    SPQRPath                    -> Inherited,
+    FIESTAPath                  -> Inherited,
+    AMFlowPath                  -> Inherited,
+    LiteRedPath                 -> Inherited,
+    LiteIBPPath                 -> Inherited,
+    FIREPath                    -> Inherited,
+    FeyntropPath                -> Inherited,
+    BenchmarkNudge              -> Inherited
 };
 With[{$SubTropicaDir = DirectoryName[$InputFileName]},
 
 $SubTropicaInstallDir = $SubTropicaDir;
-$SubTropicaVersion = "1.1.7";
+$SubTropicaVersion = "1.1.8";
+
+(* Init-order fix: line 109 set $STHyperFlintDataPath before
+   $SubTropicaInstallDir was bound, so the install-dir-derived data
+   candidate was skipped.  Re-resolve now that both are set, in case
+   the binary-path-only candidates didn't cover the dist layout
+   (e.g. paclet user with prebuilt HF dist but no source tree). *)
+If[!StringQ[$STHyperFlintDataPath] || $STHyperFlintDataPath === "" ||
+   !FileExistsQ[$STHyperFlintDataPath],
+    $STHyperFlintDataPath = stResolveHyperFlintDataPath[$STHyperFlintPath]];
 
 (* FindRoots root-letter substitutions: W$i -> algebraic root expressions.
    Set by STReadResults when the integration used FindRoots alphabet letters.
@@ -1121,30 +1153,41 @@ If[$UseFFPolynomialQuotient,
    ...) fails.  The greeting banner prints a checkbox strip and, below it,
    a warning block if polymake (or any other required dep) is missing. *)
 
-(*  ConfigureSubTropica: for explicit path overrides or re-configuration  *)
-ConfigureSubTropica[opts:OptionsPattern[]] := Module[{ffPath, spqrPath, ffLoaded, spqrLoaded},
-    $PolymakeCommand             = OptionValue[PolymakePath];
-    $GinshCommand                = OptionValue[GinshPath];
-    $MapleCommand                = OptionValue[MaplePath];
-    (* "" means "use auto-discovery" so unrelated ConfigureSubTropica calls
-       don't clobber a valid path with a hardcoded default. *)
+(*  ConfigureSubTropica: for explicit path overrides or re-configuration.
+
+    Each option's default is `Inherited` (see Options[ConfigureSubTropica]
+    above).  We assign a global only when the caller actually supplied that
+    option, so a partial call like ConfigureSubTropica[PythonPath -> X]
+    leaves $AMFlowPath / $FeyntropPath / etc. alone instead of resetting
+    them to package defaults and persisting the reset.  *)
+ConfigureSubTropica[opts:OptionsPattern[]] := Module[
+    {ffPath, spqrPath, ffLoaded, spqrLoaded, ffSpqrTouched},
+    If[OptionValue[PolymakePath]   =!= Inherited, $PolymakeCommand = OptionValue[PolymakePath]];
+    If[OptionValue[GinshPath]      =!= Inherited, $GinshCommand    = OptionValue[GinshPath]];
+    If[OptionValue[MaplePath]      =!= Inherited, $MapleCommand    = OptionValue[MaplePath]];
+    (* HyperInt / HyperFLINT keep the legacy "" sentinel for "re-run
+       auto-discovery"; Inherited (the default) means "leave alone". *)
     Module[{hp = OptionValue[HyperIntPath]},
-        $SThyperIntPath = If[StringQ[hp] && hp =!= "", hp, stDiscoverHyperInt[]]];
+        If[hp =!= Inherited,
+            $SThyperIntPath = If[StringQ[hp] && hp =!= "", hp, stDiscoverHyperInt[]]]];
     Module[{hfp = OptionValue[HyperFlintPath],
             hfd = OptionValue[HyperFlintDataPath]},
-        $STHyperFlintPath = If[StringQ[hfp] && hfp =!= "", hfp, stDiscoverHyperFlint[]];
-        $STHyperFlintDataPath = Which[
-            StringQ[hfd] && hfd =!= "" && FileExistsQ[hfd], hfd,
-            True, stResolveHyperFlintDataPath[$STHyperFlintPath]]];
-    $PythonCommand               = OptionValue[PythonPath];
-    $PolymakeConcurrencyFraction = OptionValue[PolymakeConcurrencyFraction];
-    $FIESTAPath                  = OptionValue[FIESTAPath];
-    $AMFlowPath                  = OptionValue[AMFlowPath];
-    $LiteRedPath                 = OptionValue[LiteRedPath];
-    $LiteIBPPath                 = OptionValue[LiteIBPPath];
-    $FIREPath                    = OptionValue[FIREPath];
-    $FeyntropPath                = OptionValue[FeyntropPath];
-    $ShowBenchmarkNudge          = TrueQ[OptionValue[BenchmarkNudge]];
+        If[hfp =!= Inherited,
+            $STHyperFlintPath = If[StringQ[hfp] && hfp =!= "", hfp, stDiscoverHyperFlint[]]];
+        Which[
+            hfd =!= Inherited && StringQ[hfd] && hfd =!= "" && FileExistsQ[hfd],
+                $STHyperFlintDataPath = hfd,
+            hfp =!= Inherited,
+                $STHyperFlintDataPath = stResolveHyperFlintDataPath[$STHyperFlintPath]]];
+    If[OptionValue[PythonPath]                  =!= Inherited, $PythonCommand               = OptionValue[PythonPath]];
+    If[OptionValue[PolymakeConcurrencyFraction] =!= Inherited, $PolymakeConcurrencyFraction = OptionValue[PolymakeConcurrencyFraction]];
+    If[OptionValue[FIESTAPath]                  =!= Inherited, $FIESTAPath                  = OptionValue[FIESTAPath]];
+    If[OptionValue[AMFlowPath]                  =!= Inherited, $AMFlowPath                  = OptionValue[AMFlowPath]];
+    If[OptionValue[LiteRedPath]                 =!= Inherited, $LiteRedPath                 = OptionValue[LiteRedPath]];
+    If[OptionValue[LiteIBPPath]                 =!= Inherited, $LiteIBPPath                 = OptionValue[LiteIBPPath]];
+    If[OptionValue[FIREPath]                    =!= Inherited, $FIREPath                    = OptionValue[FIREPath]];
+    If[OptionValue[FeyntropPath]                =!= Inherited, $FeyntropPath                = OptionValue[FeyntropPath]];
+    If[OptionValue[BenchmarkNudge]              =!= Inherited, $ShowBenchmarkNudge          = TrueQ[OptionValue[BenchmarkNudge]]];
 
     (* Distribute $PolymakeCommand to any already-running subkernels
        so they can call polymake even if ConfigureSubTropica is called
@@ -1153,14 +1196,20 @@ ConfigureSubTropica[opts:OptionsPattern[]] := Module[{ffPath, spqrPath, ffLoaded
         DistributeDefinitions[$PolymakeCommand]
     ];
 
-    (*  FiniteFlow / SPQR detection  *)
-    (* Only re-run FF detection if the user explicitly supplies at least one path.
-       Otherwise trust the load-time auto-detection result and avoid duplicate output. *)
+    (*  FiniteFlow / SPQR detection.  Only run if the caller actually
+        passed at least one of FiniteFlowPath / SPQRPath; otherwise the
+        load-time / persisted state is preserved and we don't re-print
+        any banner. *)
     ffPath   = OptionValue[FiniteFlowPath];
     spqrPath = OptionValue[SPQRPath];
-    $FiniteFlowPath = ffPath;  (* also store globally for AMFlow backend to reuse *)
+    ffSpqrTouched = (ffPath =!= Inherited) || (spqrPath =!= Inherited);
+    If[ffPath =!= Inherited, $FiniteFlowPath = ffPath];
 
-    If[ffPath =!= "" || spqrPath =!= "",
+    If[ffSpqrTouched,
+        (* Treat the omitted side as "" (no path), matching the old contract. *)
+        If[ffPath   === Inherited, ffPath   = ""];
+        If[spqrPath === Inherited, spqrPath = ""];
+
         (* Validate that provided paths exist before using them.
            Explicit paths override auto-detection: if a provided path is invalid,
            disable FF and report it. *)
@@ -1180,7 +1229,8 @@ ConfigureSubTropica[opts:OptionsPattern[]] := Module[{ffPath, spqrPath, ffLoaded
         If[spqrPath =!= "", PrependTo[$Path, spqrPath]];
 
         (* MG 2026-04-08: augment $LibraryPath with ffPath and its parent (package root) *)
-        $LibraryPath = DeleteDuplicates[Join[$LibraryPath, {ffPath, ParentDirectory[ffPath]}]];
+        If[ffPath =!= "",
+            $LibraryPath = DeleteDuplicates[Join[$LibraryPath, {ffPath, ParentDirectory[ffPath]}]]];
 
         ffLoaded = True;
         Check[Quiet[Needs["FiniteFlow`"]], ffLoaded = False]; (* MG 2026-04-08: Check[Quiet[...]] *)
@@ -1265,7 +1315,7 @@ STPreAnalysis[integrand, xvars, coeffs] performs an extended analysis of the sin
 It returns an association <| trData -> tropical data, rays -> divergent rays, faces -> divergent faces, us -> u-variables |>
 ";
 
-ConfigureSubTropica::usage = "ConfigureSubTropica[opt -> val, ...] sets external-tool paths (PolymakePath, GinshPath, MaplePath, HyperIntPath, HyperFlintPath, PythonPath, FiniteFlowPath, SPQRPath, FIESTAPath, AMFlowPath, LiteRedPath, LiteIBPPath, FIREPath, FeyntropPath, PolymakeConcurrencyFraction). The configuration is auto-persisted to $STConfigFile and reapplied on the next Get[\"SubTropica`\"], so you only need to call this once per machine.";
+ConfigureSubTropica::usage = "ConfigureSubTropica[opt -> val, ...] sets external-tool paths (PolymakePath, GinshPath, MaplePath, HyperIntPath, HyperFlintPath, PythonPath, FiniteFlowPath, SPQRPath, FIESTAPath, AMFlowPath, LiteRedPath, LiteIBPPath, FIREPath, FeyntropPath, PolymakeConcurrencyFraction). Only options that are explicitly named are updated; omitted options leave the current global state unchanged (no silent reset to package defaults). The configuration is auto-persisted to $STConfigFile and reapplied on the next Get[\"SubTropica`\"], so you only need to call this once per machine.";
 
 STResetConfig::usage = "STResetConfig[] removes the persistent SubTropica configuration file at $STConfigFile, restoring package defaults at the next package load.";
 
@@ -1392,6 +1442,9 @@ expressions via ginsh, the GiNaC interactive shell (requires ginsh on the \
 system path).  Accepts Hlog, Mpl, mzv/zeta, and Log objects, converts them \
 to GiNaC format internally, and returns a floating-point approximation.  \
 Expressions containing none of these are returned unchanged.";
+
+STToGinsh::unbound = "Hyperlogarithm/Log/zeta arguments still contain unbound symbols `1` after substitution; ginsh cannot evalf() symbolic invariants. Returning $Failed.";
+STToGinsh::nonNumeric = "ginsh returned non-numeric tokens `1` (likely an unparseable input or unbound symbol). Returning $Failed.";
 
 STAvailableHeuristics::usage = "STAvailableHeuristics[] returns the list of \
 available heuristic names for scoring gauge / linear-reducibility-order \
@@ -2567,6 +2620,27 @@ stringQnts
 	zetas=zetas /. zeta[a__]:> ToString[{a}]//StringReplace[#,curlyTocurvy]&;
 	zetas= ("zeta"<> #) & /@ zetas;
 
+	(* B19 guard: ginsh can only evalf() arguments whose free symbols are
+	   bound to numbers.  If the substituted Hlog/Log/zeta arguments still
+	   carry an unbound kinematic symbol (mm, MM1, MMn, sij, ...), ginsh
+	   either errors out and prints a parse-error caret, or returns the
+	   expression unevaluated.  Either way, the output stream contains
+	   tokens that ToExpression then mangles \[LongDash] previously the caller
+	   silently fell back to plain N[..] on the unevaluated Hlog, which
+	   leaks Integrate\[Backquote]V[..][..] heads (B18).  Detect the unbound-symbol
+	   case up front and bail with $Failed.
+	*)
+	Module[{knownAtoms, freeSyms},
+		knownAtoms = {Pi, E, EulerGamma, I, Complex, Rational, Real,
+			Integer, Plus, Times, Power, List, Hlog, Log, zeta,
+			HyperInt`Hlog, HyperInt`Mpl, HyperInt`mzv, HyperIntica`mzv,
+			Sqrt, Times, Plus, Minus};
+		freeSyms = Cases[Join[Hlogs, logExprs, zetas],
+			s_Symbol /; !MemberQ[knownAtoms, s], {0, Infinity}] // DeleteDuplicates;
+		If[freeSyms =!= {},
+			Message[STToGinsh::unbound, freeSyms];
+			Return[$Failed]]];
+
 	stringQnts=StringJoin@@Table[
 		"evalf("<>qnt<>");\n"
 		,
@@ -2581,6 +2655,15 @@ stringQnts
 	 ];
 
 	ginshOut=ginshOut//StringReplace[#,"E"-> "*10^"]&//ToExpression[#]&;
+
+	(* B19 post-check: every parsed token must be numeric.  A non-numeric
+	   token means ginsh emitted a G(...)/log(...)/zeta(...) expression
+	   verbatim instead of an evalf number, or echoed a parse-error
+	   diagnostic with its "^" cursor.  Either way the result is unsafe. *)
+	If[!AllTrue[ginshOut, NumericQ],
+		Message[STToGinsh::nonNumeric,
+			Select[ginshOut, !NumericQ[#] &]];
+		Return[$Failed]];
 	];
 	(* Final N[] on the substituted expression.  Two subtleties:
 	   (a) The huge-integer rational arithmetic kinematic substitutions produce
@@ -3510,6 +3593,7 @@ STVerify::psdFail = "STToPySecDec failed for `1`.";
 STVerify::ginshFail = "STToGinsh evaluation failed for `1`.";
 STVerify::backend = "STNIntegrate returned no numeric result for `1` (method=`2`).";
 STVerify::badinput = "Input format not recognized. STVerify accepts: CNI string | {edges, nodes} + result | propagator list + result | {pref, integrand, xvars, coeffs} + result | {pref, integrand, xvars, coeffs, checkpoint} + result.";
+STVerify::feyntropPoles = "feyntrop only verifies finite integrals (eps^0-leading); `1` has 1/eps poles. Use pySecDec, FIESTA, or AMFlow for divergent integrals.";
 
 Options[STVerify] = {
 	"Accuracy"    -> 10^-4,
@@ -3539,7 +3623,14 @@ Options[STVerify] = {
 	(* feyntrop-specific *)
 	"FeyntropLambda"     -> 0,
 	"FeyntropSeed"       -> 0,
-	"FeyntropNThread"    -> Automatic
+	"FeyntropNThread"    -> Automatic,
+	(* B8: hard wall-clock cap on a single backend run, applied at the
+	   stVerifyRunBackend boundary via TimeConstrained.  Automatic scales
+	   with loop count (60 s + 5 min per loop), capped at 30 min, so a
+	   single hard case can't take down the long-running UI kernel.
+	   Pass an explicit number (seconds) to override, or Infinity to
+	   disable the cap entirely. *)
+	"MaxTime"            -> Automatic
 };
 
 (* ---- Shared helpers used by all STVerify forms ---- *)
@@ -3596,14 +3687,17 @@ stVerifyEvalSymbolicGeneric[result_, subRules_List, verbose_] := Module[
 	hasMZV = !FreeQ[substituted, zeta];
 
 	If[hasHlogs || hasMZV,
-		evaluated = Quiet[Check[STToGinsh[substituted], $Failed]];
-		If[evaluated === $Failed,
-			If[verbose, Print["[STVerify] STToGinsh failed, falling back to N"]];
-			evaluated = Quiet[Check[
-				substituted /. zeta[n_] :> Zeta[n] // N,
-				$Failed
-			]]
-		],
+		(* B19: ginsh is the only trustworthy numerical evaluator for Hlog /
+		   zeta arguments \[LongDash] N[] silently produces nonsense (Integrate`V leaks)
+		   when the substituted expression still has unbound symbols. So if
+		   STToGinsh returns $Failed, surface it directly; the caller's
+		   stVerifyHandleSymbolicEval site converts $Failed into a clean
+		   "ginsh/eval failed" outcome with the underlying messages
+		   (STToGinsh::unbound / ::nonNumeric) preserved for diagnostics. *)
+		evaluated = Quiet[Check[STToGinsh[substituted], $Failed],
+			{STToGinsh::unbound, STToGinsh::nonNumeric}];
+		If[evaluated === $Failed && verbose,
+			Print["[STVerify] STToGinsh failed; not falling back to N (would silently produce wrong numbers under unbound symbols)."]],
 		evaluated = Quiet[Check[N[substituted /. zeta[n_] :> Zeta[n]], $Failed]]
 	];
 
@@ -3621,7 +3715,7 @@ stVerifyEvalSymbolicGeneric[result_, subRules_List, verbose_] := Module[
    Automatic \[RightArrow] Qmc fix-up is appended after the Automatic rule, and the
    first rule wins. *)
 stVerifyRunBackend[numericInput_, kinPoint_, normalization_, order_, maxeval_, optsList_List] :=
-Module[{method, verbose, stnOpts, r},
+Module[{method, verbose, stnOpts, r, maxTime, nLoopsGuess},
 	method  = "Method"  /. optsList /. Options[STVerify];
 	verbose = TrueQ["Verbose" /. optsList /. Options[STVerify]];
 
@@ -3632,26 +3726,60 @@ Module[{method, verbose, stnOpts, r},
 		Rule[("Method" | "Substitutions" | "KinematicPoint" | "Order" |
 		      "MaxEval" | "Verbose" | "Normalization"), _]];
 
-	r = Quiet[Check[
-		STNIntegrate[numericInput,
-			"Method"        -> method,
-			"Substitutions" -> kinPoint,
-			"Order"         -> order,
-			"MaxEval"       -> maxeval,
-			"Verbose"       -> verbose,
-			"Normalization" -> normalization,
-			Sequence @@ stnOpts
+	(* B8: hard cap on backend wall-clock to keep one runaway integral
+	   from taking down the long-running UI kernel.  Resolve "MaxTime"
+	   (Automatic -> 60 s + 5 min per loop, max 30 min; explicit number
+	   wins; Infinity disables).  We can only infer nLoops cheaply for
+	   the graph form; fall back to nLoopsGuess = 1 otherwise. *)
+	maxTime = "MaxTime" /. optsList /. Options[STVerify];
+	nLoopsGuess = Which[
+		MatchQ[numericInput, {_List, _List}],
+			Module[{edges = numericInput[[1]]},
+				1 + Length[edges] -
+					Length[Union[Flatten[edges[[All, 1]]]]]],
+		True, 1];
+	If[maxTime === Automatic,
+		maxTime = Min[60 + 300 * Max[nLoopsGuess, 1], 1800]];
+
+	If[verbose && maxTime =!= Infinity,
+		Print["[STVerify] backend wall-clock cap: ",
+			Round[maxTime, 1], "s (method=", method, ")"]];
+
+	(* B2: the previous implementation used `Quiet @ Check[..., $Failed]`,
+	   which converted the result to $Failed if ANY message fired during
+	   the backend run (FiniteFlow status messages, polymake noise, etc.)
+	   \[LongDash] including the long sequence of benign messages AMFlow's
+	   SolveIntegrals emits.  Use CheckAbort instead so a normal
+	   message-firing run still yields the integrator's actual result. *)
+	r = CheckAbort[
+		TimeConstrained[
+			STNIntegrate[numericInput,
+				"Method"        -> method,
+				"Substitutions" -> kinPoint,
+				"Order"         -> order,
+				"MaxEval"       -> maxeval,
+				"Verbose"       -> verbose,
+				"Normalization" -> normalization,
+				Sequence @@ stnOpts
+			],
+			maxTime,
+			$TimedOut
 		],
-		$Failed
-	]];
+		$Aborted
+	];
 	Which[
-		r === $Failed, $Failed,
+		r === $Aborted || r === $Failed, $Failed,
+		r === $TimedOut,
+			Message[STVerify::backendTimeout, method, Round[maxTime, 1]];
+			$Failed,
 		AssociationQ[r] && KeyExistsQ[r, "Value"] && KeyExistsQ[r, "Error"],
 			{r["Value"], r["Error"]},
 		MatchQ[r, {_, _}], r,
 		True, $Failed
 	]
 ];
+
+STVerify::backendTimeout = "Backend `1` exceeded the wall-clock cap of `2` s; returning $Failed. Pass \"MaxTime\" -> <seconds> (or Infinity) to STVerify to override.";
 
 (* STVerify[cni] \[LongDash] verify a library entry by CNI string *)
 STVerify[cni_String, opts:OptionsPattern[]] := Module[
@@ -3721,7 +3849,7 @@ STVerify[cni_String, opts:OptionsPattern[]] := Module[
 	];
 	If[kinPoint === $Failed,
 		Return[<|"pass" -> False,
-			"reason" -> "shared-mass on-shell (no Euclidean region) \[LongDash] unsupported",
+			"reason" -> "no Euclidean kinematic point found",
 			"cni" -> cni, "loops" -> nLoops|>]];
 	If[verbose, Print["[STVerify] KinematicPoint: ", kinPoint]];
 
@@ -3751,6 +3879,28 @@ STVerify[cni_String, opts:OptionsPattern[]] := Module[
 			Print["[STVerify] Shared mass ", shared, " \[LongDash] ", method, " will bake the constraint"]
 		]
 	];
+
+	(* 3c. Refuse feyntrop on divergent integrals.
+	   feyntrop's tropical Monte Carlo evaluates only the finite (eps^0)
+	   piece, so it cannot match a symbolic answer that carries 1/eps
+	   poles (the comparison silently disagrees, as observed on 1L bubble
+	   m^2+s).  Detect by inspecting the decompressed Laurent series for
+	   any SeriesData with negative leading order, or any explicit
+	   eps^(-n) factor. *)
+	Module[{method, hasPole},
+		method = OptionValue["Method"];
+		If[method === "feyntrop",
+			(* Quiet[ ..., SeriesData::sdatc] avoids the pattern matcher's
+			   structural validation on the placeholder SeriesData below. *)
+			hasPole = Quiet[
+				!FreeQ[result, SeriesData[eps, _, _, n_?Negative, _, _]] ||
+				!FreeQ[result, eps^_?Negative],
+				SeriesData::sdatc];
+			If[hasPole,
+				Message[STVerify::feyntropPoles, cni];
+				Return[<|"pass" -> False,
+					"reason" -> "feyntrop only verifies finite integrals (no eps poles)",
+					"cni" -> cni, "loops" -> nLoops|>]]]];
 
 	(* 4. Run numerical evaluation (routes through STNIntegrate so all four
 	   backends \[LongDash] pySecDec / FIESTA / AMFlow / feyntrop \[LongDash] are available). *)
@@ -3891,9 +4041,41 @@ STVerify[{edges_List, nodes_List}, result_, opts:OptionsPattern[STVerify]] := Mo
 	];
 	If[kinPoint === $Failed,
 		Return[<|"pass" -> False,
-			"reason" -> "shared-mass on-shell (no Euclidean region) \[LongDash] unsupported",
+			"reason" -> "no Euclidean kinematic point found",
 			"cni" -> cni, "loops" -> nLoops|>]];
 	If[verbose, Print["[STVerify] seed=", seed, "  KinematicPoint: ", kinPoint]];
+
+	(* B11: feyntrop cannot handle shared internal/external mass symbols
+	   because it returns only eps^0 and higher; the constraint msq = m^2
+	   produces an integrand with 1/eps^2 poles it cannot represent.
+	   pySecDec / FIESTA / AMFlow all handle this correctly (see the
+	   per-backend notes on the cni-form's shared-mass guard above). *)
+	Module[{shared = stSharedMassLegs[{edges, nodes}][[1]], method},
+		method = OptionValue["Method"];
+		If[Length[shared] > 0 && method === "feyntrop",
+			If[verbose, Print["[STVerify] Shared mass ", shared,
+				" \[LongDash] feyntrop cannot represent \[CurlyEpsilon]-poles; skipping"]];
+			Return[<|"pass" -> False, "reason" -> "shared mass (feyntrop cannot represent poles)",
+				"cni" -> cni, "loops" -> nLoops, "sharedMasses" -> shared|>]
+		];
+	];
+
+	(* B10: feyntrop only verifies finite (eps^0-leading) integrals; refuse
+	   to run it on a divergent symbolic result.  Detect 1/eps poles by
+	   inspecting the Laurent series for a SeriesData with negative leading
+	   order, or any explicit eps^(-n) factor. *)
+	Module[{method, hasPole},
+		method = OptionValue["Method"];
+		If[method === "feyntrop",
+			hasPole = Quiet[
+				!FreeQ[result, SeriesData[eps, _, _, n_?Negative, _, _]] ||
+				!FreeQ[result, eps^_?Negative],
+				SeriesData::sdatc];
+			If[hasPole,
+				Message[STVerify::feyntropPoles, cni];
+				Return[<|"pass" -> False,
+					"reason" -> "feyntrop only verifies finite integrals (no eps poles)",
+					"cni" -> cni, "loops" -> nLoops|>]]]];
 
 	maxeval = OptionValue["MaxEval"];
 	If[maxeval === Automatic, maxeval = If[nLoops <= 1, 10^6, 10^7]];
@@ -3947,7 +4129,7 @@ STVerify[{edges_List, nodes_List}, result_, opts:OptionsPattern[STVerify]] := Mo
 					kinPoint = stMakeVerificationPoint[edges, nodes, seed + 1]];
 				If[kinPoint === $Failed,
 					Return[<|"pass" -> False,
-						"reason" -> "shared-mass on-shell (no Euclidean region) \[LongDash] unsupported",
+						"reason" -> "no Euclidean kinematic point found",
 						"cni" -> cni, "loops" -> nLoops, "psd" -> psdResult|>]];
 				If[verbose, Print["[STVerify] New KinematicPoint: ", kinPoint]];
 				psdResult = stVerifyRunBackend[{edges, nodes}, kinPoint, normalization,
@@ -4574,9 +4756,9 @@ stMakeVerificationPoint[edges_, nodes_, seed_Integer, resultVars_List:{}] := Cat
 	   empty).  Fixing this requires a graph-specific i\[CurlyEpsilon] auto-scan
 	   which is future work.  Until then, we pre-empt spurious
 	   verified-pass (or verify-refused with sentinel 99) outcomes by
-	   throwing $Failed here.  Callers see "shared-mass on-shell ..."
-	   or "no Euclidean region ..." as a structured reason and can
-	   decide how to handle (skip, queue for manual review, etc.). *)
+	   throwing $Failed here.  Callers see "no Euclidean kinematic
+	   point found" as a structured reason and can decide how to
+	   handle (skip, queue for manual review, etc.). *)
 	If[hasSharedMass,
 		Message[stMakeVerificationPoint::sharedMassNoEuclidean];
 		Throw[$Failed, "euclidean"]];
@@ -6605,7 +6787,8 @@ stNIntegrateFIESTA[{edges_List, nodes_List}, opts___] := Module[
 	 loops, props, nExt, kinPoint, subs, order, maxeval,
 	 exponents, indices, verbose, normalization, complexMode,
 	 nSubkernels, nLinks, strategy, integrator, dim, dimInfo, d0,
-	 UFresult, Upoly, Fpoly, fiestaResult, cIntPath},
+	 UFresult, Upoly, Fpoly, fiestaResult, cIntPath,
+	 dataDir, dataPathPrefix},
 
 	verbose = TrueQ["Verbose" /. {opts} /. "Verbose" -> False];
 	order = "Order" /. {opts} /. "Order" -> 0;
@@ -6744,10 +6927,24 @@ stNIntegrateFIESTA[{edges_List, nodes_List}, opts___] := Module[
 		(* Resolve CIntegrate binary path *)
 		cIntPath = FileNameJoin[{$FIESTAPath, "bin"}];
 
+		(* Per-call DataPath: $FIESTAPath/temp/stnif_<PID>_<counter>/db .
+		   The trailing "/db" is the prefix FIESTA appends "in.kch", "out.kch",
+		   etc. to.  Using a fresh subdirectory per call isolates this
+		   integrand's database files from prior calls in the same kernel,
+		   so leftover task-prefixed kch / qhi / qho files cannot poison
+		   the next FIESTA call. *)
+		$stFIESTACallCounter += 1;
+		dataDir = FileNameJoin[{$FIESTAPath, "temp",
+			"stnif_" <> ToString[$ProcessID] <> "_" <>
+				ToString[$stFIESTACallCounter]}];
+		Quiet @ CreateDirectory[dataDir];
+		dataPathPrefix = FileNameJoin[{dataDir, "db"}];
+
 		If[verbose,
 			Print["[STNIntegrate/FIESTA] L=", nLoops, " E=", nEdges, " legs=", nExt, " d0=", d0];
 			Print["[STNIntegrate/FIESTA] subs: ", subs];
-			Print["[STNIntegrate/FIESTA] CIntegratePath: ", cIntPath]
+			Print["[STNIntegrate/FIESTA] CIntegratePath: ", cIntPath];
+			Print["[STNIntegrate/FIESTA] DataPath: ", dataPathPrefix]
 		];
 
 		If[verbose, Print["[STNIntegrate/FIESTA] Calling FIESTA with ", Length[loops], " loops, ", Length[props], " props"]];
@@ -6763,7 +6960,8 @@ stNIntegrateFIESTA[{edges_List, nodes_List}, opts___] := Module[
 				"NumberOfLinks" -> nLinks,
 				"Strategy" -> strategy,
 				"ComplexMode" -> complexMode,
-				"d0" -> d0
+				"d0" -> d0,
+				"DataPath" -> dataPathPrefix
 			];
 
 			UFresult = $stFIESTAUF[loops, props, subs];
@@ -6772,8 +6970,14 @@ stNIntegrateFIESTA[{edges_List, nodes_List}, opts___] := Module[
 
 			If[verbose, Print["[STNIntegrate/FIESTA] U=", Short[Upoly, 2], "  F=", Short[Fpoly, 2]]];
 
-			fiestaResult = $stFIESTASDEval[{Upoly, Fpoly, nLoops}, indices, order];
+			fiestaResult = CheckAbort[
+				$stFIESTASDEval[{Upoly, Fpoly, nLoops}, indices, order],
+				$Aborted];
 		];
+
+		(* Best-effort cleanup of the per-call DataPath subdirectory. *)
+		Quiet @ DeleteDirectory[dataDir, DeleteContents -> True];
+		If[fiestaResult === $Aborted, Return[$Failed]];
 	];
 
 	If[verbose, Print["[STNIntegrate/FIESTA] Raw: ", InputForm[fiestaResult]]];
@@ -7068,14 +7272,39 @@ stAMFlowReplacement[{edges_, nodes_}, kinPoint_] := Module[
 	replacement = {};
 	introduced  = {};  (* flat symbols that need numeric values *)
 
-	(* Flatten Subscript[M,i] -> M<i>sq and Subscript[s,i,j] -> s<ij>.
-	   Shared-mass legs (node mass symbol that also appears on an internal
-	   edge) substitute M_i^2 with the edge mass symbol squared directly,
-	   so AMFlow's family has one fewer kinematic parameter and the IBP/DE
-	   reduction sees the shared-mass constraint analytically (v1.0.297). *)
+	(* Flatten Subscript[M,i] -> <flat-mass-squared symbol> and
+	   Subscript[s,i,j] -> s<ij>.  Two regimes for the M_i^2 case:
+
+	     1. Shared internal/external mass: the i-th external leg's mass
+	        symbol also appears on some internal edge.  Substitute
+	        M_i^2 -> sm^2 directly so AMFlow's family loses that
+	        parameter and the IBP/DE reduction sees the constraint
+	        analytically (v1.0.297).
+
+	     2. Otherwise: use the SAME flat-square symbol that
+	        stMakeVerificationPoint emits for this leg's node mass.
+	        That generator deduplicates by node-mass symbol \[LongDash] e.g.
+	        a bubble whose two external legs both carry mass M produces
+	        a single "Msq" key, not "M1sq" / "M2sq".  The previous
+	        implementation always emitted indexed "M<i>sq" symbols, so
+	        the AMFlow lookup missed every shared-mass external and
+	        silently defaulted M<i>sq -> 0 (B2 / B3). *)
 	flatSubs = {
-		Subscript[M, i_]^2 :> With[{sm = stIsSharedMassLeg[{edges, nodes}, i]},
-			If[sm === None, Symbol["M" <> ToString[i] <> "sq"], sm^2]],
+		Subscript[M, i_Integer]^2 :> With[
+			{sm = stIsSharedMassLeg[{edges, nodes}, i],
+			 nm = nodeMasses[[i]]},
+			Which[
+				(* Massless leg: the on-shell constraint is p_i^2 = 0, so
+				   inject 0 directly rather than emitting an invalid
+				   Symbol["0sq"]. *)
+				nm === 0,
+					0,
+				(* Shared external/internal mass: substitute the internal
+				   mass symbol so AMFlow's family loses that parameter. *)
+				sm =!= None,
+					sm^2,
+				True,
+					Symbol[StringReplace[stMmaExprToPython[nm], "**" -> ""] <> "sq"]]],
 		Subscript[s, i_, j_] :> Symbol["s" <> ToString[i] <> ToString[j]]
 	};
 
@@ -7131,19 +7360,21 @@ stAMFlowExtractSeries[jResult_, targetMaxOrder_Integer] := Module[
 
 stNIntegrateAMFlow[{edges_List, nodes_List}, opts___] := Module[
 	{order, verbose, kinPoint, exponents, reducer, precision, nThread, family,
-	 dim, dimInfo, d0,
+	 dim, dimInfo, d0, normalization,
 	 nEdges, nLoops, nExt, loops, legs, cons, props, replacement, numericList,
 	 indices, amflowOrder, target, sol, jResult, minPow, maxPow, coeffs,
-	 valSeries, t0 = AbsoluteTime[]},
+	 valSeries, errSeries, normFactor, valExpr, errExpr,
+	 t0 = AbsoluteTime[]},
 
-	order     = "Order"            /. {opts} /. "Order"            -> 0;
-	verbose   = TrueQ["Verbose"    /. {opts} /. "Verbose"          -> False];
-	kinPoint  = stPickKinPointOpts[{opts}];
-	exponents = "Exponents"        /. {opts} /. "Exponents"        -> Automatic;
-	reducer   = "AMFlowIBPReducer" /. {opts} /. "AMFlowIBPReducer" -> "FiniteFlow+LiteRed";
-	precision = "AMFlowPrecision"  /. {opts} /. "AMFlowPrecision"  -> 16;
-	nThread   = "AMFlowNThread"    /. {opts} /. "AMFlowNThread"    -> 4;
-	family    = "AMFlowFamily"     /. {opts} /. "AMFlowFamily"     -> Automatic;
+	order         = "Order"         /. {opts} /. "Order"         -> 0;
+	verbose       = TrueQ["Verbose" /. {opts} /. "Verbose"       -> False];
+	kinPoint      = stPickKinPointOpts[{opts}];
+	exponents     = "Exponents"     /. {opts} /. "Exponents"     -> Automatic;
+	reducer       = "AMFlowIBPReducer" /. {opts} /. "AMFlowIBPReducer" -> "FiniteFlow+LiteRed";
+	precision     = "AMFlowPrecision"  /. {opts} /. "AMFlowPrecision"  -> 16;
+	nThread       = "AMFlowNThread"    /. {opts} /. "AMFlowNThread"    -> 4;
+	family        = "AMFlowFamily"     /. {opts} /. "AMFlowFamily"     -> Automatic;
+	normalization = "Normalization" /. {opts} /. "Normalization" -> Automatic;
 
 	(* Dimension: AMFlow's convention is D = D0 - 2*eps, controlled via the
 	   global option SetAMFOptions["D0" -> D0].  Validate that dim has the
@@ -7242,13 +7473,32 @@ stNIntegrateAMFlow[{edges_List, nodes_List}, opts___] := Module[
 
 	{minPow, maxPow, coeffs} = stAMFlowExtractSeries[jResult, order];
 	valSeries = SeriesData[eps, 0, coeffs, minPow, maxPow + 1, 1];
-
-	(* AMFlow has no Monte Carlo error; report 10^(-precision) as an order-of-
-	   magnitude confidence bound at each eps order. *)
-	{valSeries,
-	 SeriesData[eps, 0,
+	errSeries = SeriesData[eps, 0,
 		ConstantArray[10^(-precision), Length[coeffs]],
-		minPow, maxPow + 1, 1]}
+		minPow, maxPow + 1, 1];
+
+	(* AMFlow returns the bare Feynman integral with no MS-bar prefactor.
+	   pySecDec and FIESTA both bake in exp(L*eps*EulerGamma) when
+	   Normalization -> Automatic, so apply the same factor here for
+	   cross-backend agreement.  For Normalization -> 1 leave AMFlow's
+	   raw result alone; for an explicit expression, use it as the
+	   prefactor. *)
+	normFactor = Switch[normalization,
+		Automatic, Exp[nLoops*eps*EulerGamma],
+		1,         1,
+		_,         normalization];
+	If[normFactor =!= 1,
+		valExpr = Normal[Series[Normal[valSeries] * normFactor,
+			{eps, 0, maxPow}]];
+		coeffs = Table[Coefficient[Expand[valExpr], eps, k],
+			{k, minPow, maxPow}];
+		valSeries = SeriesData[eps, 0, coeffs, minPow, maxPow + 1, 1];
+		(* The error bound is an order-of-magnitude estimate; the constant
+		   term of normFactor is 1 for Normalization -> Automatic so the
+		   bound is unchanged.  errSeries left as-is. *)
+	];
+
+	{valSeries, errSeries}
 ];
 
 (* Propagator-list form: convert to a fake graph via existing pipeline if
@@ -15321,7 +15571,7 @@ Options[STEvaluateGraph] = Join[
         "ReuseExistingResults"    -> True,   (* Skip faces that already have result.m + successQ.m on disk *)
         "UIComms"                 -> None,   (* Structured progress reporting for SubTropica UI *)
         "ContourHandling"         -> "Abort", (* "Abort" = abort on undetermined contour direction; "Continue" = leave Hlog[Infinity,...] unevaluated *)
-        FindRoots                 -> True,   (* Default True as of v1.0.398: factor univariate quadratic+ polynomials into linear roots during LR order search, introducing Wm[i]/Wp[i] algebraic letters when the factors are irreducible (e.g. equal-mass / clustered-mass graphs). True unlocks integrals that False aborts on (equal-mass bubble, equal-mass sunrise triangle, ...). Parallel integration is enabled by default as of v1.0.402: each subkernel Block-scopes $HyperAlgebraicLetterCounter/Table with JobIndex*$STFindRootsJobStride, and the aggregator unions per-subkernel tables. Set $STFindRootsParallelSafe = False to opt out to the legacy serial path. *)
+        FindRoots                 -> Automatic,   (* B17 (was True since v1.0.398): "Automatic" runs the gauge-scoring phase with FindRoots -> False first; if every gauge returns NOLR, retries with FindRoots -> True (which factors univariate quadratic+ polynomials into linear roots, introducing Wm[i]/Wp[i] algebraic letters via HyperIntica's LinearFactors). The retry handles equal-mass / unequal-mass bubbles, sunrise triangles, and other clustered-mass graphs that False aborts on. Explicit True forces always-FindRoots; explicit False skips entirely. Parallel integration: each subkernel Block-scopes $HyperAlgebraicLetterCounter/Table with JobIndex*$STFindRootsJobStride; the aggregator unions per-subkernel tables. Set $STFindRootsParallelSafe = False to opt out to the legacy serial path. *)
         "AutoRationalize"         -> False,  (* When True, try the M1/M2/M3 rationalization dispatcher (single/double Cheng-Wu, FKV, Kallen, BoxFKV) before falling through to the normal pipeline.  Off by default because the dispatcher may pick a substitution for cases the normal pipeline already handles correctly, producing a DIFFERENTLY-parameterized (FKV-variable) result.  Users who want unlocks should set this True explicitly. *)
         "MethodLR"                -> "Lungo",  (* "Lungo" (default, OLD algorithm: discriminant/resultant + global dedup) or "Espresso" *)
         "MethodPolysAndPairs"     -> "Fast",   (* "Fast" (default) = extract polys directly from STtoCoeffMonPols; "Standard" = sum renormalized integrands per eps-order and call STpreparePolysAndPairs *)
@@ -15330,6 +15580,43 @@ Options[STEvaluateGraph] = Join[
     Options[STGenerateIntegrand]
 ];
 
+
+(* B17: FindRoots -> Automatic dispatch (cheap-then-expensive retry).
+   When the resolved FindRoots option is Automatic, run the body with
+   FindRoots -> False; if every gauge fails to find a linearly reducible
+   order (STEvaluateGraph::nolr fires inside the gauge-scoring loop),
+   retry with FindRoots -> True so HyperIntica's LinearFactors path
+   introduces Wm[i]/Wp[i] algebraic letters.  The False trial's
+   STEvaluateGraph::nolr message is suppressed via Quiet+HandlerBlock
+   so the user only sees messages from the retry's full message stream.
+   Other failure modes (STEvaluateGraph::timebound, polymake errors,
+   scaleless fallbacks) propagate from the False trial unchanged \[LongDash]   FindRoots wouldn't fix them.  The recursive call passes
+   FindRoots -> True | False explicitly, which wins via OptionValue's
+   first-rule ordering and prevents infinite dispatch.  Caveats:
+   \[Bullet] Genuinely non-LR cases (e.g. equal-mass 2-loop sunrise / elliptic
+     integrals) pay the cost of both trials before failing.
+   \[Bullet] The False trial's gauge-scoring still emits its own Echo prints;
+     only the NOLR Message is silenced.  A retry shows two scoring
+     reports back-to-back, prefixed by a banner. *)
+STEvaluateGraph[g_, opts : OptionsPattern[]] /;
+    OptionValue[STEvaluateGraph, {opts}, FindRoots] === Automatic :=
+Module[{gotNolr = False, falseResult, verbose},
+    verbose = TrueQ[OptionValue[STEvaluateGraph, {opts}, "Verbose"]];
+    If[verbose,
+        Print["[STEvaluateGraph] FindRoots -> Automatic: trying FindRoots -> False first"]];
+    falseResult = Internal`HandlerBlock[
+        {"Message", Function[capturedMsg,
+            If[MatchQ[capturedMsg,
+                Hold[Message[MessageName[STEvaluateGraph, "nolr"], ___], _]],
+                gotNolr = True]]},
+        Quiet[
+            STEvaluateGraph[g, FindRoots -> False, opts],
+            {STEvaluateGraph::nolr}]];
+    If[gotNolr,
+        Print["[STEvaluateGraph] FindRoots -> False: NOLR for every gauge; retrying with FindRoots -> True"];
+        STEvaluateGraph[g, FindRoots -> True, opts],
+        falseResult]
+];
 
 STEvaluateGraph[g_, opts : OptionsPattern[]] :=
 Catch[
@@ -15365,7 +15652,24 @@ Module[{
     showIntegrands = OptionValue["ShowIntegrands"];
     saveSlowestIntegrand = OptionValue["SaveSlowestIntegrand"];
     saveAllIntegrands = OptionValue["SaveAllIntegrands"];
-    problemId = ToString[If[OptionValue["SetProblemID"] === Automatic, Unique[SubTropicaID], OptionValue["SetProblemID"]]];
+    problemId = If[OptionValue["SetProblemID"] === Automatic,
+        ToString[Unique[SubTropicaID]],
+        (* Explicit SetProblemID: extend with an 8-char content hash of
+           {graph spec, Substitutions, Dimension} so different colorings or
+           mass configurations of the same nominal problem don't silently
+           share `integrands/<id>*` per-face caches. The UI's handleIntegrate
+           passes SetProblemID equal to the sanitized topology nickel
+           (e.g. "e12_e2_e_"), which is identical across every coloring
+           — without the hash, ReuseExistingResults -> True returns cached
+           result.m files from whichever coloring was integrated first.
+           Caches from before this hash extension stay on disk; they are
+           simply not matched by the new id wildcard. *)
+        Module[{cacheKey, cacheHash},
+            cacheKey = {g, Sort @ OptionValue["Substitutions"],
+                        OptionValue["Dimension"]};
+            cacheHash = StringTake[
+                IntegerString[Hash[cacheKey, "MD5"], 16, 8], -8];
+            ToString[OptionValue["SetProblemID"]] <> "_" <> cacheHash]];
     outputOrder = OptionValue["Order"];
     outputOrder = If[outputOrder === Automatic, 0, outputOrder];
     poleGamma = 0; effectiveOrder = outputOrder;  (* resolved later when prefactor is known *)
@@ -17826,7 +18130,7 @@ $STOptionValues = <|
     "SelectFaces"            -> {All, "integer", "{i1, i2, ...}", "epsOrder -> face", "Except[{...}]"},
     "ReuseExistingResults"   -> {True, False},
     "ContourHandling"        -> {"Abort", "Continue"},
-    "FindRoots"              -> {False, True},
+    "FindRoots"              -> {Automatic, False, True},
     "MethodLR"               -> {"Lungo", "Espresso"},
     "MethodPolysAndPairs"    -> {"Fast", "Standard"},
     "ScanGauges"             -> {Automatic, True, False},
@@ -17875,7 +18179,7 @@ $STAutocompletionData = <|
         "ShowIntegrands"          -> {"True", "False"},
         "SaveSlowestIntegrand"    -> {"True", "False"},
         "SaveAllIntegrands"       -> {"True", "False"},
-        "FindRoots"               -> {"True", "False"},
+        "FindRoots"               -> {"Automatic", "True", "False"},
         "MethodLR"                -> {"\"Lungo\"", "\"Espresso\""},
         "MethodPolysAndPairs"     -> {"\"Fast\"", "\"Standard\""},
         "ScanGauges"              -> {"Automatic", "True", "False"},
@@ -19471,6 +19775,88 @@ $stPrintCells = False;
 stLog[args___] := If[$stVerbose, Print[args]];
 (* stErr: always prints (errors and critical status) *)
 stErr[args___] := Print[args];
+
+(* stWithSuppressedOutput: evaluate `expr` with $Output and $Echo
+   redirected to a kernel.log file under the given IPC directory.
+   Used by the UI request dispatchers (processOneRequest and the
+   VERIFY_REQUEST handler) so that Print/Echo output from any handler
+   \[LongDash] including third-party backends like FIESTA whose Print calls
+   we don't control \[LongDash] does not spam the user's notebook
+   front-end.  Status the user actually needs (the integrate/verify
+   result association) flows through the JSON response file, not
+   through Print. *)
+SetAttributes[stWithSuppressedOutput, HoldRest];
+stWithSuppressedOutput[ipcDir_String, expr_] := Module[
+    {logFile, logStream, result},
+    logFile = FileNameJoin[{ipcDir, "kernel.log"}];
+    logStream = Quiet @ OpenAppend[logFile, CharacterEncoding -> "UTF-8"];
+    If[logStream === $Failed,
+        (* If we cannot open the log file, fall through and let Print
+           go wherever it normally would \[LongDash] better noisy than dropped. *)
+        result = expr,
+        result = Block[{$Output = {logStream}, $Echo = {logStream}},
+            expr];
+        Quiet @ Close[logStream]];
+    result];
+
+(* stFormatHeldMessage: render a message captured via Internal`HandlerBlock
+   (a held form like Hold[Message[STVerify::feyntropPoles, "x"], False])
+   as a single human-readable string, e.g.:
+       "STVerify::feyntropPoles: feyntrop only verifies finite ..."
+   Used by the verify handler in handleVerify and STSubmitResult to surface
+   the real cause of a failure in verify_result.json (B7). *)
+SetAttributes[stFormatHeldMessage, HoldFirst];
+stFormatHeldMessage[Hold[Message[mn_, args___], _]] := Module[
+    {tag, template, rendered},
+    tag = ToString[Unevaluated[mn]];  (* "STVerify::feyntropPoles" *)
+    template = Quiet @ Check[mn, ""];
+    rendered = If[StringQ[template] && template =!= "",
+        Quiet @ Check[ToString[StringForm[template, args]], ""],
+        ""];
+    If[rendered =!= "",
+        tag <> ": " <> rendered,
+        tag <> If[Length[{args}] === 0, "",
+            ": " <> StringRiffle[ToString[#, InputForm] & /@ {args}, ", "]]]
+];
+stFormatHeldMessage[other_] := ToString[other, InputForm];
+
+(* Tags emitted by Mathematica internals that swamp the captured-messages
+   list during a normal STVerify call (e.g. import probing during library
+   lookup, our own SeriesData-pattern probe in stFormatHeldMessage's
+   pole-detection sibling).  Filtered out before the messages array is
+   shown in the JSON; the tags-to-drop list can be expanded as we hit new
+   noise. *)
+$stMessageNoiseTagPrefixes = {
+    "MIMETypeToFormatList::",
+    "SeriesData::sdatc",
+    "General::newsym",
+    "General::shdw",
+    "Series::serlim",
+    (* B12: messages that fire on every wolframscript invocation simply
+       because there is no notebook front end / no parallel kernels yet
+       to talk to.  Without filtering these, the B6/B7 surfacing logic
+       would happily pick up `FrontEndObject::notavail` or
+       `KernelObject::timekernels` as the first captured message and
+       report it as the cause of an unrelated failure (the campaign
+       saw "Failed: FrontEndObject::notavail" on bubble-equal-mass
+       integrate failures whose real cause was buried further down the
+       message stream). *)
+    "FrontEndObject::notavail",
+    "KernelObject::timekernels",
+    "TaskRemove::taskid",
+    "CreateDirectory::eexist",
+    "LibraryFunction::overload",
+    "Set::write"
+};
+stIsNoiseMessage[s_String] := AnyTrue[$stMessageNoiseTagPrefixes,
+    StringStartsQ[s, #] &];
+stIsNoiseMessage[_] := False;
+
+(* stCleanupCapturedMessages: format + filter + dedupe. Used at every
+   call site that reports captured messages to a JSON consumer. *)
+stCleanupCapturedMessages[heldList_List] := DeleteDuplicates @ Select[
+    stFormatHeldMessage /@ heldList,
+    !stIsNoiseMessage[#] &];
 
 (* \[HorizontalLine]\[HorizontalLine] Locked topology state (set by /api/lock) \[HorizontalLine]\[HorizontalLine] *)
 $anResult = <||>;
@@ -23725,32 +24111,36 @@ locateUIDirectory[] := Module[{candidates, dir},
 (* ================================================================== *)
 
 processOneRequest[reqFile_String] := Module[
-  {reqData, action, body, responseBody, respFile},
+  {reqData, action, body, responseBody, respFile, ipcDir},
   reqData = Quiet @ Check[Import[reqFile, "RawJSON"], $Failed];
   If[!AssociationQ[reqData], Return[]];
   action = reqData["action"];
   body = reqData["body"];
   respFile = StringReplace[reqFile, ".request" -> ".response"];
+  ipcDir = DirectoryName[reqFile];
   stLog["[SubTropica] Processing: ", action];
-  responseBody = Switch[action,
-    "lock",           handleLock[body],
-    "integrate",      handleIntegrate[body],
-    "estimate",       handleEstimate[body],
-    "autoMomenta",    handleAutoMomenta[body],
-    "solveMomCons",   handleSolveMomCons[body],
-    "refreshDiagram", handleRefreshDiagram[body],
-    "kinematics",     handleKinematics[body],
-    "deleteResult",   handleDeleteResult[body],
-    "transformResult", handleTransformResult[body],
-    "decodeResult",   handleDecodeResult[body],
-    "sendToNotebook", handleSendToNotebook[body],
-    "safeExit",       handleSafeExit[body],
-    "syncLibrary",    handleSyncLibrary[body],
-    "getContributor", handleGetContributor[body],
-    "setContributor", handleSetContributor[body],
-    _, ExportString[<|"status" -> "error",
-         "error" -> "Unknown: " <> ToString[action]|>, "RawJSON"]
-  ];
+  (* All handler Print/Echo output goes to <ipcDir>/kernel.log so the
+     UI does not spam the user's notebook front-end. *)
+  responseBody = stWithSuppressedOutput[ipcDir,
+    Switch[action,
+      "lock",           handleLock[body],
+      "integrate",      handleIntegrate[body],
+      "estimate",       handleEstimate[body],
+      "autoMomenta",    handleAutoMomenta[body],
+      "solveMomCons",   handleSolveMomCons[body],
+      "refreshDiagram", handleRefreshDiagram[body],
+      "kinematics",     handleKinematics[body],
+      "deleteResult",   handleDeleteResult[body],
+      "transformResult", handleTransformResult[body],
+      "decodeResult",   handleDecodeResult[body],
+      "sendToNotebook", handleSendToNotebook[body],
+      "safeExit",       handleSafeExit[body],
+      "syncLibrary",    handleSyncLibrary[body],
+      "getContributor", handleGetContributor[body],
+      "setContributor", handleSetContributor[body],
+      _, ExportString[<|"status" -> "error",
+           "error" -> "Unknown: " <> ToString[action]|>, "RawJSON"]
+    ]];
   Export[respFile, responseBody, "Text", CharacterEncoding -> "UTF-8"];
 ];
 
@@ -23979,10 +24369,16 @@ FeynmanIntegrate[OptionsPattern[]] := Module[{port, url, pythonCmd, scriptPath, 
       Label["SkipCommandPrint"];
 
       Module[{progressFile, progressJsonl, resultFile, result, edges, nodes,
-              allOpts, resultStr, resolvedCmd, startedAt},
+              allOpts, resultStr, resolvedCmd, startedAt,
+              capturedMsgs, cleanedMsgs},
 
         startedAt = AbsoluteTime[];
         resolvedCmd = "";
+        (* B6: capture every message fired during STEvaluate so the JSON
+           response can carry the underlying cause when result is $Failed
+           or $Aborted, instead of the opaque "STEvaluate returned an
+           error" / "Integration aborted" strings. *)
+        capturedMsgs = {};
 
         progressFile = FileNameJoin[{ipcDir, "progress.log"}];
         progressJsonl = FileNameJoin[{ipcDir, "progress.jsonl"}];
@@ -24332,7 +24728,11 @@ FeynmanIntegrate[OptionsPattern[]] := Module[{port, url, pythonCmd, scriptPath, 
                 writeProgressAt["warn", "wrapper",
                   "[SubTropica] Cancelled before STEvaluate."];
                 result = $Aborted,
-              (* Pipe STSymanzik output to STEvaluate *)
+              (* Pipe STSymanzik output to STEvaluate.  Drop the `Quiet`
+                 here: HandlerBlock streams every message into
+                 capturedMsgs so the response JSON can surface the
+                 underlying cause when STEvaluate returns $Failed or the
+                 kernel aborts (B6). *)
               result = Internal`InheritedBlock[{Print, Echo, CellPrint, WriteString},
                 Unprotect[Print];
                 Print[args___] := writeProgressAuto["stPrint", args];
@@ -24351,10 +24751,12 @@ FeynmanIntegrate[OptionsPattern[]] := Module[{port, url, pythonCmd, scriptPath, 
                 WriteString["stdout", args___] := writeProgressAuto["stdout", args];
                 Protect[WriteString];
 
-                Quiet @ CheckAbort[
-                  SubTropica`STEvaluate[stInput,
-                    Sequence @@ Normal[allOpts]],
-                  $Aborted]
+                Internal`HandlerBlock[
+                  {"Message", Function[m, AppendTo[capturedMsgs, m]]},
+                  CheckAbort[
+                    SubTropica`STEvaluate[stInput,
+                      Sequence @@ Normal[allOpts]],
+                    $Aborted]]
               ]
               ] (* end CANCEL If *)
             ];
@@ -24385,7 +24787,9 @@ FeynmanIntegrate[OptionsPattern[]] := Module[{port, url, pythonCmd, scriptPath, 
               result = result /. allOpts["Substitutions"]
             ],
 
-            (* Standard path: direct STEvaluate *)
+            (* Standard path: direct STEvaluate.  See B6 note above.
+               HandlerBlock captures messages so the response JSON can
+               carry the underlying cause when result is $Failed/$Aborted. *)
             result = Internal`InheritedBlock[{Print, Echo, CellPrint, WriteString},
               Unprotect[Print];
               Print[args___] := writeProgressAuto["stPrint", args];
@@ -24404,10 +24808,12 @@ FeynmanIntegrate[OptionsPattern[]] := Module[{port, url, pythonCmd, scriptPath, 
               WriteString["stdout", args___] := writeProgressAuto["stdout", args];
               Protect[WriteString];
 
-              Quiet @ CheckAbort[
-                SubTropica`STEvaluate[{edges, nodes},
-                  Sequence @@ Normal[allOpts]],
-                $Aborted]
+              Internal`HandlerBlock[
+                {"Message", Function[m, AppendTo[capturedMsgs, m]]},
+                CheckAbort[
+                  SubTropica`STEvaluate[{edges, nodes},
+                    Sequence @@ Normal[allOpts]],
+                  $Aborted]]
             ]
           ];
         ];
@@ -24435,14 +24841,34 @@ FeynmanIntegrate[OptionsPattern[]] := Module[{port, url, pythonCmd, scriptPath, 
             writeProgressAt["info", "wrapper",
               "[SubTropica] Integration complete."]];
 
-        (* ALWAYS write result.json, no matter what happened *)
+        (* ALWAYS write result.json, no matter what happened.
+           B6: when STEvaluate reports failure, attach the cleaned message
+           list and result head to the JSON so the UI can surface what
+           actually went wrong instead of an opaque generic string. *)
+        cleanedMsgs = SubTropica`stCleanupCapturedMessages[capturedMsgs];
         resultStr = Which[
           result === $Aborted,
             ExportString[<|"status" -> "error",
-              "error" -> "Integration aborted (RecursionLimit or user abort)"|>, "RawJSON"],
+              "error" -> If[cleanedMsgs === {},
+                "Integration aborted (RecursionLimit or user abort)",
+                "Aborted: " <> StringTake[Last[cleanedMsgs], UpTo[300]]],
+              "messages" -> cleanedMsgs,
+              "raw" -> "$Aborted"|>, "RawJSON"],
           result === $Failed,
             ExportString[<|"status" -> "error",
-              "error" -> "STEvaluate returned an error"|>, "RawJSON"],
+              "error" -> If[cleanedMsgs === {},
+                "STEvaluate returned an error",
+                "Failed: " <> StringTake[First[cleanedMsgs], UpTo[300]]],
+              "messages" -> cleanedMsgs,
+              "raw" -> "$Failed"|>, "RawJSON"],
+          !MatchQ[Head[result], SeriesData | List | Times | Plus | Power |
+                  Integer | Rational | Real | Complex | Symbol],
+            (* Unrecognized result head \[Dash] surface what we got. *)
+            ExportString[<|"status" -> "error",
+              "error" -> "STEvaluate returned " <> ToString[Head[result]],
+              "messages" -> cleanedMsgs,
+              "raw" -> StringTake[ToString[result, InputForm], UpTo[300]]|>,
+              "RawJSON"],
           True,
             Module[{sf = stComputeSymbolFields[result], nf, payload},
             payload = <|
@@ -24545,16 +24971,39 @@ FeynmanIntegrate[OptionsPattern[]] := Module[{port, url, pythonCmd, scriptPath, 
         result = $integrationResult["result"];
         order  = Lookup[$integrationConfig, "Order", 0];
 
-        vResult = Quiet @ Check[
-          STVerify[{edges, nodes}, result,
-            "Order"     -> order,
-            "Tolerance" -> tolerance,
-            "Method"    -> method,
-            "Verbose"   -> True],
-          <|"pass" -> False, "reason" -> "STVerify crashed"|>];
-
-        If[!AssociationQ[vResult],
-          vResult = <|"pass" -> False, "reason" -> "unexpected return"|>];
+        (* B7: surface the real cause when STVerify fails.  We use
+           Internal`HandlerBlock to stream every fired message into a
+           captured list, then attach those to the result association.
+           CheckAbort (rather than Check) avoids hijacking the return
+           value just because a message fired \[LongDash] STVerify routinely
+           Print[]s and Message[]s alongside a normal association
+           return (e.g. the feyntropPoles refusal). *)
+        vResult = stWithSuppressedOutput[ipcDir,
+          Module[{captured = {}, r, msgs},
+          Internal`HandlerBlock[
+            {"Message", Function[m, AppendTo[captured, m]]},
+            r = CheckAbort[
+              STVerify[{edges, nodes}, result,
+                "Order"     -> order,
+                "Tolerance" -> tolerance,
+                "Method"    -> method,
+                "Verbose"   -> True],
+              $Aborted]];
+          msgs = stCleanupCapturedMessages[captured];
+          Which[
+            AssociationQ[r] && KeyExistsQ[r, "pass"],
+              If[msgs =!= {}, r["messages"] = msgs]; r,
+            r === $Aborted,
+              <|"pass" -> False,
+                "reason" -> If[msgs === {},
+                  "STVerify aborted (no message)",
+                  "Aborted: " <> StringTake[Last[msgs], UpTo[300]]],
+                "messages" -> msgs|>,
+            True,
+              <|"pass" -> False,
+                "reason" -> "STVerify returned " <> ToString[Head[r]],
+                "raw" -> StringTake[ToString[r, InputForm], UpTo[300]],
+                "messages" -> msgs|>]]];
 
         stLog["[SubTropica] Verify result: ",
           If[TrueQ[vResult["pass"]], "PASS", "FAIL"],
@@ -24575,18 +25024,39 @@ FeynmanIntegrate[OptionsPattern[]] := Module[{port, url, pythonCmd, scriptPath, 
             "resultHash" -> Hash[result]
           |>];
 
-        Module[{coeffs, kinPoint, coeffsAsc, kinPointStrs},
+        Module[{coeffs, kinPoint, coeffsAsc, kinPointStrs, jsonNum},
           (* Per-eps-order comparison rows and the kinematic point used.
              Both power the hover-popup on the verified badge (UI). We
              stringify numeric values and rules so JSON round-trips
-             cleanly even for SeriesData / complex numbers. *)
+             cleanly even for SeriesData / complex numbers.
+
+             jsonNum: STVerify can return maxRelErr / per-coefficient
+             relErr as Infinity when the symbolic evaluation falls back
+             to N and leaves unevaluated `Integrate\`V[i][j]` heads in
+             the result (the comparison is then meaningless and quoted
+             as Infinity).  ExportString[..., "RawJSON"] then chokes
+             with `jsonstrictencoding: DirectedInfinity cannot be
+             exported as JSON`, the entire export returns $Failed, and
+             every caller (UI, harness, log) sees the literal string
+             "$Failed" instead of a structured error.  Sanitize numeric
+             fields here: finite numbers pass through; everything else
+             becomes a stringified marker. *)
+          jsonNum = Function[v,
+            With[{nv = N[v]},
+              Which[
+                NumericQ[nv] && Abs[nv] < Infinity, nv,
+                nv === DirectedInfinity[1] || v === Infinity, "Infinity",
+                nv === DirectedInfinity[-1] || v === -Infinity, "-Infinity",
+                Head[nv] === DirectedInfinity, "ComplexInfinity",
+                nv === Indeterminate, "Indeterminate",
+                True, ToString[v, InputForm]]]];
           coeffs = Lookup[vResult, "coefficients", {}];
           coeffsAsc = If[ListQ[coeffs],
             Map[Function[c, <|
               "order"    -> Lookup[c, "order", 0],
               "psd"      -> ToString[Lookup[c, "psd", ""], InputForm],
               "symbolic" -> ToString[Lookup[c, "symbolic", ""], InputForm],
-              "relErr"   -> N[Lookup[c, "relErr", -1]]
+              "relErr"   -> jsonNum[Lookup[c, "relErr", -1]]
             |>], coeffs],
             {}];
           kinPoint = Lookup[vResult, "kinPoint", Lookup[vResult, "kinematicPoint", {}]];
@@ -24601,7 +25071,9 @@ FeynmanIntegrate[OptionsPattern[]] := Module[{port, url, pythonCmd, scriptPath, 
               "status"        -> "ok",
               "pass"          -> TrueQ[vResult["pass"]],
               "reason"        -> Lookup[vResult, "reason", ""],
-              "maxRelErr"     -> N[Lookup[vResult, "maxRelErr", -1]],
+              "messages"      -> Lookup[vResult, "messages", {}],
+              "raw"           -> Lookup[vResult, "raw", ""],
+              "maxRelErr"     -> jsonNum[Lookup[vResult, "maxRelErr", -1]],
               "method"        -> method,
               "coefficients"  -> coeffsAsc,
               "kinematicPoint" -> kinPointStrs
@@ -25384,13 +25856,33 @@ stGateVerification[ir_Association] := Module[
 
     stLog["[SubTropica] STSubmitResult: verification required. ",
         "Running STVerify (1 sample, ", method, ", Tolerance ", tol, ")..."];
-    vResult = Quiet @ Check[
-        STVerify[{edges, nodes}, result,
+    (* B7: surface the real cause on failure.  See note on
+       Internal`HandlerBlock at the verify-handler call site above. *)
+    vResult = Module[{captured = {}, r, msgs},
+      Internal`HandlerBlock[
+        {"Message", Function[m, AppendTo[captured, m]]},
+        r = CheckAbort[
+          STVerify[{edges, nodes}, result,
             "NumSamples" -> 1,
             "Order"      -> order,
             "Method"     -> method,
             "Tolerance"  -> tol],
-        <|"pass" -> False, "reason" -> "STVerify crashed"|>];
+          $Aborted]];
+      msgs = stCleanupCapturedMessages[captured];
+      Which[
+        AssociationQ[r] && KeyExistsQ[r, "pass"],
+          If[msgs =!= {}, r["messages"] = msgs]; r,
+        r === $Aborted,
+          <|"pass" -> False,
+            "reason" -> If[msgs === {},
+              "STVerify aborted (no message)",
+              "Aborted: " <> StringTake[Last[msgs], UpTo[300]]],
+            "messages" -> msgs|>,
+        True,
+          <|"pass" -> False,
+            "reason" -> "STVerify returned " <> ToString[Head[r]],
+            "raw" -> StringTake[ToString[r, InputForm], UpTo[300]],
+            "messages" -> msgs|>]];
 
     If[!AssociationQ[vResult] || !TrueQ[vResult["pass"]],
         stErr["[SubTropica] STSubmitResult: verification FAILED (",
