@@ -1,70 +1,378 @@
 {
-  "CNickelIndex": "e12|e3|e3|e|:000|00|11|2|",
-  "MassScales": 4,
-  "FunctionClass": "MPL",
-  "EpsilonOrder": "-1,0",
-  "References": [
-    "arXiv:0712.1851"
-  ],
-  "Records": [
-    {
-      "authors": "Ellis, R.Keith, Zanderighi, Giulia",
-      "texkey": "Ellis:2007qk",
-      "verified": false,
-      "verifiedAt": "",
-      "reference": "arXiv:0712.1851, JHEP 02 (002), 2008",
-      "ancillaryFiles": [],
-      "recordId": "bf_7844cbb6dd8b",
-      "masterCount": 1,
-      "transcendentalWeight": 2,
-      "computationLevel": "full",
-      "doi": "10.1088/1126-6708/2008/02/002",
-      "tools": [],
-      "description": "Divergent one-loop box $I_4^D(0,0,m^2,p_4^2;s_{12},s_{23};0,0,0,m^2)$ with one massive internal line and $p_1^2=p_2^2=0, p_3^2=m^2$. Contains $3/(2\\varepsilon^2)$ pole. Result from Beenakker et al. (2003).",
-      "epsOrders": "-1,0",
-      "method": [],
-      "dimScheme": "d=4-2*eps",
-      "location": "Sec. 3.2.2, Sec. 4.4.7",
-      "familyName": "Box_7"
-    }
-  ],
-  "Names": [
-    "Box_7"
-  ],
-  "Source": [
-    "arXiv"
-  ],
-  "Loops": 1,
-  "NumPropagators": 4,
-  "Results": [],
-  "edges": "{{{1, 2}, 0}, {{1, 3}, 0}, {{2, 4}, 0}, {{3, 4}, m}}",
-  "nodes": "{{1, 0}, {2, 0}, {4, M}, {3, m}}",
-  "quadruple": "{E^(eps*EulerGamma)*Gamma[2 + eps], (x1 + x2 + x3 + x4)^(2*eps)*(s12*x2*x3 + MM*x1*x4 - s12*x1*x4 - s23*x1*x4 - mm*x2*x4 + MM*x2*x4 - mm*x4^2)^(-2 - eps), {x1, x2, x3, x4}, {mm, MM, s12, s23}}",
-  "CanonicalName": "Box, 1 massive propagator (d)",
-  "MassConfig": {
-    "numEdges": 4,
-    "numMassiveEdges": 1,
-    "numMasslessEdges": 3,
-    "distinctInternalMasses": 1,
-    "internalMassLabels": [
-      "m"
-    ],
-    "edgeMassPattern": "0001",
-    "numExtLegs": 4,
-    "numOnshellMassiveExtLegs": 2,
-    "numMasslessExtLegs": 2,
-    "extLegSignature": "00MM"
-  },
-  "commonNames": [
-    "D₀(1×m)",
-    "L1"
-  ],
-  "Subsectors": [
-    "e12|e2|e|:000|00|1|",
-    "e12|e2|e|:000|11|2|",
-    "e12|e2|e|:000|12|3|"
-  ],
-  "ParentSectors": [
-    "e12|e3|e4|e4|e|:000|00|11|11|2|"
-  ]
+	"CNickelIndex": "e12|e3|e3|e|:000|00|11|2|",
+	"MassScales": 4,
+	"FunctionClass": "MPL",
+	"EpsilonOrder": "-1,0",
+	"References": [
+		"arXiv:0712.1851"
+	],
+	"Records": [
+		{
+			"authors": "Ellis, R.Keith, Zanderighi, Giulia",
+			"texkey": "Ellis:2007qk",
+			"verified": false,
+			"verifiedAt": "",
+			"reference": "arXiv:0712.1851, JHEP 02 (002), 2008",
+			"ancillaryFiles": [],
+			"recordId": "bf_7844cbb6dd8b",
+			"masterCount": 1,
+			"transcendentalWeight": 2,
+			"computationLevel": "full",
+			"doi": "10.1088/1126-6708/2008/02/002",
+			"tools": [],
+			"description": "Divergent one-loop box $I_4^D(0,0,m^2,p_4^2;s_{12},s_{23};0,0,0,m^2)$ with one massive internal line and $p_1^2=p_2^2=0, p_3^2=m^2$. Contains $3/(2\\varepsilon^2)$ pole. Result from Beenakker et al. (2003).",
+			"epsOrders": "-1,0",
+			"method": [],
+			"dimScheme": "d=4-2*eps",
+			"location": "Sec. 3.2.2, Sec. 4.4.7",
+			"familyName": "Box_7"
+		}
+	],
+	"Names": [
+		"Box_7"
+	],
+	"Source": [
+		"arXiv"
+	],
+	"Loops": 1,
+	"NumPropagators": 4,
+	"Results": [
+		{
+			"resultCompressed": "1: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",
+			"resultTeX": "-\\frac{3}{\\varepsilon^2 (2 m^2 s_{12}-2 s_{12} s_{23})}+\\frac{\\log (m^2)-2 \\left(\\log \\left(\\frac{M^2-m^2}{s_{12}}\\right)+\\log \\left(\\frac{m^2}{m^2-s_{23}}\\right)-\\log (m^2-s_{23})\\right)}{2 \\varepsilon s_{12} (m^2-s_{23})} + \\cdots",
+			"dimension": "4 - 2*eps",
+			"epsOrder": 0,
+			"propExponents": [
+				1,
+				1,
+				1,
+				1
+			],
+			"propagators": 0,
+			"numerators": [],
+			"internalMasses": [],
+			"externalMasses": [],
+			"substitutions": "{}",
+			"normalization": "Automatic",
+			"stVersion": "SubTropica v1.1.8.11",
+			"stCommand": "STIntegrate[{{{{1, 2}, 0}, {{1, 3}, 0}, {{2, 4}, 0}, {{3, 4}, m}}, {{1, 0}, {2, 0}, {4, M}, {3, m}}}, \"Dimension\" -> \"4 - 2*eps\", \"Order\" -> 0]",
+			"contributor": "Anonymous",
+			"timestamp": "Tue 5 May 2026 01:21:00",
+			"byteCount": 110448,
+			"verified": true,
+			"verifiedMethod": "pySecDec",
+			"verifiedTolerance": 0.001,
+			"verifiedMaxRelErr": 1.587078037190946e-05,
+			"verifiedAt": "Tue 5 May 2026 01:20:59",
+			"verifiedKinPoint": [
+				{
+					"var": "m",
+					"value": "Sqrt[11/53]"
+				},
+				{
+					"var": "Msq",
+					"value": "-73/2"
+				},
+				{
+					"var": "s12",
+					"value": "-5/47"
+				},
+				{
+					"var": "s23",
+					"value": "-5/11"
+				},
+				{
+					"var": "msq",
+					"value": "11/53"
+				}
+			],
+			"symbolTeX": "\\begin{aligned}\\varepsilon^{-2}&\\colon\\;-\\frac{3}{2 s_{12} m^2-2 s_{12} s_{23}} \\\\ \\varepsilon^{-1}&\\colon\\;-\\frac{1}{2 s_{12} \\left(m^2-s_{23}\\right)}\\,(m^2) - \\frac{1}{s_{12} \\left(m^2-s_{23}\\right)}\\,(m^2-M^2) + \\frac{1}{s_{12} \\left(m^2-s_{23}\\right)}\\,(s_{12}) + \\frac{2}{s_{12} \\left(m^2-s_{23}\\right)}\\,(m^2-s_{23}) \\\\ \\varepsilon^{0}&\\colon\\;\\frac{2 \\left(W_2^-^2 W_2^+^2 s_{12}^5-s_{23} W_2^- W_2^+ s_{12}^4-s_{23} W_2^+ W_2^-^2 s_{12}^4+2 W_2^+ m^2 W_2^-^2 s_{12}^4-s_{23} W_2^- W_2^+^2 s_{12}^4+2 W_2^- m^2 W_2^+^2 s_{12}^4+s_{23} W_2^-^2 W_2^+^2 s_{12}^4-M^2 W_2^-^2 W_2^+^2 s_{12}^4-2 s_{23}^2 W_2^- W_2^+ s_{12}^3-s_{23} W_2^- m^2 s_{12}^3-s_{23} W_2^+ m^2 s_{12}^3-3 s_{23} W_2^- W_2^+ m^2 s_{12}^3+4 W_2^- W_2^+ m^4 s_{12}^3+2 s_{23} W_2^- W_2^+ M^2 s_{12}^3-W_2^- W_2^+ m^2 M^2 s_{12}^3-s_{23}^2 W_2^+ W_2^-^2 s_{12}^3-s_{23} m^2 W_2^-^2 s_{12}^3+s_{23} W_2^+ m^2 W_2^-^2 s_{12}^3+m^4 W_2^-^2 s_{12}^3+s_{23} W_2^+ M^2 W_2^-^2 s_{12}^3-W_2^+ m^2 M^2 W_2^-^2 s_{12}^3-s_{23}^2 W_2^- W_2^+^2 s_{12}^3-s_{23} m^2 W_2^+^2 s_{12}^3+s_{23} W_2^- m^2 W_2^+^2 s_{12}^3+m^4 W_2^+^2 s_{12}^3+s_{23} W_2^- M^2 W_2^+^2 s_{12}^3-W_2^- m^2 M^2 W_2^+^2 s_{12}^3+s_{23}^3 s_{12}^2+s_{23}^3 W_2^- s_{12}^2+s_{23}^3 W_2^+ s_{12}^2-s_{23}^3 W_2^- W_2^+ s_{12}^2-s_{23}^2 W_2^- m^2 s_{12}^2-s_{23}^2 W_2^+ m^2 s_{12}^2+s_{23}^2 W_2^- W_2^+ m^2 s_{12}^2-s_{23} m^4 s_{12}^2-2 s_{23} W_2^- m^4 s_{12}^2-2 s_{23} W_2^+ m^4 s_{12}^2+2 W_2^- m^6 s_{12}^2+2 W_2^+ m^6 s_{12}^2+2 s_{23}^2 W_2^- W_2^+ M^2 s_{12}^2+s_{23} W_2^- m^2 M^2 s_{12}^2+s_{23} W_2^+ m^2 M^2 s_{12}^2-2 s_{23} W_2^- W_2^+ m^2 M^2 s_{12}^2-W_2^- m^4 M^2 s_{12}^2-W_2^+ m^4 M^2 s_{12}^2-s_{23} W_2^- W_2^+ M^4 s_{12}^2+W_2^- W_2^+ m^2 M^4 s_{12}^2+s_{23}^4 s_{12}+s_{23}^4 W_2^- s_{12}+s_{23}^4 W_2^+ s_{12}-s_{23}^3 m^2 s_{12}-3 s_{23}^3 W_2^- m^2 s_{12}-3 s_{23}^3 W_2^+ m^2 s_{12}+3 s_{23}^2 W_2^- m^4 s_{12}+3 s_{23}^2 W_2^+ m^4 s_{12}-s_{23} m^6 s_{12}-s_{23} W_2^- m^6 s_{12}-s_{23} W_2^+ m^6 s_{12}+m^8 s_{12}-2 s_{23}^3 M^2 s_{12}-s_{23}^3 W_2^- M^2 s_{12}-s_{23}^3 W_2^+ M^2 s_{12}+3 s_{23}^2 m^2 M^2 s_{12}+3 s_{23}^2 W_2^- m^2 M^2 s_{12}+3 s_{23}^2 W_2^+ m^2 M^2 s_{12}-3 s_{23} W_2^- m^4 M^2 s_{12}-3 s_{23} W_2^+ m^4 M^2 s_{12}+W_2^- m^6 M^2 s_{12}+W_2^+ m^6 M^2 s_{12}-m^6 M^2 s_{12}+s_{23}^4 m^2-3 s_{23}^3 m^4+3 s_{23}^2 m^6-s_{23} m^8-s_{23}^4 M^2+2 s_{23}^3 m^2 M^2-2 s_{23} m^6 M^2+m^8 M^2+s_{23}^3 M^4-3 s_{23}^2 m^2 M^4+3 s_{23} m^4 M^4-m^6 M^4\\right)}{s_{12} \\left(-s_{23}+s_{12} W_2^-+m^2\\right)^2 \\left(-s_{23}+s_{12} W_2^++m^2\\right)^2 \\left(s_{23}^2+s_{12} s_{23}-m^2 s_{23}-M^2 s_{23}+m^2 M^2\\right)}\\,(m^2-s_{23} \\otimes m^2) \\end{aligned} + \\cdots",
+			"alphabet": [
+				"m^2",
+				"m^2-M^2",
+				"s_{12}",
+				"m^2-s_{23}",
+				"s_{23}",
+				"M^2",
+				"M^2-s_{23}",
+				"s_{23}-M^2",
+				"m^2-M^2+s_{12}",
+				"W_1^-+1",
+				"W_1^-",
+				"-s_{12} W_1^-+m^2-M^2",
+				"-M^2+s_{12}+s_{23}",
+				"M^2-s_{12}-s_{23}",
+				"W_1^++1",
+				"W_1^+",
+				"-s_{12} W_1^++m^2-M^2",
+				"W_2^-+1",
+				"W_2^-",
+				"m^2 W_2^--M^2 W_2^-+m^2",
+				"m^2 \\left(-W_2^-\\right)+M^2 W_2^--m^2",
+				"W_2^++1",
+				"W_2^+",
+				"m^2 W_2^+-M^2 W_2^++m^2",
+				"m^2 \\left(-W_2^+\\right)+M^2 W_2^+-m^2",
+				"-m^2+s_{12}+s_{23}",
+				"m^2-s_{12}-s_{23}",
+				"-m^2 M^2-s_{12} m^2-s_{23} m^2+m^4+s_{23} M^2",
+				"m^2 M^2+s_{12} m^2+s_{23} m^2-m^4-s_{23} M^2"
+			],
+			"symbolWeight": 2,
+			"symbolTerms": 84,
+			"normalizedSymbolTeX": "\\begin{aligned}\\varepsilon^{-2}&\\colon\\;-\\frac{3}{2 s_{12} m^2-2 s_{12} s_{23}} \\\\ \\varepsilon^{-1}&\\colon\\;\\frac{1}{s_{12} \\left(m^2-s_{23}\\right)}\\!\\left[-(W_1) + (W_2) + 2\\,(W_3)\\right] \\\\ \\varepsilon^{0}&\\colon\\;\\end{aligned} + \\cdots",
+			"normalizedAlphabet": [
+				"W_1",
+				"W_2",
+				"W_3",
+				"W_4",
+				"W_5",
+				"W_6",
+				"W_7",
+				"W_8",
+				"W^-_1",
+				"W_9",
+				"W_{10}",
+				"W_{11}",
+				"W^+_1",
+				"W_{12}",
+				"W_{13}",
+				"W^-_2",
+				"W_{14}",
+				"W_{15}",
+				"W^+_2",
+				"W_{16}",
+				"W_{17}",
+				"W_{18}"
+			],
+			"wDefinitions": [
+				{
+					"label": "W_1",
+					"kind": "rational",
+					"pairIndex": null,
+					"definition": "\\frac{m^2-M^2}{m^2}",
+					"originalLetter": "m^2-M^2"
+				},
+				{
+					"label": "W_2",
+					"kind": "rational",
+					"pairIndex": null,
+					"definition": "\\frac{s_{12}}{m^2}",
+					"originalLetter": "s_{12}"
+				},
+				{
+					"label": "W_3",
+					"kind": "rational",
+					"pairIndex": null,
+					"definition": "\\frac{-s_{23}+m^2}{m^2}",
+					"originalLetter": "m^2-s_{23}"
+				},
+				{
+					"label": "W_4",
+					"kind": "rational",
+					"pairIndex": null,
+					"definition": "\\frac{s_{23}}{m^2}",
+					"originalLetter": "s_{23}"
+				},
+				{
+					"label": "W_5",
+					"kind": "rational",
+					"pairIndex": null,
+					"definition": "\\frac{M^2}{m^2}",
+					"originalLetter": "M^2"
+				},
+				{
+					"label": "W_6",
+					"kind": "rational",
+					"pairIndex": null,
+					"definition": "\\frac{-s_{23}+M^2}{m^2}",
+					"originalLetter": "M^2-s_{23}"
+				},
+				{
+					"label": "W_7",
+					"kind": "rational",
+					"pairIndex": null,
+					"definition": "\\frac{s_{12}+m^2-M^2}{m^2}",
+					"originalLetter": "m^2-M^2+s_{12}"
+				},
+				{
+					"label": "W_8",
+					"kind": "rational",
+					"pairIndex": null,
+					"definition": "\\frac{1+W_1^-}{m^2}",
+					"originalLetter": "W_1^-+1"
+				},
+				{
+					"label": "W^-_1",
+					"kind": "algebraic",
+					"pairIndex": 1,
+					"definition": "\\frac{-\\sqrt{-2 m^2 M^2-2 s_{12} m^2+m^4-2 s_{12} M^2+M^4+s_{12}^2}+m^2-M^2-s_{12}}{2 s_{12}}",
+					"originalLetter": "W_1^-",
+					"polynomialTeX": "-x_{2} m^2+x_{2} M^2+M^2+s_{12} x_{2}^2+s_{12} x_{2}",
+					"discriminantTeX": "-2 m^2 M^2-2 s_{12} m^2+m^4-2 s_{12} M^2+M^4+s_{12}^2"
+				},
+				{
+					"label": "W_9",
+					"kind": "rational",
+					"pairIndex": null,
+					"definition": "\\frac{-s_{12} W_1^-+m^2-M^2}{m^2}",
+					"originalLetter": "-s_{12} W_1^-+m^2-M^2"
+				},
+				{
+					"label": "W_{10}",
+					"kind": "rational",
+					"pairIndex": null,
+					"definition": "\\frac{s_{12}+s_{23}-M^2}{m^2}",
+					"originalLetter": "-M^2+s_{12}+s_{23}"
+				},
+				{
+					"label": "W_{11}",
+					"kind": "rational",
+					"pairIndex": null,
+					"definition": "\\frac{1+W_1^+}{m^2}",
+					"originalLetter": "W_1^++1"
+				},
+				{
+					"label": "W^+_1",
+					"kind": "algebraic",
+					"pairIndex": 1,
+					"definition": "\\frac{\\sqrt{-2 m^2 M^2-2 s_{12} m^2+m^4-2 s_{12} M^2+M^4+s_{12}^2}+m^2-M^2-s_{12}}{2 s_{12}}",
+					"originalLetter": "W_1^+",
+					"polynomialTeX": "-x_{2} m^2+x_{2} M^2+M^2+s_{12} x_{2}^2+s_{12} x_{2}",
+					"discriminantTeX": "-2 m^2 M^2-2 s_{12} m^2+m^4-2 s_{12} M^2+M^4+s_{12}^2"
+				},
+				{
+					"label": "W_{12}",
+					"kind": "rational",
+					"pairIndex": null,
+					"definition": "\\frac{-s_{12} W_1^++m^2-M^2}{m^2}",
+					"originalLetter": "-s_{12} W_1^++m^2-M^2"
+				},
+				{
+					"label": "W_{13}",
+					"kind": "rational",
+					"pairIndex": null,
+					"definition": "\\frac{1+W_2^-}{m^2}",
+					"originalLetter": "W_2^-+1"
+				},
+				{
+					"label": "W^-_2",
+					"kind": "algebraic",
+					"pairIndex": 2,
+					"definition": "\\frac{-\\sqrt{-2 m^2 M^2-2 s_{12} m^2+m^4-2 s_{12} M^2+M^4+s_{12}^2}-m^2+M^2-s_{12}}{2 s_{12}}",
+					"originalLetter": "W_2^-",
+					"polynomialTeX": "x_{3} m^2+m^2-x_{3} M^2+s_{12} x_{3}^2+s_{12} x_{3}",
+					"discriminantTeX": "-2 m^2 M^2-2 s_{12} m^2+m^4-2 s_{12} M^2+M^4+s_{12}^2"
+				},
+				{
+					"label": "W_{14}",
+					"kind": "rational",
+					"pairIndex": null,
+					"definition": "\\frac{m^2+W_2^- m^2-W_2^- M^2}{m^2}",
+					"originalLetter": "m^2 W_2^--M^2 W_2^-+m^2"
+				},
+				{
+					"label": "W_{15}",
+					"kind": "rational",
+					"pairIndex": null,
+					"definition": "\\frac{1+W_2^+}{m^2}",
+					"originalLetter": "W_2^++1"
+				},
+				{
+					"label": "W^+_2",
+					"kind": "algebraic",
+					"pairIndex": 2,
+					"definition": "\\frac{\\sqrt{-2 m^2 M^2-2 s_{12} m^2+m^4-2 s_{12} M^2+M^4+s_{12}^2}-m^2+M^2-s_{12}}{2 s_{12}}",
+					"originalLetter": "W_2^+",
+					"polynomialTeX": "x_{3} m^2+m^2-x_{3} M^2+s_{12} x_{3}^2+s_{12} x_{3}",
+					"discriminantTeX": "-2 m^2 M^2-2 s_{12} m^2+m^4-2 s_{12} M^2+M^4+s_{12}^2"
+				},
+				{
+					"label": "W_{16}",
+					"kind": "rational",
+					"pairIndex": null,
+					"definition": "\\frac{m^2+W_2^+ m^2-W_2^+ M^2}{m^2}",
+					"originalLetter": "m^2 W_2^+-M^2 W_2^++m^2"
+				},
+				{
+					"label": "W_{17}",
+					"kind": "rational",
+					"pairIndex": null,
+					"definition": "\\frac{s_{12}+s_{23}-m^2}{m^2}",
+					"originalLetter": "-m^2+s_{12}+s_{23}"
+				},
+				{
+					"label": "W_{18}",
+					"kind": "rational",
+					"pairIndex": null,
+					"definition": "\\frac{-s_{12} m^2-s_{23} m^2+m^4+s_{23} M^2-m^2 M^2}{m^2}",
+					"originalLetter": "-m^2 M^2-s_{12} m^2-s_{23} m^2+m^4+s_{23} M^2"
+				}
+			],
+			"symbolScale": "m^2",
+			"normalizedSymbolTerms": 60,
+			"algebraicLetters": [
+				{
+					"index": 1,
+					"variable": "x2",
+					"polynomial": "MM - mm*x2 + MM*x2 + s12*x2 + s12*x2^2",
+					"LC": "s12",
+					"sum": "(mm - MM - s12)/s12",
+					"product": "MM/s12",
+					"discriminant": "mm^2 - 2*mm*MM + MM^2 - 2*mm*s12 - 2*MM*s12 + s12^2",
+					"minusRoot": "(mm - MM - s12 - Sqrt[mm^2 - 2*mm*MM + MM^2 - 2*mm*s12 - 2*MM*s12 + s12^2])/(2*s12)",
+					"plusRoot": "(mm - MM - s12 + Sqrt[mm^2 - 2*mm*MM + MM^2 - 2*mm*s12 - 2*MM*s12 + s12^2])/(2*s12)",
+					"polynomialTeX": "-x_{2} m^2+x_{2} M^2+M^2+s_{12} x_{2}^2+s_{12} x_{2}",
+					"discriminantTeX": "-2 m^2 M^2-2 s_{12} m^2+m^4-2 s_{12} M^2+M^4+s_{12}^2",
+					"minusRootTeX": "\\frac{-\\sqrt{-2 m^2 M^2-2 s_{12} m^2+m^4-2 s_{12} M^2+M^4+s_{12}^2}+m^2-M^2-s_{12}}{2 s_{12}}",
+					"plusRootTeX": "\\frac{\\sqrt{-2 m^2 M^2-2 s_{12} m^2+m^4-2 s_{12} M^2+M^4+s_{12}^2}+m^2-M^2-s_{12}}{2 s_{12}}"
+				},
+				{
+					"index": 2,
+					"variable": "x3",
+					"polynomial": "mm + mm*x3 - MM*x3 + s12*x3 + s12*x3^2",
+					"LC": "s12",
+					"sum": "(-mm + MM - s12)/s12",
+					"product": "mm/s12",
+					"discriminant": "mm^2 - 2*mm*MM + MM^2 - 2*mm*s12 - 2*MM*s12 + s12^2",
+					"minusRoot": "(-mm + MM - s12 - Sqrt[mm^2 - 2*mm*MM + MM^2 - 2*mm*s12 - 2*MM*s12 + s12^2])/(2*s12)",
+					"plusRoot": "(-mm + MM - s12 + Sqrt[mm^2 - 2*mm*MM + MM^2 - 2*mm*s12 - 2*MM*s12 + s12^2])/(2*s12)",
+					"polynomialTeX": "x_{3} m^2+m^2-x_{3} M^2+s_{12} x_{3}^2+s_{12} x_{3}",
+					"discriminantTeX": "-2 m^2 M^2-2 s_{12} m^2+m^4-2 s_{12} M^2+M^4+s_{12}^2",
+					"minusRootTeX": "\\frac{-\\sqrt{-2 m^2 M^2-2 s_{12} m^2+m^4-2 s_{12} M^2+M^4+s_{12}^2}-m^2+M^2-s_{12}}{2 s_{12}}",
+					"plusRootTeX": "\\frac{\\sqrt{-2 m^2 M^2-2 s_{12} m^2+m^4-2 s_{12} M^2+M^4+s_{12}^2}-m^2+M^2-s_{12}}{2 s_{12}}"
+				}
+			]
+		}
+	],
+	"edges": "{{{1, 2}, 0}, {{1, 3}, 0}, {{2, 4}, 0}, {{3, 4}, m}}",
+	"nodes": "{{1, 0}, {2, 0}, {4, M}, {3, m}}",
+	"quadruple": "{E^(eps*EulerGamma)*Gamma[2 + eps], (x1 + x2 + x3 + x4)^(2*eps)*(s12*x2*x3 + MM*x1*x4 - s12*x1*x4 - s23*x1*x4 - mm*x2*x4 + MM*x2*x4 - mm*x4^2)^(-2 - eps), {x1, x2, x3, x4}, {mm, MM, s12, s23}}",
+	"CanonicalName": "Box, 1 massive propagator (d)",
+	"MassConfig": {
+		"numEdges": 4,
+		"numMassiveEdges": 1,
+		"numMasslessEdges": 3,
+		"distinctInternalMasses": 1,
+		"internalMassLabels": [
+			"m"
+		],
+		"edgeMassPattern": "0001",
+		"numExtLegs": 4,
+		"numOnshellMassiveExtLegs": 2,
+		"numMasslessExtLegs": 2,
+		"extLegSignature": "00MM"
+	},
+	"commonNames": [
+		"D\u2080(1\u00d7m)",
+		"L1"
+	],
+	"Subsectors": [
+		"e12|e2|e|:000|00|1|",
+		"e12|e2|e|:000|11|2|",
+		"e12|e2|e|:000|12|3|"
+	],
+	"ParentSectors": [
+		"e12|e3|e4|e4|e|:000|00|11|11|2|"
+	]
 }
