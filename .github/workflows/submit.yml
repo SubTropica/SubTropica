@@ -205,6 +205,30 @@ jobs:
               _sys.exit(1)
           # -----------------------------------------------------------------
 
+          # --- topology guard (incident 2026-06-06, PRs #36/#39) ------------
+          # Two checks, in .github/scripts/submission_topology_guard.py:
+          # (1) the bare Nickel key must decode to a graph isomorphic (legs
+          # included) to the payload edges/nodes graph; (2) a submission that
+          # would CREATE a new topology directory must not be isomorphic to an
+          # existing library topology (PR #39 minted the non-canonical
+          # e12|e3|33|| for a graph the library already keys as 112|3|e3|e|).
+          # The guard prints its reason and the run fails before any write.
+          import subprocess as _sp
+          import sys as _gsys
+          _guard = _sp.run(
+              [_gsys.executable,
+               ".github/scripts/submission_topology_guard.py",
+               "--bare", topo_nickel,
+               "--edges", str(payload.get("edges", "")),
+               "--nodes", str(payload.get("nodes", "")),
+               "--library", "library-bundled"],
+              capture_output=True, text=True)
+          print(_guard.stdout, end="")
+          if _guard.returncode != 0:
+              print(_guard.stderr, end="")
+              _gsys.exit(1)
+          # -----------------------------------------------------------------
+
           def sanitize(s):
               # Replace Nickel-index separators with underscores so the result
               # is safe as both a directory name AND a git branch name.  Git
