@@ -1,0 +1,201 @@
+{
+  "version": 6,
+  "cmakeMinimumRequired": {"major": 3, "minor": 25, "patch": 0},
+  "configurePresets": [
+    {
+      "name": "_base",
+      "hidden": true,
+      "generator": "Unix Makefiles",
+      "binaryDir": "${sourceDir}/build-presets/${presetName}",
+      "cacheVariables": {
+        "CMAKE_EXPORT_COMPILE_COMMANDS": "ON",
+        "OpenMP_ROOT": "/opt/homebrew/opt/libomp"
+      }
+    },
+
+    {
+      "name": "release-portable",
+      "displayName": "Release (portable, brew FLINT, OMP + mimalloc)",
+      "description": "Default daily-driver. Brew FLINT via pkg-config (portable across Apple Silicon variants). Replaces legacy build/.",
+      "inherits": "_base",
+      "cacheVariables": {
+        "HF_BUILD_VARIANT": "release-portable",
+        "CMAKE_BUILD_TYPE": "Release",
+        "HF_OPENMP": "ON",
+        "HF_MIMALLOC": "ON",
+        "HF_LIBRARYLINK": "ON"
+      }
+    },
+    {
+      "name": "release-tuned",
+      "displayName": "Release (-mcpu=apple-m4, static FLINT)",
+      "description": "Apple Silicon tuned: -O3 -mcpu=apple-m4. Static FLINT for distribution. Replaces legacy build-mcpu-tuned/ + build-release/.",
+      "inherits": "_base",
+      "cacheVariables": {
+        "HF_BUILD_VARIANT": "release-tuned",
+        "CMAKE_BUILD_TYPE": "Release",
+        "CMAKE_CXX_FLAGS": "-O3 -mcpu=apple-m4",
+        "HF_OPENMP": "ON",
+        "HF_MIMALLOC": "ON",
+        "HF_LIBRARYLINK": "ON",
+        "HF_LIBRARYLINK_STATIC_DEPS": "ON",
+        "HF_FLINT_STATIC_ARCHIVE": "${sourceDir}/third_party/macos-arm64/libflint.a"
+      }
+    },
+    {
+      "name": "release-dist",
+      "displayName": "Release (portable, static FLINT, OMP + mimalloc), distribution CLI",
+      "description": "Distribution build for the CLI: -O3 (no -mcpu tuning, runs on M1+), static FLINT/GMP/MPFR for both CLI and LibraryLink dylib. HF_FLINT_STATIC_ARCHIVE must be passed via -D (built by scripts/build_static_flint.sh with WANT_LTO=1).",
+      "inherits": "_base",
+      "cacheVariables": {
+        "HF_BUILD_VARIANT": "release-dist",
+        "CMAKE_BUILD_TYPE": "Release",
+        "CMAKE_CXX_FLAGS": "-O3",
+        "HF_OPENMP": "ON",
+        "HF_MIMALLOC": "ON",
+        "HF_LIBRARYLINK": "ON",
+        "HF_LIBRARYLINK_STATIC_DEPS": "ON",
+        "HF_CLI_STATIC_DEPS": "ON"
+      }
+    },
+    {
+      "name": "release-tuned-pgo-gen",
+      "displayName": "Release tuned + PGO instrumentation pass",
+      "description": "First half of PGO workflow: -fprofile-generate. After build, run the training workload, then `llvm-profdata merge -output=...merged.profdata default*.profraw` to feed release-tuned-pgo. Replaces legacy build-pgogen/.",
+      "inherits": "_base",
+      "cacheVariables": {
+        "HF_BUILD_VARIANT": "release-tuned-pgo-gen",
+        "CMAKE_BUILD_TYPE": "Release",
+        "CMAKE_CXX_FLAGS": "-O3 -mcpu=apple-m4 -fprofile-generate=/tmp/hf_pgo_profiles_2026_05",
+        "HF_OPENMP": "ON",
+        "HF_MIMALLOC": "ON",
+        "HF_LIBRARYLINK": "ON"
+      }
+    },
+    {
+      "name": "release-tuned-pgo",
+      "displayName": "Release tuned + PGO consumer",
+      "description": "Second half of PGO workflow: -fprofile-use against /tmp/hf_pgo_profiles_2026_05/merged.profdata (must exist; produced by release-tuned-pgo-gen + llvm-profdata merge). Replaces legacy build-pgouse/.",
+      "inherits": "_base",
+      "cacheVariables": {
+        "HF_BUILD_VARIANT": "release-tuned-pgo",
+        "CMAKE_BUILD_TYPE": "Release",
+        "CMAKE_CXX_FLAGS": "-O3 -mcpu=apple-m4 -fprofile-use=/tmp/hf_pgo_profiles_2026_05/merged.profdata",
+        "HF_OPENMP": "ON",
+        "HF_MIMALLOC": "ON",
+        "HF_LIBRARYLINK": "ON"
+      }
+    },
+    {
+      "name": "asan",
+      "displayName": "RelWithDebInfo + ASan/UBSan (OMP=OFF)",
+      "description": "HF_ASAN=ON (address + undefined sanitizers). OMP disabled to keep ASan reports clean. Replaces legacy build-asan/.",
+      "inherits": "_base",
+      "cacheVariables": {
+        "HF_BUILD_VARIANT": "asan",
+        "CMAKE_BUILD_TYPE": "RelWithDebInfo",
+        "HF_ASAN": "ON",
+        "HF_OPENMP": "OFF",
+        "HF_MIMALLOC": "ON",
+        "HF_LIBRARYLINK": "ON"
+      }
+    },
+    {
+      "name": "tsan",
+      "displayName": "Debug + TSan + OMP=ON",
+      "description": "HF_TSAN=ON, OMP on (purpose: find OMP races). Replaces legacy build-tsan/ + build-tsan-fold/.",
+      "inherits": "_base",
+      "cacheVariables": {
+        "HF_BUILD_VARIANT": "tsan",
+        "CMAKE_BUILD_TYPE": "Debug",
+        "HF_TSAN": "ON",
+        "HF_OPENMP": "ON",
+        "HF_MIMALLOC": "ON",
+        "HF_LIBRARYLINK": "ON"
+      }
+    },
+    {
+      "name": "librarylink-shared",
+      "displayName": "LibraryLink .dylib (static deps, OMP=OFF for Wolfram-libomp compatibility)",
+      "description": "Builds hyperflint_librarylink.dylib for Mathematica. OMP off (Wolfram's own libomp must not race brew libomp). Static FLINT/GMP/MPFR to avoid dyld symbol-resolution race documented in notes/benchmark_1massDB/segfault_diagnosis.md.",
+      "inherits": "_base",
+      "cacheVariables": {
+        "HF_BUILD_VARIANT": "librarylink-shared",
+        "CMAKE_BUILD_TYPE": "Release",
+        "HF_OPENMP": "OFF",
+        "HF_MIMALLOC": "ON",
+        "HF_LIBRARYLINK": "ON",
+        "HF_LIBRARYLINK_STATIC_DEPS": "ON",
+        "HF_FLINT_STATIC_ARCHIVE": "${sourceDir}/third_party/macos-arm64/libflint.a"
+      }
+    },
+
+    {
+      "name": "debug",
+      "displayName": "Debug + OMP + mimalloc",
+      "description": "Supplementary (not in §10 spec). Standard Debug build for source-level debugging. Replaces legacy build-debug/.",
+      "inherits": "_base",
+      "cacheVariables": {
+        "HF_BUILD_VARIANT": "debug",
+        "CMAKE_BUILD_TYPE": "Debug",
+        "HF_OPENMP": "ON",
+        "HF_MIMALLOC": "ON",
+        "HF_LIBRARYLINK": "ON"
+      }
+    },
+    {
+      "name": "debug-nomi",
+      "displayName": "Debug + OMP, mimalloc=OFF",
+      "description": "Supplementary (not in §10 spec). Debug without mimalloc for system-allocator heap attribution (iter-13 ruled heap(1) cannot see mimalloc). Replaces legacy build-debug-gcd/.",
+      "inherits": "_base",
+      "cacheVariables": {
+        "HF_BUILD_VARIANT": "debug-nomi",
+        "CMAKE_BUILD_TYPE": "Debug",
+        "CMAKE_CXX_FLAGS": "-g -fno-omit-frame-pointer",
+        "HF_OPENMP": "ON",
+        "HF_MIMALLOC": "OFF",
+        "HF_LIBRARYLINK": "ON"
+      }
+    },
+    {
+      "name": "profile",
+      "displayName": "RelWithDebInfo + OMP + mimalloc (perf attribution)",
+      "description": "Supplementary (not in §10 spec). Release-with-debug-info for xctrace/samply attribution. Replaces legacy build-profile/.",
+      "inherits": "_base",
+      "cacheVariables": {
+        "HF_BUILD_VARIANT": "profile",
+        "CMAKE_BUILD_TYPE": "RelWithDebInfo",
+        "HF_OPENMP": "ON",
+        "HF_MIMALLOC": "ON",
+        "HF_LIBRARYLINK": "ON"
+      }
+    }
+  ],
+
+  "buildPresets": [
+    {"name": "release-portable",     "configurePreset": "release-portable",     "jobs": 8},
+    {"name": "release-tuned",        "configurePreset": "release-tuned",        "jobs": 8},
+    {"name": "release-dist",         "configurePreset": "release-dist",         "jobs": 8},
+    {"name": "release-tuned-pgo-gen","configurePreset": "release-tuned-pgo-gen","jobs": 8},
+    {"name": "release-tuned-pgo",    "configurePreset": "release-tuned-pgo",    "jobs": 8},
+    {"name": "asan",                 "configurePreset": "asan",                 "jobs": 8},
+    {"name": "tsan",                 "configurePreset": "tsan",                 "jobs": 8},
+    {"name": "librarylink-shared",   "configurePreset": "librarylink-shared",   "jobs": 8},
+    {"name": "debug",                "configurePreset": "debug",                "jobs": 8},
+    {"name": "debug-nomi",           "configurePreset": "debug-nomi",           "jobs": 8},
+    {"name": "profile",              "configurePreset": "profile",              "jobs": 8}
+  ],
+
+  "testPresets": [
+    {"name": "release-portable", "configurePreset": "release-portable",
+     "output": {"outputOnFailure": true}, "execution": {"jobs": 8}},
+    {"name": "release-dist", "configurePreset": "release-dist",
+     "output": {"outputOnFailure": true}, "execution": {"jobs": 8}},
+    {"name": "debug",            "configurePreset": "debug",
+     "output": {"outputOnFailure": true}, "execution": {"jobs": 8}},
+    {"name": "asan",             "configurePreset": "asan",
+     "output": {"outputOnFailure": true}, "execution": {"jobs": 4}},
+    {"name": "tsan",             "configurePreset": "tsan",
+     "output": {"outputOnFailure": true}, "execution": {"jobs": 4}}
+  ]
+}

@@ -1,12 +1,25 @@
 # .github/workflows/release-paclet.yml
 #
-# On tag push (v*), builds a .paclet file and creates a GitHub Release
-# with the paclet attached. Users install via:
+# Unified release workflow. On tag push (v*) to the public repo it:
 #
-#   PacletInstall["https://github.com/SubTropica/SubTropica/releases/download/vX.Y.Z/SubTropica-X.Y.Z.paclet"]
+#   1. core      — builds the lean SubTropica core paclet (pure-Python zip,
+#                  no Mathematica needed) on Linux.
+#   2. hf-build  — builds the macOS HyperFLINT add-on binaries from source
+#                  for both architectures (arm64 + x86_64). FLINT is built
+#                  as a per-arch static archive; GMP/MPFR/FLINT are
+#                  statically linked into both the CLI and the LibraryLink
+#                  dylib; only libomp is bundled.
+#   3. assemble  — downloads the core paclet and both per-arch HF dist
+#                  trees, zips the HyperFLINT add-on paclet, and
+#                  creates ONE GitHub Release carrying all four assets.
 #
-# The paclet is built in pure Python (zip with specific structure) —
-# no Mathematica/wolframscript needed on the runner.
+# The release is created exactly once, in the assemble job, to avoid a
+# double-create collision.
+#
+# Install (core):
+#   PacletInstall["https://subtropi.ca/SubTropica.paclet"]
+# Install (macOS HyperFLINT add-on):
+#   PacletInstall["https://github.com/SubTropica/SubTropica/releases/latest/download/HyperFLINT.paclet"]
 
 name: Release Paclet
 
@@ -21,7 +34,10 @@ permissions:
   contents: write
 
 jobs:
-  release:
+  # ---------------------------------------------------------------------------
+  # Lean core paclet (pure Python zip, no Mathematica on the runner).
+  # ---------------------------------------------------------------------------
+  core:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -29,12 +45,11 @@ jobs:
       - name: Extract version from tag
         id: version
         run: |
-          TAG="${GITHUB_REF#refs/tags/v}"
+          TAG="${GITHUB_REF_NAME#v}"
           echo "version=$TAG" >> "$GITHUB_OUTPUT"
-          echo "tag=v$TAG" >> "$GITHUB_OUTPUT"
           echo "Version: $TAG"
 
-      - name: Build .paclet file
+      - name: Build core .paclet file
         shell: python3 {0}
         run: |
           import zipfile, os, re, json
@@ -108,13 +123,397 @@ jobs:
         env:
           VERSION: ${{ steps.version.outputs.version }}
 
+      - name: Upload core paclet artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: core-paclet
+          path: |
+            SubTropica-${{ steps.version.outputs.version }}.paclet
+            SubTropica.paclet
+          if-no-files-found: error
+
+  # ---------------------------------------------------------------------------
+  # macOS HyperFLINT add-on binaries, per architecture, built from source.
+  # ---------------------------------------------------------------------------
+  hf-build:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - arch: macos-arm64
+            runner: macos-14
+            brew: /opt/homebrew
+          - arch: macos-x86_64
+            runner: macos-15-intel
+            brew: /usr/local
+    runs-on: ${{ matrix.runner }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # stage_dist.sh reads the git SHA for the VERSION manifest.
+          fetch-depth: 0
+
+      - name: Install build dependencies (Homebrew)
+        run: brew install gmp mpfr libomp mimalloc
+
+      - name: Build static FLINT archive
+        working-directory: HyperFLINT
+        run: |
+          ./scripts/build_static_flint.sh \
+            "$GITHUB_WORKSPACE/HyperFLINT/flint-static" \
+            "${{ matrix.brew }}"
+          ls -l "$GITHUB_WORKSPACE/HyperFLINT/flint-static/lib/libflint.a"
+          # Make pkg_check_modules(flint) (CMakeLists.txt) resolve to our
+          # from-source FLINT 3.4.0; brew flint is intentionally not installed.
+          # gmp/mpfr .pc still come from brew's default pkgconfig path.
+          echo "PKG_CONFIG_PATH=$GITHUB_WORKSPACE/HyperFLINT/flint-static/lib/pkgconfig:${PKG_CONFIG_PATH:-}" >> "$GITHUB_ENV"
+
+      - name: Compose CMake static-archive flags
+        id: cmflags
+        run: |
+          FLINT_A="$GITHUB_WORKSPACE/HyperFLINT/flint-static/lib/libflint.a"
+          # Always override the FLINT archive (the librarylink-shared preset
+          # hardcodes the arm64 third_party path; release-dist falls back to
+          # the CMakeLists /opt/homebrew default).
+          # HF_VERSION derives from the tag (v1.2.2 / v1.2.2-rc1 -> 1.2.2):
+          # a HARDCODED version here stamped v1.2.2 binaries as 1.2.1, and the
+          # loader's version gate would silently CLI-fall-back forever.
+          HFV="${GITHUB_REF_NAME#v}"; HFV="${HFV%%-rc*}"
+          FLAGS="-DHF_VERSION=$HFV -DHF_FLINT_STATIC_ARCHIVE=$FLINT_A"
+          # On the x86_64 leg the brew prefix is /usr/local, but the CMake
+          # GMP/MPFR static-archive defaults point at /opt/homebrew, so they
+          # must be overridden explicitly.
+          if [ "${{ matrix.arch }}" = "macos-x86_64" ]; then
+            FLAGS="$FLAGS -DHF_GMP_STATIC_ARCHIVE=/usr/local/lib/libgmp.a -DHF_MPFR_STATIC_ARCHIVE=/usr/local/lib/libmpfr.a"
+          fi
+          echo "flags=$FLAGS" >> "$GITHUB_OUTPUT"
+          echo "Static-archive flags: $FLAGS"
+
+      - name: Configure + build release-dist (CLI only, static deps, OMP on)
+        working-directory: HyperFLINT
+        run: |
+          # CLI-only build: HF_LIBRARYLINK=OFF because the in-process dylib
+          # needs WolframLibrary.h (Mathematica), which CI runners do not have.
+          # The HF backend uses the CLI subprocess transport. PKG_CONFIG_PATH
+          # (set in the static-FLINT step) makes pkg_check_modules(flint)
+          # resolve to our from-source FLINT 3.4.0.
+          cmake --preset release-dist ${{ steps.cmflags.outputs.flags }} -DHF_LIBRARYLINK=OFF
+          # Build only the CLI target. The dev test suite is not needed for a
+          # release build, and some test targets reference dev-only data
+          # (docs/, test/cross/) that is stripped from the public tree. The CLI
+          # is regression-tested locally by the maintainer before the cut.
+          cmake --build build-presets/release-dist --target hyperflint-cli -j
+
+      - name: Stage dist bundle
+        working-directory: HyperFLINT
+        run: |
+          BREW_PREFIX="${{ matrix.brew }}" \
+            ./scripts/stage_dist.sh build-presets/release-dist "${{ matrix.arch }}"
+
+      - name: Assert staged version + binary launches
+        working-directory: HyperFLINT
+        run: |
+          # The VERSION manifest is written by stage_dist.sh from
+          # $SubTropicaVersion in SubTropica.wl; the baked HF_VERSION is
+          # guaranteed by the tag-derived -DHF_VERSION above.  Expect the
+          # tag version here too (v1.2.2 / v1.2.2-rc1 -> 1.2.2): a
+          # hardcoded grep failed the v1.2.2-rc1 cut on both macOS legs.
+          HFV="${GITHUB_REF_NAME#v}"; HFV="${HFV%%-rc*}"
+          grep -q "$HFV" "dist/${{ matrix.arch }}/VERSION"
+          echo "VERSION manifest OK:"
+          cat "dist/${{ matrix.arch }}/VERSION"
+          # hyperflint has no --version flag; --help must exit 0.
+          "dist/${{ matrix.arch }}/hyperflint" --help >/dev/null
+          echo "Binary launches OK (--help exit 0)"
+
+      - name: Upload HF dist artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: hf-${{ matrix.arch }}
+          path: HyperFLINT/dist/${{ matrix.arch }}/**
+          if-no-files-found: error
+
+  # ---------------------------------------------------------------------------
+  # Linux HF binaries (dylib + CLI), built INSIDE the official Wolfram Engine
+  # image (public on Docker Hub; supplies WolframLibrary.h, used transiently to
+  # compile -- never redistributed). The dylib and CLI builds are validated
+  # locally in this image (see HyperFLINT/scripts/build_librarylink_dylib.sh and
+  # notes/hf_dylib_linux_ci_handoff.md); the first CI run still needs to confirm:
+  #   (a) actions/checkout in this container (git availability / safe.directory),
+  #   (b) the standalone CLI's libomp.so.5 runtime dep on end-user machines
+  #       (the dylib resolves OMP against the Engine's libiomp5 at load; the CLI
+  #       links clang's libomp -> users need libomp5, or rebuild the CLI OMP-off),
+  #   (c) a runtime smoke (load .so in a live kernel) -- needs an activated
+  #       Engine (on-demand entitlement secret); not run here.
+  # ---------------------------------------------------------------------------
+  hf-build-linux:
+    runs-on: ubuntu-latest
+    container:
+      image: wolframresearch/wolframengine:latest
+      options: --user root
+    steps:
+      - name: Install build toolchain
+        run: |
+          export DEBIAN_FRONTEND=noninteractive
+          apt-get update -qq
+          apt-get install -y -qq build-essential cmake git wget clang \
+            libgmp-dev libmpfr-dev libomp-dev pkg-config ca-certificates \
+            xz-utils binutils file m4 autoconf
+
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Mark workspace safe for git (container runs as root)
+        run: git config --global --add safe.directory "$GITHUB_WORKSPACE" || true
+
+      - name: Resolve Engine include dir + multiarch libdir
+        id: env
+        run: |
+          INC=$(dirname "$(find /usr/local/Wolfram -name WolframLibrary.h -path '*IncludeFiles/C*' | head -1)")
+          test -n "$INC" || { echo "WolframLibrary.h not found in Engine image"; exit 1; }
+          echo "wolfram_inc=$INC" >> "$GITHUB_OUTPUT"
+          echo "archlib=$(dpkg-architecture -qDEB_HOST_MULTIARCH)" >> "$GITHUB_OUTPUT"
+          echo "engine=$(ls -d /usr/local/Wolfram/WolframEngine/*/ | xargs -n1 basename | head -1)" >> "$GITHUB_OUTPUT"
+          echo "Engine include: $INC"
+
+      - name: Build static -fPIC GMP + MPFR + FLINT
+        run: |
+          # apt's x86_64 static libgmp.a/libmpfr.a are NOT built with -fPIC
+          # (their TLS relocations R_X86_64_TPOFF32 cannot go into a shared
+          # object), so build GMP/MPFR/FLINT from source with PIC for the dylib.
+          set -e
+          cd "$GITHUB_WORKSPACE"
+          DEPS="$GITHUB_WORKSPACE/HyperFLINT/deps-static"
+          wget -q https://ftp.gnu.org/gnu/gmp/gmp-6.3.0.tar.xz
+          tar xf gmp-6.3.0.tar.xz
+          ( cd gmp-6.3.0 && ./configure --disable-shared --enable-static --with-pic --prefix="$DEPS" && make -j"$(nproc)" && make install )
+          wget -q https://ftp.gnu.org/gnu/mpfr/mpfr-4.2.1.tar.xz
+          tar xf mpfr-4.2.1.tar.xz
+          ( cd mpfr-4.2.1 && ./configure --disable-shared --enable-static --with-pic --with-gmp="$DEPS" --prefix="$DEPS" && make -j"$(nproc)" && make install )
+          wget -q https://github.com/flintlib/flint/releases/download/v3.4.0/flint-3.4.0.tar.gz
+          tar xf flint-3.4.0.tar.gz
+          ( cd flint-3.4.0 && ./configure --disable-shared --enable-static --with-gmp="$DEPS" --with-mpfr="$DEPS" CFLAGS="-O2 -fPIC -fvisibility=hidden" --prefix="$DEPS" && make -j"$(nproc)" && make install )
+          echo "PKG_CONFIG_PATH=$DEPS/lib/pkgconfig:${PKG_CONFIG_PATH:-}" >> "$GITHUB_ENV"
+          echo "HF_DEPS=$DEPS" >> "$GITHUB_ENV"
+
+      - name: Build + gate the LibraryLink .so
+        run: |
+          WOLFRAM_INC="${{ steps.env.outputs.wolfram_inc }}" \
+          HF_FLINT_A="$HF_DEPS/lib/libflint.a" \
+          HF_GMP_A="$HF_DEPS/lib/libgmp.a" \
+          HF_MPFR_A="$HF_DEPS/lib/libmpfr.a" \
+          CC=clang CXX=clang++ \
+            bash HyperFLINT/scripts/build_librarylink_dylib.sh \
+              --arch linux-x86_64 --src "$GITHUB_WORKSPACE/HyperFLINT" \
+              --build-dir "$GITHUB_WORKSPACE/HyperFLINT/build-ll-linux"
+
+      - name: Build the CLI (static FLINT, OMP on, mimalloc off)
+        run: |
+          cmake -S HyperFLINT -B HyperFLINT/build-cli-linux \
+            -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_FLAGS="-O3" \
+            -DHF_OPENMP=ON -DHF_MIMALLOC=OFF -DHF_LIBRARYLINK=OFF -DHF_CLI_STATIC_DEPS=ON \
+            -DHF_VERSION="$(v="${GITHUB_REF_NAME#v}"; echo "${v%%-rc*}")" \
+            -DHF_FLINT_STATIC_ARCHIVE="$HF_DEPS/lib/libflint.a" \
+            -DHF_GMP_STATIC_ARCHIVE="$HF_DEPS/lib/libgmp.a" \
+            -DHF_MPFR_STATIC_ARCHIVE="$HF_DEPS/lib/libmpfr.a" \
+            -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++
+          cmake --build HyperFLINT/build-cli-linux --target hyperflint-cli -j"$(nproc)"
+          "$(find HyperFLINT/build-cli-linux -name hyperflint -type f | head -1)" --help >/dev/null
+          echo "CLI --help OK"
+
+      - name: Stage dist/linux-x86_64
+        run: |
+          OUT="HyperFLINT/dist/linux-x86_64"
+          mkdir -p "$OUT"
+          cp "$(find HyperFLINT/build-ll-linux -name 'libhyperflint_librarylink.so' | head -1)" "$OUT/"
+          CLI="$(find HyperFLINT/build-cli-linux -name hyperflint -type f | head -1)"
+          cp "$CLI" "$OUT/"; chmod 0755 "$OUT/hyperflint"
+          SHA=$(git -C "$GITHUB_WORKSPACE" rev-parse --short HEAD 2>/dev/null || echo unknown)
+          VER=$(sed -n 's/.*\$SubTropicaVersion[[:space:]]*=[[:space:]]*"\([^"]*\)".*/\1/p' SubTropica.wl | head -1)
+          {
+            echo "HyperFLINT prebuilt distribution"
+            echo "================================"
+            echo "Arch: linux-x86_64"
+            echo "SubTropica.wl version: ${VER}"
+            echo "Git SHA at build: ${SHA}"
+            echo "Built in wolframresearch/wolframengine (Engine ${{ steps.env.outputs.engine }})"
+            echo "dylib: static FLINT/GMP/MPFR (FIX-A) + version-script symbol"
+            echo "       privacy; OMP resolves against the Engine's libiomp5."
+          } > "$OUT/VERSION"
+          ls -la "$OUT"
+
+      - name: Upload HF linux dist artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: hf-linux-x86_64
+          path: HyperFLINT/dist/linux-x86_64/**
+          if-no-files-found: error
+
+  # ---------------------------------------------------------------------------
+  # Assemble the add-on paclet and create the single GitHub Release.
+  # ---------------------------------------------------------------------------
+  assemble:
+    runs-on: ubuntu-latest
+    needs: [core, hf-build, hf-build-linux]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # Pull LFS so the committed macOS-arm64 dylib (HyperFLINT/dist/
+          # macos-arm64/libhyperflint_librarylink.dylib) is a real Mach-O, not a
+          # pointer -- it is overlaid into the add-on bundle below (the macOS CI
+          # leg builds CLI-only; mac runners lack WolframLibrary.h).
+          lfs: true
+
+      - name: Extract version from tag
+        id: version
+        run: |
+          TAG="${GITHUB_REF_NAME#v}"
+          echo "version=$TAG" >> "$GITHUB_OUTPUT"
+          echo "Version: $TAG"
+
+      - name: Download core paclet
+        uses: actions/download-artifact@v4
+        with:
+          name: core-paclet
+          path: assets
+
+      - name: Download HF arm64 dist
+        uses: actions/download-artifact@v4
+        with:
+          name: hf-macos-arm64
+          path: hf-dist/macos-arm64
+
+      - name: Download HF x86_64 dist
+        uses: actions/download-artifact@v4
+        with:
+          name: hf-macos-x86_64
+          path: hf-dist/macos-x86_64
+
+      - name: Download HF linux-x86_64 dist
+        uses: actions/download-artifact@v4
+        with:
+          name: hf-linux-x86_64
+          path: hf-dist/linux-x86_64
+
+      - name: Overlay committed macOS-arm64 dylib into the arm64 dist
+        run: |
+          # The macOS CI leg builds CLI-only (no WolframLibrary.h on mac runners),
+          # so the in-process dylib is not produced there. Ship the maintainer-
+          # built, gated dylib committed (via Git LFS) at HyperFLINT/dist/
+          # macos-arm64/ (FIX-A + FIX-B; see notes/hf_dylib_linux_ci_handoff.md).
+          # SOFT-SKIP: the dylib is an optional speedup (the CLI fallback works),
+          # so a missing/pointer/tiny file warns and ships CLI-only rather than
+          # hard-failing the release. macOS-x86_64 stays CLI-only for now.
+          SRC="HyperFLINT/dist/macos-arm64/libhyperflint_librarylink.dylib"
+          BYTES=$( [ -f "$SRC" ] && wc -c < "$SRC" || echo 0 )
+          if [ ! -f "$SRC" ]; then
+            echo "::warning::$SRC missing -- shipping macOS-arm64 CLI-only"
+          elif head -c 64 "$SRC" | grep -q 'git-lfs'; then
+            echo "::warning::$SRC is an unexpanded LFS pointer (checkout needs lfs: true) -- shipping CLI-only"
+          elif [ "$BYTES" -lt 1000000 ]; then
+            echo "::warning::$SRC suspiciously small (${BYTES} B) -- shipping CLI-only"
+          else
+            cp "$SRC" "hf-dist/macos-arm64/libhyperflint_librarylink.dylib"
+            echo "Overlaid committed macOS-arm64 dylib (${BYTES} B) into the bundle"
+          fi
+
+      - name: Build HyperFLINT add-on .paclet
+        shell: python3 {0}
+        run: |
+          import zipfile, os, re
+
+          # The add-on paclet version tracks the tag (v1.2.2 / v1.2.2-rc1
+          # -> 1.2.2), matching paclet-hyperflint/PacletInfo.wl and the baked
+          # HF_VERSION.  It MUST bump per release: PacletInstall of an
+          # already-installed version is a no-op, so a same-version add-on
+          # would leave old binaries installed and the dylib version gate
+          # would silently fall back to the CLI.
+          addon_version = re.sub(r"-rc.*$", "", os.environ["GITHUB_REF_NAME"].lstrip("v"))
+          name = "HyperFLINT"
+          paclet_name = f"{name}-{addon_version}.paclet"
+          prefix = f"{name}-{addon_version}"
+
+          # PacletInfo.wl for the add-on, version forced to match.
+          with open("paclet-hyperflint/PacletInfo.wl") as f:
+              paclet_info = f.read()
+          paclet_info = re.sub(
+              r'"Version"\s*->\s*"[^"]*"',
+              f'"Version" -> "{addon_version}"',
+              paclet_info,
+          )
+
+          # (source-on-disk, path-inside-paclet)
+          file_map = [
+              ("HyperFLINT/data/mzv_reductions.json", "data/mzv_reductions.json"),
+              ("HyperFLINT/LICENSE", "LICENSE"),
+              ("HyperFLINT/THIRD-PARTY-LICENSES", "THIRD-PARTY-LICENSES"),
+          ]
+
+          # Per-arch dist trees downloaded as artifacts.
+          dist_dirs = [
+              ("hf-dist/macos-arm64", "dist/macos-arm64"),
+              ("hf-dist/macos-x86_64", "dist/macos-x86_64"),
+              ("hf-dist/linux-x86_64", "dist/linux-x86_64"),
+          ]
+
+          exclude = {".DS_Store"}
+
+          with zipfile.ZipFile(paclet_name, "w", zipfile.ZIP_DEFLATED) as zf:
+              zf.writestr(f"{prefix}/PacletInfo.wl", paclet_info)
+
+              for src, rel in file_map:
+                  if not os.path.isfile(src):
+                      raise SystemExit(f"missing required file: {src}")
+                  zf.write(src, f"{prefix}/{rel}")
+
+              for src_dir, rel_root in dist_dirs:
+                  if not os.path.isdir(src_dir):
+                      raise SystemExit(f"missing dist dir: {src_dir}")
+                  # dist/<arch> is a flat set (hyperflint, libomp.dylib,
+                  # VERSION). Place each file by basename so the result is
+                  # correct regardless of how upload/download-artifact nests
+                  # the downloaded tree.
+                  staged = 0
+                  for root, dirs, files in os.walk(src_dir):
+                      for fname in sorted(files):
+                          if fname in exclude:
+                              continue
+                          full = os.path.join(root, fname)
+                          # actions/upload-artifact strips Unix exec bits, so the
+                          # downloaded hyperflint binary is non-executable. Restore
+                          # +x before zipping; ZipFile.write stores st_mode in the
+                          # entry's external_attr, and PacletInstall honors it, so
+                          # the installed CLI is runnable. Without this the add-on
+                          # binary installs as rw-r--r-- and RunProcess fails.
+                          if fname == "hyperflint":
+                              os.chmod(full, 0o755)
+                          zf.write(full, f"{prefix}/{rel_root}/{fname}")
+                          staged += 1
+                  if staged == 0:
+                      raise SystemExit(f"no files staged from {src_dir}")
+                  print(f"staged {staged} files from {src_dir} -> {rel_root}")
+
+          size_mb = os.path.getsize(paclet_name) / (1024 * 1024)
+          print(f"\nBuilt {paclet_name} ({size_mb:.1f} MB)")
+
+          # Stable-alias copy for the /latest/download/ URL.
+          import shutil
+          shutil.copy(paclet_name, f"{name}.paclet")
+          print(f"Built {name}.paclet (stable-alias copy)")
+
       - name: Create GitHub Release
         run: |
-          gh release create "$TAG" \
-            "SubTropica-${VERSION}.paclet" \
-            "SubTropica.paclet" \
+          ADDON_VERSION="${GITHUB_REF_NAME#v}"; ADDON_VERSION="${ADDON_VERSION%%-rc*}"
+          gh release create "$GITHUB_REF_NAME" \
+            "assets/SubTropica-${VERSION}.paclet" \
+            "assets/SubTropica.paclet" \
+            "HyperFLINT-${ADDON_VERSION}.paclet" \
+            "HyperFLINT.paclet" \
             --title "SubTropica v${VERSION}" \
             --notes "## Installation
+
+          ### Core package (all platforms)
 
           Quick (always latest):
           \`\`\`mathematica
@@ -124,11 +523,19 @@ jobs:
 
           Version-pinned:
           \`\`\`mathematica
-          PacletInstall[\"https://github.com/SubTropica/SubTropica/releases/download/${TAG}/SubTropica-${VERSION}.paclet\"]
+          PacletInstall[\"https://github.com/SubTropica/SubTropica/releases/download/${GITHUB_REF_NAME}/SubTropica-${VERSION}.paclet\"]
+          \`\`\`
+
+          ### HyperFLINT add-on (macOS + Linux, optional)
+
+          The HyperFLINT analytic backend ships as a separate add-on paclet
+          (macOS arm64 + x86_64, Linux x86_64).  Install it alongside the core
+          package; SubTropica discovers it at runtime.
+          \`\`\`mathematica
+          PacletInstall[\"https://github.com/SubTropica/SubTropica/releases/latest/download/HyperFLINT.paclet\"]
           \`\`\`
 
           See [README](https://github.com/SubTropica/SubTropica#readme) for documentation."
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          TAG: ${{ steps.version.outputs.tag }}
           VERSION: ${{ steps.version.outputs.version }}

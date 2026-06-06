@@ -19,6 +19,14 @@ import { renderNotebook, buildTokens, renderTemplate } from './render.mjs';
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const TEMPLATE_PATH = join(__dirname, 'template.wl');
 
+async function readStVersion() {
+  try {
+    const txt = await readFile(join(__dirname, '..', '..', 'PacletInfo.wl'), 'utf8');
+    const m = txt.match(/"Version"\s*->\s*"([^"]+)"/);
+    return m ? m[1] : 'unknown';
+  } catch { return 'unknown'; }
+}
+
 // Re-export the pure pieces so downstream Node callers can still import from
 // generate.mjs if they were doing so.
 export { renderNotebook, buildTokens, renderTemplate };
@@ -34,6 +42,7 @@ async function readEntry(entryPath) {
 
 export async function renderFromPayload(entry, recordIdx = 0, opts = {}) {
   const template = await readFile(TEMPLATE_PATH, 'utf8');
+  opts = { stVersion: await readStVersion(), ...opts };
   return renderNotebook(template, entry, recordIdx, opts);
 }
 

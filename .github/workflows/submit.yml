@@ -153,6 +153,58 @@ jobs:
           topo_nickel = parts[0]
           mass_nickel = parts[1] if len(parts) > 1 else ''.join('0' if c != '|' else '|' for c in topo_nickel)
 
+          # --- CNI <-> result mass-consistency check ------------------------
+          # Close the hole where a MASSIVE result is filed under a MASSLESS
+          # CNI (e.g. a massive triangle under e12|e2|e|:000|00|0|).  The CNI
+          # mass-config (the part after ':') encodes one slot per edge/leg:
+          # '0' = massless, any other char = a named mass scale.  A FULLY
+          # MASSLESS mass-config (only '0' and '|') is therefore incompatible
+          # with any declared internalMasses or externalMasses.
+          #
+          # CONSERVATIVE BY DESIGN: only this one direction is enforced.  Many
+          # legitimate massive results ship empty mass lists because the
+          # masses are absorbed into benign scale substitutions (e.g. {MM->1}),
+          # so we do NOT require a massive CNI to carry nonempty mass lists and
+          # we do NOT match per-mass counts -- those would false-reject ~170+
+          # existing library entries.  Alignment-free, so robust to multi-digit
+          # vertex labels / mass scales.  Verified against all 861 library
+          # entries: fires on exactly the two known-bad cases with zero
+          # false-rejects.
+          def _st_cni_is_massless(cni):
+              if not isinstance(cni, str) or ":" not in cni:
+                  return False   # unparseable -> do not assume massless
+              color = cni.split(":", 1)[1]
+              return all(ch in "0|" for ch in color)
+
+          def _st_mass_list_nonempty(v):
+              # Treat None, [], {}, '', '{}', '{ }' as empty so benign
+              # payloads are never mistaken for massive ones.
+              if v is None:
+                  return False
+              if isinstance(v, (list, tuple, dict, set)):
+                  return len(v) > 0
+              if isinstance(v, str):
+                  return v.strip() not in ("", "{}", "{ }")
+              return True
+
+          _decl_internal = payload.get("internalMasses")
+          _decl_external = payload.get("externalMasses")
+          if _st_cni_is_massless(cnickel) and (
+                  _st_mass_list_nonempty(_decl_internal)
+                  or _st_mass_list_nonempty(_decl_external)):
+              import sys as _sys
+              print(
+                  "MASS-CONSISTENCY FAILURE: CNickelIndex '" + str(cnickel)
+                  + "' has a fully-massless mass-config (all '0'), but the "
+                  + "submission declares masses: internalMasses="
+                  + repr(_decl_internal) + ", externalMasses="
+                  + repr(_decl_external) + ". A massive result cannot be filed "
+                  + "under a massless CNI; the CNI mass-config and the declared "
+                  + "internal/external masses are inconsistent. Rejecting "
+                  + "submission (no entry written).")
+              _sys.exit(1)
+          # -----------------------------------------------------------------
+
           def sanitize(s):
               # Replace Nickel-index separators with underscores so the result
               # is safe as both a directory name AND a git branch name.  Git

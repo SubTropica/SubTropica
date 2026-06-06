@@ -1,0 +1,64 @@
+{
+	"CNickelIndex": "1111||",
+	"MassScales": 1,
+	"FunctionClass": "MPL",
+	"EpsilonOrder": "0",
+	"References": [],
+	"Records": [],
+	"Source": [
+		"SubTropica"
+	],
+	"Loops": 3,
+	"NumPropagators": 4,
+	"edges": "{{{1, 2}, 0}, {{1, 2}, 0}, {{1, 2}, m}, {{1, 2}, 0}}",
+	"nodes": "{}",
+	"CanonicalName": "3-loop vacuum banana",
+	"MassConfig": {},
+	"Subsectors": [],
+	"ParentSectors": [],
+	"Results": [
+		{
+			"resultCompressed": "1:eJxTTMoPSmNjYGAo5gISwalFmanFLoklicXMQG5qQXEmkGJIA3GKWYCET2ZxSRoTiMcKJEIyc1OLIVwOIBGUWJKZn5eYk/kfCDJ5QBrhSgPyy1OLikHc3NxMJriZ+ExhBHIyOQiYwgRzWUBOaXHmb6DFaM6DKAOZBfaST346VD9hB4C9MYGAA1hRHLCZEVk1xAGCOEwIyETyAkL5p39AP2BzL5o6M0xjsWnDaseX/8h25FaVgVVl/gN5GBzsIAIARSN1iA==",
+			"resultTeX": "-\\frac{m^2^2}{12 \\varepsilon^2}+\\frac{m^2^2 (2 \\log (m^2)-5)}{8 \\varepsilon}-\\frac{1}{144} m^2^2 \\left(54 \\log ^2(m^2)-270 \\log (m^2)-12 \\zeta(2)+17 \\pi ^2+435\\right)+O\\left(\\varepsilon^1\\right)",
+			"dimension": "4 - 2*eps",
+			"epsOrder": 0,
+			"propExponents": [
+				1,
+				1,
+				1,
+				1
+			],
+			"propagators": 4,
+			"numerators": [],
+			"internalMasses": [
+				"m"
+			],
+			"externalMasses": [],
+			"substitutions": "{Subscript[m, 3] -> m}",
+			"normalization": "Automatic",
+			"stVersion": "SubTropica v1.1.9",
+			"stCommand": "STIntegrate[{{{{1, 2}, 0}, {{1, 2}, 0}, {{1, 2}, m}, {{1, 2}, 0}}, {}}, \"SetProblemID\" -> \"Theta, 1 massive propagator\", \"Order\" -> 0, \"Substitutions\" -> {Subscript[m, 3] -> m}, \"CleanOutput\" -> True, \"Gauge\" -> {x2 -> 1}, \"FindRoots\" -> True, \"internalMasses\" -> {m}, \"externalMasses\" -> {}]",
+			"contributor": "Anonymous",
+			"timestamp": "Fri 22 May 2026 19:18:36",
+			"byteCount": 1664,
+			"verified": true,
+			"verifiedMethod": "pySecDec",
+			"verifiedTolerance": 0.001,
+			"verifiedMaxRelErr": 1.9999999999647267e-05,
+			"verifiedAt": "Fri 22 May 2026 19:18:27",
+			"verifiedKinPoint": [
+				{
+					"var": "m",
+					"value": "Sqrt[7/59]"
+				}
+			],
+			"symbolTeX": "\\begin{aligned}\\varepsilon^{-2}&\\colon\\;-\\frac{m^4}{12} \\\\ \\varepsilon^{-1}&\\colon\\;\\frac{m^4}{4}\\,(m^2) \\\\ \\varepsilon^{0}&\\colon\\;\\frac{15 m^4}{8}\\,(m^2) - \\frac{3 m^4}{4}\\,(m^2 \\otimes m^2)\\end{aligned}",
+			"alphabet": [
+				"m^2"
+			],
+			"symbolWeight": 2,
+			"symbolTerms": 4
+		}
+	],
+	"Names": []
+}

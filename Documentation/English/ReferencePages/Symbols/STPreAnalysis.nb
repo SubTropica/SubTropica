@@ -20,25 +20,25 @@ WindowFrame->Normal*)
 Notebook[{
 
 Cell[CellGroupData[{
-Cell["STPreAnalysis", "ObjectName",ExpressionUUID->"5ccd6128-8af4-4966-ba09-b7773fd95aba"],
+Cell["STPreAnalysis", "ObjectName",ExpressionUUID->"13686bfc-ddeb-4ee0-9503-aaf38f521f56"],
 
 Cell[BoxData[GridBox[{
    {Cell[TextData[{
      StyleBox["STPreAnalysis", "TI"],
      " \[LineSeparator]STPreAnalysis performs an extended analysis of the \
 singularity structure of an Euler integrand."
-    }], "TableText",ExpressionUUID->"47a3821f-f8a0-4af4-a566-1d0f662cd296"]}
+    }], "TableText",ExpressionUUID->"22ab77e7-ca9e-4e0e-8129-56a36d27bab5"]}
   },
   GridBoxAlignment->{"Columns" -> {{Left}}},
   GridBoxItemSize->{
    "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}]], "Usage",
- CellID->1,ExpressionUUID->"c0a63aef-6be1-4fe8-b2b4-99a50a42adbf"],
+ CellID->1,ExpressionUUID->"dffef26b-7ead-45f2-835b-e56d20b119b0"],
 
 Cell["\<\
 STPreAnalysis performs an extended analysis of the singularity structure of \
 an Euler integrand. It is useful for diagnosing which divergences are and are \
 not regulated by a given set of regulators. (see example below)\
-\>", "Notes",ExpressionUUID->"22cf963d-4d2f-4c59-a16c-ca0bbf104960"],
+\>", "Notes",ExpressionUUID->"e6a3dc9c-bf27-4cf2-a353-7b5c26a539fd"],
 
 Cell[BoxData[
  RowBox[{
@@ -52,14 +52,14 @@ Cell[BoxData[
     RowBox[{"{", "eps", "}"}]}], "  ", "]"}], "   ", 
   RowBox[{"(*", " ", 
    RowBox[{"regulators", ",", " ", "optional"}], " ", "*)"}]}]], "Input",Expre\
-ssionUUID->"7b1cd4ea-379d-4c29-aec2-efe783843f3f"]
+ssionUUID->"86f71d8a-7813-438f-bdf7-e7b2e4e1e613"]
 }, Open  ]],
 
 Cell[CellGroupData[{
 
-Cell["Details", "Section",ExpressionUUID->"3e34d5b3-eb65-427c-ab26-44e332ff8ada"],
+Cell["Details", "Section",ExpressionUUID->"f7e1c02d-e125-4adc-b214-36e40c0ca745"],
 
-Cell["Arguments", "Subsection",ExpressionUUID->"3cadd9f8-99ff-47ba-ac1b-4e195e35a83f"],
+Cell["Arguments", "Subsection",ExpressionUUID->"7ac10ce8-1198-45b0-9828-8e8c43c33353"],
 
 Cell["\<\
 integrand, variables, and coefficients follow the same conventions as in \
@@ -67,9 +67,9 @@ STExpandIntegral below. The optional argument facesQ (default True) controls \
 whether to compute the divergent faces. The optional regulators (default \
 {eps}) lists the parameters used to determine which rays correspond to \
 divergences.\
-\>", "Text",ExpressionUUID->"363e9fc3-e5c3-4446-9963-7339c0a0a086"],
+\>", "Text",ExpressionUUID->"3b3192ef-6e91-49da-adda-8022beccb103"],
 
-Cell["Return value", "Subsection",ExpressionUUID->"290de745-8361-49ae-93ba-c8a85abca061"],
+Cell["Return value", "Subsection",ExpressionUUID->"ff714648-2808-4845-99b0-d3eb6a88210b"],
 
 Cell["\<\
 An Association with keys: \"trops\" (the value of the tropical integrand Trop\
@@ -84,41 +84,41 @@ ray, so \[CurlyEpsilon] alone cannot render the integral finite. Such rays \
 typically signal the need of a secondary regulator (e.g., the parameter q in \
 the small-x example of Sec.~) and must be handled via STcontinueRays (App.~) \
 before proceeding with the tropical subtraction.\
-\>", "Text",ExpressionUUID->"5c721165-66dc-4da9-8a98-69b0ae8547ca"]
+\>", "Text",ExpressionUUID->"ce35295f-5eeb-4772-9eb4-d73a571d3030"]
 }, Open  ]],
 
 Cell[CellGroupData[{
 
-Cell["Metadata", "MetadataSection",ExpressionUUID->"87eec75e-0368-4579-80ae-9fe7d941bf40"],
+Cell["Metadata", "MetadataSection",ExpressionUUID->"17086260-35e2-4da7-9807-ce45f2518887"],
 
 Cell[CellGroupData[{
 
-Cell["Categorization", "CategorizationSection",ExpressionUUID->"d3251d52-5bd8-418d-a181-ec39215102ce"],
+Cell["Categorization", "CategorizationSection",ExpressionUUID->"a0a4c8ce-3fff-49bd-af10-9000c2d89607"],
 
 Cell["Symbol", "Categorization",
  CellLabel->
-  "Entity Type",ExpressionUUID->"69235bd2-9538-46d6-90b9-60f9173fbe96"],
+  "Entity Type",ExpressionUUID->"430d4290-00f9-48d8-bdac-c16cd02cc8c0"],
 
 Cell["SubTropica", "Categorization",
  CellLabel->
-  "Paclet Name",ExpressionUUID->"05724f8f-a01d-4fc0-a57e-d3b1b9852a50"],
+  "Paclet Name",ExpressionUUID->"f33adc7a-a3e3-4e97-976c-bad306f52e4c"],
 
 Cell["SubTropica`", "Categorization",
- CellLabel->"Context",ExpressionUUID->"7993994e-c8db-438e-bcab-d1847ef0c63c"],
+ CellLabel->"Context",ExpressionUUID->"a0f8dd32-7479-4ef1-b4e8-cf44bbfd39b5"],
 
 Cell["SubTropica/ref/STPreAnalysis", "Categorization",
- CellLabel->"URI",ExpressionUUID->"56089335-3b4a-474c-b2e8-7f9caab3c6fa"]
+ CellLabel->"URI",ExpressionUUID->"e42daf07-9cc1-4db9-a645-21fc3c0f6952"]
 }, Closed]],
 
 Cell[CellGroupData[{
 
-Cell["Keywords", "KeywordsSection",ExpressionUUID->"1a1b017a-6b5b-4797-8779-97d88afa237c"],
+Cell["Keywords", "KeywordsSection",ExpressionUUID->"42398847-2c30-4148-9ce8-92ecdf7e7bea"],
 
-Cell["Feynman integral", "Keywords",ExpressionUUID->"2cd2a9fb-73e9-4558-9acd-18d724537ada"],
+Cell["Feynman integral", "Keywords",ExpressionUUID->"d5e3df2d-257c-4326-8d82-6c181a853aed"],
 
-Cell["tropical geometry", "Keywords",ExpressionUUID->"5211ad70-3740-4738-9b31-6a9e6c7982c2"],
+Cell["tropical geometry", "Keywords",ExpressionUUID->"ecb1aa0b-6fe3-4ad5-a83e-59a49657f266"],
 
-Cell["dimensional regularization", "Keywords",ExpressionUUID->"8d277455-e7ed-4b61-9b96-fcf6ebd2b080"]
+Cell["dimensional regularization", "Keywords",ExpressionUUID->"b58b8fdd-381a-4844-859a-a2c80f6bd60f"]
 }, Closed]]
 }, Open  ]]
 },
@@ -126,7 +126,7 @@ TaggingRules-><|"Paclet" -> "SubTropica"|>,
 FrontEndVersion->"14.3 for Mac OS X ARM (64-bit) (July 8, 2025)",
 StyleDefinitions->FrontEnd`FileName[{"Wolfram"}, "FunctionPageStylesExt.nb", 
   CharacterEncoding -> "UTF-8"],
-ExpressionUUID->"f1816490-e018-45a0-a358-0bb13e25a536"
+ExpressionUUID->"2e086ed0-3d05-4bad-b06e-0cee128aa744"
 ]
 (* End of Notebook Content *)
 
@@ -140,33 +140,33 @@ CellTagsIndex->{}
 (*NotebookFileOutline
 Notebook[{
 Cell[CellGroupData[{
-Cell[576, 22, 90, 0, 70, "ObjectName",ExpressionUUID->"5ccd6128-8af4-4966-ba09-b7773fd95aba"],
-Cell[669, 24, 485, 10, 70, "Usage",ExpressionUUID->"c0a63aef-6be1-4fe8-b2b4-99a50a42adbf",
+Cell[576, 22, 90, 0, 70, "ObjectName",ExpressionUUID->"13686bfc-ddeb-4ee0-9503-aaf38f521f56"],
+Cell[669, 24, 485, 10, 70, "Usage",ExpressionUUID->"dffef26b-7ead-45f2-835b-e56d20b119b0",
  CellID->1],
-Cell[1157, 36, 301, 4, 70, "Notes",ExpressionUUID->"22cf963d-4d2f-4c59-a16c-ca0bbf104960"],
-Cell[1461, 42, 499, 12, 70, "Input",ExpressionUUID->"7b1cd4ea-379d-4c29-aec2-efe783843f3f"]
+Cell[1157, 36, 301, 4, 70, "Notes",ExpressionUUID->"e6a3dc9c-bf27-4cf2-a353-7b5c26a539fd"],
+Cell[1461, 42, 499, 12, 70, "Input",ExpressionUUID->"86f71d8a-7813-438f-bdf7-e7b2e4e1e613"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[1997, 59, 81, 0, 70, "Section",ExpressionUUID->"3e34d5b3-eb65-427c-ab26-44e332ff8ada"],
-Cell[2081, 61, 86, 0, 70, "Subsection",ExpressionUUID->"3cadd9f8-99ff-47ba-ac1b-4e195e35a83f"],
-Cell[2170, 63, 393, 6, 70, "Text",ExpressionUUID->"363e9fc3-e5c3-4446-9963-7339c0a0a086"],
-Cell[2566, 71, 89, 0, 70, "Subsection",ExpressionUUID->"290de745-8361-49ae-93ba-c8a85abca061"],
-Cell[2658, 73, 978, 13, 70, "Text",ExpressionUUID->"5c721165-66dc-4da9-8a98-69b0ae8547ca"]
+Cell[1997, 59, 81, 0, 70, "Section",ExpressionUUID->"f7e1c02d-e125-4adc-b214-36e40c0ca745"],
+Cell[2081, 61, 86, 0, 70, "Subsection",ExpressionUUID->"7ac10ce8-1198-45b0-9828-8e8c43c33353"],
+Cell[2170, 63, 393, 6, 70, "Text",ExpressionUUID->"3b3192ef-6e91-49da-adda-8022beccb103"],
+Cell[2566, 71, 89, 0, 70, "Subsection",ExpressionUUID->"ff714648-2808-4845-99b0-d3eb6a88210b"],
+Cell[2658, 73, 978, 13, 70, "Text",ExpressionUUID->"ce35295f-5eeb-4772-9eb4-d73a571d3030"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[3673, 91, 90, 0, 70, "MetadataSection",ExpressionUUID->"87eec75e-0368-4579-80ae-9fe7d941bf40"],
+Cell[3673, 91, 90, 0, 70, "MetadataSection",ExpressionUUID->"17086260-35e2-4da7-9807-ce45f2518887"],
 Cell[CellGroupData[{
-Cell[3788, 95, 102, 0, 70, "CategorizationSection",ExpressionUUID->"d3251d52-5bd8-418d-a181-ec39215102ce"],
-Cell[3893, 97, 117, 2, 70, "Categorization",ExpressionUUID->"69235bd2-9538-46d6-90b9-60f9173fbe96"],
-Cell[4013, 101, 121, 2, 70, "Categorization",ExpressionUUID->"05724f8f-a01d-4fc0-a57e-d3b1b9852a50"],
-Cell[4137, 105, 115, 1, 70, "Categorization",ExpressionUUID->"7993994e-c8db-438e-bcab-d1847ef0c63c"],
-Cell[4255, 108, 128, 1, 70, "Categorization",ExpressionUUID->"56089335-3b4a-474c-b2e8-7f9caab3c6fa"]
+Cell[3788, 95, 102, 0, 70, "CategorizationSection",ExpressionUUID->"a0a4c8ce-3fff-49bd-af10-9000c2d89607"],
+Cell[3893, 97, 117, 2, 70, "Categorization",ExpressionUUID->"430d4290-00f9-48d8-bdac-c16cd02cc8c0"],
+Cell[4013, 101, 121, 2, 70, "Categorization",ExpressionUUID->"f33adc7a-a3e3-4e97-976c-bad306f52e4c"],
+Cell[4137, 105, 115, 1, 70, "Categorization",ExpressionUUID->"a0f8dd32-7479-4ef1-b4e8-cf44bbfd39b5"],
+Cell[4255, 108, 128, 1, 70, "Categorization",ExpressionUUID->"e42daf07-9cc1-4db9-a645-21fc3c0f6952"]
 }, Closed]],
 Cell[CellGroupData[{
-Cell[4420, 114, 90, 0, 70, "KeywordsSection",ExpressionUUID->"1a1b017a-6b5b-4797-8779-97d88afa237c"],
-Cell[4513, 116, 91, 0, 70, "Keywords",ExpressionUUID->"2cd2a9fb-73e9-4558-9acd-18d724537ada"],
-Cell[4607, 118, 92, 0, 70, "Keywords",ExpressionUUID->"5211ad70-3740-4738-9b31-6a9e6c7982c2"],
-Cell[4702, 120, 101, 0, 70, "Keywords",ExpressionUUID->"8d277455-e7ed-4b61-9b96-fcf6ebd2b080"]
+Cell[4420, 114, 90, 0, 70, "KeywordsSection",ExpressionUUID->"42398847-2c30-4148-9ce8-92ecdf7e7bea"],
+Cell[4513, 116, 91, 0, 70, "Keywords",ExpressionUUID->"d5e3df2d-257c-4326-8d82-6c181a853aed"],
+Cell[4607, 118, 92, 0, 70, "Keywords",ExpressionUUID->"ecb1aa0b-6fe3-4ad5-a83e-59a49657f266"],
+Cell[4702, 120, 101, 0, 70, "Keywords",ExpressionUUID->"b58b8fdd-381a-4844-859a-a2c80f6bd60f"]
 }, Closed]]
 }, Open  ]]
 }

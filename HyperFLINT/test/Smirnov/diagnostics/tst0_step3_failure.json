@@ -1,0 +1,6 @@
+{"op": "hyperflint",
+ "f": "(t2^2*t3^4*t4^2*t5)/((t1 + t2 + t3)^2*(1 + t5)*(t3 + t1*t3 + t2*t3 + t2*t4*t5)^2*(t3 + t1*t3 + t2*t3 + t2*t4 + t2*t4*t5)^2*(t1*t3 + t2*t3 + t3^2 + t2*t4*t5 + t3*t4*t5)^2)",
+ "vars_int": ["t4","t5","t1"],
+ "vars": ["t1","t2","t3","t4","t5"],
+ "skip_cross_validation": true,
+ "note": "Phase 5g-i diagnostic fixture: Smirnov tst0 (bare rational, 5 variables). Integration over t4 and t5 succeeds; t1 step fails with 'rat_var0_coefficient: denominator is not a monomial in var'. The assertion is in src/series/laurent.cpp:108-111 — the zero-series expansion path in integration_step requires the Rat denominator to have equal min/max exponent in the integration var. After two steps, the integrand's partial-fractions coefficients accumulate denominators with mixed degree in t1. See docs/phase_5g_tst0_diagnostic.md for full triage."}

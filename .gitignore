@@ -38,6 +38,10 @@ ui/merge-normalized-symbols.py
 ui/normalize-symbols.py
 ui/recompute-normalized-symbols.wl
 
-# data/topology_names.json is dev-only (read by compute_diagram_name.py
-# during library builds; no consumer on the public paclet)
-data/
+# Repo-root data/ is dev-only (data/topology_names.json, read by
+# compute_diagram_name.py during library builds; no consumer on the public
+# paclet). Root-anchored with a leading slash so it does NOT also ignore
+# HyperFLINT/data/ (which ships mzv_reductions.json for the HF add-on); an
+# un-anchored `data/` silently dropped HyperFLINT/data/ from the v1.2.0 squash
+# at `git add -A` time even though rsync had kept it on disk.
+/data/

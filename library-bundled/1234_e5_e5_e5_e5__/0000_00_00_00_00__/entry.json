@@ -1,47 +1,76 @@
 {
-  "CNickelIndex": "1234|e5|e5|e5|e5||:0000|00|00|00|00||",
-  "MassScales": 2,
-  "FunctionClass": "MPL",
-  "EpsilonOrder": "-6,-5,-4,-3,-2,-1,0",
-  "References": [
-    "arXiv:2111.13595"
-  ],
-  "Records": [
-    {
-      "epsOrders": "-6,-5,-4,-3,-2,-1,0",
-      "reference": "arXiv:2111.13595",
-      "authors": "Piotr Bargiela, Fabrizio Caola, Andreas von Manteuffel, Lorenzo Tancredi",
-      "description": "The three-loop four-point massless Master Integrals are computed in planar, non-planar, and double-non-planar sectors. The result is given in terms of Harmonic Polylogarithms.",
-      "recordId": "1724945016.c0Ik",
-      "verified": true,
-      "verifiedAt": "auto-loopedia"
-    }
-  ],
-  "Source": [
-    "arXiv",
-    "Loopedia"
-  ],
-  "Results": [],
-  "Names": [
-    "Massless k3,3 box",
-    "K3,3 box",
-    "Non-planar 3-loop box"
-  ],
-  "edges": "{{{1, 2}, 0}, {{1, 3}, 0}, {{1, 4}, 0}, {{1, 5}, 0}, {{2, 6}, 0}, {{3, 6}, 0}, {{4, 6}, 0}, {{5, 6}, 0}}",
-  "nodes": "{{2, 0}, {3, 0}, {4, 0}, {5, 0}}",
-  "CanonicalName": "Massless non-planar triple box",
-  "MassConfig": {
-    "numEdges": 8,
-    "numMassiveEdges": 0,
-    "numMasslessEdges": 8,
-    "distinctInternalMasses": 0,
-    "internalMassLabels": [],
-    "edgeMassPattern": "00000000",
-    "numExtLegs": 4,
-    "numOnshellMassiveExtLegs": 0,
-    "numMasslessExtLegs": 4,
-    "extLegSignature": "0000"
+ "CNickelIndex": "1234|e5|e5|e5|e5||:0000|00|00|00|00||",
+ "MassScales": 2,
+ "FunctionClass": "MPL",
+ "EpsilonOrder": "-6,-5,-4,-3,-2,-1,0",
+ "References": [
+  "arXiv:2111.13595",
+  "arXiv:2407.13738",
+  "arXiv:2604.20954"
+ ],
+ "Records": [
+  {
+   "epsOrders": "-6,-5,-4,-3,-2,-1,0",
+   "reference": "arXiv:2111.13595",
+   "authors": "Piotr Bargiela, Fabrizio Caola, Andreas von Manteuffel, Lorenzo Tancredi",
+   "description": "The three-loop four-point massless Master Integrals are computed in planar, non-planar, and double-non-planar sectors. The result is given in terms of Harmonic Polylogarithms.",
+   "recordId": "1724945016.c0Ik",
+   "verified": true,
+   "verifiedAt": "auto-loopedia"
   },
-  "Subsectors": [],
-  "ParentSectors": []
+  {
+   "reference": "arXiv:2407.13738 (JHEP 08 (127), 2024)",
+   "authors": "Gardi, Einan; Herzog, Franz; Jones, Stephen; Ma, Yao",
+   "epsOrders": "",
+   "ancillaryFiles": false,
+   "doi": "10.1007/JHEP08(2024)127",
+   "texkey": "",
+   "dimScheme": "d=4-2*eps",
+   "verified": true,
+   "verifiedAt": "operator-2026-06-06",
+   "familyName": "Massless non-planar triple box",
+   "description": "The crown / Landshoff diagram G_bullet_bullet: the simplest massless 2->2 three-loop graph (K_{3,3}, 8 massless propagators) featuring a pinch Landau singularity in parameter space in general kinematics. Evaluated numerically by dissecting the Newton polytope into 24 sectors; result checked against the analytic computation of arXiv:2008.xxxx (Henn:2020lye, Bargiela:2021wuy). Belongs to integral family 1(d) of Henn:2020lye. Also the leading source of the hidden (Landshoff) region in the on-shell wide-angle expansion and the Glauber hidden region in the Regge limit.",
+   "method": "sector_decomposition, series_expansion, tropical",
+   "tools": [
+    "pySecDec",
+    "FIESTA",
+    "asy2"
+   ],
+   "masterCount": null,
+   "computationLevel": "numerical",
+   "location": "Sec. 3.1 (eq:igbulletbullet, eq:UF_Gbb), Figs. G_dot_dot / three_loop_wide_angle_diagram23",
+   "recordId": "bx_d32e9d59e9ca"
+  }
+ ],
+ "Source": [
+  "arXiv",
+  "Loopedia"
+ ],
+ "Results": [],
+ "Names": [
+  "Massless k3,3 box",
+  "K3,3 box",
+  "Non-planar 3-loop box",
+  "Landshoff diagram",
+  "Landshoff",
+  "Crown",
+  "Crown diagram"
+ ],
+ "edges": "{{{1, 2}, 0}, {{1, 3}, 0}, {{1, 4}, 0}, {{1, 5}, 0}, {{2, 6}, 0}, {{3, 6}, 0}, {{4, 6}, 0}, {{5, 6}, 0}}",
+ "nodes": "{{2, 0}, {3, 0}, {4, 0}, {5, 0}}",
+ "CanonicalName": "Massless non-planar triple box",
+ "MassConfig": {
+  "numEdges": 8,
+  "numMassiveEdges": 0,
+  "numMasslessEdges": 8,
+  "distinctInternalMasses": 0,
+  "internalMassLabels": [],
+  "edgeMassPattern": "00000000",
+  "numExtLegs": 4,
+  "numOnshellMassiveExtLegs": 0,
+  "numMasslessExtLegs": 4,
+  "extLegSignature": "0000"
+ },
+ "Subsectors": [],
+ "ParentSectors": []
 }

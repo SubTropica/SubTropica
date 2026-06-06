@@ -22,6 +22,9 @@
 const STYLE_MARKERS = new Set([
   'Title', 'Chapter', 'Section', 'Subsection', 'Subsubsection',
   'Text', 'Program', 'Code', 'Item',
+  // Pre-rendered diagram: body is a raw GraphicsBox (Mathematica boxes, NOT a
+  // string), emitted as Cell[BoxData[...], "Output"] so it displays on open.
+  'DiagramGraphics',
 ]);
 
 // Mathematica .nb files expect ASCII-safe string content: non-ASCII characters
@@ -36,7 +39,7 @@ function escapeForMmaString(s) {
     );
 }
 
-function parseCells(wl) {
+export function parseCells(wl) {
   const cells = [];
   const lines = wl.split('\n');
   let i = 0;
@@ -59,21 +62,25 @@ function parseCells(wl) {
 
       if (i >= lines.length) break;
       const first = lines[i];
-      const singleLine = first.match(/^\(\*(.*)\*\)\s*$/);
-      if (singleLine) {
-        cells.push({ style, text: singleLine[1].trim() });
+      if (first.startsWith('(*')) {
+        // Read a (possibly multi-line, possibly nested) comment body. Track
+        // (* / *) nesting depth so an inner comment like `(* note *)` does not
+        // prematurely terminate the cell. Without this, a Program example whose
+        // body contains its own comment was split into a truncated Program cell
+        // plus an evaluatable Input cell ending in a dangling `*)` (syntax
+        // error). A single-line `(* x *)` has net depth 0, so the loop is a
+        // no-op and it is handled by the same path.
+        const depthOf = s =>
+          (s.match(/\(\*/g) || []).length - (s.match(/\*\)/g) || []).length;
+        let raw = first;
+        let depth = depthOf(first);
         i++;
-      } else if (first.startsWith('(*')) {
-        let body = first.replace(/^\(\*/, '');
-        i++;
-        while (i < lines.length && !lines[i].includes('*)')) {
-          body += '\n' + lines[i];
+        while (i < lines.length && depth > 0) {
+          raw += '\n' + lines[i];
+          depth += depthOf(lines[i]);
           i++;
         }
-        if (i < lines.length) {
-          body += '\n' + lines[i].replace(/\*\)\s*$/, '');
-          i++;
-        }
+        const body = raw.replace(/^\(\*/, '').replace(/\*\)\s*$/, '');
         cells.push({ style, text: body.trim() });
       } else {
         cells.push({ style, text: '' });
@@ -110,7 +117,46 @@ function parseCells(wl) {
 // sheet below) without relying on style inheritance.
 const EVALUATABLE_STYLES = new Set(['Input', 'Code']);
 
+// Heading nesting levels. A heading groups every following cell that is
+// strictly deeper than it, until the next heading at its own level or shallower.
+const HEADING_LEVEL = { Title: 0, Chapter: 1, Section: 2, Subsection: 3, Subsubsection: 4 };
+
+// Nest the flat cell list into CellGroupData groups by heading level, so each
+// section folds/unfolds from its cell bracket in the front end. Every group is
+// emitted Open, so the notebook opens fully expanded.
+function groupCells(cells) {
+  let i = 0;
+  const levelOf = c => (c.style in HEADING_LEVEL ? HEADING_LEVEL[c.style] : Infinity);
+  // Collect cells strictly deeper than `parentLevel` as node expressions.
+  function build(parentLevel) {
+    const out = [];
+    while (i < cells.length) {
+      const c = cells[i];
+      const lvl = levelOf(c);
+      if (lvl <= parentLevel) break;            // belongs to an ancestor heading
+      if (lvl === Infinity) {                    // leaf content cell
+        out.push(cellToExpr(c));
+        i++;
+      } else {                                   // heading: group with its descendants
+        i++;
+        const children = build(lvl);
+        out.push(children.length
+          ? `Cell[CellGroupData[{\n${[cellToExpr(c), ...children].join(',\n')}\n}, Open]]`
+          : cellToExpr(c));
+      }
+    }
+    return out;
+  }
+  return build(-1);
+}
+
 function cellToExpr(cell) {
+  // Pre-rendered diagram: the body is raw Mathematica boxes (a GraphicsBox),
+  // not a string. Emit it verbatim inside BoxData so the front end renders the
+  // vector graphic on open. Do NOT escape (it is boxes, not string content).
+  if (cell.style === 'DiagramGraphics') {
+    return `Cell[BoxData[${cell.text}], "Output"]`;
+  }
   const base = `Cell["${escapeForMmaString(cell.text)}", "${cell.style}"`;
   if (EVALUATABLE_STYLES.has(cell.style)) {
     return `${base}, Evaluatable->True]`;
@@ -189,8 +235,16 @@ export function wlToNb(wl, {
 
   const body =
     'Notebook[{\n' +
-    cells.map(cellToExpr).join(',\n\n') +
+    groupCells(cells).join(',\n\n') +
     '\n},\n' +
+    // Manual grouping: honor the explicit CellGroupData we emit. With the
+    // default Automatic grouping the front end re-derives groups from each
+    // heading style's CellGroupingRules — but our custom Terra Verde stylesheet
+    // overrides Title/Section/Subsection without those rules, so Automatic
+    // silently dissolves every group (sections stop folding). Manual makes the
+    // explicit groups authoritative, so the notebook opens with foldable,
+    // fully-expanded sections.
+    'CellGrouping->Manual,\n' +
     'WindowSize->{960, 820},\n' +
     'WindowMargins->{{Automatic, 80}, {Automatic, 40}},\n' +
     styleDefs + '\n' +

@@ -1,0 +1,17 @@
+# GNU ld version script: Linux/ELF mirror of exports.txt (the macOS
+# -exported_symbols_list).  Restricts the dynamic symbol table of
+# libhyperflint_librarylink.so to the LibraryLink entry points, so the
+# embedded static FLINT/GMP/MPFR symbols (force-loaded via --whole-archive)
+# stay LOCAL and cannot cross-resolve with the Wolfram Engine's bundled
+# libflint/libgmp/libmpfr at dlopen time -- the Linux analogue of the
+# macOS dyld collision described in notes/benchmark_1massDB/segfault_diagnosis.md.
+# (Linux symbols carry no leading underscore, unlike Mach-O's _hf_*.)
+{
+  global:
+    WolframLibrary_initialize;
+    WolframLibrary_uninitialize;
+    WolframLibrary_getVersion;
+    hf_*;
+  local:
+    *;
+};

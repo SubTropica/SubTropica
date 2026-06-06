@@ -1,0 +1,8 @@
+[
+  {"lr_found": true,  "degree_budget": 1, "method_lr_hint": "Lungo",    "expected": "LR_NoOpt"},
+  {"lr_found": true,  "degree_budget": 1, "method_lr_hint": "Espresso", "expected": "LR_NoOpt"},
+  {"lr_found": true,  "degree_budget": 2, "method_lr_hint": "Lungo",    "expected": "LR_OptOrdered"},
+  {"lr_found": true,  "degree_budget": 2, "method_lr_hint": "Espresso", "expected": "LR_OptOrdered"},
+  {"lr_found": false, "degree_budget": 1, "method_lr_hint": "Lungo",    "expected": "Fubini_Lungo"},
+  {"lr_found": false, "degree_budget": 1, "method_lr_hint": "Espresso", "expected": "Fubini_Espresso"}
+]

@@ -113,6 +113,39 @@ jobs:
                                           f"!= expected '{expected_mass}' from CNickelIndex"
                                       )
 
+                      # CNI <-> result mass-consistency (PR-gate mirror of the
+                      # submit.yml check): a fully-massless CNI (mass-config
+                      # after ':' is only '0'/'|') must not carry a Result with
+                      # declared internal/external masses -- that is a massive
+                      # result filed under a massless CNI.  One-directional and
+                      # conservative (legit massive entries routinely ship empty
+                      # mass lists because masses are absorbed into benign scale
+                      # substitutions), so only the fully-massless direction is
+                      # flagged.  Reads per-Result masses (NOT the top-level
+                      # entry fields, which are usually null).
+                      if cni and ":" in cni and all(
+                              ch in "0|" for ch in cni.split(":", 1)[1]):
+                          def _st_mass_nonempty(v):
+                              if v is None:
+                                  return False
+                              if isinstance(v, (list, dict)):
+                                  return len(v) > 0
+                              if isinstance(v, str):
+                                  return v.strip() not in ("", "{}", "{ }")
+                              return True
+                          for _ri, _r in enumerate(entry.get("Results", []) or []):
+                              if isinstance(_r, dict) and (
+                                      _st_mass_nonempty(_r.get("internalMasses"))
+                                      or _st_mass_nonempty(_r.get("externalMasses"))):
+                                  errors.append(
+                                      f"{path}: Results[{_ri}] declares masses "
+                                      f"(internalMasses={_r.get('internalMasses')!r}, "
+                                      f"externalMasses={_r.get('externalMasses')!r}) "
+                                      f"but CNickelIndex '{cni}' has a fully-massless "
+                                      f"mass-config -- a massive result cannot be "
+                                      f"filed under a massless CNI"
+                                  )
+
                       # Review-toolkit schema checks
                       records = entry.get("Records", [])
                       references = entry.get("References", [])

@@ -5654,3 +5654,10 @@ body.review-mode.review-has-pdf .review-save-bar { left: var(--review-pdf-w, 480
   color: var(--text-mid);
   border-color: var(--text-muted);
 }
+
+#notebook-dl-btn { margin-left: 6px; }
+#notebook-dl-btn:disabled { opacity: .45; cursor: default; }
+/* The starter-notebook download is a web-build affordance only: in the
+   Mathematica (full) build the user already has a live kernel, so hide it.
+   Mirrors the body.mode-full gating used for other full-only chrome. */
+body.mode-full #notebook-dl-btn { display: none; }

@@ -1,0 +1,53 @@
+{
+  "_comment": [
+    "Reference identities for HF basis-ctx campaign test 1c (A-12 fold).",
+    "Each entry asserts an LHS expansion = expected basis-polynomial form.",
+    "Verified by classical Euler / Zagier / Bigotte-Jacob-Petitot MZV",
+    "reduction identities. The C++ test compares the FLINT canonical",
+    "to_string() of expansion[lhs] against the canonical to_string() of",
+    "Rat::parse(basis_ctx, expected), so any equivalent canonical form is",
+    "accepted (no whitespace / ordering sensitivity beyond FLINT's own",
+    "canonicalization).",
+    "",
+    "Source / convention: HyperIntica's mzvAllReductions table at weight",
+    "<= 8, classical Euler identities for even Zeta, depth-2 reductions",
+    "from Zagier (1994) Theorem on shuffle-of-stuffle.",
+    "",
+    "Algebraic (vs numerical) approach justified: HF stores Rats as",
+    "fmpq_mpoly canonical forms; comparing canonical strings is exact",
+    "and dependency-free. Numerical evaluation at high precision via",
+    "mpmath would add a dep without strengthening the check."
+  ],
+  "identities": [
+    {
+      "lhs": "mzv_4",
+      "expected_rhs": "(2/5)*mzv_2^2",
+      "comment": "Euler: zeta(4) = (2/5)*zeta(2)^2"
+    },
+    {
+      "lhs": "mzv_6",
+      "expected_rhs": "(8/35)*mzv_2^3",
+      "comment": "Euler: zeta(6) = (8/35)*zeta(2)^3"
+    },
+    {
+      "lhs": "mzv_8",
+      "expected_rhs": "(24/175)*mzv_2^4",
+      "comment": "Euler: zeta(8) = (24/175)*zeta(2)^4; equivalent to (1/9450)*(6*mzv_2)^4"
+    },
+    {
+      "lhs": "mzv_2_2",
+      "expected_rhs": "(3/10)*mzv_2^2",
+      "comment": "Stuffle: zeta(2,2) = (3/4)*zeta(4) = (3/10)*zeta(2)^2"
+    },
+    {
+      "lhs": "mzv_2_3",
+      "expected_rhs": "3*mzv_2*mzv_3 - (11/2)*mzv_5",
+      "comment": "Zagier depth-2 weight-5 reduction"
+    },
+    {
+      "lhs": "mzv_3_2",
+      "expected_rhs": "-2*mzv_2*mzv_3 + (9/2)*mzv_5",
+      "comment": "Zagier depth-2 weight-5 reduction; complementary to mzv_2_3"
+    }
+  ]
+}

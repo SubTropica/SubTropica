@@ -1,0 +1,38 @@
+# CMake build tree + compiler artifacts
+build/
+build-presets/
+compile_commands.json
+*.o
+*.a
+*.dylib
+*.so
+
+# Editor / OS cruft
+.vscode/
+.idea/
+.DS_Store
+
+# Python caches (fixture/helper scripts under test/cross)
+__pycache__/
+*.pyc
+
+# Unignore the dist/ tree: these are committed via Git LFS
+# (see .gitattributes at the repo root) so collaborators get
+# a working HF on `git pull` without running cmake.
+!dist/
+!dist/**
+!dist/**/*.dylib
+!dist/**/hyperflint
+!dist/**/VERSION
+
+# Same for third_party prebuilt static archives (LFS-tracked).
+!third_party/
+!third_party/**
+!third_party/**/*.a
+!third_party/*.tar.gz
+# But keep the in-tree FLINT source extract + build install
+# directories ignored (recreatable from the tarball + script;
+# see HyperFLINT/third_party/.gitignore).
+
+# Local Mathematica scratch from STIntegrate runs (not for shipping).
+dist/**/integrands/

@@ -11,8 +11,6 @@
 // `entry` is either a library entry.json object (cases ii/iii) or a minimal
 // user-drawn payload (case i): {edges, nodes, NumPropagators?, Records?, Results?}.
 
-const GEN_VERSION = '0.1.0';
-
 // ---------------------------------------------------------------------------
 // Template engine: a single pass that handles {{TOKEN}} substitution and
 // {{#IF_FLAG}} ... {{/IF_FLAG}} section guards. No nesting beyond one level;
@@ -34,14 +32,17 @@ export function renderTemplate(template, tokens, flags) {
     );
   } while (out !== prev);
 
-  // Token substitution. Unknown tokens become "(* MISSING: name *)" so the
-  // notebook still opens and the gap is visible.
+  // Token substitution. An unknown token becomes a visible "[unset: name]"
+  // marker so the gap is noticeable without breaking the file. The marker
+  // deliberately avoids comment delimiters: an earlier "(* MISSING: name *)"
+  // form injected a stray `*)` that truncated the enclosing Program comment
+  // cell (e.g. Metadata when STVERSION was unset for a result-less entry).
   out = out.replace(/\{\{([A-Z0-9_]+)\}\}/g, (_, name) => {
     if (Object.prototype.hasOwnProperty.call(tokens, name)) {
       const v = tokens[name];
       return v === null || v === undefined ? '' : String(v);
     }
-    return `(* MISSING: ${name} *)`;
+    return `[unset: ${name}]`;
   });
 
   // Collapse any run of >=2 blank lines to exactly one blank line. Excess
@@ -57,6 +58,17 @@ export function renderTemplate(template, tokens, flags) {
 // ---------------------------------------------------------------------------
 // Helpers for converting entry.json data into Mathematica syntax.
 // ---------------------------------------------------------------------------
+
+// Human-readable UTC timestamp, e.g. "June 1, 2026 at 02:01 UTC", instead of a
+// raw ISO string like 2026-06-01T02:01:49.037Z. UTC (not local) keeps the
+// generated notebook reproducible regardless of where it was downloaded.
+const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June',
+  'July', 'August', 'September', 'October', 'November', 'December'];
+function humanDate(d = new Date()) {
+  const pad = n => String(n).padStart(2, '0');
+  return `${MONTHS[d.getUTCMonth()]} ${d.getUTCDate()}, ${d.getUTCFullYear()}` +
+    ` at ${pad(d.getUTCHours())}:${pad(d.getUTCMinutes())} UTC`;
+}
 
 function wlString(s) {
   return String(s)
@@ -195,10 +207,19 @@ export async function buildTokens(entry, recordIdx = 0, opts = {}) {
 
   // Non-default option rules for STIntegrate. Defaults are d = 4 - 2 eps,
   // Order = Automatic (→ eps^0), Exponents = 1s, MethodLR = "Espresso".
+  //
+  // Library Records (the case-ii source) store *descriptive* dimension/order
+  // metadata such as "d=D" and "all_orders" that are NOT valid STIntegrate
+  // values: `D` is the protected built-in Derivative, and `all_orders` is an
+  // undefined symbol. Emit an option only when the value is actually usable;
+  // otherwise fall through to the bare STIntegrate[{edges, nodes}] call.
   const integrateOpts = [];
   const dimIsDefault = /^\s*4\s*-\s*2\s*\*?\s*eps\s*$/.test(dim);
-  if (!dimIsDefault) integrateOpts.push(`"Dimension" -> ${dim}`);
-  if (epsOrder !== '0' && epsOrder !== 'Automatic' && epsOrder !== '') {
+  // A usable Dimension is eps-dependent (dim reg) or a plain numeric expression.
+  const dimEmittable = /eps/i.test(dim) || /^[\d.\s+\-*/()]+$/.test(dim);
+  if (!dimIsDefault && dimEmittable) integrateOpts.push(`"Dimension" -> ${dim}`);
+  // Order must be an integer truncation order; 0 is the default (omit it).
+  if (/^-?\d+$/.test(String(epsOrder)) && Number(epsOrder) !== 0) {
     integrateOpts.push(`"Order" -> ${epsOrder}`);
   }
   const expsAreDefault = propExponents.every(n => n === 1);
@@ -216,8 +237,8 @@ export async function buildTokens(entry, recordIdx = 0, opts = {}) {
     CASE: caseId,
     CASE_LABEL: caseLabel,
     DISPLAY_NAME: displayName(entry, record),
-    GENERATED_AT: new Date().toISOString(),
-    GEN_VERSION,
+    GENERATED_AT: opts.generatedAt || humanDate(),
+    ST_VERSION: opts.stVersion || 'unknown',
 
     EDGES: entry.edges || '{}',
     NODES: entry.nodes || '{}',
@@ -233,7 +254,13 @@ export async function buildTokens(entry, recordIdx = 0, opts = {}) {
   };
 
   if (result) {
-    tokens.RESULT_TEX_ESCAPED = wlString(result.resultTeX || '');
+    // Raw (un-escaped) LaTeX for a Program cell. A Program cell shows its body
+    // literally, so a single-backslash source like O\left(...) displays with
+    // single backslashes after wlToNb's one escaping layer. The earlier
+    // `referenceResultTeX = "..."` WL-string assignment forced the source to
+    // carry doubled backslashes (\\left), which reads as a bug even though it
+    // round-trips correctly; the value was never used downstream anyway.
+    tokens.RESULT_TEX_RAW = result.resultTeX || '';
     tokens.RESULT_COMPRESSED = wlString(result.resultCompressed || '');
     tokens.STVERSION = result.stVersion || '';
     tokens.CONTRIBUTOR = result.contributor || '';
@@ -244,11 +271,22 @@ export async function buildTokens(entry, recordIdx = 0, opts = {}) {
     tokens.ROOT_SUBS_WL = algebraicLettersToRulesWL(result.algebraicLetters);
   }
 
+  tokens.PNG_DATA = opts.pngBase64 || '';
+  tokens.TIKZ_CODE = opts.tikz || '';
+  // Native Mathematica GraphicsBox for the pre-rendered diagram cell.
+  tokens.GRAPHICS_BOX = opts.graphicsBox || '';
+
   tokens.REFERENCES_BLOCK = referencesBlock(entry.References);
   const bib = await bibtexBlock(entry.Records || [], opts);
   if (bib) tokens.BIBTEX_BLOCK = bib;
 
   tokens.LIBRARY_COMMIT = tokens.LIBRARY_COMMIT || 'unknown';
+
+  // The Metadata block is rendered for every library entry (cases ii and iii)
+  // and references {{STVERSION}}. For a result-less entry (case ii) STVERSION
+  // is never assigned above, so default it here rather than leaving the token
+  // unset (which would surface an "[unset: STVERSION]" marker).
+  tokens.STVERSION = tokens.STVERSION || 'n/a (no result yet)';
 
   tokens.SUBMIT_CONTEXT = caseId === 'i'
     ? 'This graph is not yet in the SubTropica library.'
@@ -267,6 +305,10 @@ export async function buildTokens(entry, recordIdx = 0, opts = {}) {
     W_DEFS: Boolean(result?.wDefinitions?.length),
     REFERENCES: Boolean(entry.References?.length),
     BIBTEX: Boolean(bib),
+    PNG: Boolean(opts.pngBase64),
+    GRAPHICS: Boolean(opts.graphicsBox),
+    TIKZ: Boolean(opts.tikz),
+    PLT: Boolean(result),
   };
 
   return { tokens, flags };

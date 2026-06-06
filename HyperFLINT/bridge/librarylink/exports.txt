@@ -1,0 +1,9 @@
+# Symbols exported by libhyperflint_librarylink.dylib.
+# Everything else is hidden (-fvisibility=hidden) so the embedded
+# static FLINT/GMP/MPFR symbols don't collide with Mma's bundled
+# libflint.17 / libgmp / libmpfr at dyld resolution time.
+# See notes/benchmark_1massDB/segfault_diagnosis.md.
+_WolframLibrary_initialize
+_WolframLibrary_uninitialize
+_WolframLibrary_getVersion
+_hf_*

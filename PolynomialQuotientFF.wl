@@ -112,16 +112,22 @@ SPQRPolynomialQuotientRemainder[f_, p_, x_, OptionsPattern[]] := Module[
       "PrintDebugInfo"       -> dbg
     ];
     
-    If[Head[system] === $Failed,
+    (* NB: system === $Failed (not Head[...] === $Failed; Head[$Failed] is
+       Symbol, so the old test never fired). MatchQ also covers a compound
+       $Failed[reason] convention. *)
+    If[MatchQ[system, $Failed | _$Failed],
       Print["SPQRPolynomialQuotientRemainder: BuildPolynomialSystem failed. ",
             "Try increasing \"MaxWeight\"."];
       Return[$Failed]
     ];
-    
+
     (* Reconstruct the remainder r(x) = f(x) mod p(x) *)
     result = ReconstructPolynomialRemainder[system,
       "PrintDebugInfo" -> dbg
     ];
+    (* Guard before First: a failed reconstruction must not leak
+       First[$Failed] into the quotient. *)
+    If[!MatchQ[result, {__}], Return[$Failed]];
     remainder = result // First;
     
     (* Recover the quotient: q = (f - r) / p.
@@ -144,16 +150,17 @@ SPQRPolynomialQuotientRemainder[f_, p_, x_, OptionsPattern[]] := Module[
       "PrintDebugInfo" -> dbg
     ];
     
-    If[Head[cmats] === $Failed,
+    If[MatchQ[cmats, $Failed | _$Failed],
       Print["SPQRPolynomialQuotientRemainder: BuildCompanionMatrices failed."];
       Return[$Failed]
     ];
-    
+
     (* Build & reconstruct target companion matrices for f *)
     fcmats = BuildTargetCompanionMatrices[{f}, cmats];
     result = ReconstructTargetCompanionMatrices[fcmats,
       "PrintDebugInfo" -> dbg
     ];
+    If[!MatchQ[result, {__}], Return[$Failed]];
     remainder = result // First;
     
     quotient = Cancel[(f - remainder) / p] // Expand;
@@ -177,7 +184,8 @@ SPQRPolynomialQuotientRemainder::divzero = "Division by zero polynomial.";
 Options[SPQRPolynomialQuotient] = Options[SPQRPolynomialQuotientRemainder];
 
 SPQRPolynomialQuotient[f_, p_, x_, opts : OptionsPattern[]] :=
-  SPQRPolynomialQuotientRemainder[f, p, x, opts] // First;
+  Replace[SPQRPolynomialQuotientRemainder[f, p, x, opts],
+    {{q_, _} :> q, _ :> $Failed}];
 
 
 (* 
@@ -187,7 +195,8 @@ SPQRPolynomialQuotient[f_, p_, x_, opts : OptionsPattern[]] :=
 Options[SPQRPolynomialRemainder] = Options[SPQRPolynomialQuotientRemainder];
 
 SPQRPolynomialRemainder[f_, p_, x_, opts : OptionsPattern[]] :=
-  SPQRPolynomialQuotientRemainder[f, p, x, opts] // Last;
+  Replace[SPQRPolynomialQuotientRemainder[f, p, x, opts],
+    {{_, r_} :> r, _ :> $Failed}];
 
 
 (* 
@@ -231,7 +240,7 @@ SPQRPolynomialQuotientRemainderBatch[fList_List, p_, x_, OptionsPattern[]] := Mo
     "PrintDebugInfo" -> dbg
   ];
   
-  If[Head[cmats] === $Failed, Return[$Failed]];
+  If[MatchQ[cmats, $Failed | _$Failed], Return[$Failed]];
   
   (* Build target companion matrices for ALL targets at once *)
   fcmats     = BuildTargetCompanionMatrices[fList, cmats];
