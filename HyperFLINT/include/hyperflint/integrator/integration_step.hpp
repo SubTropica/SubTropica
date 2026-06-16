@@ -88,6 +88,32 @@ public:
                               where + " — retry with wider ctx") {}
 };
 
+// Lazy-sum risk (b), 2026-06-13.  Thrown post-barrier (host thread)
+// when a worker observed partial_fractions' "nonlinear factor in
+// denominator (degree >= 3 unsupported)" failure during the main
+// integration loop.  An individual lazy-split addend can hit this
+// while the FUSED integrand of the same face does not (fusion produces
+// a tractable denominator), so the bridge handler catches THIS type
+// specifically and falls back to the fused path; a plain
+// IntegrationStepFailed (e.g. a genuine divergence, R26 C1) still
+// reports {"failed": true}.  Subclass of IntegrationStepFailed so the
+// existing handler catch still yields {"failed": true} when no
+// fused-fallback is wired (single-input / non-lazy path).
+//
+// Like NarrowCtxTooNarrow, this is NEVER thrown from inside an OMP /
+// libdispatch region (exception escape there is UB, calling
+// std::terminate); a worker sets g_nonlinear_den_unsupported and
+// returns, and the host throws this after the region's implicit
+// barrier.
+class NonlinearDenominatorUnsupported : public IntegrationStepFailed {
+public:
+    NonlinearDenominatorUnsupported()
+        : IntegrationStepFailed(
+            "partial_fractions: nonlinear factor in denominator "
+            "(degree >= 3 unsupported); addend not integrable in the "
+            "recorded order") {}
+};
+
 // check_divergences = false (Phase 5e-ii default): skip divergence
 // check, skip positive-letter analytic continuation.
 //

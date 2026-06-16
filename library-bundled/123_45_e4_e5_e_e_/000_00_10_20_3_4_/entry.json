@@ -1,131 +1,133 @@
 {
-	"CNickelIndex": "123|45|e4|e5|e|e|:000|00|10|20|3|4|",
-	"MassScales": 6,
-	"FunctionClass": "unknown",
-	"EpsilonOrder": "",
-	"edges": "{{{1, 2}, 0}, {{1, 3}, 0}, {{2, 4}, 0}, {{3, 4}, 0}, {{3, 5}, 0}, {{4, 6}, 0}, {{5, 6}, 0}}",
-	"nodes": "{{1, M[1]}, {2, M[2]}, {5, M[3]}, {6, M[4]}}",
-	"References": [
-		"arXiv:1308.4632",
-		"arXiv:1709.06055 (Phys.Rev.D 96 (), 2017)",
-		"arXiv:2309.16441 (JHEP 12 (140), 2023)",
-		"Phys. Lett. B 298 (1993) 363",
-		"Phys. Lett. B 305 (1993) 136",
-		"arXiv:hep-th/0607160",
-		"arXiv:1705.03545",
-		"arXiv:1811.10623",
-		"arXiv:2007.15049",
-		"arXiv:2310.08625",
-		"arXiv:2209.05291",
-		"arXiv:1811.03282",
-		"arXiv:1905.11467",
-		"arXiv:2005.01735",
-		"arXiv:2010.08552",
-		"arXiv:2311.14669 (Phys.Rev.Lett. 132 (101601), 2024)",
-		"arXiv:2311.16219 (Comput.Phys.Commun. 303 (109278), 2024)"
-	],
-	"Records": [
-		{
-			"authors": "Johansson, Henrik, Kosower, David A., Larsen, Kasper J.",
-			"texkey": "Johansson:2013sda",
-			"verified": false,
-			"verifiedAt": "",
-			"reference": "arXiv:1308.4632",
-			"ancillaryFiles": [],
-			"recordId": "bf_13084632P22f",
-			"masterCount": 4,
-			"computationLevel": "maximal_cut",
-			"doi": "10.1103/PhysRevD.89.125010",
-			"tools": [],
-			"description": "Planar double-box integral with four massive external legs and massless internal lines. The paper constructs generalized discontinuity operators (master contours) via maximal unitarity to extract the coefficients of the 4 master integrals in the two-loop amplitude basis expansion. IBP identities impose no contour constraints in this four-mass case; only parity-odd Levi-Civita insertions constrain the contours. An equal-mass specialization ($k_1^2=k_4^2$, $k_2^2=k_3^2$) reduces the master count to 3.",
-			"epsOrders": "0",
-			"method": [],
-			"dimScheme": "CDR",
-			"location": "eq. (3.1), (3.17), fig. 1",
-			"familyName": "$P_{2,2}^{**}$ (four-mass double box, class a)"
-		},
-		{
-			"reference": "arXiv:2309.16441 (JHEP 12 (140), 2023)",
-			"authors": "He, Song, Jiang, Xuhang, Liu, Jiahao, Yang, Qinglin",
-			"description": "Two-loop four-mass double-box integral family in $D=4-2\\varepsilon$ with 7 propagators and 2 ISPs. 74 master integrals, 68 symbol letters. Top sector has 4 master integrals ($J_1$-$J_4$); double-triangle sector has 7 master integrals ($J_{27}$-$J_{33}$) per sub-sector. For $J_1, J_2, J_3$ (and $J_{27}$-$J_{32}$), unique Schubert problems exist with one-to-one correspondence to UT basis; $J_4$ (and $J_{33}$) lack unique maximal cuts. All CDE entries for the top sector and double-triangle sector reproduced via cross-ratios of Schubert solutions. 11 square roots ($r_1$ through $r_{11}$) appear in the alphabet.",
-			"epsOrders": "",
-			"familyName": "four-mass double-box with massless propagators in D=4-2eps",
-			"method": "DE, IBP",
-			"tools": [],
-			"ancillaryFiles": true,
-			"doi": "10.1007/JHEP12(2023)140",
-			"texkey": "He:2023umf",
-			"masterCount": 74,
-			"dimScheme": "d=4-2*eps",
-			"computationLevel": "full",
-			"location": "Section 3.2, Eqs. (3.10)-(3.12), Appendix C",
-			"recordId": "bx_e7866444a642",
-			"verified": false,
-			"verifiedAt": ""
-		},
-		{
-			"reference": "Phys. Lett. B 298 (1993) 363",
-			"familyName": "ladder4pt_L2_massless-internal-offshell-external",
-			"description": "4-mass ladder family, ladder4pt_L2_massless-internal-offshell-external. Planar L-rung box ladder: rails t_1..t_{L+1}, b_1..b_{L+1}; rail edges (t_i,t_{i+1}), (b_i,b_{i+1}); rungs (t_i,b_i); 4 off-shell external legs at t_1, t_{L+1}, b_1, b_{L+1}. 2L+2 vertices, 3L+1 propagators, L loops. Massless internal lines. Value = PhiLadder[2, 1/3, 1/5].",
-			"method": [
-				"closed form"
-			],
-			"tools": [
-				"SubTropica seed_families"
-			],
-			"recordId": "fs_a7077b50b97a",
-			"verified": true,
-			"verifiedAt": "2026-06-06"
-		},
-		{
-			"reference": "arXiv:1705.03545",
-			"familyName": "basso-dixon_L2x1_massless-internal-offshell-external",
-			"description": "Basso-Dixon fishnet family, basso-dixon_L2x1_massless-internal-offshell-external. Basso-Dixon fishnet B_{M,N}: an M x N rectangular grid, 4 external operators at the corners, defined in dual (region-momentum) space via products of 1/x_ij^2 propagators. The L = MN loop integral is conformal. Momentum space: the (M+1) x (N+1) vertex grid (2MN+M+N massless edges, 4 off-shell corner legs, MN loops); B_{M,1} = the M-rung 4-pt ladder; transpose symmetry fixes the canonical orientation M >= N. Value = BassoDixonI[2, 1, 1/3, 1/5].",
-			"method": [
-				"closed form"
-			],
-			"tools": [
-				"SubTropica seed_families"
-			],
-			"recordId": "fs_e9f11a7f0f5a",
-			"verified": true,
-			"verifiedAt": "2026-06-06"
-		},
-		{
-			"reference": "arXiv:2311.14669 (Phys.Rev.Lett. 132 (101601), 2024)",
-			"authors": "Fevola, C., Mizera, S., Telen, S.",
-			"description": "Landau singularities of the double box computed via principal Landau determinants.",
-			"familyName": "PLD: dbox",
-			"recordId": "bf_f71132754e9a",
-			"verified": false
-		}
-	],
-	"Results": [],
-	"Names": [
-		"$P_{2,2}^{**}$ (four-mass double box, class a)"
-	],
-	"Source": [
-		"arXiv"
-	],
-	"CanonicalName": "4-mass double box",
-	"MassConfig": {
-		"numEdges": 7,
-		"numMassiveEdges": 0,
-		"numMasslessEdges": 7,
-		"distinctInternalMasses": 0,
-		"internalMassLabels": [],
-		"edgeMassPattern": "0000000",
-		"numExtLegs": 4,
-		"numOnshellMassiveExtLegs": 4,
-		"numMasslessExtLegs": 0,
-		"extLegSignature": "MMMM"
-	},
-	"commonNames": [
-		"L2"
-	],
-	"Subsectors": [
-		"123|24|e|e4|e|:000|00|1|20|3|"
-	],
-	"ParentSectors": [],
-	"Genus": 1
+  "CNickelIndex": "123|45|e4|e5|e|e|:000|00|10|20|3|4|",
+  "MassScales": 6,
+  "FunctionClass": "unknown",
+  "EpsilonOrder": "",
+  "edges": "{{{1, 2}, 0}, {{1, 3}, 0}, {{2, 4}, 0}, {{3, 4}, 0}, {{3, 5}, 0}, {{4, 6}, 0}, {{5, 6}, 0}}",
+  "nodes": "{{1, M[1]}, {2, M[2]}, {5, M[3]}, {6, M[4]}}",
+  "References": [
+    "arXiv:1308.4632",
+    "arXiv:1709.06055 (Phys.Rev.D 96 (), 2017)",
+    "arXiv:2309.16441 (JHEP 12 (140), 2023)",
+    "Phys. Lett. B 298 (1993) 363",
+    "Phys. Lett. B 305 (1993) 136",
+    "arXiv:hep-th/0607160",
+    "arXiv:1705.03545",
+    "arXiv:1811.10623",
+    "arXiv:2007.15049",
+    "arXiv:2310.08625",
+    "arXiv:2209.05291",
+    "arXiv:1811.03282",
+    "arXiv:1905.11467",
+    "arXiv:2005.01735",
+    "arXiv:2010.08552",
+    "arXiv:2311.14669 (Phys.Rev.Lett. 132 (101601), 2024)",
+    "arXiv:2311.16219 (Comput.Phys.Commun. 303 (109278), 2024)"
+  ],
+  "Records": [
+    {
+      "authors": "Johansson, Henrik, Kosower, David A., Larsen, Kasper J.",
+      "texkey": "Johansson:2013sda",
+      "verified": false,
+      "verifiedAt": "",
+      "reference": "arXiv:1308.4632",
+      "ancillaryFiles": [],
+      "recordId": "bf_13084632P22f",
+      "masterCount": 4,
+      "computationLevel": "maximal_cut",
+      "doi": "10.1103/PhysRevD.89.125010",
+      "tools": [],
+      "description": "Planar double-box integral with four massive external legs and massless internal lines. The paper constructs generalized discontinuity operators (master contours) via maximal unitarity to extract the coefficients of the 4 master integrals in the two-loop amplitude basis expansion. IBP identities impose no contour constraints in this four-mass case; only parity-odd Levi-Civita insertions constrain the contours. An equal-mass specialization ($k_1^2=k_4^2$, $k_2^2=k_3^2$) reduces the master count to 3.",
+      "epsOrders": "0",
+      "method": [],
+      "dimScheme": "CDR",
+      "location": "eq. (3.1), (3.17), fig. 1",
+      "familyName": "$P_{2,2}^{**}$ (four-mass double box, class a)"
+    },
+    {
+      "reference": "arXiv:2309.16441 (JHEP 12 (140), 2023)",
+      "authors": "He, Song, Jiang, Xuhang, Liu, Jiahao, Yang, Qinglin",
+      "description": "Two-loop four-mass double-box integral family in $D=4-2\\varepsilon$ with 7 propagators and 2 ISPs. 74 master integrals, 68 symbol letters. Top sector has 4 master integrals ($J_1$-$J_4$); double-triangle sector has 7 master integrals ($J_{27}$-$J_{33}$) per sub-sector. For $J_1, J_2, J_3$ (and $J_{27}$-$J_{32}$), unique Schubert problems exist with one-to-one correspondence to UT basis; $J_4$ (and $J_{33}$) lack unique maximal cuts. All CDE entries for the top sector and double-triangle sector reproduced via cross-ratios of Schubert solutions. 11 square roots ($r_1$ through $r_{11}$) appear in the alphabet.",
+      "epsOrders": "",
+      "familyName": "four-mass double-box with massless propagators in D=4-2eps",
+      "method": "DE, IBP",
+      "tools": [],
+      "ancillaryFiles": true,
+      "doi": "10.1007/JHEP12(2023)140",
+      "texkey": "He:2023umf",
+      "masterCount": 74,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "full",
+      "location": "Section 3.2, Eqs. (3.10)-(3.12), Appendix C",
+      "recordId": "bx_e7866444a642",
+      "verified": false,
+      "verifiedAt": ""
+    },
+    {
+      "reference": "Phys. Lett. B 298 (1993) 363",
+      "familyName": "ladder4pt_L2_massless-internal-offshell-external",
+      "description": "4-mass ladder family, ladder4pt_L2_massless-internal-offshell-external. Planar L-rung box ladder: rails t_1..t_{L+1}, b_1..b_{L+1}; rail edges (t_i,t_{i+1}), (b_i,b_{i+1}); rungs (t_i,b_i); 4 off-shell external legs at t_1, t_{L+1}, b_1, b_{L+1}. 2L+2 vertices, 3L+1 propagators, L loops. Massless internal lines. Value = PhiLadder[2, 1/3, 1/5].",
+      "method": [
+        "closed form"
+      ],
+      "tools": [
+        "SubTropica seed_families"
+      ],
+      "recordId": "fs_a7077b50b97a",
+      "verified": true,
+      "verifiedAt": "2026-06-06"
+    },
+    {
+      "reference": "arXiv:1705.03545",
+      "familyName": "basso-dixon_L2x1_massless-internal-offshell-external",
+      "description": "Basso-Dixon fishnet family, basso-dixon_L2x1_massless-internal-offshell-external. Basso-Dixon fishnet B_{M,N}: an M x N rectangular grid, 4 external operators at the corners, defined in dual (region-momentum) space via products of 1/x_ij^2 propagators. The L = MN loop integral is conformal. Momentum space: the (M+1) x (N+1) vertex grid (2MN+M+N massless edges, 4 off-shell corner legs, MN loops); B_{M,1} = the M-rung 4-pt ladder; transpose symmetry fixes the canonical orientation M >= N. Value = BassoDixonI[2, 1, 1/3, 1/5].",
+      "method": [
+        "closed form"
+      ],
+      "tools": [
+        "SubTropica seed_families"
+      ],
+      "recordId": "fs_e9f11a7f0f5a",
+      "verified": true,
+      "verifiedAt": "2026-06-06"
+    },
+    {
+      "reference": "arXiv:2311.14669 (Phys.Rev.Lett. 132 (101601), 2024)",
+      "authors": "Fevola, C., Mizera, S., Telen, S.",
+      "description": "Landau singularities of the double box computed via principal Landau determinants.",
+      "familyName": "PLD: dbox",
+      "recordId": "bf_f71132754e9a",
+      "verified": false
+    }
+  ],
+  "Results": [],
+  "Names": [
+    "$P_{2,2}^{**}$ (four-mass double box, class a)"
+  ],
+  "Source": [
+    "arXiv"
+  ],
+  "CanonicalName": "4-mass double box",
+  "MassConfig": {
+    "numEdges": 7,
+    "numMassiveEdges": 0,
+    "numMasslessEdges": 7,
+    "distinctInternalMasses": 0,
+    "internalMassLabels": [],
+    "edgeMassPattern": "0000000",
+    "numExtLegs": 4,
+    "numOnshellMassiveExtLegs": 4,
+    "numMasslessExtLegs": 0,
+    "extLegSignature": "MMMM"
+  },
+  "commonNames": [
+    "L2"
+  ],
+  "Subsectors": [
+    "123|24|e|e4|e|:000|00|1|20|3|"
+  ],
+  "ParentSectors": [],
+  "Genus": 1,
+  "Loops": 2,
+  "NumPropagators": 7
 }

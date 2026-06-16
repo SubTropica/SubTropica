@@ -172,11 +172,18 @@ collect_free_vars(const std::vector<Tok>& toks,
 
 class Parser {
 public:
-    Parser(const std::vector<Tok>& toks, const PolyCtx& ctx)
-        : toks_(toks), ctx_(ctx) {}
+    Parser(const std::vector<Tok>& toks, const PolyCtx& ctx,
+           bool lazy_top_sum = false)
+        : toks_(toks), ctx_(ctx), lazy_top_sum_(lazy_top_sum) {}
 
     Expr parse() {
-        Expr e = parse_sum();
+        // LAZY-SUM (HF_LAZY_SUM): when on, the OUTERMOST sum is NOT fused
+        // into a single Leaf Rat; it is kept as a Plus node so the handler
+        // can integrate each top-level addend separately and sum the
+        // results (the R-class cure: avoid the parse-time Rat::add
+        // cross-multiplication of denominator-disjoint addends). Nested
+        // sums (parens, denominators) still fuse normally.
+        Expr e = parse_sum(/*top_level=*/true);
         if (peek().kind != TokKind::End) {
             std::ostringstream o;
             o << "unexpected token '" << peek().text
@@ -227,7 +234,7 @@ private:
     }
 
     // sum := product (("+" | "-") product)*
-    Expr parse_sum() {
+    Expr parse_sum(bool top_level = false) {
         std::vector<Expr> terms;
         terms.push_back(parse_product());
         while (peek().kind == TokKind::Plus || peek().kind == TokKind::Minus) {
@@ -246,7 +253,11 @@ private:
             terms.push_back(std::move(rhs));
         }
         if (terms.size() == 1) return std::move(terms[0]);
-        if (all_leaves(terms)) {
+        // LAZY-SUM: at the outermost sum only, skip the all-leaf fusion so
+        // the top-level addends survive as a Plus node. Everything else
+        // (nested sums, denominators) keeps fusing so division stays valid.
+        bool keep_unfused = top_level && lazy_top_sum_ && terms.size() > 1;
+        if (!keep_unfused && all_leaves(terms)) {
             Rat acc = rat_zero();
             for (const auto& t : terms) acc = acc + t.leaf_rat();
             return Expr::leaf(std::move(acc));
@@ -476,12 +487,14 @@ private:
     const std::vector<Tok>& toks_;
     const PolyCtx& ctx_;
     size_t idx_ = 0;
+    bool lazy_top_sum_ = false;  // HF_LAZY_SUM: keep outermost sum unfused
 };
 
 }  // namespace
 
 ParseResult parse_expression(const std::string& input,
-                              const std::vector<std::string>& user_vars) {
+                              const std::vector<std::string>& user_vars,
+                              bool lazy_top_sum) {
     // Pass 1: tokenize, collect identifiers.
     Tokenizer lex(input);
     std::vector<Tok> toks = lex.tokenize();
@@ -489,7 +502,7 @@ ParseResult parse_expression(const std::string& input,
 
     // Pass 2: build ctx on the heap (PolyCtx is non-movable), parse.
     auto ctx = std::make_unique<PolyCtx>(augmented);
-    Parser p(toks, *ctx);
+    Parser p(toks, *ctx, lazy_top_sum);
     Expr e = p.parse();
     return ParseResult{std::move(e), std::move(ctx), std::move(augmented)};
 }

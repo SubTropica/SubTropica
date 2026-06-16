@@ -277,6 +277,23 @@ std::vector<Poly> st_fubini_lr(const std::vector<Poly>& polys, size_t var_idx,
             if (tron) tr.t_disc += now_s() - t0;
             if (!fmpq_mpoly_is_zero(d.raw(), ctx)) temp.push_back(std::move(d));
         }
+        // Constant term f|_{var=0} = coefficient_of_var(var_idx, 0).  This is
+        // the s[{0,f}] piece of Brown's polynomial reduction (HyperInt
+        // cgSingleReduction*), the singularity at the var=0 endpoint of the
+        // [0,infinity) integration.  Omitting it under-approximates the
+        // Landau set and yields FALSE-POSITIVE LR orders: a downstream
+        // resultant against this term can be the only source of a
+        // degree>=2 obstruction in a later integration variable (it is the
+        // leading coeff only for n==0, which the n>=0 block above already
+        // covers, so guard on n>=1 to avoid double-counting).
+        if (n >= 1) {
+            const double t0 = tron ? now_s() : 0.0;
+            Poly ct = f.coefficient_of_var(var_idx, 0);
+            if (tron) tr.t_lc += now_s() - t0;
+            if (!fmpq_mpoly_is_zero(ct.raw(), ctx) &&
+                !fmpq_mpoly_is_fmpq(ct.raw(), ctx))
+                temp.push_back(std::move(ct));
+        }
     }
 
     // Pairwise: resultant when both polys have degree >= 1 in var_idx.
@@ -1004,6 +1021,86 @@ LrResult find_lr_orders(
     auto it = orders_table.find(full);
     if (it == orders_table.end()) return LrResult{{}, INF, {}};
     return it->second;
+}
+
+OrderVerifyResult verify_order_is_lr(
+    const std::vector<std::vector<Poly>>& group_polys,
+    const std::vector<size_t>& xvar_indices,
+    const std::vector<size_t>& order_var_indices,
+    bool allow_algebraic_letters) {
+    OrderVerifyResult res;
+    const size_t n = xvar_indices.size();
+    // The order must be a permutation of xvar_indices (same set, same size).
+    if (order_var_indices.size() != n) { res.malformed = true; return res; }
+    {
+        std::unordered_set<size_t> xs(xvar_indices.begin(), xvar_indices.end());
+        std::unordered_set<size_t> os(order_var_indices.begin(),
+                                      order_var_indices.end());
+        if (os.size() != n || xs != os) { res.malformed = true; return res; }
+    }
+    if (group_polys.empty() || n == 0) { res.is_lr = true; return res; }
+    const size_t G = group_polys.size();
+
+    // st_fubini_lr is called directly here (not via find_lr_orders), so reset
+    // its per-request step/factor memos (header contract).
+    reset_lr_memos();
+
+    long max_deg = allow_algebraic_letters ? 2L : 1L;
+    {
+        const char* env = std::getenv("HF_LR_MAX_DEG");
+        if (env && allow_algebraic_letters) max_deg = std::atol(env);
+    }
+
+    // Walk the SPECIFIED order: cur[g] holds group g's letter set after
+    // integrating order[0..k-1].  At pivot order[k] check the linearity
+    // constraint on cur (Step-B parity), then advance via st_fubini_lr.
+    std::vector<std::vector<Poly>> cur = group_polys;
+    for (size_t k = 0; k < n; ++k) {
+        const size_t pivot = order_var_indices[k];
+        for (size_t g = 0; g < G; ++g) {
+            for (const auto& p : cur[g]) {
+                const long d = p.degree_in_var(pivot);
+                if (d > max_deg) {
+                    res.is_lr = false;
+                    res.blocking_step = static_cast<int>(k);
+                    res.blocking_degree = d;
+                    res.blocking_letter = p.canonical_prop_form().to_string();
+                    return res;
+                }
+                if (d >= 2 && allow_algebraic_letters) {
+                    // deg-2 letter: reject if its sqrt-obligation depends on a
+                    // still-PENDING variable (order[k+1..]); parity with
+                    // find_lr_orders' forbidden_after_step.
+                    std::vector<size_t> used = p.used_var_indices();
+                    bool has_forbidden = false;
+                    for (size_t j = k + 1; j < n && !has_forbidden; ++j) {
+                        const size_t v = order_var_indices[j];
+                        for (size_t u : used) {
+                            if (u == v) { has_forbidden = true; break; }
+                        }
+                    }
+                    if (has_forbidden) {
+                        res.is_lr = false;
+                        res.blocking_step = static_cast<int>(k);
+                        res.blocking_degree = d;
+                        res.forbidden_dep = true;
+                        res.blocking_letter = p.canonical_prop_form().to_string();
+                        return res;
+                    }
+                }
+            }
+        }
+        // advance the per-group letter set along this pivot (single path, no
+        // cross-order intersection); st_fubini_lr already dedups its output
+        if (k + 1 < n) {
+            std::vector<std::vector<Poly>> nxt(G);
+            for (size_t g = 0; g < G; ++g)
+                nxt[g] = st_fubini_lr(cur[g], pivot, nullptr);
+            cur = std::move(nxt);
+        }
+    }
+    res.is_lr = true;
+    return res;
 }
 
 }  // namespace lr_search

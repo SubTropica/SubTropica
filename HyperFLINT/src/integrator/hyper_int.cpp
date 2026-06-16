@@ -1126,10 +1126,13 @@ RegulatorSym hyperflint_sym(const PolyCtx& ctx,
     ShuffleListSym current;
     current.reserve(input.size());
     for (const auto& e : input) {
+        // A3: carry the deferred-denominator side-channel verbatim onto the
+        // promoted Sym entry (nullopt for ordinary entries).
         current.push_back(ShuffleEntrySym{
             SymCoef::from_rat(
                 apply_v1_roundtrip_rat(e.coef, "hyper_int/entry_split")),
-            e.shuffle});
+            e.shuffle,
+            e.factored_den});
     }
 
     const bool trace = step_trace_enabled();

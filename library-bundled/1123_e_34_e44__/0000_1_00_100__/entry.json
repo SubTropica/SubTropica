@@ -21,7 +21,73 @@
     "arXiv",
     "Loopedia"
   ],
-  "Results": [],
+  "Results": [
+    {
+      "resultType": "singularities",
+      "status": "proposal",
+      "recordId": "sg_20260614T054859Z",
+      "byEpsOrder": null,
+      "singularities": [
+        "MM"
+      ],
+      "singularitiesTeX": [
+        "\\text{MM}"
+      ],
+      "singularitiesVerified": [
+        false
+      ],
+      "groundTruthAvailable": false,
+      "provenance": {
+        "engine": "chi/PrefactorScale (single-scale; no Landau elimination)",
+        "stVersion": "1.2.4",
+        "seed": 1234,
+        "chi": 1,
+        "confirmPrimes": null,
+        "confirmAgree": null,
+        "wallSeconds": 2.98,
+        "chiEngine": "eulerDiscriminant"
+      },
+      "timestamp": "2026-06-14T05:48:59Z",
+      "contributor": "oddletters-v1a",
+      "singularitiesChiDrop": [
+        0
+      ]
+    },
+    {
+      "resultType": "proposed-alphabet",
+      "status": "proposal",
+      "recordId": "pa_20260614T054859Z",
+      "byEpsOrder": null,
+      "evens": [
+        "MM"
+      ],
+      "evensTeX": [
+        "\\text{MM}"
+      ],
+      "evensVerified": [
+        false
+      ],
+      "groundTruthAvailable": false,
+      "oddLetters": [],
+      "bareRootsNote": "no bare-root letters (V1a evens-only graph form; flagged-sqrt list empty)",
+      "refusals": [],
+      "provenance": {
+        "engine": "chi/PrefactorScale (single-scale; no Landau elimination)",
+        "stVersion": "1.2.4",
+        "seed": 1234,
+        "chi": 1,
+        "confirmPrimes": null,
+        "confirmAgree": null,
+        "wallSeconds": 2.98,
+        "chiEngine": "eulerDiscriminant"
+      },
+      "timestamp": "2026-06-14T05:48:59Z",
+      "contributor": "oddletters-v1a",
+      "evensChiDrop": [
+        0
+      ]
+    }
+  ],
   "Names": [
     "Massless 4-loop propagator (8 propagators)",
     "4-loop propagator (8 propagators)",
@@ -51,5 +117,7 @@
     "112|34|33|e4|55|e|:000|00|00|10|00|1|",
     "1123|4|44|455|e|e|:0000|0|00|000|1|1|",
     "112|e23|3|45|55|e|:000|100|0|00|00|1|"
-  ]
+  ],
+  "Loops": 4,
+  "NumPropagators": 8
 }

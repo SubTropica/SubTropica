@@ -24,6 +24,20 @@ bool narrow_ctx_was_too_narrow() {
     return g_narrow_ctx_too_narrow.load(std::memory_order_relaxed);
 }
 
+std::atomic<bool> g_nonlinear_den_unsupported{false};
+
+void reset_nonlinear_den_flag() {
+    g_nonlinear_den_unsupported.store(false, std::memory_order_relaxed);
+}
+
+void set_nonlinear_den_flag() {
+    g_nonlinear_den_unsupported.store(true, std::memory_order_relaxed);
+}
+
+bool nonlinear_den_was_unsupported() {
+    return g_nonlinear_den_unsupported.load(std::memory_order_relaxed);
+}
+
 bool tolerance_enabled() {
     // Static-local once-init: the lambda runs exactly once at first
     // call across all threads, and `cached` is treated as immutable

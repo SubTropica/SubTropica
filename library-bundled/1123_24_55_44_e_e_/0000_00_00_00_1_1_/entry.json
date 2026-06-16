@@ -21,7 +21,65 @@
     "arXiv",
     "Loopedia"
   ],
-  "Results": [],
+  "Results": [
+    {
+      "resultType": "singularities",
+      "status": "proposal",
+      "recordId": "sg_20260614T054714Z",
+      "byEpsOrder": null,
+      "singularities": [
+        "MM"
+      ],
+      "singularitiesTeX": [
+        "\\text{MM}"
+      ],
+      "singularitiesVerified": [
+        false
+      ],
+      "groundTruthAvailable": false,
+      "provenance": {
+        "engine": "chi/PrefactorScale (single-scale; no Landau elimination)",
+        "stVersion": "1.2.4",
+        "seed": 1234,
+        "chi": null,
+        "confirmPrimes": null,
+        "confirmAgree": null,
+        "wallSeconds": 6.45
+      },
+      "timestamp": "2026-06-14T05:47:14Z",
+      "contributor": "oddletters-v1a"
+    },
+    {
+      "resultType": "proposed-alphabet",
+      "status": "proposal",
+      "recordId": "pa_20260614T054714Z",
+      "byEpsOrder": null,
+      "evens": [
+        "MM"
+      ],
+      "evensTeX": [
+        "\\text{MM}"
+      ],
+      "evensVerified": [
+        false
+      ],
+      "groundTruthAvailable": false,
+      "oddLetters": [],
+      "bareRootsNote": "no bare-root letters (V1a evens-only graph form; flagged-sqrt list empty)",
+      "refusals": [],
+      "provenance": {
+        "engine": "chi/PrefactorScale (single-scale; no Landau elimination)",
+        "stVersion": "1.2.4",
+        "seed": 1234,
+        "chi": null,
+        "confirmPrimes": null,
+        "confirmAgree": null,
+        "wallSeconds": 6.45
+      },
+      "timestamp": "2026-06-14T05:47:14Z",
+      "contributor": "oddletters-v1a"
+    }
+  ],
   "Names": [
     "Massless 5-loop propagator (10 propagators)",
     "5-loop propagator (10 propagators)",
@@ -47,5 +105,7 @@
     "1123|23|44|e|e|:0000|00|00|1|1|",
     "1123|24|e|44|e|:0000|00|1|00|1|"
   ],
-  "ParentSectors": []
+  "ParentSectors": [],
+  "Loops": 5,
+  "NumPropagators": 10
 }

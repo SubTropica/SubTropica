@@ -1,68 +1,133 @@
 {
-	"CNickelIndex": "112|3|e4|e4|e|:000|0|00|10|0|",
-	"MassScales": 1,
-	"FunctionClass": "MPL",
-	"EpsilonOrder": "0",
-	"References": [],
-	"Records": [],
-	"Source": "SubTropica",
-	"Results": [
-		{
-			"dimension": "6 - 2*eps",
-			"epsOrder": 0,
-			"propExponents": [
-				1,
-				1,
-				1,
-				1,
-				1,
-				1
-			],
-			"propagators": [],
-			"numerators": [],
-			"internalMasses": [],
-			"externalMasses": [],
-			"substitutions": "{}",
-			"normalization": "Automatic",
-			"stVersion": "SubTropica v1.0.379",
-			"stCommand": "STIntegrate[{{{{1, 2}, 0}, {{2, 3}, 0}, {{3, 4}, 0}, {{4, 5}, 0}, {{4, 5}, 0}, {{1, 5}, 0}}, {{1, M}, {2, 0}, {3, 0}}}, Dimension -> \"6 - 2*eps\", Order -> 0]",
-			"contributor": "SM",
-			"timestamp": "2026-04-19T19:01:16",
-			"byteCount": 1664,
-			"alphabet": [
-				"M^2"
-			],
-			"symbolWeight": 2,
-			"symbolTerms": 3,
-			"legOrder": [
-				3,
-				1,
-				2
-			],
-			"resultDataId": "b823ec4d037ad715",
-			"resultTeXPreview": "-\\frac{1}{24 \\varepsilon^2}+\\frac{12 \\log \\left(M^2\\right)+12 i \\pi -43}{144 \\varepsilon}+\\frac{1}{864} \\left(-72 \\log ^2\\left(M^2\\right)+12 (43-12 i \\pi ) \\log \\left(M^2\\right)+78 \\pi ^2+516 i \\pi -1207\\right)+O\\left(\\varepsilon^1\\right)"
-		}
-	],
-	"edges": "{{{1, 2}, 0}, {{2, 3}, 0}, {{3, 4}, 0}, {{4, 5}, 0}, {{4, 5}, 0}, {{1, 5}, 0}}",
-	"nodes": "{{1, M}, {2, 0}, {3, 0}}",
-	"Loops": 2,
-	"NumPropagators": 6,
-	"MassConfig": {
-		"numEdges": 6,
-		"numMassiveEdges": 0,
-		"numMasslessEdges": 6,
-		"distinctInternalMasses": 0,
-		"internalMassLabels": [],
-		"edgeMassPattern": "000000",
-		"numExtLegs": 3,
-		"numOnshellMassiveExtLegs": 1,
-		"numMasslessExtLegs": 2,
-		"extLegSignature": "M00"
-	},
-	"CanonicalName": "1-mass pentagon with bubble insertion (b)",
-	"Names": [],
-	"ParentSectors": [],
-	"Subsectors": [],
-	"commonNames": null,
-	"quadruple": "{E^(2*eps*EulerGamma)*Gamma[2*eps], (x1*x2*x3*x4*x5*x6*(x1*x4 + x2*x4 + x3*x4 + x1*x5 + x2*x5 + x3*x5 + x4*x5 + x4*x6 + x5*x6)^(3*(-1 + eps)))/(-(MM*x1*(x3*x4 + x3*x5 + x4*x5 + x4*x6 + x5*x6)))^(2*eps), {x1, x2, x3, x4, x5, x6}, {MM}}"
+  "CNickelIndex": "112|3|e4|e4|e|:000|0|00|10|0|",
+  "MassScales": 1,
+  "FunctionClass": "MPL",
+  "EpsilonOrder": "0",
+  "References": [],
+  "Records": [],
+  "Source": "SubTropica",
+  "Results": [
+    {
+      "dimension": "6 - 2*eps",
+      "epsOrder": 0,
+      "propExponents": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "propagators": [],
+      "numerators": [],
+      "internalMasses": [],
+      "externalMasses": [],
+      "substitutions": "{}",
+      "normalization": "Automatic",
+      "stVersion": "SubTropica v1.0.379",
+      "stCommand": "STIntegrate[{{{{1, 2}, 0}, {{2, 3}, 0}, {{3, 4}, 0}, {{4, 5}, 0}, {{4, 5}, 0}, {{1, 5}, 0}}, {{1, M}, {2, 0}, {3, 0}}}, Dimension -> \"6 - 2*eps\", Order -> 0]",
+      "contributor": "SM",
+      "timestamp": "2026-04-19T19:01:16",
+      "byteCount": 1664,
+      "alphabet": [
+        "M^2"
+      ],
+      "symbolWeight": 2,
+      "symbolTerms": 3,
+      "legOrder": [
+        3,
+        1,
+        2
+      ],
+      "resultDataId": "b823ec4d037ad715",
+      "resultTeXPreview": "-\\frac{1}{24 \\varepsilon^2}+\\frac{12 \\log \\left(M^2\\right)+12 i \\pi -43}{144 \\varepsilon}+\\frac{1}{864} \\left(-72 \\log ^2\\left(M^2\\right)+12 (43-12 i \\pi ) \\log \\left(M^2\\right)+78 \\pi ^2+516 i \\pi -1207\\right)+O\\left(\\varepsilon^1\\right)"
+    },
+    {
+      "resultType": "singularities",
+      "status": "proposal",
+      "recordId": "sg_20260614T055236Z",
+      "byEpsOrder": null,
+      "singularities": [
+        "MM"
+      ],
+      "singularitiesTeX": [
+        "\\text{MM}"
+      ],
+      "singularitiesVerified": [
+        true
+      ],
+      "groundTruthAvailable": true,
+      "provenance": {
+        "engine": "chi/PrefactorScale (single-scale; no Landau elimination)",
+        "stVersion": "1.2.4",
+        "seed": 1234,
+        "chi": 1,
+        "confirmPrimes": null,
+        "confirmAgree": null,
+        "wallSeconds": 2.21,
+        "chiEngine": "eulerDiscriminant"
+      },
+      "timestamp": "2026-06-14T05:52:36Z",
+      "contributor": "oddletters-v1a",
+      "singularitiesChiDrop": [
+        0
+      ]
+    },
+    {
+      "resultType": "proposed-alphabet",
+      "status": "proposal",
+      "recordId": "pa_20260614T055236Z",
+      "byEpsOrder": null,
+      "evens": [
+        "MM"
+      ],
+      "evensTeX": [
+        "\\text{MM}"
+      ],
+      "evensVerified": [
+        true
+      ],
+      "groundTruthAvailable": true,
+      "oddLetters": [],
+      "bareRootsNote": "no bare-root letters (V1a evens-only graph form; flagged-sqrt list empty)",
+      "refusals": [],
+      "provenance": {
+        "engine": "chi/PrefactorScale (single-scale; no Landau elimination)",
+        "stVersion": "1.2.4",
+        "seed": 1234,
+        "chi": 1,
+        "confirmPrimes": null,
+        "confirmAgree": null,
+        "wallSeconds": 2.21,
+        "chiEngine": "eulerDiscriminant"
+      },
+      "timestamp": "2026-06-14T05:52:36Z",
+      "contributor": "oddletters-v1a",
+      "evensChiDrop": [
+        0
+      ]
+    }
+  ],
+  "edges": "{{{1, 2}, 0}, {{2, 3}, 0}, {{3, 4}, 0}, {{4, 5}, 0}, {{4, 5}, 0}, {{1, 5}, 0}}",
+  "nodes": "{{1, M}, {2, 0}, {3, 0}}",
+  "Loops": 2,
+  "NumPropagators": 6,
+  "MassConfig": {
+    "numEdges": 6,
+    "numMassiveEdges": 0,
+    "numMasslessEdges": 6,
+    "distinctInternalMasses": 0,
+    "internalMassLabels": [],
+    "edgeMassPattern": "000000",
+    "numExtLegs": 3,
+    "numOnshellMassiveExtLegs": 1,
+    "numMasslessExtLegs": 2,
+    "extLegSignature": "M00"
+  },
+  "CanonicalName": "1-mass pentagon with bubble insertion (b)",
+  "Names": [],
+  "ParentSectors": [],
+  "Subsectors": [],
+  "commonNames": null,
+  "quadruple": "{E^(2*eps*EulerGamma)*Gamma[2*eps], (x1*x2*x3*x4*x5*x6*(x1*x4 + x2*x4 + x3*x4 + x1*x5 + x2*x5 + x3*x5 + x4*x5 + x4*x6 + x5*x6)^(3*(-1 + eps)))/(-(MM*x1*(x3*x4 + x3*x5 + x4*x5 + x4*x6 + x5*x6)))^(2*eps), {x1, x2, x3, x4, x5, x6}, {MM}}"
 }

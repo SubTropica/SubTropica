@@ -1,47 +1,92 @@
 {
-	"CNickelIndex":"123|234|45|5|5||:000|000|00|0|0||",
-	"MassScales":0,
-	"FunctionClass":"rational * zeta(2L-3)",
-	"EpsilonOrder":"",
-	"edges":"{{{4, 1}, 0}, {{1, 2}, 0}, {{2, 3}, 0}, {{3, 5}, 0}, {{5, 6}, 0}, {{4, 2}, 0}, {{1, 3}, 0}, {{2, 5}, 0}, {{3, 6}, 0}, {{4, 6}, 0}}",
-	"nodes":"{}",
-	"References":[
-		"arXiv:1208.1890",
-		"arXiv:hep-ph\/9504352"
-	],
-	"Records":[
-		{
-			"reference":"arXiv:1208.1890",
-			"familyName":"zigzag_L5_massless",
-			"description":"Zigzag family, zigzag_L5_massless. phi^4 primitive Z_n: vertices 1..n+1; edges {i,i+1} for i=1..n, {i,i+2} for i=1..n-1, plus {1,n+1}. Vacuum graph, n loops (first Betti number), 2n edges. Z_3 = K4 = wheel W_3. NOTE: parts of the older self-energy literature count the same object differently and call our Z_6 a '5-loop zigzag'; n here is always the Betti number, anchored by Z_3 = K4 = 3 loops. Value = (441\/8)*Zeta[7].",
-			"method":[
-				"closed form"
-			],
-			"tools":[
-				"SubTropica seed_families"
-			],
-			"recordId":"fs_ef468532dccf",
-			"verified":false,
-			"verifiedAt":""
-		}
-	],
-	"Results":[
-		{
-			"value":"(441\/8)*Zeta[7]",
-			"numeric":5.558525391567849e1,
-			"normalization":"phi^4 projective period at D=4 (Brown-Schnetz convention); normFactor=1; NOT comparable to dim-reg momentum-space vacuum integrals (those are scaleless\/divergent)",
-			"provenance":"closed-form-from-cited-literature",
-			"seedRecordId":"fs_ef468532dccf",
-			"period":true
-		}
-	],
-	"Names":[
-		"zigzag_L5_massless"
-	],
-	"Source":[
-		"family-seed"
-	],
-	"Loops":5,
-	"NumPropagators":10,
-	"CanonicalName":"5-loop zigzag"
+  "CNickelIndex": "123|234|45|5|5||:000|000|00|0|0||",
+  "MassScales": 0,
+  "FunctionClass": "rational * zeta(2L-3)",
+  "EpsilonOrder": "",
+  "edges": "{{{4, 1}, 0}, {{1, 2}, 0}, {{2, 3}, 0}, {{3, 5}, 0}, {{5, 6}, 0}, {{4, 2}, 0}, {{1, 3}, 0}, {{2, 5}, 0}, {{3, 6}, 0}, {{4, 6}, 0}}",
+  "nodes": "{}",
+  "References": [
+    "arXiv:1208.1890",
+    "arXiv:hep-ph/9504352"
+  ],
+  "Records": [
+    {
+      "reference": "arXiv:1208.1890",
+      "familyName": "zigzag_L5_massless",
+      "description": "Zigzag family, zigzag_L5_massless. phi^4 primitive Z_n: vertices 1..n+1; edges {i,i+1} for i=1..n, {i,i+2} for i=1..n-1, plus {1,n+1}. Vacuum graph, n loops (first Betti number), 2n edges. Z_3 = K4 = wheel W_3. NOTE: parts of the older self-energy literature count the same object differently and call our Z_6 a '5-loop zigzag'; n here is always the Betti number, anchored by Z_3 = K4 = 3 loops. Value = (441/8)*Zeta[7].",
+      "method": [
+        "closed form"
+      ],
+      "tools": [
+        "SubTropica seed_families"
+      ],
+      "recordId": "fs_ef468532dccf",
+      "verified": false,
+      "verifiedAt": ""
+    }
+  ],
+  "Results": [
+    {
+      "value": "(441/8)*Zeta[7]",
+      "numeric": 55.58525391567849,
+      "normalization": "phi^4 projective period at D=4 (Brown-Schnetz convention); normFactor=1; NOT comparable to dim-reg momentum-space vacuum integrals (those are scaleless/divergent)",
+      "provenance": "closed-form-from-cited-literature",
+      "seedRecordId": "fs_ef468532dccf",
+      "period": true
+    },
+    {
+      "resultType": "singularities",
+      "status": "proposal",
+      "recordId": "sg_20260614T171709Z",
+      "byEpsOrder": null,
+      "singularities": [],
+      "singularitiesTeX": [],
+      "singularitiesVerified": [],
+      "groundTruthAvailable": false,
+      "provenance": {
+        "engine": "eulerDiscriminant",
+        "stVersion": "1.2.4",
+        "seed": 1234,
+        "chi": 0,
+        "confirmPrimes": null,
+        "confirmAgree": null,
+        "wallSeconds": 17.77
+      },
+      "timestamp": "2026-06-14T17:17:09Z",
+      "contributor": "oddletters-v1a"
+    },
+    {
+      "resultType": "proposed-alphabet",
+      "status": "proposal",
+      "recordId": "pa_20260614T171709Z",
+      "byEpsOrder": null,
+      "evens": [],
+      "evensTeX": [],
+      "evensVerified": [],
+      "groundTruthAvailable": false,
+      "oddLetters": [],
+      "bareRootsNote": "no bare-root letters (V1a evens-only graph form; flagged-sqrt list empty)",
+      "refusals": [],
+      "provenance": {
+        "engine": "eulerDiscriminant",
+        "stVersion": "1.2.4",
+        "seed": 1234,
+        "chi": 0,
+        "confirmPrimes": null,
+        "confirmAgree": null,
+        "wallSeconds": 17.77
+      },
+      "timestamp": "2026-06-14T17:17:09Z",
+      "contributor": "oddletters-v1a"
+    }
+  ],
+  "Names": [
+    "zigzag_L5_massless"
+  ],
+  "Source": [
+    "family-seed"
+  ],
+  "Loops": 5,
+  "NumPropagators": 10,
+  "CanonicalName": "5-loop zigzag"
 }

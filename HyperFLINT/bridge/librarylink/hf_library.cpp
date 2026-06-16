@@ -198,6 +198,38 @@ DLLEXPORT int hf_find_lr_orders(WolframLibraryData /*libData*/,
     }
 }
 
+// -------- hf_factor_table --------
+//
+// Signature:  String = hf_factor_table[jsonBody_String]
+// Wraps hyperflint::handlers::factor_table.  Same {"op":"factor_table",...}
+// payload as the CLI path; gives STBuildFactorTable an in-process
+// LibraryLink transport (previously absent -> the ST loader's
+// LibraryFunctionLoad["hf_factor_table"] silently failed and the op fell
+// back to the default-disabled CLI).  Mirror of hf_find_lr_orders.
+DLLEXPORT int hf_factor_table(WolframLibraryData /*libData*/,
+                              mint Argc, MArgument* Args, MArgument Res) {
+    try {
+        if (Argc < 1) return LIBRARY_FUNCTION_ERROR;
+        char* input = MArgument_getUTF8String(Args[0]);
+        if (input == nullptr) return LIBRARY_FUNCTION_ERROR;
+        hyperflint::AlgebraicLetterTable::global().clear();
+        std::string response = hyperflint::handlers::factor_table(
+            std::string(input));
+        flint_cleanup_master();
+        return set_utf8_result(Res, response);
+    } catch (const std::exception& e) {
+        try {
+            std::string err = std::string("{\"op\":\"factor_table\","
+                "\"error\":\"") + e.what() + "\"}";
+            return set_utf8_result(Res, err);
+        } catch (...) {
+            return LIBRARY_FUNCTION_ERROR;
+        }
+    } catch (...) {
+        return LIBRARY_FUNCTION_ERROR;
+    }
+}
+
 // -------- hf_find_lr_orders_scan --------
 //
 // Signature:  String = hf_find_lr_orders_scan[jsonBody_String]

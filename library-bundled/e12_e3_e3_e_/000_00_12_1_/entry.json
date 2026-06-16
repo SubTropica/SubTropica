@@ -1,56 +1,93 @@
 {
-    "CNickelIndex": "e12|e3|e3|e|:000|00|12|1|",
-    "MassScales": 4,
-    "FunctionClass": "MPL",
-    "EpsilonOrder": "0",
-    "References": [
-        "arXiv:0712.1851 (JHEP 02 (002), 2008)"
-    ],
-    "Records": [
-        {
-            "reference": "arXiv:0712.1851 (JHEP 02 (002), 2008)",
-            "authors": "Ellis, R.Keith, Zanderighi, Giulia",
-            "description": "Divergent one-loop box I_4^D(0,0,m^2,m^2;s12,s23;0,0,0,m^2) with one massive internal line and p_1^2=p_2^2=0, p_3^2=p_4^2=m^2. Contains double 1/eps^2 pole.",
-            "epsOrders": "0",
-            "familyName": "Box_6",
-            "method": "direct_integration",
-            "tools": [],
-            "ancillaryFiles": false,
-            "doi": "10.1088/1126-6708/2008/02/002",
-            "texkey": "Ellis:2007qk",
-            "masterCount": 1,
-            "dimScheme": "d=4-2*eps",
-            "computationLevel": "full",
-            "location": "Sec. 3.2.2, Sec. 4.4.6",
-            "recordId": "bx_d1c2b7749ce3",
-            "verified": false,
-            "verifiedAt": ""
-        }
-    ],
-    "Names": [
-        "Box_6"
-    ],
-    "Source": [
-        "arXiv"
-    ],
-    "Loops": 1,
-    "NumPropagators": 4,
-    "Results": [],
-    "edges": "{{{1, 2}, 0}, {{1, 3}, 0}, {{2, 4}, 0}, {{3, 4}, m}}",
-    "nodes": "{{1, 0}, {2, 0}, {3, M}, {4, M}}",
-    "CanonicalName": "Box, 1 massive propagator (f)",
-    "MassConfig": {
-        "numEdges": 4,
-        "numMassiveEdges": 1,
-        "numMasslessEdges": 3,
-        "distinctInternalMasses": 1,
-        "internalMassLabels": [
-            "m"
-        ],
-        "edgeMassPattern": "0001",
-        "numExtLegs": 4,
-        "numOnshellMassiveExtLegs": 2,
-        "numMasslessExtLegs": 2,
-        "extLegSignature": "00MM"
+  "CNickelIndex": "e12|e3|e3|e|:000|00|12|1|",
+  "MassScales": 4,
+  "FunctionClass": "MPL",
+  "EpsilonOrder": "0",
+  "References": [
+    "arXiv:0712.1851 (JHEP 02 (002), 2008)"
+  ],
+  "Records": [
+    {
+      "reference": "arXiv:0712.1851 (JHEP 02 (002), 2008)",
+      "authors": "Ellis, R.Keith, Zanderighi, Giulia",
+      "description": "Divergent one-loop box I_4^D(0,0,m^2,m^2;s12,s23;0,0,0,m^2) with one massive internal line and p_1^2=p_2^2=0, p_3^2=p_4^2=m^2. Contains double 1/eps^2 pole.",
+      "epsOrders": "0",
+      "familyName": "Box_6",
+      "method": "direct_integration",
+      "tools": [],
+      "ancillaryFiles": false,
+      "doi": "10.1088/1126-6708/2008/02/002",
+      "texkey": "Ellis:2007qk",
+      "masterCount": 1,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "full",
+      "location": "Sec. 3.2.2, Sec. 4.4.6",
+      "recordId": "bx_d1c2b7749ce3",
+      "verified": false,
+      "verifiedAt": ""
     }
+  ],
+  "Names": [
+    "Box_6"
+  ],
+  "Source": [
+    "arXiv"
+  ],
+  "Loops": 1,
+  "NumPropagators": 4,
+  "Results": [
+    {
+      "resultType": "singularities",
+      "status": "proposal",
+      "recordId": "sg_20260614T044051Z",
+      "byEpsOrder": null,
+      "singularities": [
+        "s12",
+        "MM - s12 - s23",
+        "mm - 2*MM + s12 + s23",
+        "mm - MM"
+      ],
+      "singularitiesTeX": [
+        "\\text{s12}",
+        "\\text{MM}-\\text{s12}-\\text{s23}",
+        "\\text{mm}-2 \\text{MM}+\\text{s12}+\\text{s23}",
+        "\\text{mm}-\\text{MM}"
+      ],
+      "singularitiesVerified": [
+        false,
+        false,
+        false,
+        false
+      ],
+      "groundTruthAvailable": false,
+      "provenance": {
+        "engine": "chi/SPQRLandau-CII SPQR-1.0.4 FF64 (partial: incomplete elimination)",
+        "stVersion": "1.2.4",
+        "seed": 1234,
+        "chi": 7,
+        "confirmPrimes": 2,
+        "confirmAgree": null,
+        "wallSeconds": 238.53
+      },
+      "timestamp": "2026-06-14T04:40:51Z",
+      "contributor": "oddletters-v1a"
+    }
+  ],
+  "edges": "{{{1, 2}, 0}, {{1, 3}, 0}, {{2, 4}, 0}, {{3, 4}, m}}",
+  "nodes": "{{1, 0}, {2, 0}, {3, M}, {4, M}}",
+  "CanonicalName": "Box, 1 massive propagator (f)",
+  "MassConfig": {
+    "numEdges": 4,
+    "numMassiveEdges": 1,
+    "numMasslessEdges": 3,
+    "distinctInternalMasses": 1,
+    "internalMassLabels": [
+      "m"
+    ],
+    "edgeMassPattern": "0001",
+    "numExtLegs": 4,
+    "numOnshellMassiveExtLegs": 2,
+    "numMasslessExtLegs": 2,
+    "extLegSignature": "00MM"
+  }
 }

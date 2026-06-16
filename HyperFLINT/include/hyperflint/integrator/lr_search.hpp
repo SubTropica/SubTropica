@@ -200,5 +200,36 @@ LrResult find_lr_orders(
     SingCollector* sings = nullptr,
     bool carry_discharge = false);
 
+// Result of verifying ONE specific integration order (no search).
+struct OrderVerifyResult {
+    bool        is_lr = false;          // the given order is linearly reducible
+    int         blocking_step = -1;     // 0-based step that failed (-1 if LR)
+    long        blocking_degree = 0;    // degree of the offending letter in the pivot
+    bool        forbidden_dep = false;  // failure was a deg-2 forbidden-var dependence
+    std::string blocking_letter;        // canonical form of the offending letter ("" if LR)
+    bool        malformed = false;      // order is not a permutation of xvar_indices
+};
+
+// Verify whether ONE SPECIFIC order (order_var_indices, a permutation of
+// xvar_indices in the intended integration sequence) is linearly reducible,
+// WITHOUT enumerating/searching any other order.  Walks the order
+// sequentially: starting from group_polys, at each pivot it (a) checks every
+// current letter has degree <= max_deg in the pivot (max_deg = 1 strict, or 2
+// when allow_algebraic_letters, with the same forbidden-pending-variable
+// rejection as find_lr_orders' Step B), then (b) advances the letter set via
+// st_fubini_lr (single path, no intersection).  Returns is_lr plus the
+// blocking step/letter on the first failure.  Cost is O(n) st_fubini_lr calls
+// (one per pivot), not the O(2^n) subset-DP -- the cheap certification the
+// carry executor's order-pinning guard needs (it can confirm the PINNED order
+// is LR directly, instead of a full free search + best-order comparison).
+// carry_discharge is intentionally NOT supported here: the post-substitution
+// transformed term must be LR in the strict / FindRoots tier (no obligation
+// to carry); verifying that is exactly the safety condition.
+OrderVerifyResult verify_order_is_lr(
+    const std::vector<std::vector<Poly>>& group_polys,
+    const std::vector<size_t>& xvar_indices,
+    const std::vector<size_t>& order_var_indices,
+    bool allow_algebraic_letters = false);
+
 }  // namespace lr_search
 }  // namespace hyperflint

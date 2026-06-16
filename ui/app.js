@@ -1143,7 +1143,9 @@ async function loadLibrary() {
   // The one /api/library 404 on a static/public build is therefore left as-is;
   // it falls through to the static chain exactly as before.
   try {
-    const resp = await fetch('/api/library');
+    // no-store: /api/library carries no cache headers, so a soft reload can
+    // otherwise serve a stale library (missing freshly-merged records).
+    const resp = await fetch('/api/library', { cache: 'no-store' });
     if (resp.ok) {
       library = await resp.json();
     } else {
@@ -1164,8 +1166,9 @@ async function loadLibrary() {
   // crossed ~1000 configs after the collections/families intake.
   // Live match now calls the extracted ensureCanonIndex() which is a
   // no-op when the idle prebuild already ran.
-  const _idleSchedule = window.requestIdleCallback || (fn => setTimeout(fn, 1500));
-  _idleSchedule(() => { try { ensureCanonIndex(); } catch (_) { /* index builds on first match instead */ } });
+  // Build the canonical index off the main thread (cached + chunked); doLiveMatch
+  // populates library matches once it is ready, so first paint never stalls.
+  try { prebuildCanonIndex(); } catch (_) {}
   // Initial render once library is ready
   render();
   onGraphChanged();
@@ -1305,9 +1308,13 @@ async function loadFamilies() {
       data = await tryStaticChain();
     } else {
       try {
-        const resp = await fetch('/api/families');
-        if (resp.ok) data = await resp.json();
-        else data = await tryStaticChain();
+        const resp = await fetch('/api/families', { cache: 'no-store' });
+        const j = resp.ok ? await resp.json() : null;
+        // The lite (STBrowser) server has no /api/families endpoint; its
+        // catch-all returns HTTP 200 with the body "404", which JSON-parses
+        // to the *number* 404. Accept only a real catalog object; otherwise
+        // fall back to the static families.json (else collections never load).
+        data = (j && typeof j === 'object') ? j : await tryStaticChain();
       } catch (e) {
         data = await tryStaticChain();
       }
@@ -2857,8 +2864,25 @@ function renderEdges() {
 // Non-math text is HTML-escaped; math chunks are rendered with KaTeX and
 // gracefully fall back to a literal "$expr$" if parsing fails or KaTeX
 // hasn't loaded yet. Unpaired dollars pass through escaped.
+// INSPIRE titles can ship raw presentation MathML (and occasionally HTML
+// entities), e.g. "...corrections to <math><mi>g</mi><mi>g</mi><mo>→</mo>...".
+// renderInlineMathString below only understands $...$ LaTeX, so without this the
+// markup leaks as literal text. Drop the tags, keep the text content, decode the
+// common entities. (msup loses its superscript — acceptable for a one-line title.)
+function stripMathMLToText(s) {
+  return s
+    .replace(/<\s*annotation\b[^>]*>[\s\S]*?<\/\s*annotation\s*>/gi, '')
+    .replace(/<[^>]+>/g, '')
+    .replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&')
+    .replace(/&nbsp;/g, ' ').replace(/&minus;/g, '−')
+    .replace(/&[a-zA-Z]+;|&#\d+;/g, '')
+    .replace(/\s+/g, ' ').trim();
+}
+
 function renderInlineMathString(s) {
   if (typeof s !== 'string' || !s) return '';
+  // Strip any MathML/HTML markup before the $...$ math pass (INSPIRE titles).
+  if (/<[^>]+>/.test(s)) s = stripMathMLToText(s);
   // Allow escaping a literal dollar as "\$" — stash to a sentinel.
   const DOLLAR = '\uE000';
   const input = s.replace(/\\\$/g, DOLLAR);
@@ -2886,6 +2910,36 @@ function renderInlineMathString(s) {
     }
   }
   return out;
+}
+
+// Render a Mathematica substitution list "{lhs -> rhs, ...}" as readable TeX,
+// each rule as "lhs = rhs". cleanTeX handles the mass-squared notation
+// (mm1 -> m_1^2, MM -> M^2) and the rationalizing conjugates (wb -> \bar{w});
+// multiplication becomes juxtaposition and indexed mm[1] is normalized to mm1
+// first. Used to surface the change of variables behind a rationalized result.
+function renderSubsTeX(subs) {
+  if (typeof subs !== 'string') return '';
+  const body = subs.trim().replace(/^\{/, '').replace(/\}$/, '').trim();
+  if (!body) return '';
+  const parts = [];
+  let depth = 0, cur = '';
+  for (const ch of body) {
+    if ('([{'.includes(ch)) depth++;
+    else if (')]}'.includes(ch)) depth--;
+    if (ch === ',' && depth === 0) { parts.push(cur); cur = ''; }
+    else cur += ch;
+  }
+  if (cur.trim()) parts.push(cur);
+  const norm = (s) => s.replace(/mm\[(\d+)\]/g, 'mm$1').replace(/MM\[(\d+)\]/g, 'MM$1')
+    .replace(/\bm\[(\d+)\]/g, 'm$1').replace(/\bM\[(\d+)\]/g, 'M$1').replace(/\*/g, ' ');
+  const one = (p) => {
+    const i = p.indexOf('->');
+    if (i < 0) return cleanTeX(norm(p));
+    const lhs = cleanTeX(norm(p.slice(0, i))), rhs = cleanTeX(norm(p.slice(i + 2)));
+    if (lhs.trim() === rhs.trim()) return '';   // skip trivial mm[i] = m_i^2 identities
+    return lhs + ' = ' + rhs;
+  };
+  return parts.map(one).filter(Boolean).join(',\\quad ');
 }
 
 function renderTeX(latex, el) {
@@ -5404,14 +5458,23 @@ function generateThumbnail(topoNickel, configKey, options) {
     // No force step: the pinned positions are the layout.
     laid = initVerts;
   } else {
-    // Initial circular layout
+    // Seed internal vertices from the precomputed planar layout when available
+    // (a planar start the force layout then spreads out, so planar graphs tend to
+    // draw planar with legs in cyclic order); otherwise an initial circle.
+    const _PL = (_planarLayouts && _planarLayouts[topoNickel]) || null;
+    const _PLnodes = _PL && _PL.nodes;
     for (let i = 0; i <= Math.max(...sortedInternal, 0); i++) {
-      const ang = (2 * Math.PI * i) / numInt - Math.PI / 2;
-      // Add jitter proportional to R to break symmetry
-      initVerts.push({
-        x: R * Math.cos(ang) + (Math.random() - 0.5) * R * 0.3,
-        y: R * Math.sin(ang) + (Math.random() - 0.5) * R * 0.3
-      });
+      const pp = _PLnodes && _PLnodes[String(i + 1)];
+      if (Array.isArray(pp)) {
+        initVerts.push({ x: pp[0] * R, y: pp[1] * R });
+      } else {
+        const ang = (2 * Math.PI * i) / numInt - Math.PI / 2;
+        // Add jitter proportional to R to break symmetry
+        initVerts.push({
+          x: R * Math.cos(ang) + (Math.random() - 0.5) * R * 0.3,
+          y: R * Math.sin(ang) + (Math.random() - 0.5) * R * 0.3
+        });
+      }
     }
 
     // Add external leg vertices
@@ -5821,33 +5884,72 @@ function onGraphChanged() {
 // (a) the single-source-of-truth rule holds and (b) the index can be prebuilt
 // via requestIdleCallback after library load, keeping the synchronous build
 // (~1000 canonicalize() calls) off the critical first-paint path.
+// localStorage cache key for the canonical index. The index (canonicalNickel ->
+// [libraryKey]) depends ONLY on the set of topology keys, so it survives
+// result-only merges; we key on a cheap hash of the sorted keys so it
+// auto-invalidates when topologies are added/removed.
+function _canonIndexCacheKey() {
+  const keys = Object.keys(library.topologies);
+  let h = 0; const s = keys.length + '|' + keys.join(',');
+  for (let i = 0; i < s.length; i++) h = (Math.imul(h, 31) + s.charCodeAt(i)) | 0;
+  return 'subtropica-canonidx-' + keys.length + '_' + (h >>> 0).toString(36);
+}
+
+// Synchronous full build of the canonical Nickel index. Per-config JS labels are
+// NOT precomputed here anymore -- in aggregate they cost as much as the index
+// itself (~0.9 s for ~1000 configs) and most are never needed, so they are
+// computed lazily per matched candidate in doLiveMatch(). Cached in localStorage.
 function ensureCanonIndex() {
   if (!library || !library.topologies || library._canonIndex) return;
-  // Build canonical Nickel index: re-canonicalize each library topology's
-  // Nickel using the same canonicalize() function the canvas uses, so both
-  // forms match.  Also precompute JS-canonical-ordered labels for each config,
-  // so matching can compare labels 1:1 with canvasMasses even when Python and
-  // JS canonicalizers pick different representatives for the same graph.
-  library._canonIndex = {};  // canonicalNickel -> [libraryKey, ...]
+  try {
+    const cached = localStorage.getItem(_canonIndexCacheKey());
+    if (cached) { library._canonIndex = JSON.parse(cached); return; }
+  } catch (_) {}
+  const idx = {};
   for (const key in library.topologies) {
     try {
-      const n = Nickel.fromString(key);
-      const c = canonicalize(n.edges);
-      const canon = c.string;
-      if (!library._canonIndex[canon]) library._canonIndex[canon] = [];
-      library._canonIndex[canon].push(key);
-      // Precompute JS-canonical labels for each config under this topology.
-      const topoObj = library.topologies[key];
-      const cfgs = topoObj.configs || {};
-      for (const ck in cfgs) {
-        try {
-          cfgs[ck]._jsLabels = libraryConfigLabelsInJSOrder(key, ck);
-        } catch (_) {
-          cfgs[ck]._jsLabels = null;
-        }
-      }
+      const canon = canonicalize(Nickel.fromString(key).edges).string;
+      (idx[canon] || (idx[canon] = [])).push(key);
     } catch (_) {}
   }
+  library._canonIndex = idx;
+  try { localStorage.setItem(_canonIndexCacheKey(), JSON.stringify(idx)); } catch (_) {}
+}
+
+// Build the canonical index WITHOUT blocking the main thread: instant from the
+// localStorage cache, otherwise incrementally across idle frames (the full
+// synchronous build was a ~1.8 s long task on first load). Re-runs the live
+// match once ready so library results populate.
+let _canonIndexBuilding = false;
+function prebuildCanonIndex() {
+  if (!library || !library.topologies || library._canonIndex || _canonIndexBuilding) return;
+  try {
+    const cached = localStorage.getItem(_canonIndexCacheKey());
+    if (cached) { library._canonIndex = JSON.parse(cached); return; }
+  } catch (_) {}
+  _canonIndexBuilding = true;
+  const keys = Object.keys(library.topologies);
+  const idx = {}; let i = 0;
+  const schedule = window.requestIdleCallback || (fn => setTimeout(() => fn({ timeRemaining: () => 10 }), 1));
+  function step(dl) {
+    // Cap each chunk at <=16ms so a chunk never becomes a "long task" (>50ms);
+    // do/while guarantees forward progress even if the idle budget is tiny.
+    const budget = Math.min(16, (dl && dl.timeRemaining) ? Math.max(6, dl.timeRemaining()) : 10);
+    const t0 = performance.now();
+    do {
+      const key = keys[i++];
+      try {
+        const canon = canonicalize(Nickel.fromString(key).edges).string;
+        (idx[canon] || (idx[canon] = [])).push(key);
+      } catch (_) {}
+    } while (i < keys.length && performance.now() - t0 < budget);
+    if (i < keys.length) { schedule(step); return; }
+    library._canonIndex = idx;
+    _canonIndexBuilding = false;
+    try { localStorage.setItem(_canonIndexCacheKey(), JSON.stringify(idx)); } catch (_) {}
+    try { doLiveMatch(); } catch (_) {}   // index ready -> populate library matches
+  }
+  schedule(step);
 }
 
 function doLiveMatch() {
@@ -5917,12 +6019,11 @@ function doLiveMatch() {
       }
     } catch (_) { /* collapsed topology may be degenerate — skip silently */ }
 
-    // Ensure the canonical Nickel index and per-config JS label arrays are
-    // built.  The actual work lives in ensureCanonIndex() so it can also be
-    // triggered off the critical path via requestIdleCallback after library
-    // load (see loadLibrary()).  This call is a no-op when the idle prebuild
-    // already ran.
-    ensureCanonIndex();
+    // Library matching needs the canonical index. If it isn't ready yet, build
+    // it off the main thread (cached + chunked) and bail for now -- the build
+    // re-runs doLiveMatch() on completion, so matches populate without ever
+    // blocking the UI (avoids the ~1.8 s synchronous first-match stall).
+    if (!library || !library._canonIndex) { prebuildCanonIndex(); return; }
 
     const matches = [];
     const seenTopoKeys = new Set();
@@ -5937,7 +6038,14 @@ function doLiveMatch() {
         const configMatches = {};
         const configs = topo.configs || {};
         for (const ck in configs) {
-          const labels = configs[ck]._jsLabels || parseConfigColoring(ck);
+          // Lazy per-config JS labels (memoized): only matched candidates pay
+          // the cost, instead of precomputing all ~1000 at index-build time.
+          let labels = configs[ck]._jsLabels;
+          if (labels === undefined) {
+            try { labels = configs[ck]._jsLabels = libraryConfigLabelsInJSOrder(key, ck); }
+            catch (_) { labels = configs[ck]._jsLabels = null; }
+          }
+          labels = labels || parseConfigColoring(ck);
           // Try all graph automorphisms — pick the best match.
           // This ensures symmetry-equivalent mass configs are found.
           let best = 'none';
@@ -6120,6 +6228,60 @@ function createSubtopoToast(topoKey, topo, pinched, collapsed) {
   return toast;
 }
 
+// True iff a config carries singularities / alphabet data -- either a
+// standalone odd-letter proposal record (resultType 'singularities' /
+// 'proposed-alphabet') or a full result that itself exposes an alphabet or a
+// singularities list. Drives the chi badge on the config toast.
+function configHasSingsLetters(cfg) {
+  const rs = (cfg && (cfg.results || cfg.Results)) || [];
+  return rs.some(r => r && (
+    r.resultType === 'singularities' || r.resultType === 'proposed-alphabet' ||
+    r.symbolTeX || r.normalizedSymbolTeX ||
+    (r.wDefinitions && r.wDefinitions.length) ||
+    (r.alphabet && r.alphabet.length) ||
+    (r.singularities && r.singularities.length) ||
+    (r.singularitiesTeX && r.singularitiesTeX.length)
+  ));
+}
+
+// The engine's Euler characteristic for a config's sings/letters, or null
+// (e.g. the single-scale fast path records chi as null). Read from the proposal
+// record's provenance.
+function configChi(cfg) {
+  const rs = (cfg && (cfg.results || cfg.Results)) || [];
+  for (const r of rs) {
+    if (!r || !(r.resultType === 'singularities' || r.resultType === 'proposed-alphabet')) continue;
+    const c = (r.provenance && r.provenance.chi != null) ? r.provenance.chi
+            : (r.chi != null ? r.chi : null);
+    if (typeof c === 'number' && Number.isFinite(c)) return c;
+  }
+  return null;
+}
+
+// The chi badge HTML ('' when the config has no sings/letters). Reads "χ = N"
+// when the Euler characteristic is known, otherwise just "χ". Only the χ glyph
+// carries the optical-lift; the "= N" is plain badge text.
+function singsChiBadge(cfg) {
+  if (!configHasSingsLetters(cfg)) return '';
+  const chi = configChi(cfg);
+  // chi = 0 is not a meaningful master count: it is the Euler-discriminant
+  // engine degenerating (the euler route fails on indexed-mass diagrams, ~30%
+  // of the library, returning 0 critical points + an empty locus). Suppress the
+  // badge rather than display a known-wrong value (a non-trivial result needs
+  // chi >= 1). See notes/alphabet_highlight/CHI_ZERO.md.
+  if (chi === 0) return '';
+  const has = (chi !== null && chi !== undefined);
+  const title = (chi === 0)
+    ? 'χ = 0: empty singular locus'
+    : has
+      ? `χ = ${chi}: ${chi} critical point${chi !== 1 ? 's' : ''} of the Landau system (master integrals); singularities / alphabet available`
+      : 'single-scale: χ not applicable; singularities / alphabet available';
+  const inner = has
+    ? `<span class="chi-glyph">χ</span> =${chi}`
+    : '<span class="chi-glyph">χ</span>';
+  return `<span class="badge badge-chi" title="${title}">${inner}</span>`;
+}
+
 function createConfigToast(topoKey, topo, cm, ck) {
   const configs = topo.configs || {};
   const cfg = configs[ck];
@@ -6144,20 +6306,16 @@ function createConfigToast(topoKey, topo, cm, ck) {
   const epsLabel = summarizeEpsilonOrders(cfg);
   if (epsLabel) badges += `<span class="badge badge-gold">\u03B5: ${epsLabel}</span>`;
   badges += refCountBadge(cfg);
+  // chi badge: this config has singularities / an alphabet available (whether
+  // as a standalone proposal record or embedded in a full result). Independent
+  // of the result star, so it shows in every star state. Lead the badge row.
+  badges = singsChiBadge(cfg) + badges;
 
   const thumb = generateThumbnail(topoKey, ck);
   thumb.classList.add('notif-thumb');
-  const cfgHasResults = (cfg.results||cfg.Results||[]).length > 0;
-  // "Local" (user-computed, not-yet-bundled) results only exist in full
-  // (kernel) mode. In the web/lite build every config is from the bundled
-  // library, so a 'SubTropica' source means a bundled/verified entry, not a
-  // local one -- never show the outlined local star there.
-  const cfgIsLocal = backendMode === 'full' && hasSource(cfg, 'SubTropica');
-  const starPrefix = cfgHasResults
-    ? (cfgIsLocal
-        ? '<span class="result-star result-star-local" title="Local result (computed by you)">\u2605</span> '
-        : '<span class="result-star" title="Result computed">\u2605</span> ')
-    : '';
+  // Provenance star, single source of truth: full = bundled, outlined = local
+  // (every computed result r._local), none = no computed result.
+  const starPrefix = resultProvenanceStar(cfg.results || cfg.Results);
   const body = document.createElement('div');
   body.className = 'notif-body';
   body.innerHTML = `
@@ -6413,6 +6571,17 @@ function _firstLast(name) {
   const [last, rest] = s.split(/,\s*/, 2);
   return rest ? `${rest} ${last}` : s;
 }
+
+// Precomputed planar layouts (scripts/compute_planar_layouts.py), keyed by bare
+// topology Nickel. Used to SEED the force layout for planar graphs (a planar
+// start, then force spreads it out) so they tend to draw planar with legs in
+// cyclic order, without the cramping of pinning. Eager, best-effort.
+let _planarLayouts = null;
+fetch('planar_layouts.json', { cache: 'no-store' })
+  .then(r => (r.ok ? r.json() : {}))
+  .then(d => { _planarLayouts = d || {}; })
+  .catch(() => { _planarLayouts = {}; });
+
 
 // Resolve the durable cache's author list into display-ready objects by
 // cross-referencing the durable author profile index (for preferred_name).
@@ -7270,9 +7439,18 @@ function openDetailPanel(topoKey, topo, configMatches, configKey, opts) {
               if (data.title && titleEl) { titleEl.innerHTML = renderInlineMathString(data.title); titleEl.style.display = ''; }
               const authorsEl = card.querySelector('.popup-record-authors');
               if (data.authors.length > 0 && authorsEl && !authorsEl.textContent.trim()) {
-                const linked = data.authors.map(name => {
-                  const url = `https://inspirehep.net/authors?q=${encodeURIComponent(name)}`;
-                  return `<a href="${url}" target="_blank" rel="noopener" style="color:var(--text)">${escapeHtml(name)}</a>`;
+                // data.authors are structured objects (resolveAuthors); extract the
+                // display name and build a per-author INSPIRE link. Treating them as
+                // strings here rendered "[object Object]".
+                const linked = data.authors.map(a => {
+                  if (typeof a === 'string') {
+                    const d = _firstLast(a);
+                    return `<a href="https://inspirehep.net/authors?q=${encodeURIComponent(d)}" target="_blank" rel="noopener" style="color:var(--text)">${escapeHtml(d)}</a>`;
+                  }
+                  const d = a.display_name || _firstLast(a.full_name || '');
+                  const url = a.inspire_id ? `https://inspirehep.net/authors/${a.inspire_id}`
+                                           : `https://inspirehep.net/authors?q=${encodeURIComponent(d)}`;
+                  return `<a href="${url}" target="_blank" rel="noopener" style="color:var(--text)">${escapeHtml(d)}</a>`;
                 });
                 authorsEl.innerHTML = linked.length > 10
                   ? linked.slice(0, 10).join(', ') + ' et al.'
@@ -7325,11 +7503,11 @@ function openDetailPanel(topoKey, topo, configMatches, configKey, opts) {
 
       const resultsSection = document.createElement('div');
       resultsSection.className = 'popup-section';
-      // local only in full (kernel) mode; bundled in the web/lite build (see createConfigToast)
-      const _isLocalCfg = backendMode === 'full' && hasSource(cfg, 'SubTropica');
-      const _resStarClass = _isLocalCfg ? 'result-star result-star-local' : 'result-star';
-      const _resSuffix = _isLocalCfg ? ' (local)' : '';
-      resultsSection.innerHTML = `<div class="popup-section-title"><span class="${_resStarClass}">\u2605</span> Computed Results${_resSuffix}</div>`;
+      // The header is provenance-neutral. Provenance is shown PER RECORD via a
+      // star (full = bundled library, outlined = locally computed by the user),
+      // so a config mixing bundled + local results reads cleanly. The kernel
+      // server tags each locally-computed record with `_local`.
+      resultsSection.innerHTML = `<div class="popup-section-title">Computed results</div>`;
 
       // Results-split (spec §4.2): a stub record carries only the inline
       // resultTeXPreview until ensureResultData merges the heavy sibling.
@@ -7346,6 +7524,16 @@ function openDetailPanel(topoKey, topo, configMatches, configKey, opts) {
 
         // Badge row: clean, all-badge layout
         const badges = [];
+
+        // Provenance star, per record: a FULL star for a bundled-library result,
+        // an OUTLINED star for one the user computed locally (r._local). Hovering
+        // the star shows a stylized popup (data-tip-html) explaining the meaning.
+        const _isLocal = r._local === true;
+        const _starCls = _isLocal ? 'result-star result-star-local' : 'result-star';
+        const _starTip = _isLocal
+          ? '<strong>Local result</strong>: computed by you on this machine, not part of the bundled library.'
+          : '<strong>Bundled result</strong>: part of the curated SubTropica library shipped with the package.';
+        badges.push(`<span class="${_starCls}" role="img" aria-label="${_isLocal ? 'local result' : 'bundled result'}" data-tip-html="${_starTip}">★</span>`);
 
         // Dimension: prettify 4 - 2*eps → D = 4−2ε
         if (r.dimension) {
@@ -7401,9 +7589,7 @@ function openDetailPanel(topoKey, topo, configMatches, configKey, opts) {
         // Numerically verified badge (per-result, not per-diagram)
         if (r.verified) {
           const method = r.method || '';
-          const tip = r.verifiedAt
-            ? `Numerically verified${method ? ' via ' + method : ''} on ${r.verifiedAt}`
-            : `Numerically verified${method ? ' via ' + method : ''}`;
+          const tip = `Numerically verified${method ? ' via ' + method : ''}`;
           badges.push(`<span class="badge badge-green" title="${tip}">\u2713 Verified</span>`);
         }
 
@@ -7426,6 +7612,21 @@ function openDetailPanel(topoKey, topo, configMatches, configKey, opts) {
 
         // Result preview: TeX div (populated on-demand if only compressed is available)
         html += `<div class="popup-result-tex" id="result-tex-${Math.random().toString(36).substr(2,6)}"></div>`;
+
+        // Change of variables: a result written in the rationalizing conjugate
+        // variables (z,zbar)/(w,wbar) is incomplete without their definition. The
+        // substitutions field carries it (e.g. m_1^2 = w*wbar); surface it so the
+        // result is self-contained (audit: nonstd_vars).
+        {
+          const subs = r.substitutions;
+          if (typeof subs === 'string' && /(?:^|[^A-Za-z])(zb|wb|zzb|wwb)(?![A-Za-z0-9])/.test(subs)) {
+            const stex = renderSubsTeX(subs);
+            html += '<div class="popup-result-subs" style="margin-top:6px;font-size:11px;'
+              + 'color:var(--text-muted);display:flex;align-items:baseline;gap:6px;flex-wrap:wrap">'
+              + '<span style="font-weight:500;white-space:nowrap">Change of variables</span>'
+              + '<span class="popup-result-subs-math">' + _katexToHTML(stex) + '</span></div>';
+          }
+        }
 
         // Alphabet (always visible as inline pills)
         if (r.wDefinitions && r.wDefinitions.length > 0) {
@@ -7552,7 +7753,7 @@ function openDetailPanel(topoKey, topo, configMatches, configKey, opts) {
 
         // Render alphabet pills (prefer W definitions; algebraic pairs fuse)
         const alphEl = card.querySelector('.popup-result-alphabet');
-        renderAlphabetPills(alphEl, r.wDefinitions, r.alphabet);
+        renderAlphabetPills(alphEl, r.wDefinitions, r.alphabet, r.normalizedSymbolTeX);
 
         // Copy LaTeX handler
         card.querySelector('.popup-copy-tex')?.addEventListener('click', (e) => {
@@ -7636,7 +7837,7 @@ function openDetailPanel(topoKey, topo, configMatches, configKey, opts) {
     // numerically verified computed result. Fires whenever proposals are
     // present, including the proposals-only case (no ordinary results).
     if (proposalRecords.length > 0) {
-      renderProposalRecords(content, proposalRecords);
+      renderProposalRecords(content, proposalRecords, results.length > 0);
     }
   } else {
     // Topology-only popup: show gallery of all diagrams (mass configurations)
@@ -8432,10 +8633,12 @@ function drawScatterPlot(canvasId, points) {
 
   // Draw bubbles (circles first, then labels on top so numbers aren't occluded)
   const accent = getComputedStyle(document.body).getPropertyValue('--accent') || '#8b5c2a';
+  const cells = [];   // captured bubble geometry for hover hit-testing
   for (const k in counts) {
     const [l, g] = k.split(',').map(Number);
     const n = counts[k];
     const r = Math.min(2 + Math.sqrt(n) * 2.5, 14);
+    cells.push({ cx: toX(g), cy: toY(l), r, loops: l, legs: g, n, c: computed[k] || 0 });
     ctx.beginPath();
     ctx.arc(toX(g), toY(l), r, 0, 2 * Math.PI);
     ctx.fillStyle = accent;
@@ -8472,6 +8675,43 @@ function drawScatterPlot(canvasId, points) {
       ctx.fillText(n, toX(g), toY(l) + 3);
     }
   }
+
+  attachScatterHover(canvas, cells);
+}
+
+// Hover tooltip for the library-coverage scatter. The chart is a <canvas> with
+// no DOM points, so hit-test the cursor against the captured bubble geometry and
+// show a small details popup (loops/legs, diagram count, computed count).
+function attachScatterHover(canvas, cells) {
+  let tip = document.getElementById('about-scatter-tip');
+  if (!tip) {
+    tip = document.createElement('div');
+    tip.id = 'about-scatter-tip';
+    tip.className = 'about-scatter-tip';
+    document.body.appendChild(tip);
+  }
+  const hide = () => { tip.style.display = 'none'; canvas.style.cursor = ''; };
+  canvas.onmousemove = (e) => {
+    const rect = canvas.getBoundingClientRect();
+    // map client coords -> canvas coords (the canvas may be CSS-scaled)
+    const sx = canvas.width / rect.width, sy = canvas.height / rect.height;
+    const mx = (e.clientX - rect.left) * sx, my = (e.clientY - rect.top) * sy;
+    let hit = null;
+    for (const c of cells) {
+      const dx = mx - c.cx, dy = my - c.cy;
+      if (dx * dx + dy * dy <= (c.r + 1.5) * (c.r + 1.5)) { hit = c; break; }
+    }
+    if (!hit) { hide(); return; }
+    tip.innerHTML =
+      `<b>${hit.loops} loop${hit.loops !== 1 ? 's' : ''}, ${hit.legs} leg${hit.legs !== 1 ? 's' : ''}</b>` +
+      `<br>${hit.n} diagram${hit.n !== 1 ? 's' : ''}` +
+      (hit.c ? ` &middot; ${hit.c} computed` : '');
+    tip.style.display = 'block';
+    tip.style.left = (e.clientX + 12) + 'px';
+    tip.style.top = (e.clientY + 12) + 'px';
+    canvas.style.cursor = 'pointer';
+  };
+  canvas.onmouseleave = hide;
 }
 
 function closeAbout() {
@@ -8867,6 +9107,38 @@ function _cfgHasComputedResult(cfg) {
     r => r && (r.resultCompressed || r.resultTeX));
 }
 
+// All computed results in a record set are local (user-computed, r._local set by
+// the kernel server). Used for the outlined "local" star and the "Local only"
+// filter, so both agree with the per-result cards.
+function _resultsAllLocal(results) {
+  const rs = (results || []).filter(r => r && (r.resultCompressed || r.resultTeX));
+  return rs.length > 0 && rs.every(r => r._local === true);
+}
+
+// THE single source of truth for the provenance star, used by the editor
+// toasts, the Topologies/Diagrams library lists, and the collection cards.
+// Gate: at least one ACTUAL computed result (resultCompressed/resultTeX), so a
+// proposal/singularity-only config gets NO star. Full star = at least one
+// bundled result; outlined star = computed results exist but every one is local
+// (r._local). The stylized hover popup matches the per-result cards.
+function resultProvenanceStar(results) {
+  const rs = (results || []).filter(r => r && (r.resultCompressed || r.resultTeX));
+  if (!rs.length) return '';
+  const allLocal = rs.every(r => r._local === true);
+  const cls = allLocal ? 'result-star result-star-local' : 'result-star';
+  const tip = allLocal
+    ? '<strong>Local result</strong>: computed by you on this machine, not part of the bundled library.'
+    : '<strong>Bundled result</strong>: part of the curated SubTropica library shipped with the package.';
+  const label = allLocal ? 'local result' : 'bundled result';
+  return `<span class="${cls}" role="img" aria-label="${label}" data-tip-html="${tip}">★</span> `;
+}
+
+// Pool every config's result records under a topology (for a topology-level star).
+function _topoResults(topo) {
+  return [].concat(...Object.values((topo && topo.configs) || {})
+    .map(c => c.results || c.Results || []));
+}
+
 function populateBrowser() {
   const body = $('browser-body');
 
@@ -8892,7 +9164,7 @@ function populateBrowser() {
   for (const key in library.topologies) {
     const t = library.topologies[key];
     const hasResults = Object.values(t.configs||{}).some(_cfgHasComputedResult);
-    const isLocal = backendMode === 'full' && Object.values(t.configs||{}).some(c => (c.source||c.Source||'') === 'SubTropica');
+    const isLocal = backendMode === 'full' && _resultsAllLocal(_topoResults(t));
     // Collect all diagram names/aliases under this topology for search
     const _diagramNames = [];
     for (const ck in (t.configs||{})) {
@@ -8944,10 +9216,11 @@ function populateBrowser() {
       const fc = cfg.FunctionClass || cfg.functionClass || '';
       diagrams.push({
         topoKey: key, configKey: ck, topo: t, cfg,
+        cni: cfg.CNickelIndex || cfg.CNickel || cfg.nickel || (key + ':' + ck),
         name, topoName: t.primaryName||t.name||t.Name||key,
         loops: t.loops??t.L??0, legs: t.legs??0, props: t.props??0,
         source,
-        isLocal: backendMode === 'full' && hasSource(cfg, 'SubTropica'),
+        isLocal: backendMode === 'full' && _resultsAllLocal(cfg.results || cfg.Results),
         isWaitlisted: _waitlistConfigSet.has(waitlistKey(key, ck)),
         massScales: cfg.MassScales ?? cfg.massScales ?? null,
         fcClass: classifyFC(fc),
@@ -8980,37 +9253,77 @@ function populateBrowser() {
 
     function saveActive() { localStorage.setItem(storageKey, JSON.stringify([...active])); }
 
-    // "All" chip
-    const allChip = document.createElement('span');
-    allChip.className = 'browser-chip' + (active.size === 0 ? ' active' : '');
-    allChip.textContent = 'All';
-    allChip.addEventListener('click', () => {
+    // Segmented-control bar: an "All" segment (index 0) then one per value, with
+    // a single green thumb that slides + expands to span the selected range
+    // (min..max selected index), echoing the macOS toggles on the right and
+    // matching their 18px height. Selection stays multi-select; the thumb shows
+    // its bounding range.
+    const track = document.createElement('div');
+    track.className = 'browser-seg';
+    const thumb = document.createElement('div');
+    thumb.className = 'browser-seg-thumb';
+    track.appendChild(thumb);
+
+    const segs = [];                       // index 0 = "All"
+    const N = values.length + 1;
+    function makeSeg(label) {
+      const s = document.createElement('div');
+      s.className = 'browser-seg-item';
+      s.textContent = label;
+      track.appendChild(s);
+      segs.push(s);
+      return s;
+    }
+    makeSeg('All');
+    values.forEach(v => makeSeg(formatter ? formatter(v) : String(v)));
+
+    function position() {
+      let a, b;
+      if (active.size === 0) { a = b = 0; }                 // thumb on "All"
+      else {
+        const idx = [...active].map(v => values.indexOf(v) + 1);
+        a = Math.min(...idx); b = Math.max(...idx);
+      }
+      // Offset-based (not equal-width %) so segments can size to their text
+      // (e.g. the long "hypergeometric" class names).
+      const segA = segs[a], segB = segs[b];
+      thumb.style.left = segA.offsetLeft + 'px';
+      thumb.style.width = (segB.offsetLeft + segB.offsetWidth - segA.offsetLeft) + 'px';
+      segs.forEach((s, i) => s.classList.toggle('on', i >= a && i <= b));
+    }
+
+    segs[0].addEventListener('click', () => {
       active.clear();
       saveActive();
-      group.querySelectorAll('.browser-chip').forEach(c => c.classList.remove('active'));
-      allChip.classList.add('active');
+      position();
       // Clear any stuck height animation before re-rendering
       body.style.maxHeight = '';
       body.style.overflow = '';
       body.style.transition = '';
       renderList();
     });
-    group.appendChild(allChip);
-    // Value chips
-    values.forEach(v => {
-      const chip = document.createElement('span');
-      chip.className = 'browser-chip' + (active.has(v) ? ' active' : '');
-      chip.textContent = formatter ? formatter(v) : String(v);
-      chip.addEventListener('click', () => {
-        if (active.has(v)) { active.delete(v); chip.classList.remove('active'); }
-        else { active.add(v); chip.classList.add('active'); }
+    values.forEach((v, i) => {
+      segs[i + 1].addEventListener('click', () => {
+        if (active.has(v)) active.delete(v); else active.add(v);
         saveActive();
-        // Toggle "All" chip
-        allChip.classList.toggle('active', active.size === 0);
+        position();
         renderList();
       });
-      group.appendChild(chip);
     });
+
+    group.appendChild(track);
+    requestAnimationFrame(position);   // needs layout for offsetLeft/offsetWidth
+    // The filter row starts collapsed (display:none), so the rAF above runs at
+    // zero width and the thumb gets no position -- leaving "All" looking
+    // unselected once the row is expanded. Re-run position the first time the
+    // track actually has a width (filters opened), so "All" reads selected by
+    // default. One-shot to avoid leaking observers across re-renders.
+    if (typeof ResizeObserver !== 'undefined') {
+      const ro = new ResizeObserver(() => {
+        if (track.offsetWidth > 0) { position(); ro.disconnect(); }
+      });
+      ro.observe(track);
+    }
     return { active, group };
   }
 
@@ -9068,6 +9381,12 @@ function populateBrowser() {
   const urlQ = new URLSearchParams(window.location.search).get('q');
   if (urlQ) {
     search.value = urlQ;
+    // A ?q= deep-link (e.g. by CNickelIndex from the audit or a notebook) must
+    // surface its target even when it is a proposals-only config; the default
+    // "Computed only" filter would otherwise hide it. Relax it for this view
+    // (no persist — a normal reload restores the saved preference).
+    const _pcb = $('browser-precomputed-cb');
+    if (_pcb) _pcb.checked = false;
     const u = new URL(window.location.href);
     u.searchParams.delete('q');
     history.replaceState(null, '', u.toString());
@@ -9157,11 +9476,7 @@ function populateBrowser() {
         thumb.classList.add('notif-thumb');
         const cardBody = document.createElement('div');
         cardBody.className = 'notif-body';
-        const resultStar = t.hasResults
-          ? (t.isLocal
-              ? '<span class="result-star result-star-local" title="Local result (computed by you)">\u2605</span> '
-              : '<span class="result-star" title="Result computed">\u2605</span> ')
-          : '';
+        const resultStar = resultProvenanceStar(_topoResults(t.topo));
         cardBody.innerHTML = `
           <div class="notif-title">${resultStar}${renderInlineMathString(t.name)}</div>
           <div class="notif-stats">
@@ -9197,7 +9512,7 @@ function populateBrowser() {
         if (fLegs.size > 0 && !fLegs.has(Math.min(d.legs, 8))) return false;
         if (fFC.size > 0 && !fFC.has(d.fcClass)) return false;
         if (fMS.size > 0 && !fMS.has(d.massScales != null ? Math.min(d.massScales, 10) : null)) return false;
-        if (sf && !d.name.toLowerCase().includes(sf) && !d.topoName.toLowerCase().includes(sf) && !d.topoKey.toLowerCase().includes(sf) && !d.configKey.toLowerCase().includes(sf)) return false;
+        if (sf && !d.name.toLowerCase().includes(sf) && !d.topoName.toLowerCase().includes(sf) && !d.topoKey.toLowerCase().includes(sf) && !d.configKey.toLowerCase().includes(sf) && !(d.cni || '').toLowerCase().includes(sf)) return false;
         return true;
       });
       filtered.sort((a, b) => (a.loops - b.loops) || (a.legs - b.legs) || (a.props - b.props) || a.name.localeCompare(b.name));
@@ -9229,12 +9544,11 @@ function populateBrowser() {
         if (fc && fc !== 'None' && fc !== 'Unknown' && fc !== 'unknown') badges += functionBadge(fc);
         if (d.isPeriod) badges += '<span class="badge badge-purple badge-period" title="φ⁴ projective period at D=4; not a dim-reg momentum-space value">period</span>';
         badges += refCountBadge(d.cfg);
+        // chi badge: this diagram has singularities / an alphabet (same marker
+        // as the search-result toast). Lead the badge row.
+        badges = singsChiBadge(d.cfg) + badges;
         // Verified badge removed from toast — now per-result only.
-        const dResultStar = d.hasResults
-          ? (d.isLocal
-              ? '<span class="result-star result-star-local" title="Local result (computed by you)">\u2605</span> '
-              : '<span class="result-star" title="Result computed">\u2605</span> ')
-          : '';
+        const dResultStar = resultProvenanceStar(d.cfg.results || d.cfg.Results);
         cardBody.innerHTML = `
           <div class="notif-title">${dResultStar}${renderInlineMathString(d.name)}${badges ? ' ' + badges : ''}</div>
           <div class="notif-stats">
@@ -9932,9 +10246,7 @@ function openFamilyDetail(slug, opts) {
       const ownCfgKey = t.m.config ? t.m.config.replace(/_/g, '|') : null;
       const ownCfg = (topo && ownCfgKey) ? (topo.configs || {})[ownCfgKey] : null;
       const hasResults = ownCfg && _cfgHasComputedResult(ownCfg);
-      const resultStar = hasResults
-        ? '<span class="result-star" title="Result computed">★</span> '
-        : '';
+      const resultStar = resultProvenanceStar(ownCfg ? (ownCfg.results || ownCfg.Results) : []);
       // Stats from member data or topology
       const loops = t.m.loops != null ? t.m.loops : (topo ? (topo.loops || topo.Loops || 0) : 0);
       const legs = t.m.legs != null ? t.m.legs : (topo ? (topo.legs || topo.Legs || 0) : 0);
@@ -10095,12 +10407,21 @@ function loadFromNickel(nickelStr, configKey) {
     const allNodes = new Set();
     edgeList.forEach(e => { if (e[0]>=0) allNodes.add(e[0]); if (e[1]>=0) allNodes.add(e[1]); });
     const maxNode = Math.max(...allNodes, 0);
+    // Seed internal vertices from the planar layout when available (planar start,
+    // force then spreads it out); else an initial circle.
+    const _PL = (_planarLayouts && _planarLayouts[nickelStr]) || null;
+    const _PLnodes = _PL && _PL.nodes;
     const verts = [];
     for (let i = 0; i <= maxNode; i++) {
-      const ang = (2*Math.PI*i)/(maxNode+1);
-      verts.push({ x: Math.cos(ang)*1.5, y: Math.sin(ang)*1.5 });
+      const pp = _PLnodes && _PLnodes[String(i + 1)];
+      if (Array.isArray(pp)) {
+        verts.push({ x: pp[0] * 1.5, y: pp[1] * 1.5 });
+      } else {
+        const ang = (2*Math.PI*i)/(maxNode+1);
+        verts.push({ x: Math.cos(ang)*1.5, y: Math.sin(ang)*1.5 });
+      }
     }
-    const canvasEdges = [];
+    let canvasEdges = [];
     let nv = verts.length;
     let edgeIdx = 0;
     edgeList.forEach(e => {
@@ -10118,6 +10439,17 @@ function loadFromNickel(nickelStr, configKey) {
       }
       edgeIdx++;
     });
+    // Label external legs p_1..p_n in planar cyclic order: reorder the leg edges
+    // by their attachment vertex's position in the stored planar legOrder, so
+    // solveMomenta (which enumerates externals in state.edges order) assigns p_i
+    // around the boundary. Drawing positions are unaffected (they come from laid).
+    if (_PL && Array.isArray(_PL.legOrder)) {
+      const lo = _PL.legOrder;   // entry 1-based vertex strings, planar cyclic order
+      const rk = (e) => { const parent = e.a > maxNode ? e.b : e.a; const k = lo.indexOf(String(parent + 1)); return k < 0 ? 1e9 : k; };
+      const internalE = canvasEdges.filter(e => e.a <= maxNode && e.b <= maxNode);
+      const legE = canvasEdges.filter(e => e.a > maxNode || e.b > maxNode).sort((x, y) => rk(x) - rk(y));
+      canvasEdges = internalE.concat(legE);
+    }
     const laid = computeForceLayout(verts, canvasEdges);
     pushUndoState();
     state.vertices = laid;
@@ -10393,6 +10725,20 @@ if ($('correction-overlay')) {
 $('browse-btn').addEventListener('click', openBrowser);
 if ($('library-fab')) $('library-fab').addEventListener('click', openBrowser);
 $('browser-close').addEventListener('click', closeBrowser);
+
+// "Filters" disclosure (shown only when the title bar is too narrow to hold the
+// filters inline — see the @media rule in style.css). Toggles a class on the
+// header that drops the filter block to a full-width row below the title.
+(() => {
+  const fbtn = $('browser-filters-btn');
+  if (!fbtn) return;
+  fbtn.addEventListener('click', () => {
+    const hdr = document.querySelector('.browser-header');
+    if (!hdr) return;
+    const open = hdr.classList.toggle('filters-open');
+    fbtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+  });
+})();
 
 // ─── Mobile tab bar (≤480px) ─────────────────────────────────────────
 // Persistent bottom nav: Draw · Library · Configure · Export. Taps route
@@ -14101,10 +14447,6 @@ function buildVerifiedTipHtml(res, fallbackMethod) {
       '<td><code>' + escapeHtml(mth) + '</code></td></tr>' +
     '<tr><td style="padding:1px 8px 1px 0;color:var(--text-muted)">Max rel. error</td>' +
       '<td><code>' + escapeHtml(errStr) + '</code></td></tr>';
-  if (when) {
-    html += '<tr><td style="padding:1px 8px 1px 0;color:var(--text-muted)">Verified</td>' +
-      '<td>' + escapeHtml(when) + '</td></tr>';
-  }
   html += '</table>';
 
   if (coeffs.length > 0) {
@@ -14138,9 +14480,92 @@ function buildVerifiedTipHtml(res, fallbackMethod) {
   return html;
 }
 
-function renderAlphabetPills(container, wDefinitions, fallbackAlphabet) {
+// Set of W-labels that actually appear in a symbol body (normalizedSymbolTeX),
+// notation-aware so a long alphabet can be pruned to the letters the answer
+// uses.  Algebraic labels are SIGN-FIRST (W^-_3); rational labels are W_3 NOT
+// followed by ^ (so the W_1 inside an original-letter "W_1^-" that appears in
+// coefficients is not falsely counted).  Returns a Set of canonical labels
+// (braces stripped), or null when the symbol body is unavailable (caller then
+// shows the full alphabet rather than guess).
+function _usedWLabels(symbolTeX) {
+  if (typeof symbolTeX !== 'string' || !symbolTeX.trim()) return null;
+  const used = new Set();
+  const canon = (s) => s.replace(/[{}]/g, '');
+  let m;
+  const algRe = /W\^\{?[+-]\}?_\{?\d+\}?/g;
+  while ((m = algRe.exec(symbolTeX)) !== null) used.add(canon(m[0]));
+  const ratRe = /W_\{?\d+\}?(?!\s*\^)/g;
+  while ((m = ratRe.exec(symbolTeX)) !== null) used.add(canon(m[0]));
+  return used;
+}
+
+// Canonical W-labels REFERENCED inside a letter's rendered definition string,
+// so the prune keeps a letter that other (kept) letters cite -- e.g. the
+// rational letters write W_1^- (subscript-first) in their definitions, so the
+// algebraic pair must survive even when it never appears in the symbol body.
+// Handles subscript-first (W_1^-), sign-first (W^-_1) and rational (W_4).
+function _refWLabels(text) {
+  const refs = new Set();
+  if (typeof text !== 'string' || !text) return refs;
+  let m;
+  const subFirst = /W_\{?(\d+)\}?\^\{?([+-])\}?/g;       // W_1^-
+  while ((m = subFirst.exec(text)) !== null) refs.add('W^' + m[2] + '_' + m[1]);
+  const signFirst = /W\^\{?([+-])\}?_\{?(\d+)\}?/g;       // W^-_1
+  while ((m = signFirst.exec(text)) !== null) refs.add('W^' + m[1] + '_' + m[2]);
+  const rat = /W_\{?(\d+)\}?(?!\s*\^)/g;                  // W_4 (not W_4^...)
+  while ((m = rat.exec(text)) !== null) refs.add('W_' + m[1]);
+  return refs;
+}
+
+function renderAlphabetPills(container, wDefinitions, fallbackAlphabet, normalizedSymbolTeX) {
   if (!container || typeof katex === 'undefined') return;
-  const hasWDefs = Array.isArray(wDefinitions) && wDefinitions.length > 0;
+  let hasWDefs = Array.isArray(wDefinitions) && wDefinitions.length > 0;
+  // W-pruning (2026-06-13): show ONLY the letters that actually appear in the
+  // symbol; dead letters are excluded entirely.  Algebraic pairs are atomic
+  // (kept if EITHER member appears, e.g. when only the ratio W^-/W^+ is in the
+  // symbol).  When the symbol body is unavailable we do not filter (show all).
+  let usedKnown = false;
+  if (hasWDefs) {
+    const used = _usedWLabels(normalizedSymbolTeX);
+    if (used) {
+      usedKnown = true;
+      const canon = (s) => String(s).replace(/[{}]/g, '');
+      const allDefs = wDefinitions;
+      const byLabel = new Map(allDefs.map(d => [canon(d.label), d]));
+      const pairLabels = new Map();           // pairIndex -> [canon labels]
+      for (const d of allDefs) {
+        if (d.kind === 'algebraic' && d.pairIndex != null) {
+          if (!pairLabels.has(d.pairIndex)) pairLabels.set(d.pairIndex, []);
+          pairLabels.get(d.pairIndex).push(canon(d.label));
+        }
+      }
+      const keep = new Set();
+      const add = (lbl) => {                   // keep a label + its conjugate (pair atomic)
+        if (!byLabel.has(lbl) || keep.has(lbl)) return;
+        keep.add(lbl);
+        const d = byLabel.get(lbl);
+        if (d.kind === 'algebraic' && d.pairIndex != null)
+          for (const pl of (pairLabels.get(d.pairIndex) || [])) add(pl);
+      };
+      // seed with letters that appear in the symbol body
+      for (const d of allDefs) if (used.has(canon(d.label))) add(canon(d.label));
+      // reference closure: keep letters a kept letter's rendered definition
+      // cites, so no pill references an undefined W.
+      let changed = true;
+      while (changed) {
+        changed = false;
+        for (const lbl of [...keep]) {
+          const d = byLabel.get(lbl);
+          if (!d) continue;
+          for (const r of _refWLabels(d.definition || d.originalLetter || '')) {
+            if (byLabel.has(r) && !keep.has(r)) { add(r); changed = true; }
+          }
+        }
+      }
+      wDefinitions = allDefs.filter(d => keep.has(canon(d.label)));
+      hasWDefs = wDefinitions.length > 0;
+    }
+  }
   const pillStyle = 'display:inline-block;padding:1px 6px;background:var(--surface);border-radius:3px;font-size:11px;border:1px solid var(--border)';
   const algPillStyle = pillStyle + ';border-style:dashed';
 
@@ -14191,6 +14616,11 @@ function renderAlphabetPills(container, wDefinitions, fallbackAlphabet) {
     return;
   }
 
+  // Symbol body was parsed but no W survives the filter (e.g. a pure
+  // transcendental constant): show nothing rather than fall back to the full
+  // raw alphabet (which would re-introduce the dead letters).
+  if (usedKnown) { container.innerHTML = ''; return; }
+
   // Legacy: render raw alphabet strings as individual pills. Run
   // cleanTeX on each so legacy entries pick up the same mm_i → m_i^2
   // substitutions used by the main result view.
@@ -14224,127 +14654,266 @@ function renderAlphabetPills(container, wDefinitions, fallbackAlphabet) {
 // for the same mm->m^2, MM->M^2, Sqrt->\sqrt substitutions as the main
 // result view; if a record predates the TeX siblings we fall back to the
 // InputForm string (KaTeX renders it best-effort).
-function renderProposalRecords(content, records) {
-  if (typeof katex === 'undefined') return;
+function renderProposalRecords(content, records, hasResults) {
+  if (typeof katex === 'undefined' || !Array.isArray(records) || !records.length) return;
+  // Unified, foldable view (2026-06-14). Rational letters (= even, the EXACT
+  // kinematic singular locus) are named w_1..w_n; candidate algebraic letters are
+  // rendered as the genuine letter (P-√Q)/(P+√Q) (letterTeX), NOT √Q. There is no
+  // ground-truth genuine/spurious distinction: a letter absent from the stored
+  // d=4-2ε answer is not "spurious" — it may appear at other orders/dimensions.
+  // The whole section folds; it defaults folded when the diagram already has a
+  // computed Laurent result (alphabet is supporting detail) and unfolded when it
+  // does not (the alphabet is the headline).
+  const pa = records.find(r => r && r.resultType === 'proposed-alphabet');
+  const sg = records.find(r => r && r.resultType === 'singularities');
+  const rec = pa || sg;
+  if (!rec) return;
+  const prov = rec.provenance || {};
+  const evensTeX = (pa && (pa.evensTeX && pa.evensTeX.length ? pa.evensTeX : pa.evens))
+    || (sg && (sg.singularitiesTeX && sg.singularitiesTeX.length ? sg.singularitiesTeX : sg.singularities))
+    || [];
+  const odd = (pa && Array.isArray(pa.oddLetters)) ? pa.oddLetters : [];
+
+  // "Appears in a computed result above": the producer precomputes, per letter,
+  // whether it occurs in this entry's stored result alphabet (evensVerified /
+  // oddLetter.verified, gated by groundTruthAvailable). We light-green those as a
+  // POSITIVE signal ONLY — a letter that is NOT highlighted is not "spurious";
+  // it may still appear at other orders or dimensions.
+  const gtAvail = (pa && pa.groundTruthAvailable === true) || (sg && sg.groundTruthAvailable === true);
+  const evensVerified = (pa && Array.isArray(pa.evensVerified) && pa.evensVerified)
+    || (sg && Array.isArray(sg.singularitiesVerified) && sg.singularitiesVerified) || [];
+  // Per-rational-letter Euler drop: the Euler characteristic restricted to the
+  // surface w_i=0, i.e. χ_generic → χ|_{w_i=0} (the drop that defines the Landau
+  // locus in the Euler-discriminant framework). Parallel to evens; integer or
+  // null per letter. Populated by the per-component recompute campaign; until
+  // then the array is absent and the tooltip line is simply omitted.
+  const evensChiDrop = (pa && Array.isArray(pa.evensChiDrop) && pa.evensChiDrop)
+    || (sg && Array.isArray(sg.singularitiesChiDrop) && sg.singularitiesChiDrop) || [];
+  const _anyOccurs = !!gtAvail && (
+    evensVerified.some(v => v === true) || odd.some(o => o && o.verified === true));
+  const occGreen = ';background:var(--green-bg);border-color:var(--green)';
+  const occTip = '<span style="color:var(--green)">appears in a computed result above</span>';
+
   const pillStyle = 'display:inline-block;padding:1px 6px;background:var(--surface);border-radius:3px;font-size:11px;border:1px solid var(--border)';
   const oddPillStyle = pillStyle + ';border-style:dashed';
-  const renderInto = (el, tex) => {
+  const renderNow = (el, tex) => {
     try { katex.render(cleanTeX(tex), el, { throwOnError: false }); }
     catch { el.textContent = tex; }
   };
-  // byEpsOrder: when a record carries a non-null exact split
-  // [{order, indices}], the labels are rendered as small order chips so a
-  // reader sees which letters belong to which epsilon order. When null the
-  // record is order-agnostic and no chip row is shown (never fabricated).
-  const orderChips = (byEpsOrder) => {
-    if (!Array.isArray(byEpsOrder) || byEpsOrder.length === 0) return '';
-    const chips = byEpsOrder.map(o =>
-      `<span class="badge badge-gold" title="letters at this ε order: indices ${(o.indices || []).join(', ')}">ε${o.order >= 0 ? '+' : ''}${o.order}: ${(o.indices || []).length}</span>`
-    ).join(' ');
-    return `<div class="popup-record-badges" style="margin-top:4px">${chips}</div>`;
-  };
+  // Lazy KaTeX: queue pill renders and flush in rAF chunks (<=12ms) so opening a
+  // panel with many letters (up to ~33) never blocks the main thread (review B3).
+  const _kq = [];
+  const renderInto = (el, tex) => { _kq.push([el, tex]); };
+  function _flushKatex() {
+    const t0 = performance.now();
+    while (_kq.length && performance.now() - t0 < 12) { const it = _kq.shift(); renderNow(it[0], it[1]); }
+    if (_kq.length) requestAnimationFrame(_flushKatex);
+  }
+  const mathHTML = (tex) => { try { return _katexToHTML(cleanTeX(tex)); } catch { return tex; } };
+  const wName = (i1) => 'w_{' + i1 + '}';   // 1-based even-letter name
 
+  // χ = |Euler characteristic| of the Lee–Pomeransky/Landau system (= number of
+  // master integrals), computable for every diagram including single- and
+  // no-scale. Omit the line only when the value has not been computed yet.
+  // chi = 0 is suppressed: it signals the euler-discriminant engine degenerating
+  // (empty locus, broken on indexed masses), not a real |Euler characteristic|.
+  const hasChi = (prov.chi !== undefined && prov.chi !== null && prov.chi !== 0);
+  const chiLine = hasChi ? ('χ = |Euler characteristic| = ' + prov.chi) : '';
+  const tip = (lines) => lines.filter(Boolean).map(l => '<div>' + l + '</div>').join('');
+
+  // Foldable section shell.
   const section = document.createElement('div');
   section.className = 'popup-section';
-  section.innerHTML = '<div class="popup-section-title">Proposed singularities &amp; alphabet</div>';
-
-  records.forEach(r => {
-    const card = document.createElement('div');
-    card.className = 'popup-record popup-result-card';
-    const isSing = r.resultType === 'singularities';
-    const typeBadge = isSing
-      ? '<span class="badge badge-teal">Singularities</span>'
-      : '<span class="badge badge-purple">Proposed alphabet</span>';
-    const propBadge = '<span class="badge badge-proposal" title="Proposal: an Euler-discriminant singular locus / odd-letter engine FindLetters alphabet, not a numerically verified result.">proposal</span>';
-    const prov = r.provenance || {};
-    const provBits = [];
-    if (prov.engine) provBits.push(prov.engine);
-    if (prov.chi !== undefined && prov.chi !== null) provBits.push('χ = ' + prov.chi);
-    if (prov.stVersion) provBits.push('ST ' + String(prov.stVersion).replace(/^SubTropica\s*v?/i, 'v'));
-    const provBadge = provBits.length
-      ? `<span class="badge badge-muted" title="Provenance">${provBits.join(' · ')}</span>` : '';
-    card.innerHTML = `<div class="popup-record-badges">${typeBadge} ${propBadge} ${provBadge}</div>`;
-    card.innerHTML += orderChips(r.byEpsOrder);
-
-    if (isSing) {
-      // Singular-locus polynomials as KaTeX pills.
-      const tex = Array.isArray(r.singularitiesTeX) && r.singularitiesTeX.length
-        ? r.singularitiesTeX
-        : (r.singularities || []);
-      const wrap = document.createElement('div');
-      wrap.style.cssText = 'margin-top:8px;display:flex;align-items:baseline;gap:6px;flex-wrap:wrap';
-      wrap.innerHTML = '<span style="font-size:11px;color:var(--text-muted);font-weight:500;white-space:nowrap">Singular locus</span>';
-      const pills = document.createElement('div');
-      pills.style.cssText = 'display:flex;flex-wrap:wrap;gap:3px;line-height:1';
-      tex.forEach(t => {
-        const span = document.createElement('span');
-        span.style.cssText = pillStyle;
-        renderInto(span, t);
-        pills.appendChild(span);
-      });
-      wrap.appendChild(pills);
-      card.appendChild(wrap);
-    } else {
-      // Even letters.
-      const evTex = Array.isArray(r.evensTeX) && r.evensTeX.length ? r.evensTeX : (r.evens || []);
-      if (evTex.length) {
-        const wrap = document.createElement('div');
-        wrap.style.cssText = 'margin-top:8px;display:flex;align-items:baseline;gap:6px;flex-wrap:wrap';
-        wrap.innerHTML = '<span style="font-size:11px;color:var(--text-muted);font-weight:500;white-space:nowrap">Even letters</span>';
-        const pills = document.createElement('div');
-        pills.style.cssText = 'display:flex;flex-wrap:wrap;gap:3px;line-height:1';
-        evTex.forEach(t => {
-          const span = document.createElement('span');
-          span.style.cssText = pillStyle;
-          renderInto(span, t);
-          pills.appendChild(span);
-        });
-        wrap.appendChild(pills);
-        card.appendChild(wrap);
-      }
-      // Odd-letter certificates: render the letter (P-sqrt Q)/(P+sqrt Q),
-      // with the exact P / c / Q / multiset identity exposed on hover so a
-      // reader can re-verify P^2 - Q - c*M == 0 without leaving the page.
-      const odd = Array.isArray(r.oddLetters) ? r.oddLetters : [];
-      if (odd.length) {
-        const wrap = document.createElement('div');
-        wrap.style.cssText = 'margin-top:8px;display:flex;align-items:baseline;gap:6px;flex-wrap:wrap';
-        wrap.innerHTML = `<span style="font-size:11px;color:var(--text-muted);font-weight:500;white-space:nowrap">Odd letters (${odd.length})</span>`;
-        const pills = document.createElement('div');
-        pills.style.cssText = 'display:flex;flex-wrap:wrap;gap:3px;line-height:1';
-        odd.forEach(o => {
-          const span = document.createElement('span');
-          span.className = 'alphabet-letter';
-          span.style.cssText = oddPillStyle + ';cursor:help';
-          renderInto(span, o.letterTeX || o.letter || '');
-          // exact certificate tooltip (re-verifiable identity)
-          const mset = (o.multiset || []).map(([p, n]) => `(${p})^${n}`).join(' · ');
-          span.title = `P = ${o.P}\nc = ${o.c}\nQ = ${o.Q}\nM = ${mset}\nP^2 - Q - c*M == 0` +
-            (o.identityVerified ? '  (verified)' : '  (UNVERIFIED)');
-          pills.appendChild(span);
-        });
-        wrap.appendChild(pills);
-        card.appendChild(wrap);
-      }
-      // Bare-roots note / refusals, when present.
-      if (r.bareRootsNote && !/^no bare-root/.test(r.bareRootsNote)) {
-        const note = document.createElement('div');
-        note.style.cssText = 'margin-top:6px;font-size:11px;color:var(--text-muted)';
-        note.textContent = 'Bare roots: ' + r.bareRootsNote;
-        card.appendChild(note);
-      }
-      if (Array.isArray(r.refusals) && r.refusals.length) {
-        const note = document.createElement('div');
-        note.style.cssText = 'margin-top:4px;font-size:11px;color:var(--text-muted)';
-        note.textContent = `${r.refusals.length} refusal${r.refusals.length !== 1 ? 's' : ''} recorded`;
-        card.appendChild(note);
-      }
-    }
-    section.appendChild(card);
+  const startOpen = !hasResults;
+  const head = document.createElement('button');
+  head.type = 'button';
+  head.className = 'popup-section-title alg-fold' + (startOpen ? ' open' : '');
+  head.innerHTML = '<span class="alg-fold-caret">▸</span> Singularities &amp; alphabet';
+  const body = document.createElement('div');
+  body.className = 'alg-fold-body';
+  body.style.display = startOpen ? 'block' : 'none';
+  head.addEventListener('click', () => {
+    const open = body.style.display === 'none';
+    body.style.display = open ? 'block' : 'none';
+    head.classList.toggle('open', open);
+    if (open) requestAnimationFrame(_flushKatex);   // render queued pills on first open
   });
-  content.appendChild(section);
-}
+  section.appendChild(head);
+  section.appendChild(body);
 
+  const card = document.createElement('div');
+  card.className = 'popup-record popup-result-card';
+  body.appendChild(card);
+
+  // χ explainer (no redundant provenance badge; the value is the whole story).
+  if (chiLine) {
+    const cx = document.createElement('div');
+    cx.style.cssText = 'font-size:11px;color:var(--text-muted)';
+    cx.textContent = chiLine;
+    card.appendChild(cx);
+  }
+
+  // Legend for the light-green highlight (only when something is highlighted).
+  if (_anyOccurs) {
+    const lg = document.createElement('div');
+    lg.style.cssText = 'margin-top:3px;font-size:11px;color:var(--text-muted);display:flex;align-items:center;gap:5px';
+    lg.innerHTML = '<span style="display:inline-block;width:10px;height:10px;border-radius:2px;'
+      + 'background:var(--green-bg);border:1px solid var(--green)"></span>appears in a computed result above';
+    card.appendChild(lg);
+  }
+
+  const rowWrap = (label) => {
+    const wrap = document.createElement('div');
+    wrap.style.cssText = 'margin-top:8px;display:flex;align-items:baseline;gap:6px;flex-wrap:wrap';
+    wrap.innerHTML = '<span style="font-size:11px;color:var(--text-muted);font-weight:500;white-space:nowrap">' + label + '</span>';
+    const pills = document.createElement('div');
+    pills.style.cssText = 'display:flex;flex-wrap:wrap;gap:3px;line-height:1';
+    wrap.appendChild(pills);
+    return { wrap, pills };
+  };
+
+  // F4 click-to-highlight: shared selection across the rational + algebraic rows.
+  let ratPills = null, oddPills = null, _activeSel = null;
+
+  // RATIONAL (even) letters — exact singular locus: w_i = <poly>
+  if (evensTeX.length) {
+    const r2 = rowWrap('Rational letters');
+    evensTeX.forEach((t, i) => {
+      const occurs = !!gtAvail && evensVerified[i] === true;
+      const span = document.createElement('span');
+      span.className = 'rational-letter';
+      span.dataset.w = String(i + 1);
+      span.style.cssText = pillStyle + ';cursor:pointer' + (occurs ? occGreen : '');
+      renderInto(span, wName(i + 1) + ' = ' + t);
+      const drop = evensChiDrop[i];
+      const dropLine = (hasChi && Number.isInteger(drop))
+        ? ('Euler drop: χ = ' + prov.chi + ' → ' + drop) : '';
+      span.dataset.tipHtml = tip(['<b>rational letter</b>: singular locus (click to trace)',
+        dropLine, occurs ? occTip : '', chiLine]);
+      span.addEventListener('click', () => selectRational(i + 1, span));
+      r2.pills.appendChild(span);
+    });
+    card.appendChild(r2.wrap);
+    ratPills = r2.pills;
+  }
+
+  // CANDIDATE algebraic (odd) letters — the genuine letter (P-√Q)/(P+√Q)
+  // (letterTeX), NOT √Q. All are candidates (no genuine/spurious split). Click a
+  // letter for its anatomy (radicand Q + zeros/poles P²−Q in rational-letter
+  // names + the radical-identity check), built lazily on click.
+  const anatomyHost = document.createElement('div');
+  anatomyHost.style.cssText = 'width:100%';
+  if (odd.length) {
+    const r2 = rowWrap('Candidate algebraic letters:');
+    odd.forEach(o => {
+      const wf = Array.isArray(o.wFactors) ? o.wFactors : [];
+      const radTeX = wf.length
+        ? wf.map(f => { const base = (f.w != null) ? wName(f.w) : ('(' + (f.tex || '') + ')'); return (f.power && f.power > 1) ? base + '^{' + f.power + '}' : base; }).join(' \\cdot ')
+        : (o.QTeX || o.Q || '');
+      const letterTeX = o.letterTeX || o.letter || ('\\sqrt{' + radTeX + '}');
+      // rational letters this algebraic letter touches: radicand Q (wFactors)
+      // UNION zeros/poles P²−Q (multisetIdx) — the complete incidence (F4).
+      const uses = [...new Set([].concat(
+        wf.map(f => f.w),
+        (Array.isArray(o.multisetIdx) ? o.multisetIdx : []).map(f => f.w)
+      ).filter(x => x != null))];
+      const occurs = !!gtAvail && o.verified === true;
+      const span = document.createElement('span');
+      span.className = 'alphabet-letter';
+      span.dataset.uses = uses.join(',');
+      span.style.cssText = oddPillStyle + ';cursor:pointer' + (occurs ? occGreen : '');
+      const mathEl = document.createElement('span');
+      renderInto(mathEl, letterTeX);
+      span.appendChild(mathEl);
+      span.dataset.tipHtml = tip(['<b>candidate algebraic letter</b> — click for anatomy',
+        occurs ? occTip : '', chiLine,
+        radTeX ? ('<div style="margin-top:3px;opacity:0.85">radicand ' + mathHTML('\\sqrt{' + radTeX + '}') + '</div>') : '']);
+      span.addEventListener('click', () => selectOdd(o, span));
+      r2.pills.appendChild(span);
+    });
+    oddPills = r2.pills;
+    card.appendChild(r2.wrap);
+    card.appendChild(anatomyHost);
+  }
+
+  // Build the anatomy of one algebraic letter into anatomyHost: radicand √Q
+  // (wFactors) and zeros/poles P²−Q (multisetIdx), both in rational-letter (w_i)
+  // names, plus the constant c and verification. Selection is handled by F4.
+  function renderAnatomy(o) {
+    anatomyHost.innerHTML = '';
+    const wf = (Array.isArray(o.wFactors) ? o.wFactors : []).filter(f => f.w != null);
+    const mi = Array.isArray(o.multisetIdx) ? o.multisetIdx : [];
+    const named = (arr) => arr.map(f => wName(f.w) + (f.power > 1 ? '^{' + f.power + '}' : '')).join(' \\cdot ');
+    const cStr = (o.c != null && String(o.c) !== '1') ? '\\left(' + String(o.c).replace('*', '\\cdot ') + '\\right)\\,' : '';
+    const msRaw = Array.isArray(o.multisetTeX)
+      ? o.multisetTeX.map(t => Array.isArray(t) ? (t[0] + (t[1] > 1 ? '^{' + t[1] + '}' : '')) : t).join(' \\cdot ')
+      : '';
+    const a = document.createElement('div'); a.className = 'alg-anatomy';
+    const big = document.createElement('div'); big.className = 'alg-anatomy-letter';
+    renderNow(big, o.letterTeX || o.letter || ('\\sqrt{' + (o.QTeX || o.Q || '') + '}'));
+    a.appendChild(big);
+    const addRow = (label, tex, raw) => {
+      if (!tex && !raw) return;
+      const row = document.createElement('div'); row.className = 'alg-anatomy-row';
+      row.innerHTML = '<span class="alg-anatomy-label">' + label + '</span>';
+      const m = document.createElement('span'); renderNow(m, tex || raw); row.appendChild(m);
+      if (tex && raw) { const rr = document.createElement('span'); rr.className = 'alg-anatomy-raw'; rr.innerHTML = '= ' + mathHTML(raw); row.appendChild(rr); }
+      a.appendChild(row);
+    };
+    addRow('radicand √Q', wf.length ? '\\sqrt{' + named(wf) + '}' : '', o.QTeX ? '\\sqrt{' + o.QTeX + '}' : '');
+    addRow('zeros / poles (P²−Q)', mi.length ? cStr + named(mi) : '', msRaw ? cStr + msRaw : '');
+    const badges = document.createElement('div'); badges.className = 'alg-anatomy-badges';
+    badges.innerHTML =
+      (o.identityVerified === true ? '<span class="alg-badge alg-badge-id">✓ radical identity</span>'
+                                   : '<span class="alg-badge alg-badge-warn">identity unchecked</span>');
+    a.appendChild(badges);
+    anatomyHost.appendChild(a);
+  }
+
+  // F4: clicking a rational letter traces which algebraic letters use it (in
+  // their radicand or poles); clicking an algebraic letter shows its anatomy AND
+  // traces back to its rational letters. Click the active item again to clear.
+  function clearSel() {
+    [ratPills, oddPills].forEach(c => { if (c) [...c.children].forEach(p => p.classList.remove('alf-hl', 'alf-dim', 'alg-selected')); });
+    anatomyHost.innerHTML = '';
+    _activeSel = null;
+  }
+  function selectRational(w, pill) {
+    if (_activeSel === pill) { clearSel(); return; }
+    clearSel(); _activeSel = pill;
+    pill.classList.add('alf-hl');
+    if (oddPills) [...oddPills.children].forEach(p => {
+      const u = (p.dataset.uses || '').split(',').filter(Boolean);
+      p.classList.add(u.includes(String(w)) ? 'alf-hl' : 'alf-dim');
+    });
+  }
+  function selectOdd(o, pill) {
+    if (_activeSel === pill) { clearSel(); return; }
+    clearSel(); _activeSel = pill;
+    pill.classList.add('alf-hl', 'alg-selected');
+    renderAnatomy(o);
+    const u = (pill.dataset.uses || '').split(',').filter(Boolean);
+    if (ratPills) [...ratPills.children].forEach(p => {
+      const w = p.dataset.w;
+      p.classList.add(w && u.includes(w) ? 'alf-hl' : 'alf-dim');
+    });
+  }
+
+  // Calm default: empty singular locus or single-scale (no letters to show).
+  if (!evensTeX.length && !odd.length) {
+    const note = document.createElement('div');
+    note.style.cssText = 'margin-top:8px;font-size:11px;color:var(--text-muted)';
+    // chi = 0 here means the euler-discriminant engine could not compute the
+    // locus (degenerate on indexed masses), NOT that the diagram has none --
+    // so do not assert "no singular locus", state honestly that it is unavailable.
+    note.textContent = (prov.chi === 0) ? 'Singular locus not available for this diagram.'
+                     : 'No algebraic letters.';
+    card.appendChild(note);
+  }
+
+  content.appendChild(section);
+  if (startOpen) requestAnimationFrame(_flushKatex);   // pills render lazily on first open otherwise
+}
 function wrapSymanzikIntegral(bodyTeX, nvars) {
   if (!nvars || nvars < 1) return bodyTeX;
   var prefactor = '';
@@ -14643,7 +15212,7 @@ function onIntegrationComplete(data) {
 
         // Render alphabet pills (prefer W definitions; algebraic pairs fuse)
         const alphView = $('integ-result-alphabet');
-        renderAlphabetPills(alphView, data.wDefinitions, data.alphabet);
+        renderAlphabetPills(alphView, data.wDefinitions, data.alphabet, data.normalizedSymbolTeX);
 
         // Copy handlers
         $('integ-copy-tex')?.addEventListener('click', () => {
@@ -18697,7 +19266,7 @@ function _populatePdfRef(arxivId, rec, inReview) {
     fetchInspireData(inspireId, (data) => {
       const titleEl = document.getElementById(pfx + '-pdf-ref-title');
       if (data.title && titleEl) {
-        titleEl.textContent = data.title;
+        titleEl.innerHTML = renderInlineMathString(data.title);
         titleEl.style.display = '';
       }
       const authEl = document.getElementById(pfx + '-pdf-ref-authors');
@@ -20386,6 +20955,20 @@ updateMascot();
 const _restored = restoreFromUrlHash() || restoreDiagram();
 render();
 loadLibrary();
+
+// ?q= deep-link: auto-open the library browser (diagrams tab) once the library
+// is ready, so a CNickelIndex link lands directly on the filtered diagram. The
+// search field + computed-only relaxation are applied by populateBrowser.
+{
+  const _dq = new URLSearchParams(window.location.search).get('q');
+  if (_dq) {
+    _libraryReady().then(() => {
+      _browserTab = 'diagrams';
+      localStorage.setItem('subtropica-browser-tab', 'diagrams');
+      openBrowser();
+    });
+  }
+}
 reviewSetupPdfPanel();          // wire up PDF panel buttons (works in both normal & review modes)
 detectBackendMode().then(() => reviewInit());
 
@@ -20446,6 +21029,9 @@ if (location.search.includes('test=1')) {
     cleanTeX,
     cleanSymbolTeX,
     render,
+    // Proposal / alphabet renderers (sings-letters UI tests).
+    renderProposalRecords,
+    renderAlphabetPills,
     // Export-panel hooks so Playwright can exercise the JS-built
     // graph/props command strings without going through the backend.
     buildGraphArgJS,

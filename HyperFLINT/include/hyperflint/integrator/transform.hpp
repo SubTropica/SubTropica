@@ -293,6 +293,13 @@ RegKey combine_shuffle_keys(const RegKey& a, const RegKey& b);
 struct ShuffleEntry {
     Rat coef;
     std::vector<Word> shuffle;
+    // A3 (HF perf campaign — stay-factored lever). Optional deferred integrand
+    // carried alongside `coef` for a BARE single-integration-variable
+    // (NUM)^p/(DEN)^q input: `coef` then holds the NUMERATOR only (den == 1) and
+    // `factored_den` carries value == numerator()/prod(den_factors) with the
+    // denominator kept FACTORED (DEN^q never expanded). nullopt -> ordinary
+    // expanded-Rat path. See word.hpp WordlistTerm and partial_fractions_factored_den.
+    std::optional<FactoredRat> factored_den;
 };
 
 using ShuffleList = std::vector<ShuffleEntry>;
@@ -310,6 +317,9 @@ using ShuffleList = std::vector<ShuffleEntry>;
 struct ShuffleEntrySym {
     SymCoef coef;
     std::vector<Word> shuffle;
+    // A3 side-channel, mirror of ShuffleEntry::factored_den (carried verbatim
+    // when ShuffleEntry is promoted to ShuffleEntrySym in hyperflint_sym).
+    std::optional<FactoredRat> factored_den;
 };
 
 using ShuffleListSym = std::vector<ShuffleEntrySym>;

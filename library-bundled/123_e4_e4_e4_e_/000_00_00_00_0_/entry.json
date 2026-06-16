@@ -6,7 +6,6 @@
   "References": [
     "arXiv:hep-ph/9909506 (Phys.Lett.B 469 (225), 1999)",
     "arXiv:2603.05444",
-    "hep-ph/9909506",
     "arXiv:2512.13794"
   ],
   "Records": [
@@ -95,7 +94,219 @@
   ],
   "Loops": 2,
   "NumPropagators": 6,
-  "Results": [],
+  "Results": [
+    {
+      "resultType": "singularities",
+      "status": "proposal",
+      "recordId": "sg_20260614T172839Z",
+      "byEpsOrder": null,
+      "singularities": [
+        "s12",
+        "s23",
+        "s12 + s23"
+      ],
+      "singularitiesTeX": [
+        "\\text{s12}",
+        "\\text{s23}",
+        "\\text{s12}+\\text{s23}"
+      ],
+      "singularitiesVerified": [
+        false,
+        false,
+        false
+      ],
+      "groundTruthAvailable": false,
+      "provenance": {
+        "engine": "eulerDiscriminant",
+        "stVersion": "1.2.4",
+        "seed": 1234,
+        "chi": 0,
+        "confirmPrimes": null,
+        "confirmAgree": null,
+        "wallSeconds": 28.21
+      },
+      "timestamp": "2026-06-14T17:28:39Z",
+      "contributor": "oddletters-v1a"
+    },
+    {
+      "resultType": "proposed-alphabet",
+      "status": "proposal",
+      "recordId": "pa_20260614T172839Z",
+      "byEpsOrder": null,
+      "evens": [
+        "s12",
+        "s23",
+        "s12 + s23"
+      ],
+      "evensTeX": [
+        "\\text{s12}",
+        "\\text{s23}",
+        "\\text{s12}+\\text{s23}"
+      ],
+      "evensVerified": [
+        false,
+        false,
+        false
+      ],
+      "groundTruthAvailable": false,
+      "oddLetters": [
+        {
+          "P": "s12/2 - s23/2",
+          "PTeX": "\\frac{\\text{s12}}{2}-\\frac{\\text{s23}}{2}",
+          "c": "1/4",
+          "Q": "-(s12*s23)",
+          "QTeX": "-\\text{s12} \\text{s23}",
+          "multiset": [
+            [
+              "s12 + s23",
+              2
+            ]
+          ],
+          "multisetTeX": [
+            [
+              "\\text{s12}+\\text{s23}",
+              2
+            ]
+          ],
+          "letter": "(s12/2 - s23/2 - Sqrt[-(s12*s23)])/(s12/2 - s23/2 + Sqrt[-(s12*s23)])",
+          "letterTeX": "\\frac{-\\sqrt{-\\text{s12} \\text{s23}}+\\frac{\\text{s12}}{2}-\\frac{\\text{s23}}{2}}{\\sqrt{-\\text{s12} \\text{s23}}+\\frac{\\text{s12}}{2}-\\frac{\\text{s23}}{2}}",
+          "identityVerified": true,
+          "verified": false,
+          "wFactors": [
+            {
+              "w": 1,
+              "power": 1
+            },
+            {
+              "w": 2,
+              "power": 1
+            }
+          ],
+          "multisetIdx": [
+            {
+              "w": 3,
+              "power": 2
+            }
+          ]
+        },
+        {
+          "P": "s12 + s23",
+          "PTeX": "\\text{s12}+\\text{s23}",
+          "c": "1",
+          "Q": "s12^2 + s12*s23",
+          "QTeX": "\\text{s12}^2+\\text{s12} \\text{s23}",
+          "multiset": [
+            [
+              "s12 + s23",
+              1
+            ],
+            [
+              "s23",
+              1
+            ]
+          ],
+          "multisetTeX": [
+            [
+              "\\text{s12}+\\text{s23}",
+              1
+            ],
+            [
+              "\\text{s23}",
+              1
+            ]
+          ],
+          "letter": "(s12 + s23 - Sqrt[s12^2 + s12*s23])/(s12 + s23 + Sqrt[s12^2 + s12*s23])",
+          "letterTeX": "\\frac{-\\sqrt{\\text{s12}^2+\\text{s12} \\text{s23}}+\\text{s12}+\\text{s23}}{\\sqrt{\\text{s12}^2+\\text{s12} \\text{s23}}+\\text{s12}+\\text{s23}}",
+          "identityVerified": true,
+          "verified": false,
+          "wFactors": [
+            {
+              "w": 1,
+              "power": 1
+            },
+            {
+              "w": 3,
+              "power": 1
+            }
+          ],
+          "multisetIdx": [
+            {
+              "w": 3,
+              "power": 1
+            },
+            {
+              "w": 2,
+              "power": 1
+            }
+          ]
+        },
+        {
+          "P": "s12 + s23",
+          "PTeX": "\\text{s12}+\\text{s23}",
+          "c": "1",
+          "Q": "s12*s23 + s23^2",
+          "QTeX": "\\text{s12} \\text{s23}+\\text{s23}^2",
+          "multiset": [
+            [
+              "s12 + s23",
+              1
+            ],
+            [
+              "s12",
+              1
+            ]
+          ],
+          "multisetTeX": [
+            [
+              "\\text{s12}+\\text{s23}",
+              1
+            ],
+            [
+              "\\text{s12}",
+              1
+            ]
+          ],
+          "letter": "(s12 + s23 - Sqrt[s12*s23 + s23^2])/(s12 + s23 + Sqrt[s12*s23 + s23^2])",
+          "letterTeX": "\\frac{-\\sqrt{\\text{s12} \\text{s23}+\\text{s23}^2}+\\text{s12}+\\text{s23}}{\\sqrt{\\text{s12} \\text{s23}+\\text{s23}^2}+\\text{s12}+\\text{s23}}",
+          "identityVerified": true,
+          "verified": false,
+          "wFactors": [
+            {
+              "w": 2,
+              "power": 1
+            },
+            {
+              "w": 3,
+              "power": 1
+            }
+          ],
+          "multisetIdx": [
+            {
+              "w": 3,
+              "power": 1
+            },
+            {
+              "w": 1,
+              "power": 1
+            }
+          ]
+        }
+      ],
+      "bareRootsNote": "no bare-root letters (V1a evens-only graph form; flagged-sqrt list empty)",
+      "refusals": [],
+      "provenance": {
+        "engine": "eulerDiscriminant",
+        "stVersion": "1.2.4",
+        "seed": 1234,
+        "chi": 0,
+        "confirmPrimes": null,
+        "confirmAgree": null,
+        "wallSeconds": 28.21
+      },
+      "timestamp": "2026-06-14T17:28:39Z",
+      "contributor": "oddletters-v1a"
+    }
+  ],
   "edges": "{{{1, 2}, 0}, {{1, 3}, 0}, {{1, 4}, 0}, {{2, 5}, 0}, {{3, 5}, 0}, {{4, 5}, 0}}",
   "nodes": "{{2, 0}, {3, 0}, {4, 0}, {5, 0}}",
   "CanonicalName": "Massless non-planar double box",

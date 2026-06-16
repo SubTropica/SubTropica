@@ -1,10 +1,13 @@
 #include "hyperflint/core/factored_rat.hpp"
 
 #include <algorithm>
+#include <cctype>
 #include <chrono>
 #include <cstdio>
 #include <cstdlib>
 #include <stdexcept>
+#include <string>
+#include <utility>
 
 namespace hyperflint {
 
@@ -23,6 +26,73 @@ void FactoredRat::push_factor(const Poly& base, long exp) {
 FactoredRat FactoredRat::from_rat(const Rat& r) {
     FactoredRat fr(r.num());
     if (!r.den().is_one()) fr.push_factor(r.den(), 1);
+    return fr;
+}
+
+namespace {
+// Split off a trailing "^<digits>" power from a fully-parenthesized base.
+// Returns (base_str, exp). If `side` is "(BASE)^N" with the FIRST '(' matching
+// the ')' immediately before "^N" (N a positive integer to the end of string),
+// returns (BASE, N). If "(BASE)" fully wraps with no power, returns (BASE, 1).
+// Otherwise returns (side, 1) -- a bare polynomial / non-clean-wrap is one
+// factor of exponent 1 (correct, just not deferred).
+std::pair<std::string, long> split_power_factor(const std::string& side) {
+    if (side.empty() || side.front() != '(') return {side, 1};
+    int depth = 0;
+    size_t close = std::string::npos;
+    for (size_t i = 0; i < side.size(); ++i) {
+        if (side[i] == '(') ++depth;
+        else if (side[i] == ')') { if (--depth == 0) { close = i; break; } }
+    }
+    if (close == std::string::npos) return {side, 1};   // unbalanced; leave whole
+    std::string base = side.substr(1, close - 1);
+    std::string rest = side.substr(close + 1);
+    if (rest.empty()) return {base, 1};                  // "(BASE)" no power
+    if (rest[0] != '^') return {side, 1};                // e.g. "(A)*(B)" -> whole
+    std::string num = rest.substr(1);
+    if (num.empty()) return {side, 1};
+    for (char c : num)
+        if (!std::isdigit(static_cast<unsigned char>(c))) return {side, 1};
+    return {base, std::stol(num)};
+}
+}  // namespace
+
+FactoredRat FactoredRat::parse(const PolyCtx& ctx, const std::string& expr) {
+    // Top-level `/` split (mirror Rat::parse: skip rational-coefficient slashes
+    // whose neighbours are both digits).
+    int depth = 0;
+    long slash_pos = -1;
+    for (long i = 0; i < static_cast<long>(expr.size()); ++i) {
+        char c = expr[static_cast<size_t>(i)];
+        if (c == '(') ++depth;
+        else if (c == ')') --depth;
+        else if (c == '/' && depth == 0) {
+            bool prev_digit = i > 0 &&
+                std::isdigit(static_cast<unsigned char>(expr[static_cast<size_t>(i - 1)]));
+            bool next_digit = i + 1 < static_cast<long>(expr.size()) &&
+                std::isdigit(static_cast<unsigned char>(expr[static_cast<size_t>(i + 1)]));
+            if (prev_digit && next_digit) continue;
+            slash_pos = i;
+            break;
+        }
+    }
+    std::string num_s = slash_pos < 0 ? expr : expr.substr(0, slash_pos);
+    std::string den_s = slash_pos < 0 ? std::string("1")
+                                      : expr.substr(slash_pos + 1);
+
+    auto [num_base, num_exp] = split_power_factor(num_s);
+    auto [den_base, den_exp] = split_power_factor(den_s);
+
+    // Numerator: expand NUMbase^p (deferring the numerator power is Phase B).
+    Poly num_poly = Poly(ctx, num_base);
+    if (num_exp != 1)
+        num_poly = num_poly.pow(static_cast<unsigned long>(num_exp));
+    FactoredRat fr = FactoredRat::from_poly(std::move(num_poly));
+
+    // Denominator: keep DENbase^q FACTORED -- never expand it.
+    Poly den_poly = Poly(ctx, den_base);
+    if (!den_poly.is_one() && den_exp > 0)
+        fr.push_factor(den_poly, den_exp);
     return fr;
 }
 

@@ -30,7 +30,73 @@
     "arXiv",
     "Loopedia"
   ],
-  "Results": [],
+  "Results": [
+    {
+      "resultType": "singularities",
+      "status": "proposal",
+      "recordId": "sg_20260614T054715Z",
+      "byEpsOrder": null,
+      "singularities": [
+        "MM"
+      ],
+      "singularitiesTeX": [
+        "\\text{MM}"
+      ],
+      "singularitiesVerified": [
+        false
+      ],
+      "groundTruthAvailable": false,
+      "provenance": {
+        "engine": "chi/PrefactorScale (single-scale; no Landau elimination)",
+        "stVersion": "1.2.4",
+        "seed": 1234,
+        "chi": 5,
+        "confirmPrimes": null,
+        "confirmAgree": null,
+        "wallSeconds": 2.81,
+        "chiEngine": "eulerDiscriminant"
+      },
+      "timestamp": "2026-06-14T05:47:15Z",
+      "contributor": "oddletters-v1a",
+      "singularitiesChiDrop": [
+        0
+      ]
+    },
+    {
+      "resultType": "proposed-alphabet",
+      "status": "proposal",
+      "recordId": "pa_20260614T054715Z",
+      "byEpsOrder": null,
+      "evens": [
+        "MM"
+      ],
+      "evensTeX": [
+        "\\text{MM}"
+      ],
+      "evensVerified": [
+        false
+      ],
+      "groundTruthAvailable": false,
+      "oddLetters": [],
+      "bareRootsNote": "no bare-root letters (V1a evens-only graph form; flagged-sqrt list empty)",
+      "refusals": [],
+      "provenance": {
+        "engine": "chi/PrefactorScale (single-scale; no Landau elimination)",
+        "stVersion": "1.2.4",
+        "seed": 1234,
+        "chi": 5,
+        "confirmPrimes": null,
+        "confirmAgree": null,
+        "wallSeconds": 2.81,
+        "chiEngine": "eulerDiscriminant"
+      },
+      "timestamp": "2026-06-14T05:47:15Z",
+      "contributor": "oddletters-v1a",
+      "evensChiDrop": [
+        0
+      ]
+    }
+  ],
   "Names": [
     "A7,2",
     "1-mass bubble-box (3-point)",
@@ -55,5 +121,7 @@
   "Subsectors": [
     "1123|e2|e3|e|:0000|00|00|1|"
   ],
-  "ParentSectors": []
+  "ParentSectors": [],
+  "Loops": 3,
+  "NumPropagators": 7
 }

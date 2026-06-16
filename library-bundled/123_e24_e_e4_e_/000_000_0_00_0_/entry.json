@@ -125,6 +125,217 @@
       "normalizedSymbolTerms": 116,
       "resultDataId": "6b32857d633ff47e",
       "resultTeXPreview": "-\\frac{3}{4 \\varepsilon^4 (s_{23} (s_{12}+s_{23}))}+\\frac{3 \\left(\\log (-s_{23})-\\log \\left(-\\frac{s_{23}}{s_{12}+s_{23}}\\right)\\right)}{2 \\varepsilon^3 s_{23} (s_{12}+s_{23})}+\\frac{9 \\zeta(2)-6 \\log ^2\\left(-\\frac{s_{23}}{s_{12}+s_{23}}\\right)+12 \\log (-s_{23}) \\log \\left(-\\frac{s_{23}}{s_{12}+s_{23}}\\right)-6 \\log ^2(-s_{23})-2 \\pi ^2}{4 \\varepsilon^2 s_{23} (s_{12}+s_{23})}+(\\text{more terms})+O\\left(\\varepsilon^3\\right)"
+    },
+    {
+      "resultType": "singularities",
+      "status": "proposal",
+      "recordId": "sg_20260614T172847Z",
+      "byEpsOrder": null,
+      "singularities": [
+        "s12",
+        "s23",
+        "s12 + s23"
+      ],
+      "singularitiesTeX": [
+        "\\text{s12}",
+        "\\text{s23}",
+        "\\text{s12}+\\text{s23}"
+      ],
+      "singularitiesVerified": [
+        true,
+        true,
+        true
+      ],
+      "groundTruthAvailable": true,
+      "provenance": {
+        "engine": "eulerDiscriminant",
+        "stVersion": "1.2.4",
+        "seed": 1234,
+        "chi": 0,
+        "confirmPrimes": null,
+        "confirmAgree": null,
+        "wallSeconds": 27.69
+      },
+      "timestamp": "2026-06-14T17:28:47Z",
+      "contributor": "oddletters-v1a"
+    },
+    {
+      "resultType": "proposed-alphabet",
+      "status": "proposal",
+      "recordId": "pa_20260614T172847Z",
+      "byEpsOrder": null,
+      "evens": [
+        "s12",
+        "s23",
+        "s12 + s23"
+      ],
+      "evensTeX": [
+        "\\text{s12}",
+        "\\text{s23}",
+        "\\text{s12}+\\text{s23}"
+      ],
+      "evensVerified": [
+        true,
+        true,
+        true
+      ],
+      "groundTruthAvailable": true,
+      "oddLetters": [
+        {
+          "P": "s12/2 - s23/2",
+          "PTeX": "\\frac{\\text{s12}}{2}-\\frac{\\text{s23}}{2}",
+          "c": "1/4",
+          "Q": "-(s12*s23)",
+          "QTeX": "-\\text{s12} \\text{s23}",
+          "multiset": [
+            [
+              "s12 + s23",
+              2
+            ]
+          ],
+          "multisetTeX": [
+            [
+              "\\text{s12}+\\text{s23}",
+              2
+            ]
+          ],
+          "letter": "(s12/2 - s23/2 - Sqrt[-(s12*s23)])/(s12/2 - s23/2 + Sqrt[-(s12*s23)])",
+          "letterTeX": "\\frac{-\\sqrt{-\\text{s12} \\text{s23}}+\\frac{\\text{s12}}{2}-\\frac{\\text{s23}}{2}}{\\sqrt{-\\text{s12} \\text{s23}}+\\frac{\\text{s12}}{2}-\\frac{\\text{s23}}{2}}",
+          "identityVerified": true,
+          "verified": false,
+          "wFactors": [
+            {
+              "w": 1,
+              "power": 1
+            },
+            {
+              "w": 2,
+              "power": 1
+            }
+          ],
+          "multisetIdx": [
+            {
+              "w": 3,
+              "power": 2
+            }
+          ]
+        },
+        {
+          "P": "s12 + s23",
+          "PTeX": "\\text{s12}+\\text{s23}",
+          "c": "1",
+          "Q": "s12^2 + s12*s23",
+          "QTeX": "\\text{s12}^2+\\text{s12} \\text{s23}",
+          "multiset": [
+            [
+              "s12 + s23",
+              1
+            ],
+            [
+              "s23",
+              1
+            ]
+          ],
+          "multisetTeX": [
+            [
+              "\\text{s12}+\\text{s23}",
+              1
+            ],
+            [
+              "\\text{s23}",
+              1
+            ]
+          ],
+          "letter": "(s12 + s23 - Sqrt[s12^2 + s12*s23])/(s12 + s23 + Sqrt[s12^2 + s12*s23])",
+          "letterTeX": "\\frac{-\\sqrt{\\text{s12}^2+\\text{s12} \\text{s23}}+\\text{s12}+\\text{s23}}{\\sqrt{\\text{s12}^2+\\text{s12} \\text{s23}}+\\text{s12}+\\text{s23}}",
+          "identityVerified": true,
+          "verified": false,
+          "wFactors": [
+            {
+              "w": 1,
+              "power": 1
+            },
+            {
+              "w": 3,
+              "power": 1
+            }
+          ],
+          "multisetIdx": [
+            {
+              "w": 3,
+              "power": 1
+            },
+            {
+              "w": 2,
+              "power": 1
+            }
+          ]
+        },
+        {
+          "P": "s12 + s23",
+          "PTeX": "\\text{s12}+\\text{s23}",
+          "c": "1",
+          "Q": "s12*s23 + s23^2",
+          "QTeX": "\\text{s12} \\text{s23}+\\text{s23}^2",
+          "multiset": [
+            [
+              "s12 + s23",
+              1
+            ],
+            [
+              "s12",
+              1
+            ]
+          ],
+          "multisetTeX": [
+            [
+              "\\text{s12}+\\text{s23}",
+              1
+            ],
+            [
+              "\\text{s12}",
+              1
+            ]
+          ],
+          "letter": "(s12 + s23 - Sqrt[s12*s23 + s23^2])/(s12 + s23 + Sqrt[s12*s23 + s23^2])",
+          "letterTeX": "\\frac{-\\sqrt{\\text{s12} \\text{s23}+\\text{s23}^2}+\\text{s12}+\\text{s23}}{\\sqrt{\\text{s12} \\text{s23}+\\text{s23}^2}+\\text{s12}+\\text{s23}}",
+          "identityVerified": true,
+          "verified": false,
+          "wFactors": [
+            {
+              "w": 2,
+              "power": 1
+            },
+            {
+              "w": 3,
+              "power": 1
+            }
+          ],
+          "multisetIdx": [
+            {
+              "w": 3,
+              "power": 1
+            },
+            {
+              "w": 1,
+              "power": 1
+            }
+          ]
+        }
+      ],
+      "bareRootsNote": "no bare-root letters (V1a evens-only graph form; flagged-sqrt list empty)",
+      "refusals": [],
+      "provenance": {
+        "engine": "eulerDiscriminant",
+        "stVersion": "1.2.4",
+        "seed": 1234,
+        "chi": 0,
+        "confirmPrimes": null,
+        "confirmAgree": null,
+        "wallSeconds": 27.69
+      },
+      "timestamp": "2026-06-14T17:28:47Z",
+      "contributor": "oddletters-v1a"
     }
   ],
   "Names": [

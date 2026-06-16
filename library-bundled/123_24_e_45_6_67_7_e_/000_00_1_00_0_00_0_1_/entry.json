@@ -83,7 +83,7 @@
   ],
   "Names": [
     "Topology 4",
-    "4-loop form factor (10 propagators)",
+    "4-loop form factor (11 propagators)",
     "L",
     "four-loop massless propagator topology L (planar ladder)"
   ],
@@ -92,10 +92,68 @@
   ],
   "Loops": 4,
   "NumPropagators": 11,
-  "Results": [],
+  "Results": [
+    {
+      "resultType": "singularities",
+      "status": "proposal",
+      "recordId": "sg_20260614T055944Z",
+      "byEpsOrder": null,
+      "singularities": [
+        "MM"
+      ],
+      "singularitiesTeX": [
+        "\\text{MM}"
+      ],
+      "singularitiesVerified": [
+        false
+      ],
+      "groundTruthAvailable": false,
+      "provenance": {
+        "engine": "chi/PrefactorScale (single-scale; no Landau elimination)",
+        "stVersion": "1.2.4",
+        "seed": 1234,
+        "chi": null,
+        "confirmPrimes": null,
+        "confirmAgree": null,
+        "wallSeconds": 9.83
+      },
+      "timestamp": "2026-06-14T05:59:44Z",
+      "contributor": "oddletters-v1a"
+    },
+    {
+      "resultType": "proposed-alphabet",
+      "status": "proposal",
+      "recordId": "pa_20260614T055944Z",
+      "byEpsOrder": null,
+      "evens": [
+        "MM"
+      ],
+      "evensTeX": [
+        "\\text{MM}"
+      ],
+      "evensVerified": [
+        false
+      ],
+      "groundTruthAvailable": false,
+      "oddLetters": [],
+      "bareRootsNote": "no bare-root letters (V1a evens-only graph form; flagged-sqrt list empty)",
+      "refusals": [],
+      "provenance": {
+        "engine": "chi/PrefactorScale (single-scale; no Landau elimination)",
+        "stVersion": "1.2.4",
+        "seed": 1234,
+        "chi": null,
+        "confirmPrimes": null,
+        "confirmAgree": null,
+        "wallSeconds": 9.83
+      },
+      "timestamp": "2026-06-14T05:59:44Z",
+      "contributor": "oddletters-v1a"
+    }
+  ],
   "edges": "{{{1, 2}, 0}, {{1, 3}, 0}, {{1, 4}, 0}, {{2, 3}, 0}, {{2, 5}, 0}, {{4, 5}, 0}, {{4, 6}, 0}, {{5, 7}, 0}, {{6, 7}, 0}, {{6, 8}, 0}, {{7, 8}, 0}}",
   "nodes": "{{3, M}, {8, M}}",
-  "CanonicalName": "Massless non-planar triangle-pentagon-pentagon-triangle (b)",
+  "CanonicalName": "Massless triangle-pentagon-pentagon-triangle (b)",
   "MassConfig": {
     "numEdges": 11,
     "numMassiveEdges": 0,

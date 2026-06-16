@@ -1,183 +1,248 @@
 {
-	"CNickelIndex": "123|24|e|e4|e|:000|00|1|00|0|",
-	"MassScales": 1,
-	"FunctionClass": "MPL",
-	"EpsilonOrder": "0",
-	"References": [
-		"arXiv:2603.18691",
-		"arXiv:2311.14669 (Phys.Rev.Lett. 132 (101601), 2024)",
-		"arXiv:2311.16219 (Comput.Phys.Commun. 303 (109278), 2024)"
-	],
-	"Records": [
-		{
-			"reference": "arXiv:2603.18691",
-			"authors": [
-				{
-					"full_name": "Dhani, Prasanna K.",
-					"inspire_id": 1607975
-				},
-				{
-					"full_name": "Pyretzidis, Konstantinos",
-					"inspire_id": 2938780
-				},
-				{
-					"full_name": "Ramírez-Uribe, Selomit",
-					"inspire_id": 1730297
-				},
-				{
-					"full_name": "Ríos-Sánchez, José",
-					"inspire_id": 2760441
-				},
-				{
-					"full_name": "Sborlini, German F.R.",
-					"inspire_id": 1074173
-				},
-				{
-					"full_name": "Tiwari, Surabhi",
-					"inspire_id": 1935452
-				},
-				{
-					"full_name": "Rodrigo, Germán",
-					"inspire_id": 991497
-				}
-			],
-			"description": "Two-loop massless 3-point with 6 propagators. IR-finite integrand via LTD.",
-			"epsOrders": "0",
-			"familyName": "Massless 2-loop 3-point topology A (6 propagators, 2 massless legs)",
-			"method": "direct_integration",
-			"tools": [],
-			"ancillaryFiles": false,
-			"doi": "",
-			"texkey": "",
-			"masterCount": 0,
-			"dimScheme": "d=4-2*eps",
-			"computationLevel": "numerical",
-			"location": "Section 5, Table I",
-			"recordId": "bx_0e5a04514e83",
-			"verified": false,
-			"verifiedAt": ""
-		},
-		{
-			"reference": "arXiv:2311.14669 (Phys.Rev.Lett. 132 (101601), 2024)",
-			"authors": "Fevola, C., Mizera, S., Telen, S.",
-			"description": "Landau singularities of the planar triangle-bubble computed via principal Landau determinants.",
-			"familyName": "PLD: pltrb",
-			"recordId": "bf_1fc596d0773f",
-			"verified": false
-		}
-	],
-	"Names": [
-		"Massless 2-loop 3-point topology A (6 propagators, 2 massless legs)"
-	],
-	"Source": [
-		"arXiv"
-	],
-	"Loops": 2,
-	"NumPropagators": 6,
-	"Results": [
-		{
-			"dimension": "4 - 2*eps",
-			"epsOrder": 0,
-			"propExponents": [
-				1,
-				1,
-				1,
-				1,
-				1,
-				1
-			],
-			"propagators": [],
-			"numerators": [],
-			"internalMasses": [],
-			"externalMasses": [],
-			"substitutions": "{}",
-			"normalization": "Automatic",
-			"stVersion": "SubTropica v1.0.326",
-			"stCommand": "STIntegrate[{edges, nodes}, Order -> 0]",
-			"contributor": "Sebastian Mizera",
-			"timestamp": "2026-04-18T15:27:10",
-			"byteCount": 8480,
-			"method": "direct_integration",
-			"tools": [
-				"SubTropica",
-				"AnTropica"
-			],
-			"verification": {
-				"method": "pySecDec",
-				"kinematicPoint": {
-					"Msq": "-73/61"
-				},
-				"tolerance": 0.0001,
-				"maxRelError": 4.1465711785763803e-05,
-				"verifiedAt": "2026-04-18T15:27:10"
-			},
-			"legOrder": [],
-			"alphabet": [
-				"M^2"
-			],
-			"symbolWeight": 4,
-			"symbolTerms": 5,
-			"resultDataId": "ee7ea565d4462b4e.1",
-			"resultTeXPreview": "\\frac{M^{-4}}{4 \\varepsilon^4}-\\frac{M^{-4} \\left(\\log \\left(M^2\\right)+i \\pi \\right)}{2 \\varepsilon^3}+\\frac{M^{-4} \\left(6 \\log ^2\\left(M^2\\right)+12 i \\pi  \\log \\left(M^2\\right)+9 \\zeta(2)-5 \\pi ^2\\right)}{12 \\varepsilon^2}+(\\text{more terms})+O\\left(\\varepsilon^1\\right)"
-		},
-		{
-			"dimension": "6 - 2*eps",
-			"epsOrder": 0,
-			"propExponents": [
-				1,
-				1,
-				1,
-				1,
-				1,
-				1
-			],
-			"propagators": [],
-			"numerators": [],
-			"internalMasses": [],
-			"externalMasses": [],
-			"substitutions": "{}",
-			"normalization": "Automatic",
-			"stVersion": "SubTropica v1.0.379",
-			"stCommand": "STIntegrate[{{{{1, 4}, 0}, {{1, 5}, 0}, {{2, 5}, 0}, {{2, 3}, 0}, {{3, 4}, 0}, {{4, 5}, 0}}, {{1, M}, {2, 0}, {3, 0}}}, Dimension -> \"6 - 2*eps\", Order -> 0]",
-			"contributor": "SM",
-			"timestamp": "2026-04-19T19:00:53",
-			"byteCount": 1784,
-			"alphabet": [
-				"M^2"
-			],
-			"symbolWeight": 2,
-			"symbolTerms": 3,
-			"legOrder": [
-				1,
-				2,
-				3
-			],
-			"resultDataId": "9c063e8718b98609.1",
-			"resultTeXPreview": "\\frac{1}{8 \\varepsilon^2}+\\frac{-4 \\log \\left(M^2\\right)-4 i \\pi +13}{16 \\varepsilon}+\\frac{1}{32} \\left(8 \\log ^2\\left(M^2\\right)+(-52+16 i \\pi ) \\log \\left(M^2\\right)-12 \\zeta(2)-8 \\pi ^2-52 i \\pi +107\\right)+O\\left(\\varepsilon^1\\right)"
-		}
-	],
-	"edges": "{{{1, 2}, 0}, {{1, 3}, 0}, {{1, 4}, 0}, {{2, 3}, 0}, {{2, 5}, 0}, {{4, 5}, 0}}",
-	"nodes": "{{3, M}, {4, 0}, {5, 0}}",
-	"CanonicalName": "1-mass triangle-box (b)",
-	"MassConfig": {
-		"numEdges": 6,
-		"numMassiveEdges": 0,
-		"numMasslessEdges": 6,
-		"distinctInternalMasses": 0,
-		"internalMassLabels": [],
-		"edgeMassPattern": "000000",
-		"numExtLegs": 3,
-		"numOnshellMassiveExtLegs": 1,
-		"numMasslessExtLegs": 2,
-		"extLegSignature": "M00"
-	},
-	"Subsectors": [],
-	"ParentSectors": [
-		"123|45|e4|e5|e|e|:000|00|00|00|0|0|",
-		"123|45|e4|e5|e|e|:000|00|00|00|0|1|",
-		"123|45|e4|e5|e|e|:000|00|00|01|0|0|",
-		"123|45|e4|e5|e|e|:000|00|00|10|0|1|",
-		"123|45|e4|e5|e|e|:000|00|00|10|0|2|",
-		"123|45|e4|e5|e|e|:000|00|00|11|0|1|"
-	]
+  "CNickelIndex": "123|24|e|e4|e|:000|00|1|00|0|",
+  "MassScales": 1,
+  "FunctionClass": "MPL",
+  "EpsilonOrder": "0",
+  "References": [
+    "arXiv:2603.18691",
+    "arXiv:2311.14669 (Phys.Rev.Lett. 132 (101601), 2024)",
+    "arXiv:2311.16219 (Comput.Phys.Commun. 303 (109278), 2024)"
+  ],
+  "Records": [
+    {
+      "reference": "arXiv:2603.18691",
+      "authors": [
+        {
+          "full_name": "Dhani, Prasanna K.",
+          "inspire_id": 1607975
+        },
+        {
+          "full_name": "Pyretzidis, Konstantinos",
+          "inspire_id": 2938780
+        },
+        {
+          "full_name": "Ramírez-Uribe, Selomit",
+          "inspire_id": 1730297
+        },
+        {
+          "full_name": "Ríos-Sánchez, José",
+          "inspire_id": 2760441
+        },
+        {
+          "full_name": "Sborlini, German F.R.",
+          "inspire_id": 1074173
+        },
+        {
+          "full_name": "Tiwari, Surabhi",
+          "inspire_id": 1935452
+        },
+        {
+          "full_name": "Rodrigo, Germán",
+          "inspire_id": 991497
+        }
+      ],
+      "description": "Two-loop massless 3-point with 6 propagators. IR-finite integrand via LTD.",
+      "epsOrders": "0",
+      "familyName": "Massless 2-loop 3-point topology A (6 propagators, 2 massless legs)",
+      "method": "direct_integration",
+      "tools": [],
+      "ancillaryFiles": false,
+      "doi": "",
+      "texkey": "",
+      "masterCount": 0,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "numerical",
+      "location": "Section 5, Table I",
+      "recordId": "bx_0e5a04514e83",
+      "verified": false,
+      "verifiedAt": ""
+    },
+    {
+      "reference": "arXiv:2311.14669 (Phys.Rev.Lett. 132 (101601), 2024)",
+      "authors": "Fevola, C., Mizera, S., Telen, S.",
+      "description": "Landau singularities of the planar triangle-bubble computed via principal Landau determinants.",
+      "familyName": "PLD: pltrb",
+      "recordId": "bf_1fc596d0773f",
+      "verified": false
+    }
+  ],
+  "Names": [
+    "Massless 2-loop 3-point topology A (6 propagators, 2 massless legs)"
+  ],
+  "Source": [
+    "arXiv"
+  ],
+  "Loops": 2,
+  "NumPropagators": 6,
+  "Results": [
+    {
+      "dimension": "4 - 2*eps",
+      "epsOrder": 0,
+      "propExponents": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "propagators": [],
+      "numerators": [],
+      "internalMasses": [],
+      "externalMasses": [],
+      "substitutions": "{}",
+      "normalization": "Automatic",
+      "stVersion": "SubTropica v1.0.326",
+      "stCommand": "STIntegrate[{edges, nodes}, Order -> 0]",
+      "contributor": "Sebastian Mizera",
+      "timestamp": "2026-04-18T15:27:10",
+      "byteCount": 8480,
+      "method": "direct_integration",
+      "tools": [
+        "SubTropica",
+        "AnTropica"
+      ],
+      "verification": {
+        "method": "pySecDec",
+        "kinematicPoint": {
+          "Msq": "-73/61"
+        },
+        "tolerance": 0.0001,
+        "maxRelError": 4.1465711785763803e-05,
+        "verifiedAt": "2026-04-18T15:27:10"
+      },
+      "legOrder": [],
+      "alphabet": [
+        "M^2"
+      ],
+      "symbolWeight": 4,
+      "symbolTerms": 5,
+      "resultDataId": "ee7ea565d4462b4e.1",
+      "resultTeXPreview": "\\frac{M^{-4}}{4 \\varepsilon^4}-\\frac{M^{-4} \\left(\\log \\left(M^2\\right)+i \\pi \\right)}{2 \\varepsilon^3}+\\frac{M^{-4} \\left(6 \\log ^2\\left(M^2\\right)+12 i \\pi  \\log \\left(M^2\\right)+9 \\zeta(2)-5 \\pi ^2\\right)}{12 \\varepsilon^2}+(\\text{more terms})+O\\left(\\varepsilon^1\\right)"
+    },
+    {
+      "dimension": "6 - 2*eps",
+      "epsOrder": 0,
+      "propExponents": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "propagators": [],
+      "numerators": [],
+      "internalMasses": [],
+      "externalMasses": [],
+      "substitutions": "{}",
+      "normalization": "Automatic",
+      "stVersion": "SubTropica v1.0.379",
+      "stCommand": "STIntegrate[{{{{1, 4}, 0}, {{1, 5}, 0}, {{2, 5}, 0}, {{2, 3}, 0}, {{3, 4}, 0}, {{4, 5}, 0}}, {{1, M}, {2, 0}, {3, 0}}}, Dimension -> \"6 - 2*eps\", Order -> 0]",
+      "contributor": "SM",
+      "timestamp": "2026-04-19T19:00:53",
+      "byteCount": 1784,
+      "alphabet": [
+        "M^2"
+      ],
+      "symbolWeight": 2,
+      "symbolTerms": 3,
+      "legOrder": [
+        1,
+        2,
+        3
+      ],
+      "resultDataId": "9c063e8718b98609.1",
+      "resultTeXPreview": "\\frac{1}{8 \\varepsilon^2}+\\frac{-4 \\log \\left(M^2\\right)-4 i \\pi +13}{16 \\varepsilon}+\\frac{1}{32} \\left(8 \\log ^2\\left(M^2\\right)+(-52+16 i \\pi ) \\log \\left(M^2\\right)-12 \\zeta(2)-8 \\pi ^2-52 i \\pi +107\\right)+O\\left(\\varepsilon^1\\right)"
+    },
+    {
+      "resultType": "singularities",
+      "status": "proposal",
+      "recordId": "sg_20260614T060037Z",
+      "byEpsOrder": null,
+      "singularities": [
+        "MM"
+      ],
+      "singularitiesTeX": [
+        "\\text{MM}"
+      ],
+      "singularitiesVerified": [
+        true
+      ],
+      "groundTruthAvailable": true,
+      "provenance": {
+        "engine": "chi/PrefactorScale (single-scale; no Landau elimination)",
+        "stVersion": "1.2.4",
+        "seed": 1234,
+        "chi": 4,
+        "confirmPrimes": null,
+        "confirmAgree": null,
+        "wallSeconds": 2.47,
+        "chiEngine": "eulerDiscriminant"
+      },
+      "timestamp": "2026-06-14T06:00:37Z",
+      "contributor": "oddletters-v1a",
+      "singularitiesChiDrop": [
+        0
+      ]
+    },
+    {
+      "resultType": "proposed-alphabet",
+      "status": "proposal",
+      "recordId": "pa_20260614T060037Z",
+      "byEpsOrder": null,
+      "evens": [
+        "MM"
+      ],
+      "evensTeX": [
+        "\\text{MM}"
+      ],
+      "evensVerified": [
+        true
+      ],
+      "groundTruthAvailable": true,
+      "oddLetters": [],
+      "bareRootsNote": "no bare-root letters (V1a evens-only graph form; flagged-sqrt list empty)",
+      "refusals": [],
+      "provenance": {
+        "engine": "chi/PrefactorScale (single-scale; no Landau elimination)",
+        "stVersion": "1.2.4",
+        "seed": 1234,
+        "chi": 4,
+        "confirmPrimes": null,
+        "confirmAgree": null,
+        "wallSeconds": 2.47,
+        "chiEngine": "eulerDiscriminant"
+      },
+      "timestamp": "2026-06-14T06:00:37Z",
+      "contributor": "oddletters-v1a",
+      "evensChiDrop": [
+        0
+      ]
+    }
+  ],
+  "edges": "{{{1, 2}, 0}, {{1, 3}, 0}, {{1, 4}, 0}, {{2, 3}, 0}, {{2, 5}, 0}, {{4, 5}, 0}}",
+  "nodes": "{{3, M}, {4, 0}, {5, 0}}",
+  "CanonicalName": "1-mass triangle-box (b)",
+  "MassConfig": {
+    "numEdges": 6,
+    "numMassiveEdges": 0,
+    "numMasslessEdges": 6,
+    "distinctInternalMasses": 0,
+    "internalMassLabels": [],
+    "edgeMassPattern": "000000",
+    "numExtLegs": 3,
+    "numOnshellMassiveExtLegs": 1,
+    "numMasslessExtLegs": 2,
+    "extLegSignature": "M00"
+  },
+  "Subsectors": [],
+  "ParentSectors": [
+    "123|45|e4|e5|e|e|:000|00|00|00|0|0|",
+    "123|45|e4|e5|e|e|:000|00|00|00|0|1|",
+    "123|45|e4|e5|e|e|:000|00|00|01|0|0|",
+    "123|45|e4|e5|e|e|:000|00|00|10|0|1|",
+    "123|45|e4|e5|e|e|:000|00|00|10|0|2|",
+    "123|45|e4|e5|e|e|:000|00|00|11|0|1|"
+  ]
 }

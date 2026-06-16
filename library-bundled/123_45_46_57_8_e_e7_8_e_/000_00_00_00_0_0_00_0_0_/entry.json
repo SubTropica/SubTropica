@@ -1,56 +1,32 @@
 {
-	"CNickelIndex": "123|45|46|57|8|e|e7|8|e|:000|00|00|00|0|0|00|0|0|",
-	"MassScales": 0,
-	"FunctionClass": "unknown",
-	"EpsilonOrder": "",
-	"References": [
-		"arXiv:2305.19768"
-	],
-	"Records": [
-		{
-			"reference": "arXiv:2305.19768",
-			"authors": "",
-			"description": "Four-loop three-point form factor integral with 12 internal edges (all massless) and 9 vertices. One external leg is massive (off-shell). Two propagators carry raised powers (dots). Previously existing pySecDec example benchmarked with the baker integral transformation. Contains a large number of sectors where Disteval has up to 20x less overhead than IntLib.",
-			"epsOrders": "",
-			"familyName": "formfactor4L",
-			"method": "sector_decomposition",
-			"tools": [
-				"pySecDec"
-			],
-			"ancillaryFiles": false,
-			"doi": "",
-			"texkey": "",
-			"masterCount": 0,
-			"dimScheme": "d=4-2*eps",
-			"computationLevel": "numerical",
-			"location": "Section 3.2, Figure 10(c), Table 3",
-			"recordId": "bx_8f5eda680653",
-			"verified": false,
-			"verifiedAt": ""
-		}
-	],
-	"Names": [
-		"formfactor4L"
-	],
-	"Source": [
-		"arXiv"
-	],
-	"Loops": 4,
-	"NumPropagators": 12,
-	"Results": [],
-	"edges": "{{{8, 7}, 0}, {{8, 4}, 0}, {{8, 9}, 0}, {{6, 2}, 0}, {{6, 4}, 0}, {{7, 3}, 0}, {{2, 5}, 0}, {{2, 1}, 0}, {{3, 5}, 0}, {{3, 1}, 0}, {{5, 9}, 0}, {{4, 1}, 0}}",
-	"nodes": "{{6, 0}, {7, 0}, {9, 0}}",
-	"CanonicalName": "Massless hexagonal core (b)",
-	"MassConfig": {
-		"numEdges": 12,
-		"numMassiveEdges": 0,
-		"numMasslessEdges": 12,
-		"distinctInternalMasses": 0,
-		"internalMassLabels": [],
-		"edgeMassPattern": "000000000000",
-		"numExtLegs": 3,
-		"numOnshellMassiveExtLegs": 0,
-		"numMasslessExtLegs": 3,
-		"extLegSignature": "000"
-	}
+  "CNickelIndex": "123|45|46|57|8|e|e7|8|e|:000|00|00|00|0|0|00|0|0|",
+  "MassScales": 0,
+  "FunctionClass": "unknown",
+  "EpsilonOrder": "",
+  "References": [],
+  "Records": [],
+  "Names": [
+    "formfactor4L"
+  ],
+  "Source": [
+    "arXiv"
+  ],
+  "Loops": 4,
+  "NumPropagators": 12,
+  "Results": [],
+  "edges": "{{{8, 7}, 0}, {{8, 4}, 0}, {{8, 9}, 0}, {{6, 2}, 0}, {{6, 4}, 0}, {{7, 3}, 0}, {{2, 5}, 0}, {{2, 1}, 0}, {{3, 5}, 0}, {{3, 1}, 0}, {{5, 9}, 0}, {{4, 1}, 0}}",
+  "nodes": "{{6, 0}, {7, 0}, {9, 0}}",
+  "CanonicalName": "Massless hexagonal core (b)",
+  "MassConfig": {
+    "numEdges": 12,
+    "numMassiveEdges": 0,
+    "numMasslessEdges": 12,
+    "distinctInternalMasses": 0,
+    "internalMassLabels": [],
+    "edgeMassPattern": "000000000000",
+    "numExtLegs": 3,
+    "numOnshellMassiveExtLegs": 0,
+    "numMasslessExtLegs": 3,
+    "extLegSignature": "000"
+  }
 }

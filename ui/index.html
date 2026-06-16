@@ -611,30 +611,34 @@
             <button class="browser-tab" id="browser-tab-diagrams" data-tab="diagrams">Diagrams</button>
             <button class="browser-tab" id="browser-tab-families" data-tab="families">Collections</button>
           </div>
-          <div style="flex:1"></div>
+          <div class="browser-filters">
+            <div class="browser-filter-row">
+              <div class="browser-chip-group" id="browser-filter-loops" data-label="Loops:"></div>
+              <div class="browser-chip-group" id="browser-filter-legs" data-label="Legs:"></div>
+              <div class="browser-toggles-right">
+                <label class="browser-precomputed-toggle" id="browser-filter-precomputed">
+                  <span>Computed only</span>
+                  <input type="checkbox" id="browser-precomputed-cb" class="mac-switch"/>
+                </label>
+                <label class="browser-precomputed-toggle" id="browser-filter-local" style="display:none">
+                  <span>Local only</span>
+                  <input type="checkbox" id="browser-local-cb" class="mac-switch"/>
+                </label>
+              </div>
+            </div>
+            <div class="browser-filter-row">
+              <div class="browser-chip-group" id="browser-filter-fc" data-label="Class:" style="display:none"></div>
+              <div class="browser-chip-group" id="browser-filter-ms" data-label="Scales:" style="display:none"></div>
+              <div class="browser-chip-group" id="browser-filter-verified" data-label="Verified:" style="display:none"></div>
+            </div>
+          </div>
+          <button type="button" class="browser-filters-btn" id="browser-filters-btn" aria-expanded="false" title="Show filters">Filters</button>
           <span style="position:relative;display:inline-block">
             <input class="browser-search" id="browser-search" placeholder="Search..." autocomplete="off"/>
             <button id="browser-search-clear" style="position:absolute;right:6px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:14px;color:var(--text-muted);display:none;padding:0 2px" title="Clear search">&times;</button>
           </span>
           <button class="btn btn-sm btn-secondary browser-sync-btn" id="browser-sync-btn" title="Sync with central library" style="display:none">Sync</button>
           <button class="detail-close" id="browser-close">&times;</button>
-        </div>
-        <div class="browser-filters">
-          <div class="browser-chip-group" id="browser-filter-loops" data-label="Loops:"></div>
-          <div class="browser-chip-group" id="browser-filter-legs" data-label="Legs:"></div>
-          <div class="browser-chip-group" id="browser-filter-fc" data-label="Class:" style="display:none"></div>
-          <div class="browser-chip-group" id="browser-filter-ms" data-label="Scales:" style="display:none"></div>
-          <div class="browser-chip-group" id="browser-filter-verified" data-label="Verified:" style="display:none"></div>
-          <div class="browser-toggles-right">
-            <label class="browser-precomputed-toggle" id="browser-filter-precomputed">
-              <input type="checkbox" id="browser-precomputed-cb"/>
-              <span>Computed only</span>
-            </label>
-            <label class="browser-precomputed-toggle" id="browser-filter-local" style="display:none">
-              <input type="checkbox" id="browser-local-cb"/>
-              <span>Local only</span>
-            </label>
-          </div>
         </div>
       </div>
       <div class="browser-count" id="browser-count"></div>

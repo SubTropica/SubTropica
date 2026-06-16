@@ -381,6 +381,40 @@ int main() {
         }
     }
 
+    // ---- FactoredRat::parse (A1): deferred-denominator parse == Rat::parse ---
+    {
+        PolyCtx c2({"a", "x"});
+        // (a+x)^2 / (1+x)^3 : den kept factored (one factor, exp 3), value == parse.
+        FactoredRat fp = FactoredRat::parse(c2, "(a + x)^2/(1 + x)^3");
+        CHECK(fp.den_factors().size() == 1);
+        CHECK(fp.den_factors()[0].exp == 3);
+        CHECK(value_equal(fp.materialize_to_rat(),
+                          Rat::parse(c2, "(a + x)^2/(1 + x)^3")));
+        // exp-1 on both sides.
+        FactoredRat f1 = FactoredRat::parse(c2, "(a + x)/(1 + x)");
+        CHECK(f1.den_factors().size() == 1);
+        CHECK(f1.den_factors()[0].exp == 1);
+        CHECK(value_equal(f1.materialize_to_rat(),
+                          Rat::parse(c2, "(a + x)/(1 + x)")));
+        // bare polynomial numerator, no denominator.
+        FactoredRat f2 = FactoredRat::parse(c2, "a + x");
+        CHECK(f2.den_factors().empty());
+        CHECK(value_equal(f2.materialize_to_rat(), Rat::parse(c2, "a + x")));
+        // denominator power only: 1/(1+x)^4.
+        FactoredRat f3 = FactoredRat::parse(c2, "1/(1 + x)^4");
+        CHECK(f3.den_factors().size() == 1);
+        CHECK(f3.den_factors()[0].exp == 4);
+        CHECK(value_equal(f3.materialize_to_rat(), Rat::parse(c2, "1/(1 + x)^4")));
+        // rational-coefficient slash must NOT be treated as a splitter.
+        FactoredRat f4 = FactoredRat::parse(c2, "1/2*a + x");
+        CHECK(f4.den_factors().empty());
+        CHECK(value_equal(f4.materialize_to_rat(), Rat::parse(c2, "1/2*a + x")));
+        // non-clean denominator (product, not a single wrapped power): exp-1 whole.
+        FactoredRat f5 = FactoredRat::parse(c2, "x/((a + x)*(1 + x))");
+        CHECK(value_equal(f5.materialize_to_rat(),
+                          Rat::parse(c2, "x/((a + x)*(1 + x))")));
+    }
+
     if (g_failures == 0) std::cout << "test_factored_rat: all passed\n";
     return g_failures;
 }

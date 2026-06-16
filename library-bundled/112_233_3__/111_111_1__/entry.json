@@ -35,7 +35,65 @@
   ],
   "Loops": 4,
   "NumPropagators": 7,
-  "Results": [],
+  "Results": [
+    {
+      "resultType": "singularities",
+      "status": "proposal",
+      "recordId": "sg_20260614T054952Z",
+      "byEpsOrder": null,
+      "singularities": [
+        "mm"
+      ],
+      "singularitiesTeX": [
+        "\\text{mm}"
+      ],
+      "singularitiesVerified": [
+        false
+      ],
+      "groundTruthAvailable": false,
+      "provenance": {
+        "engine": "chi/PrefactorScale (single-scale; no Landau elimination)",
+        "stVersion": "1.2.4",
+        "seed": 1234,
+        "chi": null,
+        "confirmPrimes": null,
+        "confirmAgree": null,
+        "wallSeconds": 4.0200000000000005
+      },
+      "timestamp": "2026-06-14T05:49:52Z",
+      "contributor": "oddletters-v1a"
+    },
+    {
+      "resultType": "proposed-alphabet",
+      "status": "proposal",
+      "recordId": "pa_20260614T054952Z",
+      "byEpsOrder": null,
+      "evens": [
+        "mm"
+      ],
+      "evensTeX": [
+        "\\text{mm}"
+      ],
+      "evensVerified": [
+        false
+      ],
+      "groundTruthAvailable": false,
+      "oddLetters": [],
+      "bareRootsNote": "no bare-root letters (V1a evens-only graph form; flagged-sqrt list empty)",
+      "refusals": [],
+      "provenance": {
+        "engine": "chi/PrefactorScale (single-scale; no Landau elimination)",
+        "stVersion": "1.2.4",
+        "seed": 1234,
+        "chi": null,
+        "confirmPrimes": null,
+        "confirmAgree": null,
+        "wallSeconds": 4.0200000000000005
+      },
+      "timestamp": "2026-06-14T05:49:52Z",
+      "contributor": "oddletters-v1a"
+    }
+  ],
   "edges": "{{{1, 2}, m}, {{1, 2}, m}, {{1, 3}, m}, {{2, 3}, m}, {{2, 4}, m}, {{2, 4}, m}, {{3, 4}, m}}",
   "nodes": "{}",
   "CanonicalName": "Equal-mass bubble-triangle-triangle-bubble",

@@ -1,85 +1,151 @@
 {
-    "CNickelIndex": "123|e4|e4|e4||:000|10|10|10||",
-    "MassScales": 1,
-    "FunctionClass": "MPL",
-    "EpsilonOrder": "",
-    "References": [
-        "arXiv:hep-ph/9402223 (Phys.Lett.B 332 (159), 1994)",
-        "arXiv:1004.4613 (Phys.Rev.D 82 (), 2010)"
-    ],
-    "Records": [
-        {
-            "reference": "arXiv:hep-ph/9402223 (Phys.Lett.B 332 (159), 1994)",
-            "authors": "Usyukina, Natalia I., Davydychev, Andrei I.",
-            "description": "Two-loop non-planar (crossed) three-point diagram with massless propagators and all off-shell external momenta. Symmetric under all permutations of external legs. Factorizes as the square of the one-loop triangle $C^{(1)}$, yielding products of dilogarithms.",
-            "epsOrders": "",
-            "familyName": "non-planar crossed (fig.1b)",
-            "method": "Mellin-Barnes, direct_integration",
-            "tools": [],
-            "ancillaryFiles": true,
-            "doi": "10.1016/0370-2693(94)90874-5",
-            "texkey": "Usyukina:1994iw",
-            "masterCount": 0,
-            "dimScheme": "d=4",
-            "computationLevel": "full",
-            "location": "eq.(19), sec.4",
-            "recordId": "bx_c7c8916f3ea1",
-            "verified": false,
-            "verifiedAt": ""
-        },
-        {
-            "reference": "arXiv:1004.4613 (Phys.Rev.D 82 (), 2010)",
-            "authors": "Almeida, Leandro G., Sturm, Christian",
-            "description": "Two-loop massless symmetric three-point integral family with denominators D_1=l1^2, D_2=(l1+q3)^2, D_4=l2^2, D_5=(l2-q2)^2, D_6=(l1-l2)^2, D_7=(l1-l2-q1)^2 at the symmetric subtraction point q_i^2=-mu^2, q1+q2+q3=0. Top topology is the K_{2,3} graph (two interior 3-vertices, three exterior 3-vertices, each carrying one external leg). Seven master integrals after IBP reduction (six in this family plus the factorized M^{(2)}_{5,1}); two are factorized products of one-loop integrals (M^{(2)}_{4,1}, M^{(2)}_{5,1}). Master integrals taken from Usyukina-Davydychev (1994) for M^{(2)}_{5,2}, M^{(2)}_{6,1}; Davydychev hypergeometric form for triangle subgraphs; cross-checked numerically with Feynman parametrization. Results expanded through O(eps^1) for top sectors and higher orders for sub-sectors as required by spurious poles. The seventh denominator D_3=(l1-q2)^2 (an ISP for the K_{2,3} top topology) becomes a propagator only in the factorized M^{(2)}_{5,1}=triangle x bubble sub-sector, hence listed under numerators.",
-            "epsOrders": "1",
-            "familyName": "Massless 2-loop 3-point at symmetric point (6 propagators, K_{2,3} graph)",
-            "method": "IBP, direct_integration",
-            "tools": [
-                "QGRAF",
-                "FORM",
-                "FERMAT",
-                "HypExp",
-                "HPL"
-            ],
-            "ancillaryFiles": false,
-            "doi": "10.1103/PhysRevD.82.054017",
-            "texkey": "Almeida:2010ns",
-            "masterCount": 7,
-            "dimScheme": "d=4-2*eps",
-            "computationLevel": "full",
-            "location": "Section III, Fig.~MI (top topology M^{(2)}_{6,1}); denominators D_1, D_2, D_4, D_5, D_6, D_7 in the denominator list; ISP D_3=(l1-q2)^2 is the seventh auxiliary denominator used in the M^{(2)}_{5,1} factorized sub-sector. Master integral results in Eqs.~(eq:M231)--(eq:M261); higher-eps tails (H_{31}^{(2)}, H_{43}^{(2)}) discussed in Appendix.",
-            "recordId": "bx_02f2e3f14abb",
-            "verified": false,
-            "verifiedAt": ""
-        }
-    ],
-    "Names": [
-        "non-planar crossed (fig.1b)",
-        "$Massless 2-loop 3-point at symmetric point (6 propagators, K_{2,3} graph)$"
-    ],
-    "Source": [
-        "arXiv"
-    ],
-    "Loops": 2,
-    "NumPropagators": 6,
-    "Results": [],
-    "edges": "{{{1, 2}, 0}, {{1, 3}, 0}, {{1, 4}, 0}, {{2, 5}, 0}, {{3, 5}, 0}, {{4, 5}, 0}}",
-    "nodes": "{{2, M}, {3, M}, {4, M}}",
-    "CanonicalName": "3-mass non-planar double box (a)",
-    "MassConfig": {
-        "numEdges": 6,
-        "numMassiveEdges": 0,
-        "numMasslessEdges": 6,
-        "distinctInternalMasses": 0,
-        "internalMassLabels": [],
-        "edgeMassPattern": "000000",
-        "numExtLegs": 3,
-        "numOnshellMassiveExtLegs": 3,
-        "numMasslessExtLegs": 0,
-        "extLegSignature": "MMM"
+  "CNickelIndex": "123|e4|e4|e4||:000|10|10|10||",
+  "MassScales": 1,
+  "FunctionClass": "MPL",
+  "EpsilonOrder": "",
+  "References": [
+    "arXiv:hep-ph/9402223 (Phys.Lett.B 332 (159), 1994)",
+    "arXiv:1004.4613 (Phys.Rev.D 82 (), 2010)"
+  ],
+  "Records": [
+    {
+      "reference": "arXiv:hep-ph/9402223 (Phys.Lett.B 332 (159), 1994)",
+      "authors": "Usyukina, Natalia I., Davydychev, Andrei I.",
+      "description": "Two-loop non-planar (crossed) three-point diagram with massless propagators and all off-shell external momenta. Symmetric under all permutations of external legs. Factorizes as the square of the one-loop triangle $C^{(1)}$, yielding products of dilogarithms.",
+      "epsOrders": "",
+      "familyName": "non-planar crossed (fig.1b)",
+      "method": "Mellin-Barnes, direct_integration",
+      "tools": [],
+      "ancillaryFiles": true,
+      "doi": "10.1016/0370-2693(94)90874-5",
+      "texkey": "Usyukina:1994iw",
+      "masterCount": 0,
+      "dimScheme": "d=4",
+      "computationLevel": "full",
+      "location": "eq.(19), sec.4",
+      "recordId": "bx_c7c8916f3ea1",
+      "verified": false,
+      "verifiedAt": ""
     },
-    "Subsectors": [
-        "123|e23|e|e|:000|100|1|1|"
-    ],
-    "ParentSectors": []
+    {
+      "reference": "arXiv:1004.4613 (Phys.Rev.D 82 (), 2010)",
+      "authors": "Almeida, Leandro G., Sturm, Christian",
+      "description": "Two-loop massless symmetric three-point integral family with denominators D_1=l1^2, D_2=(l1+q3)^2, D_4=l2^2, D_5=(l2-q2)^2, D_6=(l1-l2)^2, D_7=(l1-l2-q1)^2 at the symmetric subtraction point q_i^2=-mu^2, q1+q2+q3=0. Top topology is the K_{2,3} graph (two interior 3-vertices, three exterior 3-vertices, each carrying one external leg). Seven master integrals after IBP reduction (six in this family plus the factorized M^{(2)}_{5,1}); two are factorized products of one-loop integrals (M^{(2)}_{4,1}, M^{(2)}_{5,1}). Master integrals taken from Usyukina-Davydychev (1994) for M^{(2)}_{5,2}, M^{(2)}_{6,1}; Davydychev hypergeometric form for triangle subgraphs; cross-checked numerically with Feynman parametrization. Results expanded through O(eps^1) for top sectors and higher orders for sub-sectors as required by spurious poles. The seventh denominator D_3=(l1-q2)^2 (an ISP for the K_{2,3} top topology) becomes a propagator only in the factorized M^{(2)}_{5,1}=triangle x bubble sub-sector, hence listed under numerators.",
+      "epsOrders": "1",
+      "familyName": "Massless 2-loop 3-point at symmetric point (6 propagators, K_{2,3} graph)",
+      "method": "IBP, direct_integration",
+      "tools": [
+        "QGRAF",
+        "FORM",
+        "FERMAT",
+        "HypExp",
+        "HPL"
+      ],
+      "ancillaryFiles": false,
+      "doi": "10.1103/PhysRevD.82.054017",
+      "texkey": "Almeida:2010ns",
+      "masterCount": 7,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "full",
+      "location": "Section III, Fig.~MI (top topology M^{(2)}_{6,1}); denominators D_1, D_2, D_4, D_5, D_6, D_7 in the denominator list; ISP D_3=(l1-q2)^2 is the seventh auxiliary denominator used in the M^{(2)}_{5,1} factorized sub-sector. Master integral results in Eqs.~(eq:M231)--(eq:M261); higher-eps tails (H_{31}^{(2)}, H_{43}^{(2)}) discussed in Appendix.",
+      "recordId": "bx_02f2e3f14abb",
+      "verified": false,
+      "verifiedAt": ""
+    }
+  ],
+  "Names": [
+    "non-planar crossed (fig.1b)",
+    "$Massless 2-loop 3-point at symmetric point (6 propagators, K_{2,3} graph)$"
+  ],
+  "Source": [
+    "arXiv"
+  ],
+  "Loops": 2,
+  "NumPropagators": 6,
+  "Results": [
+    {
+      "resultType": "singularities",
+      "status": "proposal",
+      "recordId": "sg_20260614T060024Z",
+      "byEpsOrder": null,
+      "singularities": [
+        "MM"
+      ],
+      "singularitiesTeX": [
+        "\\text{MM}"
+      ],
+      "singularitiesVerified": [
+        false
+      ],
+      "groundTruthAvailable": false,
+      "provenance": {
+        "engine": "chi/PrefactorScale (single-scale; no Landau elimination)",
+        "stVersion": "1.2.4",
+        "seed": 1234,
+        "chi": 28,
+        "confirmPrimes": null,
+        "confirmAgree": null,
+        "wallSeconds": 2.71,
+        "chiEngine": "eulerDiscriminant"
+      },
+      "timestamp": "2026-06-14T06:00:24Z",
+      "contributor": "oddletters-v1a",
+      "singularitiesChiDrop": [
+        0
+      ]
+    },
+    {
+      "resultType": "proposed-alphabet",
+      "status": "proposal",
+      "recordId": "pa_20260614T060024Z",
+      "byEpsOrder": null,
+      "evens": [
+        "MM"
+      ],
+      "evensTeX": [
+        "\\text{MM}"
+      ],
+      "evensVerified": [
+        false
+      ],
+      "groundTruthAvailable": false,
+      "oddLetters": [],
+      "bareRootsNote": "no bare-root letters (V1a evens-only graph form; flagged-sqrt list empty)",
+      "refusals": [],
+      "provenance": {
+        "engine": "chi/PrefactorScale (single-scale; no Landau elimination)",
+        "stVersion": "1.2.4",
+        "seed": 1234,
+        "chi": 28,
+        "confirmPrimes": null,
+        "confirmAgree": null,
+        "wallSeconds": 2.71,
+        "chiEngine": "eulerDiscriminant"
+      },
+      "timestamp": "2026-06-14T06:00:24Z",
+      "contributor": "oddletters-v1a",
+      "evensChiDrop": [
+        0
+      ]
+    }
+  ],
+  "edges": "{{{1, 2}, 0}, {{1, 3}, 0}, {{1, 4}, 0}, {{2, 5}, 0}, {{3, 5}, 0}, {{4, 5}, 0}}",
+  "nodes": "{{2, M}, {3, M}, {4, M}}",
+  "CanonicalName": "3-mass non-planar crossed triangle (a)",
+  "MassConfig": {
+    "numEdges": 6,
+    "numMassiveEdges": 0,
+    "numMasslessEdges": 6,
+    "distinctInternalMasses": 0,
+    "internalMassLabels": [],
+    "edgeMassPattern": "000000",
+    "numExtLegs": 3,
+    "numOnshellMassiveExtLegs": 3,
+    "numMasslessExtLegs": 0,
+    "extLegSignature": "MMM"
+  },
+  "Subsectors": [
+    "123|e23|e|e|:000|100|1|1|"
+  ],
+  "ParentSectors": []
 }

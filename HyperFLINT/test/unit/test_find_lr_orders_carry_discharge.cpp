@@ -337,30 +337,26 @@ int main() {
     }
 
     // ===== Gate 4b: within equal carried_sqrts the score tiebreaker
-    // applies; on gauged-uq5 the DFS must return the minimal carried
-    // count (2), not merely any admissible profile. =====
+    // applies; on gauged-uq5 the DFS must return the admissible-MINIMUM
+    // carried count, not merely the score-minimal admissible profile. =====
     //
-    // PINNED VALUE 2, justified at THIS fixture's gauge (x3->1, the file's
-    // gauged-uq5 system).  Instrumented DFS leaves over its 4 variables:
-    // the minimum carried_sqrts over all admissible full orders is 2 (10
-    // orders attain it; the score-minimal admissible order is [x4,x1,x5,x2]
-    // with carried_sqrts 3, so score-only returns 3 -- this fixture is
-    // itself a shadowing case).  Lexicographic selection must return the
-    // admissible-minimum 2 (order [x1,x4,x5,x2], the cheapest nsq==2 leaf).
-    // RE-DERIVED 2026-06-11 under the Phase-2 (nsq, nonexec, score) key
-    // (HF_CARRY_LEAF_TRACE=1 HF_CARRY_NO_PRUNE=1, all 24 admissible
-    // leaves): EVERY leaf has nonexec == 1 on this fixture (each order
-    // mints at least one multi-variable or deg>2 obligation), so the
-    // tertiary coordinate is constant and the winner is unchanged —
-    // order [x1,x4,x5,x2], profile (nsq, nkin, ntq) == (2, 0, 2), score
-    // 218.4345 (cheapest of the 10 nsq==2 leaves; the true nsq==2
-    // runner-up is [x4,x5,x1,x2] at 220.4555 — physics-review
-    // correction: 220.3553 belongs to [x5,x1,x4,x2], an nsq==3 leaf
-    // that loses on the primary key).  Re-instrument with the same two
+    // PINNED VALUE 3, justified at THIS fixture's gauge (x3->1, the file's
+    // gauged-uq5 system).  RE-DERIVED 2026-06-16 for v1.2.5: the Brown/
+    // HyperInt polynomial reduction was completed (commit 93feb8d66 — the
+    // constant-term piece f|_{x=0} = coeff(f,var,0), the x=0 endpoint
+    // singularity, was previously omitted from st_fubini_lr, which
+    // UNDER-counted the Landau set).  With the complete reduction the
+    // admissible-minimum carried_sqrts over all full orders of the 4
+    // variables is 3 (re-instrumented HF_CARRY_LEAF_TRACE=1
+    // HF_CARRY_NO_PRUNE=1: leaf profile {4x nsq3, 2x4, 8x5, 5x6, 4x7,
+    // 1x8}), and the winning order is [x4,x5,x1,x2] with profile
+    // (nsq, nkin, ntq) == (3, 0, 5).  This matches uq5's published
+    // 3-algebraic-letter alphabet (arXiv:2308.02125): the three carried
+    // obligations are pairwise independent (one yields sqrt(yb^2-1); the
+    // other two are images under the pentagon symmetry qq1<->qq2,
+    // wb1<->wb2; physics review 2026-06-16).  Pre-v1.2.5 this pinned 2
+    // against the incomplete reduction.  Re-instrument with the same two
     // env levers if the fixture is ever regauged.
-    // Full profile (2,0,2) pinned per G7 physics review; the gauge-x3 ctest
-    // fixture's profile must not be conflated with the production-face
-    // battery's gauge-3 run (different poly sets).
     {
         const std::string body_uq5_carry_true =
             gauged_uq5_request("\"carry_discharge\":true");
@@ -368,24 +364,24 @@ int main() {
         unsigned long nsq  = resp_ulong_field(resp, "carried_sqrts");
         unsigned long nkin = resp_ulong_field(resp, "kin_sqrts");
         unsigned long ntrq = resp_ulong_field(resp, "terminal_quads");
-        if (nsq != 2UL) {
+        if (nsq != 3UL) {
             std::cerr << "FAIL gate4b: gauged-uq5 carried_sqrts=" << nsq
-                      << " (expected the admissible-minimum 2)\n" << resp
+                      << " (expected the admissible-minimum 3)\n" << resp
                       << "\n";
             return 1;
         }
-        if (nkin != 0UL || ntrq != 2UL) {
-            std::cerr << "FAIL gate4b profile: expected (carried_sqrts=2, "
-                         "kin_sqrts=0, terminal_quads=2), got ("
+        if (nkin != 0UL || ntrq != 5UL) {
+            std::cerr << "FAIL gate4b profile: expected (carried_sqrts=3, "
+                         "kin_sqrts=0, terminal_quads=5), got ("
                       << nsq << "," << nkin << "," << ntrq << ")\n"
                       << resp << "\n";
             return 1;
         }
-        check("gate4b: gauged-uq5 carried_sqrts == 2 (admissible minimum @ gauge x3)",
-              nsq == 2UL,
+        check("gate4b: gauged-uq5 carried_sqrts == 3 (admissible minimum @ gauge x3)",
+              nsq == 3UL,
               "carried_sqrts=" + std::to_string(nsq));
-        check("gate4b profile: (carried_sqrts=2, kin_sqrts=0, terminal_quads=2) pinned",
-              nkin == 0UL && ntrq == 2UL,
+        check("gate4b profile: (carried_sqrts=3, kin_sqrts=0, terminal_quads=5) pinned",
+              nkin == 0UL && ntrq == 5UL,
               "kin_sqrts=" + std::to_string(nkin) +
               " terminal_quads=" + std::to_string(ntrq));
     }
@@ -562,9 +558,15 @@ int main() {
         //       counter — ++nsq cannot re-fire for a discharged class.
         // Hence nsq == #distinct minted classes == ledger size, ALWAYS:
         // |carried_polys| == carried_sqrts in this engine (the spec's
-        // size <= carried_sqrts stays true, with equality everywhere).
+        // size <= carried_sqrts stays true, with equality everywhere) —
+        // 3 == 3 as of v1.2.5.  NOTE: the per-step ledger trace below was
+        // generated 2026-06-11 for the PRE-v1.2.5 best_order [x1,x4,x5,x2]
+        // (carried_sqrts 2); the completed LR reduction (commit 93feb8d66)
+        // moved the winning order to [x4,x5,x1,x2] with 3 obligations
+        // (authoritatively pinned in gate7c below).  The old trace is kept
+        // only as the historical no-remint evidence.
         // Per-step replay ledger on gauged-uq5 (HF_CARRY_REPLAY_TRACE=1,
-        // best_order [x1,x4,x5,x2], generated 2026-06-11):
+        // pre-v1.2.5 best_order [x1,x4,x5,x2], generated 2026-06-11):
         //   step 2 (pivot x4): ledger += x2^2*qq1 + 2*x2*x5*wb2 + x2*qq1
         //                        + x2*qq2 + x5^2*yb^2 - x5^2 + 2*x5*wb1*yb
         //                        + qq2 + wb1^2
@@ -582,27 +584,29 @@ int main() {
                   " carried_sqrts=" + std::to_string(nsq));
 
         // ===== Gate 7c (generate-then-pin, P2-G1 / convergence F1) =====
-        // PINNED from engine output (the cout above), never a priori.  The
-        // two emitted canonical forms are identified against the G3b
-        // dossier (notes/carry_option/G3B_FINDINGS.md, gauged_uq5 order
-        // {x1,x4,x5,x2}): they are EXACTLY the WL allVars-walk entries #8
-        // and #6 (reordered terms; same polynomials) — the two deepest
-        // obligations of the recorded 8-entry set.  The other six dossier
-        // entries are allVars-rule objects (already-integrated-variable
-        // dependence keeps counting them in WL), NOT HF ledger entries;
-        // their absence here is the G3b divergence, by design.
+        // PINNED from engine output, never a priori.  RE-DERIVED 2026-06-16
+        // for v1.2.5: the completed LR reduction (commit 93feb8d66, constant-
+        // term piece restored) raised the admissible-minimum carried count
+        // to 3 and moved the winning order to [x4,x5,x1,x2]; the engine now
+        // emits the three canonical obligations below (verbatim from the
+        // find_lr_orders response's carried_polys field).  |carried_polys| ==
+        // carried_sqrts == 3.  The three are pairwise independent (physics
+        // review 2026-06-16): obligation 2's discriminant carries (yb^2-1) =
+        // uq5's letter sqrt(yb^2-1); obligations 1 and 3 are the two
+        // pentagon-symmetry images (qq1<->qq2, wb1<->wb2).
         {
             const std::vector<std::string> pin = {
-                "x2^2*qq1 + 2*x2*x5*wb2 + x2*qq1 + x2*qq2 + x5^2*yb^2 - x5^2"
-                " + 2*x5*wb1*yb + qq2 + wb1^2",
-                "x2^2*qq1*yb^2 - x2^2*qq1 - x2^2*wb2^2 + x2*qq1*yb^2"
-                " - x2*qq1 + x2*qq2*yb^2 - x2*qq2 - 2*x2*wb1*wb2*yb"
-                " + qq2*yb^2 - qq2 - wb1^2"};
+                "x1*x2*qq1 + x1*qq2 - 2*x2*x5*wb2 - x5^2*yb^2 + x5^2"
+                " - 2*x5*wb1*yb - wb1^2",
+                "x1*x2*qq1*yb^2 - x1*x2*qq1 + x1*qq2*yb^2 - x1*qq2"
+                " + x2^2*wb2^2 + 2*x2*wb1*wb2*yb + wb1^2",
+                "x1*x2*qq1 + x1*qq2 - x2^2*wb2^2"};
             check("gate7c: gauged-uq5 carried_polys pinned "
-                  "(dossier Delta id: WL entries 8, 6)",
+                  "(3 obligations, best_order [x4,x5,x1,x2], v1.2.5)",
                   polys == pin,
                   "got: " + (polys.size() > 0 ? polys[0] : "<none>") +
-                      " | " + (polys.size() > 1 ? polys[1] : "<none>"));
+                      " | " + (polys.size() > 1 ? polys[1] : "<none>") +
+                      " | " + (polys.size() > 2 ? polys[2] : "<none>"));
         }
     }
 

@@ -16,6 +16,50 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ### Fixed
 
 
+## [1.2.5] — 2026-06-16
+
+### Added
+
+- **`STNewton` and `STForgetCoefficients`.**  `STNewton[polynomial, xvars]`
+  returns the Newton-polytope data of a polynomial (vertices, rays, facets,
+  equations); `STForgetCoefficients[polynomial, xvars]` reduces a polynomial
+  to its monomial support (coefficients set to one).
+- **`STHyperFlint` factored output (`SimplifyOutput -> False`).**  Returns
+  the unexpanded, factored result instead of the fully reduced rational
+  form.  For single-variable, single-linear-pole integrands this is the
+  closed residue form with spectator polynomials kept factored, produced
+  in a fraction of the time of the reduced result and numerically
+  agreeing with it.
+- **Library: singularity analyses and proposed alphabets.**  The library
+  now ships 415 Landau-singularity analyses and 404 proposed alphabets
+  alongside the computed integral results, browsable on the website.
+- **Website: diagram deep-linking.**  A `?q=<Nickel index>` URL opens the
+  browser directly to the corresponding diagram.
+- **Website: planar diagrams drawn planar.**  Provably planar graphs are
+  laid out without edge crossings (precomputed Tutte embeddings and
+  planar external-leg order), in both the library view and the editor
+  canvas.
+- **Website: provenance and alphabet display.**  Per-record provenance
+  indicators, highlighting of verified alphabet letters, an Euler-drop
+  tooltip on each rational letter, and display of the change of variables
+  used for a result.
+
+### Changed
+
+- **Diagram names and planarity flags corrected.**  CanonicalNames that
+  contradicted computed planarity were fixed, mass-scale descriptors were
+  normalized, and a few misattached results were re-homed.
+
+### Fixed
+
+- **Linearly reducible order search no longer reports false positives.**
+  `STIntegrate`, `STHyperFlint`, and `STFindLROrdersHF` could previously
+  accept an integration order that is not actually linearly reducible and
+  then fail at integration time with a nonlinear-denominator error.  The
+  order search now agrees with HyperInt's polynomial reduction, so
+  automatically found orders integrate reliably.
+
+
 ## [1.2.4] — 2026-06-13
 
 HyperFORM integrator backend; Espresso retired (Lungo is now the sole
@@ -43,6 +87,26 @@ browsing; factor-prediction lookups for the Fubini reduction.
   carry-discharge keep rule of the linearly reducible order search as
   a user-visible toggle (default off).
 
+- **`HF_LAZY_SUM` lazy-sum lever, exposed through `STHyperFlint`** (dev
+  1.2.3.5).  Setting the `HF_LAZY_SUM` environment variable to `"1"`
+  (e.g. `SetEnvironment["HF_LAZY_SUM" -> "1"]`) makes HyperFLINT
+  integrate the top-level addends of a sum SEPARATELY and add the
+  result tables, instead of fusing them at parse time.  On R-class
+  counterterm faces (sums of denominator-disjoint addends, where fusion
+  cross-multiplies the denominators into a multi-million-term
+  numerator) this is ~10^2 on a Log^2 face and up to ~10^3-10^5 on the
+  heavier Log^5 faces, with a byte-identical-value result.  The flag is
+  read by the engine per call, so it works on both the in-process
+  LibraryLink dylib and the CLI subprocess; the dylib must be built
+  with the lazy-sum source.  Default off.  MWE:
+  `notes/hf_tree_merge/lazy_sum_MWE.wl`.
+
+- **`$STHyperFlintAllowCLI` transport master-switch** (dev 1.2.3.5).  A
+  global flag (default `False`) that restricts ST -> HF communication
+  (`STHyperFlint`, `STFindLROrdersHF`, `STBuildFactorTable`,
+  `STFindLROrdersScanHF`) to the in-process LibraryLink dylib.  Set
+  `True` to re-enable the CLI subprocess transport for development.
+
 ### Changed
 
 - **Espresso retired.**  `MethodLR -> "Espresso"` is no longer a valid
@@ -59,6 +123,49 @@ browsing; factor-prediction lookups for the Fubini reduction.
   `STVerify`, library lookups, and notebook export all work as
   before.  Note: builds older than 1.2.4 cannot `STVerify` against
   the updated online library; upgrade to this release.
+- **ST -> HF transport defaults to LibraryLink only** (dev 1.2.3.5).
+  With the new `$STHyperFlintAllowCLI = False` default, `STHyperFlint`
+  and the HF order-finding / factor-table ops no longer fall back to
+  the (slower, easily-confused) CLI subprocess when the in-process
+  LibraryLink dylib is unavailable on the main kernel; they now fail
+  loudly with `::clidisabled` instead.  The Parallelize subkernel CLI
+  exception (the RSS lever, `OMP_NUM_THREADS=1` per subprocess) is
+  preserved regardless of the flag, and `HF_FORCE_CLI` is honoured only
+  when `$STHyperFlintAllowCLI = True`.  CONSEQUENCE: because the dylib
+  version gate is strict-equality (`hf_version` must equal
+  `$SubTropicaVersion`), a fresh checkout whose LibraryLink dylib is
+  stale or version-mismatched now hard-errors by default until a
+  version-matched dylib is built (`cd HyperFLINT && cmake -S . -B
+  build-omp -DHF_VERSION=<version> && cmake --build build-omp --target
+  hyperflint_librarylink`), OR `$STHyperFlintAllowCLI = True` is set.
+  Dev/benchmark scripts that pinned the CLI transport
+  (`$STHyperFlintUseLibraryLink = False`) were updated to also set
+  `$STHyperFlintAllowCLI = True`.
+
+- **Library results split** (dev 1.2.3.5).  Heavy result payloads
+  (`resultCompressed`, `resultTeX`, `symbolTeX`, `normalizedSymbolTeX`,
+  `wDefinitions`, `algebraicLetters`, `resultInputForm`) moved out of
+  `entry.json` into an id-addressed sibling `results.json` per config
+  directory; stubs keep every light field plus `resultDataId` (16-hex,
+  `.n` collision suffix) and an inline `resultTeXPreview`.  All 179
+  result-bearing entries (191 heavy records) migrated;  `ui/library.json`
+  shrank 18.9 % (7.20 MB -> 5.84 MB).  The website lazy-loads sibling
+  data on demand (`ensureResultData`, kernel-server `/api/results`
+  route, preview rendering until the fetch lands); the submission
+  workflow and the kernel write paths (`STSaveResult`, result deletion)
+  write the split format; alignment validator + de-migration guard
+  enforced in CI (`scripts/library_audit/validate_results_split.py
+  --armed`).  The heavy-field list is pinned in three languages
+  (`scripts/_results_split_common.py`, `SubTropica.wl`, `ui/app.js`);
+  schema documented in `docs/naming-conventions.md` §9.1 and
+  `notes/conventions.md` §10.
+  **Compatibility**: paclets older than this build cannot `STVerify`
+  against the post-migration public library (remote entries are now
+  light stubs and the old reader does not fetch the sibling); upgrade
+  to a split-aware build.  **Deploy warning**: the Firebase deploy
+  procedure MUST gain the `results/` flatten-copy step (Plan 3) before
+  the next website deploy, or the deployed site loses access to heavy
+  result data.
 
 ### Fixed
 

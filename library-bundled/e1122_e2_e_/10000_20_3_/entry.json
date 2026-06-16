@@ -1,51 +1,97 @@
 {
-	"CNickelIndex": "e1122|e2|e|:10000|20|3|",
-	"MassScales": 4,
-	"FunctionClass": "",
-	"EpsilonOrder": "",
-	"References": [
-		"arXiv:2311.14669 (Phys.Rev.Lett. 132 (101601), 2024)",
-		"arXiv:2311.16219 (Comput.Phys.Commun. 303 (109278), 2024)"
-	],
-	"Records": [
-		{
-			"reference": "arXiv:2311.14669 (Phys.Rev.Lett. 132 (101601), 2024)",
-			"authors": "Fevola, C., Mizera, S., Telen, S.",
-			"description": "Landau singularities of the triple-edged triangle with zero internal, generic external masses, computed via principal Landau determinants.",
-			"familyName": "PLD: tdetri",
-			"recordId": "bf_7fa1b97a1376",
-			"verified": false
-		},
-		{
-			"reference": "arXiv:2311.14669 (Phys.Rev.Lett. 132 (101601), 2024)",
-			"authors": "Fevola, C., Mizera, S., Telen, S.",
-			"description": "Landau singularities of the triple-edged triangle with zero internal, equal external masses, computed via principal Landau determinants.",
-			"familyName": "PLD: tdetri",
-			"structural": {
-				"corrections": [
-					{
-						"date": "2026-06-10",
-						"action": "recanonicalized",
-						"from": "e1122|e2|e|:10000|20|2|",
-						"note": "v1.2.3 release curation: re-keyed from non-canonical home"
-					}
-				]
-			},
-			"recordId": "bf_acba20f53777",
-			"verified": false
-		}
-	],
-	"Names": [
-		"Bubble-triangle-bubble, massless propagators, 3 distinct external masses"
-	],
-	"Source": "PLD",
-	"Loops": 3,
-	"NumPropagators": 5,
-	"edges": "{{{1, 2}, 0}, {{1, 2}, 0}, {{1, 3}, 0}, {{1, 3}, 0}, {{2, 3}, 0}}",
-	"nodes": "{{1, M[1]}, {2, M[2]}, {3, M[3]}}",
-	"CanonicalName": "Bubble-triangle-bubble, massless propagators, 3 distinct external masses",
-	"commonNames": [],
-	"Subsectors": [],
-	"ParentSectors": [],
-	"Results": []
+  "CNickelIndex": "e1122|e2|e|:10000|20|3|",
+  "MassScales": 4,
+  "FunctionClass": "",
+  "EpsilonOrder": "",
+  "References": [
+    "arXiv:2311.14669 (Phys.Rev.Lett. 132 (101601), 2024)",
+    "arXiv:2311.16219 (Comput.Phys.Commun. 303 (109278), 2024)"
+  ],
+  "Records": [
+    {
+      "reference": "arXiv:2311.14669 (Phys.Rev.Lett. 132 (101601), 2024)",
+      "authors": "Fevola, C., Mizera, S., Telen, S.",
+      "description": "Landau singularities of the triple-edged triangle with zero internal, generic external masses, computed via principal Landau determinants.",
+      "familyName": "PLD: tdetri",
+      "recordId": "bf_7fa1b97a1376",
+      "verified": false
+    },
+    {
+      "reference": "arXiv:2311.14669 (Phys.Rev.Lett. 132 (101601), 2024)",
+      "authors": "Fevola, C., Mizera, S., Telen, S.",
+      "description": "Landau singularities of the triple-edged triangle with zero internal, equal external masses, computed via principal Landau determinants.",
+      "familyName": "PLD: tdetri",
+      "structural": {
+        "corrections": [
+          {
+            "date": "2026-06-10",
+            "action": "recanonicalized",
+            "from": "e1122|e2|e|:10000|20|2|",
+            "note": "v1.2.3 release curation: re-keyed from non-canonical home"
+          }
+        ]
+      },
+      "recordId": "bf_acba20f53777",
+      "verified": false
+    }
+  ],
+  "Names": [
+    "Bubble-triangle-bubble, massless propagators, 3 distinct external masses"
+  ],
+  "Source": "PLD",
+  "Loops": 3,
+  "NumPropagators": 5,
+  "edges": "{{{1, 2}, 0}, {{1, 2}, 0}, {{1, 3}, 0}, {{1, 3}, 0}, {{2, 3}, 0}}",
+  "nodes": "{{1, M[1]}, {2, M[2]}, {3, M[3]}}",
+  "CanonicalName": "Bubble-triangle-bubble, massless propagators, 3 distinct external masses",
+  "commonNames": [],
+  "Subsectors": [],
+  "ParentSectors": [],
+  "Results": [
+    {
+      "resultType": "singularities",
+      "status": "proposal",
+      "recordId": "sg_20260614T174235Z",
+      "byEpsOrder": null,
+      "singularities": [],
+      "singularitiesTeX": [],
+      "singularitiesVerified": [],
+      "groundTruthAvailable": false,
+      "provenance": {
+        "engine": "eulerDiscriminant",
+        "stVersion": "1.2.4",
+        "seed": 1234,
+        "chi": 0,
+        "confirmPrimes": null,
+        "confirmAgree": null,
+        "wallSeconds": 1.31
+      },
+      "timestamp": "2026-06-14T17:42:35Z",
+      "contributor": "oddletters-v1a"
+    },
+    {
+      "resultType": "proposed-alphabet",
+      "status": "proposal",
+      "recordId": "pa_20260614T174235Z",
+      "byEpsOrder": null,
+      "evens": [],
+      "evensTeX": [],
+      "evensVerified": [],
+      "groundTruthAvailable": false,
+      "oddLetters": [],
+      "bareRootsNote": "no bare-root letters (V1a evens-only graph form; flagged-sqrt list empty)",
+      "refusals": [],
+      "provenance": {
+        "engine": "eulerDiscriminant",
+        "stVersion": "1.2.4",
+        "seed": 1234,
+        "chi": 0,
+        "confirmPrimes": null,
+        "confirmAgree": null,
+        "wallSeconds": 1.31
+      },
+      "timestamp": "2026-06-14T17:42:35Z",
+      "contributor": "oddletters-v1a"
+    }
+  ]
 }

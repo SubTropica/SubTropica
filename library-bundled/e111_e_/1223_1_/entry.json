@@ -4,11 +4,11 @@
   "FunctionClass": "elliptic",
   "EpsilonOrder": "",
   "References": [
-    "arXiv:2305.14090 (Missing[\"KeyAbsent\", \"journal\"] Missing[\"KeyAbsent\", \"volume\"] (Missing[\"KeyAbsent\", \"pages\"]), Missing[\"KeyAbsent\", \"year\"])",
+    "arXiv:2305.14090",
     "arXiv:2110.07968 (JHEP 03 (079), 2022)",
     "arXiv:2503.20655 (JHEP 06 (128), 2025)",
     "arXiv:2211.03618",
-    "arXiv:2506.18452 (Missing[\"KeyAbsent\", \"journal\"] Missing[\"KeyAbsent\", \"volume\"] (Missing[\"KeyAbsent\", \"pages\"]), Missing[\"KeyAbsent\", \"year\"])",
+    "arXiv:2506.18452",
     "arXiv:2011.01904 (JHEP 09 (072), 2021)",
     "arXiv:2602.04371",
     "arXiv:2512.07727"
@@ -216,7 +216,53 @@
   ],
   "Loops": 2,
   "NumPropagators": 3,
-  "Results": [],
+  "Results": [
+    {
+      "resultType": "singularities",
+      "status": "proposal",
+      "recordId": "sg_20260614T174214Z",
+      "byEpsOrder": null,
+      "singularities": [],
+      "singularitiesTeX": [],
+      "singularitiesVerified": [],
+      "groundTruthAvailable": false,
+      "provenance": {
+        "engine": "eulerDiscriminant",
+        "stVersion": "1.2.4",
+        "seed": 1234,
+        "chi": 0,
+        "confirmPrimes": null,
+        "confirmAgree": null,
+        "wallSeconds": 1.27
+      },
+      "timestamp": "2026-06-14T17:42:14Z",
+      "contributor": "oddletters-v1a"
+    },
+    {
+      "resultType": "proposed-alphabet",
+      "status": "proposal",
+      "recordId": "pa_20260614T174214Z",
+      "byEpsOrder": null,
+      "evens": [],
+      "evensTeX": [],
+      "evensVerified": [],
+      "groundTruthAvailable": false,
+      "oddLetters": [],
+      "bareRootsNote": "no bare-root letters (V1a evens-only graph form; flagged-sqrt list empty)",
+      "refusals": [],
+      "provenance": {
+        "engine": "eulerDiscriminant",
+        "stVersion": "1.2.4",
+        "seed": 1234,
+        "chi": 0,
+        "confirmPrimes": null,
+        "confirmAgree": null,
+        "wallSeconds": 1.27
+      },
+      "timestamp": "2026-06-14T17:42:14Z",
+      "contributor": "oddletters-v1a"
+    }
+  ],
   "edges": "{{{1, 2}, m[1]}, {{1, 2}, m[1]}, {{1, 2}, m[2]}}",
   "nodes": "{{1, M}, {2, M}}",
   "CanonicalName": "2-mass sunrise (b)",

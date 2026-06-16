@@ -233,6 +233,22 @@ $STHFLibHyperFlintSym    = None;  (* Phase \[Gamma].2: integrator LibraryLink ha
 $STHFLibClearState       = None;
 $STHyperFlintUseLibraryLink = False;  (* becomes True after successful load *)
 
+(* Master switch for the ST -> HF transport (2026-06-13).  When False
+   (the default) all ST -> HF communication goes through the in-process
+   LibraryLink dylib ONLY; if the dylib is unavailable on the main kernel
+   the call fails loudly (STHyperFlint::clidisabled and siblings) instead
+   of silently falling back to the slower CLI subprocess, which was a
+   recurring source of confusion (an old/no-lazy or single-threaded CLI
+   binary masquerading as the engine).  Set True to re-enable the CLI
+   transport for development / debugging.
+
+   ONE exception is preserved regardless of this flag: inside a
+   Parallelize subkernel ($KernelID > 0) the integration path still forces
+   the CLI subprocess with OMP_NUM_THREADS=1, the R18/R20 RSS lever that
+   lets 13-way parallel dispatch fit in RAM.  HF_FORCE_CLI is honoured only
+   when this flag is True. *)
+$STHyperFlintAllowCLI = False;
+
 stHyperFlintLibraryFileName[] :=
     Which[
         $OperatingSystem === "MacOSX",  "libhyperflint_librarylink.dylib",
@@ -674,7 +690,7 @@ $STDependencies = <|
     "installHint" -> "GNU Make >= 4 required.  brew install make  |  apt install make  (macOS /usr/bin/make is GNU 3.81; the 3.81 pattern-rule bug breaks pySecDec's disteval build.)",
     "configHint" -> "No ConfigureSubTropica override; SubTropica probes /opt/homebrew/opt/make/libexec/gnubin/make, /opt/homebrew/bin/gmake, then falls back to PATH."
   |>,
-  (* ── IBP ecosystem tools ─────────────────────────────────────── *)
+  (* \[HorizontalLine]\[HorizontalLine] IBP ecosystem tools \[HorizontalLine]\[HorizontalLine]\[HorizontalLine]\[HorizontalLine]\[HorizontalLine]\[HorizontalLine]\[HorizontalLine]\[HorizontalLine]\[HorizontalLine]\[HorizontalLine]\[HorizontalLine]\[HorizontalLine]\[HorizontalLine]\[HorizontalLine]\[HorizontalLine]\[HorizontalLine]\[HorizontalLine]\[HorizontalLine]\[HorizontalLine]\[HorizontalLine]\[HorizontalLine]\[HorizontalLine]\[HorizontalLine]\[HorizontalLine]\[HorizontalLine]\[HorizontalLine]\[HorizontalLine]\[HorizontalLine]\[HorizontalLine]\[HorizontalLine]\[HorizontalLine]\[HorizontalLine]\[HorizontalLine]\[HorizontalLine]\[HorizontalLine]\[HorizontalLine]\[HorizontalLine]\[HorizontalLine]\[HorizontalLine] *)
   "Kira" -> <|
     "type" -> "binary", "required" -> False,
     "status" -> "untested", "version" -> "", "statusMsg" -> "",
@@ -757,7 +773,7 @@ $STDependencies = <|
     "installHint" -> "git clone https://github.com/adamkardos/HyperFORM ~/Projects/HyperFORM  (also needs FORM >= 5.0: brew install form)",
     "configHint" -> "Auto-discovered at ~/Projects/HyperFORM/src; override: ConfigureSubTropica[HyperFormPath -> \"/absolute/path/to/HyperFORM/src\"]  (the directory containing hyperform.h)"
   |>,
-  (* ── Analytic / canonical-basis tools ────────────────────────── *)
+  (* \[HorizontalLine]\[HorizontalLine] Analytic / canonical-basis tools \[HorizontalLine]\[HorizontalLine]\[HorizontalLine]\[HorizontalLine]\[HorizontalLine]\[HorizontalLine]\[HorizontalLine]\[HorizontalLine]\[HorizontalLine]\[HorizontalLine]\[HorizontalLine]\[HorizontalLine]\[HorizontalLine]\[HorizontalLine]\[HorizontalLine]\[HorizontalLine]\[HorizontalLine]\[HorizontalLine]\[HorizontalLine]\[HorizontalLine]\[HorizontalLine]\[HorizontalLine]\[HorizontalLine]\[HorizontalLine]\[HorizontalLine]\[HorizontalLine] *)
   "PolyLogTools" -> <|
     "type" -> "mathematica-package-plt", "required" -> False,
     "status" -> "untested", "version" -> "", "statusMsg" -> "",
@@ -1977,7 +1993,7 @@ Options[ConfigureSubTropica] = {
 With[{$SubTropicaDir = DirectoryName[$InputFileName]},
 
 $SubTropicaInstallDir = $SubTropicaDir;
-$SubTropicaVersion = "1.2.4";
+$SubTropicaVersion = "1.2.5";
 
 (* Init-order fix: line 109 set $STHyperFlintDataPath before
    $SubTropicaInstallDir was bound, so the install-dir-derived data
@@ -2278,7 +2294,7 @@ STResetConfig[] := If[FileExistsQ[$STConfigFile],
 (*Print["Currently debugging..."]*)
 
 
-(* ::Section::Closed:: *)
+(* ::Section:: *)
 (*Description*)
 
 
@@ -2287,6 +2303,14 @@ STResetConfig[] := If[FileExistsQ[$STConfigFile],
 
 
 (* Tropical Analysis *)
+STForgetCoefficients::usage ="STForgetCoefficients[polynomial, xvars] given a polynomial in variables xvars,
+ returns a new polynomial with unit coefficients and same monomial support"
+
+STNewton::usage = "
+STNewton[polynomial, xvars] computes the Newton polytope data of the polynomial.
+It returns an association <| equations -> supporting plane equations, rays -> outer-pointing normal rays, facets -> facet inequalities, vertices -> vertices
+";
+
 STTropicalAnalysis::usage = "
 STTropicalAnalysis[integrand, xvars, coeffs] performs a simple analysis of the singularities of an Euler integral.
 It prints the values of Trop(integrand) on the rays of Newt(integrand).
@@ -2539,9 +2563,14 @@ It is possible to use specially designed integrationFunction, such as STIntegrat
 
 
 
-(* ::Subsection::Closed:: *)
+(* ::Subsection:: *)
 (*Auxiliary Functions*)
 
+
+STFlattenIndexedSymbols::usage = "STFlattenIndexedSymbols[expression] returns an equivalent {flatExpr, flatSymbolsRules}, 
+where flatExpr is an equivalent expression with symbol[N]->symbolN and flatSymbolsRules are the replacement rules";
+
+STStripMmaContexts::usage = "Temporary fix to remove SubTropica` context headers ";
 
 STDrawGraph::usage = "
 STDrawGraph[] opens a GUI where a graph can be drawn. 
@@ -2597,8 +2626,9 @@ Unprotect[STtropicalDataMaxTime];STtropicalDataMaxTime=\[Infinity];Protect[STtro
 $STOverwritePreviousDirectories = True; (* Set to False to preserve directories from previous runs *)
 
 
-(* ::Section:: *)
+(* ::Section::Closed:: *)
 (*Public API declarations*)
+
 
 (* GENERATED by notes/namespace_refactor/public_api/emit_declarations.wls
    from public-list.txt.  These mentions create these symbols in SubTropica`
@@ -2617,7 +2647,7 @@ HyperLogProceduresPath; IterIntPath; KiraPath; l; LibraPath; LiteIBPPath; LiteRe
 m; M; MaplePath; mm; MM; NeatIBPPath; Normalization; NoTadpoleQ;
 numerator; OneVertexIrreducibleQ; p; P; PolyLogToolsPath; PolymakeConcurrencyFraction; PolymakePath; PythonPath;
 q; ReflectionQ; RunSOFIA; s; s12; s15; s23; s34;
-s45; ScreeningLR; SingularPath; SOFIASymanzik; SolverBound; SOLVERBOUND; SPQRPath; SPQRPolynomialQuotient;
+s45; ScreeningLR; SimplifyOutput; SingularPath; SOFIASymanzik; SolverBound; SOLVERBOUND; SPQRPath; SPQRPolynomialQuotient;
 SPQRPolynomialQuotientRemainder; SPQRPolynomialQuotientRemainderBatch; SPQRPolynomialRemainder; stage; STApplyRootFactoring; STBuildFactorTable; STFactorPredictor; start; startAt; startedAt;
 startTime; state; status; STAvailableHeuristics; stBadge; STBeachmark; STBenchmark; stBoundedToInfinity;
 STBrowser; STBuildLibraryJSON; stBuildSTCommand; stBuildSymbolicSubRules; STCheckDependencies; STClearDirectories; STCNickelToGraph; STCNickelToSTCommand;
@@ -2627,7 +2657,7 @@ STEchoLinearOrders; STEmitDecision; stEnsureDoppioLoaded; stEnsureEffortlessLoad
 STEvaluateGraphFromPropagators; STEvaluateII; STEvaluateSubtractionNP; STExpandIntegral; stExtractAlgebraicLetters; STFactor; STFasterFubini; STFasterFubini2;
 STFastIntegration; stFindEuclideanRegion; STfindLinearlyReducibleOrders; STfindLinearlyReducibleOrders2; STFindLROrdersHF; STFindLROrdersScanHF; STformatHyperIntMapleOut; STformatSingleHlog;
 STFubiniDoppio2; STFubiniLR; stGateVerification; STGenerateIntegrand; stGetContributorField; STGetFeynmanIntegrandG; STGetIntegrandData;
-STGetKinematics; STGetLoopsProps; STGetPropagators; STGetRegionVectors; STgetUF; stHFArchDir; stHFLibraryEnsureLoaded; STHyperFlint; STHyperForm;
+STGetKinematics; STGetLoopsProps; STGetPropagators; STGetRegionVectors; STgetUF; stHFArchDir; stHFFactoredRationalIntegral; stHFLibraryEnsureLoaded; STHyperFlint; STHyperForm;
 stHyperFlintAddonDir; stHyperFlintBuildRequest; stHyperFlintDataPathCandidates; stHyperFlintLibraryFileName; stHyperFlintLibraryPathCandidates; stHyperFlintSearchPaths; STHyperLogProcedures; STInstallAutocompletion;
 STIntegrate; STIntegrateHF; STIntegrateOrders; STIntegrateSubtractionNP; stIsSharedMassLeg; stIterIntDriver; stIterIntNumStr; stIterIntParse;
 STLaunchHyperIntica; STLaunchHyperInticaAll; STLaunchHyperInticaAllKernelIntegrator; STLinearCrawlWeight; STLoadCheckpoint; stLoadRootSubs; stLRResultNOLRQ; stMakeVerificationPoint;
@@ -2653,7 +2683,7 @@ $STDispatchHFCount; $STDispatchHFTime; $STDispatchHICount; $STDispatchHITime; $S
 $STEdges; $STEffortlessPath; $stEuclideanPoint; $STFactorPredictorTable; $STFasterFubini2DebugLog; $stFIESTACallCounter; $stFIESTASDEval; $stFIESTAUF; $STFindRootsJobStride;
 $STFindRootsParallelSafe; $STGraph; $STHeuristicInfo; $stHFExecEnsured; $STHFFallbackCount; $STHFFallbackWarned; $STHFLastStrategy; $STHFLibClearState;
 $STHFLibFactorTable; $STHFLibFindLROrders; $STHFLibFindLROrdersScan; $STHFLibHyperFlintSym; $STHFLibVersion; $STHFSchemaVersionExpected; $stHFSchemaWarnOnce; $STHFStrategyCounters; $stHFVersionWarnOnce;
-$STHyperFlintCallCount; $STHyperFlintDataPath; $STHyperFlintLibraryPath; $STHyperFlintPath; $STHyperFlintSearchPaths; $STHyperFlintThreads; $STHyperFlintTotalTime; $STHyperFlintUseLibraryLink;
+$STHyperFlintAllowCLI; $STHyperFlintCallCount; $STHyperFlintDataPath; $STHyperFlintLibraryPath; $STHyperFlintPath; $STHyperFlintSearchPaths; $STHyperFlintThreads; $STHyperFlintTotalTime; $STHyperFlintUseLibraryLink;
 $SThyperIntPath; $STHyperIntSearchPaths; $STHyperLogProceduresKnownSymbols; $STHyperLogProceduresParserSizeBudget; $STHyperLogProceduresPath; $STHyperLogProceduresSearchPaths; $stInsideDiagramPipeline; $STIntegrand;
 $STIterIntPath; $STIterIntSearchPaths; $STJobTrackingDir; $stKinPtDeprecationShown; $STLastBenchmarkResults; $STLastVacuumPeriod; $STLROrderBackend; $STManifestURL;
 $STMaxTermsPerKernel; $stMessageNoiseTagPrefixes; $STNodes; $stNormMassRules; $stNotebook; $STOptionValues; $STOverwritePreviousDirectories; $STPolymakeProcess;
@@ -2688,7 +2718,7 @@ Begin["`Private`"];
 (*Initialize Symbols*)
 
 
-(* ::Subsubsection:: *)
+(* ::Subsubsection::Closed:: *)
 (*Set-Up directories*)
 
 
@@ -2727,7 +2757,7 @@ If[!TrueQ[$Notebooks], Off[FrontEndObject::notavail]];
 If[!TrueQ[Global`$STSubkernelMode], stPrintGreeting[]];
 
 
-(* ::Section::Closed:: *)
+(* ::Section:: *)
 (*Miscellanea*)
 
 
@@ -5074,7 +5104,7 @@ STVerify[cni_String, opts:OptionsPattern[]] := Module[
 
 	(* 1. Find entry.  stEntryHasResultQ accepts both the monolithic format
 	   (inline resultCompressed) and a split stub (resultDataId resolved from
-	   the sibling results.json; results-split spec §3.3). *)
+	   the sibling results.json; results-split spec \[Section]3.3). *)
 	allFiles = FileNames["entry.json", libPath, Infinity];
 	entryFile = SelectFirst[allFiles, Module[{e},
 		e = Quiet[Import[#, "RawJSON"]];
@@ -9211,7 +9241,7 @@ stNIntegrateFeyntrop[props_List, opts___] /; !MatchQ[props, {_List, _List}] :=
 (*Tropical Geometry*)
 
 
-(* ::Subsection:: *)
+(* ::Subsection::Closed:: *)
 (*Ask Normaliz to triangulate a cone*)
 
 
@@ -9275,6 +9305,24 @@ temp=temp<>"}";
 temp = temp//StringReplace[#,",{suffix}"-> "}"]&//StringReplace[#,"suffix"-> ""]&;
 ToExpression["{{"<>temp ]
 ];
+
+
+Clear[STNewton];STNewton[polyOriginalNames_,varsOriginalNames_,timeConstraint_:3, QuietQ_:True]:=
+If[Length[varsOriginalNames]>1,
+	STtropicalDataOLD[polyOriginalNames//STforgetCoeffs[#,varsOriginalNames]&,varsOriginalNames,timeConstraint,QuietQ]
+,
+	Module[{var=varsOriginalNames[[1]], poly=polyOriginalNames},
+		<|
+			"equations" -> If[Length[CoefficientRules[poly,varsOriginalNames]]>1, {}, {Exponent[poly,var], 1}],
+			"rays" -> {{-1},{1}},
+			"facets" -> {{Exponent[poly,var,Min], 1}, {Exponent[poly,var,Max], -1}},
+			"vertices" -> Map[Join[{1},#]&, CoefficientRules[poly,varsOriginalNames][[;;,1]]]
+		|>
+	]
+];
+
+
+Clear[STForgetCoefficients];STForgetCoefficients[poly_,xvars_]:=STforgetCoeffs[poly,xvars];
 
 
 Clear[STtropicalData];STtropicalData[polyOriginalNames_,varsOriginalNames_,timeConstraint_:3, QuietQ_:True]:=
@@ -9860,7 +9908,7 @@ STGetFaces[trData_,rays_:"All"]:=Module[{vertexInFacet,vertices,posRays,sps,poss
 ]
 
 
-(* ::Subsection:: *)
+(* ::Subsection::Closed:: *)
 (*Manipulating Euler Integrands*)
 
 
@@ -10910,11 +10958,11 @@ sortingFunction
 
 
 
-(* ::Section::Closed:: *)
+(* ::Section:: *)
 (*Interface to HyperInt*)
 
 
-(* ::Subsection::Closed:: *)
+(* ::Subsection:: *)
 (*Elementary Functions *)
 
 
@@ -10931,6 +10979,7 @@ sortingFunction
    backticks only for context separation and for precision markers
    (which start with a digit, not a letter). *)
 stStripMmaContexts[s_String] := StringReplace[s, RegularExpression["[A-Za-z][A-Za-z0-9]*`"] -> ""];
+STStripMmaContexts[s_String]:=stStripMmaContexts[s];
 
 (* Flatten Mathematica-style indexed atoms h[i_Integer] (e.g. MM[1], mm[2],
    M[3]) into flat symbols (MM1, mm2, M3).  Maple's FromMma translator
@@ -10944,6 +10993,7 @@ stStripMmaContexts[s_String] := StringReplace[s, RegularExpression["[A-Za-z][A-Z
    Returns {flattened, unflattenRules}.  Only atoms whose head lives
    outside System` are flattened, so e.g. List[1,2,3] and Power[x,2] stay
    untouched. *)
+   
 stFlattenIndexedSymbols[expr_] := Module[
     {indexed, flatName, forward, inverse},
     indexed = Cases[expr,
@@ -10961,6 +11011,8 @@ stFlattenIndexedSymbols[expr_] := Module[
     inverse = (flatName[Head[#], First[#]] -> #) & /@ indexed;
     {expr /. forward, inverse}
 ];
+(* User-facing alias*)
+STFlattenIndexedSymbols[expr_]:=stFlattenIndexedSymbols[expr];
 
 STwrapTranslator[string_]:="FromMma(`"<>stStripMmaContexts[string]<>"`)"
 
@@ -11733,6 +11785,7 @@ STHyperFlint::badjson   = "HyperFLINT returned non-JSON output: ``";
 STHyperFlint::hferror   = "HyperFLINT error: ``";
 STHyperFlint::divergent = "HyperFLINT reports the integral is divergent (``).";
 STHyperFlint::hffailed  = "HyperFLINT integration failed: ``";
+STHyperFlint::clidisabled = "HyperFLINT LibraryLink dylib is not loaded and the CLI subprocess transport is disabled ($STHyperFlintAllowCLI = False), so ST -> HF communication has no available transport.  Fix: build a version-matched LibraryLink dylib so the loader sets $STHyperFlintUseLibraryLink = True (cd HyperFLINT && cmake -S . -B build-omp -DHF_VERSION=<paclet version> && cmake --build build-omp --target hyperflint_librarylink, then install/point $STHyperFlintLibraryPath at it), OR set $STHyperFlintAllowCLI = True to allow the slower CLI transport for development.  The version gate is strict equality: the resolved dylib's hf_version must equal $SubTropicaVersion = `1`.  Resolved $STHyperFlintLibraryPath: `2`.";
 STHyperFlint::narrowfallback = "HyperFLINT narrow ctx insufficient: ``";
 STHyperFlint::narrowfatal    = "HyperFLINT wide-ctx retry also returned narrow_ctx_insufficient -- MZV table is incomplete for this fixture; report to maintainer.  Vars=``";
 STHyperFlint::narrownobinary = "HyperFLINT narrow ctx insufficient via LibraryLink; CLI binary needed for retry but $STHyperFlintPath is not set or missing -- set ConfigureSubTropica[HyperFlintPath -> ...] or unset HF_NARROW_CTX to force wide ctx (was: ``).";
@@ -12009,6 +12062,20 @@ Options[STHyperFlint] = {
                                 (ii)(a) in the cascade discussion).  Under
                                 explicit FindRoots -> False the flag is
                                 cleared and Wm/Wp letters are not minted. *)
+    ,
+    SimplifyOutput -> True  (* True (default): return the reduced/canonical
+                                form (current behaviour).  False: return the
+                                result UNEXPANDED / factored -- for a single-
+                                variable purely-rational integrand with a
+                                single linear pole (integrand = Nbase^p/Dbase^q,
+                                Nbase, Dbase linear in the variable), the
+                                definite integral is assembled from the closed
+                                residue form keeping the spectator polynomials
+                                factored (no multivariate GCD, no expansion),
+                                which is orders of magnitude faster and far
+                                better for downstream numerical evaluation.
+                                Unsupported integrand shapes fall back to the
+                                reduced path with STHyperFlint::nofactored. *)
 };
 
 (* Diagnostic counters \[LongDash] same shape as the
@@ -12061,11 +12128,53 @@ Module[{cd},
 
 Options[stHyperFlintCore] = Options[STHyperFlint];
 
+STHyperFlint::nofactored = "SimplifyOutput -> False is currently supported only for a single-variable, purely rational integrand with one linear pole (integrand of the form Nbase^p/Dbase^q, with Nbase and Dbase linear in the integration variable and p <= q-2).  Returning the reduced (canonical) output for this integrand instead.";
+
+(* Factored single-pole rational integral.  For
+   integrand = Nbase^p/Dbase^q with Nbase = A + B v and Dbase = C + E v linear
+   in the integration variable v, and p <= q-2 (proper + convergent, no log),
+     Integrate[Nbase^p/Dbase^q, {v, 0, Infinity}]
+       == Sum_{k=0}^p  Binomial[p,k]/(q-1-k) * B^k * P^(p-k)
+                       / (E^(p+1) * C^(q-1-k)),     P = A E - B C
+   (derived by the substitution u = E v + C).  The A,B,C,E,P spectator
+   polynomials are kept FACTORED -- P^(p-k), C^(q-1-k), E^(p+1) stay as
+   Power[] and are NEVER expanded, so there is no multivariate GCD and no
+   term blow-up: orders of magnitude faster than the canonical/reduced path
+   and far better for downstream numerical evaluation.  Returns $Failed for
+   any integrand outside this class.  Pure local algebra; never calls HF. *)
+stHFFactoredRationalIntegral[integrand_, v_] := Module[
+    {num, den, nb, p, db, q, a, b, c, e, pp},
+    num = Numerator[integrand]; den = Denominator[integrand];
+    {nb, p} = If[Head[num] === Power, List @@ num, {num, 1}];
+    {db, q} = If[Head[den] === Power, List @@ den, {den, 1}];
+    If[! (IntegerQ[p] && IntegerQ[q]) || p < 1 || q < 1, Return[$Failed]];
+    If[Exponent[nb, v] =!= 1 || Exponent[db, v] =!= 1, Return[$Failed]];
+    If[p > q - 2, Return[$Failed]];   (* else a 1/(v-a) log term appears *)
+    a = Coefficient[nb, v, 0]; b = Coefficient[nb, v, 1];
+    c = Coefficient[db, v, 0]; e = Coefficient[db, v, 1];
+    If[b === 0 || e === 0, Return[$Failed]];
+    pp = a e - b c;
+    Sum[(Binomial[p, k]/(q - 1 - k)) b^k pp^(p - k)
+            / (e^(p + 1) c^(q - 1 - k)), {k, 0, p}]];
+
 stHyperFlintCore[integrand_, vars_List, opts:OptionsPattern[]] := Module[
     {requestJSON, procResult, stdout, stderr, exitCode, resp, resultList,
      terms, badKey, translatedTerms, mmaExpr, useLibLink, respStr,
      findRoots, alList, alRemap, alEntryMap,
      origSymbols, contextRehydrate, narrowVars},
+
+    (* SimplifyOutput -> False: return the UNEXPANDED / factored result.
+       For a single-variable single-linear-pole purely-rational integrand the
+       definite integral has a closed residue form assembled with the spectator
+       polynomials kept factored (no multivariate GCD, no expansion) -- see
+       stHFFactoredRationalIntegral.  Unsupported shapes warn and fall through
+       to the canonical engine path below. *)
+    If[OptionValue[SimplifyOutput] === False,
+        If[Length[vars] === 1,
+            With[{frRes = stHFFactoredRationalIntegral[integrand, First[vars]]},
+                If[frRes =!= $Failed, Return[frRes]]]];
+        Message[STHyperFlint::nofactored]];
+
     Module[{v = OptionValue[FindRoots]},
         findRoots = If[v === Automatic,
             TrueQ @ HyperIntica`$HyperIntroduceAlgebraicLetters,
@@ -12100,12 +12209,26 @@ stHyperFlintCore[integrand_, vars_List, opts:OptionsPattern[]] := Module[
        parity-1 fixture, letting 13-way subkernel dispatch fit in
        available RAM (13 \[Times] 970 MB = 12.6 GB). *)
     stHFLibraryEnsureLoaded[];
+    (* Transport decision.  Prefer the in-process LibraryLink dylib.  The
+       subkernel exception ($KernelID > 0 -> CLI, the RSS lever) is kept
+       regardless of $STHyperFlintAllowCLI.  HF_FORCE_CLI is honoured only
+       when $STHyperFlintAllowCLI is True (a dev escape). *)
     useLibLink = TrueQ[$STHyperFlintUseLibraryLink] &&
                  Head[$STHFLibHyperFlintSym] === LibraryFunction &&
                  !TrueQ[$KernelID > 0] &&
-                 !TrueQ[Environment["HF_FORCE_CLI"] =!= $Failed &&
-                        Environment["HF_FORCE_CLI"] =!= "0" &&
-                        StringQ[Environment["HF_FORCE_CLI"]]];
+                 (!TrueQ[$STHyperFlintAllowCLI] ||
+                  !TrueQ[Environment["HF_FORCE_CLI"] =!= $Failed &&
+                         Environment["HF_FORCE_CLI"] =!= "0" &&
+                         StringQ[Environment["HF_FORCE_CLI"]]]);
+
+    (* CLI disabled on the main kernel but the LibraryLink dylib is not
+       available: fail loudly rather than silently using the slow CLI.
+       The subkernel path ($KernelID > 0) is exempt -- it intentionally
+       uses the CLI for the RSS lever. *)
+    If[!useLibLink && !TrueQ[$STHyperFlintAllowCLI] && !TrueQ[$KernelID > 0],
+        Message[STHyperFlint::clidisabled, $SubTropicaVersion,
+            $STHyperFlintLibraryPath];
+        Return[$Failed]];
 
     (* Path + data-file sanity.
        The CLI and data paths are only strictly required for the
@@ -12180,6 +12303,15 @@ stHyperFlintCore[integrand_, vars_List, opts:OptionsPattern[]] := Module[
                    the CLI transport and the peel lever never engages in
                    pipeline runs. *)
                 "HF_FR_MAT_PEEL" -> Replace[Environment["HF_FR_MAT_PEEL"],
+                    {Except[_String] -> ""}],
+                (* Lazy-sum / Lever 1 (2026-06-13): forward for the same
+                   ProcessEnvironment-REPLACES reason -- without this the
+                   parent's HF_LAZY_SUM=1 is silently stripped on the CLI
+                   transport and the R-class parse-fusion cure (integrate
+                   top-level addends separately; ~10^3-10^5x on
+                   denominator-disjoint counterterm faces) never engages.
+                   Default-off (empty string passes through as unset). *)
+                "HF_LAZY_SUM" -> Replace[Environment["HF_LAZY_SUM"],
                     {Except[_String] -> ""}],
                 (* R26 C2 -- ProcessEnvironment -> <|...|> REPLACES the
                    subprocess env entirely; without this propagation the
@@ -12262,6 +12394,10 @@ stHyperFlintCore[integrand_, vars_List, opts:OptionsPattern[]] := Module[
                 (* Period-tuples (2026-06-05): keep the representation
                    flag consistent across the narrow-ctx retry. *)
                 "HF_PERIOD_TUPLES" -> Replace[Environment["HF_PERIOD_TUPLES"],
+                    {Except[_String] -> ""}],
+                (* Lazy-sum / Lever 1 (2026-06-13): keep it consistent
+                   across the narrow-ctx retry, same as HF_PERIOD_TUPLES. *)
+                "HF_LAZY_SUM" -> Replace[Environment["HF_LAZY_SUM"],
                     {Except[_String] -> ""}],
                 "HF_MAX_THREADS_PER_CALL" -> Replace[
                     Environment["HF_MAX_THREADS_PER_CALL"],
@@ -12433,6 +12569,7 @@ $stHFVersionWarnOnce = False;
 $stHFNoCarryWarned   = False;
 
 STFindLROrdersHF::notfound = "HyperFLINT binary not found at ``.  Build with `cd ~/Projects/SubTropica-branchSM/HyperFLINT && cmake --build build-release -j`.";
+STFindLROrdersHF::clidisabled = "HyperFLINT LibraryLink dylib is not loaded and the CLI subprocess transport is disabled ($STHyperFlintAllowCLI = False).  Build a version-matched LibraryLink dylib (so $STHyperFlintUseLibraryLink = True; its hf_version must equal $SubTropicaVersion = `1`), or set $STHyperFlintAllowCLI = True to allow the CLI transport.  Resolved $STHyperFlintLibraryPath: `2`.";
 STFindLROrdersHF::hferror  = "HyperFLINT error: ``";
 STFindLROrdersHF::timedout = "HyperFLINT find_lr_orders timed out after `` s.";
 STFindLROrdersHF::badjson  = "HyperFLINT returned non-JSON: ``";
@@ -12476,8 +12613,19 @@ Options[STFindLROrdersHF] = {
                                      deg-2 polys in the LR walk; the
                                      integrator allocates Wm/Wp at
                                      integration time. *)
-    "Carry" -> False             (* carry-discharge tier; only acts with
-                                     FindRoots -> True; spec 4a.4/4b.2 *)
+    "Carry" -> False,            (* carry-discharge tier; only acts with
+                                     FindRoots -> True; spec 4a.4/4b.2.
+                                     The per-term Euler executor is DISARMED
+                                     ($stCarryExecuteArmed False) pending the
+                                     full-pipeline value gate; see
+                                     notes/carry_option/TASK2_VERIFY_FINDING.md *)
+    "VerifyOrder" -> None        (* 2026-06-13: a list of variables (a
+                                     permutation of xvars) -> VERIFY that this
+                                     ONE order is LR (no search), returning the
+                                     verdict Association <|"OrderIsLR"->_, ...|>
+                                     instead of the search result.  Cheap
+                                     specific-order certification for the carry
+                                     order-pinning guard (HF verify_order). *)
 };
 
 (* Convenience single-group dispatch: a flat poly list is wrapped as
@@ -12489,12 +12637,17 @@ STFindLROrdersHF[groupPolys_List, xvars_List, opts:OptionsPattern[]] /;
         MatchQ[groupPolys, {_List ..}] :=
 Module[{coeffVars, req, procResult, resp, bestOrder, score, respStr,
         threads, timeout, hfBin = $STHyperFlintPath, allPolys, useLibLink,
-        carryQ = TrueQ[OptionValue["Carry"]]},
+        carryQ = TrueQ[OptionValue["Carry"]],
+        verifyOrder = OptionValue["VerifyOrder"]},
     (* Lazy load if eager autoload failed (e.g., during Get["SubTropica`"]
        the LibraryFunctionLoad didn't fire cleanly). *)
     stHFLibraryEnsureLoaded[];
     useLibLink = TrueQ[$STHyperFlintUseLibraryLink] &&
                  Head[$STHFLibFindLROrders] === LibraryFunction;
+    If[!useLibLink && !TrueQ[$STHyperFlintAllowCLI] && !TrueQ[$KernelID > 0],
+        Message[STFindLROrdersHF::clidisabled, $SubTropicaVersion,
+            $STHyperFlintLibraryPath];
+        Return[$Failed]];
     If[!useLibLink &&
        (!StringQ[hfBin] || hfBin === "" || !FileExistsQ[hfBin]),
         Message[STFindLROrdersHF::notfound, hfBin];
@@ -12531,7 +12684,12 @@ Module[{coeffVars, req, procResult, resp, bestOrder, score, respStr,
         "coeff_vars" -> (ToString /@ coeffVars),
         "carry_discharge" -> carryQ
     |>, If[TrueQ[OptionValue[FindRoots]],
-        <|"algebraic_letters" -> True|>, <||>]],
+        <|"algebraic_letters" -> True|>, <||>],
+        (* 2026-06-13 specific-order verifier: when VerifyOrder is a list,
+           HF verifies THIS order is LR (no search) and the response carries
+           order_is_lr instead of a searched best_order. *)
+        If[ListQ[verifyOrder],
+        <|"verify_order" -> (ToString /@ verifyOrder)|>, <||>]],
         "JSON", "Compact" -> True];
 
     (* Phase \[Gamma].1: LibraryLink transport if available (in-process,
@@ -12606,6 +12764,20 @@ Module[{coeffVars, req, procResult, resp, bestOrder, score, respStr,
     If[KeyExistsQ[resp, "error"],
         Message[STFindLROrdersHF::hferror, resp["error"]];
         Return[$Failed]];
+
+    (* 2026-06-13 VERIFY-ORDER short-circuit: when VerifyOrder was requested,
+       HF skipped the search and the response carries order_is_lr (+ blocking
+       info).  Return the verdict Association directly, BEFORE the search-shape
+       strategy/result contract checks (which assume a searched response). *)
+    If[ListQ[verifyOrder],
+        Return[<|
+            "OrderIsLR" -> TrueQ[Lookup[resp, "order_is_lr", False]],
+            "Malformed" -> TrueQ[Lookup[resp, "verify_malformed", False]],
+            "BlockingStep" -> Lookup[resp, "verify_blocking_step", -1],
+            "BlockingDegree" -> Lookup[resp, "verify_blocking_degree", 0],
+            "ForbiddenDep" -> TrueQ[Lookup[resp, "verify_forbidden_dep", False]],
+            "BlockingLetter" -> Lookup[resp, "verify_blocking_letter", ""],
+            "Order" -> verifyOrder|>]];
 
     (* iter-41 Track 6.5 full PASS \[LongDash] consume resp["strategy"].
        The "strategy" field was added iter-40 by HF
@@ -12749,6 +12921,7 @@ STBuildFactorTable::badorder =
     "\"Order\" must be a list of distinct symbols; got ``.";
 STBuildFactorTable::notfound = "HyperFLINT binary not found at ``.  Build with \
 `cd ~/Projects/SubTropica-branchSM/HyperFLINT && cmake --build --preset release-portable -j`.";
+STBuildFactorTable::clidisabled = "HyperFLINT LibraryLink dylib is not loaded and the CLI subprocess transport is disabled ($STHyperFlintAllowCLI = False).  Build a version-matched LibraryLink dylib (so $STHyperFlintUseLibraryLink = True; its hf_version must equal $SubTropicaVersion = `1`), or set $STHyperFlintAllowCLI = True to allow the CLI transport.  Resolved $STHyperFlintLibraryPath: `2`.";
 STBuildFactorTable::hferr = "HyperFLINT factor_table error: ``";
 STBuildFactorTable::timedout = "HyperFLINT factor_table timed out after `` s.";
 STBuildFactorTable::badjson = "HyperFLINT returned non-JSON: ``";
@@ -12818,6 +12991,10 @@ Module[{order, coeffVars, allPolys, req, resp, respStr, procResult,
     stHFLibraryEnsureLoaded[];
     useLibLink = TrueQ[$STHyperFlintUseLibraryLink] &&
                  Head[$STHFLibFactorTable] === LibraryFunction;
+    If[!useLibLink && !TrueQ[$STHyperFlintAllowCLI] && !TrueQ[$KernelID > 0],
+        Message[STBuildFactorTable::clidisabled, $SubTropicaVersion,
+            $STHyperFlintLibraryPath];
+        Return[$Failed]];
     If[!useLibLink &&
        (!StringQ[hfBin] || hfBin === "" || !FileExistsQ[hfBin]),
         Message[STBuildFactorTable::notfound, hfBin];
@@ -13122,6 +13299,10 @@ Module[{coeffVars, req, resp, respStr, procResult, threads, timeout,
     scanFn = $STHFLibFindLROrdersScan;
     useLibLink = TrueQ[$STHyperFlintUseLibraryLink] &&
                  Head[scanFn] === LibraryFunction;
+    If[!useLibLink && !TrueQ[$STHyperFlintAllowCLI] && !TrueQ[$KernelID > 0],
+        Message[STFindLROrdersHF::clidisabled, $SubTropicaVersion,
+            $STHyperFlintLibraryPath];
+        Return[$Failed]];
     If[!useLibLink &&
        (!StringQ[hfBin] || hfBin === "" || !FileExistsQ[hfBin]),
         Message[STFindLROrdersHF::notfound, hfBin];
@@ -13450,10 +13631,41 @@ stLandauPolySet[graph : {_List, _List}] := Module[
      distinct; a proportionality test collapses them (spec section 4 step 6
      dedup, applied here at the source). *)
   polys = DeleteDuplicatesBy[polys, stLandauPolyProportionKey];
-  If[Length[polys] =!= 2,
-    Message[STFindSingularities::stgen]; Return[$Failed]];
-  <|"xvars" -> xvars, "kin" -> atomz["atoms"], "atomz" -> atomz,
-    "symanzik" -> polys, "pset" -> Join[xvars, polys]|>];
+  Which[
+    (* Single-scale, all bases kinematic-free (2026-06-13).  When the graph
+       carries exactly ONE kinematic atom c and NO Symanzik base contains it,
+       c is an overall factor of F, so the integrand is c^b . (product of
+       x-only bases) and the singular locus is exactly {c = 0} -- INDEPENDENT
+       of how many distinct bases F factors into.  Three sub-cases all land
+       here: F = c.U^k (perfect power, 1 base after dedup); an irreducible
+       single-scale F (the usual {U, F} pair, 2 bases); and a reducible
+       F = c.f1.f2... (3+ bases).  The 2-poly guard used to reject the 1- and
+       3+-base cases as $Failed even though they are the most trivial
+       single-scale integrals.  STFindSingularities' single-scale fast path
+       consumes this regardless of base count and returns {c}; the heavy
+       path (the only consumer that needs the {U, F} pair) never sees it
+       because the fast path fires first.  Exactly one atom is required: a
+       multi-atom free base would hide c as a linear combination of scales
+       we do not reconstruct here (falls through to the 2-poly / $Failed
+       branches rather than guess). *)
+    Length[atomz["atoms"]] === 1 && polys =!= {} &&
+        FreeQ[polys, atomz["atoms"][[1]]],
+      <|"xvars" -> xvars, "kin" -> atomz["atoms"], "atomz" -> atomz,
+        "symanzik" -> polys, "pset" -> Join[xvars, polys]|>,
+    (* Multi-scale heavy path: the {U, F} pair (2 bases).  NOTE (2026-06-13):
+       a >= 2 relaxation was tried so multi-scale graphs whose F factorizes
+       (F = f1.f2..., 3+ bases) could run the heavy path, but it was REVERTED
+       -- on all tested factorized-multi entries the elimination returned
+       complete=False / trusted=False / 0 letters (or timed out), so letting
+       them through only burned heavy-path time without producing a trusted
+       alphabet.  They $Fail here and defer cleanly; recovering them needs
+       either an elimination that closes on a 3+-base pset or the
+       eulerDiscriminant fallback (campaign-level), not this guard. *)
+    Length[polys] === 2,
+      <|"xvars" -> xvars, "kin" -> atomz["atoms"], "atomz" -> atomz,
+        "symanzik" -> polys, "pset" -> Join[xvars, polys]|>,
+    True,
+      Message[STFindSingularities::stgen]; Return[$Failed]]];
 
 (* ---- seeded twist draw (PORT of dpDKTwist's exponent policy,
         scripts/doppiofubini/doppio/doppio_lib.wl:2105, t19/t20:
@@ -14002,13 +14214,21 @@ Options[STFindSingularities] = {
     "Chart" -> Automatic,
     "Exponents" -> Automatic,
     FindLetters -> True,
+    (* S3 (2026-06-13): number of independent modular primes the TRUST verdict
+       must agree on.  1 = single-prime (legacy, fast).  2 = re-run the cheap
+       structural checks (letter vetting + non-degeneracy) at a second seed
+       (=> different prime + parameter point) and require the genuine-letter set
+       to agree; guards "trusted" against an unlucky-prime false verdict.  The
+       expensive elimination (letter VALUES, already exact via FiniteFlow) runs
+       once regardless. *)
+    "ConfirmPrimes" -> 2,
     "Verbose" -> False};
 
 STFindSingularities[graph : {_List, _List},
     opts : OptionsPattern[]] := Module[
   {method, seed, budget, chartOpt, expOpt, vb, findLet, ps, id,
    chartTried, elim, vets, letters, genuineLetters, noDeg, odd,
-   trusted, t0, wallTotal},
+   trusted, t0, wallTotal, confirmPrimes, seed2, confirmAgree},
   method = OptionValue[Method];
   If[method =!= "SPQRLandau",
     Message[STFindSingularities::msolveflavor]; Return[$Failed]];
@@ -14016,10 +14236,88 @@ STFindSingularities[graph : {_List, _List},
   chartOpt = OptionValue["Chart"]; expOpt = OptionValue["Exponents"];
   vb = TrueQ[OptionValue["Verbose"]];
   findLet = TrueQ[OptionValue[FindLetters]];
-  If[stEnsureLandauBackend[] =!= True, Return[$Failed]];
+  confirmPrimes = OptionValue["ConfirmPrimes"];
+  seed2 = seed + 514229;  (* fixed offset -> independent prime + param point *)
+  confirmAgree = Null;    (* Null = no confirmation run; True/False otherwise *)
   t0 = AbsoluteTime[];
   ps = stLandauPolySet[graph];
   If[ps === $Failed, Return[$Failed]];
+  (* ---- single-scale fast path (2026-06-13) --------------------------
+     If the integral carries exactly ONE kinematic scale and neither
+     Symanzik base (U, nor the F base after STtoCoeffMonPols strips the
+     overall kinematic scalar) contains it, then F = c . f(x) with c the
+     lone scale: ALL kinematic dependence is the overall prefactor factor
+     c^{-(nu - L D/2)}, so I ~ c^{(2L - nu) - L eps} . J(eps), where J is
+     the x-integral of a kinematic-free integrand (a pure number in eps).
+     The singular locus is then exactly {c = 0}; there is no Landau variety
+     to eliminate.  We read the singularity straight off the prefactor and
+     skip the chi / SPQR / FiniteFlow64 machinery entirely -- the backend
+     is not even loaded.
+
+     Physics (the decisive point is the BRANCH POINT, not a pole): for any
+     L >= 1 the prefactor exponent (2L - nu) - L eps carries -L eps =/= 0,
+     so c = 0 is a branch point of I REGARDLESS of the sign or integrality
+     of (2L - nu) -- including when (2L - nu) > 0, where the integral in
+     fact VANISHES at c = 0 yet is still non-analytic there (e.g. the
+     equal-mass massless-leg sunrise, prefactor mm^{1 - 2 eps}).  So {c}
+     is correct whether or not c sits in a denominator.  The Euler
+     characteristic chi is UNRELATED to the number of singularities -- it
+     counts the domain geometry of the complement of {U=0} u {F=0} and is
+     generically positive even here -- so the heavy chi-drop route returns
+     an empty letter set and (mis)flags trusted=False for exactly this
+     class.  The length-1 gate (rather than FreeQ over all atoms) keeps the
+     answer rigorous: a free base with >=2 atoms would put a linear
+     combination in c, which physical Symanzik F never produces, but we
+     fall through to the heavy path there rather than guess.
+
+     The cases reaching this fast path span ALL single-scale base counts:
+     the generalized stLandauPolySet guard (2026-06-13) returns ps whenever
+     there is exactly one kinematic atom and every base is free of it --
+     1 base (perfect power F = c . U^k, e.g. the fully-equal-mass massless-leg
+     triangle / bubble), 2 bases (irreducible single-scale F, e.g. the {0,m,m}
+     triangle e12|e2|e|:001|11|1| with F_base = x1 x2 + x2^2 + x2 x3 + x3^2),
+     and 3+ bases (reducible F = c . f1 . f2 ...).  The previous
+     Length[polys] === 2 guard used to $Fail the 1- and 3+-base cases; they
+     now fast-path to {c} as well (perfectPower flags the 1-base case).  See
+     the single-scale note in docs/cross-subsystem-invariants.md
+     (INV-SINGLE-SCALE-PREFACTOR). *)
+  If[Length[ps["kin"]] === 1 &&
+      FreeQ[ps["symanzik"], ps["kin"][[1]]],
+    Module[{saScales = (ps["kin"] /. ps["atomz"]["bwd"]),
+            saWall = AbsoluteTime[] - t0},
+      Return[<|
+        "singularities" -> saScales,
+        "chi" -> Null,
+        "complete" -> True,
+        "trusted" -> True,
+        "oddLetters" -> If[findLet,
+          <|"OddLetters" -> {}, "BareRoots" -> {}, "Refusals" -> {}|>,
+          Null],
+        "diagnostics" -> <|
+          "status" -> "single-scale-prefactor",
+          "scaleFreeBase" -> True,
+          "nBases" -> Length[ps["symanzik"]],
+          "perfectPower" -> (Length[ps["symanzik"]] === 1),
+          "scale" -> First[saScales],
+          "symanzik" -> ps["symanzik"],
+          "chartTried" -> {}|>,
+        "provenance" -> <|
+          "engine" -> "PrefactorScale",
+          "stVersion" -> $SubTropicaVersion,
+          "spqrVersion" -> "n/a (single-scale fast path)",
+          "seed" -> seed, "chart" -> Null, "nu" -> Null,
+          "factorization" -> Null,
+          "budget" -> budget, "wallTotal" -> saWall|>|>]]];
+  (* ---- heavy path: Landau elimination needs the backend ------------- *)
+  If[stEnsureLandauBackend[] =!= True, Return[$Failed]];
+  (* S4 (2026-06-13): seed ALL heavy-path RNG so a given "Seed" actually
+     reproduces the result.  Previously only stLandauTwist was seeded; the
+     modular prime in stLandauFindIrredMonos, its parameter point, and the
+     noDegeneracy primes drew from the GLOBAL RNG, so two runs at the same seed
+     could stage different letter sets on borderline graphs ("seed:1234" in
+     provenance did not reproduce).  BlockRandom restores the outer RNG state
+     on exit, including the early Return below. *)
+  BlockRandom[SeedRandom[seed];
   (* chart with degeneracy auto-retry (spec section 3) *)
   chartTried = {};
   id = Module[{charts, res = $Failed},
@@ -14045,7 +14343,9 @@ STFindSingularities[graph : {_List, _List},
       "diagnostics" -> <|"chartTried" -> chartTried,
         "status" -> "no-usable-chart"|>,
       "provenance" -> <|"engine" -> "SPQRLandau-CII",
-        "stVersion" -> $SubTropicaVersion, "seed" -> seed|>|>]];
+        "stVersion" -> $SubTropicaVersion, "seed" -> seed,
+        "confirmPrimes" -> confirmPrimes, "confirmSeed" -> seed2,
+        "confirmAgree" -> confirmAgree|>|>]];
   elim = stLandauElim[id, budget, vb];
   letters = elim["letters"];
   vets = If[letters === {}, {},
@@ -14055,6 +14355,31 @@ STFindSingularities[graph : {_List, _List},
     stLandauNoDegeneracyQ[id["gens"], id["vars"]], Indeterminate];
   trusted = TrueQ[elim["complete"]] && noDeg === True &&
     vets =!= {} && AllTrue[vets, #["genuine"] === True &];
+  (* S3: confirm the trust verdict at an INDEPENDENT second prime.  The only
+     genuinely single-prime parts of "trusted" are the per-letter GENUINENESS
+     counts and non-degeneracy, so re-run exactly those under SeedRandom[seed2]
+     (a different modular prime + parameter point): stLandauVetLetters
+     recomputes its OWN generic chiGen AND each letter's constrained count at
+     seed2, and the genuine-letter set must agree; stLandauNoDegeneracyQ must
+     hold again.  The expensive elimination is NOT re-run -- elim["complete"]
+     and the letter VALUES are exact-Q (FiniteFlow multi-prime) and hence
+     prime-robust.  pass 2 restarts fresh from its own BlockRandom[seed2], so
+     it reproduces from seed2 alone and is independent of pass-1's RNG stream.
+     Direction is conservative: an unlucky-prime false-genuine at seed1 is
+     caught and demotes trusted to False; it can never falsely promote. *)
+  If[confirmPrimes >= 2 && trusted && letters =!= {},
+    Module[{vets2, gen2, noDeg2},
+      vets2 = BlockRandom[SeedRandom[seed2];
+        stLandauVetLetters[ps, letters, seed2, vb]];
+      gen2 = #["letter"] & /@ Select[vets2, #["genuine"] === True &];
+      noDeg2 = BlockRandom[SeedRandom[seed2];
+        Quiet@Check[stLandauNoDegeneracyQ[id["gens"], id["vars"]],
+          Indeterminate]];
+      confirmAgree = (Sort[gen2] === Sort[genuineLetters]) && (noDeg2 === True);
+      If[vb && ! TrueQ[confirmAgree],
+        Print["[stLandau] S3 second-prime confirmation DISAGREES -> ",
+          "demoting trusted (genuine set or noDeg differs at seed2)"]];
+      trusted = trusted && TrueQ[confirmAgree]]];
   odd = Which[
     !findLet, Null,
     elim["complete"] =!= True, Missing["IncompleteEvens"],
@@ -14096,8 +14421,11 @@ STFindSingularities[graph : {_List, _List},
       "spqrVersion" -> $stLandauSPQRVersion,
       "seed" -> seed, "chart" -> id["chart"],
       "nu" -> id["nu"],
+      "confirmPrimes" -> confirmPrimes,
+      "confirmSeed" -> seed2,
+      "confirmAgree" -> confirmAgree,
       "factorization" -> elim["factorization"],
-      "budget" -> budget, "wallTotal" -> wallTotal|>|>];
+      "budget" -> budget, "wallTotal" -> wallTotal|>|>]];
 
 (* ============================================================ *)
 (*  STIntegrateHF: end-to-end Mma -> HF pipeline                *)
@@ -14214,20 +14542,33 @@ $stCarryScorePenalty = 4;
 $stCarryResearchBudget = 60;
 
 (* P2S2 Stage-2 SAFETY GATE (2026-06-12): carried-term EXECUTION is
-   DISARMED by default.  The expand-then-substitute executor has a
-   CONFIRMED coordinate-dependent reg-at-infinity defect: substituting
-   into the already-ep-expanded coefficient and regularizing in the new
-   variable loses (log-coeff)*Log[2 sqrtA] relative to the truth (the
-   hyperlog reg subtracts Log[outermost variable], and x_d ~ t/(2 sqrtA)
-   asymptotically).  Verified to 16-17 digits in the actual engine via
-   the truth-triangle (engine(unsubstituted)=truth, engine(substituted)=
-   truth - Log[2]); see notes/carry_option/TASK2_VERIFY_FINDING.md.
-   With this flag False the integration pass always demotes the carry
-   face LOUDLY (the spec STOP-ladder step 2) -- it never silently writes
-   a substituted (wrong) integrand.  The durable fix (slope-1 rescaled
-   remap so x_d ~ u, killing the defect to all weights) re-arms by
-   setting this True, but only after the G4a order test + the deg-1 /
-   irrational-sqrtA / weight-2 truth-triangle battery are green. *)
+   DISARMED (2026-06-13, re-disarmed after the P2S2-G7 adversarial review
+   found a BLOCKING silent-wrong-number path; notes/carry_option/
+   TASK2_VERIFY_FINDING.md "P2S2-G7 ADVERSARIAL BLOCKER").  The slope-1
+   coordinate fix and prefix-pinning MATH are sound (Layer-1 gate, 17
+   digits, dimension-independent), but the ORDER-DISCHARGE step is not
+   safe as wired:
+   - The shared order is validated for the UN-transformed face; the slope-1
+     transform replaces the Delta-factor, so the transformed carried term
+     need NOT be linearly reducible along the pinned shared order (rational
+     sqrtA does NOT mean field-vacuous: the transformed quadratic
+     4a u^2+2b u+c has discriminant b^2-16ac, generically not a square ->
+     the transformed integrand still mints Wm/Wp letters).
+   - The liveness re-search did a FREE order search and only checked NOLR;
+     it never verified the PINNED order is LR for the transformed term, and
+     on timeout pinned anyway (OrderCertified -> False).  lib9 always times
+     out (>300 s vs the 60 s budget) -> executed along an UNCERTIFIED order.
+   - HyperInt on a non-LR integrand returns a FINITE, $Failed-free, WRONG
+     value (the $NoAlgebraicRootsContributions zeroing); successQ =
+     !FreeQ[$Failed] is blind to it -> SILENT WRONG NUMBER, zero demotes.
+   RE-ARM REQUIRES: (1) the order-certification guard below (uncertified or
+   pinned-order-not-LR -> LOUD demote, never a silent pin), AND (2) a
+   full-pipeline independent value check on a CERTIFYING fully-alignable
+   fixture (symbolic Laurent vs HyperInt closed form) -- Layer-1 tests the
+   executor functions + NIntegrate, NOT the production assembly.  Until
+   both are green this stays False (loud demote, the spec STOP-ladder
+   step 2).  ENVELOPE when armed: rational sqrtA, deg-2, vacuous endpoint,
+   prefix-pinnable AND pinned-order-LR-certified; all else demotes loudly. *)
 $stCarryExecuteArmed = False;
 
 (* True if an LR-search result is a hard failure ($Failed) OR a NOLR
@@ -15341,6 +15682,19 @@ STFubiniLR[polynomials_List, var_, OptionsPattern[]] := Module[
     term1Raw = Table[
         {
             CoefficientList[f, var][[-1]],
+            (* Constant term f|_{var=0} = CoefficientList[f,var][[1]], the
+               s[{0,f}] piece of Brown's polynomial reduction (HyperInt
+               cgSingleReduction*; the var=0 endpoint singularity of the
+               [0,infinity) integration).  Omitting it under-approximates the
+               Landau set and yields FALSE-POSITIVE LR orders -- a downstream
+               resultant against this term can be the only source of a
+               degree>=2 obstruction in a later integration variable.  Guard
+               on FreeQ so a var-free poly (whose leading coeff above already
+               IS the whole poly) is not double-counted. *)
+            If[FreeQ[f, var],
+                Nothing,
+                CoefficientList[f, var][[1]]
+            ],
             If[FreeQ[f, var],
                 Nothing,
                 If[Length[f] > limit,
@@ -15589,15 +15943,16 @@ STFasterFubini[
             ];
             STFubiniLR[polys, v, FilterRules[{opts}, Options[STFubiniLR]]]
         , {v, vars}];
-        (* Phase \[Alpha].2 note: NOT gated by $STUseFastProportionalDedup \[LongDash] only
-           the active STFasterFubini2:~11096 Intersection is gated.  Match
-           via stIntersectProportional[preSTable[g]] if the flag's default
-           ever flips and callers of STFasterFubini (this legacy path) need
-           parity. *)
-        set[g][Sort[vars]] = Apply[
-            Intersection[##, SameTest -> (ProportionalPolynomialsQLR[#1, #2] &)] &,
-            preSTable[g]
-        ];
+        (* Use the robust hash-based intersection (same as STFasterFubini2).
+           The legacy Apply[Intersection[##, SameTest ->
+           ProportionalPolynomialsQLR]&, ...] is BROKEN: ProportionalPolynomialsQLR
+           returns UNEVALUATED on unequal-term-count pairs (e.g.
+           (x1, x1+x3+x1 x3)), so Intersection::smtst fires and Intersection
+           silently collapses to {} -- every order then passes the linearity
+           check vacuously and STFasterFubini returns a NON-LR order.
+           stIntersectProportional canonicalizes then does an exact set
+           Intersection, so it is total and correct. *)
+        set[g][Sort[vars]] = stIntersectProportional[preSTable[g]];
     , {g, groupMembers}];
 
     preOrders = Table[
@@ -16986,24 +17341,60 @@ stCarryExecuteTerm[group_List, fv_List, profile_Association,
             Flatten[Table[First /@ Rest[FactorList[n]], {n, xfNums}]] /.
                 stCarryTau -> xd],
         _?NumericQ];
+    (* P2S2-G7 SQRT-COEFFICIENT GUARD (2026-06-13, confirmed bug).  HF's LR
+       verifier parses polynomials over Q and SILENTLY DROPS any letter
+       carrying a literal Sqrt[...] / non-integer-power coefficient (control:
+       VerifyOrder on {1 + Sqrt[qq2] x + x^2} returns OrderIsLR -> True,
+       BlockingDegree -> 0 -- the deg-2 blocker is INVISIBLE), so a radical-
+       bearing xfg would FALSE-CERTIFY.  In v1 this is UNREACHABLE (irrational
+       sqrtA -> "kinematicextension" and needs-extension endpoints ->
+       "endpointextension" both demote ABOVE, so xfg is radical-free here), but
+       we assert it as defense-in-depth: a future irrational-sqrtA extension
+       MUST rationalize the field FIRST (Sqrt[a] -> rA with a -> rA^2; HF then
+       handles rA correctly, control: {1 + rA x + x^2} -> OrderIsLR -> False)
+       BEFORE this verify.  Until then, a radical in xfg is a LOUD demote,
+       never a silent false-certify. *)
+    If[! FreeQ[xfg, Sqrt[_] | Power[_, _?(! IntegerQ[#] &)]],
+        Return[$Failed["xfgalgebraic"]]];
     (* PIN the integration order to the shared face order (order-
-       consistency).  The re-search is a LIVENESS check only: the
-       transformed term must be LR at all (NOLR -> loud demote); its
-       returned order is NOT used.  OrderCertified records whether the
-       liveness check ran and the pinned order shares the transformed
-       term's prefix. *)
+       consistency).  P2S2-G7 ORDER-CERTIFICATION GUARD (2026-06-13,
+       adversarial blocker): the production path integrates the transformed
+       term along sharedOrder; HyperInt SILENTLY ZEROES a non-LR integrand
+       (the $NoAlgebraicRootsContributions zeroing) and successQ is blind to
+       it.  So we CERTIFY the PINNED order is STRICTLY LR for the transformed
+       term BEFORE executing, via HF's specific-order verifier (VerifyOrder,
+       2026-06-13: O(n) walk, no O(2^n) search -- cheap and exact, unlike the
+       earlier free-search + best==pinned proxy that was over-conservative AND
+       timed out on real faces, lib9 >600 s).  STRICT (FindRoots -> False) is
+       the safety condition: a genuine carry substitution RATIONALIZES the
+       obligation, leaving a deg<=1 (strictly-LR) term -- no deg-2 letter for
+       the zeroing flag to silently drop.  A non-strictly-LR pinned order
+       means the substitution did NOT fully rationalize (e.g. a residual
+       irreducible quadratic) -> LOUD demote, never a silent wrong number. *)
     tOrder = sharedOrder;
     budget = Lookup[opts, "ResearchBudget", $stCarryResearchBudget];
-    research = If[NumericQ[budget] && budget > 0,
-        Quiet[STFindLROrdersHF[{Join[xfg, fv]}, fv, FindRoots -> True,
-            "Carry" -> False, "TimeConstraint" -> budget],
-            {STFindLROrdersHF::timedout, STFindLROrdersHF::hferror}],
-        $Failed];
-    Which[
-        research === $Failed, certified = False,    (* timeout: integrator arbitrates *)
-        TrueQ[stLRResultNOLRQ[research]],
-            Return[$Failed["postsubstitution"]],     (* genuinely NOLR: demote *)
-        True, certified = True];
+    If[NumericQ[budget] && budget > 0,
+        Module[{verdict = Quiet[
+            STFindLROrdersHF[{Join[xfg, fv]}, fv, FindRoots -> False,
+                "VerifyOrder" -> sharedOrder, "TimeConstraint" -> budget],
+            {STFindLROrdersHF::timedout, STFindLROrdersHF::hferror}]},
+            Which[
+                ! AssociationQ[verdict],
+                    (* timed out / errored: cannot certify -> LOUD demote *)
+                    Return[$Failed["ordernotcertified"]],
+                TrueQ[verdict["Malformed"]],
+                    Return[$Failed["ordermalformed"]],
+                ! TrueQ[verdict["OrderIsLR"]],
+                    (* the pinned order is NOT strictly LR for the transformed
+                       term (residual algebraic letter) -> LOUD demote *)
+                    Return[$Failed["ordernotlr"]],
+                True, certified = True]],
+        (* budget <= 0: certification SKIPPED.  UNIT/MATH-TEST path ONLY
+           (e.g. test_carry_multiterm_gate.wl drives the transform through
+           NIntegrate, where LR-along-order is irrelevant).  PRODUCTION always
+           passes $stCarryResearchBudget = 60 > 0, so production never reaches
+           this branch.  Proceed with OrderCertified -> False. *)
+        certified = False];
     <|"Rule" -> (xd -> phiShift), "Jacobian" -> jacShift,
       "XVar" -> xd, "SqrtA" -> subData["SqrtA"],
       "SqrtARational" -> subData["SqrtARational"],
@@ -26637,7 +27028,7 @@ handleDeleteResult[body_String] := Module[
       "error" -> "Entry not found"|>, "RawJSON"]]];
 
   (* Delete core factored into stDeleteResultFromEntry (results-split spec
-     §6 paired delete) so tests can drive it directly against a temp dir;
+     \[Section]6 paired delete) so tests can drive it directly against a temp dir;
      this handler only resolves the path and serializes the status. *)
   Module[{res = stDeleteResultFromEntry[entryPath, resultIndex]},
     If[Lookup[res, "status"] =!= "ok",
@@ -26991,7 +27382,7 @@ stSymbolToTeX[expr_] := Module[
       Function[letter,
         letterExpr = letter /. massRules;
         AppendTo[letterPool, letter];
-        (* fail-empty, never InputForm (spec §8.7) *)
+        (* fail-empty, never InputForm (spec \[Section]8.7) *)
         stTeXOrEmpty[letterExpr]
       ],
       letters];
@@ -28383,6 +28774,7 @@ def build_library_json():
         for lib_root in [LIBRARY_BUNDLED_DIR, LIBRARY_LOCAL_DIR]:
             if not os.path.isdir(lib_root):
                 continue
+            is_local_root = (lib_root == LIBRARY_LOCAL_DIR)
             for topo_name in sorted(os.listdir(lib_root)):
                 topo_dir = os.path.join(lib_root, topo_name)
                 if not os.path.isdir(topo_dir):
@@ -28433,6 +28825,14 @@ def build_library_json():
                         continue
                     # Full-mode clients keep a monolithic in-memory view.
                     entry = merge_results_sibling(cfg_dir, entry)
+                    # Tag results from the user library-local tree so the UI can
+                    # badge them per-result, even after they are appended into a
+                    # matching bundled config (a mixed bundled+local diagram).
+                    if is_local_root:
+                        for _rkey in ('Results', 'results'):
+                            for _r in (entry.get(_rkey) or []):
+                                if isinstance(_r, dict):
+                                    _r['_local'] = True
                     cni = entry.get('CNickelIndex', '')
                     mass_key = cni.split(':')[1] if ':' in cni else ''.join('0' if c != '|' else '|' for c in cni)
                     if mass_key in configs:
@@ -30832,7 +31232,7 @@ stBuildSTCommand[config_Association] := Module[
 ];
 
 (* ================================================================== *)
-(*  RESULTS-SPLIT PRIMITIVES (spec 2026-06-11-results-split-design §3) *)
+(*  RESULTS-SPLIT PRIMITIVES (spec 2026-06-11-results-split-design \[Section]3) *)
 (*  Heavy result fields live in a sibling results.json, id-addressed.  *)
 (*  $STHeavyResultFields is defined in THREE languages; keep in sync:  *)
 (*    scripts/_results_split_common.py  (HEAVY_RESULT_FIELDS)          *)
@@ -30866,7 +31266,7 @@ stReadResultsSibling[entryPath_String] := Module[{p, sib},
   If[!AssociationQ[sib], <||>, Lookup[sib, "Results", <||>]]
 ];
 
-(* Reader convention (spec §3.3): resultDataId present -> merge heavy fields
+(* Reader convention (spec \[Section]3.3): resultDataId present -> merge heavy fields
    from the sibling; absent -> record is self-contained. Returns the merged
    record, or a record with "stSplitError" set when the id cannot resolve. *)
 stMergeResultRecord[rec_Association, entryPath_String] := Module[{rid, sib},
@@ -30943,7 +31343,7 @@ stAtomicExportJSON[path_String, obj_] := Module[{tmp, res},
   RenameFile[tmp, path];
 ];
 
-(* Paired delete (spec §6): remove Results[[idx0+1]] (idx0 is the JS
+(* Paired delete (spec \[Section]6): remove Results[[idx0+1]] (idx0 is the JS
    caller's 0-based index) from entry.json; when the victim is a split stub,
    drop its heavy record from the sibling results.json too. Post-write
    assertion: every remaining stub id must still resolve. Returns
@@ -30972,7 +31372,7 @@ stDeleteResultFromEntry[entryPath_String, idx0_Integer] := Module[
       If[AssociationQ[sib] && KeyExistsQ[Lookup[sib, "Results", <||>], rid],
         sib["Results"] = KeyDrop[sib["Results"], rid];
         stAtomicExportJSON[sibPath, sib]]]];
-  (* Post-write assertion (spec §6): every remaining stub id resolves. *)
+  (* Post-write assertion (spec \[Section]6): every remaining stub id resolves. *)
   If[AnyTrue[Lookup[Quiet @ Check[Import[entryPath, "RawJSON"], <||>], "Results", {}],
       (AssociationQ[#] && KeyExistsQ[stMergeResultRecord[#, entryPath], "stSplitError"]) &],
     Return[<|"status" -> "error",
@@ -30980,7 +31380,7 @@ stDeleteResultFromEntry[entryPath_String, idx0_Integer] := Module[
   <|"status" -> "ok"|>
 ];
 
-(* TeXForm with fail-empty policy (spec §8.7): a TeX-destined field must
+(* TeXForm with fail-empty policy (spec \[Section]8.7): a TeX-destined field must
    NEVER carry raw InputForm (ToString[expr] fallbacks leak $, #, & and
    unbraced exponents that KaTeX rejects); on TeXForm failure store "" and
    log once per kernel. *)
@@ -30990,7 +31390,7 @@ stTeXOrEmpty[expr_] := Quiet @ Check[ToString[expr, TeXForm],
      stLog["[SubTropica] WARNING: TeXForm failed for at least one expression; empty TeX stored (spec 8.7)"]];
    "")];
 
-(* ------- TeX gate layer iii (spec §8.7): mint-time necessary check ------- *)
+(* ------- TeX gate layer iii (spec \[Section]8.7): mint-time necessary check ------- *)
 
 (* Balance + denylist. NOT a parseability proof (the kernel has no KaTeX);
    a necessary condition that catches the known-fatal classes: unbalanced
@@ -31013,7 +31413,7 @@ stTeXBalancedQ[tex_String] := Module[{noAligned, brace, paren, brack, nl, nr},
     StringCount[tex, "\\begin{aligned}"] == StringCount[tex, "\\end{aligned}"]
 ];
 
-(* Truncated preview from a SeriesData result (spec §3.4): walk ascending
+(* Truncated preview from a SeriesData result (spec \[Section]3.4): walk ascending
    epsilon orders; TeX coefficient term-by-term within an 8 KB budget; close
    with +\cdots outside all groups; stTruncateTeX as final guarantee;
    stTeXBalancedQ as the gate. Returns <|"preview" -> tex, "truncated" -> bool|>;
@@ -31037,7 +31437,7 @@ stMakeResultTeXPreview[result_] := Module[
   Do[
     coeff = SeriesCoefficient[res, k];
     If[coeff === 0, Continue[]];
-    (* Termization (spec §3.4): Plus -> operands; Times[numeric, Plus] ->
+    (* Termization (spec \[Section]3.4): Plus -> operands; Times[numeric, Plus] ->
        distribute the numeric factor over the Plus operands; anything else
        is one term. Structural O(1) tests only: MatchQ with Times[...] on a
        Flat/Orderless head is exponentially slow at large factor counts. *)
@@ -31287,7 +31687,7 @@ STSaveResult[ir_Association, opts:OptionsPattern[]] := Module[
     newRecord["legOrder"] = Quiet @ Check[
       stComputeLegOrder[newRecord["stCommand"]], {}];
 
-    (* Inline preview (spec §3.4): kernel-generated, bounded.  These are
+    (* Inline preview (spec \[Section]3.4): kernel-generated, bounded.  These are
        light stub fields; stWriteSplitEntry below keeps them in entry.json
        and moves resultTeX itself into the sibling results.json. *)
     Module[{pv = stMakeResultTeXPreview[result]},
@@ -31358,7 +31758,7 @@ STSaveResult[ir_Association, opts:OptionsPattern[]] := Module[
             stLog["[SubTropica] STSaveResult: duplicate result, skipping."];
             Return[newRecord],
             existingEntry["Results"] = Append[existingResults, newRecord];
-            (* Split-write (spec §3): stubs to entry.json, heavy fields to
+            (* Split-write (spec \[Section]3): stubs to entry.json, heavy fields to
                the sibling results.json. *)
             stWriteSplitEntry[entryPath, existingEntry]
           ]
@@ -31424,7 +31824,7 @@ STSaveResult[ir_Association, opts:OptionsPattern[]] := Module[
                 "quadruple" -> graphQuadruple,
                 "Results" -> {newRecord}
             |>;
-            (* Split-write (spec §3): stubs to entry.json, heavy fields to
+            (* Split-write (spec \[Section]3): stubs to entry.json, heavy fields to
                the sibling results.json. *)
             stWriteSplitEntry[entryPath, newEntry]];
 
@@ -32162,7 +32562,7 @@ STSyncLibrary[opts:OptionsPattern[]] := Module[
         stErr["[SubTropica] ", errors,
               " files failed. Run STSyncLibrary[] again to retry."]];
 
-    (* Results-split alignment check (spec §8.1 local warning): every stub id
+    (* Results-split alignment check (spec \[Section]8.1 local warning): every stub id
        must resolve in its sibling results.json; a partial sync can strand
        stubs (entry.json downloaded, sibling failed, or vice versa).  Single
        pass over the local entry.json files; stMergeResultRecord is only
@@ -33208,7 +33608,7 @@ wrapper, integrands
 ]
 
 
-(* ::Section::Closed:: *)
+(* ::Section:: *)
 (*End*)
 
 

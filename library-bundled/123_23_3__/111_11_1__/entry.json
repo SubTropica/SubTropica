@@ -4,13 +4,10 @@
   "FunctionClass": "MPL",
   "EpsilonOrder": "",
   "References": [
-    "arXiv:1609.05071 (Missing[\"KeyAbsent\", \"journal\"] Missing[\"KeyAbsent\", \"volume\"] (Missing[\"KeyAbsent\", \"pages\"]), Missing[\"KeyAbsent\", \"year\"])",
-    "arXiv:1705.05136 (JHEP 08 (024), 2017)",
-    "arXiv:2506.12253 (Missing[\"KeyAbsent\", \"journal\"] Missing[\"KeyAbsent\", \"volume\"] (Missing[\"KeyAbsent\", \"pages\"]), Missing[\"KeyAbsent\", \"year\"])",
-    "arXiv:1810.07476",
-    "arXiv:2504.02573 (Missing[\"KeyAbsent\", \"journal\"] Missing[\"KeyAbsent\", \"volume\"] (Missing[\"KeyAbsent\", \"pages\"]), Missing[\"KeyAbsent\", \"year\"])",
     "arXiv:1609.05071",
+    "arXiv:1705.05136 (JHEP 08 (024), 2017)",
     "arXiv:2506.12253",
+    "arXiv:1810.07476",
     "arXiv:2504.02573"
   ],
   "Records": [
@@ -211,7 +208,65 @@
   ],
   "Loops": 3,
   "NumPropagators": 6,
-  "Results": [],
+  "Results": [
+    {
+      "resultType": "singularities",
+      "status": "proposal",
+      "recordId": "sg_20260614T060123Z",
+      "byEpsOrder": null,
+      "singularities": [
+        "mm"
+      ],
+      "singularitiesTeX": [
+        "\\text{mm}"
+      ],
+      "singularitiesVerified": [
+        false
+      ],
+      "groundTruthAvailable": false,
+      "provenance": {
+        "engine": "chi/PrefactorScale (single-scale; no Landau elimination)",
+        "stVersion": "1.2.4",
+        "seed": 1234,
+        "chi": null,
+        "confirmPrimes": null,
+        "confirmAgree": null,
+        "wallSeconds": 2.24
+      },
+      "timestamp": "2026-06-14T06:01:23Z",
+      "contributor": "oddletters-v1a"
+    },
+    {
+      "resultType": "proposed-alphabet",
+      "status": "proposal",
+      "recordId": "pa_20260614T060123Z",
+      "byEpsOrder": null,
+      "evens": [
+        "mm"
+      ],
+      "evensTeX": [
+        "\\text{mm}"
+      ],
+      "evensVerified": [
+        false
+      ],
+      "groundTruthAvailable": false,
+      "oddLetters": [],
+      "bareRootsNote": "no bare-root letters (V1a evens-only graph form; flagged-sqrt list empty)",
+      "refusals": [],
+      "provenance": {
+        "engine": "chi/PrefactorScale (single-scale; no Landau elimination)",
+        "stVersion": "1.2.4",
+        "seed": 1234,
+        "chi": null,
+        "confirmPrimes": null,
+        "confirmAgree": null,
+        "wallSeconds": 2.24
+      },
+      "timestamp": "2026-06-14T06:01:23Z",
+      "contributor": "oddletters-v1a"
+    }
+  ],
   "edges": "{{{1, 2}, m}, {{1, 3}, m}, {{1, 4}, m}, {{2, 3}, m}, {{2, 4}, m}, {{3, 4}, m}}",
   "nodes": "{}",
   "CanonicalName": "Equal-mass envelope",

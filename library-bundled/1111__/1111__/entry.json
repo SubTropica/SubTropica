@@ -1,109 +1,174 @@
 {
-	"CNickelIndex": "1111||:1111||",
-	"MassScales": 1,
-	"FunctionClass": "MPL",
-	"EpsilonOrder": "4",
-	"References": [
-		"arXiv:1705.05136 (JHEP 08 (024), 2017)",
-		"arXiv:1804.10570 (Nucl.Phys.B 938 (416), 2019)"
-	],
-	"Records": [
-		{
-			"reference": "arXiv:1705.05136 (JHEP 08 (024), 2017)",
-			"authors": "Kniehl, B.A., Pikelner, A.F., Veretin, O.L.",
-			"description": "Three-loop vacuum banana/watermelon topology (4 parallel propagators between 2 vertices). BN (all massive, QED-type) in Re HPL basis; BN1 (3 massive) in Im HPL basis. BN2 and BN3 are Gamma functions.",
-			"epsOrders": "4",
-			"familyName": "B-type banana vacuum",
-			"method": "DE, IBP, series_expansion",
-			"tools": [
-				"FORM"
-			],
-			"ancillaryFiles": true,
-			"doi": "10.1007/JHEP08(2017)024",
-			"texkey": "Kniehl:2017ikj",
-			"masterCount": 4,
-			"dimScheme": "d=4-2*eps",
-			"computationLevel": "full",
-			"location": "Eq. (2.4), Sec. 4, App. A",
-			"recordId": "bx_07731c5ec955",
-			"verified": true,
-			"verifiedAt": "2026-04-25"
-		}
-	],
-	"Names": [
-		"B-type banana vacuum",
-		"3-loop sunrise vacuum (E)"
-	],
-	"Source": [
-		"arXiv"
-	],
-	"Loops": 3,
-	"NumPropagators": 4,
-	"Results": [
-		{
-			"dimension": "4 - 2*eps",
-			"epsOrder": 0,
-			"propExponents": [
-				1,
-				1,
-				1,
-				1
-			],
-			"propagators": 4,
-			"numerators": [],
-			"internalMasses": [
-				"m"
-			],
-			"externalMasses": [],
-			"substitutions": "{Subscript[m, 3] -> m}",
-			"normalization": "Automatic",
-			"stVersion": "SubTropica v1.1.9",
-			"stCommand": "STIntegrate[{{{{1, 2}, 0}, {{1, 2}, 0}, {{1, 2}, m}, {{1, 2}, 0}}, {}}, \"SetProblemID\" -> \"Theta, 1 massive propagator\", \"Order\" -> 0, \"Substitutions\" -> {Subscript[m, 3] -> m}, \"CleanOutput\" -> True, \"Gauge\" -> {x2 -> 1}, \"FindRoots\" -> True, \"internalMasses\" -> {m}, \"externalMasses\" -> {}]",
-			"contributor": "Anonymous",
-			"timestamp": "Fri 22 May 2026 19:18:36",
-			"byteCount": 1664,
-			"verified": true,
-			"verifiedMethod": "pySecDec",
-			"verifiedTolerance": 0.001,
-			"verifiedMaxRelErr": 1.9999999999647267e-05,
-			"verifiedAt": "Fri 22 May 2026 19:18:27",
-			"verifiedKinPoint": [
-				{
-					"var": "m",
-					"value": "Sqrt[7/59]"
-				}
-			],
-			"alphabet": [
-				"m^2"
-			],
-			"symbolWeight": 2,
-			"symbolTerms": 4,
-			"resultDataId": "e6eaaf332b60d4d2",
-			"resultTeXPreview": "-\\frac{m^2^2}{12 \\varepsilon^2}+\\frac{m^2^2 (2 \\log (m^2)-5)}{8 \\varepsilon}-\\frac{1}{144} m^2^2 \\left(54 \\log ^2(m^2)-270 \\log (m^2)-12 \\zeta(2)+17 \\pi ^2+435\\right)+O\\left(\\varepsilon^1\\right)"
-		}
-	],
-	"edges": "{{{1, 2}, m}, {{1, 2}, m}, {{1, 2}, m}, {{1, 2}, m}}",
-	"nodes": "{}",
-	"CanonicalName": "Equal-mass triple bubble",
-	"MassConfig": {
-		"numEdges": 4,
-		"numMassiveEdges": 4,
-		"numMasslessEdges": 0,
-		"distinctInternalMasses": 1,
-		"internalMassLabels": [
-			"m"
-		],
-		"edgeMassPattern": "1111",
-		"numExtLegs": 0,
-		"numOnshellMassiveExtLegs": 0,
-		"numMasslessExtLegs": 0,
-		"extLegSignature": ""
-	},
-	"Subsectors": [],
-	"ParentSectors": [
-		"1112|e2|e|:1111|21|2|",
-		"1122|22||:0011|12||",
-		"1122|22||:1112|12||",
-		"1122|22||:1112|22||"
-	]
+  "CNickelIndex": "1111||:1111||",
+  "MassScales": 1,
+  "FunctionClass": "MPL",
+  "EpsilonOrder": "4",
+  "References": [
+    "arXiv:1705.05136 (JHEP 08 (024), 2017)",
+    "arXiv:1804.10570 (Nucl.Phys.B 938 (416), 2019)"
+  ],
+  "Records": [
+    {
+      "reference": "arXiv:1705.05136 (JHEP 08 (024), 2017)",
+      "authors": "Kniehl, B.A., Pikelner, A.F., Veretin, O.L.",
+      "description": "Three-loop vacuum banana/watermelon topology (4 parallel propagators between 2 vertices). BN (all massive, QED-type) in Re HPL basis; BN1 (3 massive) in Im HPL basis. BN2 and BN3 are Gamma functions.",
+      "epsOrders": "4",
+      "familyName": "B-type banana vacuum",
+      "method": "DE, IBP, series_expansion",
+      "tools": [
+        "FORM"
+      ],
+      "ancillaryFiles": true,
+      "doi": "10.1007/JHEP08(2017)024",
+      "texkey": "Kniehl:2017ikj",
+      "masterCount": 4,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "full",
+      "location": "Eq. (2.4), Sec. 4, App. A",
+      "recordId": "bx_07731c5ec955",
+      "verified": true,
+      "verifiedAt": "2026-04-25"
+    }
+  ],
+  "Names": [
+    "B-type banana vacuum",
+    "3-loop sunrise vacuum (E)"
+  ],
+  "Source": [
+    "arXiv"
+  ],
+  "Loops": 3,
+  "NumPropagators": 4,
+  "Results": [
+    {
+      "dimension": "4 - 2*eps",
+      "epsOrder": 0,
+      "propExponents": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "propagators": 4,
+      "numerators": [],
+      "internalMasses": [
+        "m"
+      ],
+      "externalMasses": [],
+      "substitutions": "{Subscript[m, 3] -> m}",
+      "normalization": "Automatic",
+      "stVersion": "SubTropica v1.1.9",
+      "stCommand": "STIntegrate[{{{{1, 2}, 0}, {{1, 2}, 0}, {{1, 2}, m}, {{1, 2}, 0}}, {}}, \"SetProblemID\" -> \"Theta, 1 massive propagator\", \"Order\" -> 0, \"Substitutions\" -> {Subscript[m, 3] -> m}, \"CleanOutput\" -> True, \"Gauge\" -> {x2 -> 1}, \"FindRoots\" -> True, \"internalMasses\" -> {m}, \"externalMasses\" -> {}]",
+      "contributor": "Anonymous",
+      "timestamp": "Fri 22 May 2026 19:18:36",
+      "byteCount": 1664,
+      "verified": true,
+      "verifiedMethod": "pySecDec",
+      "verifiedTolerance": 0.001,
+      "verifiedMaxRelErr": 1.9999999999647267e-05,
+      "verifiedAt": "Fri 22 May 2026 19:18:27",
+      "verifiedKinPoint": [
+        {
+          "var": "m",
+          "value": "Sqrt[7/59]"
+        }
+      ],
+      "alphabet": [
+        "m^2"
+      ],
+      "symbolWeight": 2,
+      "symbolTerms": 4,
+      "resultDataId": "e6eaaf332b60d4d2",
+      "resultTeXPreview": "-\\frac{m^2^2}{12 \\varepsilon^2}+\\frac{m^2^2 (2 \\log (m^2)-5)}{8 \\varepsilon}-\\frac{1}{144} m^2^2 \\left(54 \\log ^2(m^2)-270 \\log (m^2)-12 \\zeta(2)+17 \\pi ^2+435\\right)+O\\left(\\varepsilon^1\\right)"
+    },
+    {
+      "resultType": "singularities",
+      "status": "proposal",
+      "recordId": "sg_20260614T055625Z",
+      "byEpsOrder": null,
+      "singularities": [
+        "mm"
+      ],
+      "singularitiesTeX": [
+        "\\text{mm}"
+      ],
+      "singularitiesVerified": [
+        true
+      ],
+      "groundTruthAvailable": true,
+      "provenance": {
+        "engine": "chi/PrefactorScale (single-scale; no Landau elimination)",
+        "stVersion": "1.2.4",
+        "seed": 1234,
+        "chi": 5,
+        "confirmPrimes": null,
+        "confirmAgree": null,
+        "wallSeconds": 1.41,
+        "chiEngine": "eulerDiscriminant"
+      },
+      "timestamp": "2026-06-14T05:56:25Z",
+      "contributor": "oddletters-v1a",
+      "singularitiesChiDrop": [
+        0
+      ]
+    },
+    {
+      "resultType": "proposed-alphabet",
+      "status": "proposal",
+      "recordId": "pa_20260614T055625Z",
+      "byEpsOrder": null,
+      "evens": [
+        "mm"
+      ],
+      "evensTeX": [
+        "\\text{mm}"
+      ],
+      "evensVerified": [
+        true
+      ],
+      "groundTruthAvailable": true,
+      "oddLetters": [],
+      "bareRootsNote": "no bare-root letters (V1a evens-only graph form; flagged-sqrt list empty)",
+      "refusals": [],
+      "provenance": {
+        "engine": "chi/PrefactorScale (single-scale; no Landau elimination)",
+        "stVersion": "1.2.4",
+        "seed": 1234,
+        "chi": 5,
+        "confirmPrimes": null,
+        "confirmAgree": null,
+        "wallSeconds": 1.41,
+        "chiEngine": "eulerDiscriminant"
+      },
+      "timestamp": "2026-06-14T05:56:25Z",
+      "contributor": "oddletters-v1a",
+      "evensChiDrop": [
+        0
+      ]
+    }
+  ],
+  "edges": "{{{1, 2}, m}, {{1, 2}, m}, {{1, 2}, m}, {{1, 2}, m}}",
+  "nodes": "{}",
+  "CanonicalName": "Equal-mass triple bubble",
+  "MassConfig": {
+    "numEdges": 4,
+    "numMassiveEdges": 4,
+    "numMasslessEdges": 0,
+    "distinctInternalMasses": 1,
+    "internalMassLabels": [
+      "m"
+    ],
+    "edgeMassPattern": "1111",
+    "numExtLegs": 0,
+    "numOnshellMassiveExtLegs": 0,
+    "numMasslessExtLegs": 0,
+    "extLegSignature": ""
+  },
+  "Subsectors": [],
+  "ParentSectors": [
+    "1112|e2|e|:1111|21|2|",
+    "1122|22||:0011|12||",
+    "1122|22||:1112|12||",
+    "1122|22||:1112|22||"
+  ]
 }

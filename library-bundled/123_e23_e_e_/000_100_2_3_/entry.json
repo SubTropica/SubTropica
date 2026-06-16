@@ -1,87 +1,89 @@
 {
-	"CNickelIndex":"123|e23|e|e|:000|100|2|3|",
-	"MassScales":3,
-	"FunctionClass":"MPL",
-	"EpsilonOrder":"0,1,2,3,4; 0",
-	"edges":"{{{1, 2}, 0}, {{1, 3}, 0}, {{1, 4}, 0}, {{2, 3}, 0}, {{2, 4}, 0}}",
-	"nodes":"{{2, M[1]}, {3, M[2]}, {4, M[3]}}",
-	"References":[
-		"arXiv:1402.7078",
-		"arXiv:1306.6344",
-		"arXiv:1404.4853",
-		"arXiv:1207.3824"
-	],
-	"Records":[
-		{
-			"epsOrders":"0,1,2,3,4",
-			"reference":"arXiv:1402.7078",
-			"authors":"Johannes M. Henn, Kirill Melnikov, Vladimir A. Smirnov",
-			"description":"The authors compute all two-loop planar master integrals needed for the computation of the production of off-shell vector bosons in hadron collisions. The arXiv contains files with all these integrals, while the definitions and prefactors are given in the paper in Sect. 7. The $\\varepsilon$ expansion is given in terms of multiple polylogarithms of uniform weight through to weight four.",
-			"masterCount":1,
-			"recordId":"1499255369.EqBo",
-			"verified":true,
-			"verifiedAt":"auto-loopedia"
-		},
-		{
-			"epsOrders":"0",
-			"reference":"arXiv:1306.6344",
-			"authors":"Thomas Gehrmann, Lorenzo Tancredi, Erich Weihs",
-			"description":"The authors give the two-loop four-point master integrals with two massive external legs, with the same mass (in the appendix). All results are given in terms of generalized harmonic polylogarithms and all integrals have a common prefactor given in Eq. A.1.",
-			"recordId":"1499420175.zaHC",
-			"verified":true,
-			"verifiedAt":"auto-loopedia"
-		},
-		{
-			"epsOrders":"0,1,2,3,4",
-			"reference":"arXiv:1404.4853",
-			"authors":"Thomas Gehrmann, Andreas von Manteuffel, Lorenzo Tancredi, Erich Weihs",
-			"description":"The authors compute the full set of massless two-loop four-point functions with two off-shell legs with the same invariant mass relevant for diboson production at hadron colliders ($q\\bar{q} \\to VV$ and $gg \\to VV$). The $\\varepsilon$ expansion is given in terms of multiple polylogarithms of uniform weight through to weight four. Results for physical scattering kinematics are optimized for numerical evaluations using $\\operatorname{Li}_{2,2}$, $\\operatorname{Li}_n$ and $\\log$ functions. In addition, expansions are provided at the production threshold and in the small mass limit.",
-			"masterCount":1,
-			"recordId":"1503427764.71GT",
-			"verified":true,
-			"verifiedAt":"auto-loopedia"
-		},
-		{
-			"reference":"arXiv:1207.3824",
-			"familyName":"generalised-ladder_L2_massless-internal-offshell-external",
-			"description":"Generalised ladder family, generalised-ladder_L2_massless-internal-offshell-external. Drummond's generalised ladders (arXiv:1207.3824 Eq. (2.7)): three-point ladders indexed by loop order $L$ and a binary word $m \\in \\{0,1\\}^{L-1}$; $2^{L-1}$ members per $L$. Seeded representative: the all-zeros word. Momentum-space graph (planar dual, notes\/families_sweep_batch\/derivations.md): the fan $F_L =$ hub $h$ joined to every vertex of a path $q_0..q_L$, legs at $q_0$, $q_L$, $h$; loops $= L$ (Euler-exact on the dual). The fan is NOT bare-isomorphic to the 4-point box ladder ($V = L+2$ vs $2L+2$); the relation to the box ladders is the value-level conformal completion. The 2-point vacuum limits of the word family are the zigzags and wheels.",
-			"method":[
-				"closed form"
-			],
-			"tools":[
-				"SubTropica seed_families"
-			],
-			"recordId":"fs_cd56060be3bd",
-			"verified":false,
-			"verifiedAt":""
-		}
-	],
-	"Results":[],
-	"Names":[
-		"All-mass kite (3-point)",
-		"3-mass kite (3-point)",
-		"Kite (3-point)"
-	],
-	"Source":[
-		"arXiv",
-		"Loopedia"
-	],
-	"CanonicalName":"3-mass double triangle (b)",
-	"MassConfig":{
-		"numEdges":5,
-		"numMassiveEdges":0,
-		"numMasslessEdges":5,
-		"distinctInternalMasses":0,
-		"internalMassLabels":[],
-		"edgeMassPattern":"00000",
-		"numExtLegs":3,
-		"numOnshellMassiveExtLegs":3,
-		"numMasslessExtLegs":0,
-		"extLegSignature":"MMM"
-	},
-	"Subsectors":[],
-	"ParentSectors":[
-		"123|24|e|e4|e|:000|00|1|20|3|",
-		"123|e4|e4|e4||:000|10|20|30||"
-	]
+  "CNickelIndex": "123|e23|e|e|:000|100|2|3|",
+  "MassScales": 3,
+  "FunctionClass": "MPL",
+  "EpsilonOrder": "0,1,2,3,4; 0",
+  "edges": "{{{1, 2}, 0}, {{1, 3}, 0}, {{1, 4}, 0}, {{2, 3}, 0}, {{2, 4}, 0}}",
+  "nodes": "{{2, M[1]}, {3, M[2]}, {4, M[3]}}",
+  "References": [
+    "arXiv:1402.7078",
+    "arXiv:1306.6344",
+    "arXiv:1404.4853",
+    "arXiv:1207.3824"
+  ],
+  "Records": [
+    {
+      "epsOrders": "0,1,2,3,4",
+      "reference": "arXiv:1402.7078",
+      "authors": "Johannes M. Henn, Kirill Melnikov, Vladimir A. Smirnov",
+      "description": "The authors compute all two-loop planar master integrals needed for the computation of the production of off-shell vector bosons in hadron collisions. The arXiv contains files with all these integrals, while the definitions and prefactors are given in the paper in Sect. 7. The $\\varepsilon$ expansion is given in terms of multiple polylogarithms of uniform weight through to weight four.",
+      "masterCount": 1,
+      "recordId": "1499255369.EqBo",
+      "verified": true,
+      "verifiedAt": "auto-loopedia"
+    },
+    {
+      "epsOrders": "0",
+      "reference": "arXiv:1306.6344",
+      "authors": "Thomas Gehrmann, Lorenzo Tancredi, Erich Weihs",
+      "description": "The authors give the two-loop four-point master integrals with two massive external legs, with the same mass (in the appendix). All results are given in terms of generalized harmonic polylogarithms and all integrals have a common prefactor given in Eq. A.1.",
+      "recordId": "1499420175.zaHC",
+      "verified": true,
+      "verifiedAt": "auto-loopedia"
+    },
+    {
+      "epsOrders": "0,1,2,3,4",
+      "reference": "arXiv:1404.4853",
+      "authors": "Thomas Gehrmann, Andreas von Manteuffel, Lorenzo Tancredi, Erich Weihs",
+      "description": "The authors compute the full set of massless two-loop four-point functions with two off-shell legs with the same invariant mass relevant for diboson production at hadron colliders ($q\\bar{q} \\to VV$ and $gg \\to VV$). The $\\varepsilon$ expansion is given in terms of multiple polylogarithms of uniform weight through to weight four. Results for physical scattering kinematics are optimized for numerical evaluations using $\\operatorname{Li}_{2,2}$, $\\operatorname{Li}_n$ and $\\log$ functions. In addition, expansions are provided at the production threshold and in the small mass limit.",
+      "masterCount": 1,
+      "recordId": "1503427764.71GT",
+      "verified": true,
+      "verifiedAt": "auto-loopedia"
+    },
+    {
+      "reference": "arXiv:1207.3824",
+      "familyName": "generalised-ladder_L2_massless-internal-offshell-external",
+      "description": "Generalised ladder family, generalised-ladder_L2_massless-internal-offshell-external. Drummond's generalised ladders (arXiv:1207.3824 Eq. (2.7)): three-point ladders indexed by loop order $L$ and a binary word $m \\in \\{0,1\\}^{L-1}$; $2^{L-1}$ members per $L$. Seeded representative: the all-zeros word. Momentum-space graph (planar dual, notes/families_sweep_batch/derivations.md): the fan $F_L =$ hub $h$ joined to every vertex of a path $q_0..q_L$, legs at $q_0$, $q_L$, $h$; loops $= L$ (Euler-exact on the dual). The fan is NOT bare-isomorphic to the 4-point box ladder ($V = L+2$ vs $2L+2$); the relation to the box ladders is the value-level conformal completion. The 2-point vacuum limits of the word family are the zigzags and wheels.",
+      "method": [
+        "closed form"
+      ],
+      "tools": [
+        "SubTropica seed_families"
+      ],
+      "recordId": "fs_cd56060be3bd",
+      "verified": false,
+      "verifiedAt": ""
+    }
+  ],
+  "Results": [],
+  "Names": [
+    "All-mass kite (3-point)",
+    "3-mass kite (3-point)",
+    "Kite (3-point)"
+  ],
+  "Source": [
+    "arXiv",
+    "Loopedia"
+  ],
+  "CanonicalName": "3-mass double triangle (b)",
+  "MassConfig": {
+    "numEdges": 5,
+    "numMassiveEdges": 0,
+    "numMasslessEdges": 5,
+    "distinctInternalMasses": 0,
+    "internalMassLabels": [],
+    "edgeMassPattern": "00000",
+    "numExtLegs": 3,
+    "numOnshellMassiveExtLegs": 3,
+    "numMasslessExtLegs": 0,
+    "extLegSignature": "MMM"
+  },
+  "Subsectors": [],
+  "ParentSectors": [
+    "123|24|e|e4|e|:000|00|1|20|3|",
+    "123|e4|e4|e4||:000|10|20|30||"
+  ],
+  "Loops": 2,
+  "NumPropagators": 5
 }

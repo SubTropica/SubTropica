@@ -1233,6 +1233,18 @@ void check_divergences_pass(const PolyCtx& ctx,
 
     for (const auto& entry : input) {
         if (entry.coef.is_zero()) continue;
+        // A3 defense-in-depth (adversarial review 2026-06-15): this pass
+        // integrates entry.coef WITHOUT threading the deferred-denominator
+        // side-channel, so a factored_den entry reaching here would integrate
+        // the numerator without its denominator (silently wrong divergence
+        // verdict). The handler already suppresses A3 routing whenever
+        // check_divergences is requested, so this never fires; fail loudly if
+        // a future change breaks that invariant rather than mis-certify.
+        if (entry.factored_den.has_value()) {
+            throw IntegrationStepFailed(
+                "A3 factored_den side-channel reached check_divergences_pass "
+                "(routing must be suppressed under check_divergences)");
+        }
         TransformResultSym transformed =
             transform_shuffle(ctx, entry.shuffle, var_idx, table,
                                zw_tab,
@@ -1770,6 +1782,22 @@ RegulatorSym integration_step(const PolyCtx& ctx,
                     std::chrono::steady_clock::now() - _ts_t0).count();
         }
 
+        // A3 (HF perf campaign — stay-factored lever). The deferred-denominator
+        // side-channel `entry.factored_den` is ONLY ever set by the handler on
+        // a BARE single-monomial, empty-shuffle integrand (numerator-only coef).
+        // In that case there is exactly one monomial and one trivial transform
+        // sub, and the side-channel must reach integrate_ii intact -- otherwise
+        // we would integrate the numerator WITHOUT its denominator (silently
+        // wrong). Assert the bare invariant and fail loudly if it is violated,
+        // rather than drop the denominator.
+        const bool has_factored_den = entry.factored_den.has_value();
+        if (has_factored_den &&
+            (entry.coef.terms().size() != 1 || transformed.size() != 1)) {
+            throw IntegrationStepFailed(
+                "A3 factored_den side-channel on a non-bare entry "
+                "(multiple monomials or non-trivial transform)");
+        }
+
         // Iterate each monomial of entry.coef independently. Each has a
         // Rat prefactor (which scales the Wordlist and participates in
         // the polynomial integration) and a pure-symbolic tail (Pi, I,
@@ -1791,6 +1819,19 @@ RegulatorSym integration_step(const PolyCtx& ctx,
 
             for (const auto& sub : transformed) {
                 Wordlist scaled = scalar_mul_wordlist(sub.shuffle, prefactor);
+                // A3: attach the deferred factored denominator to the (unique)
+                // scaled term so integrate_ii defers the DEN^q expansion. The
+                // bare invariant guarantees scaled has one term with den == 1
+                // (the numerator); fail loudly otherwise (never drop the den).
+                if (has_factored_den) {
+                    if (scaled.terms.size() != 1 ||
+                        !scaled.terms[0].coef.den().is_one()) {
+                        throw IntegrationStepFailed(
+                            "A3 factored_den side-channel: unexpected scaled "
+                            "wordlist shape (expected one term, den == 1)");
+                    }
+                    scaled.terms[0].factored_den = entry.factored_den;
+                }
                 Wordlist primitive;
                 const auto _ii_t0 = _tg ? std::chrono::steady_clock::now()
                                         : std::chrono::steady_clock::time_point{};
@@ -2022,7 +2063,25 @@ RegulatorSym integration_step(const PolyCtx& ctx,
             hyperflint::IntegrationNodeRssSampler::instance()
                 .snapshot_thread_records();
             return;
-        } catch (const IntegrationStepFailed&) {
+        } catch (const IntegrationStepFailed& e) {
+            // Lazy-sum risk (b), 2026-06-13: a "nonlinear factor in
+            // denominator (degree >= 3 unsupported)" failure means this
+            // (addend) is not integrable in the recorded order. From
+            // inside the OMP/libdispatch region we must NOT rethrow
+            // (escape is UB -> std::terminate, the ord_0_face_68 SIGABRT);
+            // set the post-barrier flag and return, mirroring the
+            // NarrowCtxTooNarrow flow. The host rethrows
+            // NonlinearDenominatorUnsupported after the barrier; the
+            // bridge handler catches THAT to fall back to fused. The
+            // message-substring discriminator matches the literal thrown
+            // at partial_fractions.cpp (kept in sync there).
+            if (std::string(e.what()).find(
+                    "nonlinear factor in denominator") != std::string::npos) {
+                set_nonlinear_den_flag();
+                hyperflint::IntegrationNodeRssSampler::instance()
+                    .snapshot_thread_records();
+                return;
+            }
             // R26 C1 — legitimate divergence from integrate_ii (re-thrown
             // by the inner catch at line ~1419-1424 as
             // IntegrationStepFailed).  Under tolerance mode the outer
@@ -2086,6 +2145,14 @@ RegulatorSym integration_step(const PolyCtx& ctx,
     const int max_active_slots =
         ::hyperflint::section_6d::dispatch_cap_active(
             dfs_thread_cap, static_cast<int>(accum_t.size()));
+
+    // Lazy-sum risk (b), 2026-06-13: clear the nonlinear-denominator flag
+    // before this call's main loop so the post-barrier check below
+    // reflects ONLY this integration_step (the failure is per-addend /
+    // per-fibration-order, not a whole-run property like narrow-ctx).
+    // integration_step calls are serial (the var-step loop and the lazy
+    // addend loop are both serial), so this reset cannot race a sibling.
+    reset_nonlinear_den_flag();
 
     // Phase 1 Task 1.E (post-FOLD-7): runtime gate between GCD dispatch
     // and OMP parallel-for.  Default (HF_USE_GCD unset or "0"): OMP path,
@@ -2247,6 +2314,15 @@ RegulatorSym integration_step(const PolyCtx& ctx,
     // a single relaxed-load no-op.
     if (narrow_ctx_was_too_narrow()) {
         throw NarrowCtxTooNarrow{"integration_step"};
+    }
+
+    // Lazy-sum risk (b), 2026-06-13 -- post-barrier sibling of the
+    // narrow-ctx check above. A worker hit the degree>=3 nonlinear-
+    // denominator wall; throw from HOST code so the barrier has made the
+    // worker's flag write visible (never from inside the region: escape
+    // is UB). Default path (flag clear): single relaxed-load no-op.
+    if (nonlinear_den_was_unsupported()) {
+        throw NonlinearDenominatorUnsupported{};
     }
 
     // Phase-d15: sum per-thread per-primitive timers and write into the
@@ -3026,8 +3102,10 @@ RegulatorSym integration_step(const PolyCtx& ctx,
     ShuffleListSym promoted;
     promoted.reserve(input.size());
     for (const auto& e : input) {
+        // A3: forward the deferred-denominator side-channel (nullopt for
+        // ordinary entries) so these Rat->Sym adapters never silently drop it.
         promoted.push_back(ShuffleEntrySym{
-            SymCoef::from_rat(e.coef), e.shuffle});
+            SymCoef::from_rat(e.coef), e.shuffle, e.factored_den});
     }
     return integration_step(ctx, promoted, var_idx, table, zw_tab,
                              check_divergences, introduce_algebraic_letters,
@@ -3071,8 +3149,10 @@ RegulatorSym integration_step_sym(const PolyCtx& ctx,
     ShuffleListSym promoted;
     promoted.reserve(input.size());
     for (const auto& e : input) {
+        // A3: forward the deferred-denominator side-channel (nullopt for
+        // ordinary entries) so these Rat->Sym adapters never silently drop it.
         promoted.push_back(ShuffleEntrySym{
-            SymCoef::from_rat(e.coef), e.shuffle});
+            SymCoef::from_rat(e.coef), e.shuffle, e.factored_den});
     }
     return integration_step_sym(ctx, promoted, var_idx, table, zw_tab,
                                  check_divergences,

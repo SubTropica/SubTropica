@@ -80,8 +80,13 @@ struct ParseResult {
     std::vector<std::string> augmented_vars;
 };
 
+// lazy_top_sum (HF_LAZY_SUM): when true, the OUTERMOST sum is preserved as
+// a Plus node instead of being fused into a single Leaf Rat, so the caller
+// can integrate each top-level addend separately (the R-class parse-fusion
+// cure). Default false reproduces the historical fusing behaviour exactly.
 ParseResult parse_expression(const std::string& input,
-                              const std::vector<std::string>& user_vars);
+                              const std::vector<std::string>& user_vars,
+                              bool lazy_top_sum = false);
 
 }  // namespace convert
 }  // namespace hyperflint

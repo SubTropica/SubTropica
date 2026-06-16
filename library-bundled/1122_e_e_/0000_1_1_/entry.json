@@ -95,6 +95,71 @@
       "byteCount": 1568,
       "resultDataId": "0aed491d4baf3fae",
       "resultTeXPreview": "\\frac{1}{\\varepsilon^2}+\\frac{-2 \\log \\left(M^2\\right)-2 i \\pi +4}{\\varepsilon}+\\left(2 \\log ^2\\left(M^2\\right)+4 i \\pi  \\log \\left(M^2\\right)-8 \\log \\left(M^2\\right)-2 \\zeta(2)-\\frac{11 \\pi ^2}{6}-8 i \\pi +12\\right)+O\\left(\\varepsilon^1\\right)"
+    },
+    {
+      "resultType": "singularities",
+      "status": "proposal",
+      "recordId": "sg_20260614T060117Z",
+      "byEpsOrder": null,
+      "singularities": [
+        "MM"
+      ],
+      "singularitiesTeX": [
+        "\\text{MM}"
+      ],
+      "singularitiesVerified": [
+        false
+      ],
+      "groundTruthAvailable": false,
+      "provenance": {
+        "engine": "chi/PrefactorScale (single-scale; no Landau elimination)",
+        "stVersion": "1.2.4",
+        "seed": 1234,
+        "chi": 1,
+        "confirmPrimes": null,
+        "confirmAgree": null,
+        "wallSeconds": 1.34,
+        "chiEngine": "eulerDiscriminant"
+      },
+      "timestamp": "2026-06-14T06:01:17Z",
+      "contributor": "oddletters-v1a",
+      "singularitiesChiDrop": [
+        0
+      ]
+    },
+    {
+      "resultType": "proposed-alphabet",
+      "status": "proposal",
+      "recordId": "pa_20260614T060117Z",
+      "byEpsOrder": null,
+      "evens": [
+        "MM"
+      ],
+      "evensTeX": [
+        "\\text{MM}"
+      ],
+      "evensVerified": [
+        false
+      ],
+      "groundTruthAvailable": false,
+      "oddLetters": [],
+      "bareRootsNote": "no bare-root letters (V1a evens-only graph form; flagged-sqrt list empty)",
+      "refusals": [],
+      "provenance": {
+        "engine": "chi/PrefactorScale (single-scale; no Landau elimination)",
+        "stVersion": "1.2.4",
+        "seed": 1234,
+        "chi": 1,
+        "confirmPrimes": null,
+        "confirmAgree": null,
+        "wallSeconds": 1.34,
+        "chiEngine": "eulerDiscriminant"
+      },
+      "timestamp": "2026-06-14T06:01:17Z",
+      "contributor": "oddletters-v1a",
+      "evensChiDrop": [
+        0
+      ]
     }
   ],
   "Names": [
@@ -129,5 +194,7 @@
     "112|e|33|e|:000|1|00|1|",
     "123|23|e|e|:000|00|1|1|",
     "123|23|e|e|:100|00|2|2|"
-  ]
+  ],
+  "Loops": 2,
+  "NumPropagators": 4
 }

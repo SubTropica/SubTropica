@@ -1,73 +1,360 @@
 {
-    "CNickelIndex": "e1111|e|:10023|1|",
-    "MassScales": 3,
-    "FunctionClass": "MPL",
-    "EpsilonOrder": "0",
-    "References": [],
-    "Records": [],
-    "Source": "SubTropica",
-    "Results": [
-        {
-            "dimension": "2 - 2*eps",
-            "epsOrder": 0,
-            "propExponents": [
-                1,
-                1,
-                1,
-                1
-            ],
-            "propagators": [],
-            "numerators": [],
-            "internalMasses": [],
-            "externalMasses": [],
-            "substitutions": "{MM -> 1, mm1 -> w*wb, mm2 -> (1 - w)*(1 - wb)}",
-            "normalization": "Automatic",
-            "stVersion": "SubTropica v1.0.379",
-            "stCommand": "STIntegrate[{{{{1, 2}, Subscript[m, 1]}, {{1, 2}, Subscript[m, 2]}, {{1, 2}, 0}, {{1, 2}, 0}}, {{1, M}, {2, M}}}, Dimension -> \"2 - 2*eps\", Order -> 0, Substitutions -> {MM -> 1, mm1 -> w*wb, mm2 -> (1 - w)*(1 - wb)}]",
-            "contributor": "SM",
-            "timestamp": "2026-04-19T19:00:08",
-            "byteCount": 37648,
-            "alphabet": [
-                "w-1",
-                "w",
-                "\\text{wb}-1",
-                "\\text{wb}",
-                "w-\\text{wb}",
-                "\\text{wb}-w"
-            ],
-            "symbolWeight": 3,
-            "symbolTerms": 128,
-            "legOrder": [
-                1,
-                2
-            ],
-            "resultDataId": "0de38e6ff6a167cf",
-            "resultTeXPreview": "\\frac{\\log \\left(1-\\frac{1}{w}\\right)-\\log \\left(\\frac{\\text{wb}-1}{\\text{wb}}\\right)}{\\varepsilon^2 (w-\\text{wb})}+\\frac{-10 H(w,\\text{wb}\\,;1)+10 H(\\text{wb},w\\,;1)-4 H\\left(\\frac{w \\text{wb}}{w+\\text{wb}-1},w\\,;1\\right)+4 H\\left(\\frac{w \\text{wb}}{w+\\text{wb}-1},\\text{wb}\\,;1\\right)-8 H(0,w\\,;1)+8 H(0,\\text{wb}\\,;1)-6 \\log \\left(\\frac{w-1}{w}\\right) \\log (\\text{wb}-1)+6 \\log (w-1) \\log \\left(\\frac{\\text{wb}-1}{\\text{wb}}\\right)+7 \\log ^2\\left(\\frac{w-1}{w}\\right)-6 \\log (w-1) \\log \\left(\\frac{w-1}{w}\\right)-7 \\log ^2\\left(\\frac{\\text{wb}-1}{\\text{wb}}\\right)+6 \\log (\\text{wb}-1) \\log \\left(\\frac{\\text{wb}-1}{\\text{wb}}\\right)}{2 \\varepsilon (w-\\text{wb})} + \\cdots"
-        }
-    ],
-    "edges": "{{{1, 2}, Subscript[m, 1]}, {{1, 2}, Subscript[m, 2]}, {{1, 2}, 0}, {{1, 2}, 0}}",
-    "nodes": "{{1, M}, {2, M}}",
-    "Loops": 3,
-    "NumPropagators": 4,
-    "MassConfig": {
-        "numEdges": 4,
-        "numMassiveEdges": 2,
-        "numMasslessEdges": 2,
-        "distinctInternalMasses": 2,
-        "internalMassLabels": [
-            "Subscript[m, 1]",
-            "Subscript[m, 2]"
-        ],
-        "edgeMassPattern": "1200",
-        "numExtLegs": 2,
-        "numOnshellMassiveExtLegs": 2,
-        "numMasslessExtLegs": 0,
-        "extLegSignature": "MM"
+  "CNickelIndex": "e1111|e|:10023|1|",
+  "MassScales": 3,
+  "FunctionClass": "MPL",
+  "EpsilonOrder": "0",
+  "References": [],
+  "Records": [],
+  "Source": "SubTropica",
+  "Results": [
+    {
+      "dimension": "2 - 2*eps",
+      "epsOrder": 0,
+      "propExponents": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "propagators": [],
+      "numerators": [],
+      "internalMasses": [],
+      "externalMasses": [],
+      "substitutions": "{MM -> 1, mm1 -> w*wb, mm2 -> (1 - w)*(1 - wb)}",
+      "normalization": "Automatic",
+      "stVersion": "SubTropica v1.0.379",
+      "stCommand": "STIntegrate[{{{{1, 2}, Subscript[m, 1]}, {{1, 2}, Subscript[m, 2]}, {{1, 2}, 0}, {{1, 2}, 0}}, {{1, M}, {2, M}}}, Dimension -> \"2 - 2*eps\", Order -> 0, Substitutions -> {MM -> 1, mm1 -> w*wb, mm2 -> (1 - w)*(1 - wb)}]",
+      "contributor": "SM",
+      "timestamp": "2026-04-19T19:00:08",
+      "byteCount": 37648,
+      "alphabet": [
+        "w-1",
+        "w",
+        "\\text{wb}-1",
+        "\\text{wb}",
+        "w-\\text{wb}",
+        "\\text{wb}-w"
+      ],
+      "symbolWeight": 3,
+      "symbolTerms": 128,
+      "legOrder": [
+        1,
+        2
+      ],
+      "resultDataId": "0de38e6ff6a167cf",
+      "resultTeXPreview": "\\frac{\\log \\left(1-\\frac{1}{w}\\right)-\\log \\left(\\frac{\\text{wb}-1}{\\text{wb}}\\right)}{\\varepsilon^2 (w-\\text{wb})}+\\frac{-10 H(w,\\text{wb}\\,;1)+10 H(\\text{wb},w\\,;1)-4 H\\left(\\frac{w \\text{wb}}{w+\\text{wb}-1},w\\,;1\\right)+4 H\\left(\\frac{w \\text{wb}}{w+\\text{wb}-1},\\text{wb}\\,;1\\right)-8 H(0,w\\,;1)+8 H(0,\\text{wb}\\,;1)-6 \\log \\left(\\frac{w-1}{w}\\right) \\log (\\text{wb}-1)+6 \\log (w-1) \\log \\left(\\frac{\\text{wb}-1}{\\text{wb}}\\right)+7 \\log ^2\\left(\\frac{w-1}{w}\\right)-6 \\log (w-1) \\log \\left(\\frac{w-1}{w}\\right)-7 \\log ^2\\left(\\frac{\\text{wb}-1}{\\text{wb}}\\right)+6 \\log (\\text{wb}-1) \\log \\left(\\frac{\\text{wb}-1}{\\text{wb}}\\right)}{2 \\varepsilon (w-\\text{wb})} + \\cdots"
     },
-    "CanonicalName": "2-mass banana, 2 massive propagators",
-    "Names": [],
-    "ParentSectors": [],
-    "Subsectors": [],
-    "commonNames": null,
-    "quadruple": "{E^(3*eps*EulerGamma)*Gamma[1 + 3*eps], x1*x2*x3*x4*(x1*x2*x3 + x1*x2*x4 + x1*x3*x4 + x2*x3*x4)^(4*eps)*(w*wb*x1^2*x2*x3 + x1*x2^2*x3 - w*x1*x2^2*x3 - wb*x1*x2^2*x3 + w*wb*x1*x2^2*x3 + w*wb*x1^2*x2*x4 + x1*x2^2*x4 - w*x1*x2^2*x4 - wb*x1*x2^2*x4 + w*wb*x1*x2^2*x4 + w*wb*x1^2*x3*x4 - w*x1*x2*x3*x4 - wb*x1*x2*x3*x4 + 2*w*wb*x1*x2*x3*x4 + x2^2*x3*x4 - w*x2^2*x3*x4 - wb*x2^2*x3*x4 + w*wb*x2^2*x3*x4)^(-1 - 3*eps), {x1, x2, x3, x4}, {w, wb}}"
+    {
+      "resultType": "singularities",
+      "status": "proposal",
+      "recordId": "sg_20260614T173027Z",
+      "byEpsOrder": null,
+      "singularities": [
+        "MM",
+        "mm1",
+        "mm2",
+        "MM^2 - 2*MM*mm1 + mm1^2 - 2*MM*mm2 - 2*mm1*mm2 + mm2^2"
+      ],
+      "singularitiesTeX": [
+        "\\text{MM}",
+        "\\text{mm1}",
+        "\\text{mm2}",
+        "\\text{MM}^2-2 \\text{MM} \\text{mm1}-2 \\text{MM} \\text{mm2}+\\text{mm1}^2-2 \\text{mm1} \\text{mm2}+\\text{mm2}^2"
+      ],
+      "singularitiesVerified": [
+        false,
+        false,
+        false,
+        false
+      ],
+      "groundTruthAvailable": false,
+      "provenance": {
+        "engine": "eulerDiscriminant",
+        "stVersion": "1.2.4",
+        "seed": 1234,
+        "chi": 0,
+        "confirmPrimes": null,
+        "confirmAgree": null,
+        "wallSeconds": 25.990000000000002
+      },
+      "timestamp": "2026-06-14T17:30:27Z",
+      "contributor": "oddletters-v1a"
+    },
+    {
+      "resultType": "proposed-alphabet",
+      "status": "proposal",
+      "recordId": "pa_20260614T173027Z",
+      "byEpsOrder": null,
+      "evens": [
+        "MM",
+        "mm1",
+        "mm2",
+        "MM^2 - 2*MM*mm1 + mm1^2 - 2*MM*mm2 - 2*mm1*mm2 + mm2^2"
+      ],
+      "evensTeX": [
+        "\\text{MM}",
+        "\\text{mm1}",
+        "\\text{mm2}",
+        "\\text{MM}^2-2 \\text{MM} \\text{mm1}-2 \\text{MM} \\text{mm2}+\\text{mm1}^2-2 \\text{mm1} \\text{mm2}+\\text{mm2}^2"
+      ],
+      "evensVerified": [
+        false,
+        false,
+        false,
+        false
+      ],
+      "groundTruthAvailable": false,
+      "oddLetters": [
+        {
+          "P": "MM/2 + mm1/2 - mm2/2",
+          "PTeX": "\\frac{\\text{MM}}{2}+\\frac{\\text{mm1}}{2}-\\frac{\\text{mm2}}{2}",
+          "c": "1/4",
+          "Q": "MM*mm1",
+          "QTeX": "\\text{MM} \\text{mm1}",
+          "multiset": [
+            [
+              "MM^2 - 2*MM*mm1 + mm1^2 - 2*MM*mm2 - 2*mm1*mm2 + mm2^2",
+              1
+            ]
+          ],
+          "multisetTeX": [
+            [
+              "\\text{MM}^2-2 \\text{MM} \\text{mm1}-2 \\text{MM} \\text{mm2}+\\text{mm1}^2-2 \\text{mm1} \\text{mm2}+\\text{mm2}^2",
+              1
+            ]
+          ],
+          "letter": "(MM/2 + mm1/2 - Sqrt[MM*mm1] - mm2/2)/(MM/2 + mm1/2 + Sqrt[MM*mm1] - mm2/2)",
+          "letterTeX": "\\frac{-\\sqrt{\\text{MM} \\text{mm1}}+\\frac{\\text{MM}}{2}+\\frac{\\text{mm1}}{2}-\\frac{\\text{mm2}}{2}}{\\sqrt{\\text{MM} \\text{mm1}}+\\frac{\\text{MM}}{2}+\\frac{\\text{mm1}}{2}-\\frac{\\text{mm2}}{2}}",
+          "identityVerified": true,
+          "verified": false,
+          "wFactors": [
+            {
+              "w": 1,
+              "power": 1
+            },
+            {
+              "w": 2,
+              "power": 1
+            }
+          ],
+          "multisetIdx": [
+            {
+              "w": 4,
+              "power": 1
+            }
+          ]
+        },
+        {
+          "P": "MM/2 - mm1/2 + mm2/2",
+          "PTeX": "\\frac{\\text{MM}}{2}-\\frac{\\text{mm1}}{2}+\\frac{\\text{mm2}}{2}",
+          "c": "1/4",
+          "Q": "MM*mm2",
+          "QTeX": "\\text{MM} \\text{mm2}",
+          "multiset": [
+            [
+              "MM^2 - 2*MM*mm1 + mm1^2 - 2*MM*mm2 - 2*mm1*mm2 + mm2^2",
+              1
+            ]
+          ],
+          "multisetTeX": [
+            [
+              "\\text{MM}^2-2 \\text{MM} \\text{mm1}-2 \\text{MM} \\text{mm2}+\\text{mm1}^2-2 \\text{mm1} \\text{mm2}+\\text{mm2}^2",
+              1
+            ]
+          ],
+          "letter": "(MM/2 - mm1/2 + mm2/2 - Sqrt[MM*mm2])/(MM/2 - mm1/2 + mm2/2 + Sqrt[MM*mm2])",
+          "letterTeX": "\\frac{-\\sqrt{\\text{MM} \\text{mm2}}+\\frac{\\text{MM}}{2}-\\frac{\\text{mm1}}{2}+\\frac{\\text{mm2}}{2}}{\\sqrt{\\text{MM} \\text{mm2}}+\\frac{\\text{MM}}{2}-\\frac{\\text{mm1}}{2}+\\frac{\\text{mm2}}{2}}",
+          "identityVerified": true,
+          "verified": false,
+          "wFactors": [
+            {
+              "w": 1,
+              "power": 1
+            },
+            {
+              "w": 3,
+              "power": 1
+            }
+          ],
+          "multisetIdx": [
+            {
+              "w": 4,
+              "power": 1
+            }
+          ]
+        },
+        {
+          "P": "MM/2 - mm1/2 - mm2/2",
+          "PTeX": "\\frac{\\text{MM}}{2}-\\frac{\\text{mm1}}{2}-\\frac{\\text{mm2}}{2}",
+          "c": "1/4",
+          "Q": "mm1*mm2",
+          "QTeX": "\\text{mm1} \\text{mm2}",
+          "multiset": [
+            [
+              "MM^2 - 2*MM*mm1 + mm1^2 - 2*MM*mm2 - 2*mm1*mm2 + mm2^2",
+              1
+            ]
+          ],
+          "multisetTeX": [
+            [
+              "\\text{MM}^2-2 \\text{MM} \\text{mm1}-2 \\text{MM} \\text{mm2}+\\text{mm1}^2-2 \\text{mm1} \\text{mm2}+\\text{mm2}^2",
+              1
+            ]
+          ],
+          "letter": "(MM/2 - mm1/2 - mm2/2 - Sqrt[mm1*mm2])/(MM/2 - mm1/2 - mm2/2 + Sqrt[mm1*mm2])",
+          "letterTeX": "\\frac{\\frac{\\text{MM}}{2}-\\sqrt{\\text{mm1} \\text{mm2}}-\\frac{\\text{mm1}}{2}-\\frac{\\text{mm2}}{2}}{\\frac{\\text{MM}}{2}+\\sqrt{\\text{mm1} \\text{mm2}}-\\frac{\\text{mm1}}{2}-\\frac{\\text{mm2}}{2}}",
+          "identityVerified": true,
+          "verified": false,
+          "wFactors": [
+            {
+              "w": 2,
+              "power": 1
+            },
+            {
+              "w": 3,
+              "power": 1
+            }
+          ],
+          "multisetIdx": [
+            {
+              "w": 4,
+              "power": 1
+            }
+          ]
+        },
+        {
+          "P": "MM - mm1 - mm2",
+          "PTeX": "\\text{MM}-\\text{mm1}-\\text{mm2}",
+          "c": "4",
+          "Q": "MM^2 - 2*MM*mm1 + mm1^2 - 2*MM*mm2 - 2*mm1*mm2 + mm2^2",
+          "QTeX": "\\text{MM}^2-2 \\text{MM} \\text{mm1}-2 \\text{MM} \\text{mm2}+\\text{mm1}^2-2 \\text{mm1} \\text{mm2}+\\text{mm2}^2",
+          "multiset": [
+            [
+              "mm2",
+              1
+            ],
+            [
+              "mm1",
+              1
+            ]
+          ],
+          "multisetTeX": [
+            [
+              "\\text{mm2}",
+              1
+            ],
+            [
+              "\\text{mm1}",
+              1
+            ]
+          ],
+          "letter": "(MM - mm1 - mm2 - Sqrt[MM^2 - 2*MM*mm1 + mm1^2 - 2*MM*mm2 - 2*mm1*mm2 + mm2^2])/(MM - mm1 - mm2 + Sqrt[MM^2 - 2*MM*mm1 + mm1^2 - 2*MM*mm2 - 2*mm1*mm2 + mm2^2])",
+          "letterTeX": "\\frac{-\\sqrt{\\text{MM}^2-2 \\text{MM} \\text{mm1}-2 \\text{MM} \\text{mm2}+\\text{mm1}^2-2 \\text{mm1} \\text{mm2}+\\text{mm2}^2}+\\text{MM}-\\text{mm1}-\\text{mm2}}{\\sqrt{\\text{MM}^2-2 \\text{MM} \\text{mm1}-2 \\text{MM} \\text{mm2}+\\text{mm1}^2-2 \\text{mm1} \\text{mm2}+\\text{mm2}^2}+\\text{MM}-\\text{mm1}-\\text{mm2}}",
+          "identityVerified": true,
+          "verified": false,
+          "wFactors": [
+            {
+              "w": 4,
+              "power": 1
+            }
+          ],
+          "multisetIdx": [
+            {
+              "w": 3,
+              "power": 1
+            },
+            {
+              "w": 2,
+              "power": 1
+            }
+          ]
+        },
+        {
+          "P": "MM - mm1 + mm2",
+          "PTeX": "\\text{MM}-\\text{mm1}+\\text{mm2}",
+          "c": "4",
+          "Q": "MM^2 - 2*MM*mm1 + mm1^2 - 2*MM*mm2 - 2*mm1*mm2 + mm2^2",
+          "QTeX": "\\text{MM}^2-2 \\text{MM} \\text{mm1}-2 \\text{MM} \\text{mm2}+\\text{mm1}^2-2 \\text{mm1} \\text{mm2}+\\text{mm2}^2",
+          "multiset": [
+            [
+              "mm2",
+              1
+            ],
+            [
+              "MM",
+              1
+            ]
+          ],
+          "multisetTeX": [
+            [
+              "\\text{mm2}",
+              1
+            ],
+            [
+              "\\text{MM}",
+              1
+            ]
+          ],
+          "letter": "(MM - mm1 + mm2 - Sqrt[MM^2 - 2*MM*mm1 + mm1^2 - 2*MM*mm2 - 2*mm1*mm2 + mm2^2])/(MM - mm1 + mm2 + Sqrt[MM^2 - 2*MM*mm1 + mm1^2 - 2*MM*mm2 - 2*mm1*mm2 + mm2^2])",
+          "letterTeX": "\\frac{-\\sqrt{\\text{MM}^2-2 \\text{MM} \\text{mm1}-2 \\text{MM} \\text{mm2}+\\text{mm1}^2-2 \\text{mm1} \\text{mm2}+\\text{mm2}^2}+\\text{MM}-\\text{mm1}+\\text{mm2}}{\\sqrt{\\text{MM}^2-2 \\text{MM} \\text{mm1}-2 \\text{MM} \\text{mm2}+\\text{mm1}^2-2 \\text{mm1} \\text{mm2}+\\text{mm2}^2}+\\text{MM}-\\text{mm1}+\\text{mm2}}",
+          "identityVerified": true,
+          "verified": false,
+          "wFactors": [
+            {
+              "w": 4,
+              "power": 1
+            }
+          ],
+          "multisetIdx": [
+            {
+              "w": 3,
+              "power": 1
+            },
+            {
+              "w": 1,
+              "power": 1
+            }
+          ]
+        }
+      ],
+      "bareRootsNote": "no bare-root letters (V1a evens-only graph form; flagged-sqrt list empty)",
+      "refusals": [],
+      "provenance": {
+        "engine": "eulerDiscriminant",
+        "stVersion": "1.2.4",
+        "seed": 1234,
+        "chi": 0,
+        "confirmPrimes": null,
+        "confirmAgree": null,
+        "wallSeconds": 25.990000000000002
+      },
+      "timestamp": "2026-06-14T17:30:27Z",
+      "contributor": "oddletters-v1a"
+    }
+  ],
+  "edges": "{{{1, 2}, Subscript[m, 1]}, {{1, 2}, Subscript[m, 2]}, {{1, 2}, 0}, {{1, 2}, 0}}",
+  "nodes": "{{1, M}, {2, M}}",
+  "Loops": 3,
+  "NumPropagators": 4,
+  "MassConfig": {
+    "numEdges": 4,
+    "numMassiveEdges": 2,
+    "numMasslessEdges": 2,
+    "distinctInternalMasses": 2,
+    "internalMassLabels": [
+      "Subscript[m, 1]",
+      "Subscript[m, 2]"
+    ],
+    "edgeMassPattern": "1200",
+    "numExtLegs": 2,
+    "numOnshellMassiveExtLegs": 2,
+    "numMasslessExtLegs": 0,
+    "extLegSignature": "MM"
+  },
+  "CanonicalName": "2-mass banana, 2 massive propagators",
+  "Names": [],
+  "ParentSectors": [],
+  "Subsectors": [],
+  "commonNames": null,
+  "quadruple": "{E^(3*eps*EulerGamma)*Gamma[1 + 3*eps], x1*x2*x3*x4*(x1*x2*x3 + x1*x2*x4 + x1*x3*x4 + x2*x3*x4)^(4*eps)*(w*wb*x1^2*x2*x3 + x1*x2^2*x3 - w*x1*x2^2*x3 - wb*x1*x2^2*x3 + w*wb*x1*x2^2*x3 + w*wb*x1^2*x2*x4 + x1*x2^2*x4 - w*x1*x2^2*x4 - wb*x1*x2^2*x4 + w*wb*x1*x2^2*x4 + w*wb*x1^2*x3*x4 - w*x1*x2*x3*x4 - wb*x1*x2*x3*x4 + 2*w*wb*x1*x2*x3*x4 + x2^2*x3*x4 - w*x2^2*x3*x4 - wb*x2^2*x3*x4 + w*wb*x2^2*x3*x4)^(-1 - 3*eps), {x1, x2, x3, x4}, {w, wb}}"
 }

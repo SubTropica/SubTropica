@@ -1,73 +1,119 @@
 {
-	"CNickelIndex":"e11|e|:000|0|",
-	"MassScales":0,
-	"FunctionClass":"hypergeometric",
-	"EpsilonOrder":"all_orders",
-	"edges":"{{{1, 2}, 0}, {{1, 2}, 0}}",
-	"nodes":"{{1, 0}, {2, 0}}",
-	"References":[
-		"arXiv:1907.00507",
-		"arXiv:hep-th\/9709216",
-		"arXiv:1912.11067",
-		"arXiv:2306.04630",
-		"arXiv:hep-ph\/9212308",
-		"arXiv:2201.03593"
-	],
-	"Records":[
-		{
-			"reference":"arXiv:1907.00507",
-			"authors":"",
-			"description":"One-loop massless bubble evaluated via GKZ\/A-hypergeometric canonical series. Result in Gamma functions times power of s.",
-			"epsOrders":"all_orders",
-			"familyName":"massless_bubble",
-			"method":"direct_integration",
-			"tools":[
-				"Macaulay2"
-			],
-			"ancillaryFiles":false,
-			"doi":"",
-			"texkey":"",
-			"masterCount":0,
-			"dimScheme":"d=D",
-			"computationLevel":"full",
-			"location":"Section 3.3.1",
-			"recordId":"bx_6f01095848f1",
-			"verified":false,
-			"verifiedAt":""
-		},
-		{
-			"reference":"arXiv:hep-th\/9709216",
-			"familyName":"ngon_L2_massless",
-			"description":"$n$-gon family, ngon_L2_massless. The one-loop $n$-gon (or $A_n$ polygon) has $n$ massless internal propagators arranged in a cycle with $n$ massless external legs. In $D = n$ dimensions the integral is finite and evaluates to the volume of a hyperbolic $(n{-}1)$-simplex (Davydychev-Delbourgo 1997). For $n = 3$ (triangle) the result involves Clausen functions; for $n = 4$ (box) it is the Murakami-Yano formula in 16 dilogarithms. The family includes the bubble ($n = 2$), triangle, box, pentagon, hexagon, heptagon, and octagon.",
-			"method":[
-				"closed form"
-			],
-			"tools":[
-				"SubTropica seed_families"
-			],
-			"recordId":"fs_feea01c6f7c9",
-			"verified":false,
-			"verifiedAt":""
-		}
-	],
-	"Results":[],
-	"Names":[],
-	"Source":[
-		"arXiv"
-	],
-	"Loops":1,
-	"NumPropagators":2,
-	"CanonicalName":"Massless bubble",
-	"MassConfig":{
-		"numEdges":2,
-		"numMassiveEdges":0,
-		"numMasslessEdges":2,
-		"distinctInternalMasses":0,
-		"internalMassLabels":[],
-		"edgeMassPattern":"00",
-		"numExtLegs":2,
-		"numOnshellMassiveExtLegs":0,
-		"numMasslessExtLegs":2,
-		"extLegSignature":"00"
-	}
+  "CNickelIndex": "e11|e|:000|0|",
+  "MassScales": 0,
+  "FunctionClass": "hypergeometric",
+  "EpsilonOrder": "all_orders",
+  "edges": "{{{1, 2}, 0}, {{1, 2}, 0}}",
+  "nodes": "{{1, 0}, {2, 0}}",
+  "References": [
+    "arXiv:1907.00507",
+    "arXiv:hep-th/9709216",
+    "arXiv:1912.11067",
+    "arXiv:2306.04630",
+    "arXiv:hep-ph/9212308",
+    "arXiv:2201.03593"
+  ],
+  "Records": [
+    {
+      "reference": "arXiv:1907.00507",
+      "authors": "",
+      "description": "One-loop massless bubble evaluated via GKZ/A-hypergeometric canonical series. Result in Gamma functions times power of s.",
+      "epsOrders": "all_orders",
+      "familyName": "massless_bubble",
+      "method": "direct_integration",
+      "tools": [
+        "Macaulay2"
+      ],
+      "ancillaryFiles": false,
+      "doi": "",
+      "texkey": "",
+      "masterCount": 0,
+      "dimScheme": "d=D",
+      "computationLevel": "full",
+      "location": "Section 3.3.1",
+      "recordId": "bx_6f01095848f1",
+      "verified": false,
+      "verifiedAt": ""
+    },
+    {
+      "reference": "arXiv:hep-th/9709216",
+      "familyName": "ngon_L2_massless",
+      "description": "$n$-gon family, ngon_L2_massless. The one-loop $n$-gon (or $A_n$ polygon) has $n$ massless internal propagators arranged in a cycle with $n$ massless external legs. In $D = n$ dimensions the integral is finite and evaluates to the volume of a hyperbolic $(n{-}1)$-simplex (Davydychev-Delbourgo 1997). For $n = 3$ (triangle) the result involves Clausen functions; for $n = 4$ (box) it is the Murakami-Yano formula in 16 dilogarithms. The family includes the bubble ($n = 2$), triangle, box, pentagon, hexagon, heptagon, and octagon.",
+      "method": [
+        "closed form"
+      ],
+      "tools": [
+        "SubTropica seed_families"
+      ],
+      "recordId": "fs_feea01c6f7c9",
+      "verified": false,
+      "verifiedAt": ""
+    }
+  ],
+  "Results": [
+    {
+      "resultType": "singularities",
+      "status": "proposal",
+      "recordId": "sg_20260614T052508Z",
+      "byEpsOrder": null,
+      "singularities": [],
+      "singularitiesTeX": [],
+      "singularitiesVerified": [],
+      "groundTruthAvailable": false,
+      "provenance": {
+        "engine": "eulerDiscriminant",
+        "stVersion": "1.2.4",
+        "seed": 1234,
+        "chi": 1,
+        "confirmPrimes": null,
+        "confirmAgree": null,
+        "wallSeconds": 2.32
+      },
+      "timestamp": "2026-06-14T05:25:08Z",
+      "contributor": "oddletters-v1a"
+    },
+    {
+      "resultType": "proposed-alphabet",
+      "status": "proposal",
+      "recordId": "pa_20260614T052508Z",
+      "byEpsOrder": null,
+      "evens": [],
+      "evensTeX": [],
+      "evensVerified": [],
+      "groundTruthAvailable": false,
+      "oddLetters": [],
+      "bareRootsNote": "no bare-root letters (V1a evens-only graph form; flagged-sqrt list empty)",
+      "refusals": [],
+      "provenance": {
+        "engine": "eulerDiscriminant",
+        "stVersion": "1.2.4",
+        "seed": 1234,
+        "chi": 1,
+        "confirmPrimes": null,
+        "confirmAgree": null,
+        "wallSeconds": 2.32
+      },
+      "timestamp": "2026-06-14T05:25:08Z",
+      "contributor": "oddletters-v1a"
+    }
+  ],
+  "Names": [],
+  "Source": [
+    "arXiv"
+  ],
+  "Loops": 1,
+  "NumPropagators": 2,
+  "CanonicalName": "Massless bubble",
+  "MassConfig": {
+    "numEdges": 2,
+    "numMassiveEdges": 0,
+    "numMasslessEdges": 2,
+    "distinctInternalMasses": 0,
+    "internalMassLabels": [],
+    "edgeMassPattern": "00",
+    "numExtLegs": 2,
+    "numOnshellMassiveExtLegs": 0,
+    "numMasslessExtLegs": 2,
+    "extLegSignature": "00"
+  }
 }

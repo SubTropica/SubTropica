@@ -39,7 +39,35 @@
   ],
   "Loops": 3,
   "NumPropagators": 4,
-  "Results": [],
+  "Results": [
+    {
+      "resultType": "singularities",
+      "status": "proposal",
+      "recordId": "sg_20260614T065529Z",
+      "byEpsOrder": null,
+      "singularities": [
+        "mm[1]"
+      ],
+      "singularitiesTeX": [
+        "m_{1}^{2}"
+      ],
+      "singularitiesVerified": [
+        false
+      ],
+      "groundTruthAvailable": false,
+      "provenance": {
+        "engine": "chi/SPQRLandau-CII SPQR-1.0.4 FF64 (partial: incomplete elimination)",
+        "stVersion": "1.2.4",
+        "seed": 1234,
+        "chi": 8,
+        "confirmPrimes": 2,
+        "confirmAgree": null,
+        "wallSeconds": 170.01
+      },
+      "timestamp": "2026-06-14T06:55:29Z",
+      "contributor": "oddletters-v1a"
+    }
+  ],
   "edges": "{{{1, 2}, m[1]}, {{1, 2}, m[1]}, {{1, 2}, m[1]}, {{1, 2}, m[2]}}",
   "nodes": "{}",
   "CanonicalName": "2-mass triple bubble",

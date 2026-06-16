@@ -1,58 +1,58 @@
 {
-	"CNickelIndex": "123|24|e|45|6|67|8|e8|e|:011|11|2|01|1|01|1|20|2|",
-	"MassScales": 2,
-	"FunctionClass": "unknown",
-	"EpsilonOrder": "0",
-	"References": [
-		"arXiv:2305.19768"
-	],
-	"Records": [
-		{
-			"reference": "arXiv:2305.19768",
-			"authors": "",
-			"description": "Four-loop ladder diagram contributing to the electron or muon anomalous magnetic moment (g-2). The graph has a ladder topology with 8 massive fermion propagators (red) and 4 massless photon rungs. External kinematics: q^2=0 with q->0 limit, q*p=0, p^2=m^2, making it a single-scale integral depending only on m^2. Result given from eps^{-4} through eps^0.",
-			"epsOrders": "0",
-			"familyName": "gminus2_4L",
-			"method": "sector_decomposition",
-			"tools": [
-				"pySecDec"
-			],
-			"ancillaryFiles": false,
-			"doi": "",
-			"texkey": "",
-			"masterCount": 0,
-			"dimScheme": "d=4-2*eps",
-			"computationLevel": "numerical",
-			"location": "Section 3.1.5, Figure 8, Eq. (6)",
-			"recordId": "bx_561e27fb6b49",
-			"verified": false,
-			"verifiedAt": ""
-		}
-	],
-	"Names": [
-		"gminus2_4L"
-	],
-	"Source": [
-		"arXiv"
-	],
-	"Loops": 4,
-	"NumPropagators": 12,
-	"Results": [],
-	"edges": "{{{3, 1}, m}, {{3, 2}, m}, {{1, 2}, 0}, {{1, 4}, m}, {{2, 5}, m}, {{4, 5}, 0}, {{4, 6}, m}, {{5, 7}, m}, {{6, 7}, 0}, {{6, 8}, m}, {{7, 9}, m}, {{8, 9}, 0}}",
-	"nodes": "{{3, M}, {8, M}, {9, M}}",
-	"CanonicalName": "Non-planar triangle-pentagon-hexagon-box, 8 massive propagators (b-b)",
-	"MassConfig": {
-		"numEdges": 12,
-		"numMassiveEdges": 8,
-		"numMasslessEdges": 4,
-		"distinctInternalMasses": 1,
-		"internalMassLabels": [
-			"m"
-		],
-		"edgeMassPattern": "110110110110",
-		"numExtLegs": 3,
-		"numOnshellMassiveExtLegs": 3,
-		"numMasslessExtLegs": 0,
-		"extLegSignature": "MMM"
-	}
+  "CNickelIndex": "123|24|e|45|6|67|8|e8|e|:011|11|2|01|1|01|1|20|2|",
+  "MassScales": 2,
+  "FunctionClass": "unknown",
+  "EpsilonOrder": "0",
+  "References": [
+    "arXiv:2305.19768"
+  ],
+  "Records": [
+    {
+      "reference": "arXiv:2305.19768",
+      "authors": "",
+      "description": "Four-loop ladder diagram contributing to the electron or muon anomalous magnetic moment (g-2). The graph has a ladder topology with 8 massive fermion propagators (red) and 4 massless photon rungs. External kinematics: q^2=0 with q->0 limit, q*p=0, p^2=m^2, making it a single-scale integral depending only on m^2. Result given from eps^{-4} through eps^0.",
+      "epsOrders": "0",
+      "familyName": "gminus2_4L",
+      "method": "sector_decomposition",
+      "tools": [
+        "pySecDec"
+      ],
+      "ancillaryFiles": false,
+      "doi": "",
+      "texkey": "",
+      "masterCount": 0,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "numerical",
+      "location": "Section 3.1.5, Figure 8, Eq. (6)",
+      "recordId": "bx_561e27fb6b49",
+      "verified": false,
+      "verifiedAt": ""
+    }
+  ],
+  "Names": [
+    "gminus2_4L"
+  ],
+  "Source": [
+    "arXiv"
+  ],
+  "Loops": 4,
+  "NumPropagators": 12,
+  "Results": [],
+  "edges": "{{{3, 1}, m}, {{3, 2}, m}, {{1, 2}, 0}, {{1, 4}, m}, {{2, 5}, m}, {{4, 5}, 0}, {{4, 6}, m}, {{5, 7}, m}, {{6, 7}, 0}, {{6, 8}, m}, {{7, 9}, m}, {{8, 9}, 0}}",
+  "nodes": "{{3, M}, {8, M}, {9, M}}",
+  "CanonicalName": "Triangle-pentagon-hexagon-box, 8 massive propagators (b-b)",
+  "MassConfig": {
+    "numEdges": 12,
+    "numMassiveEdges": 8,
+    "numMasslessEdges": 4,
+    "distinctInternalMasses": 1,
+    "internalMassLabels": [
+      "m"
+    ],
+    "edgeMassPattern": "110110110110",
+    "numExtLegs": 3,
+    "numOnshellMassiveExtLegs": 3,
+    "numMasslessExtLegs": 0,
+    "extLegSignature": "MMM"
+  }
 }

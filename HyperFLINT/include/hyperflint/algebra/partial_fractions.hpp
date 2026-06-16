@@ -67,6 +67,36 @@ PartialFractionization partial_fractions(
     std::shared_ptr<ZWTable> zw_tab,
     bool introduce_algebraic_letters = false);
 
+// A2 (HF perf campaign — stay-factored lever). Partial fractions of
+//   num / (den_base)^mult   in `var`
+// WITHOUT ever forming the expanded `den_base^mult`. The motivating wall
+// (campaign findings F3) is that `Rat::parse("(NUM)^p/(DEN)^q")` expands
+// DEN^q at parse time via FLINT `pow_fps` and never reaches the integration
+// loop; on real qbox faces DEN^5 alone is >31k terms and the parse times out.
+//
+// This overload factors only the SMALL `den_base` (linear in `var` for the
+// LR / qbox regime), scales the multiplicity by `mult`, and runs the
+// single-pole Euclidean residue algebra (the same one used by the B1.3b fast
+// path in partial_fractions_impl) with the var-free denominator content kept
+// as `content(den_base)^mult` — so `den_base^mult` is never materialised.
+//
+// SAFE-DEGRADE (forms `den_base^mult` and delegates to the standard
+// `partial_fractions(Rat(num, den_base^mult), ...)`, so the RESULT IS ALWAYS
+// CORRECT, only the speedup is conditional) whenever the deferred fast path
+// does not provably reproduce the standard reduced result:
+//   - `den_base` does not factor into exactly ONE linear-in-var factor of
+//     multiplicity 1 (multi-pole / nonlinear / repeated-base shapes);
+//   - `gcd(num, den_base)` is not a unit (the reducing Rat ctor would lower
+//     the pole multiplicity — outside the coprime regime A2 targets);
+//   - `deg_var(num) >= mult` (a genuine polynomial part is needed; the win
+//     case has deg_var(num) < mult so the quotient is 0);
+//   - any exception from the deferred algebra (defensive).
+// `mult >= 1` is required (mult == 1 reduces to ordinary partial_fractions
+// of num/den_base, which the fast path still handles).
+PartialFractionization partial_fractions_factored_den(
+    const Poly& num, const Poly& den_base, long mult, size_t var_idx,
+    std::shared_ptr<ZWTable> zw_tab);
+
 // Phase-d15 follow-up: per-primitive timer for the linear_factors call
 // (FLINT fmpq_mpoly_factor) inside partial_fractions. Same per-thread
 // accumulator vector pattern as integrate_ii's partial_fractions timer

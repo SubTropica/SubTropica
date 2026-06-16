@@ -78,6 +78,16 @@ export function cleanTeX(tex) {
   }
   t = stripText(t);
 
+  // Rationalizing change-of-variables: the conjugate variables zb, wb (and the
+  // doubled zzb, wwb) are stored as plain ASCII; render them with a bar:
+  // zb -> \bar{z}, wb -> \bar{w}. The bare z, w render fine as single letters.
+  // Run after stripText so \text{wb} has already become wb. \b prevents matching
+  // inside longer tokens (e.g. zzb is handled by its own rule, not \bzb\b).
+  t = t.replace(/\bzzb\b/g, '\\bar{z}\\!\\bar{z}');
+  t = t.replace(/\bwwb\b/g, '\\bar{w}\\!\\bar{w}');
+  t = t.replace(/\bzb\b/g, '\\bar{z}');
+  t = t.replace(/\bwb\b/g, '\\bar{w}');
+
   // Step 2: Physics substitutions
   // Momentum bracket notation from TeXForm: p(1) -> p_{1}, l(1) -> \ell_{1}
   t = t.replace(/\bl\((\d+)\)/g, '\\ell_{$1}');

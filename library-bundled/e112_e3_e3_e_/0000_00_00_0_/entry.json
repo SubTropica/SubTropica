@@ -1,180 +1,390 @@
 {
-	"CNickelIndex": "e112|e3|e3|e|:0000|00|00|0|",
-	"MassScales": 2,
-	"FunctionClass": "hypergeometric",
-	"EpsilonOrder": "all orders",
-	"References": [
-		"arXiv:hep-ph/9912329 (Nucl.Phys.B 580 (485), 2000)",
-		"arXiv:2507.17815 (Missing[\"KeyAbsent\", \"journal\"] Missing[\"KeyAbsent\", \"volume\"] (Missing[\"KeyAbsent\", \"pages\"]), Missing[\"KeyAbsent\", \"year\"])",
-		"arXiv:2507.17815",
-		"arXiv:2512.13794",
-		"arXiv:2311.14669 (Phys.Rev.Lett. 132 (101601), 2024)",
-		"arXiv:2311.16219 (Comput.Phys.Commun. 303 (109278), 2024)"
-	],
-	"Records": [
-		{
-			"dimScheme": "d=D",
-			"recordId": "bf_4f624ba4bb67",
-			"familyName": "2L-box-bubble-a / 2L-box-bubble-b",
-			"verified": true,
-			"verifiedAt": "auto-loopedia",
-			"authors": "Gehrmann, T., Remiddi, E.",
-			"texkey": "Gehrmann:1999as",
-			"computationLevel": "full",
-			"masterCount": 1,
-			"location": "Eq. (4.11), Section 4.3",
-			"method": [],
-			"reference": "arXiv:hep-ph/9912329, Nucl.Phys.B 580 (485), 2000",
-			"ancillaryFiles": [],
-			"description": "Two-loop four-point master integral with $t=5$ propagators formed by a one-loop bubble insertion on a propagator of the one-loop box. The result involves Gauss 2F1 and Appell F1 hypergeometric functions for arbitrary $d$.",
-			"epsOrders": "all orders",
-			"tools": [
-				"FORM"
-			],
-			"doi": "10.1016/S0550-3213(00)00223-6"
-		},
-		{
-			"reference": "arXiv:2507.17815 (JHEP 01 (014), 2026)",
-			"authors": [
-				{
-					"full_name": "Barrera, Oscar",
-					"inspire_id": 2957072
-				},
-				{
-					"full_name": "Dersy, Aurélien",
-					"inspire_id": 2083042
-				},
-				{
-					"full_name": "Husain, Rabia",
-					"inspire_id": 1925286
-				},
-				{
-					"full_name": "Schwartz, Matthew D.",
-					"inspire_id": 1019662
-				},
-				{
-					"full_name": "Zhang, Xiaoyuan",
-					"inspire_id": 1806305
-				}
-			],
-			"description": "Called $I_3(x,z)$ in the paper. 2-loop 4-point master integral for $q\\bar{q} \\to VV$ planar topologies from Gehrmann, Tancredi, Weihs (1306.6344). 5 massless propagators forming box with bubble on one edge (oval in diagram). Two massless on-shell legs $(p_1,p_2)$ and two off-shell legs $(q_1,q_2)$. Depends on $(x,z)$. Prefactor $P_3(x,z)=1/(m^2(1-z))$. Fitted at $\\varepsilon^{-2}/\\varepsilon^{-1}/\\varepsilon^0$. AMFlow: 21.2 CPU-min/point, 99 points, 28 digits.",
-			"epsOrders": "0",
-			"familyName": "2-loop box with bubble insertion",
-			"method": "DE, IBP",
-			"tools": [
-				"AMFlow",
-				"SOFIA",
-				"BLADE",
-				"GiNaC"
-			],
-			"ancillaryFiles": false,
-			"doi": "10.1007/JHEP01(2026)014",
-			"texkey": "Barrera:2025uin",
-			"masterCount": 0,
-			"dimScheme": "d=4-2*eps",
-			"computationLevel": "full",
-			"location": "Eq. (19), Section 4.2, third diagram",
-			"recordId": "bx_265dfd42a2f5",
-			"verified": true,
-			"verifiedAt": "auto-loopedia"
-		},
-		{
-			"reference": "arXiv:2512.13794",
-			"authors": "Bargiela, Piotr, Frellesvig, Hjalte, Marzucca, Robin, Morales, Roger, Seefeld, Florian, Wilhelm, Matthias, Yang, Tong-Zhi",
-			"description": "$I_{3,1,1}$ two-loop topology with three internal paths of lengths a=3, b=1, c=1 (both v_L and v_R carry external legs); 4-point integral, planar (b=1). Geometry: 1 ISP; max cut ∫dz/(√Q_2(z)·√P_2(z)); elliptic curve (§3.4 Type 1.3)",
-			"epsOrders": "",
-			"familyName": "I_{3,1,1}",
-			"method": "maximal_cut, Baikov",
-			"tools": [],
-			"ancillaryFiles": false,
-			"doi": "",
-			"texkey": "Bargiela:2025vwl",
-			"masterCount": 0,
-			"dimScheme": "d=4-2*eps",
-			"computationLevel": "topology",
-			"location": "§3.4 Type 1.3",
-			"recordId": "bx_67047df2d3cb",
-			"verified": false,
-			"verifiedAt": ""
-		},
-		{
-			"reference": "arXiv:2311.14669 (Phys.Rev.Lett. 132 (101601), 2024)",
-			"authors": "Fevola, C., Mizera, S., Telen, S.",
-			"description": "Landau singularities of the double-edged box computed via principal Landau determinants.",
-			"familyName": "PLD: debox",
-			"recordId": "bf_4747abbea685",
-			"verified": false
-		}
-	],
-	"Names": [
-		"Double triangle",
-		"Penta-bubble",
-		"2L-box-bubble-b",
-		"2L-box-bubble-a",
-		"2-loop box with bubble insertion",
-		"$I_{3,1,1}$"
-	],
-	"Source": [
-		"arXiv",
-		"Loopedia"
-	],
-	"Loops": 2,
-	"NumPropagators": 5,
-	"Results": [
-		{
-			"dimension": "4 - 2*eps",
-			"epsOrder": "0",
-			"epsOrders": "0",
-			"propExponents": [
-				1,
-				1,
-				1,
-				1,
-				1
-			],
-			"propagators": [],
-			"numerators": [],
-			"internalMasses": [],
-			"externalMasses": [],
-			"substitutions": "",
-			"normalization": "Automatic",
-			"stVersion": "SubTropica v1.0.296",
-			"stCommand": "",
-			"contributor": "Sebastian Mizera",
-			"timestamp": "2026-04-16T09:45:14",
-			"verifiedAt": "2026-04-16T09:45:14",
-			"verified": true,
-			"method": "direct_integration",
-			"tools": [
-				"SubTropica"
-			],
-			"methodLR": "Lungo",
-			"byteCount": 14736,
-			"resultDataId": "ccd2051c05c8eb3d.1",
-			"resultTeXPreview": "\\frac{1}{\\varepsilon^3 s_{12}}-\\frac{i \\left(-i \\log \\left(-\\frac{s_{12}+s_{23}}{s_{12}}\\right)-2 i \\log (s_{12})+2 \\pi +2 i\\right)}{\\varepsilon^2 s_{12}}+\\frac{-6 \\zeta(2)-9 \\log ^2\\left(-\\frac{s_{12}+s_{23}}{s_{12}}\\right)-12 \\log (s_{12}+s_{23})+12 \\log (s_{12}+s_{23}) \\log \\left(-\\frac{s_{12}+s_{23}}{s_{12}}\\right)+12 \\log ^2(s_{12})+24 i \\pi  \\log (s_{12})-12 \\log (s_{12})-14 \\pi ^2-12 i \\pi +24}{6 \\varepsilon s_{12}}+(\\text{more terms})+O\\left(\\varepsilon^1\\right)"
-		}
-	],
-	"edges": "{{{1, 2}, 0}, {{1, 2}, 0}, {{1, 3}, 0}, {{2, 4}, 0}, {{3, 4}, 0}}",
-	"nodes": "{{1, 0}, {2, 0}, {3, 0}, {4, 0}}",
-	"quadruple": "{E^(2*eps*EulerGamma)*Gamma[1 + 2*eps], (x1*x2 + x1*x3 + x2*x3 + x1*x4 + x2*x4 + x1*x5 + x2*x5)^(-1 + 3*eps)*(s12*x1*x3*x4 + s12*x2*x3*x4 - s12*x1*x2*x5 - s23*x1*x2*x5)^(-1 - 2*eps), {x1, x2, x3, x4, x5}, {s12, s23}}",
-	"CanonicalName": "Massless bubble-box",
-	"MassConfig": {
-		"numEdges": 5,
-		"numMassiveEdges": 0,
-		"numMasslessEdges": 5,
-		"distinctInternalMasses": 0,
-		"internalMassLabels": [],
-		"edgeMassPattern": "00000",
-		"numExtLegs": 4,
-		"numOnshellMassiveExtLegs": 0,
-		"numMasslessExtLegs": 4,
-		"extLegSignature": "0000"
-	},
-	"Subsectors": [
-		"e12|e2|e|:000|00|1|"
-	],
-	"ParentSectors": [
-		"112|e3|e4|e4|e|:000|00|00|00|0|",
-		"112|e3|e4|e4|e|:001|00|00|00|0|"
-	]
+  "CNickelIndex": "e112|e3|e3|e|:0000|00|00|0|",
+  "MassScales": 2,
+  "FunctionClass": "hypergeometric",
+  "EpsilonOrder": "all orders",
+  "References": [
+    "arXiv:hep-ph/9912329 (Nucl.Phys.B 580 (485), 2000)",
+    "arXiv:2507.17815",
+    "arXiv:2512.13794",
+    "arXiv:2311.14669 (Phys.Rev.Lett. 132 (101601), 2024)",
+    "arXiv:2311.16219 (Comput.Phys.Commun. 303 (109278), 2024)"
+  ],
+  "Records": [
+    {
+      "dimScheme": "d=D",
+      "recordId": "bf_4f624ba4bb67",
+      "familyName": "2L-box-bubble-a / 2L-box-bubble-b",
+      "verified": true,
+      "verifiedAt": "auto-loopedia",
+      "authors": "Gehrmann, T., Remiddi, E.",
+      "texkey": "Gehrmann:1999as",
+      "computationLevel": "full",
+      "masterCount": 1,
+      "location": "Eq. (4.11), Section 4.3",
+      "method": [],
+      "reference": "arXiv:hep-ph/9912329, Nucl.Phys.B 580 (485), 2000",
+      "ancillaryFiles": [],
+      "description": "Two-loop four-point master integral with $t=5$ propagators formed by a one-loop bubble insertion on a propagator of the one-loop box. The result involves Gauss 2F1 and Appell F1 hypergeometric functions for arbitrary $d$.",
+      "epsOrders": "all orders",
+      "tools": [
+        "FORM"
+      ],
+      "doi": "10.1016/S0550-3213(00)00223-6"
+    },
+    {
+      "reference": "arXiv:2507.17815 (JHEP 01 (014), 2026)",
+      "authors": [
+        {
+          "full_name": "Barrera, Oscar",
+          "inspire_id": 2957072
+        },
+        {
+          "full_name": "Dersy, Aurélien",
+          "inspire_id": 2083042
+        },
+        {
+          "full_name": "Husain, Rabia",
+          "inspire_id": 1925286
+        },
+        {
+          "full_name": "Schwartz, Matthew D.",
+          "inspire_id": 1019662
+        },
+        {
+          "full_name": "Zhang, Xiaoyuan",
+          "inspire_id": 1806305
+        }
+      ],
+      "description": "Called $I_3(x,z)$ in the paper. 2-loop 4-point master integral for $q\\bar{q} \\to VV$ planar topologies from Gehrmann, Tancredi, Weihs (1306.6344). 5 massless propagators forming box with bubble on one edge (oval in diagram). Two massless on-shell legs $(p_1,p_2)$ and two off-shell legs $(q_1,q_2)$. Depends on $(x,z)$. Prefactor $P_3(x,z)=1/(m^2(1-z))$. Fitted at $\\varepsilon^{-2}/\\varepsilon^{-1}/\\varepsilon^0$. AMFlow: 21.2 CPU-min/point, 99 points, 28 digits.",
+      "epsOrders": "0",
+      "familyName": "2-loop box with bubble insertion",
+      "method": "DE, IBP",
+      "tools": [
+        "AMFlow",
+        "SOFIA",
+        "BLADE",
+        "GiNaC"
+      ],
+      "ancillaryFiles": false,
+      "doi": "10.1007/JHEP01(2026)014",
+      "texkey": "Barrera:2025uin",
+      "masterCount": 0,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "full",
+      "location": "Eq. (19), Section 4.2, third diagram",
+      "recordId": "bx_265dfd42a2f5",
+      "verified": true,
+      "verifiedAt": "auto-loopedia"
+    },
+    {
+      "reference": "arXiv:2512.13794",
+      "authors": "Bargiela, Piotr, Frellesvig, Hjalte, Marzucca, Robin, Morales, Roger, Seefeld, Florian, Wilhelm, Matthias, Yang, Tong-Zhi",
+      "description": "$I_{3,1,1}$ two-loop topology with three internal paths of lengths a=3, b=1, c=1 (both v_L and v_R carry external legs); 4-point integral, planar (b=1). Geometry: 1 ISP; max cut ∫dz/(√Q_2(z)·√P_2(z)); elliptic curve (§3.4 Type 1.3)",
+      "epsOrders": "",
+      "familyName": "I_{3,1,1}",
+      "method": "maximal_cut, Baikov",
+      "tools": [],
+      "ancillaryFiles": false,
+      "doi": "",
+      "texkey": "Bargiela:2025vwl",
+      "masterCount": 0,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "topology",
+      "location": "§3.4 Type 1.3",
+      "recordId": "bx_67047df2d3cb",
+      "verified": false,
+      "verifiedAt": ""
+    },
+    {
+      "reference": "arXiv:2311.14669 (Phys.Rev.Lett. 132 (101601), 2024)",
+      "authors": "Fevola, C., Mizera, S., Telen, S.",
+      "description": "Landau singularities of the double-edged box computed via principal Landau determinants.",
+      "familyName": "PLD: debox",
+      "recordId": "bf_4747abbea685",
+      "verified": false
+    }
+  ],
+  "Names": [
+    "Double triangle",
+    "Penta-bubble",
+    "2L-box-bubble-b",
+    "2L-box-bubble-a",
+    "2-loop box with bubble insertion",
+    "$I_{3,1,1}$"
+  ],
+  "Source": [
+    "arXiv",
+    "Loopedia"
+  ],
+  "Loops": 2,
+  "NumPropagators": 5,
+  "Results": [
+    {
+      "dimension": "4 - 2*eps",
+      "epsOrder": "0",
+      "epsOrders": "0",
+      "propExponents": [
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "propagators": [],
+      "numerators": [],
+      "internalMasses": [],
+      "externalMasses": [],
+      "substitutions": "",
+      "normalization": "Automatic",
+      "stVersion": "SubTropica v1.0.296",
+      "stCommand": "",
+      "contributor": "Sebastian Mizera",
+      "timestamp": "2026-04-16T09:45:14",
+      "verifiedAt": "2026-04-16T09:45:14",
+      "verified": true,
+      "method": "direct_integration",
+      "tools": [
+        "SubTropica"
+      ],
+      "methodLR": "Lungo",
+      "byteCount": 14736,
+      "resultDataId": "ccd2051c05c8eb3d.1",
+      "resultTeXPreview": "\\frac{1}{\\varepsilon^3 s_{12}}-\\frac{i \\left(-i \\log \\left(-\\frac{s_{12}+s_{23}}{s_{12}}\\right)-2 i \\log (s_{12})+2 \\pi +2 i\\right)}{\\varepsilon^2 s_{12}}+\\frac{-6 \\zeta(2)-9 \\log ^2\\left(-\\frac{s_{12}+s_{23}}{s_{12}}\\right)-12 \\log (s_{12}+s_{23})+12 \\log (s_{12}+s_{23}) \\log \\left(-\\frac{s_{12}+s_{23}}{s_{12}}\\right)+12 \\log ^2(s_{12})+24 i \\pi  \\log (s_{12})-12 \\log (s_{12})-14 \\pi ^2-12 i \\pi +24}{6 \\varepsilon s_{12}}+(\\text{more terms})+O\\left(\\varepsilon^1\\right)"
+    },
+    {
+      "resultType": "singularities",
+      "status": "proposal",
+      "recordId": "sg_20260614T172841Z",
+      "byEpsOrder": null,
+      "singularities": [
+        "s12",
+        "s23",
+        "s12 + s23"
+      ],
+      "singularitiesTeX": [
+        "\\text{s12}",
+        "\\text{s23}",
+        "\\text{s12}+\\text{s23}"
+      ],
+      "singularitiesVerified": [
+        false,
+        false,
+        false
+      ],
+      "groundTruthAvailable": false,
+      "provenance": {
+        "engine": "eulerDiscriminant",
+        "stVersion": "1.2.4",
+        "seed": 1234,
+        "chi": 0,
+        "confirmPrimes": null,
+        "confirmAgree": null,
+        "wallSeconds": 19.76
+      },
+      "timestamp": "2026-06-14T17:28:41Z",
+      "contributor": "oddletters-v1a"
+    },
+    {
+      "resultType": "proposed-alphabet",
+      "status": "proposal",
+      "recordId": "pa_20260614T172841Z",
+      "byEpsOrder": null,
+      "evens": [
+        "s12",
+        "s23",
+        "s12 + s23"
+      ],
+      "evensTeX": [
+        "\\text{s12}",
+        "\\text{s23}",
+        "\\text{s12}+\\text{s23}"
+      ],
+      "evensVerified": [
+        false,
+        false,
+        false
+      ],
+      "groundTruthAvailable": false,
+      "oddLetters": [
+        {
+          "P": "s12/2 - s23/2",
+          "PTeX": "\\frac{\\text{s12}}{2}-\\frac{\\text{s23}}{2}",
+          "c": "1/4",
+          "Q": "-(s12*s23)",
+          "QTeX": "-\\text{s12} \\text{s23}",
+          "multiset": [
+            [
+              "s12 + s23",
+              2
+            ]
+          ],
+          "multisetTeX": [
+            [
+              "\\text{s12}+\\text{s23}",
+              2
+            ]
+          ],
+          "letter": "(s12/2 - s23/2 - Sqrt[-(s12*s23)])/(s12/2 - s23/2 + Sqrt[-(s12*s23)])",
+          "letterTeX": "\\frac{-\\sqrt{-\\text{s12} \\text{s23}}+\\frac{\\text{s12}}{2}-\\frac{\\text{s23}}{2}}{\\sqrt{-\\text{s12} \\text{s23}}+\\frac{\\text{s12}}{2}-\\frac{\\text{s23}}{2}}",
+          "identityVerified": true,
+          "verified": false,
+          "wFactors": [
+            {
+              "w": 1,
+              "power": 1
+            },
+            {
+              "w": 2,
+              "power": 1
+            }
+          ],
+          "multisetIdx": [
+            {
+              "w": 3,
+              "power": 2
+            }
+          ]
+        },
+        {
+          "P": "s12 + s23",
+          "PTeX": "\\text{s12}+\\text{s23}",
+          "c": "1",
+          "Q": "s12^2 + s12*s23",
+          "QTeX": "\\text{s12}^2+\\text{s12} \\text{s23}",
+          "multiset": [
+            [
+              "s12 + s23",
+              1
+            ],
+            [
+              "s23",
+              1
+            ]
+          ],
+          "multisetTeX": [
+            [
+              "\\text{s12}+\\text{s23}",
+              1
+            ],
+            [
+              "\\text{s23}",
+              1
+            ]
+          ],
+          "letter": "(s12 + s23 - Sqrt[s12^2 + s12*s23])/(s12 + s23 + Sqrt[s12^2 + s12*s23])",
+          "letterTeX": "\\frac{-\\sqrt{\\text{s12}^2+\\text{s12} \\text{s23}}+\\text{s12}+\\text{s23}}{\\sqrt{\\text{s12}^2+\\text{s12} \\text{s23}}+\\text{s12}+\\text{s23}}",
+          "identityVerified": true,
+          "verified": false,
+          "wFactors": [
+            {
+              "w": 1,
+              "power": 1
+            },
+            {
+              "w": 3,
+              "power": 1
+            }
+          ],
+          "multisetIdx": [
+            {
+              "w": 3,
+              "power": 1
+            },
+            {
+              "w": 2,
+              "power": 1
+            }
+          ]
+        },
+        {
+          "P": "s12 + s23",
+          "PTeX": "\\text{s12}+\\text{s23}",
+          "c": "1",
+          "Q": "s12*s23 + s23^2",
+          "QTeX": "\\text{s12} \\text{s23}+\\text{s23}^2",
+          "multiset": [
+            [
+              "s12 + s23",
+              1
+            ],
+            [
+              "s12",
+              1
+            ]
+          ],
+          "multisetTeX": [
+            [
+              "\\text{s12}+\\text{s23}",
+              1
+            ],
+            [
+              "\\text{s12}",
+              1
+            ]
+          ],
+          "letter": "(s12 + s23 - Sqrt[s12*s23 + s23^2])/(s12 + s23 + Sqrt[s12*s23 + s23^2])",
+          "letterTeX": "\\frac{-\\sqrt{\\text{s12} \\text{s23}+\\text{s23}^2}+\\text{s12}+\\text{s23}}{\\sqrt{\\text{s12} \\text{s23}+\\text{s23}^2}+\\text{s12}+\\text{s23}}",
+          "identityVerified": true,
+          "verified": false,
+          "wFactors": [
+            {
+              "w": 2,
+              "power": 1
+            },
+            {
+              "w": 3,
+              "power": 1
+            }
+          ],
+          "multisetIdx": [
+            {
+              "w": 3,
+              "power": 1
+            },
+            {
+              "w": 1,
+              "power": 1
+            }
+          ]
+        }
+      ],
+      "bareRootsNote": "no bare-root letters (V1a evens-only graph form; flagged-sqrt list empty)",
+      "refusals": [],
+      "provenance": {
+        "engine": "eulerDiscriminant",
+        "stVersion": "1.2.4",
+        "seed": 1234,
+        "chi": 0,
+        "confirmPrimes": null,
+        "confirmAgree": null,
+        "wallSeconds": 19.76
+      },
+      "timestamp": "2026-06-14T17:28:41Z",
+      "contributor": "oddletters-v1a"
+    }
+  ],
+  "edges": "{{{1, 2}, 0}, {{1, 2}, 0}, {{1, 3}, 0}, {{2, 4}, 0}, {{3, 4}, 0}}",
+  "nodes": "{{1, 0}, {2, 0}, {3, 0}, {4, 0}}",
+  "quadruple": "{E^(2*eps*EulerGamma)*Gamma[1 + 2*eps], (x1*x2 + x1*x3 + x2*x3 + x1*x4 + x2*x4 + x1*x5 + x2*x5)^(-1 + 3*eps)*(s12*x1*x3*x4 + s12*x2*x3*x4 - s12*x1*x2*x5 - s23*x1*x2*x5)^(-1 - 2*eps), {x1, x2, x3, x4, x5}, {s12, s23}}",
+  "CanonicalName": "Massless bubble-box",
+  "MassConfig": {
+    "numEdges": 5,
+    "numMassiveEdges": 0,
+    "numMasslessEdges": 5,
+    "distinctInternalMasses": 0,
+    "internalMassLabels": [],
+    "edgeMassPattern": "00000",
+    "numExtLegs": 4,
+    "numOnshellMassiveExtLegs": 0,
+    "numMasslessExtLegs": 4,
+    "extLegSignature": "0000"
+  },
+  "Subsectors": [
+    "e12|e2|e|:000|00|1|"
+  ],
+  "ParentSectors": [
+    "112|e3|e4|e4|e|:000|00|00|00|0|",
+    "112|e3|e4|e4|e|:001|00|00|00|0|"
+  ]
 }

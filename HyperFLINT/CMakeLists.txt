@@ -439,6 +439,11 @@ endif()
 add_executable(hyperflint-bench-polymul bench/bench_polymul.cpp)
 target_link_libraries(hyperflint-bench-polymul PRIVATE hyperflint)
 
+# HF perf-campaign: evidence for the stay-factored lever (parse-time power
+# expansion is the avoidable wall). Additive diagnostic; run directly.
+add_executable(hyperflint-bench-parse-factored bench/bench_parse_factored.cpp)
+target_link_libraries(hyperflint-bench-parse-factored PRIVATE hyperflint)
+
 add_executable(hyperflint-bench-polymul-v2 bench/bench_polymul_v2.cpp)
 target_link_libraries(hyperflint-bench-polymul-v2 PRIVATE hyperflint)
 
@@ -643,6 +648,18 @@ add_executable(hyperflint-test-partial-fractions-characterization
                test/test_partial_fractions_characterization.cpp)
 target_link_libraries(hyperflint-test-partial-fractions-characterization
                       PRIVATE hyperflint)
+
+# A2 (HF perf campaign — stay-factored lever): value-gate for
+# partial_fractions_factored_den (deferred-denominator-power PF). Asserts the
+# deferred fast path == standard partial_fractions(Rat(num, den_base^mult)) in
+# the coprime single-pole regime, and that every safe-degrade guard routes to
+# the standard path. exit 0 = pass.
+add_executable(hyperflint-test-partial-fractions-factored-den
+               test/test_partial_fractions_factored_den.cpp)
+target_link_libraries(hyperflint-test-partial-fractions-factored-den
+                      PRIVATE hyperflint)
+add_test(NAME hf-partial-fractions-factored-den
+         COMMAND hyperflint-test-partial-fractions-factored-den)
 
 # Phase 1 (poles streaming, 2026-05-03): ShardedFlatMap skeleton +
 # empty-map invariant. Task 1.1 of the per-face RSS reduction plan.

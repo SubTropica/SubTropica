@@ -1,121 +1,187 @@
 {
-	"CNickelIndex": "e1111|e|:10000|1|",
-	"MassScales": 1,
-	"FunctionClass": "unknown",
-	"EpsilonOrder": "-1,0,1,2,3,4,5",
-	"References": [
-		"arXiv:1004.3653",
-		"arXiv:2507.23594",
-		"arXiv:2311.14669 (Phys.Rev.Lett. 132 (101601), 2024)",
-		"arXiv:2311.16219 (Comput.Phys.Commun. 303 (109278), 2024)"
-	],
-	"Records": [
-		{
-			"epsOrders": "-1,0,1,2,3,4,5",
-			"reference": "arXiv:1004.3653",
-			"authors": "T. Gehrmann, E.W.N. Glover, T. Huber, N. Ikizlerli, C. Studerus",
-			"description": "The authors give all master integrals used in the computation of quark and gluon form factors to three loops in QCD. These integrals are available in Appendix A and all have a prefactor given by Eq. A.1.",
-			"recordId": "1499084266.FGp0",
-			"verified": true,
-			"verifiedAt": "auto-loopedia"
-		},
-		{
-			"reference": "arXiv:2311.14669 (Phys.Rev.Lett. 132 (101601), 2024)",
-			"authors": "Fevola, C., Mizera, S., Telen, S.",
-			"description": "Landau singularities of the 4-banana with zero internal, zero external masses, computed via principal Landau determinants.",
-			"familyName": "PLD: B4",
-			"structural": {
-				"corrections": [
-					{
-						"date": "2026-06-10",
-						"action": "recanonicalized",
-						"from": "e1111|e|:10000|2|",
-						"note": "v1.2.3 release curation: re-keyed from non-canonical home"
-					}
-				]
-			},
-			"recordId": "bf_b6fd41f1b597",
-			"verified": false
-		}
-	],
-	"Source": [
-		"arXiv",
-		"Loopedia"
-	],
-	"Results": [
-		{
-			"dimension": "4 - 2*eps",
-			"epsOrder": 0,
-			"propExponents": [
-				1,
-				1,
-				1,
-				1
-			],
-			"propagators": [],
-			"numerators": [],
-			"internalMasses": [],
-			"externalMasses": [],
-			"substitutions": "{}",
-			"normalization": "Automatic",
-			"stVersion": "SubTropica v1.0.322",
-			"stCommand": "STIntegrate[pref * (integrand / (Times @@ xvars)), {x2,0,Infinity}, {x3,0,Infinity}, {x4,0,Infinity}, Order->0]  (* with Gauge->{x1->1} *)",
-			"contributor": "Sebastian Mizera",
-			"timestamp": "2026-04-18T11:38:48",
-			"byteCount": 896,
-			"method": "direct_integration",
-			"tools": [
-				"SubTropica",
-				"AnTropica"
-			],
-			"verification": {
-				"method": "pySecDec",
-				"kinematicPoint": {
-					"Msq": "-19/29"
-				},
-				"tolerance": 0.0001,
-				"maxRelError": 2.0000001660985716e-05,
-				"verifiedAt": "2026-04-18T11:38:48"
-			},
-			"legOrder": [],
-			"alphabet": [
-				"M^2"
-			],
-			"symbolWeight": 1,
-			"symbolTerms": 1,
-			"resultDataId": "efdbe1cb2e0bfed7.1",
-			"resultTeXPreview": "\\frac{M^4}{36 \\varepsilon}+\\frac{1}{216} M^4 \\left(-18 \\log \\left(M^2\\right)-18 i \\pi +71\\right)+O\\left(\\varepsilon^1\\right)"
-		}
-	],
-	"Names": [
-		"Banana",
-		"3-loop sunrise",
-		"Watermelon",
-		"3-loop propagator",
-		"three-loop banana (unequal mass)",
-		"Banana, massless propagators, equal external masses"
-	],
-	"edges": "{{{1, 2}, 0}, {{1, 2}, 0}, {{1, 2}, 0}, {{1, 2}, 0}}",
-	"nodes": "{{1, M}, {2, M}}",
-	"quadruple": "{E^(3*eps*EulerGamma)*Gamma[-2 + 3*eps], (MM*x1*x2*x3*x4)^(2 - 3*eps)*(x1*x2*x3 + x1*x2*x4 + x1*x3*x4 + x2*x3*x4)^(4*(-1 + eps)), {x1, x2, x3, x4}, {MM}}",
-	"numericallyVerified": true,
-	"numericallyVerifiedAt": "2026-04-12",
-	"CanonicalName": "Massless banana",
-	"MassConfig": {
-		"numEdges": 4,
-		"numMassiveEdges": 0,
-		"numMasslessEdges": 4,
-		"distinctInternalMasses": 0,
-		"internalMassLabels": [],
-		"edgeMassPattern": "0000",
-		"numExtLegs": 2,
-		"numOnshellMassiveExtLegs": 2,
-		"numMasslessExtLegs": 0,
-		"extLegSignature": "MM"
-	},
-	"commonNames": [
-		"B3"
-	],
-	"Subsectors": [],
-	"ParentSectors": []
+  "CNickelIndex": "e1111|e|:10000|1|",
+  "MassScales": 1,
+  "FunctionClass": "unknown",
+  "EpsilonOrder": "-1,0,1,2,3,4,5",
+  "References": [
+    "arXiv:1004.3653",
+    "arXiv:2507.23594",
+    "arXiv:2311.14669 (Phys.Rev.Lett. 132 (101601), 2024)",
+    "arXiv:2311.16219 (Comput.Phys.Commun. 303 (109278), 2024)"
+  ],
+  "Records": [
+    {
+      "epsOrders": "-1,0,1,2,3,4,5",
+      "reference": "arXiv:1004.3653",
+      "authors": "T. Gehrmann, E.W.N. Glover, T. Huber, N. Ikizlerli, C. Studerus",
+      "description": "The authors give all master integrals used in the computation of quark and gluon form factors to three loops in QCD. These integrals are available in Appendix A and all have a prefactor given by Eq. A.1.",
+      "recordId": "1499084266.FGp0",
+      "verified": true,
+      "verifiedAt": "auto-loopedia"
+    },
+    {
+      "reference": "arXiv:2311.14669 (Phys.Rev.Lett. 132 (101601), 2024)",
+      "authors": "Fevola, C., Mizera, S., Telen, S.",
+      "description": "Landau singularities of the 4-banana with zero internal, zero external masses, computed via principal Landau determinants.",
+      "familyName": "PLD: B4",
+      "structural": {
+        "corrections": [
+          {
+            "date": "2026-06-10",
+            "action": "recanonicalized",
+            "from": "e1111|e|:10000|2|",
+            "note": "v1.2.3 release curation: re-keyed from non-canonical home"
+          }
+        ]
+      },
+      "recordId": "bf_b6fd41f1b597",
+      "verified": false
+    }
+  ],
+  "Source": [
+    "arXiv",
+    "Loopedia"
+  ],
+  "Results": [
+    {
+      "dimension": "4 - 2*eps",
+      "epsOrder": 0,
+      "propExponents": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "propagators": [],
+      "numerators": [],
+      "internalMasses": [],
+      "externalMasses": [],
+      "substitutions": "{}",
+      "normalization": "Automatic",
+      "stVersion": "SubTropica v1.0.322",
+      "stCommand": "STIntegrate[pref * (integrand / (Times @@ xvars)), {x2,0,Infinity}, {x3,0,Infinity}, {x4,0,Infinity}, Order->0]  (* with Gauge->{x1->1} *)",
+      "contributor": "Sebastian Mizera",
+      "timestamp": "2026-04-18T11:38:48",
+      "byteCount": 896,
+      "method": "direct_integration",
+      "tools": [
+        "SubTropica",
+        "AnTropica"
+      ],
+      "verification": {
+        "method": "pySecDec",
+        "kinematicPoint": {
+          "Msq": "-19/29"
+        },
+        "tolerance": 0.0001,
+        "maxRelError": 2.0000001660985716e-05,
+        "verifiedAt": "2026-04-18T11:38:48"
+      },
+      "legOrder": [],
+      "alphabet": [
+        "M^2"
+      ],
+      "symbolWeight": 1,
+      "symbolTerms": 1,
+      "resultDataId": "efdbe1cb2e0bfed7.1",
+      "resultTeXPreview": "\\frac{M^4}{36 \\varepsilon}+\\frac{1}{216} M^4 \\left(-18 \\log \\left(M^2\\right)-18 i \\pi +71\\right)+O\\left(\\varepsilon^1\\right)"
+    },
+    {
+      "resultType": "singularities",
+      "status": "proposal",
+      "recordId": "sg_20260614T055806Z",
+      "byEpsOrder": null,
+      "singularities": [
+        "MM"
+      ],
+      "singularitiesTeX": [
+        "\\text{MM}"
+      ],
+      "singularitiesVerified": [
+        true
+      ],
+      "groundTruthAvailable": true,
+      "provenance": {
+        "engine": "chi/PrefactorScale (single-scale; no Landau elimination)",
+        "stVersion": "1.2.4",
+        "seed": 1234,
+        "chi": 1,
+        "confirmPrimes": null,
+        "confirmAgree": null,
+        "wallSeconds": 1.79,
+        "chiEngine": "eulerDiscriminant"
+      },
+      "timestamp": "2026-06-14T05:58:06Z",
+      "contributor": "oddletters-v1a",
+      "singularitiesChiDrop": [
+        0
+      ]
+    },
+    {
+      "resultType": "proposed-alphabet",
+      "status": "proposal",
+      "recordId": "pa_20260614T055806Z",
+      "byEpsOrder": null,
+      "evens": [
+        "MM"
+      ],
+      "evensTeX": [
+        "\\text{MM}"
+      ],
+      "evensVerified": [
+        true
+      ],
+      "groundTruthAvailable": true,
+      "oddLetters": [],
+      "bareRootsNote": "no bare-root letters (V1a evens-only graph form; flagged-sqrt list empty)",
+      "refusals": [],
+      "provenance": {
+        "engine": "chi/PrefactorScale (single-scale; no Landau elimination)",
+        "stVersion": "1.2.4",
+        "seed": 1234,
+        "chi": 1,
+        "confirmPrimes": null,
+        "confirmAgree": null,
+        "wallSeconds": 1.79,
+        "chiEngine": "eulerDiscriminant"
+      },
+      "timestamp": "2026-06-14T05:58:06Z",
+      "contributor": "oddletters-v1a",
+      "evensChiDrop": [
+        0
+      ]
+    }
+  ],
+  "Names": [
+    "Banana",
+    "3-loop sunrise",
+    "Watermelon",
+    "3-loop propagator",
+    "Banana, massless propagators, equal external masses"
+  ],
+  "edges": "{{{1, 2}, 0}, {{1, 2}, 0}, {{1, 2}, 0}, {{1, 2}, 0}}",
+  "nodes": "{{1, M}, {2, M}}",
+  "quadruple": "{E^(3*eps*EulerGamma)*Gamma[-2 + 3*eps], (MM*x1*x2*x3*x4)^(2 - 3*eps)*(x1*x2*x3 + x1*x2*x4 + x1*x3*x4 + x2*x3*x4)^(4*(-1 + eps)), {x1, x2, x3, x4}, {MM}}",
+  "numericallyVerified": true,
+  "numericallyVerifiedAt": "2026-04-12",
+  "CanonicalName": "Massless banana",
+  "MassConfig": {
+    "numEdges": 4,
+    "numMassiveEdges": 0,
+    "numMasslessEdges": 4,
+    "distinctInternalMasses": 0,
+    "internalMassLabels": [],
+    "edgeMassPattern": "0000",
+    "numExtLegs": 2,
+    "numOnshellMassiveExtLegs": 2,
+    "numMasslessExtLegs": 0,
+    "extLegSignature": "MM"
+  },
+  "commonNames": [
+    "B3"
+  ],
+  "Subsectors": [],
+  "ParentSectors": [],
+  "Loops": 3,
+  "NumPropagators": 4
 }

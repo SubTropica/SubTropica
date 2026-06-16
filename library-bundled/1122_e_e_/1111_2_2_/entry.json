@@ -21,7 +21,229 @@
     "arXiv",
     "Loopedia"
   ],
-  "Results": [],
+  "Results": [
+    {
+      "resultType": "singularities",
+      "status": "proposal",
+      "recordId": "sg_20260614T042353Z",
+      "byEpsOrder": null,
+      "singularities": [
+        "mm",
+        "4*mm - MM",
+        "MM"
+      ],
+      "singularitiesTeX": [
+        "\\text{mm}",
+        "4 \\text{mm}-\\text{MM}",
+        "\\text{MM}"
+      ],
+      "singularitiesVerified": [
+        false,
+        false,
+        false
+      ],
+      "groundTruthAvailable": false,
+      "provenance": {
+        "engine": "eulerDiscriminant",
+        "stVersion": "1.2.3.5",
+        "seed": 1234,
+        "chi": 9,
+        "confirmPrimes": null,
+        "confirmAgree": null,
+        "wallSeconds": 0.8
+      },
+      "timestamp": "2026-06-14T04:23:53Z",
+      "contributor": "oddletters-v1a",
+      "singularitiesChiDrop": [
+        1,
+        4,
+        1
+      ]
+    },
+    {
+      "resultType": "proposed-alphabet",
+      "status": "proposal",
+      "recordId": "pa_20260614T042353Z",
+      "byEpsOrder": null,
+      "evens": [
+        "mm",
+        "4*mm - MM",
+        "MM"
+      ],
+      "evensTeX": [
+        "\\text{mm}",
+        "4 \\text{mm}-\\text{MM}",
+        "\\text{MM}"
+      ],
+      "evensVerified": [
+        false,
+        false,
+        false
+      ],
+      "groundTruthAvailable": false,
+      "oddLetters": [
+        {
+          "P": "MM/2",
+          "PTeX": "\\frac{\\text{MM}}{2}",
+          "c": "-1/4",
+          "Q": "mm*MM",
+          "QTeX": "\\text{mm} \\text{MM}",
+          "multiset": [
+            [
+              "MM",
+              1
+            ],
+            [
+              "4*mm - MM",
+              1
+            ]
+          ],
+          "multisetTeX": [
+            [
+              "\\text{MM}",
+              1
+            ],
+            [
+              "4 \\text{mm}-\\text{MM}",
+              1
+            ]
+          ],
+          "letter": "(MM/2 - Sqrt[mm*MM])/(MM/2 + Sqrt[mm*MM])",
+          "letterTeX": "\\frac{\\frac{\\text{MM}}{2}-\\sqrt{\\text{mm} \\text{MM}}}{\\sqrt{\\text{mm} \\text{MM}}+\\frac{\\text{MM}}{2}}",
+          "identityVerified": true,
+          "verified": false,
+          "wFactors": [
+            {
+              "w": 1,
+              "power": 1
+            },
+            {
+              "w": 3,
+              "power": 1
+            }
+          ],
+          "multisetIdx": [
+            {
+              "w": 3,
+              "power": 1
+            },
+            {
+              "w": 2,
+              "power": 1
+            }
+          ]
+        },
+        {
+          "P": "2*mm - MM/4",
+          "PTeX": "2 \\text{mm}-\\frac{\\text{MM}}{4}",
+          "c": "1/16",
+          "Q": "4*mm^2 - mm*MM",
+          "QTeX": "4 \\text{mm}^2-\\text{mm} \\text{MM}",
+          "multiset": [
+            [
+              "MM",
+              2
+            ]
+          ],
+          "multisetTeX": [
+            [
+              "\\text{MM}",
+              2
+            ]
+          ],
+          "letter": "(2*mm - MM/4 - Sqrt[4*mm^2 - mm*MM])/(2*mm - MM/4 + Sqrt[4*mm^2 - mm*MM])",
+          "letterTeX": "\\frac{-\\sqrt{4 \\text{mm}^2-\\text{mm} \\text{MM}}+2 \\text{mm}-\\frac{\\text{MM}}{4}}{\\sqrt{4 \\text{mm}^2-\\text{mm} \\text{MM}}+2 \\text{mm}-\\frac{\\text{MM}}{4}}",
+          "identityVerified": true,
+          "verified": false,
+          "wFactors": [
+            {
+              "w": 1,
+              "power": 1
+            },
+            {
+              "w": 2,
+              "power": 1
+            }
+          ],
+          "multisetIdx": [
+            {
+              "w": 3,
+              "power": 2
+            }
+          ]
+        },
+        {
+          "P": "MM",
+          "PTeX": "\\text{MM}",
+          "c": "4",
+          "Q": "-4*mm*MM + MM^2",
+          "QTeX": "\\text{MM}^2-4 \\text{mm} \\text{MM}",
+          "multiset": [
+            [
+              "MM",
+              1
+            ],
+            [
+              "mm",
+              1
+            ]
+          ],
+          "multisetTeX": [
+            [
+              "\\text{MM}",
+              1
+            ],
+            [
+              "\\text{mm}",
+              1
+            ]
+          ],
+          "letter": "(MM - Sqrt[-4*mm*MM + MM^2])/(MM + Sqrt[-4*mm*MM + MM^2])",
+          "letterTeX": "\\frac{\\text{MM}-\\sqrt{\\text{MM}^2-4 \\text{mm} \\text{MM}}}{\\sqrt{\\text{MM}^2-4 \\text{mm} \\text{MM}}+\\text{MM}}",
+          "identityVerified": true,
+          "verified": false,
+          "wFactors": [
+            {
+              "w": 2,
+              "power": 1
+            },
+            {
+              "w": 3,
+              "power": 1
+            }
+          ],
+          "multisetIdx": [
+            {
+              "w": 3,
+              "power": 1
+            },
+            {
+              "w": 1,
+              "power": 1
+            }
+          ]
+        }
+      ],
+      "bareRootsNote": "no bare-root letters (V1a evens-only graph form; flagged-sqrt list empty)",
+      "refusals": [],
+      "provenance": {
+        "engine": "eulerDiscriminant",
+        "stVersion": "1.2.3.5",
+        "seed": 1234,
+        "chi": 9,
+        "confirmPrimes": null,
+        "confirmAgree": null,
+        "wallSeconds": 0.8
+      },
+      "timestamp": "2026-06-14T04:23:53Z",
+      "contributor": "oddletters-v1a",
+      "evensChiDrop": [
+        1,
+        4,
+        1
+      ]
+    }
+  ],
   "Names": [
     "Spectacles",
     "Double bubble",
@@ -52,5 +274,7 @@
     "123|23|e|e|:011|22|3|3|",
     "123|23|e|e|:111|11|2|2|",
     "123|23|e|e|:111|12|3|3|"
-  ]
+  ],
+  "Loops": 2,
+  "NumPropagators": 4
 }

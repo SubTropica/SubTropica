@@ -75,6 +75,71 @@
       "symbolTerms": 6,
       "resultDataId": "34998568a2c0e25f",
       "resultTeXPreview": "\\frac{1}{6 \\varepsilon^3}-\\frac{i \\left(-i \\log \\left(M^2\\right)+\\pi +3 i\\right)}{2 \\varepsilon^2}+\\frac{18 \\log ^2\\left(M^2\\right)+36 i (\\pi +3 i) \\log \\left(M^2\\right)+12 \\zeta(2)-17 \\pi ^2-108 i \\pi +220}{24 \\varepsilon}+(\\text{more terms})+O\\left(\\varepsilon^1\\right)"
+    },
+    {
+      "resultType": "singularities",
+      "status": "proposal",
+      "recordId": "sg_20260614T055831Z",
+      "byEpsOrder": null,
+      "singularities": [
+        "MM"
+      ],
+      "singularitiesTeX": [
+        "\\text{MM}"
+      ],
+      "singularitiesVerified": [
+        true
+      ],
+      "groundTruthAvailable": true,
+      "provenance": {
+        "engine": "chi/PrefactorScale (single-scale; no Landau elimination)",
+        "stVersion": "1.2.4",
+        "seed": 1234,
+        "chi": 2,
+        "confirmPrimes": null,
+        "confirmAgree": null,
+        "wallSeconds": 2.56,
+        "chiEngine": "eulerDiscriminant"
+      },
+      "timestamp": "2026-06-14T05:58:31Z",
+      "contributor": "oddletters-v1a",
+      "singularitiesChiDrop": [
+        0
+      ]
+    },
+    {
+      "resultType": "proposed-alphabet",
+      "status": "proposal",
+      "recordId": "pa_20260614T055831Z",
+      "byEpsOrder": null,
+      "evens": [
+        "MM"
+      ],
+      "evensTeX": [
+        "\\text{MM}"
+      ],
+      "evensVerified": [
+        true
+      ],
+      "groundTruthAvailable": true,
+      "oddLetters": [],
+      "bareRootsNote": "no bare-root letters (V1a evens-only graph form; flagged-sqrt list empty)",
+      "refusals": [],
+      "provenance": {
+        "engine": "chi/PrefactorScale (single-scale; no Landau elimination)",
+        "stVersion": "1.2.4",
+        "seed": 1234,
+        "chi": 2,
+        "confirmPrimes": null,
+        "confirmAgree": null,
+        "wallSeconds": 2.56,
+        "chiEngine": "eulerDiscriminant"
+      },
+      "timestamp": "2026-06-14T05:58:31Z",
+      "contributor": "oddletters-v1a",
+      "evensChiDrop": [
+        0
+      ]
     }
   ],
   "Names": [
@@ -102,5 +167,7 @@
   "Subsectors": [],
   "ParentSectors": [
     "1123|e4|e4|e4||:0000|00|00|10||"
-  ]
+  ],
+  "Loops": 3,
+  "NumPropagators": 6
 }

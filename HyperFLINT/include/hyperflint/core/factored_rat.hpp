@@ -29,6 +29,20 @@ public:
     static FactoredRat from_poly(Poly numerator);           // den = {}
     static FactoredRat from_rat(const Rat& r);              // den = {(r.den(),1)}
 
+    // Parse an integrand of the shape  (NUMbase)^p / (DENbase)^q  keeping the
+    // DENOMINATOR factored: builds {numerator = NUMbase^p, den = {(DENbase, q)}}
+    // WITHOUT ever forming the expanded DENbase^q (which FLINT's
+    // fmpq_mpoly_set_str_pretty does eagerly in Rat::parse -- the parse-time
+    // pow_fps wall, HF perf-campaign findings F3). Each side may also be a bare
+    // polynomial (exp 1) or a fully-parenthesized base with no power. The
+    // numerator power IS still expanded here (NUMbase^p); deferring it is a
+    // separate, deeper step (campaign Phase B). VALUE invariant:
+    // materialize_to_rat() equals Rat::parse(expr) (value-equal; Rat is not
+    // content-canonical). Top-level `/` detection mirrors Rat::parse (a `/`
+    // with digit neighbours on both sides is a rational-coefficient slash, not
+    // a splitter).
+    static FactoredRat parse(const PolyCtx& ctx, const std::string& expr);
+
     // Operations (value-preserving; keep denominator factored).
     FactoredRat mul(const FactoredRat& b) const;
     FactoredRat pow(long n) const;                          // n >= 0 in B0; n<0 via reciprocal

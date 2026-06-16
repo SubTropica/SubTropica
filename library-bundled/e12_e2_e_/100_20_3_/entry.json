@@ -234,6 +234,305 @@
       ],
       "resultDataId": "29633f1716d0f7c7",
       "resultTeXPreview": "\\left(\\frac{4 H\\left(0,\\frac{1}{1-z}\\,;1\\right)}{2 z-2 \\text{zb}}-\\frac{4 H\\left(0,\\frac{1}{1-\\text{zb}}\\,;1\\right)}{2 z-2 \\text{zb}}-\\frac{2 H\\left(\\frac{1}{1-z \\text{zb}},\\frac{1}{1-z}\\,;1\\right)}{2 z-2 \\text{zb}}+\\frac{2 H\\left(\\frac{1}{1-z \\text{zb}},\\frac{1}{1-\\text{zb}}\\,;1\\right)}{2 z-2 \\text{zb}}-\\frac{\\log ^2(z)}{2 z-2 \\text{zb}}+\\frac{\\log ^2(\\text{zb})}{2 z-2 \\text{zb}}-\\frac{2 \\log (z) \\log \\left(\\frac{(z-1) (\\text{zb}-1)}{z \\text{zb}}\\right)}{2 z-2 \\text{zb}}+\\frac{2 \\log (\\text{zb}) \\log \\left(\\frac{(z-1) (\\text{zb}-1)}{z \\text{zb}}\\right)}{2 z-2 \\text{zb}}\\right)+O\\left(\\varepsilon^1\\right)"
+    },
+    {
+      "resultType": "singularities",
+      "status": "proposal",
+      "recordId": "sg_20260614T042921Z",
+      "byEpsOrder": null,
+      "singularities": [
+        "MM[2]",
+        "MM[3]",
+        "MM[1]^2 - 2*MM[1]*MM[2] + MM[2]^2 - 2*MM[1]*MM[3] - 2*MM[2]*MM[3] + MM[3]^2",
+        "MM[1]"
+      ],
+      "singularitiesTeX": [
+        "M_{2}^{2}",
+        "M_{3}^{2}",
+        "M_{1}^{4}-2 M_{2}^{2} M_{1}^{2}-2 M_{3}^{2} M_{1}^{2}+M_{2}^{4}+M_{3}^{4}-2 M_{2}^{2} M_{3}^{2}",
+        "M_{1}^{2}"
+      ],
+      "singularitiesVerified": [
+        true,
+        true,
+        true,
+        true
+      ],
+      "groundTruthAvailable": true,
+      "provenance": {
+        "engine": "chi/SPQRLandau-CII SPQR-1.0.4 FF64",
+        "stVersion": "1.2.4",
+        "seed": 1234,
+        "chi": 4,
+        "confirmPrimes": 2,
+        "confirmAgree": true,
+        "wallSeconds": 5.15
+      },
+      "timestamp": "2026-06-14T04:29:21Z",
+      "contributor": "oddletters-v1a",
+      "singularitiesChiDrop": [
+        2,
+        2,
+        1,
+        2
+      ]
+    },
+    {
+      "resultType": "proposed-alphabet",
+      "status": "proposal",
+      "recordId": "pa_20260614T042921Z",
+      "byEpsOrder": null,
+      "evens": [
+        "MM[2]",
+        "MM[3]",
+        "MM[1]^2 - 2*MM[1]*MM[2] + MM[2]^2 - 2*MM[1]*MM[3] - 2*MM[2]*MM[3] + MM[3]^2",
+        "MM[1]"
+      ],
+      "evensTeX": [
+        "M_{2}^{2}",
+        "M_{3}^{2}",
+        "M_{1}^{4}-2 M_{2}^{2} M_{1}^{2}-2 M_{3}^{2} M_{1}^{2}+M_{2}^{4}+M_{3}^{4}-2 M_{2}^{2} M_{3}^{2}",
+        "M_{1}^{2}"
+      ],
+      "evensVerified": [
+        true,
+        true,
+        true,
+        true
+      ],
+      "groundTruthAvailable": true,
+      "oddLetters": [
+        {
+          "P": "MM[1]/2 - MM[2]/2 - MM[3]/2",
+          "PTeX": "\\frac{M_{1}^{2}}{2}-\\frac{M_{2}^{2}}{2}-\\frac{M_{3}^{2}}{2}",
+          "c": "1/4",
+          "Q": "MM[2]*MM[3]",
+          "QTeX": "M_{2}^{2} M_{3}^{2}",
+          "multiset": [
+            [
+              "MM[1]^2 - 2*MM[1]*MM[2] + MM[2]^2 - 2*MM[1]*MM[3] - 2*MM[2]*MM[3] + MM[3]^2",
+              1
+            ]
+          ],
+          "multisetTeX": [
+            [
+              "M_{1}^{4}-2 M_{2}^{2} M_{1}^{2}-2 M_{3}^{2} M_{1}^{2}+M_{2}^{4}+M_{3}^{4}-2 M_{2}^{2} M_{3}^{2}",
+              1
+            ]
+          ],
+          "letter": "(MM[1]/2 - MM[2]/2 - MM[3]/2 - Sqrt[MM[2]*MM[3]])/(MM[1]/2 - MM[2]/2 - MM[3]/2 + Sqrt[MM[2]*MM[3]])",
+          "letterTeX": "\\frac{\\frac{M_{1}^{2}}{2}-\\frac{M_{2}^{2}}{2}-\\frac{M_{3}^{2}}{2}-\\sqrt{M_{2}^{2} M_{3}^{2}}}{\\frac{M_{1}^{2}}{2}-\\frac{M_{2}^{2}}{2}-\\frac{M_{3}^{2}}{2}+\\sqrt{M_{2}^{2} M_{3}^{2}}}",
+          "identityVerified": true,
+          "verified": false,
+          "wFactors": [
+            {
+              "w": 1,
+              "power": 1
+            },
+            {
+              "w": 2,
+              "power": 1
+            }
+          ],
+          "multisetIdx": [
+            {
+              "w": 3,
+              "power": 1
+            }
+          ]
+        },
+        {
+          "P": "MM[1]/2 + MM[2]/2 - MM[3]/2",
+          "PTeX": "\\frac{M_{1}^{2}}{2}+\\frac{M_{2}^{2}}{2}-\\frac{M_{3}^{2}}{2}",
+          "c": "1/4",
+          "Q": "MM[1]*MM[2]",
+          "QTeX": "M_{1}^{2} M_{2}^{2}",
+          "multiset": [
+            [
+              "MM[1]^2 - 2*MM[1]*MM[2] + MM[2]^2 - 2*MM[1]*MM[3] - 2*MM[2]*MM[3] + MM[3]^2",
+              1
+            ]
+          ],
+          "multisetTeX": [
+            [
+              "M_{1}^{4}-2 M_{2}^{2} M_{1}^{2}-2 M_{3}^{2} M_{1}^{2}+M_{2}^{4}+M_{3}^{4}-2 M_{2}^{2} M_{3}^{2}",
+              1
+            ]
+          ],
+          "letter": "(MM[1]/2 + MM[2]/2 - Sqrt[MM[1]*MM[2]] - MM[3]/2)/(MM[1]/2 + MM[2]/2 + Sqrt[MM[1]*MM[2]] - MM[3]/2)",
+          "letterTeX": "\\frac{\\frac{M_{1}^{2}}{2}+\\frac{M_{2}^{2}}{2}-\\frac{M_{3}^{2}}{2}-\\sqrt{M_{1}^{2} M_{2}^{2}}}{\\frac{M_{1}^{2}}{2}+\\frac{M_{2}^{2}}{2}-\\frac{M_{3}^{2}}{2}+\\sqrt{M_{1}^{2} M_{2}^{2}}}",
+          "identityVerified": true,
+          "verified": false,
+          "wFactors": [
+            {
+              "w": 4,
+              "power": 1
+            },
+            {
+              "w": 1,
+              "power": 1
+            }
+          ],
+          "multisetIdx": [
+            {
+              "w": 3,
+              "power": 1
+            }
+          ]
+        },
+        {
+          "P": "MM[1]/2 - MM[2]/2 + MM[3]/2",
+          "PTeX": "\\frac{M_{1}^{2}}{2}-\\frac{M_{2}^{2}}{2}+\\frac{M_{3}^{2}}{2}",
+          "c": "1/4",
+          "Q": "MM[1]*MM[3]",
+          "QTeX": "M_{1}^{2} M_{3}^{2}",
+          "multiset": [
+            [
+              "MM[1]^2 - 2*MM[1]*MM[2] + MM[2]^2 - 2*MM[1]*MM[3] - 2*MM[2]*MM[3] + MM[3]^2",
+              1
+            ]
+          ],
+          "multisetTeX": [
+            [
+              "M_{1}^{4}-2 M_{2}^{2} M_{1}^{2}-2 M_{3}^{2} M_{1}^{2}+M_{2}^{4}+M_{3}^{4}-2 M_{2}^{2} M_{3}^{2}",
+              1
+            ]
+          ],
+          "letter": "(MM[1]/2 - MM[2]/2 + MM[3]/2 - Sqrt[MM[1]*MM[3]])/(MM[1]/2 - MM[2]/2 + MM[3]/2 + Sqrt[MM[1]*MM[3]])",
+          "letterTeX": "\\frac{\\frac{M_{1}^{2}}{2}-\\frac{M_{2}^{2}}{2}+\\frac{M_{3}^{2}}{2}-\\sqrt{M_{1}^{2} M_{3}^{2}}}{\\frac{M_{1}^{2}}{2}-\\frac{M_{2}^{2}}{2}+\\frac{M_{3}^{2}}{2}+\\sqrt{M_{1}^{2} M_{3}^{2}}}",
+          "identityVerified": true,
+          "verified": false,
+          "wFactors": [
+            {
+              "w": 4,
+              "power": 1
+            },
+            {
+              "w": 2,
+              "power": 1
+            }
+          ],
+          "multisetIdx": [
+            {
+              "w": 3,
+              "power": 1
+            }
+          ]
+        },
+        {
+          "P": "MM[1] - MM[2] + MM[3]",
+          "PTeX": "M_{1}^{2}-M_{2}^{2}+M_{3}^{2}",
+          "c": "4",
+          "Q": "MM[1]^2 - 2*MM[1]*MM[2] + MM[2]^2 - 2*MM[1]*MM[3] - 2*MM[2]*MM[3] + MM[3]^2",
+          "QTeX": "M_{1}^{4}-2 M_{2}^{2} M_{1}^{2}-2 M_{3}^{2} M_{1}^{2}+M_{2}^{4}+M_{3}^{4}-2 M_{2}^{2} M_{3}^{2}",
+          "multiset": [
+            [
+              "MM[1]",
+              1
+            ],
+            [
+              "MM[3]",
+              1
+            ]
+          ],
+          "multisetTeX": [
+            [
+              "M_{1}^{2}",
+              1
+            ],
+            [
+              "M_{3}^{2}",
+              1
+            ]
+          ],
+          "letter": "(MM[1] - MM[2] + MM[3] - Sqrt[MM[1]^2 - 2*MM[1]*MM[2] + MM[2]^2 - 2*MM[1]*MM[3] - 2*MM[2]*MM[3] + MM[3]^2])/(MM[1] - MM[2] + MM[3] + Sqrt[MM[1]^2 - 2*MM[1]*MM[2] + MM[2]^2 - 2*MM[1]*MM[3] - 2*MM[2]*MM[3] + MM[3]^2])",
+          "letterTeX": "\\frac{M_{1}^{2}-M_{2}^{2}+M_{3}^{2}-\\sqrt{M_{1}^{4}-2 M_{2}^{2} M_{1}^{2}-2 M_{3}^{2} M_{1}^{2}+M_{2}^{4}+M_{3}^{4}-2 M_{2}^{2} M_{3}^{2}}}{M_{1}^{2}-M_{2}^{2}+M_{3}^{2}+\\sqrt{M_{1}^{4}-2 M_{2}^{2} M_{1}^{2}-2 M_{3}^{2} M_{1}^{2}+M_{2}^{4}+M_{3}^{4}-2 M_{2}^{2} M_{3}^{2}}}",
+          "identityVerified": true,
+          "verified": true,
+          "wFactors": [
+            {
+              "w": 3,
+              "power": 1
+            }
+          ],
+          "multisetIdx": [
+            {
+              "w": 4,
+              "power": 1
+            },
+            {
+              "w": 2,
+              "power": 1
+            }
+          ]
+        },
+        {
+          "P": "MM[1] + MM[2] - MM[3]",
+          "PTeX": "M_{1}^{2}+M_{2}^{2}-M_{3}^{2}",
+          "c": "4",
+          "Q": "MM[1]^2 - 2*MM[1]*MM[2] + MM[2]^2 - 2*MM[1]*MM[3] - 2*MM[2]*MM[3] + MM[3]^2",
+          "QTeX": "M_{1}^{4}-2 M_{2}^{2} M_{1}^{2}-2 M_{3}^{2} M_{1}^{2}+M_{2}^{4}+M_{3}^{4}-2 M_{2}^{2} M_{3}^{2}",
+          "multiset": [
+            [
+              "MM[1]",
+              1
+            ],
+            [
+              "MM[2]",
+              1
+            ]
+          ],
+          "multisetTeX": [
+            [
+              "M_{1}^{2}",
+              1
+            ],
+            [
+              "M_{2}^{2}",
+              1
+            ]
+          ],
+          "letter": "(MM[1] + MM[2] - MM[3] - Sqrt[MM[1]^2 - 2*MM[1]*MM[2] + MM[2]^2 - 2*MM[1]*MM[3] - 2*MM[2]*MM[3] + MM[3]^2])/(MM[1] + MM[2] - MM[3] + Sqrt[MM[1]^2 - 2*MM[1]*MM[2] + MM[2]^2 - 2*MM[1]*MM[3] - 2*MM[2]*MM[3] + MM[3]^2])",
+          "letterTeX": "\\frac{M_{1}^{2}+M_{2}^{2}-M_{3}^{2}-\\sqrt{M_{1}^{4}-2 M_{2}^{2} M_{1}^{2}-2 M_{3}^{2} M_{1}^{2}+M_{2}^{4}+M_{3}^{4}-2 M_{2}^{2} M_{3}^{2}}}{M_{1}^{2}+M_{2}^{2}-M_{3}^{2}+\\sqrt{M_{1}^{4}-2 M_{2}^{2} M_{1}^{2}-2 M_{3}^{2} M_{1}^{2}+M_{2}^{4}+M_{3}^{4}-2 M_{2}^{2} M_{3}^{2}}}",
+          "identityVerified": true,
+          "verified": true,
+          "wFactors": [
+            {
+              "w": 3,
+              "power": 1
+            }
+          ],
+          "multisetIdx": [
+            {
+              "w": 4,
+              "power": 1
+            },
+            {
+              "w": 1,
+              "power": 1
+            }
+          ]
+        }
+      ],
+      "bareRootsNote": "no bare-root letters (V1a evens-only graph form; flagged-sqrt list empty)",
+      "refusals": [],
+      "provenance": {
+        "engine": "chi/SPQRLandau-CII SPQR-1.0.4 FF64",
+        "stVersion": "1.2.4",
+        "seed": 1234,
+        "chi": 4,
+        "confirmPrimes": 2,
+        "confirmAgree": true,
+        "wallSeconds": 5.15
+      },
+      "timestamp": "2026-06-14T04:29:21Z",
+      "contributor": "oddletters-v1a",
+      "evensChiDrop": [
+        2,
+        2,
+        1,
+        2
+      ]
     }
   ],
   "Names": [

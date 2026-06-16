@@ -63,6 +63,227 @@
       "byteCount": 5744,
       "resultDataId": "4931d2876638a843",
       "resultTeXPreview": "\\frac{1}{2 \\varepsilon^2}+\\frac{\\frac{5}{2}-\\log \\left(-M^2\\right)}{\\varepsilon}+\\left(-H\\left(0,\\frac{m^2}{m^2-M^2}\\,;1\\right)-m^2 M^{-2} H\\left(0,\\frac{m^2}{m^2-M^2}\\,;1\\right)-m^2 \\zeta(2) M^{-2}+\\frac{1}{2} \\log ^2\\left(\\frac{M^2}{m^2}\\right)-\\log \\left(m^2-M^2\\right)+\\log \\left(-\\frac{M^2}{m^2}\\right)-\\log \\left(-\\frac{M^2}{m^2}\\right) \\log \\left(\\frac{M^2}{m^2}\\right)+\\log \\left(\\frac{M^2}{m^2}\\right) \\log \\left(1-\\frac{M^2}{m^2}\\right)-\\log \\left(1-\\frac{M^2}{m^2}\\right)+2 m^2 M^{-2} \\log \\left(1-\\frac{M^2}{m^2}\\right)+m^2 M^{-2} \\log \\left(\\frac{M^2}{m^2}\\right) \\log \\left(1-\\frac{M^2}{m^2}\\right)+\\log ^2\\left(-M^2\\right)-4 \\log \\left(-M^2\\right)+\\frac{\\zeta(2)}{2}+\\frac{19}{2}\\right)+O\\left(\\varepsilon^1\\right)"
+    },
+    {
+      "resultType": "singularities",
+      "status": "proposal",
+      "recordId": "sg_20260614T073849Z",
+      "byEpsOrder": null,
+      "singularities": [
+        "mm - MM",
+        "MM",
+        "mm"
+      ],
+      "singularitiesTeX": [
+        "\\text{mm}-\\text{MM}",
+        "\\text{MM}",
+        "\\text{mm}"
+      ],
+      "singularitiesVerified": [
+        false,
+        false,
+        false
+      ],
+      "groundTruthAvailable": false,
+      "provenance": {
+        "engine": "chi/SPQRLandau-CII SPQR-1.0.4 FF64",
+        "stVersion": "1.2.4",
+        "seed": 1234,
+        "chi": 4,
+        "confirmPrimes": 2,
+        "confirmAgree": true,
+        "wallSeconds": 163.94
+      },
+      "timestamp": "2026-06-14T07:38:49Z",
+      "contributor": "oddletters-v1a",
+      "singularitiesChiDrop": [
+        3,
+        1,
+        1
+      ]
+    },
+    {
+      "resultType": "proposed-alphabet",
+      "status": "proposal",
+      "recordId": "pa_20260614T073849Z",
+      "byEpsOrder": null,
+      "evens": [
+        "mm - MM",
+        "MM",
+        "mm"
+      ],
+      "evensTeX": [
+        "\\text{mm}-\\text{MM}",
+        "\\text{MM}",
+        "\\text{mm}"
+      ],
+      "evensVerified": [
+        false,
+        false,
+        false
+      ],
+      "groundTruthAvailable": false,
+      "oddLetters": [
+        {
+          "P": "mm",
+          "PTeX": "\\text{mm}",
+          "c": "1",
+          "Q": "mm*MM",
+          "QTeX": "\\text{mm} \\text{MM}",
+          "multiset": [
+            [
+              "mm",
+              1
+            ],
+            [
+              "mm - MM",
+              1
+            ]
+          ],
+          "multisetTeX": [
+            [
+              "\\text{mm}",
+              1
+            ],
+            [
+              "\\text{mm}-\\text{MM}",
+              1
+            ]
+          ],
+          "letter": "(mm - Sqrt[mm*MM])/(mm + Sqrt[mm*MM])",
+          "letterTeX": "\\frac{\\text{mm}-\\sqrt{\\text{mm} \\text{MM}}}{\\sqrt{\\text{mm} \\text{MM}}+\\text{mm}}",
+          "identityVerified": true,
+          "verified": false,
+          "wFactors": [
+            {
+              "w": 3,
+              "power": 1
+            },
+            {
+              "w": 2,
+              "power": 1
+            }
+          ],
+          "multisetIdx": [
+            {
+              "w": 3,
+              "power": 1
+            },
+            {
+              "w": 1,
+              "power": 1
+            }
+          ]
+        },
+        {
+          "P": "mm/2 - MM",
+          "PTeX": "\\frac{\\text{mm}}{2}-\\text{MM}",
+          "c": "1/4",
+          "Q": "-(mm*MM) + MM^2",
+          "QTeX": "\\text{MM}^2-\\text{mm} \\text{MM}",
+          "multiset": [
+            [
+              "mm",
+              2
+            ]
+          ],
+          "multisetTeX": [
+            [
+              "\\text{mm}",
+              2
+            ]
+          ],
+          "letter": "(mm/2 - MM - Sqrt[-(mm*MM) + MM^2])/(mm/2 - MM + Sqrt[-(mm*MM) + MM^2])",
+          "letterTeX": "\\frac{-\\sqrt{\\text{MM}^2-\\text{mm} \\text{MM}}+\\frac{\\text{mm}}{2}-\\text{MM}}{\\sqrt{\\text{MM}^2-\\text{mm} \\text{MM}}+\\frac{\\text{mm}}{2}-\\text{MM}}",
+          "identityVerified": true,
+          "verified": false,
+          "wFactors": [
+            {
+              "w": 1,
+              "power": 1
+            },
+            {
+              "w": 2,
+              "power": 1
+            }
+          ],
+          "multisetIdx": [
+            {
+              "w": 3,
+              "power": 2
+            }
+          ]
+        },
+        {
+          "P": "mm",
+          "PTeX": "\\text{mm}",
+          "c": "1",
+          "Q": "mm^2 - mm*MM",
+          "QTeX": "\\text{mm}^2-\\text{mm} \\text{MM}",
+          "multiset": [
+            [
+              "mm",
+              1
+            ],
+            [
+              "MM",
+              1
+            ]
+          ],
+          "multisetTeX": [
+            [
+              "\\text{mm}",
+              1
+            ],
+            [
+              "\\text{MM}",
+              1
+            ]
+          ],
+          "letter": "(mm - Sqrt[mm^2 - mm*MM])/(mm + Sqrt[mm^2 - mm*MM])",
+          "letterTeX": "\\frac{\\text{mm}-\\sqrt{\\text{mm}^2-\\text{mm} \\text{MM}}}{\\sqrt{\\text{mm}^2-\\text{mm} \\text{MM}}+\\text{mm}}",
+          "identityVerified": true,
+          "verified": false,
+          "wFactors": [
+            {
+              "w": 3,
+              "power": 1
+            },
+            {
+              "w": 1,
+              "power": 1
+            }
+          ],
+          "multisetIdx": [
+            {
+              "w": 3,
+              "power": 1
+            },
+            {
+              "w": 2,
+              "power": 1
+            }
+          ]
+        }
+      ],
+      "bareRootsNote": "no bare-root letters (V1a evens-only graph form; flagged-sqrt list empty)",
+      "refusals": [],
+      "provenance": {
+        "engine": "chi/SPQRLandau-CII SPQR-1.0.4 FF64",
+        "stVersion": "1.2.4",
+        "seed": 1234,
+        "chi": 4,
+        "confirmPrimes": 2,
+        "confirmAgree": true,
+        "wallSeconds": 163.94
+      },
+      "timestamp": "2026-06-14T07:38:49Z",
+      "contributor": "oddletters-v1a",
+      "evensChiDrop": [
+        3,
+        1,
+        1
+      ]
     }
   ],
   "Names": [
@@ -104,5 +325,7 @@
     "123|23|e|e|:100|00|2|2|",
     "123|23|e|e|:100|01|2|2|",
     "123|23|e|e|:100|02|3|3|"
-  ]
+  ],
+  "Loops": 2,
+  "NumPropagators": 4
 }

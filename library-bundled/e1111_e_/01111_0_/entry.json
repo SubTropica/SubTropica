@@ -1,187 +1,253 @@
 {
-    "CNickelIndex": "e1111|e|:01111|0|",
-    "MassScales": 1,
-    "FunctionClass": "Calabi-Yau",
-    "EpsilonOrder": "",
-    "References": [
-        "arXiv:1406.2664 (Compos.Math. 151 (2329), 2015)",
-        "arXiv:1704.05465 (Nucl.Phys.B 921 (316), 2017)",
-        "arXiv:2108.05310",
-        "arXiv:1907.03787 (JHEP 09 (112), 2019)",
-        "arXiv:2305.14090",
-        "arXiv:2212.08908",
-        "arXiv:2207.12893 (JHEP 09 (062), 2022)"
-    ],
-    "Records": [
-        {
-            "reference": "arXiv:1406.2664 (Compos.Math. 151 (2329), 2015)",
-            "authors": "Bloch, Spencer, Kerr, Matt, Vanhove, Pierre",
-            "description": "Three-loop banana self-energy in d=2 with four equal-mass propagators. Graph hypersurface is a K3 surface (Picard number 19). Result expressed via elliptic trilogarithms. At t=0: 7*zeta(3). Confirms Broadhurst conjecture relating t=1 value to L-function of K3.",
-            "epsOrders": "",
-            "familyName": "three-banana",
-            "method": "DE, motivic_cohomology",
-            "tools": [],
-            "ancillaryFiles": false,
-            "doi": "10.1112/S0010437X15007472",
-            "texkey": "Bloch:2014qca",
-            "masterCount": 0,
-            "dimScheme": "d=2",
-            "computationLevel": "full",
-            "location": "Eq.(1.2), Eq.(2.1.1)",
-            "recordId": "bx_3b5504c194d2",
-            "verified": false,
-            "verifiedAt": ""
-        },
-        {
-            "reference": "arXiv:1704.05465 (Nucl.Phys.B 921 (316), 2017)",
-            "authors": "Primo, Amedeo, Tancredi, Lorenzo",
-            "description": "Three-loop equal-mass banana graph. 3x3 coupled DE equivalent to third-order ODE (symmetric square). Homogeneous solutions are products of complete elliptic integrals.",
-            "epsOrders": "0",
-            "familyName": "three-loop banana",
-            "method": "DE, maximal_cuts",
-            "tools": [
-                "Reduze",
-                "SecDec"
-            ],
-            "ancillaryFiles": false,
-            "doi": "10.1016/j.nuclphysb.2017.05.018",
-            "texkey": "Primo:2017ipr",
-            "masterCount": 4,
-            "dimScheme": "d=2-2*eps",
-            "computationLevel": "full",
-            "location": "Section 3, Eq.(3.1)",
-            "recordId": "bx_75c2bb4f426e",
-            "verified": false,
-            "verifiedAt": ""
-        },
-        {
-            "reference": "arXiv:2108.05310",
-            "authors": "Bönisch, Kilian, Duhr, Claude, Fischbach, Fabian, Klemm, Albrecht, Nega, Christoph",
-            "description": "Three-loop equal-mass banana in d=2-2eps. Associated CY geometry is K3 surface with Picard number 19. 3rd-order PF operator is symmetric square of 2-loop operator. Weight-3 iterated Eisenstein series.",
-            "epsOrders": "2",
-            "familyName": "3-loop equal-mass banana",
-            "method": "DE, Mellin-Barnes, series_expansion",
-            "tools": [],
-            "ancillaryFiles": false,
-            "doi": "",
-            "texkey": "",
-            "masterCount": 4,
-            "dimScheme": "d=2-2*eps",
-            "computationLevel": "full",
-            "location": "Sections 2-6, Section 3.4",
-            "recordId": "bx_b44daaaf587e",
-            "verified": false,
-            "verifiedAt": ""
-        },
-        {
-            "reference": "arXiv:1907.03787 (JHEP 09 (112), 2019)",
-            "authors": "Broedel, Johannes, Duhr, Claude, Dulat, Falko, Marzucca, Robin, Penante, Brenda, Tancredi, Lorenzo",
-            "description": "Three-loop banana (watermelon) graph with four equal non-zero internal masses. 4 master integrals (3 non-trivial + 1 tadpole). Full analytic result at eps=0 in d=2-2*eps as iterated integrals of modular forms for Gamma_1(6) and as elliptic multiple polylogarithms. Uniform transcendental weight 1.",
-            "epsOrders": "0",
-            "familyName": "equal-mass banana graph",
-            "method": "DE, IBP, Mellin-Barnes",
-            "tools": [],
-            "ancillaryFiles": false,
-            "doi": "10.1007/JHEP09(2019)112",
-            "texkey": "Broedel:2019kmn",
-            "masterCount": 4,
-            "dimScheme": "d=2-2*eps",
-            "computationLevel": "full",
-            "location": "eq.(2.1), Section 2; results eq.(4.4), eq.(4.8), eq.(5.14)",
-            "recordId": "bx_0cbe998ef7f1",
-            "verified": false,
-            "verifiedAt": ""
-        },
-        {
-            "reference": "arXiv:2305.14090",
-            "authors": "",
-            "description": "Three-loop equal-mass banana graph in d=2-2eps. The underlying geometry is a K3 surface whose Picard-Fuchs operator is the symmetric square of the equal-mass sunrise elliptic operator. 4 master integrals. Two new iterated integral functions G_1 and G_2 are needed for epsilon-factorisation (G_1 is an integral of varpi_0^2 times a rational function; G_2 is an iterated integral involving G_1). Griffiths transversality conditions used to eliminate second derivatives of the period. Reproduces the result of Pogel-Wang-Weinzierl.",
-            "epsOrders": "",
-            "familyName": "three-loop banana (equal mass)",
-            "method": "DE",
-            "tools": [],
-            "ancillaryFiles": true,
-            "doi": "",
-            "texkey": "",
-            "masterCount": 4,
-            "dimScheme": "d=2-2*eps",
-            "computationLevel": "DE_only",
-            "location": "Section 4.2 (Sec4_BeyondEll.tex), eq. (4.13)-(4.35)",
-            "recordId": "bx_8ad626e4ae3b",
-            "verified": false,
-            "verifiedAt": ""
-        },
-        {
-            "reference": "arXiv:2212.08908",
-            "authors": "",
-            "description": "Three-loop equal-mass banana integral in D=2-2eps dimensions. Related to a Calabi-Yau 2-fold (K3 surface). The Picard-Fuchs operator in D=2 is a symmetric square, so it can be treated with methods similar to the elliptic case. Singular points at x in {4,16}. Four master integrals. The eps-factorised differential equation was previously given in arXiv:2207.12893. First appearance of non-polylogarithmic differential one-forms (quasi-Eichler) at modular weight 2.",
-            "epsOrders": "all_orders",
-            "familyName": "three-loop equal-mass banana",
-            "method": "DE",
-            "tools": [],
-            "ancillaryFiles": false,
-            "doi": "",
-            "texkey": "",
-            "masterCount": 4,
-            "dimScheme": "d=2-2*eps",
-            "computationLevel": "full",
-            "location": "Eq.(1), Section 2",
-            "recordId": "bx_3e25cdac0af1",
-            "verified": false,
-            "verifiedAt": ""
-        },
-        {
-            "reference": "arXiv:2207.12893 (JHEP 09 (062), 2022)",
-            "authors": "Pögel, Sebastian, Wang, Xing, Weinzierl, Stefan",
-            "description": "Three-loop equal-mass banana in D=2-2eps. 4 massive propagators, K3 geometry. Epsilon-factorised DE with 6-letter alphabet of meromorphic modular forms for Gamma_1(6). Results to eps^6.",
-            "epsOrders": "6",
-            "familyName": "banana3L-equal-mass",
-            "method": "DE",
-            "tools": [
-                "SecDec"
-            ],
-            "ancillaryFiles": true,
-            "doi": "10.1007/JHEP09(2022)062",
-            "texkey": "Pogel:2022yat",
-            "masterCount": 4,
-            "dimScheme": "d=2-2*eps",
-            "computationLevel": "full",
-            "location": "Eq. (6), Sections 2,7,9",
-            "recordId": "bx_68858ddc9243",
-            "verified": false,
-            "verifiedAt": ""
-        }
-    ],
-    "Names": [
-        "three-banana",
-        "three-loop banana",
-        "3-loop equal-mass banana",
-        "equal-mass banana graph",
-        "three-loop banana (equal mass)",
-        "three-loop equal-mass banana",
-        "banana3L-equal-mass"
-    ],
-    "Source": [
-        "arXiv"
-    ],
-    "Loops": 3,
-    "NumPropagators": 4,
-    "Results": [],
-    "edges": "{{{1, 2}, m}, {{1, 2}, m}, {{1, 2}, m}, {{1, 2}, m}}",
-    "nodes": "{{1, 0}, {2, 0}}",
-    "CanonicalName": "Equal-mass banana (a)",
-    "MassConfig": {
-        "numEdges": 4,
-        "numMassiveEdges": 4,
-        "numMasslessEdges": 0,
-        "distinctInternalMasses": 1,
-        "internalMassLabels": [
-            "m"
-        ],
-        "edgeMassPattern": "1111",
-        "numExtLegs": 2,
-        "numOnshellMassiveExtLegs": 0,
-        "numMasslessExtLegs": 2,
-        "extLegSignature": "00"
+  "CNickelIndex": "e1111|e|:01111|0|",
+  "MassScales": 1,
+  "FunctionClass": "Calabi-Yau",
+  "EpsilonOrder": "",
+  "References": [
+    "arXiv:1406.2664 (Compos.Math. 151 (2329), 2015)",
+    "arXiv:1704.05465 (Nucl.Phys.B 921 (316), 2017)",
+    "arXiv:2108.05310",
+    "arXiv:1907.03787 (JHEP 09 (112), 2019)",
+    "arXiv:2305.14090",
+    "arXiv:2212.08908",
+    "arXiv:2207.12893 (JHEP 09 (062), 2022)"
+  ],
+  "Records": [
+    {
+      "reference": "arXiv:1406.2664 (Compos.Math. 151 (2329), 2015)",
+      "authors": "Bloch, Spencer, Kerr, Matt, Vanhove, Pierre",
+      "description": "Three-loop banana self-energy in d=2 with four equal-mass propagators. Graph hypersurface is a K3 surface (Picard number 19). Result expressed via elliptic trilogarithms. At t=0: 7*zeta(3). Confirms Broadhurst conjecture relating t=1 value to L-function of K3.",
+      "epsOrders": "",
+      "familyName": "three-banana",
+      "method": "DE, motivic_cohomology",
+      "tools": [],
+      "ancillaryFiles": false,
+      "doi": "10.1112/S0010437X15007472",
+      "texkey": "Bloch:2014qca",
+      "masterCount": 0,
+      "dimScheme": "d=2",
+      "computationLevel": "full",
+      "location": "Eq.(1.2), Eq.(2.1.1)",
+      "recordId": "bx_3b5504c194d2",
+      "verified": false,
+      "verifiedAt": ""
+    },
+    {
+      "reference": "arXiv:1704.05465 (Nucl.Phys.B 921 (316), 2017)",
+      "authors": "Primo, Amedeo, Tancredi, Lorenzo",
+      "description": "Three-loop equal-mass banana graph. 3x3 coupled DE equivalent to third-order ODE (symmetric square). Homogeneous solutions are products of complete elliptic integrals.",
+      "epsOrders": "0",
+      "familyName": "three-loop banana",
+      "method": "DE, maximal_cuts",
+      "tools": [
+        "Reduze",
+        "SecDec"
+      ],
+      "ancillaryFiles": false,
+      "doi": "10.1016/j.nuclphysb.2017.05.018",
+      "texkey": "Primo:2017ipr",
+      "masterCount": 4,
+      "dimScheme": "d=2-2*eps",
+      "computationLevel": "full",
+      "location": "Section 3, Eq.(3.1)",
+      "recordId": "bx_75c2bb4f426e",
+      "verified": false,
+      "verifiedAt": ""
+    },
+    {
+      "reference": "arXiv:2108.05310",
+      "authors": "Bönisch, Kilian, Duhr, Claude, Fischbach, Fabian, Klemm, Albrecht, Nega, Christoph",
+      "description": "Three-loop equal-mass banana in d=2-2eps. Associated CY geometry is K3 surface with Picard number 19. 3rd-order PF operator is symmetric square of 2-loop operator. Weight-3 iterated Eisenstein series.",
+      "epsOrders": "2",
+      "familyName": "3-loop equal-mass banana",
+      "method": "DE, Mellin-Barnes, series_expansion",
+      "tools": [],
+      "ancillaryFiles": false,
+      "doi": "",
+      "texkey": "",
+      "masterCount": 4,
+      "dimScheme": "d=2-2*eps",
+      "computationLevel": "full",
+      "location": "Sections 2-6, Section 3.4",
+      "recordId": "bx_b44daaaf587e",
+      "verified": false,
+      "verifiedAt": ""
+    },
+    {
+      "reference": "arXiv:1907.03787 (JHEP 09 (112), 2019)",
+      "authors": "Broedel, Johannes, Duhr, Claude, Dulat, Falko, Marzucca, Robin, Penante, Brenda, Tancredi, Lorenzo",
+      "description": "Three-loop banana (watermelon) graph with four equal non-zero internal masses. 4 master integrals (3 non-trivial + 1 tadpole). Full analytic result at eps=0 in d=2-2*eps as iterated integrals of modular forms for Gamma_1(6) and as elliptic multiple polylogarithms. Uniform transcendental weight 1.",
+      "epsOrders": "0",
+      "familyName": "equal-mass banana graph",
+      "method": "DE, IBP, Mellin-Barnes",
+      "tools": [],
+      "ancillaryFiles": false,
+      "doi": "10.1007/JHEP09(2019)112",
+      "texkey": "Broedel:2019kmn",
+      "masterCount": 4,
+      "dimScheme": "d=2-2*eps",
+      "computationLevel": "full",
+      "location": "eq.(2.1), Section 2; results eq.(4.4), eq.(4.8), eq.(5.14)",
+      "recordId": "bx_0cbe998ef7f1",
+      "verified": false,
+      "verifiedAt": ""
+    },
+    {
+      "reference": "arXiv:2305.14090",
+      "authors": "",
+      "description": "Three-loop equal-mass banana graph in d=2-2eps. The underlying geometry is a K3 surface whose Picard-Fuchs operator is the symmetric square of the equal-mass sunrise elliptic operator. 4 master integrals. Two new iterated integral functions G_1 and G_2 are needed for epsilon-factorisation (G_1 is an integral of varpi_0^2 times a rational function; G_2 is an iterated integral involving G_1). Griffiths transversality conditions used to eliminate second derivatives of the period. Reproduces the result of Pogel-Wang-Weinzierl.",
+      "epsOrders": "",
+      "familyName": "three-loop banana (equal mass)",
+      "method": "DE",
+      "tools": [],
+      "ancillaryFiles": true,
+      "doi": "",
+      "texkey": "",
+      "masterCount": 4,
+      "dimScheme": "d=2-2*eps",
+      "computationLevel": "DE_only",
+      "location": "Section 4.2 (Sec4_BeyondEll.tex), eq. (4.13)-(4.35)",
+      "recordId": "bx_8ad626e4ae3b",
+      "verified": false,
+      "verifiedAt": ""
+    },
+    {
+      "reference": "arXiv:2212.08908",
+      "authors": "",
+      "description": "Three-loop equal-mass banana integral in D=2-2eps dimensions. Related to a Calabi-Yau 2-fold (K3 surface). The Picard-Fuchs operator in D=2 is a symmetric square, so it can be treated with methods similar to the elliptic case. Singular points at x in {4,16}. Four master integrals. The eps-factorised differential equation was previously given in arXiv:2207.12893. First appearance of non-polylogarithmic differential one-forms (quasi-Eichler) at modular weight 2.",
+      "epsOrders": "all_orders",
+      "familyName": "three-loop equal-mass banana",
+      "method": "DE",
+      "tools": [],
+      "ancillaryFiles": false,
+      "doi": "",
+      "texkey": "",
+      "masterCount": 4,
+      "dimScheme": "d=2-2*eps",
+      "computationLevel": "full",
+      "location": "Eq.(1), Section 2",
+      "recordId": "bx_3e25cdac0af1",
+      "verified": false,
+      "verifiedAt": ""
+    },
+    {
+      "reference": "arXiv:2207.12893 (JHEP 09 (062), 2022)",
+      "authors": "Pögel, Sebastian, Wang, Xing, Weinzierl, Stefan",
+      "description": "Three-loop equal-mass banana in D=2-2eps. 4 massive propagators, K3 geometry. Epsilon-factorised DE with 6-letter alphabet of meromorphic modular forms for Gamma_1(6). Results to eps^6.",
+      "epsOrders": "6",
+      "familyName": "banana3L-equal-mass",
+      "method": "DE",
+      "tools": [
+        "SecDec"
+      ],
+      "ancillaryFiles": true,
+      "doi": "10.1007/JHEP09(2022)062",
+      "texkey": "Pogel:2022yat",
+      "masterCount": 4,
+      "dimScheme": "d=2-2*eps",
+      "computationLevel": "full",
+      "location": "Eq. (6), Sections 2,7,9",
+      "recordId": "bx_68858ddc9243",
+      "verified": false,
+      "verifiedAt": ""
     }
+  ],
+  "Names": [
+    "three-banana",
+    "three-loop banana",
+    "3-loop equal-mass banana",
+    "equal-mass banana graph",
+    "three-loop banana (equal mass)",
+    "three-loop equal-mass banana",
+    "banana3L-equal-mass"
+  ],
+  "Source": [
+    "arXiv"
+  ],
+  "Loops": 3,
+  "NumPropagators": 4,
+  "Results": [
+    {
+      "resultType": "singularities",
+      "status": "proposal",
+      "recordId": "sg_20260614T060145Z",
+      "byEpsOrder": null,
+      "singularities": [
+        "mm"
+      ],
+      "singularitiesTeX": [
+        "\\text{mm}"
+      ],
+      "singularitiesVerified": [
+        false
+      ],
+      "groundTruthAvailable": false,
+      "provenance": {
+        "engine": "chi/PrefactorScale (single-scale; no Landau elimination)",
+        "stVersion": "1.2.4",
+        "seed": 1234,
+        "chi": 5,
+        "confirmPrimes": null,
+        "confirmAgree": null,
+        "wallSeconds": 2.0100000000000002,
+        "chiEngine": "eulerDiscriminant"
+      },
+      "timestamp": "2026-06-14T06:01:45Z",
+      "contributor": "oddletters-v1a",
+      "singularitiesChiDrop": [
+        0
+      ]
+    },
+    {
+      "resultType": "proposed-alphabet",
+      "status": "proposal",
+      "recordId": "pa_20260614T060145Z",
+      "byEpsOrder": null,
+      "evens": [
+        "mm"
+      ],
+      "evensTeX": [
+        "\\text{mm}"
+      ],
+      "evensVerified": [
+        false
+      ],
+      "groundTruthAvailable": false,
+      "oddLetters": [],
+      "bareRootsNote": "no bare-root letters (V1a evens-only graph form; flagged-sqrt list empty)",
+      "refusals": [],
+      "provenance": {
+        "engine": "chi/PrefactorScale (single-scale; no Landau elimination)",
+        "stVersion": "1.2.4",
+        "seed": 1234,
+        "chi": 5,
+        "confirmPrimes": null,
+        "confirmAgree": null,
+        "wallSeconds": 2.0100000000000002,
+        "chiEngine": "eulerDiscriminant"
+      },
+      "timestamp": "2026-06-14T06:01:45Z",
+      "contributor": "oddletters-v1a",
+      "evensChiDrop": [
+        0
+      ]
+    }
+  ],
+  "edges": "{{{1, 2}, m}, {{1, 2}, m}, {{1, 2}, m}, {{1, 2}, m}}",
+  "nodes": "{{1, 0}, {2, 0}}",
+  "CanonicalName": "Equal-mass banana (a)",
+  "MassConfig": {
+    "numEdges": 4,
+    "numMassiveEdges": 4,
+    "numMasslessEdges": 0,
+    "distinctInternalMasses": 1,
+    "internalMassLabels": [
+      "m"
+    ],
+    "edgeMassPattern": "1111",
+    "numExtLegs": 2,
+    "numOnshellMassiveExtLegs": 0,
+    "numMasslessExtLegs": 2,
+    "extLegSignature": "00"
+  }
 }

@@ -17,7 +17,7 @@
     "numMasslessExtLegs": 2,
     "extLegSignature": "M00"
   },
-  "CanonicalName": "1-mass non-planar triangle-hexagon-triangle",
+  "CanonicalName": "1-mass triangle-hexagon-triangle",
   "Names": [],
   "References": [],
   "Records": [],
@@ -66,6 +66,71 @@
       ],
       "resultDataId": "07f9b3a73ba7d31c",
       "resultTeXPreview": "-\\frac{1}{24 \\varepsilon^3}+\\frac{3 \\log \\left(M^2\\right)+3 i \\pi -10}{24 \\varepsilon^2}+\\frac{-18 \\log ^2\\left(M^2\\right)+12 (10-3 i \\pi ) \\log \\left(M^2\\right)+12 \\zeta(2)+13 \\pi ^2+120 i \\pi -232}{96 \\varepsilon}+(\\text{more terms})+O\\left(\\varepsilon^1\\right)"
+    },
+    {
+      "resultType": "singularities",
+      "status": "proposal",
+      "recordId": "sg_20260614T055521Z",
+      "byEpsOrder": null,
+      "singularities": [
+        "MM"
+      ],
+      "singularitiesTeX": [
+        "\\text{MM}"
+      ],
+      "singularitiesVerified": [
+        true
+      ],
+      "groundTruthAvailable": true,
+      "provenance": {
+        "engine": "chi/PrefactorScale (single-scale; no Landau elimination)",
+        "stVersion": "1.2.4",
+        "seed": 1234,
+        "chi": 4,
+        "confirmPrimes": null,
+        "confirmAgree": null,
+        "wallSeconds": 4.1,
+        "chiEngine": "eulerDiscriminant"
+      },
+      "timestamp": "2026-06-14T05:55:21Z",
+      "contributor": "oddletters-v1a",
+      "singularitiesChiDrop": [
+        0
+      ]
+    },
+    {
+      "resultType": "proposed-alphabet",
+      "status": "proposal",
+      "recordId": "pa_20260614T055521Z",
+      "byEpsOrder": null,
+      "evens": [
+        "MM"
+      ],
+      "evensTeX": [
+        "\\text{MM}"
+      ],
+      "evensVerified": [
+        true
+      ],
+      "groundTruthAvailable": true,
+      "oddLetters": [],
+      "bareRootsNote": "no bare-root letters (V1a evens-only graph form; flagged-sqrt list empty)",
+      "refusals": [],
+      "provenance": {
+        "engine": "chi/PrefactorScale (single-scale; no Landau elimination)",
+        "stVersion": "1.2.4",
+        "seed": 1234,
+        "chi": 4,
+        "confirmPrimes": null,
+        "confirmAgree": null,
+        "wallSeconds": 4.1,
+        "chiEngine": "eulerDiscriminant"
+      },
+      "timestamp": "2026-06-14T05:55:21Z",
+      "contributor": "oddletters-v1a",
+      "evensChiDrop": [
+        0
+      ]
     }
   ]
 }

@@ -1,41 +1,41 @@
 {
-	"CNickelIndex": "123|45|e4|e5|e|e|:011|22|10|10|2|2|",
-	"MassScales": 4,
-	"FunctionClass": "",
-	"EpsilonOrder": "",
-	"References": [
-		"arXiv:2311.14669 (Phys.Rev.Lett. 132 (101601), 2024)",
-		"arXiv:2311.16219 (Comput.Phys.Commun. 303 (109278), 2024)"
-	],
-	"Records": [
-		{
-			"reference": "arXiv:2311.14669 (Phys.Rev.Lett. 132 (101601), 2024)",
-			"authors": "Fevola, C., Mizera, S., Telen, S.",
-			"description": "Landau singularities of the planar double box for Bhabha scattering (e+e- -> e+e-) with two distinct fermion masses m[1], m[2].",
-			"familyName": "PLD: Bhabha-dbox",
-			"recordId": "bf_ded5cdbcac89",
-			"verified": false
-		}
-	],
-	"Names": [
-		"Double box, 4 massive propagators (2 distinct), 2 distinct external masses"
-	],
-	"Source": "PLD",
-	"Loops": -1,
-	"NumPropagators": 7,
-	"edges": "{{{1, 2}, 0}, {{1, 3}, m[1]}, {{1, 4}, m[1]}, {{2, 5}, m[2]}, {{2, 6}, m[2]}, {{3, 5}, 0}, {{4, 6}, 0}}",
-	"nodes": "{{3, m[1]}, {4, m[1]}, {5, m[2]}, {6, m[2]}}",
-	"MassConfig": {
-		"numEdges": 7,
-		"numMassiveEdges": 4,
-		"numMasslessEdges": 3,
-		"distinctInternalMasses": 2,
-		"numExtLegs": 4,
-		"numMasslessExtLegs": 0
-	},
-	"CanonicalName": "Double box, 4 massive propagators (2 distinct), 2 distinct external masses",
-	"commonNames": [],
-	"Subsectors": [],
-	"ParentSectors": [],
-	"Results": []
+  "CNickelIndex": "123|45|e4|e5|e|e|:011|22|10|10|2|2|",
+  "MassScales": 4,
+  "FunctionClass": "",
+  "EpsilonOrder": "",
+  "References": [
+    "arXiv:2311.14669 (Phys.Rev.Lett. 132 (101601), 2024)",
+    "arXiv:2311.16219 (Comput.Phys.Commun. 303 (109278), 2024)"
+  ],
+  "Records": [
+    {
+      "reference": "arXiv:2311.14669 (Phys.Rev.Lett. 132 (101601), 2024)",
+      "authors": "Fevola, C., Mizera, S., Telen, S.",
+      "description": "Landau singularities of the planar double box for Bhabha scattering (e+e- -> e+e-) with two distinct fermion masses m[1], m[2].",
+      "familyName": "PLD: Bhabha-dbox",
+      "recordId": "bf_ded5cdbcac89",
+      "verified": false
+    }
+  ],
+  "Names": [
+    "Double box, 4 massive propagators (2 distinct), 2 distinct external masses"
+  ],
+  "Source": "PLD",
+  "Loops": 2,
+  "NumPropagators": 7,
+  "edges": "{{{1, 2}, 0}, {{1, 3}, m[1]}, {{1, 4}, m[1]}, {{2, 5}, m[2]}, {{2, 6}, m[2]}, {{3, 5}, 0}, {{4, 6}, 0}}",
+  "nodes": "{{3, m[1]}, {4, m[1]}, {5, m[2]}, {6, m[2]}}",
+  "MassConfig": {
+    "numEdges": 7,
+    "numMassiveEdges": 4,
+    "numMasslessEdges": 3,
+    "distinctInternalMasses": 2,
+    "numExtLegs": 4,
+    "numMasslessExtLegs": 0
+  },
+  "CanonicalName": "Double box, 4 massive propagators (2 distinct), 2 distinct external masses",
+  "commonNames": [],
+  "Subsectors": [],
+  "ParentSectors": [],
+  "Results": []
 }

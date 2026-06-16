@@ -45,6 +45,12 @@
 
 namespace hyperflint {
 
+// GCD-attribution probe accessor (external linkage; defined here, outside the
+// anon namespace below, so partial_fractions.cpp can set it via RAII). Per-
+// thread depth counter of "currently inside a partial_fractions call". Used
+// only when HF_GCD_TRIVIAL_PROBE is set.
+int& hf_reduce_in_pf_ref() { static thread_local int v = 0; return v; }
+
 namespace {
 
 // 2026-04-27 (3l3pt profile-deepening): per-thread counters and
@@ -93,6 +99,55 @@ std::vector<double>& gcd_cofactors_storage()
     { static std::vector<double> v; return v; }
 std::vector<long>&   gcd_cofactors_calls_storage()
     { static std::vector<long>   v; return v; }
+
+// One-off GCD-yield probe (HF_GCD_TRIVIAL_PROBE=1): count how many
+// fmpq_mpoly_gcd_cofactors calls return a CONSTANT gcd (is_fmpq) -- i.e. the
+// expensive multivariate GCD found NO polynomial common factor (at most integer
+// content). A high constant-fraction means a cheap coprimality pre-screen could
+// skip most multivariate GCDs. Process-lifetime atomics; the reporter prints one
+// JSON line to stderr at exit when the env is set. Default-off: each gcd site
+// pays only one cached-bool branch.
+namespace {
+std::atomic<long> g_gcd_probe_constant{0};
+std::atomic<long> g_gcd_probe_total{0};
+std::atomic<long> g_gcd_probe_pf{0};            // GCD calls during partial_fractions
+std::atomic<long> g_gcd_probe_pf_constant{0};   // ...of which constant-gcd
+// (B) cross-GCD assumption check: of all Rat::mul/div calls, how many have BOTH
+// operands already in lowest terms (gcd(num,den) constant)? If ~all, the cross-
+// GCD identity gcd(ac,bd)=gcd(a,d)gcd(c,b) holds and (B) is sound.
+std::atomic<long> g_muldiv_total{0};
+std::atomic<long> g_muldiv_both_reduced{0};
+bool gcd_trivial_probe_on() {
+    static const bool on = [] {
+        const char* s = std::getenv("HF_GCD_TRIVIAL_PROBE");
+        return s && s[0] && s[0] != '0';
+    }();
+    return on;
+}
+struct GcdTrivialProbeReporter {
+    ~GcdTrivialProbeReporter() {
+        if (!gcd_trivial_probe_on()) return;
+        long t = g_gcd_probe_constant.load(), n = g_gcd_probe_total.load();
+        long pf = g_gcd_probe_pf.load(), pfc = g_gcd_probe_pf_constant.load();
+        long md = g_muldiv_total.load(), mdr = g_muldiv_both_reduced.load();
+        std::fprintf(stderr,
+            "{\"hf_gcd_trivial_probe\":true,\"gcd_constant\":%ld,"
+            "\"gcd_total\":%ld,\"constant_frac\":%.4f,"
+            "\"gcd_in_pf\":%ld,\"pf_frac\":%.4f,"
+            "\"gcd_in_pf_constant\":%ld,\"gcd_other\":%ld,"
+            "\"muldiv_total\":%ld,\"muldiv_both_reduced\":%ld,"
+            "\"muldiv_both_reduced_frac\":%.4f}\n",
+            t, n, n ? static_cast<double>(t) / n : 0.0,
+            pf, n ? static_cast<double>(pf) / n : 0.0, pfc, n - pf,
+            md, mdr, md ? static_cast<double>(mdr) / md : 0.0);
+    }
+} g_gcd_trivial_probe_reporter;
+
+// Probe helper: is the fraction n/d already in lowest terms (gcd a constant)?
+bool rat_operand_is_reduced(const Poly& n, const Poly& d) {
+    return n.gcd(d).is_fmpq();
+}
+}  // namespace
 
 // 2026-05-02 (Phase-0-GCD follow-up): three sub-timers decomposing
 // the non-GCD share of reduce_inplace's narrow path. Together with
@@ -1176,6 +1231,13 @@ static void reduce_inplace_impl(Poly& num, Poly& den) {
     const slong len_total =
         fmpq_mpoly_length(num.raw(), ctx.raw())
         + fmpq_mpoly_length(den.raw(), ctx.raw());
+    // [Lever A (lazy reduction) REMOVED 2026-06-15: VALUE-WRONG. Skipping the
+    //  multivariate GCD leaves un-reduced Rats whose denominators carry spurious
+    //  factors; partial_fractions then detects FALSE poles -> wrong residues ->
+    //  wrong period (tst2: constant term right, MZV coefs completely wrong). The
+    //  reduction is semantically required for pole detection, not redundant
+    //  canonicalization. The "95%-constant-gcd" finding does not make it
+    //  skippable. See findings F14. Lever B (cross-GCD) is value-preserving.]
     // 2026-05-01 (Tier 3 refined lever): env-gated raise of the size-gate
     // threshold. Default 4 = current behavior. Higher values push more
     // tiny-poly calls onto the wide-ctx GCD path, skipping the narrow-ctx
@@ -1461,6 +1523,17 @@ static void reduce_inplace_impl(Poly& num, Poly& den) {
             auto& _cv = gcd_cofactors_calls_storage();
             if (static_cast<size_t>(_ra_tid) < _cv.size()) _cv[_ra_tid] += 1;
         }
+        if (gcd_trivial_probe_on()) {
+            g_gcd_probe_total.fetch_add(1, std::memory_order_relaxed);
+            const bool _triv = g_n.is_fmpq();
+            if (_triv)
+                g_gcd_probe_constant.fetch_add(1, std::memory_order_relaxed);
+            if (hf_reduce_in_pf_ref() > 0) {
+                g_gcd_probe_pf.fetch_add(1, std::memory_order_relaxed);
+                if (_triv)
+                    g_gcd_probe_pf_constant.fetch_add(1, std::memory_order_relaxed);
+            }
+        }
         if (_gc_rc == 0) {
             throw std::runtime_error(
                 "reduce_inplace: fmpq_mpoly_gcd_cofactors failed (narrow)");
@@ -1550,6 +1623,17 @@ static void reduce_inplace_impl(Poly& num, Poly& den) {
         if (static_cast<size_t>(_ra_tid) < _gv.size()) _gv[_ra_tid] += _gc_dt;
         auto& _cv = gcd_cofactors_calls_storage();
         if (static_cast<size_t>(_ra_tid) < _cv.size()) _cv[_ra_tid] += 1;
+    }
+    if (gcd_trivial_probe_on()) {
+        g_gcd_probe_total.fetch_add(1, std::memory_order_relaxed);
+        const bool _triv = g.is_fmpq();
+        if (_triv)
+            g_gcd_probe_constant.fetch_add(1, std::memory_order_relaxed);
+        if (hf_reduce_in_pf_ref() > 0) {
+            g_gcd_probe_pf.fetch_add(1, std::memory_order_relaxed);
+            if (_triv)
+                g_gcd_probe_pf_constant.fetch_add(1, std::memory_order_relaxed);
+        }
     }
     if (_gc_rc == 0) {
         throw std::runtime_error(
@@ -2832,6 +2916,47 @@ static Rat rat_div_legacy(const Poly& a_num, const Poly& a_den,
     return Rat(std::move(new_num), std::move(new_den));
 }
 
+// Lever B (cross-GCD; HF_CROSS_GCD=1, default off). For REDUCED operands a/b,
+// c/d (a num/den coprime, verified 100% in F12), the single gcd on the products
+// factors as two CROSS gcds on the smaller operands:
+//   mul a/b*c/d = ac/bd : gcd(ac,bd) = gcd(a,d)*gcd(c,b)
+//   div a/b/(c/d)= ad/bc : gcd(ad,bc) = gcd(a,c)*gcd(b,d)
+// Cancel the cross factors first, then multiply the smaller pieces -> the result
+// is already in lowest terms, so from_canonical (sign-canon + constant-den
+// absorb) replaces the full reducing ctor. VALUE-IDENTICAL to the reduced
+// result (physics-review verified). NOTE: relies on reduced operands; an
+// un-reduced operand yields a value-correct but under-reduced result (would feed
+// partial_fractions false poles, like lever A) -- safe only because operands are
+// 100% reduced. Zero numerator short-circuits to 0/1.
+static bool cross_gcd_on() {
+    static const bool on = []{
+        const char* e = std::getenv("HF_CROSS_GCD");
+        return e && e[0] && e[0] != '0';
+    }();
+    return on;
+}
+static Rat rat_mul_cross(const Poly& a_num, const Poly& a_den,
+                         const Poly& b_num, const Poly& b_den) {
+    if (a_num.is_zero() || b_num.is_zero())
+        return Rat(Poly::zero_of(a_num.ctx()));
+    Poly g1 = a_num.gcd(b_den);          // a (num) x d (den)
+    Poly g2 = b_num.gcd(a_den);          // c (num) x b (den)
+    Poly num = a_num.divexact(g1).mul(b_num.divexact(g2));
+    Poly den = a_den.divexact(g2).mul(b_den.divexact(g1));
+    return Rat::from_canonical(std::move(num), std::move(den));
+}
+static Rat rat_div_cross(const Poly& a_num, const Poly& a_den,
+                         const Poly& b_num, const Poly& b_den) {
+    // a/b / (c/d) = a*d/(b*c), with c=b_num, d=b_den (b_num != 0, checked above)
+    if (a_num.is_zero())
+        return Rat(Poly::zero_of(a_num.ctx()));
+    Poly g1 = a_num.gcd(b_num);          // a (num) x c (den)
+    Poly g2 = a_den.gcd(b_den);          // b (den) x d (num)
+    Poly num = a_num.divexact(g1).mul(b_den.divexact(g2));
+    Poly den = a_den.divexact(g2).mul(b_num.divexact(g1));
+    return Rat::from_canonical(std::move(num), std::move(den));
+}
+
 Rat Rat::sub(const Rat& b) const {
     bump_rat_op(rat_sub_calls_storage());
     if (use_qunderscore_rat_sub() &&
@@ -2843,6 +2968,13 @@ Rat Rat::sub(const Rat& b) const {
 
 Rat Rat::mul(const Rat& b) const {
     bump_rat_op(rat_mul_calls_storage());
+    if (gcd_trivial_probe_on()) {
+        g_muldiv_total.fetch_add(1, std::memory_order_relaxed);
+        if (rat_operand_is_reduced(num_, den_) &&
+            rat_operand_is_reduced(b.num_, b.den_))
+            g_muldiv_both_reduced.fetch_add(1, std::memory_order_relaxed);
+    }
+    if (cross_gcd_on()) return rat_mul_cross(num_, den_, b.num_, b.den_);
     if (use_qunderscore_rat_mul() &&
         num_.ctx().vars().size() >= repswap_nvars_min()) {
         return mul_via_q_underscore(num_, den_, b.num_, b.den_);
@@ -2855,6 +2987,13 @@ Rat Rat::div(const Rat& b) const {
     if (b.num_.is_zero()) {
         throw std::runtime_error("Rat::div: division by zero");
     }
+    if (gcd_trivial_probe_on()) {
+        g_muldiv_total.fetch_add(1, std::memory_order_relaxed);
+        if (rat_operand_is_reduced(num_, den_) &&
+            rat_operand_is_reduced(b.num_, b.den_))
+            g_muldiv_both_reduced.fetch_add(1, std::memory_order_relaxed);
+    }
+    if (cross_gcd_on()) return rat_div_cross(num_, den_, b.num_, b.den_);
     if (use_qunderscore_rat_div() &&
         num_.ctx().vars().size() >= repswap_nvars_min()) {
         return div_via_q_underscore(num_, den_, b.num_, b.den_);

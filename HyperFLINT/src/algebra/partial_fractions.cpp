@@ -648,10 +648,18 @@ static PartialFractionization partial_fractions_with_inner_cache(
 //
 // Key includes `zw_tab.get()` (raw pointer identity) per
 // §iter-59-fold-REQ-3 defense-in-depth.
+// GCD-attribution probe (HF_GCD_TRIVIAL_PROBE): mark every reduce that happens
+// inside a partial_fractions call so rat.cpp can split GCD calls PF-vs-other.
+// RAII depth counter (handles nesting); zero cost when the probe is off.
+int& hf_reduce_in_pf_ref();  // defined in rat.cpp (external linkage)
+namespace { struct PfReduceScope { PfReduceScope() { ++hf_reduce_in_pf_ref(); }
+                                   ~PfReduceScope() { --hf_reduce_in_pf_ref(); } }; }
+
 PartialFractionization partial_fractions(
     const Rat& f, size_t var_idx,
     std::shared_ptr<ZWTable> zw_tab,
     bool introduce_algebraic_letters) {
+    PfReduceScope _pf_reduce_scope;  // GCD-attribution probe (no-op when off)
     // HF FF Phase 6 REVISED §6.P iter-17 (BINDING pre-build reviewer at
     // iter-16): env-gated structural-sharing probe.  Default-OFF guarded
     // by master predicate.  Observes the PUBLIC entry-point (both
@@ -1644,5 +1652,166 @@ PartialFractionization partial_fractions_impl(
 }
 
 }  // namespace (anon, partial_fractions_impl + verify helpers)
+
+// A2 (HF perf campaign — stay-factored lever). Contract in
+// partial_fractions.hpp. Computes the partial-fraction decomposition of
+//   num / (den_base)^mult   in `var`  WITHOUT ever forming den_base^mult.
+// The deferred fast path reproduces the standard reduced result BYTE-for-byte
+// in the coprime single-linear-pole regime (guarded below); every other shape
+// safe-degrades to the always-correct standard partial_fractions.
+PartialFractionization partial_fractions_factored_den(
+    const Poly& num, const Poly& den_base, long mult, size_t var_idx,
+    std::shared_ptr<ZWTable> zw_tab) {
+    const PolyCtx& ctx = num.ctx();
+
+    // Safe-degrade: materialise den_base^mult and run the always-correct path.
+    auto degrade = [&]() -> PartialFractionization {
+        Poly den = den_base.pow(static_cast<unsigned long>(mult));
+        return partial_fractions(Rat(Poly(num), std::move(den)), var_idx,
+                                 zw_tab, /*introduce_algebraic_letters=*/false);
+    };
+
+    if (mult < 1) {
+        // mult == 0: den is 1, so num is the whole polynomial part. mult < 0
+        // is not a valid denominator power here -> degrade defensively.
+        if (mult == 0)
+            return PartialFractionization{Rat(Poly(num)), {}};
+        return degrade();
+    }
+
+    // Structural guards, all on the SMALL den_base (never den_base^mult):
+    // (1) den_base linear in var -> a single linear pole.
+    if (den_base.degree_in_var(var_idx) != 1) return degrade();
+    // (2) a genuine polynomial part (deg_var(num) >= deg_var(den_base^mult)
+    //     = mult) needs real univariate division -> degrade.
+    if (num.degree_in_var(var_idx) >= mult) return degrade();
+    // (3) coprimality: Rat(num, den_base^mult)'s reducing ctor would cancel
+    //     gcd(num, den_base^mult); a non-unit gcd lowers the pole multiplicity
+    //     below `mult`, diverging from A2's fixed-multiplicity result. One gcd
+    //     of the small operands is cheap versus the avoided pow.
+    if (!den_base.gcd(num).is_one()) return degrade();
+
+    try {
+        // Factor only den_base (linear, small): exactly one pole a, mult 1.
+        LinearFactorization lf =
+            linear_factors(den_base, var_idx, zw_tab,
+                           /*introduce_algebraic_letters=*/false,
+                           /*compute_constant=*/false);
+        if (lf.linear.size() != 1 || !lf.nonlinear.empty() ||
+            lf.linear[0].multiplicity != 1)
+            return degrade();
+
+        const Rat& a = lf.linear[0].pole;        // pole a = P/Q
+        const Poly P = a.num();
+        const Poly Q = a.den();
+        const long m = mult;                      // effective pole multiplicity
+
+        Poly var_poly = Poly::gen(ctx, var_idx);
+        // Primitive linear factor lin = Q*var - P (mirrors B1.3b construction).
+        Poly lin = Q.mul(var_poly).sub(P);
+        // den_base == content_base * lin exactly (content_base var-free);
+        // divexact throws if violated -> caught -> degrade.
+        Poly content_base = den_base.divexact(lin);
+        // den_remaining = content_base^mult = the var-free part of
+        // den_base^mult. lin^mult is NEVER formed (this is the whole point).
+        Poly den_remaining =
+            content_base.pow(static_cast<unsigned long>(m));
+
+        // rem = num (quotient 0 because deg_var(num) < m; rem.den() == 1).
+        // R_other = den_remaining * rem.den() = den_remaining. No Q^m factor:
+        // Q is folded into lin. (Mirror of impl lines ~1118-1130, single pole.)
+        Poly R_other = Poly(den_remaining);
+
+        // ---- Single-pole Euclidean residue algebra. EXACT mirror of
+        // partial_fractions_impl's B1.3b single-pole branch (lines ~1043-1172),
+        // duplicated here so the byte-identical standard hot path is untouched.
+        struct Prim { Poly Q; Poly P; };
+        Prim pk{Poly(Q), Poly(P)};
+
+        struct HornerPolyResult { std::vector<Poly> coeffs; long degree; };
+        auto horner_taylor_polys = [&](const Poly& poly, const Prim& ppk,
+                                       long order) -> HornerPolyResult {
+            long D = poly.degree_in_var(var_idx);
+            if (D < 0) D = 0;
+            long Mc = std::min(order, D + 1);
+            std::vector<Poly> ck;
+            ck.reserve(static_cast<size_t>(D + 1));
+            for (long k = 0; k <= D; ++k)
+                ck.push_back(poly.coefficient_of_var(var_idx, k));
+            std::vector<Poly> Qpow;
+            Qpow.reserve(static_cast<size_t>(D + 1));
+            Qpow.push_back(Poly::one_of(ctx));
+            for (long i = 1; i <= D; ++i)
+                Qpow.push_back(Qpow[static_cast<size_t>(i - 1)].mul(ppk.Q));
+            std::vector<Poly> hk;
+            hk.reserve(static_cast<size_t>(D + 1));
+            for (long k = 0; k <= D; ++k) {
+                if (ck[static_cast<size_t>(k)].is_zero())
+                    hk.push_back(Poly::zero_of(ctx));
+                else
+                    hk.push_back(ck[static_cast<size_t>(k)].mul(
+                        Qpow[static_cast<size_t>(D - k)]));
+            }
+            std::vector<Poly> d(static_cast<size_t>(Mc), Poly::zero_of(ctx));
+            for (long k = D; k >= 0; --k) {
+                for (long j = Mc - 1; j >= 1; --j)
+                    d[static_cast<size_t>(j)] =
+                        d[static_cast<size_t>(j)].mul(ppk.P)
+                            .add(d[static_cast<size_t>(j - 1)]);
+                d[0] = d[0].mul(ppk.P).add(hk[static_cast<size_t>(k)]);
+            }
+            std::vector<Poly> result;
+            result.reserve(static_cast<size_t>(order));
+            for (long j = 0; j < Mc; ++j)
+                result.push_back(std::move(d[static_cast<size_t>(j)]));
+            for (long j = Mc; j < order; ++j)
+                result.push_back(Poly::zero_of(ctx));
+            return {std::move(result), D};
+        };
+        auto expand_horner = [&](const Poly& poly, const Prim& ppk,
+                                 long order) -> std::vector<Rat> {
+            auto hr = horner_taylor_polys(poly, ppk, order);
+            Poly QD = ppk.Q.pow(static_cast<unsigned long>(hr.degree));
+            std::vector<Rat> rats;
+            rats.reserve(static_cast<size_t>(order));
+            for (auto& p : hr.coeffs)
+                rats.push_back(Rat(std::move(p), Poly(QD)));
+            return rats;
+        };
+
+        std::vector<Rat> p_coeffs = expand_horner(num, pk, m);
+        std::vector<Rat> r_coeffs = expand_horner(R_other, pk, m);
+
+        const Rat& r0 = r_coeffs[0];
+        if (r0.is_zero())
+            throw std::runtime_error(
+                "partial_fractions_factored_den: R_other(pole) == 0");
+        std::vector<Rat> c_laurent;
+        c_laurent.reserve(static_cast<size_t>(m));
+        for (long j = 0; j < m; ++j) {
+            Rat acc = p_coeffs[static_cast<size_t>(j)];
+            for (long i = 1; i <= j; ++i)
+                acc = acc - r_coeffs[static_cast<size_t>(i)]
+                    * c_laurent[static_cast<size_t>(j - i)];
+            c_laurent.push_back(acc / r0);
+        }
+
+        PartialFractionPole pole_out{a, m, {}};
+        pole_out.coefs.reserve(static_cast<size_t>(m));
+        Poly Qk_pow = Poly(pk.Q);  // Q^1
+        for (long k = 1; k <= m; ++k) {
+            Rat coef =
+                c_laurent[static_cast<size_t>(m - k)] / Rat(Poly(Qk_pow));
+            pole_out.coefs.push_back(std::move(coef));
+            if (k < m) Qk_pow = Qk_pow.mul(pk.Q);
+        }
+
+        PartialFractionization out{Rat(Poly::zero_of(ctx)), {}};
+        out.poles.push_back(std::move(pole_out));
+        return out;
+    } catch (const std::exception&) {
+        return degrade();
+    }
+}
 
 }  // namespace hyperflint

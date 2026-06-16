@@ -1,115 +1,1551 @@
 {
-    "CNickelIndex": "e123|e23|e|e|:1000|100|0|0|",
-    "MassScales": 3,
-    "FunctionClass": "MPL",
-    "EpsilonOrder": "",
-    "References": [
-        "arXiv:2412.21053"
-    ],
-    "Records": [
+  "CNickelIndex": "e123|e23|e|e|:1000|100|0|0|",
+  "MassScales": 3,
+  "FunctionClass": "MPL",
+  "EpsilonOrder": "",
+  "References": [
+    "arXiv:2412.21053"
+  ],
+  "Records": [
+    {
+      "reference": "arXiv:2412.21053",
+      "authors": [
         {
-            "reference": "arXiv:2412.21053",
-            "authors": [
-                {
-                    "full_name": "Huang, Li-Hong",
-                    "inspire_id": 3069105
-                },
-                {
-                    "full_name": "Huang, Rui-Jun",
-                    "inspire_id": 1066027
-                },
-                {
-                    "full_name": "Ma, Yan-Qing",
-                    "inspire_id": 1056966
-                }
-            ],
-            "description": "Two-loop 4-point integral with massless internal propagators, obtained by splitting both the top and bottom arcs of the sunrise graph with one external leg each; the two horizontal external legs are massive, the inserted top and bottom legs are massless. Computed numerically to 6-digit precision via the FBI representation with DCT; 726 sample points, 0.34 ms/point. Cross-checked against AMFlow. Called graph $e_4$ in Table I of the paper.",
-            "epsOrders": "",
-            "familyName": "2-mass 2-loop 4-point sunrise-type (5 propagators)",
-            "method": "direct_integration, series_expansion",
-            "tools": [
-                "AMFlow"
-            ],
-            "ancillaryFiles": false,
-            "doi": "",
-            "texkey": "",
-            "masterCount": 0,
-            "dimScheme": "d=4-2*eps",
-            "computationLevel": "numerical",
-            "location": "Table I (graph e4), Two-loop examples section",
-            "recordId": "bx_7bfc0475d1b5",
-            "verified": false,
-            "verifiedAt": ""
-        }
-    ],
-    "Names": [
-        "2-mass 2-loop 4-point sunrise-type (5 propagators)"
-    ],
-    "Source": [
-        "arXiv"
-    ],
-    "Loops": 2,
-    "NumPropagators": 5,
-    "Results": [
+          "full_name": "Huang, Li-Hong",
+          "inspire_id": 3069105
+        },
         {
-            "dimension": "4 - 2*eps",
-            "epsOrder": "0",
-            "epsOrders": "0",
-            "propExponents": [
-                1,
-                1,
-                1,
-                1,
-                1
-            ],
-            "propagators": [],
-            "numerators": [],
-            "internalMasses": [],
-            "externalMasses": [],
-            "substitutions": "",
-            "normalization": "Automatic",
-            "stVersion": "SubTropica v1.0.293",
-            "stCommand": "",
-            "contributor": "Sebastian Mizera",
-            "timestamp": "2026-04-15T17:34:49",
-            "verifiedAt": "2026-04-15T17:34:49",
-            "verified": true,
-            "method": "direct_integration",
-            "tools": [
-                "SubTropica"
-            ],
-            "methodLR": "Lungo",
-            "findRoots": false,
-            "byteCount": 171280,
-            "normalizedAlphabet": [
-                "W_1",
-                "W_2",
-                "W_3",
-                "W_4",
-                "W_5",
-                "W_6"
-            ],
-            "resultDataId": "7dd47644dbfb4437",
-            "resultTeXPreview": "\\frac{-H\\left(-\\frac{s_{12}}{M^2-s_{12}},-\\frac{M^2-s_{12}}{-2 M^2+s_{12}+s_{23}}\\,;1\\right)+H\\left(\\frac{M^2}{M^2-s_{23}},-\\frac{M^2-s_{12}}{-2 M^2+s_{12}+s_{23}}\\,;1\\right)-\\log \\left(s_{23} M^{-2}\\right) \\log \\left(\\frac{s_{23}-M^2}{M^2-s_{12}}\\right)}{\\varepsilon^2 \\left(2 M^2-s_{12}-s_{23}\\right)}+\\frac{12 i \\pi  H\\left(-\\frac{s_{12}}{M^2-s_{12}},-\\frac{M^2-s_{12}}{-2 M^2+s_{12}+s_{23}}\\,;1\\right)-12 i \\pi  H\\left(\\frac{M^2}{M^2-s_{23}},-\\frac{M^2-s_{12}}{-2 M^2+s_{12}+s_{23}}\\,;1\\right)-12 H\\left(-\\frac{s_{12}}{M^2-s_{12}},-\\frac{s_{12}}{M^2-s_{12}},-\\frac{M^2-s_{12}}{-2 M^2+s_{12}+s_{23}}\\,;1\\right)+12 H\\left(\\frac{M^2}{M^2-s_{23}},\\frac{M^2}{M^2-s_{23}},-\\frac{M^2-s_{12}}{-2 M^2+s_{12}+s_{23}}\\,;1\\right)-12 \\log \\left(s_{23} M^{-2}\\right) H\\left(-\\frac{s_{12}}{M^2-s_{12}},-\\frac{M^2-s_{12}}{-2 M^2+s_{12}+s_{23}}\\,;1\\right)-6 \\log \\left(s_{23} M^{-2}\\right) H\\left(\\frac{M^2}{M^2-s_{23}},-\\frac{M^2-s_{12}}{-2 M^2+s_{12}+s_{23}}\\,;1\\right)-6 \\log \\left(\\frac{s_{23}-M^2}{M^2-s_{12}}\\right) H\\left(0,1-s_{23} M^{-2}\\,;1\\right)-6 \\log \\left(\\frac{s_{23}-M^2}{M^2-s_{12}}\\right) H\\left(0,\\frac{M^2}{M^2-s_{23}}\\,;1\\right)+12 \\log (s_{23}) H\\left(-\\frac{s_{12}}{M^2-s_{12}},-\\frac{M^2-s_{12}}{-2 M^2+s_{12}+s_{23}}\\,;1\\right)-12 \\log (s_{23}) H\\left(\\frac{M^2}{M^2-s_{23}},-\\frac{M^2-s_{12}}{-2 M^2+s_{12}+s_{23}}\\,;1\\right)-6 \\log \\left(\\frac{M^2}{s_{23}}\\right) H\\left(\\frac{M^2}{M^2-s_{23}},-\\frac{M^2-s_{12}}{-2 M^2+s_{12}+s_{23}}\\,;1\\right)+12 \\zeta(2) \\log \\left(\\frac{s_{23}-M^2}{M^2-s_{12}}\\right)-3 \\log ^2\\left(s_{23} M^{-2}\\right) \\log \\left(\\frac{s_{23}-M^2}{M^2-s_{12}}\\right)+3 \\log \\left(s_{23} M^{-2}\\right) \\log ^2\\left(\\frac{s_{23}-M^2}{M^2-s_{12}}\\right)+3 \\log \\left(\\frac{M^2}{s_{23}}\\right) \\log ^2\\left(\\frac{s_{23}-M^2}{M^2-s_{12}}\\right)+3 \\log ^2\\left(\\frac{s_{23}}{s_{23}-M^2}\\right) \\log \\left(\\frac{s_{23}-M^2}{M^2-s_{12}}\\right)+12 \\log (s_{23}) \\log \\left(s_{23} M^{-2}\\right) \\log \\left(\\frac{s_{23}-M^2}{M^2-s_{12}}\\right)+12 i \\pi  \\log \\left(s_{23} M^{-2}\\right) \\log \\left(\\frac{s_{23}-M^2}{M^2-s_{12}}\\right)+6 \\log \\left(\\frac{s_{23}}{s_{23}-M^2}\\right) \\log \\left(\\frac{M^2}{s_{23}}\\right) \\log \\left(\\frac{s_{23}-M^2}{M^2-s_{12}}\\right)-\\pi ^2 \\log \\left(\\frac{s_{23}-M^2}{M^2-s_{12}}\\right)}{6 \\varepsilon \\left(2 M^2-s_{12}-s_{23}\\right)} + \\cdots"
+          "full_name": "Huang, Rui-Jun",
+          "inspire_id": 1066027
+        },
+        {
+          "full_name": "Ma, Yan-Qing",
+          "inspire_id": 1056966
         }
-    ],
-    "edges": "{{{1, 2}, 0}, {{1, 3}, 0}, {{1, 4}, 0}, {{2, 3}, 0}, {{2, 4}, 0}}",
-    "nodes": "{{1, M}, {4, 0}, {2, M}, {3, 0}}",
-    "CanonicalName": "2-mass double triangle (a-e)",
-    "MassConfig": {
-        "numEdges": 5,
-        "numMassiveEdges": 0,
-        "numMasslessEdges": 5,
-        "distinctInternalMasses": 0,
-        "internalMassLabels": [],
-        "edgeMassPattern": "00000",
-        "numExtLegs": 4,
-        "numOnshellMassiveExtLegs": 2,
-        "numMasslessExtLegs": 2,
-        "extLegSignature": "M0M0"
+      ],
+      "description": "Two-loop 4-point integral with massless internal propagators, obtained by splitting both the top and bottom arcs of the sunrise graph with one external leg each; the two horizontal external legs are massive, the inserted top and bottom legs are massless. Computed numerically to 6-digit precision via the FBI representation with DCT; 726 sample points, 0.34 ms/point. Cross-checked against AMFlow. Called graph $e_4$ in Table I of the paper.",
+      "epsOrders": "",
+      "familyName": "2-mass 2-loop 4-point sunrise-type (5 propagators)",
+      "method": "direct_integration, series_expansion",
+      "tools": [
+        "AMFlow"
+      ],
+      "ancillaryFiles": false,
+      "doi": "",
+      "texkey": "",
+      "masterCount": 0,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "numerical",
+      "location": "Table I (graph e4), Two-loop examples section",
+      "recordId": "bx_7bfc0475d1b5",
+      "verified": false,
+      "verifiedAt": ""
+    }
+  ],
+  "Names": [
+    "2-mass 2-loop 4-point sunrise-type (5 propagators)"
+  ],
+  "Source": [
+    "arXiv"
+  ],
+  "Loops": 2,
+  "NumPropagators": 5,
+  "Results": [
+    {
+      "dimension": "4 - 2*eps",
+      "epsOrder": "0",
+      "epsOrders": "0",
+      "propExponents": [
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "propagators": [],
+      "numerators": [],
+      "internalMasses": [],
+      "externalMasses": [],
+      "substitutions": "",
+      "normalization": "Automatic",
+      "stVersion": "SubTropica v1.0.293",
+      "stCommand": "",
+      "contributor": "Sebastian Mizera",
+      "timestamp": "2026-04-15T17:34:49",
+      "verifiedAt": "2026-04-15T17:34:49",
+      "verified": true,
+      "method": "direct_integration",
+      "tools": [
+        "SubTropica"
+      ],
+      "methodLR": "Lungo",
+      "findRoots": false,
+      "byteCount": 171280,
+      "normalizedAlphabet": [
+        "W_1",
+        "W_2",
+        "W_3",
+        "W_4",
+        "W_5",
+        "W_6"
+      ],
+      "resultDataId": "7dd47644dbfb4437",
+      "resultTeXPreview": "\\frac{-H\\left(-\\frac{s_{12}}{M^2-s_{12}},-\\frac{M^2-s_{12}}{-2 M^2+s_{12}+s_{23}}\\,;1\\right)+H\\left(\\frac{M^2}{M^2-s_{23}},-\\frac{M^2-s_{12}}{-2 M^2+s_{12}+s_{23}}\\,;1\\right)-\\log \\left(s_{23} M^{-2}\\right) \\log \\left(\\frac{s_{23}-M^2}{M^2-s_{12}}\\right)}{\\varepsilon^2 \\left(2 M^2-s_{12}-s_{23}\\right)}+\\frac{12 i \\pi  H\\left(-\\frac{s_{12}}{M^2-s_{12}},-\\frac{M^2-s_{12}}{-2 M^2+s_{12}+s_{23}}\\,;1\\right)-12 i \\pi  H\\left(\\frac{M^2}{M^2-s_{23}},-\\frac{M^2-s_{12}}{-2 M^2+s_{12}+s_{23}}\\,;1\\right)-12 H\\left(-\\frac{s_{12}}{M^2-s_{12}},-\\frac{s_{12}}{M^2-s_{12}},-\\frac{M^2-s_{12}}{-2 M^2+s_{12}+s_{23}}\\,;1\\right)+12 H\\left(\\frac{M^2}{M^2-s_{23}},\\frac{M^2}{M^2-s_{23}},-\\frac{M^2-s_{12}}{-2 M^2+s_{12}+s_{23}}\\,;1\\right)-12 \\log \\left(s_{23} M^{-2}\\right) H\\left(-\\frac{s_{12}}{M^2-s_{12}},-\\frac{M^2-s_{12}}{-2 M^2+s_{12}+s_{23}}\\,;1\\right)-6 \\log \\left(s_{23} M^{-2}\\right) H\\left(\\frac{M^2}{M^2-s_{23}},-\\frac{M^2-s_{12}}{-2 M^2+s_{12}+s_{23}}\\,;1\\right)-6 \\log \\left(\\frac{s_{23}-M^2}{M^2-s_{12}}\\right) H\\left(0,1-s_{23} M^{-2}\\,;1\\right)-6 \\log \\left(\\frac{s_{23}-M^2}{M^2-s_{12}}\\right) H\\left(0,\\frac{M^2}{M^2-s_{23}}\\,;1\\right)+12 \\log (s_{23}) H\\left(-\\frac{s_{12}}{M^2-s_{12}},-\\frac{M^2-s_{12}}{-2 M^2+s_{12}+s_{23}}\\,;1\\right)-12 \\log (s_{23}) H\\left(\\frac{M^2}{M^2-s_{23}},-\\frac{M^2-s_{12}}{-2 M^2+s_{12}+s_{23}}\\,;1\\right)-6 \\log \\left(\\frac{M^2}{s_{23}}\\right) H\\left(\\frac{M^2}{M^2-s_{23}},-\\frac{M^2-s_{12}}{-2 M^2+s_{12}+s_{23}}\\,;1\\right)+12 \\zeta(2) \\log \\left(\\frac{s_{23}-M^2}{M^2-s_{12}}\\right)-3 \\log ^2\\left(s_{23} M^{-2}\\right) \\log \\left(\\frac{s_{23}-M^2}{M^2-s_{12}}\\right)+3 \\log \\left(s_{23} M^{-2}\\right) \\log ^2\\left(\\frac{s_{23}-M^2}{M^2-s_{12}}\\right)+3 \\log \\left(\\frac{M^2}{s_{23}}\\right) \\log ^2\\left(\\frac{s_{23}-M^2}{M^2-s_{12}}\\right)+3 \\log ^2\\left(\\frac{s_{23}}{s_{23}-M^2}\\right) \\log \\left(\\frac{s_{23}-M^2}{M^2-s_{12}}\\right)+12 \\log (s_{23}) \\log \\left(s_{23} M^{-2}\\right) \\log \\left(\\frac{s_{23}-M^2}{M^2-s_{12}}\\right)+12 i \\pi  \\log \\left(s_{23} M^{-2}\\right) \\log \\left(\\frac{s_{23}-M^2}{M^2-s_{12}}\\right)+6 \\log \\left(\\frac{s_{23}}{s_{23}-M^2}\\right) \\log \\left(\\frac{M^2}{s_{23}}\\right) \\log \\left(\\frac{s_{23}-M^2}{M^2-s_{12}}\\right)-\\pi ^2 \\log \\left(\\frac{s_{23}-M^2}{M^2-s_{12}}\\right)}{6 \\varepsilon \\left(2 M^2-s_{12}-s_{23}\\right)} + \\cdots"
     },
-    "Subsectors": [],
-    "ParentSectors": [
-        "123|e4|e4|e4|e|:000|00|00|10|1|"
-    ]
+    {
+      "resultType": "singularities",
+      "status": "proposal",
+      "recordId": "sg_20260614T174557Z",
+      "byEpsOrder": null,
+      "singularities": [
+        "MM",
+        "MM - s12",
+        "s12",
+        "MM - s23",
+        "2*MM - s12 - s23",
+        "s23",
+        "MM^2 - s12*s23"
+      ],
+      "singularitiesTeX": [
+        "\\text{MM}",
+        "\\text{MM}-\\text{s12}",
+        "\\text{s12}",
+        "\\text{MM}-\\text{s23}",
+        "2 \\text{MM}-\\text{s12}-\\text{s23}",
+        "\\text{s23}",
+        "\\text{MM}^2-\\text{s12} \\text{s23}"
+      ],
+      "singularitiesVerified": [
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false
+      ],
+      "groundTruthAvailable": false,
+      "provenance": {
+        "engine": "eulerDiscriminant",
+        "stVersion": "1.2.4",
+        "seed": 1234,
+        "chi": 0,
+        "confirmPrimes": null,
+        "confirmAgree": null,
+        "wallSeconds": 450.24
+      },
+      "timestamp": "2026-06-14T17:45:57Z",
+      "contributor": "oddletters-v1a"
+    },
+    {
+      "resultType": "proposed-alphabet",
+      "status": "proposal",
+      "recordId": "pa_20260614T174557Z",
+      "byEpsOrder": null,
+      "evens": [
+        "MM",
+        "MM - s12",
+        "s12",
+        "MM - s23",
+        "2*MM - s12 - s23",
+        "s23",
+        "MM^2 - s12*s23"
+      ],
+      "evensTeX": [
+        "\\text{MM}",
+        "\\text{MM}-\\text{s12}",
+        "\\text{s12}",
+        "\\text{MM}-\\text{s23}",
+        "2 \\text{MM}-\\text{s12}-\\text{s23}",
+        "\\text{s23}",
+        "\\text{MM}^2-\\text{s12} \\text{s23}"
+      ],
+      "evensVerified": [
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false
+      ],
+      "groundTruthAvailable": false,
+      "oddLetters": [
+        {
+          "P": "s12",
+          "PTeX": "\\text{s12}",
+          "c": "-1",
+          "Q": "MM*s12",
+          "QTeX": "\\text{MM} \\text{s12}",
+          "multiset": [
+            [
+              "s12",
+              1
+            ],
+            [
+              "MM - s12",
+              1
+            ]
+          ],
+          "multisetTeX": [
+            [
+              "\\text{s12}",
+              1
+            ],
+            [
+              "\\text{MM}-\\text{s12}",
+              1
+            ]
+          ],
+          "letter": "(s12 - Sqrt[MM*s12])/(s12 + Sqrt[MM*s12])",
+          "letterTeX": "\\frac{\\text{s12}-\\sqrt{\\text{MM} \\text{s12}}}{\\sqrt{\\text{MM} \\text{s12}}+\\text{s12}}",
+          "identityVerified": true,
+          "verified": false,
+          "wFactors": [
+            {
+              "w": 1,
+              "power": 1
+            },
+            {
+              "w": 3,
+              "power": 1
+            }
+          ],
+          "multisetIdx": [
+            {
+              "w": 3,
+              "power": 1
+            },
+            {
+              "w": 2,
+              "power": 1
+            }
+          ]
+        },
+        {
+          "P": "s23",
+          "PTeX": "\\text{s23}",
+          "c": "-1",
+          "Q": "MM*s23",
+          "QTeX": "\\text{MM} \\text{s23}",
+          "multiset": [
+            [
+              "s23",
+              1
+            ],
+            [
+              "MM - s23",
+              1
+            ]
+          ],
+          "multisetTeX": [
+            [
+              "\\text{s23}",
+              1
+            ],
+            [
+              "\\text{MM}-\\text{s23}",
+              1
+            ]
+          ],
+          "letter": "(s23 - Sqrt[MM*s23])/(s23 + Sqrt[MM*s23])",
+          "letterTeX": "\\frac{\\text{s23}-\\sqrt{\\text{MM} \\text{s23}}}{\\sqrt{\\text{MM} \\text{s23}}+\\text{s23}}",
+          "identityVerified": true,
+          "verified": false,
+          "wFactors": [
+            {
+              "w": 1,
+              "power": 1
+            },
+            {
+              "w": 6,
+              "power": 1
+            }
+          ],
+          "multisetIdx": [
+            {
+              "w": 6,
+              "power": 1
+            },
+            {
+              "w": 4,
+              "power": 1
+            }
+          ]
+        },
+        {
+          "P": "MM",
+          "PTeX": "\\text{MM}",
+          "c": "1",
+          "Q": "s12*s23",
+          "QTeX": "\\text{s12} \\text{s23}",
+          "multiset": [
+            [
+              "MM^2 - s12*s23",
+              1
+            ]
+          ],
+          "multisetTeX": [
+            [
+              "\\text{MM}^2-\\text{s12} \\text{s23}",
+              1
+            ]
+          ],
+          "letter": "(MM - Sqrt[s12*s23])/(MM + Sqrt[s12*s23])",
+          "letterTeX": "\\frac{\\text{MM}-\\sqrt{\\text{s12} \\text{s23}}}{\\text{MM}+\\sqrt{\\text{s12} \\text{s23}}}",
+          "identityVerified": true,
+          "verified": false,
+          "wFactors": [
+            {
+              "w": 3,
+              "power": 1
+            },
+            {
+              "w": 6,
+              "power": 1
+            }
+          ],
+          "multisetIdx": [
+            {
+              "w": 7,
+              "power": 1
+            }
+          ]
+        },
+        {
+          "P": "MM - s12/2",
+          "PTeX": "\\text{MM}-\\frac{\\text{s12}}{2}",
+          "c": "1/4",
+          "Q": "MM^2 - MM*s12",
+          "QTeX": "\\text{MM}^2-\\text{MM} \\text{s12}",
+          "multiset": [
+            [
+              "s12",
+              2
+            ]
+          ],
+          "multisetTeX": [
+            [
+              "\\text{s12}",
+              2
+            ]
+          ],
+          "letter": "(MM - s12/2 - Sqrt[MM^2 - MM*s12])/(MM - s12/2 + Sqrt[MM^2 - MM*s12])",
+          "letterTeX": "\\frac{-\\sqrt{\\text{MM}^2-\\text{MM} \\text{s12}}+\\text{MM}-\\frac{\\text{s12}}{2}}{\\sqrt{\\text{MM}^2-\\text{MM} \\text{s12}}+\\text{MM}-\\frac{\\text{s12}}{2}}",
+          "identityVerified": true,
+          "verified": false,
+          "wFactors": [
+            {
+              "w": 1,
+              "power": 1
+            },
+            {
+              "w": 2,
+              "power": 1
+            }
+          ],
+          "multisetIdx": [
+            {
+              "w": 3,
+              "power": 2
+            }
+          ]
+        },
+        {
+          "P": "MM - s23/2",
+          "PTeX": "\\text{MM}-\\frac{\\text{s23}}{2}",
+          "c": "1/4",
+          "Q": "MM^2 - MM*s23",
+          "QTeX": "\\text{MM}^2-\\text{MM} \\text{s23}",
+          "multiset": [
+            [
+              "s23",
+              2
+            ]
+          ],
+          "multisetTeX": [
+            [
+              "\\text{s23}",
+              2
+            ]
+          ],
+          "letter": "(MM - s23/2 - Sqrt[MM^2 - MM*s23])/(MM - s23/2 + Sqrt[MM^2 - MM*s23])",
+          "letterTeX": "\\frac{-\\sqrt{\\text{MM}^2-\\text{MM} \\text{s23}}+\\text{MM}-\\frac{\\text{s23}}{2}}{\\sqrt{\\text{MM}^2-\\text{MM} \\text{s23}}+\\text{MM}-\\frac{\\text{s23}}{2}}",
+          "identityVerified": true,
+          "verified": false,
+          "wFactors": [
+            {
+              "w": 1,
+              "power": 1
+            },
+            {
+              "w": 4,
+              "power": 1
+            }
+          ],
+          "multisetIdx": [
+            {
+              "w": 6,
+              "power": 2
+            }
+          ]
+        },
+        {
+          "P": "s12",
+          "PTeX": "\\text{s12}",
+          "c": "1",
+          "Q": "-(MM*s12) + s12^2",
+          "QTeX": "\\text{s12}^2-\\text{MM} \\text{s12}",
+          "multiset": [
+            [
+              "s12",
+              1
+            ],
+            [
+              "MM",
+              1
+            ]
+          ],
+          "multisetTeX": [
+            [
+              "\\text{s12}",
+              1
+            ],
+            [
+              "\\text{MM}",
+              1
+            ]
+          ],
+          "letter": "(s12 - Sqrt[-(MM*s12) + s12^2])/(s12 + Sqrt[-(MM*s12) + s12^2])",
+          "letterTeX": "\\frac{\\text{s12}-\\sqrt{\\text{s12}^2-\\text{MM} \\text{s12}}}{\\sqrt{\\text{s12}^2-\\text{MM} \\text{s12}}+\\text{s12}}",
+          "identityVerified": true,
+          "verified": false,
+          "wFactors": [
+            {
+              "w": 2,
+              "power": 1
+            },
+            {
+              "w": 3,
+              "power": 1
+            }
+          ],
+          "multisetIdx": [
+            {
+              "w": 3,
+              "power": 1
+            },
+            {
+              "w": 1,
+              "power": 1
+            }
+          ]
+        },
+        {
+          "P": "s23",
+          "PTeX": "\\text{s23}",
+          "c": "1",
+          "Q": "-(MM*s23) + s23^2",
+          "QTeX": "\\text{s23}^2-\\text{MM} \\text{s23}",
+          "multiset": [
+            [
+              "s23",
+              1
+            ],
+            [
+              "MM",
+              1
+            ]
+          ],
+          "multisetTeX": [
+            [
+              "\\text{s23}",
+              1
+            ],
+            [
+              "\\text{MM}",
+              1
+            ]
+          ],
+          "letter": "(s23 - Sqrt[-(MM*s23) + s23^2])/(s23 + Sqrt[-(MM*s23) + s23^2])",
+          "letterTeX": "\\frac{\\text{s23}-\\sqrt{\\text{s23}^2-\\text{MM} \\text{s23}}}{\\sqrt{\\text{s23}^2-\\text{MM} \\text{s23}}+\\text{s23}}",
+          "identityVerified": true,
+          "verified": false,
+          "wFactors": [
+            {
+              "w": 4,
+              "power": 1
+            },
+            {
+              "w": 6,
+              "power": 1
+            }
+          ],
+          "multisetIdx": [
+            {
+              "w": 6,
+              "power": 1
+            },
+            {
+              "w": 1,
+              "power": 1
+            }
+          ]
+        },
+        {
+          "P": "MM - s23",
+          "PTeX": "\\text{MM}-\\text{s23}",
+          "c": "-1",
+          "Q": "MM^2 - s12*s23",
+          "QTeX": "\\text{MM}^2-\\text{s12} \\text{s23}",
+          "multiset": [
+            [
+              "s23",
+              1
+            ],
+            [
+              "2*MM - s12 - s23",
+              1
+            ]
+          ],
+          "multisetTeX": [
+            [
+              "\\text{s23}",
+              1
+            ],
+            [
+              "2 \\text{MM}-\\text{s12}-\\text{s23}",
+              1
+            ]
+          ],
+          "letter": "(MM - s23 - Sqrt[MM^2 - s12*s23])/(MM - s23 + Sqrt[MM^2 - s12*s23])",
+          "letterTeX": "\\frac{-\\sqrt{\\text{MM}^2-\\text{s12} \\text{s23}}+\\text{MM}-\\text{s23}}{\\sqrt{\\text{MM}^2-\\text{s12} \\text{s23}}+\\text{MM}-\\text{s23}}",
+          "identityVerified": true,
+          "verified": false,
+          "wFactors": [
+            {
+              "w": 7,
+              "power": 1
+            }
+          ],
+          "multisetIdx": [
+            {
+              "w": 6,
+              "power": 1
+            },
+            {
+              "w": 5,
+              "power": 1
+            }
+          ]
+        },
+        {
+          "P": "MM",
+          "PTeX": "\\text{MM}",
+          "c": "1",
+          "Q": "MM^2 - s12*s23",
+          "QTeX": "\\text{MM}^2-\\text{s12} \\text{s23}",
+          "multiset": [
+            [
+              "s23",
+              1
+            ],
+            [
+              "s12",
+              1
+            ]
+          ],
+          "multisetTeX": [
+            [
+              "\\text{s23}",
+              1
+            ],
+            [
+              "\\text{s12}",
+              1
+            ]
+          ],
+          "letter": "(MM - Sqrt[MM^2 - s12*s23])/(MM + Sqrt[MM^2 - s12*s23])",
+          "letterTeX": "\\frac{\\text{MM}-\\sqrt{\\text{MM}^2-\\text{s12} \\text{s23}}}{\\sqrt{\\text{MM}^2-\\text{s12} \\text{s23}}+\\text{MM}}",
+          "identityVerified": true,
+          "verified": false,
+          "wFactors": [
+            {
+              "w": 7,
+              "power": 1
+            }
+          ],
+          "multisetIdx": [
+            {
+              "w": 6,
+              "power": 1
+            },
+            {
+              "w": 3,
+              "power": 1
+            }
+          ]
+        },
+        {
+          "P": "s12/2 - s23/2",
+          "PTeX": "\\frac{\\text{s12}}{2}-\\frac{\\text{s23}}{2}",
+          "c": "1/4",
+          "Q": "-MM^2 + MM*s12 + MM*s23 - s12*s23",
+          "QTeX": "-\\text{MM}^2+\\text{MM} \\text{s12}+\\text{MM} \\text{s23}-\\text{s12} \\text{s23}",
+          "multiset": [
+            [
+              "2*MM - s12 - s23",
+              2
+            ]
+          ],
+          "multisetTeX": [
+            [
+              "2 \\text{MM}-\\text{s12}-\\text{s23}",
+              2
+            ]
+          ],
+          "letter": "(s12/2 - s23/2 - Sqrt[-MM^2 + MM*s12 + MM*s23 - s12*s23])/(s12/2 - s23/2 + Sqrt[-MM^2 + MM*s12 + MM*s23 - s12*s23])",
+          "letterTeX": "\\frac{-\\sqrt{-\\text{MM}^2+\\text{MM} \\text{s12}+\\text{MM} \\text{s23}-\\text{s12} \\text{s23}}+\\frac{\\text{s12}}{2}-\\frac{\\text{s23}}{2}}{\\sqrt{-\\text{MM}^2+\\text{MM} \\text{s12}+\\text{MM} \\text{s23}-\\text{s12} \\text{s23}}+\\frac{\\text{s12}}{2}-\\frac{\\text{s23}}{2}}",
+          "identityVerified": true,
+          "verified": false,
+          "wFactors": [
+            {
+              "w": 2,
+              "power": 1
+            },
+            {
+              "w": 4,
+              "power": 1
+            }
+          ],
+          "multisetIdx": [
+            {
+              "w": 5,
+              "power": 2
+            }
+          ]
+        },
+        {
+          "P": "MM - s12",
+          "PTeX": "\\text{MM}-\\text{s12}",
+          "c": "1",
+          "Q": "-2*MM*s12 + s12^2 + s12*s23",
+          "QTeX": "-2 \\text{MM} \\text{s12}+\\text{s12}^2+\\text{s12} \\text{s23}",
+          "multiset": [
+            [
+              "MM^2 - s12*s23",
+              1
+            ]
+          ],
+          "multisetTeX": [
+            [
+              "\\text{MM}^2-\\text{s12} \\text{s23}",
+              1
+            ]
+          ],
+          "letter": "(MM - s12 - Sqrt[-2*MM*s12 + s12^2 + s12*s23])/(MM - s12 + Sqrt[-2*MM*s12 + s12^2 + s12*s23])",
+          "letterTeX": "\\frac{-\\sqrt{-2 \\text{MM} \\text{s12}+\\text{s12}^2+\\text{s12} \\text{s23}}+\\text{MM}-\\text{s12}}{\\sqrt{-2 \\text{MM} \\text{s12}+\\text{s12}^2+\\text{s12} \\text{s23}}+\\text{MM}-\\text{s12}}",
+          "identityVerified": true,
+          "verified": false,
+          "wFactors": [
+            {
+              "w": 3,
+              "power": 1
+            },
+            {
+              "w": 5,
+              "power": 1
+            }
+          ],
+          "multisetIdx": [
+            {
+              "w": 7,
+              "power": 1
+            }
+          ]
+        },
+        {
+          "P": "MM - s23",
+          "PTeX": "\\text{MM}-\\text{s23}",
+          "c": "1",
+          "Q": "-2*MM*s23 + s12*s23 + s23^2",
+          "QTeX": "-2 \\text{MM} \\text{s23}+\\text{s12} \\text{s23}+\\text{s23}^2",
+          "multiset": [
+            [
+              "MM^2 - s12*s23",
+              1
+            ]
+          ],
+          "multisetTeX": [
+            [
+              "\\text{MM}^2-\\text{s12} \\text{s23}",
+              1
+            ]
+          ],
+          "letter": "(MM - s23 - Sqrt[-2*MM*s23 + s12*s23 + s23^2])/(MM - s23 + Sqrt[-2*MM*s23 + s12*s23 + s23^2])",
+          "letterTeX": "\\frac{-\\sqrt{-2 \\text{MM} \\text{s23}+\\text{s12} \\text{s23}+\\text{s23}^2}+\\text{MM}-\\text{s23}}{\\sqrt{-2 \\text{MM} \\text{s23}+\\text{s12} \\text{s23}+\\text{s23}^2}+\\text{MM}-\\text{s23}}",
+          "identityVerified": true,
+          "verified": false,
+          "wFactors": [
+            {
+              "w": 5,
+              "power": 1
+            },
+            {
+              "w": 6,
+              "power": 1
+            }
+          ],
+          "multisetIdx": [
+            {
+              "w": 7,
+              "power": 1
+            }
+          ]
+        },
+        {
+          "P": "2*MM - s12 - s23",
+          "PTeX": "2 \\text{MM}-\\text{s12}-\\text{s23}",
+          "c": "1",
+          "Q": "2*MM^2 - 3*MM*s12 + s12^2 - MM*s23 + s12*s23",
+          "QTeX": "2 \\text{MM}^2-3 \\text{MM} \\text{s12}-\\text{MM} \\text{s23}+\\text{s12}^2+\\text{s12} \\text{s23}",
+          "multiset": [
+            [
+              "2*MM - s12 - s23",
+              1
+            ],
+            [
+              "MM - s23",
+              1
+            ]
+          ],
+          "multisetTeX": [
+            [
+              "2 \\text{MM}-\\text{s12}-\\text{s23}",
+              1
+            ],
+            [
+              "\\text{MM}-\\text{s23}",
+              1
+            ]
+          ],
+          "letter": "(2*MM - s12 - s23 - Sqrt[2*MM^2 - 3*MM*s12 + s12^2 - MM*s23 + s12*s23])/(2*MM - s12 - s23 + Sqrt[2*MM^2 - 3*MM*s12 + s12^2 - MM*s23 + s12*s23])",
+          "letterTeX": "\\frac{-\\sqrt{2 \\text{MM}^2-3 \\text{MM} \\text{s12}-\\text{MM} \\text{s23}+\\text{s12}^2+\\text{s12} \\text{s23}}+2 \\text{MM}-\\text{s12}-\\text{s23}}{\\sqrt{2 \\text{MM}^2-3 \\text{MM} \\text{s12}-\\text{MM} \\text{s23}+\\text{s12}^2+\\text{s12} \\text{s23}}+2 \\text{MM}-\\text{s12}-\\text{s23}}",
+          "identityVerified": true,
+          "verified": false,
+          "wFactors": [
+            {
+              "w": 2,
+              "power": 1
+            },
+            {
+              "w": 5,
+              "power": 1
+            }
+          ],
+          "multisetIdx": [
+            {
+              "w": 5,
+              "power": 1
+            },
+            {
+              "w": 4,
+              "power": 1
+            }
+          ]
+        },
+        {
+          "P": "2*MM - s12 - s23",
+          "PTeX": "2 \\text{MM}-\\text{s12}-\\text{s23}",
+          "c": "1",
+          "Q": "2*MM^2 - MM*s12 - 3*MM*s23 + s12*s23 + s23^2",
+          "QTeX": "2 \\text{MM}^2-\\text{MM} \\text{s12}-3 \\text{MM} \\text{s23}+\\text{s12} \\text{s23}+\\text{s23}^2",
+          "multiset": [
+            [
+              "2*MM - s12 - s23",
+              1
+            ],
+            [
+              "MM - s12",
+              1
+            ]
+          ],
+          "multisetTeX": [
+            [
+              "2 \\text{MM}-\\text{s12}-\\text{s23}",
+              1
+            ],
+            [
+              "\\text{MM}-\\text{s12}",
+              1
+            ]
+          ],
+          "letter": "(2*MM - s12 - s23 - Sqrt[2*MM^2 - MM*s12 - 3*MM*s23 + s12*s23 + s23^2])/(2*MM - s12 - s23 + Sqrt[2*MM^2 - MM*s12 - 3*MM*s23 + s12*s23 + s23^2])",
+          "letterTeX": "\\frac{-\\sqrt{2 \\text{MM}^2-\\text{MM} \\text{s12}-3 \\text{MM} \\text{s23}+\\text{s12} \\text{s23}+\\text{s23}^2}+2 \\text{MM}-\\text{s12}-\\text{s23}}{\\sqrt{2 \\text{MM}^2-\\text{MM} \\text{s12}-3 \\text{MM} \\text{s23}+\\text{s12} \\text{s23}+\\text{s23}^2}+2 \\text{MM}-\\text{s12}-\\text{s23}}",
+          "identityVerified": true,
+          "verified": false,
+          "wFactors": [
+            {
+              "w": 4,
+              "power": 1
+            },
+            {
+              "w": 5,
+              "power": 1
+            }
+          ],
+          "multisetIdx": [
+            {
+              "w": 5,
+              "power": 1
+            },
+            {
+              "w": 2,
+              "power": 1
+            }
+          ]
+        },
+        {
+          "P": "MM^2 - s12*s23",
+          "PTeX": "\\text{MM}^2-\\text{s12} \\text{s23}",
+          "c": "1",
+          "Q": "-(MM^2*s12*s23) + s12^2*s23^2",
+          "QTeX": "\\text{s12}^2 \\text{s23}^2-\\text{MM}^2 \\text{s12} \\text{s23}",
+          "multiset": [
+            [
+              "MM^2 - s12*s23",
+              1
+            ],
+            [
+              "MM",
+              2
+            ]
+          ],
+          "multisetTeX": [
+            [
+              "\\text{MM}^2-\\text{s12} \\text{s23}",
+              1
+            ],
+            [
+              "\\text{MM}",
+              2
+            ]
+          ],
+          "letter": "(MM^2 - s12*s23 - Sqrt[-(MM^2*s12*s23) + s12^2*s23^2])/(MM^2 - s12*s23 + Sqrt[-(MM^2*s12*s23) + s12^2*s23^2])",
+          "letterTeX": "\\frac{-\\sqrt{\\text{s12}^2 \\text{s23}^2-\\text{MM}^2 \\text{s12} \\text{s23}}+\\text{MM}^2-\\text{s12} \\text{s23}}{\\sqrt{\\text{s12}^2 \\text{s23}^2-\\text{MM}^2 \\text{s12} \\text{s23}}+\\text{MM}^2-\\text{s12} \\text{s23}}",
+          "identityVerified": true,
+          "verified": false,
+          "wFactors": [
+            {
+              "w": 3,
+              "power": 1
+            },
+            {
+              "w": 6,
+              "power": 1
+            },
+            {
+              "w": 7,
+              "power": 1
+            }
+          ],
+          "multisetIdx": [
+            {
+              "w": 7,
+              "power": 1
+            },
+            {
+              "w": 1,
+              "power": 2
+            }
+          ]
+        },
+        {
+          "P": "MM^2/2 - MM*s12 + (s12*s23)/2",
+          "PTeX": "\\frac{\\text{MM}^2}{2}-\\text{MM} \\text{s12}+\\frac{\\text{s12} \\text{s23}}{2}",
+          "c": "1/4",
+          "Q": "-(MM^3*s12) + MM^2*s12^2 + MM^2*s12*s23 - MM*s12^2*s23",
+          "QTeX": "\\text{MM}^3 (-\\text{s12})+\\text{MM}^2 \\text{s12}^2+\\text{MM}^2 \\text{s12} \\text{s23}-\\text{MM} \\text{s12}^2 \\text{s23}",
+          "multiset": [
+            [
+              "MM^2 - s12*s23",
+              2
+            ]
+          ],
+          "multisetTeX": [
+            [
+              "\\text{MM}^2-\\text{s12} \\text{s23}",
+              2
+            ]
+          ],
+          "letter": "(MM^2/2 - MM*s12 + (s12*s23)/2 - Sqrt[-(MM^3*s12) + MM^2*s12^2 + MM^2*s12*s23 - MM*s12^2*s23])/(MM^2/2 - MM*s12 + (s12*s23)/2 + Sqrt[-(MM^3*s12) + MM^2*s12^2 + MM^2*s12*s23 - MM*s12^2*s23])",
+          "letterTeX": "\\frac{\\frac{\\text{MM}^2}{2}-\\sqrt{\\text{MM}^3 (-\\text{s12})+\\text{MM}^2 \\text{s12}^2+\\text{MM}^2 \\text{s12} \\text{s23}-\\text{MM} \\text{s12}^2 \\text{s23}}-\\text{MM} \\text{s12}+\\frac{\\text{s12} \\text{s23}}{2}}{\\frac{\\text{MM}^2}{2}+\\sqrt{\\text{MM}^3 (-\\text{s12})+\\text{MM}^2 \\text{s12}^2+\\text{MM}^2 \\text{s12} \\text{s23}-\\text{MM} \\text{s12}^2 \\text{s23}}-\\text{MM} \\text{s12}+\\frac{\\text{s12} \\text{s23}}{2}}",
+          "identityVerified": true,
+          "verified": false,
+          "wFactors": [
+            {
+              "w": 1,
+              "power": 1
+            },
+            {
+              "w": 2,
+              "power": 1
+            },
+            {
+              "w": 3,
+              "power": 1
+            },
+            {
+              "w": 4,
+              "power": 1
+            }
+          ],
+          "multisetIdx": [
+            {
+              "w": 7,
+              "power": 2
+            }
+          ]
+        },
+        {
+          "P": "MM^2/2 - MM*s23 + (s12*s23)/2",
+          "PTeX": "\\frac{\\text{MM}^2}{2}-\\text{MM} \\text{s23}+\\frac{\\text{s12} \\text{s23}}{2}",
+          "c": "1/4",
+          "Q": "-(MM^3*s23) + MM^2*s12*s23 + MM^2*s23^2 - MM*s12*s23^2",
+          "QTeX": "\\text{MM}^3 (-\\text{s23})+\\text{MM}^2 \\text{s12} \\text{s23}+\\text{MM}^2 \\text{s23}^2-\\text{MM} \\text{s12} \\text{s23}^2",
+          "multiset": [
+            [
+              "MM^2 - s12*s23",
+              2
+            ]
+          ],
+          "multisetTeX": [
+            [
+              "\\text{MM}^2-\\text{s12} \\text{s23}",
+              2
+            ]
+          ],
+          "letter": "(MM^2/2 - MM*s23 + (s12*s23)/2 - Sqrt[-(MM^3*s23) + MM^2*s12*s23 + MM^2*s23^2 - MM*s12*s23^2])/(MM^2/2 - MM*s23 + (s12*s23)/2 + Sqrt[-(MM^3*s23) + MM^2*s12*s23 + MM^2*s23^2 - MM*s12*s23^2])",
+          "letterTeX": "\\frac{\\frac{\\text{MM}^2}{2}-\\sqrt{\\text{MM}^3 (-\\text{s23})+\\text{MM}^2 \\text{s12} \\text{s23}+\\text{MM}^2 \\text{s23}^2-\\text{MM} \\text{s12} \\text{s23}^2}-\\text{MM} \\text{s23}+\\frac{\\text{s12} \\text{s23}}{2}}{\\frac{\\text{MM}^2}{2}+\\sqrt{\\text{MM}^3 (-\\text{s23})+\\text{MM}^2 \\text{s12} \\text{s23}+\\text{MM}^2 \\text{s23}^2-\\text{MM} \\text{s12} \\text{s23}^2}-\\text{MM} \\text{s23}+\\frac{\\text{s12} \\text{s23}}{2}}",
+          "identityVerified": true,
+          "verified": false,
+          "wFactors": [
+            {
+              "w": 1,
+              "power": 1
+            },
+            {
+              "w": 2,
+              "power": 1
+            },
+            {
+              "w": 4,
+              "power": 1
+            },
+            {
+              "w": 6,
+              "power": 1
+            }
+          ],
+          "multisetIdx": [
+            {
+              "w": 7,
+              "power": 2
+            }
+          ]
+        },
+        {
+          "P": "MM^2 - s12*s23",
+          "PTeX": "\\text{MM}^2-\\text{s12} \\text{s23}",
+          "c": "1",
+          "Q": "MM^4 - MM^3*s12 - MM^2*s12*s23 + MM*s12^2*s23",
+          "QTeX": "\\text{MM}^4-\\text{MM}^3 \\text{s12}-\\text{MM}^2 \\text{s12} \\text{s23}+\\text{MM} \\text{s12}^2 \\text{s23}",
+          "multiset": [
+            [
+              "MM^2 - s12*s23",
+              1
+            ],
+            [
+              "MM - s23",
+              1
+            ],
+            [
+              "s12",
+              1
+            ]
+          ],
+          "multisetTeX": [
+            [
+              "\\text{MM}^2-\\text{s12} \\text{s23}",
+              1
+            ],
+            [
+              "\\text{MM}-\\text{s23}",
+              1
+            ],
+            [
+              "\\text{s12}",
+              1
+            ]
+          ],
+          "letter": "(MM^2 - s12*s23 - Sqrt[MM^4 - MM^3*s12 - MM^2*s12*s23 + MM*s12^2*s23])/(MM^2 - s12*s23 + Sqrt[MM^4 - MM^3*s12 - MM^2*s12*s23 + MM*s12^2*s23])",
+          "letterTeX": "\\frac{\\text{MM}^2-\\sqrt{\\text{MM}^4-\\text{MM}^3 \\text{s12}-\\text{MM}^2 \\text{s12} \\text{s23}+\\text{MM} \\text{s12}^2 \\text{s23}}-\\text{s12} \\text{s23}}{\\text{MM}^2+\\sqrt{\\text{MM}^4-\\text{MM}^3 \\text{s12}-\\text{MM}^2 \\text{s12} \\text{s23}+\\text{MM} \\text{s12}^2 \\text{s23}}-\\text{s12} \\text{s23}}",
+          "identityVerified": true,
+          "verified": false,
+          "wFactors": [
+            {
+              "w": 1,
+              "power": 1
+            },
+            {
+              "w": 2,
+              "power": 1
+            },
+            {
+              "w": 7,
+              "power": 1
+            }
+          ],
+          "multisetIdx": [
+            {
+              "w": 7,
+              "power": 1
+            },
+            {
+              "w": 4,
+              "power": 1
+            },
+            {
+              "w": 3,
+              "power": 1
+            }
+          ]
+        },
+        {
+          "P": "MM^2 - s12*s23",
+          "PTeX": "\\text{MM}^2-\\text{s12} \\text{s23}",
+          "c": "1",
+          "Q": "MM^4 - MM^3*s23 - MM^2*s12*s23 + MM*s12*s23^2",
+          "QTeX": "\\text{MM}^4-\\text{MM}^3 \\text{s23}-\\text{MM}^2 \\text{s12} \\text{s23}+\\text{MM} \\text{s12} \\text{s23}^2",
+          "multiset": [
+            [
+              "MM^2 - s12*s23",
+              1
+            ],
+            [
+              "s23",
+              1
+            ],
+            [
+              "MM - s12",
+              1
+            ]
+          ],
+          "multisetTeX": [
+            [
+              "\\text{MM}^2-\\text{s12} \\text{s23}",
+              1
+            ],
+            [
+              "\\text{s23}",
+              1
+            ],
+            [
+              "\\text{MM}-\\text{s12}",
+              1
+            ]
+          ],
+          "letter": "(MM^2 - s12*s23 - Sqrt[MM^4 - MM^3*s23 - MM^2*s12*s23 + MM*s12*s23^2])/(MM^2 - s12*s23 + Sqrt[MM^4 - MM^3*s23 - MM^2*s12*s23 + MM*s12*s23^2])",
+          "letterTeX": "\\frac{\\text{MM}^2-\\sqrt{\\text{MM}^4-\\text{MM}^3 \\text{s23}-\\text{MM}^2 \\text{s12} \\text{s23}+\\text{MM} \\text{s12} \\text{s23}^2}-\\text{s12} \\text{s23}}{\\text{MM}^2+\\sqrt{\\text{MM}^4-\\text{MM}^3 \\text{s23}-\\text{MM}^2 \\text{s12} \\text{s23}+\\text{MM} \\text{s12} \\text{s23}^2}-\\text{s12} \\text{s23}}",
+          "identityVerified": true,
+          "verified": false,
+          "wFactors": [
+            {
+              "w": 1,
+              "power": 1
+            },
+            {
+              "w": 4,
+              "power": 1
+            },
+            {
+              "w": 7,
+              "power": 1
+            }
+          ],
+          "multisetIdx": [
+            {
+              "w": 7,
+              "power": 1
+            },
+            {
+              "w": 6,
+              "power": 1
+            },
+            {
+              "w": 2,
+              "power": 1
+            }
+          ]
+        },
+        {
+          "P": "MM^2 - s12*s23",
+          "PTeX": "\\text{MM}^2-\\text{s12} \\text{s23}",
+          "c": "1",
+          "Q": "MM^3*s23 - MM^2*s12*s23 - MM*s12*s23^2 + s12^2*s23^2",
+          "QTeX": "\\text{MM}^3 \\text{s23}-\\text{MM}^2 \\text{s12} \\text{s23}-\\text{MM} \\text{s12} \\text{s23}^2+\\text{s12}^2 \\text{s23}^2",
+          "multiset": [
+            [
+              "MM^2 - s12*s23",
+              1
+            ],
+            [
+              "MM - s23",
+              1
+            ],
+            [
+              "MM",
+              1
+            ]
+          ],
+          "multisetTeX": [
+            [
+              "\\text{MM}^2-\\text{s12} \\text{s23}",
+              1
+            ],
+            [
+              "\\text{MM}-\\text{s23}",
+              1
+            ],
+            [
+              "\\text{MM}",
+              1
+            ]
+          ],
+          "letter": "(MM^2 - s12*s23 - Sqrt[MM^3*s23 - MM^2*s12*s23 - MM*s12*s23^2 + s12^2*s23^2])/(MM^2 - s12*s23 + Sqrt[MM^3*s23 - MM^2*s12*s23 - MM*s12*s23^2 + s12^2*s23^2])",
+          "letterTeX": "\\frac{\\text{MM}^2-\\sqrt{\\text{MM}^3 \\text{s23}-\\text{MM}^2 \\text{s12} \\text{s23}-\\text{MM} \\text{s12} \\text{s23}^2+\\text{s12}^2 \\text{s23}^2}-\\text{s12} \\text{s23}}{\\text{MM}^2+\\sqrt{\\text{MM}^3 \\text{s23}-\\text{MM}^2 \\text{s12} \\text{s23}-\\text{MM} \\text{s12} \\text{s23}^2+\\text{s12}^2 \\text{s23}^2}-\\text{s12} \\text{s23}}",
+          "identityVerified": true,
+          "verified": false,
+          "wFactors": [
+            {
+              "w": 2,
+              "power": 1
+            },
+            {
+              "w": 6,
+              "power": 1
+            },
+            {
+              "w": 7,
+              "power": 1
+            }
+          ],
+          "multisetIdx": [
+            {
+              "w": 7,
+              "power": 1
+            },
+            {
+              "w": 4,
+              "power": 1
+            },
+            {
+              "w": 1,
+              "power": 1
+            }
+          ]
+        },
+        {
+          "P": "MM^2 - s12*s23",
+          "PTeX": "\\text{MM}^2-\\text{s12} \\text{s23}",
+          "c": "1",
+          "Q": "MM^3*s12 - MM^2*s12*s23 - MM*s12^2*s23 + s12^2*s23^2",
+          "QTeX": "\\text{MM}^3 \\text{s12}-\\text{MM}^2 \\text{s12} \\text{s23}-\\text{MM} \\text{s12}^2 \\text{s23}+\\text{s12}^2 \\text{s23}^2",
+          "multiset": [
+            [
+              "MM^2 - s12*s23",
+              1
+            ],
+            [
+              "MM - s12",
+              1
+            ],
+            [
+              "MM",
+              1
+            ]
+          ],
+          "multisetTeX": [
+            [
+              "\\text{MM}^2-\\text{s12} \\text{s23}",
+              1
+            ],
+            [
+              "\\text{MM}-\\text{s12}",
+              1
+            ],
+            [
+              "\\text{MM}",
+              1
+            ]
+          ],
+          "letter": "(MM^2 - s12*s23 - Sqrt[MM^3*s12 - MM^2*s12*s23 - MM*s12^2*s23 + s12^2*s23^2])/(MM^2 - s12*s23 + Sqrt[MM^3*s12 - MM^2*s12*s23 - MM*s12^2*s23 + s12^2*s23^2])",
+          "letterTeX": "\\frac{\\text{MM}^2-\\sqrt{\\text{MM}^3 \\text{s12}-\\text{MM}^2 \\text{s12} \\text{s23}-\\text{MM} \\text{s12}^2 \\text{s23}+\\text{s12}^2 \\text{s23}^2}-\\text{s12} \\text{s23}}{\\text{MM}^2+\\sqrt{\\text{MM}^3 \\text{s12}-\\text{MM}^2 \\text{s12} \\text{s23}-\\text{MM} \\text{s12}^2 \\text{s23}+\\text{s12}^2 \\text{s23}^2}-\\text{s12} \\text{s23}}",
+          "identityVerified": true,
+          "verified": false,
+          "wFactors": [
+            {
+              "w": 3,
+              "power": 1
+            },
+            {
+              "w": 4,
+              "power": 1
+            },
+            {
+              "w": 7,
+              "power": 1
+            }
+          ],
+          "multisetIdx": [
+            {
+              "w": 7,
+              "power": 1
+            },
+            {
+              "w": 2,
+              "power": 1
+            },
+            {
+              "w": 1,
+              "power": 1
+            }
+          ]
+        },
+        {
+          "P": "MM^2 - s12*s23",
+          "PTeX": "\\text{MM}^2-\\text{s12} \\text{s23}",
+          "c": "-1",
+          "Q": "2*MM^4 - MM^3*s12 - MM^3*s23 - 2*MM^2*s12*s23 + MM*s12^2*s23 + MM*s12*s23^2",
+          "QTeX": "2 \\text{MM}^4-\\text{MM}^3 \\text{s12}-\\text{MM}^3 \\text{s23}-2 \\text{MM}^2 \\text{s12} \\text{s23}+\\text{MM} \\text{s12}^2 \\text{s23}+\\text{MM} \\text{s12} \\text{s23}^2",
+          "multiset": [
+            [
+              "MM^2 - s12*s23",
+              1
+            ],
+            [
+              "MM - s23",
+              1
+            ],
+            [
+              "MM - s12",
+              1
+            ]
+          ],
+          "multisetTeX": [
+            [
+              "\\text{MM}^2-\\text{s12} \\text{s23}",
+              1
+            ],
+            [
+              "\\text{MM}-\\text{s23}",
+              1
+            ],
+            [
+              "\\text{MM}-\\text{s12}",
+              1
+            ]
+          ],
+          "letter": "(MM^2 - s12*s23 - Sqrt[2*MM^4 - MM^3*s12 - MM^3*s23 - 2*MM^2*s12*s23 + MM*s12^2*s23 + MM*s12*s23^2])/(MM^2 - s12*s23 + Sqrt[2*MM^4 - MM^3*s12 - MM^3*s23 - 2*MM^2*s12*s23 + MM*s12^2*s23 + MM*s12*s23^2])",
+          "letterTeX": "\\frac{\\text{MM}^2-\\sqrt{2 \\text{MM}^4-\\text{MM}^3 \\text{s12}-\\text{MM}^3 \\text{s23}-2 \\text{MM}^2 \\text{s12} \\text{s23}+\\text{MM} \\text{s12}^2 \\text{s23}+\\text{MM} \\text{s12} \\text{s23}^2}-\\text{s12} \\text{s23}}{\\text{MM}^2+\\sqrt{2 \\text{MM}^4-\\text{MM}^3 \\text{s12}-\\text{MM}^3 \\text{s23}-2 \\text{MM}^2 \\text{s12} \\text{s23}+\\text{MM} \\text{s12}^2 \\text{s23}+\\text{MM} \\text{s12} \\text{s23}^2}-\\text{s12} \\text{s23}}",
+          "identityVerified": true,
+          "verified": false,
+          "wFactors": [
+            {
+              "w": 1,
+              "power": 1
+            },
+            {
+              "w": 5,
+              "power": 1
+            },
+            {
+              "w": 7,
+              "power": 1
+            }
+          ],
+          "multisetIdx": [
+            {
+              "w": 7,
+              "power": 1
+            },
+            {
+              "w": 4,
+              "power": 1
+            },
+            {
+              "w": 2,
+              "power": 1
+            }
+          ]
+        },
+        {
+          "P": "MM^2 - s12*s23",
+          "PTeX": "\\text{MM}^2-\\text{s12} \\text{s23}",
+          "c": "1",
+          "Q": "-MM^4 + MM^3*s12 + MM^3*s23 - MM*s12^2*s23 - MM*s12*s23^2 + s12^2*s23^2",
+          "QTeX": "-\\text{MM}^4+\\text{MM}^3 \\text{s12}+\\text{MM}^3 \\text{s23}-\\text{MM} \\text{s12}^2 \\text{s23}-\\text{MM} \\text{s12} \\text{s23}^2+\\text{s12}^2 \\text{s23}^2",
+          "multiset": [
+            [
+              "MM^2 - s12*s23",
+              1
+            ],
+            [
+              "2*MM - s12 - s23",
+              1
+            ],
+            [
+              "MM",
+              1
+            ]
+          ],
+          "multisetTeX": [
+            [
+              "\\text{MM}^2-\\text{s12} \\text{s23}",
+              1
+            ],
+            [
+              "2 \\text{MM}-\\text{s12}-\\text{s23}",
+              1
+            ],
+            [
+              "\\text{MM}",
+              1
+            ]
+          ],
+          "letter": "(MM^2 - s12*s23 - Sqrt[-MM^4 + MM^3*s12 + MM^3*s23 - MM*s12^2*s23 - MM*s12*s23^2 + s12^2*s23^2])/(MM^2 - s12*s23 + Sqrt[-MM^4 + MM^3*s12 + MM^3*s23 - MM*s12^2*s23 - MM*s12*s23^2 + s12^2*s23^2])",
+          "letterTeX": "\\frac{\\text{MM}^2-\\sqrt{-\\text{MM}^4+\\text{MM}^3 \\text{s12}+\\text{MM}^3 \\text{s23}-\\text{MM} \\text{s12}^2 \\text{s23}-\\text{MM} \\text{s12} \\text{s23}^2+\\text{s12}^2 \\text{s23}^2}-\\text{s12} \\text{s23}}{\\text{MM}^2+\\sqrt{-\\text{MM}^4+\\text{MM}^3 \\text{s12}+\\text{MM}^3 \\text{s23}-\\text{MM} \\text{s12}^2 \\text{s23}-\\text{MM} \\text{s12} \\text{s23}^2+\\text{s12}^2 \\text{s23}^2}-\\text{s12} \\text{s23}}",
+          "identityVerified": true,
+          "verified": false,
+          "wFactors": [
+            {
+              "w": 2,
+              "power": 1
+            },
+            {
+              "w": 4,
+              "power": 1
+            },
+            {
+              "w": 7,
+              "power": 1
+            }
+          ],
+          "multisetIdx": [
+            {
+              "w": 7,
+              "power": 1
+            },
+            {
+              "w": 5,
+              "power": 1
+            },
+            {
+              "w": 1,
+              "power": 1
+            }
+          ]
+        },
+        {
+          "P": "MM^2 - s12*s23",
+          "PTeX": "\\text{MM}^2-\\text{s12} \\text{s23}",
+          "c": "1",
+          "Q": "2*MM^3*s12 - MM^2*s12^2 - MM^2*s12*s23 - 2*MM*s12^2*s23 + s12^3*s23 + s12^2*s23^2",
+          "QTeX": "2 \\text{MM}^3 \\text{s12}-\\text{MM}^2 \\text{s12}^2-\\text{MM}^2 \\text{s12} \\text{s23}-2 \\text{MM} \\text{s12}^2 \\text{s23}+\\text{s12}^3 \\text{s23}+\\text{s12}^2 \\text{s23}^2",
+          "multiset": [
+            [
+              "MM^2 - s12*s23",
+              1
+            ],
+            [
+              "MM - s12",
+              2
+            ]
+          ],
+          "multisetTeX": [
+            [
+              "\\text{MM}^2-\\text{s12} \\text{s23}",
+              1
+            ],
+            [
+              "\\text{MM}-\\text{s12}",
+              2
+            ]
+          ],
+          "letter": "(MM^2 - s12*s23 - Sqrt[2*MM^3*s12 - MM^2*s12^2 - MM^2*s12*s23 - 2*MM*s12^2*s23 + s12^3*s23 + s12^2*s23^2])/(MM^2 - s12*s23 + Sqrt[2*MM^3*s12 - MM^2*s12^2 - MM^2*s12*s23 - 2*MM*s12^2*s23 + s12^3*s23 + s12^2*s23^2])",
+          "letterTeX": "\\frac{\\text{MM}^2-\\sqrt{2 \\text{MM}^3 \\text{s12}-\\text{MM}^2 \\text{s12}^2-\\text{MM}^2 \\text{s12} \\text{s23}-2 \\text{MM} \\text{s12}^2 \\text{s23}+\\text{s12}^3 \\text{s23}+\\text{s12}^2 \\text{s23}^2}-\\text{s12} \\text{s23}}{\\text{MM}^2+\\sqrt{2 \\text{MM}^3 \\text{s12}-\\text{MM}^2 \\text{s12}^2-\\text{MM}^2 \\text{s12} \\text{s23}-2 \\text{MM} \\text{s12}^2 \\text{s23}+\\text{s12}^3 \\text{s23}+\\text{s12}^2 \\text{s23}^2}-\\text{s12} \\text{s23}}",
+          "identityVerified": true,
+          "verified": false,
+          "wFactors": [
+            {
+              "w": 3,
+              "power": 1
+            },
+            {
+              "w": 5,
+              "power": 1
+            },
+            {
+              "w": 7,
+              "power": 1
+            }
+          ],
+          "multisetIdx": [
+            {
+              "w": 7,
+              "power": 1
+            },
+            {
+              "w": 2,
+              "power": 2
+            }
+          ]
+        },
+        {
+          "P": "MM^2 - s12*s23",
+          "PTeX": "\\text{MM}^2-\\text{s12} \\text{s23}",
+          "c": "1",
+          "Q": "2*MM^3*s23 - MM^2*s12*s23 - MM^2*s23^2 - 2*MM*s12*s23^2 + s12^2*s23^2 + s12*s23^3",
+          "QTeX": "2 \\text{MM}^3 \\text{s23}-\\text{MM}^2 \\text{s12} \\text{s23}-\\text{MM}^2 \\text{s23}^2-2 \\text{MM} \\text{s12} \\text{s23}^2+\\text{s12}^2 \\text{s23}^2+\\text{s12} \\text{s23}^3",
+          "multiset": [
+            [
+              "MM^2 - s12*s23",
+              1
+            ],
+            [
+              "MM - s23",
+              2
+            ]
+          ],
+          "multisetTeX": [
+            [
+              "\\text{MM}^2-\\text{s12} \\text{s23}",
+              1
+            ],
+            [
+              "\\text{MM}-\\text{s23}",
+              2
+            ]
+          ],
+          "letter": "(MM^2 - s12*s23 - Sqrt[2*MM^3*s23 - MM^2*s12*s23 - MM^2*s23^2 - 2*MM*s12*s23^2 + s12^2*s23^2 + s12*s23^3])/(MM^2 - s12*s23 + Sqrt[2*MM^3*s23 - MM^2*s12*s23 - MM^2*s23^2 - 2*MM*s12*s23^2 + s12^2*s23^2 + s12*s23^3])",
+          "letterTeX": "\\frac{\\text{MM}^2-\\sqrt{2 \\text{MM}^3 \\text{s23}-\\text{MM}^2 \\text{s12} \\text{s23}-\\text{MM}^2 \\text{s23}^2-2 \\text{MM} \\text{s12} \\text{s23}^2+\\text{s12}^2 \\text{s23}^2+\\text{s12} \\text{s23}^3}-\\text{s12} \\text{s23}}{\\text{MM}^2+\\sqrt{2 \\text{MM}^3 \\text{s23}-\\text{MM}^2 \\text{s12} \\text{s23}-\\text{MM}^2 \\text{s23}^2-2 \\text{MM} \\text{s12} \\text{s23}^2+\\text{s12}^2 \\text{s23}^2+\\text{s12} \\text{s23}^3}-\\text{s12} \\text{s23}}",
+          "identityVerified": true,
+          "verified": false,
+          "wFactors": [
+            {
+              "w": 5,
+              "power": 1
+            },
+            {
+              "w": 6,
+              "power": 1
+            },
+            {
+              "w": 7,
+              "power": 1
+            }
+          ],
+          "multisetIdx": [
+            {
+              "w": 7,
+              "power": 1
+            },
+            {
+              "w": 4,
+              "power": 2
+            }
+          ]
+        },
+        {
+          "P": "(3*MM^2)/2 - MM*s12 - MM*s23 + (s12*s23)/2",
+          "PTeX": "\\frac{3 \\text{MM}^2}{2}-\\text{MM} \\text{s12}-\\text{MM} \\text{s23}+\\frac{\\text{s12} \\text{s23}}{2}",
+          "c": "1/4",
+          "Q": "2*MM^4 - 3*MM^3*s12 + MM^2*s12^2 - 3*MM^3*s23 + 4*MM^2*s12*s23 - MM*s12^2*s23 + MM^2*s23^2 - MM*s12*s23^2",
+          "QTeX": "2 \\text{MM}^4-3 \\text{MM}^3 \\text{s12}-3 \\text{MM}^3 \\text{s23}+\\text{MM}^2 \\text{s12}^2+4 \\text{MM}^2 \\text{s12} \\text{s23}+\\text{MM}^2 \\text{s23}^2-\\text{MM} \\text{s12}^2 \\text{s23}-\\text{MM} \\text{s12} \\text{s23}^2",
+          "multiset": [
+            [
+              "MM^2 - s12*s23",
+              2
+            ]
+          ],
+          "multisetTeX": [
+            [
+              "\\text{MM}^2-\\text{s12} \\text{s23}",
+              2
+            ]
+          ],
+          "letter": "((3*MM^2)/2 - MM*s12 - MM*s23 + (s12*s23)/2 - Sqrt[2*MM^4 - 3*MM^3*s12 + MM^2*s12^2 - 3*MM^3*s23 + 4*MM^2*s12*s23 - MM*s12^2*s23 + MM^2*s23^2 - MM*s12*s23^2])/((3*MM^2)/2 - MM*s12 - MM*s23 + (s12*s23)/2 + Sqrt[2*MM^4 - 3*MM^3*s12 + MM^2*s12^2 - 3*MM^3*s23 + 4*MM^2*s12*s23 - MM*s12^2*s23 + MM^2*s23^2 - MM*s12*s23^2])",
+          "letterTeX": "\\frac{\\frac{3 \\text{MM}^2}{2}-\\sqrt{2 \\text{MM}^4-3 \\text{MM}^3 \\text{s12}-3 \\text{MM}^3 \\text{s23}+\\text{MM}^2 \\text{s12}^2+4 \\text{MM}^2 \\text{s12} \\text{s23}+\\text{MM}^2 \\text{s23}^2-\\text{MM} \\text{s12}^2 \\text{s23}-\\text{MM} \\text{s12} \\text{s23}^2}-\\text{MM} \\text{s12}-\\text{MM} \\text{s23}+\\frac{\\text{s12} \\text{s23}}{2}}{\\frac{3 \\text{MM}^2}{2}+\\sqrt{2 \\text{MM}^4-3 \\text{MM}^3 \\text{s12}-3 \\text{MM}^3 \\text{s23}+\\text{MM}^2 \\text{s12}^2+4 \\text{MM}^2 \\text{s12} \\text{s23}+\\text{MM}^2 \\text{s23}^2-\\text{MM} \\text{s12}^2 \\text{s23}-\\text{MM} \\text{s12} \\text{s23}^2}-\\text{MM} \\text{s12}-\\text{MM} \\text{s23}+\\frac{\\text{s12} \\text{s23}}{2}}",
+          "identityVerified": true,
+          "verified": false,
+          "wFactors": [
+            {
+              "w": 1,
+              "power": 1
+            },
+            {
+              "w": 2,
+              "power": 1
+            },
+            {
+              "w": 4,
+              "power": 1
+            },
+            {
+              "w": 5,
+              "power": 1
+            }
+          ],
+          "multisetIdx": [
+            {
+              "w": 7,
+              "power": 2
+            }
+          ]
+        }
+      ],
+      "bareRootsNote": "no bare-root letters (V1a evens-only graph form; flagged-sqrt list empty)",
+      "refusals": [],
+      "provenance": {
+        "engine": "eulerDiscriminant",
+        "stVersion": "1.2.4",
+        "seed": 1234,
+        "chi": 0,
+        "confirmPrimes": null,
+        "confirmAgree": null,
+        "wallSeconds": 450.24
+      },
+      "timestamp": "2026-06-14T17:45:57Z",
+      "contributor": "oddletters-v1a"
+    }
+  ],
+  "edges": "{{{1, 2}, 0}, {{1, 3}, 0}, {{1, 4}, 0}, {{2, 3}, 0}, {{2, 4}, 0}}",
+  "nodes": "{{1, M}, {4, 0}, {2, M}, {3, 0}}",
+  "CanonicalName": "2-mass double triangle (a-e)",
+  "MassConfig": {
+    "numEdges": 5,
+    "numMassiveEdges": 0,
+    "numMasslessEdges": 5,
+    "distinctInternalMasses": 0,
+    "internalMassLabels": [],
+    "edgeMassPattern": "00000",
+    "numExtLegs": 4,
+    "numOnshellMassiveExtLegs": 2,
+    "numMasslessExtLegs": 2,
+    "extLegSignature": "M0M0"
+  },
+  "Subsectors": [],
+  "ParentSectors": [
+    "123|e4|e4|e4|e|:000|00|00|10|1|"
+  ]
 }

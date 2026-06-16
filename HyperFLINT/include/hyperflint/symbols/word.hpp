@@ -14,8 +14,10 @@
 
 #include "hyperflint/algebra/poly_struct_hash.hpp"   // 2026-04-26 a-prime
 #include "hyperflint/core/rat.hpp"
+#include "hyperflint/core/factored_rat.hpp"  // A3: deferred-denominator side-channel
 
 #include <cstdint>
+#include <optional>
 #include <sstream>
 #include <string>
 #include <utility>
@@ -101,6 +103,14 @@ struct Word {
 struct WordlistTerm {
     Rat  coef;
     Word word;
+    // A3 (HF perf campaign — stay-factored lever). Optional deferred integrand:
+    // when set on the ORIGINAL bare integrand term, carries
+    //   value == numerator() / prod(den_factors)   with the denominator kept
+    // FACTORED so DEN^q is never expanded. integrate_ii dispatches the FIRST
+    // partial-fractions call to partial_fractions_factored_den when this is set
+    // and coef.den() == 1 (the bare first term). Default nullopt -> the normal
+    // expanded-Rat path; IBP-generated queue terms leave it nullopt.
+    std::optional<FactoredRat> factored_den;
 };
 
 struct Wordlist {

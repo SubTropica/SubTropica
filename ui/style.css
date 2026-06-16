@@ -29,6 +29,10 @@
   --gold-bg:      #F0EBD8;
   --red:          #c44030;
   --red-bg:       #fdeae7;
+  /* sings/letters (chi) badge -- neutral charcoal on light, flips light-gray on dark */
+  --chi-fg:       #4A4438;
+  --chi-bg:       #ECE6DB;
+  --chi-bd:       #6B6050;
   --blue:         #4a6fa5;
   --blue-bg:      #e0e8f0;
   --royalblue:    #4169E1;
@@ -277,6 +281,9 @@ body.dark {
   --red-bg:       #2d1214;
   --blue:         #58a6ff;
   --blue-bg:      #121d2f;
+  --chi-fg:       #c9d1d9;
+  --chi-bg:       #262c34;
+  --chi-bd:       #515b67;
   --royalblue:    #79c0ff;
   --royalblue-bg: #121d2f;
   --teal:         #56d4c0;
@@ -3299,6 +3306,83 @@ body:not(.mode-full) .config-footer { display: none; }
 .badge-royalblue { background: var(--royalblue-bg); color: var(--royalblue); }
 .badge-teal { background: var(--teal-bg); color: var(--teal); }
 .badge-accent { background: var(--accent-light); color: var(--accent); }
+/* locally-computed result (echoes the maroon-outlined "local" result star) */
+.badge-local { background: var(--accent-light); color: var(--accent); border: 1px solid var(--accent); }
+/* sings/letters marker: soft-fill + charcoal edge, italic chi.  inline-flex
+   centres the glyph (inline-block leaves it sitting low); padding 1px 6px plus
+   the 1px border matches the 2px 7px box of the other badges so heights line up. */
+.badge-chi {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2px 7px;
+  font-family: var(--font-mono);
+  font-style: italic;
+  font-weight: 700;
+  letter-spacing: .02em;
+  background: var(--chi-bg);
+  color: var(--chi-fg);
+}
+/* lift the italic chi 2px (it sits optically low); transform keeps the badge
+   box and its row alignment untouched. */
+.badge-chi .chi-glyph { transform: translateY(-2px); }
+/* Diagrams-tab toast badges sit inline in .notif-title (no flex gap), so space
+   them apart; the search-toast badges use .notif-cfg-badges' gap instead. */
+.notif-title .badge { margin-left: 5px; }
+/* algebraic-letter anatomy card (click a letter to expand) */
+.alphabet-letter.alg-selected { box-shadow: 0 0 0 2px var(--accent); }
+.alg-anatomy {
+  margin-top: 6px;
+  padding: 8px 10px;
+  background: var(--surface-alt);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-size: 11px;
+}
+.alg-anatomy-letter { font-size: 13px; margin-bottom: 6px; }
+.alg-anatomy-row { display: flex; align-items: baseline; gap: 6px; flex-wrap: wrap; margin-top: 3px; }
+.alg-anatomy-label { color: var(--text-muted); min-width: 118px; white-space: nowrap; }
+.alg-anatomy-raw { color: var(--text-muted); opacity: 0.85; }
+.alg-anatomy-badges { margin-top: 7px; display: flex; gap: 5px; flex-wrap: wrap; }
+.alg-badge { font-size: 10px; font-weight: 600; padding: 1px 6px; border-radius: 3px; }
+.alg-badge-id { background: var(--green-bg); color: var(--green); }
+.alg-badge-warn { background: var(--surface); color: var(--text-muted); border: 1px solid var(--border); }
+
+/* Click-to-highlight: trace a letter's incidence across the two rows */
+.alf-hl { box-shadow: 0 0 0 2px var(--accent); border-radius: 3px; }
+.alf-dim { opacity: 0.3 !important; }
+
+/* Foldable "Singularities & alphabet" section header (button styled as a
+   section title with a rotating caret). Default folded when the diagram has a
+   computed result, unfolded otherwise. */
+.alg-fold {
+  display: flex; align-items: center; gap: 5px;
+  width: 100%; padding: 0; border: 0; background: none;
+  /* font-family only: keep the 10px/600/uppercase typography that
+     .popup-section-title gives every other section header (a bare `font:
+     inherit` would reset the size to the body font and break the match). */
+  font-family: inherit; text-align: left; cursor: pointer;
+}
+.alg-fold .alg-fold-caret { display: inline-block; transition: transform 0.12s ease; font-size: 9px; }
+.alg-fold.open .alg-fold-caret { transform: rotate(90deg); }
+.alg-fold:hover { color: var(--text-mid); }
+
+/* hover tooltip for the library-coverage scatter (canvas hit-test, JS-positioned) */
+.about-scatter-tip {
+  position: fixed;
+  z-index: 10000;
+  display: none;
+  pointer-events: none;
+  background: var(--surface);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow);
+  padding: 6px 9px;
+  font-size: 11px;
+  line-height: 1.4;
+  white-space: nowrap;
+}
 .badge-new {
   background: var(--green);
   color: #fff;
@@ -3797,7 +3881,9 @@ body.dark .badge-proposal { color: #e0b040; border-color: #8a6a20; }
 .browser-header-top {
   display: flex;
   align-items: center;
+  flex-wrap: wrap;        /* search drops to its own line before it can overlap the filters */
   gap: 12px;
+  row-gap: 8px;
   padding: 10px 20px;
   background: var(--accent);
   color: #fff;
@@ -3850,23 +3936,61 @@ body.dark .badge-proposal { color: #e0b040; border-color: #8a6a20; }
   font-weight: 600;
   box-shadow: 0 1px 3px rgba(0,0,0,0.08);
 }
+/* "Filters" disclosure button — only shown when the bar is too narrow to hold
+   the filters inline (see the media query below); toggles them open/closed. */
+.browser-filters-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  margin-left: auto;        /* sit on the right, next to the search bar */
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: #fff;
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 500;
+  padding: 4px 10px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  white-space: nowrap;
+}
+.browser-filters-btn::after { content: ' \25BE'; font-size: 9px; opacity: .85; }
+.browser-header.filters-open .browser-filters-btn::after { content: ' \25B4'; }
+.browser-filters-btn:hover { background: rgba(255, 255, 255, 0.25); }
+
+/* Filters are always folded behind the button (at every width); opening drops
+   them to a full-width row below the title. */
+.browser-header-top .browser-filters { display: none; }
+.browser-header.filters-open .browser-header-top .browser-filters {
+  display: flex;
+  order: 10;
+  flex-basis: 100%;
+}
+
+/* Filters now live inside the maroon title bar, between the tabs and the search,
+   as a two-row block that takes the middle space. */
 .browser-filters {
+  flex: 1;                /* fills the middle; shrinks only to its content (no min-width:0), then wraps */
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.browser-filter-row {
   display: flex;
   align-items: center;
-  gap: 12px;
-  flex-wrap: wrap;
-  padding: 10px 20px;
+  gap: 14px;
+  flex-wrap: wrap;        /* bars stack into more sub-rows as the window narrows */
+  row-gap: 6px;
 }
 .browser-toggles-right {
   display: flex;
   align-items: center;
-  gap: 12px;
-  margin-left: auto;
+  gap: 14px;
 }
 .browser-precomputed-toggle {
   display: flex;
   align-items: center;
-  gap: 5px;
+  gap: 6px;
   font-size: 11px;
   font-weight: 500;
   color: var(--text-muted);
@@ -3874,6 +3998,38 @@ body.dark .badge-proposal { color: #e0b040; border-color: #8a6a20; }
   user-select: none;
   white-space: nowrap;
 }
+/* macOS-style toggle switch. Selector is input[type="checkbox"].mac-switch so it
+   outranks the global custom-checkbox rule above (otherwise the 14px maroon box
+   and its ::after checkmark leak through). The checkbox is the track, ::before
+   the knob; the inherited ::after checkmark is suppressed. */
+input[type="checkbox"].mac-switch {
+  width: 30px;
+  height: 18px;
+  margin: 0;
+  border: none;
+  border-radius: 9px;
+  background: var(--border);
+  transition: background .18s ease;
+}
+input[type="checkbox"].mac-switch::before {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  transition: transform .18s ease;
+}
+input[type="checkbox"].mac-switch:checked {
+  background: var(--green);
+  border-color: transparent;
+}
+input[type="checkbox"].mac-switch:checked::before { transform: translateX(12px); }
+input[type="checkbox"].mac-switch:checked::after { content: none; }   /* kill the global checkmark */
+input[type="checkbox"].mac-switch:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 .browser-select {
   background: var(--bg-warm);
   border: 1px solid var(--border);
@@ -3913,31 +4069,92 @@ body.dark .badge-proposal { color: #e0b040; border-color: #8a6a20; }
 }
 .browser-chip {
   display: inline-block;
-  padding: 1px 7px;
+  padding: 2px 9px;
   font-size: 11px;
   font-family: var(--font-body);
   font-weight: 500;
   color: var(--text-muted);
   background: var(--bg-warm);
   border: 1px solid var(--border);
-  border-radius: 10px;
+  border-radius: 999px;            /* full pill, matching the toggle track */
   cursor: pointer;
   transition: all 0.12s;
   white-space: nowrap;
-  line-height: 1.6;
+  line-height: 1.5;
 }
 .browser-chip:hover { border-color: var(--text-muted); color: var(--text); }
+/* Active chip echoes the macOS switch "on" state: solid green, white label. */
 .browser-chip.active {
-  background: var(--accent-light);
-  border-color: var(--accent);
-  color: var(--accent);
+  background: var(--green);
+  border-color: var(--green);
+  color: #fff;
   font-weight: 600;
 }
+.browser-chip.active:hover { color: #fff; border-color: var(--green); }
+
+/* Segmented-control filter bar: a single track with a green thumb that slides +
+   expands over the selected range. 18px tall to match the .mac-switch toggles. */
+.browser-seg {
+  position: relative;
+  display: flex;
+  align-items: stretch;
+  height: 18px;
+  background: var(--bg-warm);
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  overflow: hidden;
+}
+.browser-seg-thumb {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  background: var(--green);
+  border-radius: 9px;
+  z-index: 0;
+  pointer-events: none;
+  transition: left .18s ease, width .18s ease;
+}
+.browser-seg-item {
+  position: relative;
+  z-index: 1;
+  flex: 0 0 auto;            /* size to the label text (variable-width segments) */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 10px;
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--text-muted);
+  cursor: pointer;
+  user-select: none;
+  white-space: nowrap;
+  transition: color .15s;
+}
+.browser-seg-item:hover { color: var(--text); }
+.browser-seg-item.on,
+.browser-seg-item.on:hover { color: #fff; font-weight: 600; }
+
+/* Filters sit on the maroon title bar — recolor for the dark background with
+   translucent white (matching the search box); the green thumb/on-state stays. */
+.browser-header-top .browser-chip-group::before { color: rgba(255, 255, 255, 0.85); }
+.browser-header-top .browser-seg {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+.browser-header-top .browser-seg-thumb { background: #fff; }            /* light thumb, not green */
+.browser-header-top .browser-seg-item { color: rgba(255, 255, 255, 0.7); }
+.browser-header-top .browser-seg-item:hover { color: #fff; }
+.browser-header-top .browser-seg-item.on,
+.browser-header-top .browser-seg-item.on:hover { color: var(--accent); }  /* dark text on the white thumb */
+.browser-header-top .browser-precomputed-toggle { color: rgba(255, 255, 255, 0.9); }
+.browser-header-top input[type="checkbox"].mac-switch { background: rgba(255, 255, 255, 0.3); }
+.browser-header-top input[type="checkbox"].mac-switch:checked { background: #fff; }          /* light on-track */
+.browser-header-top input[type="checkbox"].mac-switch:checked::before { background: var(--accent); }  /* dark knob on light */
 
 .browser-count {
-  padding: 8px 20px 0;
-  font-size: 11px;
-  color: var(--text-muted);
+  display: none;            /* the "N diagrams" count line is not needed */
 }
 .browser-body {
   flex: 1;
@@ -5984,10 +6201,9 @@ body.review-mode.review-has-pdf .review-save-bar { left: var(--review-pdf-w, 480
 
 #notebook-dl-btn { margin-left: 6px; }
 #notebook-dl-btn:disabled { opacity: .45; cursor: default; }
-/* The starter-notebook download is a web-build affordance only: in the
-   Mathematica (full) build the user already has a live kernel, so hide it.
-   Mirrors the body.mode-full gating used for other full-only chrome. */
-body.mode-full #notebook-dl-btn { display: none; }
+/* The notebook download is available in both builds (reinstated 2026-06-14):
+   even with a live kernel, a starter .nb pre-wired to STIntegrate is useful to
+   hand off / reproduce outside the session. */
 
 /* Defining-integral note (small caption under the display equation).
    Uses --text-mid (not --text-muted) for AA contrast on the cream card

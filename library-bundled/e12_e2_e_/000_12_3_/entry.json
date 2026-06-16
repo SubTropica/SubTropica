@@ -72,6 +72,899 @@
       "byteCount": 6000,
       "resultDataId": "e828c2754d98bf51",
       "resultTeXPreview": "\\frac{\\log \\left(\\frac{m^2-M_2^2}{m^2-M_3^2}\\right)}{\\varepsilon \\left(M_3^2-M_2^2\\right)}+\\frac{H\\left(\\frac{m^2-M_3^2}{M_2^2-M_3^2},\\frac{M_3^2}{M_3^2-M_2^2}\\,;1\\right)-\\log ^2\\left(\\frac{m^2-M_2^2}{m^2-M_3^2}\\right)+\\log \\left(m^2-M_2^2\\right) \\log \\left(\\frac{m^2-M_2^2}{m^2-M_3^2}\\right)+\\log \\left(1-\\frac{M_2^2}{m^2}\\right) \\log \\left(\\frac{m^2-M_2^2}{m^2-M_3^2}\\right)-\\log \\left(M_2^2 M_3^{-2}\\right) \\log \\left(1-\\frac{M_2^2}{m^2}\\right)}{M_2^2-M_3^2}+O\\left(\\varepsilon^1\\right)"
+    },
+    {
+      "resultType": "singularities",
+      "status": "proposal",
+      "recordId": "sg_20260614T042956Z",
+      "byEpsOrder": null,
+      "singularities": [
+        "mm",
+        "MM[2]",
+        "MM[3]",
+        "mm - MM[2]",
+        "MM[2] - MM[3]",
+        "mm - MM[3]"
+      ],
+      "singularitiesTeX": [
+        "\\text{mm}",
+        "M_{2}^{2}",
+        "M_{3}^{2}",
+        "\\text{mm}-M_{2}^{2}",
+        "M_{2}^{2}-M_{3}^{2}",
+        "\\text{mm}-M_{3}^{2}"
+      ],
+      "singularitiesVerified": [
+        false,
+        false,
+        false,
+        false,
+        false,
+        false
+      ],
+      "groundTruthAvailable": false,
+      "provenance": {
+        "engine": "chi/SPQRLandau-CII SPQR-1.0.4 FF64",
+        "stVersion": "1.2.4",
+        "seed": 1234,
+        "chi": 3,
+        "confirmPrimes": 2,
+        "confirmAgree": true,
+        "wallSeconds": 67.57000000000001
+      },
+      "timestamp": "2026-06-14T04:29:56Z",
+      "contributor": "oddletters-v1a",
+      "singularitiesChiDrop": [
+        2,
+        2,
+        2,
+        2,
+        2,
+        2
+      ]
+    },
+    {
+      "resultType": "proposed-alphabet",
+      "status": "proposal",
+      "recordId": "pa_20260614T042956Z",
+      "byEpsOrder": null,
+      "evens": [
+        "mm",
+        "MM[2]",
+        "MM[3]",
+        "mm - MM[2]",
+        "MM[2] - MM[3]",
+        "mm - MM[3]"
+      ],
+      "evensTeX": [
+        "\\text{mm}",
+        "M_{2}^{2}",
+        "M_{3}^{2}",
+        "\\text{mm}-M_{2}^{2}",
+        "M_{2}^{2}-M_{3}^{2}",
+        "\\text{mm}-M_{3}^{2}"
+      ],
+      "evensVerified": [
+        false,
+        false,
+        false,
+        false,
+        false,
+        false
+      ],
+      "groundTruthAvailable": false,
+      "oddLetters": [
+        {
+          "P": "mm/2 + MM[2]/2",
+          "PTeX": "\\frac{\\text{mm}}{2}+\\frac{M_{2}^{2}}{2}",
+          "c": "1/4",
+          "Q": "mm*MM[2]",
+          "QTeX": "\\text{mm} M_{2}^{2}",
+          "multiset": [
+            [
+              "mm - MM[2]",
+              2
+            ]
+          ],
+          "multisetTeX": [
+            [
+              "\\text{mm}-M_{2}^{2}",
+              2
+            ]
+          ],
+          "letter": "(mm/2 + MM[2]/2 - Sqrt[mm*MM[2]])/(mm/2 + MM[2]/2 + Sqrt[mm*MM[2]])",
+          "letterTeX": "\\frac{-\\sqrt{\\text{mm} M_{2}^{2}}+\\frac{\\text{mm}}{2}+\\frac{M_{2}^{2}}{2}}{\\sqrt{\\text{mm} M_{2}^{2}}+\\frac{\\text{mm}}{2}+\\frac{M_{2}^{2}}{2}}",
+          "identityVerified": true,
+          "verified": false,
+          "wFactors": [
+            {
+              "w": 1,
+              "power": 1
+            },
+            {
+              "w": 2,
+              "power": 1
+            }
+          ],
+          "multisetIdx": [
+            {
+              "w": 4,
+              "power": 2
+            }
+          ]
+        },
+        {
+          "P": "mm/2 + MM[3]/2",
+          "PTeX": "\\frac{\\text{mm}}{2}+\\frac{M_{3}^{2}}{2}",
+          "c": "1/4",
+          "Q": "mm*MM[3]",
+          "QTeX": "\\text{mm} M_{3}^{2}",
+          "multiset": [
+            [
+              "mm - MM[3]",
+              2
+            ]
+          ],
+          "multisetTeX": [
+            [
+              "\\text{mm}-M_{3}^{2}",
+              2
+            ]
+          ],
+          "letter": "(mm/2 + MM[3]/2 - Sqrt[mm*MM[3]])/(mm/2 + MM[3]/2 + Sqrt[mm*MM[3]])",
+          "letterTeX": "\\frac{-\\sqrt{\\text{mm} M_{3}^{2}}+\\frac{\\text{mm}}{2}+\\frac{M_{3}^{2}}{2}}{\\sqrt{\\text{mm} M_{3}^{2}}+\\frac{\\text{mm}}{2}+\\frac{M_{3}^{2}}{2}}",
+          "identityVerified": true,
+          "verified": false,
+          "wFactors": [
+            {
+              "w": 1,
+              "power": 1
+            },
+            {
+              "w": 3,
+              "power": 1
+            }
+          ],
+          "multisetIdx": [
+            {
+              "w": 6,
+              "power": 2
+            }
+          ]
+        },
+        {
+          "P": "MM[2]/2 + MM[3]/2",
+          "PTeX": "\\frac{M_{2}^{2}}{2}+\\frac{M_{3}^{2}}{2}",
+          "c": "1/4",
+          "Q": "MM[2]*MM[3]",
+          "QTeX": "M_{2}^{2} M_{3}^{2}",
+          "multiset": [
+            [
+              "MM[2] - MM[3]",
+              2
+            ]
+          ],
+          "multisetTeX": [
+            [
+              "M_{2}^{2}-M_{3}^{2}",
+              2
+            ]
+          ],
+          "letter": "(MM[2]/2 + MM[3]/2 - Sqrt[MM[2]*MM[3]])/(MM[2]/2 + MM[3]/2 + Sqrt[MM[2]*MM[3]])",
+          "letterTeX": "\\frac{\\frac{M_{2}^{2}}{2}+\\frac{M_{3}^{2}}{2}-\\sqrt{M_{2}^{2} M_{3}^{2}}}{\\frac{M_{2}^{2}}{2}+\\frac{M_{3}^{2}}{2}+\\sqrt{M_{2}^{2} M_{3}^{2}}}",
+          "identityVerified": true,
+          "verified": false,
+          "wFactors": [
+            {
+              "w": 2,
+              "power": 1
+            },
+            {
+              "w": 3,
+              "power": 1
+            }
+          ],
+          "multisetIdx": [
+            {
+              "w": 5,
+              "power": 2
+            }
+          ]
+        },
+        {
+          "P": "mm - MM[2]",
+          "PTeX": "\\text{mm}-M_{2}^{2}",
+          "c": "-1",
+          "Q": "mm^2 - mm*MM[2]",
+          "QTeX": "\\text{mm}^2-\\text{mm} M_{2}^{2}",
+          "multiset": [
+            [
+              "mm - MM[2]",
+              1
+            ],
+            [
+              "MM[2]",
+              1
+            ]
+          ],
+          "multisetTeX": [
+            [
+              "\\text{mm}-M_{2}^{2}",
+              1
+            ],
+            [
+              "M_{2}^{2}",
+              1
+            ]
+          ],
+          "letter": "(mm - MM[2] - Sqrt[mm^2 - mm*MM[2]])/(mm - MM[2] + Sqrt[mm^2 - mm*MM[2]])",
+          "letterTeX": "\\frac{-\\sqrt{\\text{mm}^2-\\text{mm} M_{2}^{2}}+\\text{mm}-M_{2}^{2}}{\\sqrt{\\text{mm}^2-\\text{mm} M_{2}^{2}}+\\text{mm}-M_{2}^{2}}",
+          "identityVerified": true,
+          "verified": false,
+          "wFactors": [
+            {
+              "w": 1,
+              "power": 1
+            },
+            {
+              "w": 4,
+              "power": 1
+            }
+          ],
+          "multisetIdx": [
+            {
+              "w": 4,
+              "power": 1
+            },
+            {
+              "w": 2,
+              "power": 1
+            }
+          ]
+        },
+        {
+          "P": "mm - MM[3]",
+          "PTeX": "\\text{mm}-M_{3}^{2}",
+          "c": "-1",
+          "Q": "mm^2 - mm*MM[3]",
+          "QTeX": "\\text{mm}^2-\\text{mm} M_{3}^{2}",
+          "multiset": [
+            [
+              "mm - MM[3]",
+              1
+            ],
+            [
+              "MM[3]",
+              1
+            ]
+          ],
+          "multisetTeX": [
+            [
+              "\\text{mm}-M_{3}^{2}",
+              1
+            ],
+            [
+              "M_{3}^{2}",
+              1
+            ]
+          ],
+          "letter": "(mm - MM[3] - Sqrt[mm^2 - mm*MM[3]])/(mm - MM[3] + Sqrt[mm^2 - mm*MM[3]])",
+          "letterTeX": "\\frac{-\\sqrt{\\text{mm}^2-\\text{mm} M_{3}^{2}}+\\text{mm}-M_{3}^{2}}{\\sqrt{\\text{mm}^2-\\text{mm} M_{3}^{2}}+\\text{mm}-M_{3}^{2}}",
+          "identityVerified": true,
+          "verified": false,
+          "wFactors": [
+            {
+              "w": 1,
+              "power": 1
+            },
+            {
+              "w": 6,
+              "power": 1
+            }
+          ],
+          "multisetIdx": [
+            {
+              "w": 6,
+              "power": 1
+            },
+            {
+              "w": 3,
+              "power": 1
+            }
+          ]
+        },
+        {
+          "P": "mm - MM[2]",
+          "PTeX": "\\text{mm}-M_{2}^{2}",
+          "c": "1",
+          "Q": "-(mm*MM[2]) + MM[2]^2",
+          "QTeX": "M_{2}^{4}-\\text{mm} M_{2}^{2}",
+          "multiset": [
+            [
+              "mm - MM[2]",
+              1
+            ],
+            [
+              "mm",
+              1
+            ]
+          ],
+          "multisetTeX": [
+            [
+              "\\text{mm}-M_{2}^{2}",
+              1
+            ],
+            [
+              "\\text{mm}",
+              1
+            ]
+          ],
+          "letter": "(mm - MM[2] - Sqrt[-(mm*MM[2]) + MM[2]^2])/(mm - MM[2] + Sqrt[-(mm*MM[2]) + MM[2]^2])",
+          "letterTeX": "\\frac{-\\sqrt{M_{2}^{4}-\\text{mm} M_{2}^{2}}+\\text{mm}-M_{2}^{2}}{\\sqrt{M_{2}^{4}-\\text{mm} M_{2}^{2}}+\\text{mm}-M_{2}^{2}}",
+          "identityVerified": true,
+          "verified": false,
+          "wFactors": [
+            {
+              "w": 4,
+              "power": 1
+            },
+            {
+              "w": 2,
+              "power": 1
+            }
+          ],
+          "multisetIdx": [
+            {
+              "w": 4,
+              "power": 1
+            },
+            {
+              "w": 1,
+              "power": 1
+            }
+          ]
+        },
+        {
+          "P": "MM[2] - MM[3]",
+          "PTeX": "M_{2}^{2}-M_{3}^{2}",
+          "c": "-1",
+          "Q": "MM[2]^2 - MM[2]*MM[3]",
+          "QTeX": "M_{2}^{4}-M_{2}^{2} M_{3}^{2}",
+          "multiset": [
+            [
+              "MM[2] - MM[3]",
+              1
+            ],
+            [
+              "MM[3]",
+              1
+            ]
+          ],
+          "multisetTeX": [
+            [
+              "M_{2}^{2}-M_{3}^{2}",
+              1
+            ],
+            [
+              "M_{3}^{2}",
+              1
+            ]
+          ],
+          "letter": "(MM[2] - MM[3] - Sqrt[MM[2]^2 - MM[2]*MM[3]])/(MM[2] - MM[3] + Sqrt[MM[2]^2 - MM[2]*MM[3]])",
+          "letterTeX": "\\frac{M_{2}^{2}-M_{3}^{2}-\\sqrt{M_{2}^{4}-M_{2}^{2} M_{3}^{2}}}{M_{2}^{2}-M_{3}^{2}+\\sqrt{M_{2}^{4}-M_{2}^{2} M_{3}^{2}}}",
+          "identityVerified": true,
+          "verified": false,
+          "wFactors": [
+            {
+              "w": 2,
+              "power": 1
+            },
+            {
+              "w": 5,
+              "power": 1
+            }
+          ],
+          "multisetIdx": [
+            {
+              "w": 5,
+              "power": 1
+            },
+            {
+              "w": 3,
+              "power": 1
+            }
+          ]
+        },
+        {
+          "P": "MM[2] - MM[3]",
+          "PTeX": "M_{2}^{2}-M_{3}^{2}",
+          "c": "1",
+          "Q": "-(MM[2]*MM[3]) + MM[3]^2",
+          "QTeX": "M_{3}^{4}-M_{2}^{2} M_{3}^{2}",
+          "multiset": [
+            [
+              "MM[2] - MM[3]",
+              1
+            ],
+            [
+              "MM[2]",
+              1
+            ]
+          ],
+          "multisetTeX": [
+            [
+              "M_{2}^{2}-M_{3}^{2}",
+              1
+            ],
+            [
+              "M_{2}^{2}",
+              1
+            ]
+          ],
+          "letter": "(MM[2] - MM[3] - Sqrt[-(MM[2]*MM[3]) + MM[3]^2])/(MM[2] - MM[3] + Sqrt[-(MM[2]*MM[3]) + MM[3]^2])",
+          "letterTeX": "\\frac{M_{2}^{2}-M_{3}^{2}-\\sqrt{M_{3}^{4}-M_{2}^{2} M_{3}^{2}}}{M_{2}^{2}-M_{3}^{2}+\\sqrt{M_{3}^{4}-M_{2}^{2} M_{3}^{2}}}",
+          "identityVerified": true,
+          "verified": false,
+          "wFactors": [
+            {
+              "w": 5,
+              "power": 1
+            },
+            {
+              "w": 3,
+              "power": 1
+            }
+          ],
+          "multisetIdx": [
+            {
+              "w": 5,
+              "power": 1
+            },
+            {
+              "w": 2,
+              "power": 1
+            }
+          ]
+        },
+        {
+          "P": "mm - MM[3]",
+          "PTeX": "\\text{mm}-M_{3}^{2}",
+          "c": "1",
+          "Q": "-(mm*MM[3]) + MM[3]^2",
+          "QTeX": "M_{3}^{4}-\\text{mm} M_{3}^{2}",
+          "multiset": [
+            [
+              "mm - MM[3]",
+              1
+            ],
+            [
+              "mm",
+              1
+            ]
+          ],
+          "multisetTeX": [
+            [
+              "\\text{mm}-M_{3}^{2}",
+              1
+            ],
+            [
+              "\\text{mm}",
+              1
+            ]
+          ],
+          "letter": "(mm - MM[3] - Sqrt[-(mm*MM[3]) + MM[3]^2])/(mm - MM[3] + Sqrt[-(mm*MM[3]) + MM[3]^2])",
+          "letterTeX": "\\frac{-\\sqrt{M_{3}^{4}-\\text{mm} M_{3}^{2}}+\\text{mm}-M_{3}^{2}}{\\sqrt{M_{3}^{4}-\\text{mm} M_{3}^{2}}+\\text{mm}-M_{3}^{2}}",
+          "identityVerified": true,
+          "verified": false,
+          "wFactors": [
+            {
+              "w": 6,
+              "power": 1
+            },
+            {
+              "w": 3,
+              "power": 1
+            }
+          ],
+          "multisetIdx": [
+            {
+              "w": 6,
+              "power": 1
+            },
+            {
+              "w": 1,
+              "power": 1
+            }
+          ]
+        },
+        {
+          "P": "mm/2 - MM[2] + MM[3]/2",
+          "PTeX": "\\frac{\\text{mm}}{2}-M_{2}^{2}+\\frac{M_{3}^{2}}{2}",
+          "c": "1/4",
+          "Q": "-(mm*MM[2]) + MM[2]^2 + mm*MM[3] - MM[2]*MM[3]",
+          "QTeX": "-\\text{mm} M_{2}^{2}+\\text{mm} M_{3}^{2}+M_{2}^{4}-M_{3}^{2} M_{2}^{2}",
+          "multiset": [
+            [
+              "mm - MM[3]",
+              2
+            ]
+          ],
+          "multisetTeX": [
+            [
+              "\\text{mm}-M_{3}^{2}",
+              2
+            ]
+          ],
+          "letter": "(mm/2 - MM[2] + MM[3]/2 - Sqrt[-(mm*MM[2]) + MM[2]^2 + mm*MM[3] - MM[2]*MM[3]])/(mm/2 - MM[2] + MM[3]/2 + Sqrt[-(mm*MM[2]) + MM[2]^2 + mm*MM[3] - MM[2]*MM[3]])",
+          "letterTeX": "\\frac{-\\sqrt{-\\text{mm} M_{2}^{2}+\\text{mm} M_{3}^{2}+M_{2}^{4}-M_{3}^{2} M_{2}^{2}}+\\frac{\\text{mm}}{2}-M_{2}^{2}+\\frac{M_{3}^{2}}{2}}{\\sqrt{-\\text{mm} M_{2}^{2}+\\text{mm} M_{3}^{2}+M_{2}^{4}-M_{3}^{2} M_{2}^{2}}+\\frac{\\text{mm}}{2}-M_{2}^{2}+\\frac{M_{3}^{2}}{2}}",
+          "identityVerified": true,
+          "verified": false,
+          "wFactors": [
+            {
+              "w": 4,
+              "power": 1
+            },
+            {
+              "w": 5,
+              "power": 1
+            }
+          ],
+          "multisetIdx": [
+            {
+              "w": 6,
+              "power": 2
+            }
+          ]
+        },
+        {
+          "P": "mm - MM[3]",
+          "PTeX": "\\text{mm}-M_{3}^{2}",
+          "c": "1",
+          "Q": "mm^2 - mm*MM[2] - mm*MM[3] + MM[2]*MM[3]",
+          "QTeX": "\\text{mm}^2-\\text{mm} M_{2}^{2}-\\text{mm} M_{3}^{2}+M_{2}^{2} M_{3}^{2}",
+          "multiset": [
+            [
+              "mm - MM[3]",
+              1
+            ],
+            [
+              "MM[2] - MM[3]",
+              1
+            ]
+          ],
+          "multisetTeX": [
+            [
+              "\\text{mm}-M_{3}^{2}",
+              1
+            ],
+            [
+              "M_{2}^{2}-M_{3}^{2}",
+              1
+            ]
+          ],
+          "letter": "(mm - MM[3] - Sqrt[mm^2 - mm*MM[2] - mm*MM[3] + MM[2]*MM[3]])/(mm - MM[3] + Sqrt[mm^2 - mm*MM[2] - mm*MM[3] + MM[2]*MM[3]])",
+          "letterTeX": "\\frac{-\\sqrt{\\text{mm}^2-\\text{mm} M_{2}^{2}-\\text{mm} M_{3}^{2}+M_{2}^{2} M_{3}^{2}}+\\text{mm}-M_{3}^{2}}{\\sqrt{\\text{mm}^2-\\text{mm} M_{2}^{2}-\\text{mm} M_{3}^{2}+M_{2}^{2} M_{3}^{2}}+\\text{mm}-M_{3}^{2}}",
+          "identityVerified": true,
+          "verified": false,
+          "wFactors": [
+            {
+              "w": 4,
+              "power": 1
+            },
+            {
+              "w": 6,
+              "power": 1
+            }
+          ],
+          "multisetIdx": [
+            {
+              "w": 6,
+              "power": 1
+            },
+            {
+              "w": 5,
+              "power": 1
+            }
+          ]
+        },
+        {
+          "P": "mm - MM[3]",
+          "PTeX": "\\text{mm}-M_{3}^{2}",
+          "c": "1",
+          "Q": "mm*MM[2] - mm*MM[3] - MM[2]*MM[3] + MM[3]^2",
+          "QTeX": "-\\text{mm} M_{3}^{2}+\\text{mm} M_{2}^{2}+M_{3}^{4}-M_{2}^{2} M_{3}^{2}",
+          "multiset": [
+            [
+              "mm - MM[3]",
+              1
+            ],
+            [
+              "mm - MM[2]",
+              1
+            ]
+          ],
+          "multisetTeX": [
+            [
+              "\\text{mm}-M_{3}^{2}",
+              1
+            ],
+            [
+              "\\text{mm}-M_{2}^{2}",
+              1
+            ]
+          ],
+          "letter": "(mm - MM[3] - Sqrt[mm*MM[2] - mm*MM[3] - MM[2]*MM[3] + MM[3]^2])/(mm - MM[3] + Sqrt[mm*MM[2] - mm*MM[3] - MM[2]*MM[3] + MM[3]^2])",
+          "letterTeX": "\\frac{-\\sqrt{-\\text{mm} M_{3}^{2}+\\text{mm} M_{2}^{2}+M_{3}^{4}-M_{2}^{2} M_{3}^{2}}+\\text{mm}-M_{3}^{2}}{\\sqrt{-\\text{mm} M_{3}^{2}+\\text{mm} M_{2}^{2}+M_{3}^{4}-M_{2}^{2} M_{3}^{2}}+\\text{mm}-M_{3}^{2}}",
+          "identityVerified": true,
+          "verified": false,
+          "wFactors": [
+            {
+              "w": 6,
+              "power": 1
+            },
+            {
+              "w": 5,
+              "power": 1
+            }
+          ],
+          "multisetIdx": [
+            {
+              "w": 6,
+              "power": 1
+            },
+            {
+              "w": 4,
+              "power": 1
+            }
+          ]
+        },
+        {
+          "P": "mm*MM[2] - (mm*MM[3])/2 - (MM[2]*MM[3])/2",
+          "PTeX": "\\text{mm} M_{2}^{2}-\\frac{1}{2} \\text{mm} M_{3}^{2}-\\frac{1}{2} M_{3}^{2} M_{2}^{2}",
+          "c": "1/4",
+          "Q": "mm^2*MM[2]^2 - mm^2*MM[2]*MM[3] - mm*MM[2]^2*MM[3] + mm*MM[2]*MM[3]^2",
+          "QTeX": "\\text{mm}^2 M_{2}^{4}-\\text{mm}^2 M_{2}^{2} M_{3}^{2}+\\text{mm} M_{2}^{2} M_{3}^{4}-\\text{mm} M_{2}^{4} M_{3}^{2}",
+          "multiset": [
+            [
+              "mm - MM[2]",
+              2
+            ],
+            [
+              "MM[3]",
+              2
+            ]
+          ],
+          "multisetTeX": [
+            [
+              "\\text{mm}-M_{2}^{2}",
+              2
+            ],
+            [
+              "M_{3}^{2}",
+              2
+            ]
+          ],
+          "letter": "(mm*MM[2] - (mm*MM[3])/2 - (MM[2]*MM[3])/2 - Sqrt[mm^2*MM[2]^2 - mm^2*MM[2]*MM[3] - mm*MM[2]^2*MM[3] + mm*MM[2]*MM[3]^2])/(mm*MM[2] - (mm*MM[3])/2 - (MM[2]*MM[3])/2 + Sqrt[mm^2*MM[2]^2 - mm^2*MM[2]*MM[3] - mm*MM[2]^2*MM[3] + mm*MM[2]*MM[3]^2])",
+          "letterTeX": "\\frac{-\\sqrt{\\text{mm}^2 M_{2}^{4}-\\text{mm}^2 M_{2}^{2} M_{3}^{2}+\\text{mm} M_{2}^{2} M_{3}^{4}-\\text{mm} M_{2}^{4} M_{3}^{2}}+\\text{mm} M_{2}^{2}-\\frac{1}{2} \\text{mm} M_{3}^{2}-\\frac{1}{2} M_{3}^{2} M_{2}^{2}}{\\sqrt{\\text{mm}^2 M_{2}^{4}-\\text{mm}^2 M_{2}^{2} M_{3}^{2}+\\text{mm} M_{2}^{2} M_{3}^{4}-\\text{mm} M_{2}^{4} M_{3}^{2}}+\\text{mm} M_{2}^{2}-\\frac{1}{2} \\text{mm} M_{3}^{2}-\\frac{1}{2} M_{3}^{2} M_{2}^{2}}",
+          "identityVerified": true,
+          "verified": false,
+          "wFactors": [
+            {
+              "w": 1,
+              "power": 1
+            },
+            {
+              "w": 2,
+              "power": 1
+            },
+            {
+              "w": 6,
+              "power": 1
+            },
+            {
+              "w": 5,
+              "power": 1
+            }
+          ],
+          "multisetIdx": [
+            {
+              "w": 4,
+              "power": 2
+            },
+            {
+              "w": 3,
+              "power": 2
+            }
+          ]
+        },
+        {
+          "P": "mm*MM[3] - MM[2]*MM[3]",
+          "PTeX": "\\text{mm} M_{3}^{2}-M_{2}^{2} M_{3}^{2}",
+          "c": "1",
+          "Q": "-(mm^2*MM[2]*MM[3]) + mm*MM[2]^2*MM[3] + mm^2*MM[3]^2 - mm*MM[2]*MM[3]^2",
+          "QTeX": "\\text{mm}^2 M_{3}^{4}-\\text{mm}^2 M_{2}^{2} M_{3}^{2}-\\text{mm} M_{2}^{2} M_{3}^{4}+\\text{mm} M_{2}^{4} M_{3}^{2}",
+          "multiset": [
+            [
+              "mm - MM[3]",
+              1
+            ],
+            [
+              "mm - MM[2]",
+              1
+            ],
+            [
+              "MM[3]",
+              1
+            ],
+            [
+              "MM[2]",
+              1
+            ]
+          ],
+          "multisetTeX": [
+            [
+              "\\text{mm}-M_{3}^{2}",
+              1
+            ],
+            [
+              "\\text{mm}-M_{2}^{2}",
+              1
+            ],
+            [
+              "M_{3}^{2}",
+              1
+            ],
+            [
+              "M_{2}^{2}",
+              1
+            ]
+          ],
+          "letter": "(mm*MM[3] - MM[2]*MM[3] - Sqrt[-(mm^2*MM[2]*MM[3]) + mm*MM[2]^2*MM[3] + mm^2*MM[3]^2 - mm*MM[2]*MM[3]^2])/(mm*MM[3] - MM[2]*MM[3] + Sqrt[-(mm^2*MM[2]*MM[3]) + mm*MM[2]^2*MM[3] + mm^2*MM[3]^2 - mm*MM[2]*MM[3]^2])",
+          "letterTeX": "\\frac{-\\sqrt{\\text{mm}^2 M_{3}^{4}-\\text{mm}^2 M_{2}^{2} M_{3}^{2}-\\text{mm} M_{2}^{2} M_{3}^{4}+\\text{mm} M_{2}^{4} M_{3}^{2}}+\\text{mm} M_{3}^{2}-M_{2}^{2} M_{3}^{2}}{\\sqrt{\\text{mm}^2 M_{3}^{4}-\\text{mm}^2 M_{2}^{2} M_{3}^{2}-\\text{mm} M_{2}^{2} M_{3}^{4}+\\text{mm} M_{2}^{4} M_{3}^{2}}+\\text{mm} M_{3}^{2}-M_{2}^{2} M_{3}^{2}}",
+          "identityVerified": true,
+          "verified": false,
+          "wFactors": [
+            {
+              "w": 1,
+              "power": 1
+            },
+            {
+              "w": 4,
+              "power": 1
+            },
+            {
+              "w": 5,
+              "power": 1
+            },
+            {
+              "w": 3,
+              "power": 1
+            }
+          ],
+          "multisetIdx": [
+            {
+              "w": 6,
+              "power": 1
+            },
+            {
+              "w": 4,
+              "power": 1
+            },
+            {
+              "w": 3,
+              "power": 1
+            },
+            {
+              "w": 2,
+              "power": 1
+            }
+          ]
+        },
+        {
+          "P": "mm*MM[3] - MM[2]*MM[3]",
+          "PTeX": "\\text{mm} M_{3}^{2}-M_{2}^{2} M_{3}^{2}",
+          "c": "-1",
+          "Q": "mm^2*MM[2]*MM[3] - mm*MM[2]^2*MM[3] - mm*MM[2]*MM[3]^2 + MM[2]^2*MM[3]^2",
+          "QTeX": "\\text{mm}^2 M_{2}^{2} M_{3}^{2}-\\text{mm} M_{2}^{2} M_{3}^{4}-\\text{mm} M_{2}^{4} M_{3}^{2}+M_{2}^{4} M_{3}^{4}",
+          "multiset": [
+            [
+              "MM[2] - MM[3]",
+              1
+            ],
+            [
+              "mm - MM[2]",
+              1
+            ],
+            [
+              "MM[3]",
+              1
+            ],
+            [
+              "mm",
+              1
+            ]
+          ],
+          "multisetTeX": [
+            [
+              "M_{2}^{2}-M_{3}^{2}",
+              1
+            ],
+            [
+              "\\text{mm}-M_{2}^{2}",
+              1
+            ],
+            [
+              "M_{3}^{2}",
+              1
+            ],
+            [
+              "\\text{mm}",
+              1
+            ]
+          ],
+          "letter": "(mm*MM[3] - MM[2]*MM[3] - Sqrt[mm^2*MM[2]*MM[3] - mm*MM[2]^2*MM[3] - mm*MM[2]*MM[3]^2 + MM[2]^2*MM[3]^2])/(mm*MM[3] - MM[2]*MM[3] + Sqrt[mm^2*MM[2]*MM[3] - mm*MM[2]^2*MM[3] - mm*MM[2]*MM[3]^2 + MM[2]^2*MM[3]^2])",
+          "letterTeX": "\\frac{-\\sqrt{\\text{mm}^2 M_{2}^{2} M_{3}^{2}-\\text{mm} M_{2}^{2} M_{3}^{4}-\\text{mm} M_{2}^{4} M_{3}^{2}+M_{2}^{4} M_{3}^{4}}+\\text{mm} M_{3}^{2}-M_{2}^{2} M_{3}^{2}}{\\sqrt{\\text{mm}^2 M_{2}^{2} M_{3}^{2}-\\text{mm} M_{2}^{2} M_{3}^{4}-\\text{mm} M_{2}^{4} M_{3}^{2}+M_{2}^{4} M_{3}^{4}}+\\text{mm} M_{3}^{2}-M_{2}^{2} M_{3}^{2}}",
+          "identityVerified": true,
+          "verified": false,
+          "wFactors": [
+            {
+              "w": 4,
+              "power": 1
+            },
+            {
+              "w": 2,
+              "power": 1
+            },
+            {
+              "w": 6,
+              "power": 1
+            },
+            {
+              "w": 3,
+              "power": 1
+            }
+          ],
+          "multisetIdx": [
+            {
+              "w": 5,
+              "power": 1
+            },
+            {
+              "w": 4,
+              "power": 1
+            },
+            {
+              "w": 3,
+              "power": 1
+            },
+            {
+              "w": 1,
+              "power": 1
+            }
+          ]
+        }
+      ],
+      "bareRootsNote": "no bare-root letters (V1a evens-only graph form; flagged-sqrt list empty)",
+      "refusals": [],
+      "provenance": {
+        "engine": "chi/SPQRLandau-CII SPQR-1.0.4 FF64",
+        "stVersion": "1.2.4",
+        "seed": 1234,
+        "chi": 3,
+        "confirmPrimes": 2,
+        "confirmAgree": true,
+        "wallSeconds": 67.57000000000001
+      },
+      "timestamp": "2026-06-14T04:29:56Z",
+      "contributor": "oddletters-v1a",
+      "evensChiDrop": [
+        2,
+        2,
+        2,
+        2,
+        2,
+        2
+      ]
     }
   ],
   "edges": "{{{1, 2}, 0}, {{1, 3}, 0}, {{2, 3}, m}}",

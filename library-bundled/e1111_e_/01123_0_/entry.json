@@ -1,60 +1,91 @@
 {
-    "CNickelIndex": "e1111|e|:01123|0|",
-    "MassScales": 3,
-    "FunctionClass": "unknown",
-    "EpsilonOrder": "",
-    "References": [
-        "arXiv:2305.19768"
-    ],
-    "Records": [
-        {
-            "reference": "arXiv:2305.19768",
-            "authors": "",
-            "description": "Three-loop banana (sunrise) diagram with 4 internal propagators carrying 3 distinct mass scales (m1, m1, m2, m3) between 2 vertices, forming a 2-point function. Previously existing pySecDec example used for benchmarking Disteval vs IntLib integrators.",
-            "epsOrders": "",
-            "familyName": "banana_3mass",
-            "method": "sector_decomposition",
-            "tools": [
-                "pySecDec"
-            ],
-            "ancillaryFiles": false,
-            "doi": "",
-            "texkey": "",
-            "masterCount": 0,
-            "dimScheme": "d=4-2*eps",
-            "computationLevel": "numerical",
-            "location": "Section 3.2, Figure 10(a), Table 3",
-            "recordId": "bx_8be1a13ad4df",
-            "verified": false,
-            "verifiedAt": ""
-        }
-    ],
-    "Names": [
-        "banana_3mass"
-    ],
-    "Source": [
-        "arXiv"
-    ],
-    "Loops": 3,
-    "NumPropagators": 4,
-    "Results": [],
-    "edges": "{{{1, 2}, m[1]}, {{1, 2}, m[1]}, {{1, 2}, m[2]}, {{1, 2}, m[3]}}",
-    "nodes": "{{1, 0}, {2, 0}}",
-    "CanonicalName": "3-mass banana (a)",
-    "MassConfig": {
-        "numEdges": 4,
-        "numMassiveEdges": 4,
-        "numMasslessEdges": 0,
-        "distinctInternalMasses": 3,
-        "internalMassLabels": [
-            "m[1]",
-            "m[2]",
-            "m[3]"
-        ],
-        "edgeMassPattern": "1123",
-        "numExtLegs": 2,
-        "numOnshellMassiveExtLegs": 0,
-        "numMasslessExtLegs": 2,
-        "extLegSignature": "00"
+  "CNickelIndex": "e1111|e|:01123|0|",
+  "MassScales": 3,
+  "FunctionClass": "unknown",
+  "EpsilonOrder": "",
+  "References": [
+    "arXiv:2305.19768"
+  ],
+  "Records": [
+    {
+      "reference": "arXiv:2305.19768",
+      "authors": "",
+      "description": "Three-loop banana (sunrise) diagram with 4 internal propagators carrying 3 distinct mass scales (m1, m1, m2, m3) between 2 vertices, forming a 2-point function. Previously existing pySecDec example used for benchmarking Disteval vs IntLib integrators.",
+      "epsOrders": "",
+      "familyName": "banana_3mass",
+      "method": "sector_decomposition",
+      "tools": [
+        "pySecDec"
+      ],
+      "ancillaryFiles": false,
+      "doi": "",
+      "texkey": "",
+      "masterCount": 0,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "numerical",
+      "location": "Section 3.2, Figure 10(a), Table 3",
+      "recordId": "bx_8be1a13ad4df",
+      "verified": false,
+      "verifiedAt": ""
     }
+  ],
+  "Names": [
+    "banana_3mass"
+  ],
+  "Source": [
+    "arXiv"
+  ],
+  "Loops": 3,
+  "NumPropagators": 4,
+  "Results": [
+    {
+      "resultType": "singularities",
+      "status": "proposal",
+      "recordId": "sg_20260614T083602Z",
+      "byEpsOrder": null,
+      "singularities": [
+        "mm[1]",
+        "mm[2]"
+      ],
+      "singularitiesTeX": [
+        "m_{1}^{2}",
+        "m_{2}^{2}"
+      ],
+      "singularitiesVerified": [
+        false,
+        false
+      ],
+      "groundTruthAvailable": false,
+      "provenance": {
+        "engine": "chi/SPQRLandau-CII SPQR-1.0.4 FF64 (partial: incomplete elimination)",
+        "stVersion": "1.2.4",
+        "seed": 1234,
+        "chi": 8,
+        "confirmPrimes": 2,
+        "confirmAgree": null,
+        "wallSeconds": 274.05
+      },
+      "timestamp": "2026-06-14T08:36:02Z",
+      "contributor": "oddletters-v1a"
+    }
+  ],
+  "edges": "{{{1, 2}, m[1]}, {{1, 2}, m[1]}, {{1, 2}, m[2]}, {{1, 2}, m[3]}}",
+  "nodes": "{{1, 0}, {2, 0}}",
+  "CanonicalName": "3-mass banana (a)",
+  "MassConfig": {
+    "numEdges": 4,
+    "numMassiveEdges": 4,
+    "numMasslessEdges": 0,
+    "distinctInternalMasses": 3,
+    "internalMassLabels": [
+      "m[1]",
+      "m[2]",
+      "m[3]"
+    ],
+    "edgeMassPattern": "1123",
+    "numExtLegs": 2,
+    "numOnshellMassiveExtLegs": 0,
+    "numMasslessExtLegs": 2,
+    "extLegSignature": "00"
+  }
 }

@@ -23,6 +23,7 @@
 #include "hyperflint/reduce/mzv_expansion.hpp"   // HF basis-ctx campaign (PHASE_2 iter 10)
 #include "hyperflint/core/poly.hpp"
 #include "hyperflint/core/rat.hpp"
+#include "hyperflint/core/factored_rat.hpp"  // A3: deferred-denominator side-channel
 #include "hyperflint/integrator/lr_scan.hpp"  // find_lr_orders_scan op (Doppio-port bridge, 2026-06-06)
 #include "hyperflint/integrator/factor_table.hpp"  // factor_table op (spec 2026-06-11)
 #include "hyperflint/core/addpf_probe.hpp"  // period-tuples Phase 0 census
@@ -595,8 +596,16 @@ std::string find_lr_orders(const std::string& body) {
         if (xvars.empty()) return error_json("need \"xvars\"");
         auto coeff_vars = json_str_array(body, "coeff_vars");
 
-        // Group shape: either "groups":[[...],[...]] (multi-group)
-        // or "polys":[...] (single-group convenience).
+        // Group shape: either "groups":[[...],[...]] (multi-group: one
+        // group per ADDEND; the LR search finds an order reducible for
+        // EVERY group = the INTERSECTION) or "polys":[...] (single group
+        // = the UNION of all letters = the FUSED face). For a sum of
+        // denominator-disjoint counterterm addends the union is NOLR by
+        // construction even when each addend is reducible in a common
+        // order, so use "groups" for tbox/lazy-sum faces -- "polys" is a
+        // convenience for genuinely single-integrand inputs only.
+        // See docs/cross-subsystem-invariants.md (INV-LAZYSUM-GROUPS) and
+        // HyperFLINT/docs/op-contracts.md#find_lr_orders.
         std::vector<std::vector<std::string>> group_strs;
         std::string groups_inner = extract_top_array(body, "groups");
         if (!groups_inner.empty()) {
@@ -695,12 +704,47 @@ std::string find_lr_orders(const std::string& body) {
         hyperflint::lr_search::SingCollector* sings_ptr =
             emit_sings ? &sings_collector : nullptr;
 
+        // VERIFY-ORDER mode (2026-06-13): optional "verify_order":[v1,v2,...]
+        // field.  When present, we VERIFY that this one specific order is
+        // linearly reducible (verify_order_is_lr; O(n) st_fubini_lr calls, no
+        // O(2^n) search) and SKIP find_lr_orders entirely.  The response adds
+        // "order_is_lr" (+ blocking info); the standard envelope fields
+        // (best_order empty, nolr, score null) are inert in this mode.  The
+        // carry executor's order-pinning guard uses this to certify the
+        // PINNED shared order directly (cheap, exact) instead of a free
+        // search + best-order comparison.
+        std::vector<std::string> verify_order_names;
+        bool verify_requested = false;
+        {
+            std::regex re("\"verify_order\"\\s*:\\s*\\[([^\\]]*)\\]");
+            std::smatch m;
+            if (std::regex_search(body, m, re)) {
+                verify_requested = true;
+                std::string inner = m[1].str();
+                std::regex name_re("\"([^\"]+)\"");
+                for (std::sregex_iterator it(inner.begin(), inner.end(), name_re),
+                         end; it != end; ++it) {
+                    verify_order_names.push_back((*it)[1].str());
+                }
+            }
+        }
+
         hyperflint::lr_search::LrResult result;
+        hyperflint::lr_search::OrderVerifyResult verify_res;
         double compute_s = 0.0;
         auto t0 = std::chrono::steady_clock::now();
-        result = hyperflint::lr_search::find_lr_orders(
-            group_polys, xvar_indices, allow_al, sings_ptr,
-            carry_discharge);
+        if (verify_requested) {
+            std::vector<size_t> order_idx;
+            order_idx.reserve(verify_order_names.size());
+            for (const auto& v : verify_order_names)
+                order_idx.push_back(ctx.index_of(v));
+            verify_res = hyperflint::lr_search::verify_order_is_lr(
+                group_polys, xvar_indices, order_idx, allow_al);
+        } else {
+            result = hyperflint::lr_search::find_lr_orders(
+                group_polys, xvar_indices, allow_al, sings_ptr,
+                carry_discharge);
+        }
         auto t1 = std::chrono::steady_clock::now();
         compute_s = std::chrono::duration<double>(t1 - t0).count();
 
@@ -837,6 +881,24 @@ std::string find_lr_orders(const std::string& body) {
                 o << "\"" << json_escape(sings_collector.ordered[i]) << "\"";
             }
             o << "],\"sings_total\":" << sings_collector.ordered.size();
+        }
+        // VERIFY-ORDER response (2026-06-13): present only when the request
+        // carried "verify_order".  order_is_lr is the single binding bit; the
+        // blocking fields explain a false (which step/letter, and whether the
+        // failure was a deg-2 forbidden-pending-variable dependence vs a plain
+        // degree-too-high).  Additive + request-gated, so the default
+        // envelope is byte-identical.
+        if (verify_requested) {
+            o << ",\"order_is_lr\":"
+              << (verify_res.is_lr ? "true" : "false")
+              << ",\"verify_malformed\":"
+              << (verify_res.malformed ? "true" : "false")
+              << ",\"verify_blocking_step\":" << verify_res.blocking_step
+              << ",\"verify_blocking_degree\":" << verify_res.blocking_degree
+              << ",\"verify_forbidden_dep\":"
+              << (verify_res.forbidden_dep ? "true" : "false")
+              << ",\"verify_blocking_letter\":\""
+              << json_escape(verify_res.blocking_letter) << "\"";
         }
         o << "}";
         return o.str();
@@ -1606,6 +1668,10 @@ std::string hyperflint_sym(const std::string& body) {
         hyperflint::clear_rhs_cache();
         hyperflint::clear_linear_factors_cache();
         hyperflint::reset_narrow_ctx_flag();
+        // Lazy-sum risk (b), 2026-06-13: same in-process poison hazard for
+        // the nonlinear-denominator flag (integration_step also resets it
+        // per call, but a parse-fail path may never reach integration_step).
+        hyperflint::reset_nonlinear_den_flag();
         // PHASE_4 round-3 BLOCKER fix (2026-05-28): same hazard as
         // clear_rhs_cache. The (ctx*, table*) cache populated by
         // apply_mzv_reductions's no-op guard must be cleared at
@@ -1712,6 +1778,17 @@ std::string hyperflint_sym(const std::string& body) {
         std::unique_ptr<hyperflint::PolyCtx> ctx_holder;
         std::vector<std::string> vars;
         hyperflint::ShuffleList input;
+        // LAZY-SUM (HF_LAZY_SUM, default off): when on AND the expr parses
+        // to a top-level Plus, integrate each addend separately and sum the
+        // result tables -- the R-class parse-fusion cure. lazy_inputs holds
+        // one ShuffleList per top-level addend; empty => the single fused
+        // `input` path (historical behaviour).
+        std::vector<hyperflint::ShuffleList> lazy_inputs;
+        bool lazy_sum = false;
+        {
+            const char* e = std::getenv("HF_LAZY_SUM");
+            lazy_sum = (e && e[0] && std::string(e) != "0");
+        }
 
         std::string f_str    = json_str_field(body, "f");
         std::string expr_str = json_str_field(body, "expr");
@@ -1728,16 +1805,46 @@ std::string hyperflint_sym(const std::string& body) {
         if (!expr_str.empty()) {
             try {
                 auto parsed = hyperflint::convert::parse_expression(
-                    expr_str, base_vars);
-                hyperflint::Regulator reg = hyperflint::convert::convert_to_hlog_reg_inf(
-                    parsed.expr, *parsed.ctx);
+                    expr_str, base_vars, lazy_sum);
                 vars = std::move(parsed.augmented_vars);
-                ctx_holder = std::move(parsed.ctx);
-                input.reserve(reg.size());
-                for (auto& t : reg) {
-                    input.push_back(hyperflint::ShuffleEntry{
-                        std::move(t.coef), std::move(t.key)});
+                const bool lazy_split =
+                    lazy_sum
+                    && parsed.expr.kind() == hyperflint::convert::ExprKind::Plus
+                    && parsed.expr.num_children() > 1;
+                if (std::getenv("HF_LAZY_SUM_DEBUG")) {
+                    std::cerr << "[lazy-sum] lazy_sum=" << lazy_sum
+                              << " expr_kind=" << (int)parsed.expr.kind()
+                              << " num_children=" << parsed.expr.num_children()
+                              << " lazy_split=" << lazy_split << "\n";
                 }
+                if (lazy_split) {
+                    // Convert EACH top-level addend into its own ShuffleList
+                    // in the shared ctx. No fused Rat::add, no merge across
+                    // addends -- each addend is integrated on its own and the
+                    // result tables are summed downstream.
+                    for (size_t c = 0; c < parsed.expr.num_children(); ++c) {
+                        hyperflint::Regulator reg =
+                            hyperflint::convert::convert_to_hlog_reg_inf(
+                                parsed.expr.child(c), *parsed.ctx);
+                        hyperflint::ShuffleList si;
+                        si.reserve(reg.size());
+                        for (auto& t : reg) {
+                            si.push_back(hyperflint::ShuffleEntry{
+                                std::move(t.coef), std::move(t.key)});
+                        }
+                        lazy_inputs.push_back(std::move(si));
+                    }
+                } else {
+                    hyperflint::Regulator reg =
+                        hyperflint::convert::convert_to_hlog_reg_inf(
+                            parsed.expr, *parsed.ctx);
+                    input.reserve(reg.size());
+                    for (auto& t : reg) {
+                        input.push_back(hyperflint::ShuffleEntry{
+                            std::move(t.coef), std::move(t.key)});
+                    }
+                }
+                ctx_holder = std::move(parsed.ctx);
             } catch (const hyperflint::convert::ConvertFailed& e) {
                 std::ostringstream o;
                 o << "{\"op\":\"hyperflint\",\"failed\":true"
@@ -1766,12 +1873,71 @@ std::string hyperflint_sym(const std::string& body) {
             ctx_holder = std::make_unique<hyperflint::PolyCtx>(vars);
             hyperflint::PolyCtx& ctx_ref = *ctx_holder;
             if (!f_str.empty()) {
-                // HF MZV-rewrite C-prep.4 iter-32 F2 parse-boundary
-                // safety rail (top-level f_str entry).
-                hyperflint::Rat f_r = hyperflint::Rat::parse(ctx_ref, f_str);
-                debug_check_parse_idempotent(ctx_ref, f_r,
-                                              "main_handler/f_str");
-                input.push_back(hyperflint::ShuffleEntry{std::move(f_r), {}});
+                // A3 (HF perf campaign — stay-factored lever). For a BARE
+                // single-integration-variable integrand of shape
+                // (NUM)^p/(DEN)^q whose DEN is linear in that variable (the
+                // LR / qbox face shape), parse via FactoredRat::parse so the
+                // expanded DEN^q (the parse-time pow_fps wall) is NEVER formed,
+                // and carry the factored denominator as a side-channel; the
+                // integrand `coef` then holds the NUMERATOR only. integrate_ii
+                // dispatches the first partial-fractions call to
+                // partial_fractions_factored_den (which itself safe-degrades
+                // for any non-matching shape, so the result is always correct).
+                // Conservative gating: single integration variable, no variable
+                // rescaling (have_ranges false), and the factored parse yields
+                // exactly one denominator factor linear in the integration var.
+                // Conservative: skip A3 when a divergence check is requested
+                // (check_divergences_pass would integrate the numerator-only
+                // entry without threading the side-channel). All A3 targets run
+                // check_divergences = false.
+                bool cd_requested = false;
+                {
+                    std::regex re_cd(
+                        "\"check_divergences\"\\s*:\\s*(true|false)");
+                    std::smatch m_cd;
+                    if (std::regex_search(body, m_cd, re_cd))
+                        cd_requested = (m_cd[1] == "true");
+                }
+                // A3 kill-switch (HF_DISABLE_A3=1): force the ordinary
+                // Rat::parse path, for A/B measurement and as a safety opt-out.
+                static const bool a3_disabled = [] {
+                    const char* s = std::getenv("HF_DISABLE_A3");
+                    return s && s[0] && s[0] != '0';
+                }();
+                bool routed_factored = false;
+                if (!a3_disabled && vars_int.size() == 1 && !have_ranges &&
+                    !cd_requested) {
+                    size_t vidx = 0;
+                    for (; vidx < vars.size(); ++vidx)
+                        if (vars[vidx] == vars_int[0]) break;
+                    if (vidx < vars.size()) {
+                        try {
+                            hyperflint::FactoredRat fr =
+                                hyperflint::FactoredRat::parse(ctx_ref, f_str);
+                            const auto& dfs = fr.den_factors();
+                            if (dfs.size() == 1 &&
+                                dfs[0].base.degree_in_var(vidx) == 1) {
+                                hyperflint::Rat num_only{
+                                    hyperflint::Poly(fr.numerator())};
+                                hyperflint::ShuffleEntry se{
+                                    std::move(num_only), {}, fr};
+                                input.push_back(std::move(se));
+                                routed_factored = true;
+                            }
+                        } catch (const std::exception&) {
+                            routed_factored = false;  // fall through to Rat::parse
+                        }
+                    }
+                }
+                if (!routed_factored) {
+                    // HF MZV-rewrite C-prep.4 iter-32 F2 parse-boundary
+                    // safety rail (top-level f_str entry).
+                    hyperflint::Rat f_r = hyperflint::Rat::parse(ctx_ref, f_str);
+                    debug_check_parse_idempotent(ctx_ref, f_r,
+                                                  "main_handler/f_str");
+                    input.push_back(
+                        hyperflint::ShuffleEntry{std::move(f_r), {}});
+                }
             } else {
                 input = parse_shuffle_list(ctx_ref, body, "wordlist");
             }
@@ -1785,16 +1951,27 @@ std::string hyperflint_sym(const std::string& body) {
             var_indices.push_back(idx);
         }
 
+        // Unify the single-input and lazy-split paths: integrate every
+        // entry of `addend_inputs` and sum the result tables. Non-lazy =>
+        // one entry (the fused `input`).
+        std::vector<hyperflint::ShuffleList> addend_inputs;
+        if (lazy_inputs.empty())
+            addend_inputs.push_back(std::move(input));
+        else
+            addend_inputs = std::move(lazy_inputs);
+
         if (have_ranges) {
-            for (size_t k = 0; k < vars_int.size(); ++k) {
-                const std::string& from = vars_int_from[k];
-                const std::string& to   = vars_int_to[k];
-                if (from == "0" && (to == "Infinity" || to == "+Infinity" ||
-                                     to == "oo"))
-                    continue;
-                input = hyperflint::rescale_interval(ctx, input, var_indices[k],
-                                                      from, to);
-                if (input.empty()) break;
+            for (auto& ai : addend_inputs) {
+                for (size_t k = 0; k < vars_int.size(); ++k) {
+                    const std::string& from = vars_int_from[k];
+                    const std::string& to   = vars_int_to[k];
+                    if (from == "0" && (to == "Infinity" || to == "+Infinity" ||
+                                         to == "oo"))
+                        continue;
+                    ai = hyperflint::rescale_interval(ctx, ai, var_indices[k],
+                                                       from, to);
+                    if (ai.empty()) break;
+                }
             }
         }
 
@@ -1808,6 +1985,29 @@ std::string hyperflint_sym(const std::string& body) {
             std::regex re("\"check_divergences\"\\s*:\\s*(true|false)");
             std::smatch m;
             if (std::regex_search(body, m, re)) check_div = (m[1] == "true");
+        }
+
+        // LAZY-SUM x check_divergences guard (adversarial review 2026-06-13,
+        // fix B): the lazy split integrates each top-level addend separately,
+        // and R-class addends are INDIVIDUALLY divergent by construction
+        // (only their sum is finite). A per-addend divergence check would
+        // therefore spuriously report the whole face divergent. Refuse the
+        // combination loudly rather than mis-report. (addend_inputs.size()>1
+        // == the lazy split path fired; non-lazy is always a single input.
+        // Note lazy_inputs has already been move()d into addend_inputs.)
+        if (addend_inputs.size() > 1 && check_div) {
+            std::ostringstream o;
+            o << "{\"op\":\"hyperflint\",\"failed\":true,\"reason\":\""
+              << "HF_LAZY_SUM is incompatible with check_divergences: "
+              << "top-level addends are individually divergent by "
+              << "construction; the per-addend check cannot certify the "
+              << "finite sum. Disable one of the two.\",\"vars\":[";
+            for (size_t i = 0; i < vars.size(); ++i) {
+                if (i) o << ",";
+                o << "\"" << json_escape(vars[i]) << "\"";
+            }
+            o << "]}";
+            return o.str();
         }
 
         // HF MZV-rewrite C-prep.4 (iter-27): opt-in canonical-emission
@@ -1841,9 +2041,47 @@ std::string hyperflint_sym(const std::string& body) {
 
         try {
             auto _bench_t0 = std::chrono::steady_clock::now();
-            hyperflint::RegulatorSym out = hyperflint::hyperflint_sym(
-                ctx, input, var_indices, table, introduce_al, check_div,
-                spectator_idx);
+            hyperflint::RegulatorSym out;
+            if (addend_inputs.size() == 1) {
+                out = hyperflint::hyperflint_sym(
+                    ctx, addend_inputs[0], var_indices, table, introduce_al,
+                    check_div, spectator_idx);
+            } else {
+                // LAZY-SUM: integrate each top-level addend, then sum the
+                // result tables. Each addend is its own integration; the
+                // heavy parse/PF fusion of the denominator-disjoint addends
+                // never forms. canonicalize_regulator_sym merges same-key
+                // terms (SymCoef add) AND sorts -- byte-matching the fused
+                // path's terminal canonicalize, so the default emitter output
+                // is order-canonical, not addend-concatenation order
+                // (adversarial review 2026-06-13, fix A).
+                //
+                // LAZY-SUM risk (b), 2026-06-13: if an individual addend is
+                // not integrable in the recorded order (degree>=3 nonlinear
+                // denominator factor), hyperflint_sym throws
+                // NonlinearDenominatorUnsupported (a typed IntegrationStepFailed
+                // raised post-barrier by integration_step -- NOT a terminate;
+                // see the Phase-1 flag-and-rethrow there). It propagates to
+                // the outer handler catch below, which emits {"failed": true}
+                // -- so the sweep RECORDS the face and CONTINUES (the runner
+                // only halts on signal/crash), instead of the SIGABRT that
+                // halted v8 on ord_0_face_68. A fused-fallback that RECOVERS
+                // the face value (re-integrating the whole face fused, where
+                // the cancellation makes the denominator tractable) is the
+                // intended Phase-2 enhancement; it is NOT wired here yet
+                // because a first attempt hit a >300 GB re-integration blowup
+                // in the in-handler re-parse path that is not yet root-caused
+                // (the same fused expr integrates in ~32 MB when run lazy-off
+                // from a clean process). Tracked in
+                // notes/hf_tree_merge/PLAN_lazy_sum_and_blinding.md.
+                for (auto& ai : addend_inputs) {
+                    hyperflint::RegulatorSym oi = hyperflint::hyperflint_sym(
+                        ctx, ai, var_indices, table, introduce_al, check_div,
+                        spectator_idx);
+                    for (auto& term : oi) out.push_back(std::move(term));
+                }
+                out = hyperflint::canonicalize_regulator_sym(out);
+            }
             auto _bench_t1 = std::chrono::steady_clock::now();
             double compute_s =
                 std::chrono::duration<double>(_bench_t1 - _bench_t0).count();

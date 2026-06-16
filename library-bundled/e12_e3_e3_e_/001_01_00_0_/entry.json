@@ -1,114 +1,147 @@
 {
-    "CNickelIndex": "e12|e3|e3|e|:001|01|00|0|",
-    "MassScales": 3,
-    "FunctionClass": "MPL",
-    "EpsilonOrder": "1",
-    "References": [
-        "arXiv:1511.01323 (Acta Phys.Polon.B 46 (2117), 2015)"
+  "CNickelIndex": "e12|e3|e3|e|:001|01|00|0|",
+  "MassScales": 3,
+  "FunctionClass": "MPL",
+  "EpsilonOrder": "1",
+  "References": [
+    "arXiv:1511.01323 (Acta Phys.Polon.B 46 (2117), 2015)"
+  ],
+  "Records": [],
+  "Names": [
+    "massive QED one-loop box"
+  ],
+  "Source": [
+    "arXiv"
+  ],
+  "Loops": 1,
+  "NumPropagators": 4,
+  "edges": "{{{1, 2}, 0}, {{1, 3}, m}, {{2, 4}, m}, {{3, 4}, 0}}",
+  "nodes": "{{1, 0}, {2, 0}, {4, 0}, {3, 0}}",
+  "CanonicalName": "Box, 2 massive propagators (a)",
+  "MassConfig": {
+    "numEdges": 4,
+    "numMassiveEdges": 2,
+    "numMasslessEdges": 2,
+    "distinctInternalMasses": 1,
+    "internalMassLabels": [
+      "m"
     ],
-    "Records": [],
-    "Names": [
-        "massive QED one-loop box"
-    ],
-    "Source": [
-        "arXiv"
-    ],
-    "Loops": 1,
-    "NumPropagators": 4,
-    "edges": "{{{1, 2}, 0}, {{1, 3}, m}, {{2, 4}, m}, {{3, 4}, 0}}",
-    "nodes": "{{1, 0}, {2, 0}, {4, 0}, {3, 0}}",
-    "CanonicalName": "Box, 2 massive propagators (a)",
-    "MassConfig": {
-        "numEdges": 4,
-        "numMassiveEdges": 2,
-        "numMasslessEdges": 2,
-        "distinctInternalMasses": 1,
-        "internalMassLabels": [
-            "m"
-        ],
-        "edgeMassPattern": "0110",
-        "numExtLegs": 4,
-        "numOnshellMassiveExtLegs": 0,
-        "numMasslessExtLegs": 4,
-        "extLegSignature": "0000"
+    "edgeMassPattern": "0110",
+    "numExtLegs": 4,
+    "numOnshellMassiveExtLegs": 0,
+    "numMasslessExtLegs": 4,
+    "extLegSignature": "0000"
+  },
+  "commonNames": [
+    "D₀(2×m)",
+    "L1"
+  ],
+  "Subsectors": [
+    "e12|e2|e|:001|20|0|"
+  ],
+  "ParentSectors": [
+    "112|e3|e4|e4|e|:001|00|00|01|0|"
+  ],
+  "Results": [
+    {
+      "dimension": "4 - 2*eps",
+      "epsOrder": "0",
+      "epsOrders": "0",
+      "propExponents": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "propagators": [],
+      "numerators": [],
+      "internalMasses": [],
+      "externalMasses": [],
+      "substitutions": "",
+      "normalization": "Automatic",
+      "stVersion": "SubTropica v1.0.401",
+      "stCommand": "",
+      "contributor": "Sebastian Mizera",
+      "timestamp": "2026-04-20T13:02:03",
+      "verifiedAt": "2026-04-20T13:02:03",
+      "verified": true,
+      "method": "direct_integration",
+      "tools": [
+        "SubTropica"
+      ],
+      "methodLR": "Lungo",
+      "findRoots": true,
+      "byteCount": 6920,
+      "alphabet": [
+        "W_1^-+1",
+        "W_1^-",
+        "W_1^--W_2^-",
+        "W_2^--W_1^-",
+        "W_2^-",
+        "W_2^--W_1^+",
+        "W_1^+",
+        "W_1^++1",
+        "W_1^--W_2^+",
+        "W_2^+-W_1^-",
+        "W_2^+",
+        "W_1^+-W_2^+",
+        "W_2^+-W_1^+",
+        "\\frac{W_1^-}{W_1^+}",
+        "m^2",
+        "s_{23}"
+      ],
+      "symbolWeight": 2,
+      "symbolTerms": 16,
+      "normalizedAlphabet": [
+        "W_1",
+        "W^-_1",
+        "W_2",
+        "W^-_2",
+        "W^+_1",
+        "W_3",
+        "W_4",
+        "W_5",
+        "W^+_2",
+        "W_6",
+        "W_7"
+      ],
+      "symbolScale": "m^2",
+      "normalizedSymbolTerms": 14,
+      "resultDataId": "0bd74b41fba901de",
+      "resultTeXPreview": "\\left(-\\frac{H\\left(\\frac{1}{W_2^-+1},\\frac{1}{W_1^-+1}\\,;1\\right)}{m^2 (m^2+s_{23}) \\left(W_1^--W_1^+\\right)}+\\frac{H\\left(\\frac{1}{W_2^-+1},\\frac{1}{W_1^++1}\\,;1\\right)}{m^2 (m^2+s_{23}) \\left(W_1^--W_1^+\\right)}-\\frac{H\\left(\\frac{1}{W_2^++1},\\frac{1}{W_1^-+1}\\,;1\\right)}{m^2 (m^2+s_{23}) \\left(W_1^--W_1^+\\right)}+\\frac{H\\left(\\frac{1}{W_2^++1},\\frac{1}{W_1^++1}\\,;1\\right)}{m^2 (m^2+s_{23}) \\left(W_1^--W_1^+\\right)}-\\frac{\\log \\left(-\\frac{m^2}{s_{23}}\\right) \\log \\left(-W_1^-\\right)}{m^2 (m^2+s_{23}) \\left(W_1^--W_1^+\\right)}+\\frac{\\log \\left(-\\frac{m^2}{s_{23}}\\right) \\log \\left(-W_1^+\\right)}{m^2 (m^2+s_{23}) \\left(W_1^--W_1^+\\right)}\\right)+O\\left(\\varepsilon^1\\right)"
     },
-    "commonNames": [
-        "D₀(2×m)",
-        "L1"
-    ],
-    "Subsectors": [
-        "e12|e2|e|:001|20|0|"
-    ],
-    "ParentSectors": [
-        "112|e3|e4|e4|e|:001|00|00|01|0|"
-    ],
-    "Results": [
-        {
-            "dimension": "4 - 2*eps",
-            "epsOrder": "0",
-            "epsOrders": "0",
-            "propExponents": [
-                1,
-                1,
-                1,
-                1
-            ],
-            "propagators": [],
-            "numerators": [],
-            "internalMasses": [],
-            "externalMasses": [],
-            "substitutions": "",
-            "normalization": "Automatic",
-            "stVersion": "SubTropica v1.0.401",
-            "stCommand": "",
-            "contributor": "Sebastian Mizera",
-            "timestamp": "2026-04-20T13:02:03",
-            "verifiedAt": "2026-04-20T13:02:03",
-            "verified": true,
-            "method": "direct_integration",
-            "tools": [
-                "SubTropica"
-            ],
-            "methodLR": "Lungo",
-            "findRoots": true,
-            "byteCount": 6920,
-            "alphabet": [
-                "W_1^-+1",
-                "W_1^-",
-                "W_1^--W_2^-",
-                "W_2^--W_1^-",
-                "W_2^-",
-                "W_2^--W_1^+",
-                "W_1^+",
-                "W_1^++1",
-                "W_1^--W_2^+",
-                "W_2^+-W_1^-",
-                "W_2^+",
-                "W_1^+-W_2^+",
-                "W_2^+-W_1^+",
-                "\\frac{W_1^-}{W_1^+}",
-                "m^2",
-                "s_{23}"
-            ],
-            "symbolWeight": 2,
-            "symbolTerms": 16,
-            "normalizedAlphabet": [
-                "W_1",
-                "W^-_1",
-                "W_2",
-                "W^-_2",
-                "W^+_1",
-                "W_3",
-                "W_4",
-                "W_5",
-                "W^+_2",
-                "W_6",
-                "W_7"
-            ],
-            "symbolScale": "m^2",
-            "normalizedSymbolTerms": 14,
-            "resultDataId": "0bd74b41fba901de",
-            "resultTeXPreview": "\\left(-\\frac{H\\left(\\frac{1}{W_2^-+1},\\frac{1}{W_1^-+1}\\,;1\\right)}{m^2 (m^2+s_{23}) \\left(W_1^--W_1^+\\right)}+\\frac{H\\left(\\frac{1}{W_2^-+1},\\frac{1}{W_1^++1}\\,;1\\right)}{m^2 (m^2+s_{23}) \\left(W_1^--W_1^+\\right)}-\\frac{H\\left(\\frac{1}{W_2^++1},\\frac{1}{W_1^-+1}\\,;1\\right)}{m^2 (m^2+s_{23}) \\left(W_1^--W_1^+\\right)}+\\frac{H\\left(\\frac{1}{W_2^++1},\\frac{1}{W_1^++1}\\,;1\\right)}{m^2 (m^2+s_{23}) \\left(W_1^--W_1^+\\right)}-\\frac{\\log \\left(-\\frac{m^2}{s_{23}}\\right) \\log \\left(-W_1^-\\right)}{m^2 (m^2+s_{23}) \\left(W_1^--W_1^+\\right)}+\\frac{\\log \\left(-\\frac{m^2}{s_{23}}\\right) \\log \\left(-W_1^+\\right)}{m^2 (m^2+s_{23}) \\left(W_1^--W_1^+\\right)}\\right)+O\\left(\\varepsilon^1\\right)"
-        }
-    ]
+    {
+      "resultType": "singularities",
+      "status": "proposal",
+      "recordId": "sg_20260614T043302Z",
+      "byEpsOrder": null,
+      "singularities": [
+        "mm",
+        "s12",
+        "mm - s12/4"
+      ],
+      "singularitiesTeX": [
+        "\\text{mm}",
+        "\\text{s12}",
+        "\\text{mm}-\\frac{\\text{s12}}{4}"
+      ],
+      "singularitiesVerified": [
+        true,
+        true,
+        true
+      ],
+      "groundTruthAvailable": true,
+      "provenance": {
+        "engine": "chi/SPQRLandau-CII SPQR-1.0.4 FF64 (partial: incomplete elimination)",
+        "stVersion": "1.2.4",
+        "seed": 1234,
+        "chi": 9,
+        "confirmPrimes": 2,
+        "confirmAgree": null,
+        "wallSeconds": 171.54
+      },
+      "timestamp": "2026-06-14T04:33:02Z",
+      "contributor": "oddletters-v1a"
+    }
+  ]
 }

@@ -1,47 +1,92 @@
 {
-	"CNickelIndex":"123|23456|4|5|6|6||:000|00000|0|0|0|0||",
-	"MassScales":0,
-	"FunctionClass":"rational * zeta(2L-3)",
-	"EpsilonOrder":"",
-	"edges":"{{{3, 5}, 0}, {{5, 7}, 0}, {{7, 6}, 0}, {{6, 4}, 0}, {{4, 1}, 0}, {{1, 3}, 0}, {{3, 2}, 0}, {{5, 2}, 0}, {{7, 2}, 0}, {{6, 2}, 0}, {{4, 2}, 0}, {{1, 2}, 0}}",
-	"nodes":"{}",
-	"References":[
-		"arXiv:1604.08027",
-		"arXiv:1704.06350"
-	],
-	"Records":[
-		{
-			"reference":"arXiv:1604.08027",
-			"familyName":"wheel_L6_massless",
-			"description":"Broadhurst wheel family, wheel_L6_massless. Broadhurst wheel W(n): an n-cycle of spokes meeting a central hub. Vacuum graph, n loops. W(3) = K4 = zigzag Z_3. phi^4 primitive period of the wheels-with-spokes family. Value = 252*Zeta[9].",
-			"method":[
-				"closed form"
-			],
-			"tools":[
-				"SubTropica seed_families"
-			],
-			"recordId":"fs_27a811c3ee37",
-			"verified":false,
-			"verifiedAt":""
-		}
-	],
-	"Results":[
-		{
-			"value":"252*Zeta[9]",
-			"numeric":2.525061149921727e2,
-			"normalization":"phi^4 projective period at D=4 (Broadhurst-Schnetz convention); normFactor=1; same vacuum-period path as zigzag, NOT comparable to dim-reg momentum-space vacuum integrals",
-			"provenance":"closed-form-from-cited-literature",
-			"seedRecordId":"fs_27a811c3ee37",
-			"period":true
-		}
-	],
-	"Names":[
-		"wheel_L6_massless"
-	],
-	"Source":[
-		"family-seed"
-	],
-	"Loops":6,
-	"NumPropagators":12,
-	"CanonicalName":"6-loop wheel"
+  "CNickelIndex": "123|23456|4|5|6|6||:000|00000|0|0|0|0||",
+  "MassScales": 0,
+  "FunctionClass": "rational * zeta(2L-3)",
+  "EpsilonOrder": "",
+  "edges": "{{{3, 5}, 0}, {{5, 7}, 0}, {{7, 6}, 0}, {{6, 4}, 0}, {{4, 1}, 0}, {{1, 3}, 0}, {{3, 2}, 0}, {{5, 2}, 0}, {{7, 2}, 0}, {{6, 2}, 0}, {{4, 2}, 0}, {{1, 2}, 0}}",
+  "nodes": "{}",
+  "References": [
+    "arXiv:1604.08027",
+    "arXiv:1704.06350"
+  ],
+  "Records": [
+    {
+      "reference": "arXiv:1604.08027",
+      "familyName": "wheel_L6_massless",
+      "description": "Broadhurst wheel family, wheel_L6_massless. Broadhurst wheel W(n): an n-cycle of spokes meeting a central hub. Vacuum graph, n loops. W(3) = K4 = zigzag Z_3. phi^4 primitive period of the wheels-with-spokes family. Value = 252*Zeta[9].",
+      "method": [
+        "closed form"
+      ],
+      "tools": [
+        "SubTropica seed_families"
+      ],
+      "recordId": "fs_27a811c3ee37",
+      "verified": false,
+      "verifiedAt": ""
+    }
+  ],
+  "Results": [
+    {
+      "value": "252*Zeta[9]",
+      "numeric": 252.5061149921727,
+      "normalization": "phi^4 projective period at D=4 (Broadhurst-Schnetz convention); normFactor=1; same vacuum-period path as zigzag, NOT comparable to dim-reg momentum-space vacuum integrals",
+      "provenance": "closed-form-from-cited-literature",
+      "seedRecordId": "fs_27a811c3ee37",
+      "period": true
+    },
+    {
+      "resultType": "singularities",
+      "status": "proposal",
+      "recordId": "sg_20260614T172024Z",
+      "byEpsOrder": null,
+      "singularities": [],
+      "singularitiesTeX": [],
+      "singularitiesVerified": [],
+      "groundTruthAvailable": false,
+      "provenance": {
+        "engine": "eulerDiscriminant",
+        "stVersion": "1.2.4",
+        "seed": 1234,
+        "chi": 0,
+        "confirmPrimes": null,
+        "confirmAgree": null,
+        "wallSeconds": 222.8
+      },
+      "timestamp": "2026-06-14T17:20:24Z",
+      "contributor": "oddletters-v1a"
+    },
+    {
+      "resultType": "proposed-alphabet",
+      "status": "proposal",
+      "recordId": "pa_20260614T172024Z",
+      "byEpsOrder": null,
+      "evens": [],
+      "evensTeX": [],
+      "evensVerified": [],
+      "groundTruthAvailable": false,
+      "oddLetters": [],
+      "bareRootsNote": "no bare-root letters (V1a evens-only graph form; flagged-sqrt list empty)",
+      "refusals": [],
+      "provenance": {
+        "engine": "eulerDiscriminant",
+        "stVersion": "1.2.4",
+        "seed": 1234,
+        "chi": 0,
+        "confirmPrimes": null,
+        "confirmAgree": null,
+        "wallSeconds": 222.8
+      },
+      "timestamp": "2026-06-14T17:20:24Z",
+      "contributor": "oddletters-v1a"
+    }
+  ],
+  "Names": [
+    "wheel_L6_massless"
+  ],
+  "Source": [
+    "family-seed"
+  ],
+  "Loops": 6,
+  "NumPropagators": 12,
+  "CanonicalName": "6-loop wheel"
 }

@@ -614,7 +614,50 @@ Wordlist integrate_ii(const PolyCtx& ctx,
                 seen_dens.insert({h1, h2});
             }
         }
-        PartialFractionization parfr = run_parfr(w.coef);
+        // A3 (HF perf campaign — stay-factored lever). When this term carries
+        // the deferred-denominator side-channel (only the ORIGINAL bare
+        // integrand term does), dispatch the partial-fractions call to
+        // partial_fractions_factored_den so the expanded DEN^q is never formed.
+        // Guards: coef.den() == 1 (the numerator-only bare term) and a single
+        // denominator factor linear in var_idx. The overload itself
+        // safe-degrades (forming DEN^q) for any non-matching shape, so the
+        // result is always correct; IBP-generated queue terms leave
+        // factored_den unset and take the normal path below.
+        PartialFractionization parfr = [&]() -> PartialFractionization {
+            if (w.factored_den.has_value() && w.coef.den().is_one()) {
+                const auto& dfs = w.factored_den->den_factors();
+                if (dfs.size() == 1 &&
+                    dfs[0].base.degree_in_var(var_idx) == 1) {
+                    const int tid = ::hyperflint::runtime::hf_get_thread_num();
+                    const bool _tg = step_trace_enabled();
+                    const auto _pf_t0 =
+                        _tg ? std::chrono::steady_clock::now()
+                            : std::chrono::steady_clock::time_point{};
+                    PartialFractionization r = [&] {
+                        try {
+                            return partial_fractions_factored_den(
+                                w.coef.num(), dfs[0].base, dfs[0].exp,
+                                var_idx, zw_tab);
+                        } catch (const std::exception& e) {
+                            throw IntegrateIIFailed(
+                                std::string(
+                                    "partial_fractions_factored_den: ") +
+                                e.what());
+                        }
+                    }();
+                    if (_tg) {
+                        auto& pf_v = pf_per_thread_storage();
+                        if (static_cast<size_t>(tid) < pf_v.size())
+                            pf_v[static_cast<size_t>(tid)] +=
+                                std::chrono::duration<double>(
+                                    std::chrono::steady_clock::now() - _pf_t0)
+                                    .count();
+                    }
+                    return r;
+                }
+            }
+            return run_parfr(w.coef);
+        }();
 
         // Polynomial part.
         if (!parfr.polynomial_part.is_zero()) {

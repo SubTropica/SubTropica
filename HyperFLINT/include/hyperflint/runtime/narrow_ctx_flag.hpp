@@ -67,4 +67,18 @@ bool narrow_ctx_was_too_narrow();
 // runtime `setenv` calls (none in this design but defensive).
 bool tolerance_enabled();
 
+// Lazy-sum risk (b), 2026-06-13 -- same post-barrier-flag pattern as
+// the narrow-ctx flag above, for the "nonlinear factor in denominator
+// (degree >= 3 unsupported)" failure.  A worker in the main
+// integration loop catches that failure, sets this flag, and returns
+// (never rethrows from inside the OMP/libdispatch region: escape there
+// is UB).  The host, after the region's implicit barrier, observes the
+// flag and throws NonlinearDenominatorUnsupported.  Reset per
+// integration_step call (the failure is a property of one addend in
+// one fibration order, not a whole-run property like narrow-ctx).
+extern std::atomic<bool> g_nonlinear_den_unsupported;
+void reset_nonlinear_den_flag();
+void set_nonlinear_den_flag();
+bool nonlinear_den_was_unsupported();
+
 }  // namespace hyperflint
