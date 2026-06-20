@@ -13,6 +13,9 @@
 
 #pragma once
 
+#include <limits>   // std::numeric_limits<double>::infinity() for the ScorePruneFactor
+                    // default; macOS libc++ pulls it in transitively, Linux libstdc++ does not.
+
 #include "hyperflint/core/poly.hpp"
 
 #include <cstdint>
