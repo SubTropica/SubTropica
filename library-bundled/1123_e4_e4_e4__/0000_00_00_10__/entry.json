@@ -5,7 +5,8 @@
   "EpsilonOrder": "-3,-2,-1,0,1",
   "References": [
     "arXiv:1004.3653",
-    "hep-ph/0607185"
+    "hep-ph/0607185",
+    "arXiv:2111.13595"
   ],
   "Records": [
     {
@@ -24,6 +25,18 @@
       "recordId": "1479985176.mB0B",
       "verified": true,
       "verifiedAt": "auto-loopedia"
+    },
+    {
+      "reference": "arXiv:2111.13595",
+      "authors": "Piotr Bargiela, Fabrizio Caola, Andreas von Manteuffel, Lorenzo Tancredi",
+      "description": "Three-loop NPL1 bare scalar (all unit propagator powers) imported from arXiv:2111.13595 ancillary i2m IBP reduction (sector 20721; 68 master(s)). One off-shell external leg P^2 = MM, the other external legs on-shell massless; single-scale (x-free, immune to the t/u variable choice). D=4-2eps all-unit-power scalar, leading 1/eps^3. Stored in the e^{+i pi} branch (library-native).",
+      "recordId": "ax_64ecb5636c1d",
+      "texkey": "Bargiela:2021wuy",
+      "doi": "10.1007/JHEP02(2022)153",
+      "sourceFamily": "NPL1_sec20721",
+      "masterCount": 68,
+      "verified": true,
+      "verifiedVia": "criterion-3: anc i2m bare-scalar value == library STIntegrate-native(home graph) EXACT (max|diff|=0) at 3 Euclidean points across delta-free orders eps^lead..0 (the stored truncation; not validated beyond eps^0). STIntegrate-native ran on the cluster (Nereid) via the HyperIntica backend (HyperFLINT dylib absent; the SubTropica backends integrate the same Symanzik integrand and cross-check); MZV ginsh-reduction on the Mac; additionally re-confirmed byte-identically against an independent all-Mac run. STVerify N/A (timelike e^{+i pi} branch-resolution gap, same as the existing symbol-proposal records in this entry)."
     }
   ],
   "Source": [
@@ -95,6 +108,51 @@
       "evensChiDrop": [
         0
       ]
+    },
+    {
+      "dimension": "4 - 2*eps",
+      "epsOrder": 0,
+      "propExponents": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "propagators": [],
+      "numerators": [],
+      "internalMasses": [],
+      "externalMasses": [],
+      "substitutions": "{}",
+      "normalization": "Automatic",
+      "stVersion": "SubTropica v1.2.5",
+      "stCommand": "STIntegrate[{{{{1, 2}, 0}, {{1, 2}, 0}, {{1, 3}, 0}, {{1, 4}, 0}, {{2, 5}, 0}, {{3, 5}, 0}, {{4, 5}, 0}}, {{2, 0}, {3, 0}, {4, M}}}, Dimension -> \"4 - 2*eps\", Order -> 0]",
+      "contributor": "SM",
+      "timestamp": "2026-06-19T11:28:34",
+      "byteCount": 7304,
+      "alphabet": [],
+      "symbolWeight": 0,
+      "symbolTerms": 4,
+      "legOrder": [
+        1,
+        2,
+        3
+      ],
+      "resultTeXPreview": "\\varepsilon^{-3}\\colon \\frac{1}{12} \\pi ^2 M^{-2} \\\\ \\varepsilon^{-2}\\colon \\frac{M^{-2} \\left(-90720 \\pi ^2 \\log \\left(M^2\\right)+725760 \\zeta(3)-90720 i \\pi ^3+60480 \\pi ^2\\right)}{362880} \\\\ \\varepsilon^{-1}\\colon \\frac{1}{360} M^{-2} \\left(-2160 \\zeta(3) \\log \\left(M^2\\right)+135 \\pi ^2 \\log ^2\\left(M^2\\right)+270 i \\pi ^3 \\log \\left(M^2\\right)-180 \\pi ^2 \\log \\left(M^2\\right)-2160 i \\pi  \\zeta(3)+1440 \\zeta(3)-101 \\pi ^4-180 i \\pi ^3+120 \\pi ^2\\right) \\\\ \\varepsilon^{0}\\colon \\frac{1}{360} M^{-2} \\left(3240 \\zeta(3) \\log ^2\\left(M^2\\right)+6480 i \\pi  \\zeta(3) \\log \\left(M^2\\right)-4320 \\zeta(3) \\log \\left(M^2\\right)-135 \\pi ^2 \\log ^3\\left(M^2\\right)-405 i \\pi ^3 \\log ^2\\left(M^2\\right)+270 \\pi ^2 \\log ^2\\left(M^2\\right)+303 \\pi ^4 \\log \\left(M^2\\right)+540 i \\pi ^3 \\log \\left(M^2\\right)-360 \\pi ^2 \\log \\left(M^2\\right)+5400 \\zeta(5)-4050 \\pi ^2 \\zeta(3)-4320 i \\pi  \\zeta(3)+2880 \\zeta(3)+33 i \\pi ^5-202 \\pi ^4-360 i \\pi ^3+240 \\pi ^2\\right)",
+      "resultDataId": "dd9b0458157e9993",
+      "import": {
+        "submittedBy": "Sebastian Mizera",
+        "source": {
+          "paper": "arXiv:2111.13595",
+          "title": "Three-loop helicity amplitudes for diphoton production in gluon fusion",
+          "authors": "P. Bargiela, F. Caola, A. von Manteuffel, L. Tancredi",
+          "journal": "JHEP 02 (2022) 153",
+          "ancUrl": "https://arxiv.org/abs/2111.13595"
+        },
+        "importedAt": "2026-06-19"
+      }
     }
   ],
   "Names": [

@@ -1,6 +1,6 @@
 # 🥥 SubTropica
 
-[![Version](https://img.shields.io/badge/version-1.2.5-blue)](https://github.com/SubTropica/SubTropica)
+[![Version](https://img.shields.io/badge/version-1.2.6-blue)](https://github.com/SubTropica/SubTropica)
 [![Mathematica](https://img.shields.io/badge/Mathematica-13.1%2B-red)](https://www.wolfram.com/mathematica/)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 [![Data: CC BY-NC-SA 4.0](https://img.shields.io/badge/data_license-CC_BY--NC--SA_4.0-orange)](LICENSE-DATA)
@@ -40,11 +40,11 @@ The library currently contains:
 
 |                         |       |
 | :---------------------- | ----: |
-| **Topologies**          | 424 |
-| **Mass configurations** | 997 |
-| **Literature records**  | 1,814 |
+| **Topologies**          | 453 |
+| **Mass configurations** | 1,041 |
+| **Literature records**  | 1,883 |
 | **Papers scanned**      | 1,298 |
-| **Computed results**    | 202 |
+| **Computed results**    | 209 |
 | **Singularity analyses** | 415 |
 | **Proposed alphabets**  | 404 |
 

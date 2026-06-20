@@ -193,12 +193,18 @@ long leaf_count_proxy(const std::vector<Poly>& polys);
 // (the DEFAULT) reproduces the Strict subset-DP byte-for-byte
 // (regression gate); the handler passes the request value explicitly,
 // so this default agrees with the handler's default-OFF (spec 4a.1).
+// score_prune_factor: relative branch-and-bound cutoff over the subset DP.
+// At each subset size, any subset whose best-order score exceeds
+// score_prune_factor * (lowest score at that size) is pruned: it is never
+// used as a parent, so the (most expensive) next-size reductions extending
+// it are never computed.  Default = +inf (no pruning; classic behavior).
 LrResult find_lr_orders(
     const std::vector<std::vector<Poly>>& group_polys,
     const std::vector<size_t>& xvar_indices,
     bool allow_algebraic_letters = false,
     SingCollector* sings = nullptr,
-    bool carry_discharge = false);
+    bool carry_discharge = false,
+    double score_prune_factor = std::numeric_limits<double>::infinity());
 
 // Result of verifying ONE specific integration order (no search).
 struct OrderVerifyResult {

@@ -5,7 +5,8 @@
   "EpsilonOrder": "-6,-5,-4,-3,-2,-1,0,1,2",
   "References": [
     "arXiv:hep-ph/0505174 (Comput.Phys.Commun. 175 (180), 2006)",
-    "arXiv:hep-ph/9307327"
+    "arXiv:hep-ph/9307327",
+    "arXiv:2111.13595"
   ],
   "Records": [
     {
@@ -57,6 +58,18 @@
       "recordId": "bx_88d0c64c0239",
       "verified": false,
       "verifiedAt": ""
+    },
+    {
+      "reference": "arXiv:2111.13595",
+      "authors": "Piotr Bargiela, Fabrizio Caola, Andreas von Manteuffel, Lorenzo Tancredi",
+      "description": "Three-loop NPL1 bare scalar (all unit propagator powers) imported from arXiv:2111.13595 ancillary i2m IBP reduction (sector 29125; 22 master(s)). One off-shell external leg P^2 = MM, the other external legs on-shell massless; single-scale (x-free, immune to the t/u variable choice). D=4-2eps all-unit-power scalar, leading finite (eps^0 leading). Stored in the e^{+i pi} branch (library-native). Its eps^0 value 20*zeta(5)/MM^2 coincides with the known Usyukina-Davydychev crossed-propagator constant referenced in this entry's literature Records; this import provides the FIRST machine-readable, crit-3-validated Laurent series for it (the home previously held only symbol-level proposals plus literature citations, with no stored series).",
+      "recordId": "ax_5848866df2af",
+      "texkey": "Bargiela:2021wuy",
+      "doi": "10.1007/JHEP02(2022)153",
+      "sourceFamily": "NPL1_sec29125",
+      "masterCount": 22,
+      "verified": true,
+      "verifiedVia": "criterion-3: anc i2m bare-scalar value == library STIntegrate-native(home graph) EXACT (max|diff|=0) at 3 Euclidean points across delta-free orders eps^lead..0 (the stored truncation; not validated beyond eps^0). STIntegrate-native ran on the cluster (Nereid) via the HyperIntica backend (HyperFLINT dylib absent; the SubTropica backends integrate the same Symanzik integrand and cross-check); MZV ginsh-reduction on the Mac; single cluster-STIntegrate + Mac-ginsh hybrid witness. STVerify N/A (timelike e^{+i pi} branch-resolution gap, same as the existing symbol-proposal records in this entry)."
     }
   ],
   "Names": [
@@ -125,6 +138,51 @@
       },
       "timestamp": "2026-06-14T05:56:25Z",
       "contributor": "oddletters-v1a"
+    },
+    {
+      "dimension": "4 - 2*eps",
+      "epsOrder": 0,
+      "propExponents": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "propagators": [],
+      "numerators": [],
+      "internalMasses": [],
+      "externalMasses": [],
+      "substitutions": "{}",
+      "normalization": "Automatic",
+      "stVersion": "SubTropica v1.2.5",
+      "stCommand": "STIntegrate[{{{{1, 2}, 0}, {{1, 3}, 0}, {{1, 4}, 0}, {{2, 5}, 0}, {{2, 6}, 0}, {{3, 5}, 0}, {{3, 6}, 0}, {{4, 5}, 0}}, {{4, M}, {6, M}}}, Dimension -> \"4 - 2*eps\", Order -> 0]",
+      "contributor": "SM",
+      "timestamp": "2026-06-19T11:28:35",
+      "byteCount": 416,
+      "alphabet": [],
+      "symbolWeight": 0,
+      "symbolTerms": 1,
+      "legOrder": [
+        1,
+        2
+      ],
+      "resultTeXPreview": "\\varepsilon^{0}\\colon 20 \\zeta(5) M^{-4}",
+      "resultDataId": "991d52b3843c24df",
+      "import": {
+        "submittedBy": "Sebastian Mizera",
+        "source": {
+          "paper": "arXiv:2111.13595",
+          "title": "Three-loop helicity amplitudes for diphoton production in gluon fusion",
+          "authors": "P. Bargiela, F. Caola, A. von Manteuffel, L. Tancredi",
+          "journal": "JHEP 02 (2022) 153",
+          "ancUrl": "https://arxiv.org/abs/2111.13595"
+        },
+        "importedAt": "2026-06-19"
+      }
     }
   ],
   "edges": "{{{1, 2}, 0}, {{1, 3}, 0}, {{1, 4}, 0}, {{2, 5}, 0}, {{2, 6}, 0}, {{3, 5}, 0}, {{3, 6}, 0}, {{4, 5}, 0}}",

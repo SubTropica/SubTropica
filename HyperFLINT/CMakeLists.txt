@@ -1094,6 +1094,34 @@ if(APPLE)
         "-Wl,-U,_mi_subproc_visit_heaps")
 endif()
 
+# verify_order_is_lr multi-group false-negative regression (2026-06-17).
+# Posts verify_order request bodies to hyperflint::handlers::find_lr_orders
+# and asserts: (1) the real e26 2-group face is LR in its search-found order
+# (was a false-negative under the old single-path walk); (2) a synthetic
+# 1+x+x^2 multi-group face is still rejected (no rubber-stamp); (3) an
+# all-linear face takes the fast-accept screen; (4) a non-permutation order
+# is flagged malformed.  notes/verify_multigroup_bug/REPRO.md.  Same mimalloc
+# weak-extern handling as the carry-discharge ctest (handlers.cpp TU pulls
+# hyperflint_sym).
+add_executable(hyperflint-test-verify-order-multigroup
+               test/unit/test_verify_order_multigroup.cpp)
+target_link_libraries(hyperflint-test-verify-order-multigroup
+                      PRIVATE hyperflint)
+if(APPLE)
+    target_link_options(hyperflint-test-verify-order-multigroup
+                        PRIVATE
+        "-Wl,-U,_mi_collect"
+        "-Wl,-U,_mi_heap_collect"
+        "-Wl,-U,_mi_heap_main"
+        "-Wl,-U,_mi_heap_visit_abandoned_blocks"
+        "-Wl,-U,_mi_heap_visit_blocks"
+        "-Wl,-U,_mi_option_get"
+        "-Wl,-U,_mi_option_set"
+        "-Wl,-U,_mi_process_info"
+        "-Wl,-U,_mi_subproc_main"
+        "-Wl,-U,_mi_subproc_visit_heaps")
+endif()
+
 # Track 6.5b iter-42: LibraryLink-boundary roundtrip test
 # add_executable + ctest registration live AFTER the HF_LIBRARYLINK
 # target definition block (line ~1108) so that TARGET hyperflint_librarylink
@@ -1857,6 +1885,11 @@ add_test(NAME hf-find-lr-orders-strategy-roundtrip
 # default-ON.  Tier-1 (~20 ms gauged-uq5 + sub-ms synthetic).
 add_test(NAME hf-find-lr-orders-carry-discharge
          COMMAND hyperflint-test-find-lr-orders-carry-discharge)
+# verify_order_is_lr multi-group false-negative regression (2026-06-17):
+# intersection-refined verify must accept the search-found multi-group order
+# (e26), still reject a genuine deg-2 obstruction, and flag malformed orders.
+add_test(NAME hf-verify-order-multigroup
+         COMMAND hyperflint-test-verify-order-multigroup)
 # Track 6.5b iter-42 (iter-40 binding rec B4): LibraryLink-boundary
 # roundtrip gate. Same 6 truth-table rows, but the entry path is
 # dlopen + dlsym of libhyperflint_librarylink.dylib instead of the

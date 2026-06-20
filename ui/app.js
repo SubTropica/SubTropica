@@ -6652,6 +6652,61 @@ function extractArxivId(ref) {
 }
 
 /**
+ * Derive a sortable chronological key (YYYYMM as an integer) from a
+ * reference string, for ordering reference lists earliest -> latest at
+ * render time. Pure display helper; never mutates the data.
+ *
+ *   - New-style arXiv "arXiv:YYMM.NNNNN" -> YYMM gives year+month, with
+ *     90-99 => 1990s and 00-89 => 2000s+ (e.g. 2111 -> 2021-11,
+ *     1004 -> 2010-04).
+ *   - Old-style "hep-ph/YYMMNNN" (and hep-th/, math/, ...) -> the seven
+ *     digits after the slash start with YYMM, same windowing
+ *     (e.g. hep-ph/9905323 -> 1999-05). A bare "arXiv:" prefix on the
+ *     old id is tolerated.
+ *   - Otherwise a parenthetical "(... 2024)" year is used as a fallback
+ *     (month unknown -> December, so a dated id of the same year sorts
+ *     ahead of a year-only reference).
+ *   - Unparseable strings return Infinity, so they sort LAST; a stable
+ *     sort then preserves their original relative order.
+ */
+function _refDateKey(refStr) {
+  const s = String(refStr || '');
+  const yymm = (yy, mm) => {
+    const y = parseInt(yy, 10);
+    const m = parseInt(mm, 10);
+    const year = y >= 90 ? 1900 + y : 2000 + y;
+    const month = (m >= 1 && m <= 12) ? m : 1;
+    return year * 100 + month;
+  };
+  // New-style identifier: YYMM.NNNNN
+  const mNew = s.match(/(\d{2})(\d{2})\.\d{4,5}/);
+  if (mNew) return yymm(mNew[1], mNew[2]);
+  // Old-style identifier: arch/YYMMNNN
+  const mOld = s.match(/(?:hep-(?:ph|th|lat|ex)|astro-ph|gr-qc|cond-mat|math-ph|nucl-th|quant-ph|nlin|math)\/(\d{2})(\d{2})\d{3}/);
+  if (mOld) return yymm(mOld[1], mOld[2]);
+  // Parenthetical-year fallback (e.g. "(Phys.Rev.Lett. ... 2024)").
+  const mYear = s.match(/\((?:[^()]*?\b)((?:19|20)\d{2})\b[^()]*?\)/);
+  if (mYear) return parseInt(mYear[1], 10) * 100 + 12;
+  return Infinity;
+}
+
+/**
+ * Stable ascending (earliest -> latest) sort of a list of references by
+ * their chronological key. `keyOf` maps an element to the string the date
+ * is parsed from (defaults to the element itself, for plain-string ref
+ * lists; pass r => r.reference for Records). Returns a new array; the
+ * input is left untouched so persisted data is never reordered.
+ */
+function _sortRefsByDate(arr, keyOf) {
+  if (!Array.isArray(arr)) return arr;
+  const getStr = keyOf || (x => x);
+  return arr
+    .map((el, i) => ({ el, i, k: _refDateKey(getStr(el)) }))
+    .sort((a, b) => (a.k - b.k) || (a.i - b.i))
+    .map(o => o.el);
+}
+
+/**
  * Fetch INSPIRE metadata for an arXiv ID.
  * Updates the cache and calls onResult(data) when done.
  */
@@ -6854,6 +6909,61 @@ function refCountBadge(cfg) {
   return '';
 }
 
+// Reference count for a config, used by both the "refs" badge above and the
+// library "Sort by → References" key. Prefer the References list; fall back to
+// the Records list (per-paper provenance) when References is absent. Returns 0
+// when neither is present (defensive across casings).
+function _cfgRefCount(cfg) {
+  if (!cfg) return 0;
+  const refs = cfg.references || cfg.References;
+  if (Array.isArray(refs)) return refs.length;
+  const recs = cfg.records || cfg.Records;
+  if (Array.isArray(recs)) return recs.length;
+  return 0;
+}
+
+/**
+ * "Imported" badge for a single Result that carries an `import` block (the
+ * per-result provenance written when a value was imported from a source
+ * paper — read defensively across casings, r.import || r.Import). Reuses
+ * the shared .badge chrome (royal-blue variant) and the rich hover-tooltip
+ * mechanism (data-tip-html, the same one the result-provenance star uses):
+ * hovering shows who submitted it, the source paper, its title, authors,
+ * journal, and an "ancillary files" link. The badge itself is an anchor to
+ * the ancillary-files URL (the tip-popup is pointer-events:none, so the
+ * badge carries the click), opening in a new tab. Returns '' when no block.
+ *
+ *   import = { submittedBy, source: { paper, title, authors, journal, ancUrl },
+ *              importedAt }
+ */
+function importedBadge(imp) {
+  if (!imp || typeof imp !== 'object') return '';
+  const src = imp.source || {};
+  const paper = src.paper || '';
+  const title = src.title || '';
+  const authors = src.authors || '';
+  const journal = src.journal || '';
+  const ancUrl = src.ancUrl || '';
+  // Build the hover content. Inner markup uses single quotes only and all
+  // dynamic text is HTML-escaped, so the whole string is safe inside the
+  // double-quoted data-tip-html attribute (escapeHtml does not touch ").
+  const lines = [];
+  lines.push(`<strong>Imported from ${escapeHtml(paper)}</strong>`);
+  if (title) lines.push(escapeHtml(title));
+  if (authors) lines.push(escapeHtml(authors));
+  if (journal) lines.push(escapeHtml(journal));
+  if (ancUrl) {
+    lines.push(`<a href='${escapeHtml(ancUrl)}' target='_blank' rel='noopener' style='color:var(--link)'>ancillary files</a>`);
+  }
+  const tip = lines.join('<br>').replace(/"/g, '&quot;');
+  // Anchor styled as a badge; clicking opens the ancillary files. When no
+  // URL is known the badge degrades to a plain non-link span.
+  if (ancUrl) {
+    return `<a class="badge badge-royalblue badge-imported" href="${escapeHtml(ancUrl)}" target="_blank" rel="noopener" data-tip-html="${tip}">Imported</a>`;
+  }
+  return `<span class="badge badge-royalblue badge-imported" data-tip-html="${tip}">Imported</span>`;
+}
+
 /**
  * Summarize epsilon orders across all records of a config.
  * Returns a compact label string, or null if no info.
@@ -7036,6 +7146,8 @@ function openDetailPanel(topoKey, topo, configMatches, configKey, opts) {
     badgeHTML += refCountBadge(cfg);
     // Verified badge removed from diagram-level header — it now appears
     // per-result in the result card badges (see popup-result-card).
+    // Imported badge is likewise per-result (each Result may carry its own
+    // r.import provenance), built in the result-card badge row below.
   }
   titleBlock.innerHTML += `<div class="popup-badges">${badgeHTML}</div>`;
 
@@ -7129,7 +7241,9 @@ function openDetailPanel(topoKey, topo, configMatches, configKey, opts) {
   // ── Content body ──
   if (cfg) {
     // Config-specific popup: show references
-    const records = cfg.Records || cfg.records || [];
+    // Display-time chronological sort (earliest -> latest); the persisted
+    // Records order is left untouched.
+    const records = _sortRefsByDate(cfg.Records || cfg.records || [], r => r && (r.reference || r.Reference));
     if (records.length > 0) {
       const refsSection = document.createElement('div');
       refsSection.className = 'popup-section';
@@ -7406,7 +7520,9 @@ function openDetailPanel(topoKey, topo, configMatches, configKey, opts) {
 
     // ── Fallback references (when no Records but References list exists) ──
     if (records.length === 0) {
-      const refs = cfg.References || cfg.references || [];
+      // Display-time chronological sort (earliest -> latest); pure display,
+      // the persisted References order is not mutated.
+      const refs = _sortRefsByDate(cfg.References || cfg.references || []);
       const qcdUrl = cfg.QCDLoopURL || cfg.qcdloopURL || '';
       if (refs.length > 0 || qcdUrl) {
         const fallbackSection = document.createElement('div');
@@ -7576,7 +7692,9 @@ function openDetailPanel(topoKey, topo, configMatches, configKey, opts) {
 
         // Contributor badge: initials, hover reveals full info
         if (r.contributor || r.stVersion) {
-          const name = r.contributor || 'Anonymous';
+          // 'SM' is Sebastian Mizera's contributor shorthand; render the full
+          // name (initials still derive to "SM" for the chip). Operator request.
+          const name = (r.contributor === 'SM' ? 'Sebastian Mizera' : r.contributor) || 'Anonymous';
           const initials = name === 'Anonymous' ? '?'
             : name.split(/\s+/).map(w => w[0]).filter(Boolean).slice(0, 2).join('').toUpperCase();
           const tooltip = [
@@ -7591,6 +7709,16 @@ function openDetailPanel(topoKey, topo, configMatches, configKey, opts) {
           const method = r.method || '';
           const tip = `Numerically verified${method ? ' via ' + method : ''}`;
           badges.push(`<span class="badge badge-green" title="${tip}">\u2713 Verified</span>`);
+        }
+
+        // Imported badge (per-result, not per-diagram): this specific value
+        // was imported from a source paper and carries its own provenance
+        // block. Hover (rich tip, like the result star) shows who submitted
+        // it, the source paper and its bibliographic data, and a link to the
+        // ancillary files. Read defensively across casings.
+        {
+          const imp = r.import || r.Import;
+          if (imp) badges.push(importedBadge(imp));
         }
 
         // Period badge (operator feedback Item 4): a Result carrying
@@ -8485,7 +8613,7 @@ ${tikz}
 function openAbout() {
   const body = $('about-body');
   // Compute live stats from library
-  let nTopos = 0, nConfigs = 0, nRecords = 0, nRefs = 0, nLocal = 0, nResults = 0;
+  let nTopos = 0, nConfigs = 0, nRecords = 0, nRefs = 0, nLocal = 0, nResults = 0, nSing = 0, nAlpha = 0;
   const refSet = new Set();
   const scatterPoints = [];  // {loops, legs} for each config
   if (library && library.topologies) {
@@ -8498,8 +8626,16 @@ function openAbout() {
       for (const ck in configs) {
         nConfigs++;
         const resultsList = configs[ck].results||configs[ck].Results||[];
-        const hasResults = resultsList.some(r => r && (r.resultCompressed || r.resultTeX));
-        nResults += resultsList.length;
+        const hasResults = resultsList.some(_isComputedResult);
+        // Separate computed integrals from singularity / alphabet analyses,
+        // mirroring the README + scripts/_build_readme_stats.py (keyed on
+        // resultType: 'singularities' / 'proposed-alphabet' / else = computed).
+        for (const r of resultsList) {
+          const rt = r && r.resultType;
+          if (rt === 'singularities') nSing++;
+          else if (rt === 'proposed-alphabet') nAlpha++;
+          else nResults++;
+        }
         scatterPoints.push({ loops, legs, computed: hasResults });
         const src = configs[ck].source || configs[ck].Source || '';
         if (backendMode === 'full' && src === 'SubTropica') nLocal++;
@@ -8536,7 +8672,9 @@ function openAbout() {
     <div class="about-stat"><div class="about-stat-val">${nConfigs}</div><div class="about-stat-label">diagrams</div></div>
     <div class="about-stat"><div class="about-stat-val">${nRefs}</div><div class="about-stat-label">papers scanned</div></div>
     <div class="about-stat"><div class="about-stat-val">${nRecords}</div><div class="about-stat-label">records</div></div>
-    <div class="about-stat"><div class="about-stat-val">${nResults}</div><div class="about-stat-label">results</div></div>
+    <div class="about-stat"><div class="about-stat-val">${nResults}</div><div class="about-stat-label">computed results</div></div>
+    <div class="about-stat"><div class="about-stat-val">${nSing}</div><div class="about-stat-label">singularity analyses</div></div>
+    <div class="about-stat"><div class="about-stat-val">${nAlpha}</div><div class="about-stat-label">proposed alphabets</div></div>
     <div class="about-stat"><div class="about-stat-val">${isFull ? coconuts : _sessionSalt}</div><div class="about-stat-label"><span class="mascot-emoji">${mascotEmoji()}</span> earned</div></div>
   `;
 
@@ -9010,6 +9148,49 @@ async function submitPaperRequest() {
 
 let _browserTab = localStorage.getItem('subtropica-browser-tab') || 'topos';
 
+// ─── Library sort state ──────────────────────────────────────────────
+// "Sort by" control in the library browser. Sticky (localStorage), mirroring
+// the chip filters. Key selects which numeric field drives the order; dir is
+// 'asc' | 'desc'. Default 'loops' / 'asc' reproduces the historical ordering
+// (loops → legs → props), so first load looks unchanged until the user picks.
+// The extractor returns the sort value for an item; the actual rendered unit
+// (topology vs diagram object) carries the aggregate fields these read.
+const BROWSER_SORT_KEYS = [
+  { id: 'loops', label: 'Loops',
+    value: it => it.loops ?? 0 },
+  { id: 'props', label: 'Propagators',
+    value: it => it.props ?? 0 },
+  // Scales: diagram objects carry a single config's count (massScales);
+  // topology objects carry the max across their configs (massScalesMax).
+  { id: 'scales', label: 'Scales',
+    value: it => it.massScalesMax ?? it.massScales ?? 0 },
+  // References: diagram objects carry one config's ref count (refCount);
+  // topology objects carry the max across their configs (refCountMax).
+  { id: 'refs', label: 'References',
+    value: it => it.refCountMax ?? it.refCount ?? 0 },
+];
+let _browserSortKey = localStorage.getItem('subtropica-sort-key') || 'loops';
+let _browserSortDir = localStorage.getItem('subtropica-sort-dir') || 'asc';
+if (!BROWSER_SORT_KEYS.some(k => k.id === _browserSortKey)) _browserSortKey = 'loops';
+if (_browserSortDir !== 'asc' && _browserSortDir !== 'desc') _browserSortDir = 'asc';
+
+// Stable sort of an already-filtered list by the active sort key/direction.
+// The incoming array is assumed pre-sorted into the canonical tie-break order
+// (loops → legs → props → name) by the caller; we re-sort by a stable key so
+// equal primary values keep that order. Array.prototype.sort is stable in all
+// supported browsers (ES2019+), so equal-key elements preserve input order.
+function applyBrowserSort(arr) {
+  const spec = BROWSER_SORT_KEYS.find(k => k.id === _browserSortKey) || BROWSER_SORT_KEYS[0];
+  const sign = _browserSortDir === 'desc' ? -1 : 1;
+  arr.sort((a, b) => {
+    const va = spec.value(a), vb = spec.value(b);
+    if (va < vb) return -1 * sign;
+    if (va > vb) return 1 * sign;
+    return 0;   // tie → keep prior (canonical) order via stable sort
+  });
+  return arr;
+}
+
 // Build the always-visible "Don't see your paper? Request analysis →"
 // toast appended at the end of the library list. Returns a DOM node.
 function _buildRequestPaperToast(currentSearchText) {
@@ -9102,27 +9283,40 @@ function switchBrowserTab(tab) {
 // resultCompressed or resultTeX (an actual integration output, not just
 // a seed value or period stamp). Module-scoped so both populateBrowser
 // and openFamilyDetail can use it.
+// A result record is a COMPUTED integral result iff it carries an actual value
+// payload. After the entry/results split (lazy result loading), the served
+// library.json holds only the stub markers `resultDataId`/`resultTeXPreview`
+// (or a small inline `value`); the heavy `resultCompressed`/`resultTeX` bodies
+// are filled in later by ensureResultData(). Gating on the heavy fields alone
+// made the provenance star vanish for every bundled result once the split JSON
+// shipped — the list renders from the unresolved stubs. Singularity- and
+// proposed-alphabet-only records carry none of these markers and so (correctly)
+// get no star.
+function _isComputedResult(r) {
+  return !!(r && (r.resultCompressed || r.resultTeX ||
+                  r.resultDataId || r.resultTeXPreview || r.value));
+}
+
 function _cfgHasComputedResult(cfg) {
-  return (cfg.results || cfg.Results || []).some(
-    r => r && (r.resultCompressed || r.resultTeX));
+  return (cfg.results || cfg.Results || []).some(_isComputedResult);
 }
 
 // All computed results in a record set are local (user-computed, r._local set by
 // the kernel server). Used for the outlined "local" star and the "Local only"
 // filter, so both agree with the per-result cards.
 function _resultsAllLocal(results) {
-  const rs = (results || []).filter(r => r && (r.resultCompressed || r.resultTeX));
+  const rs = (results || []).filter(_isComputedResult);
   return rs.length > 0 && rs.every(r => r._local === true);
 }
 
 // THE single source of truth for the provenance star, used by the editor
 // toasts, the Topologies/Diagrams library lists, and the collection cards.
-// Gate: at least one ACTUAL computed result (resultCompressed/resultTeX), so a
-// proposal/singularity-only config gets NO star. Full star = at least one
-// bundled result; outlined star = computed results exist but every one is local
-// (r._local). The stylized hover popup matches the per-result cards.
+// Gate: at least one ACTUAL computed result (see _isComputedResult — value or
+// stub marker), so a proposal/singularity-only config gets NO star. Full star =
+// at least one bundled result; outlined star = computed results exist but every
+// one is local (r._local). The stylized hover popup matches the per-result cards.
 function resultProvenanceStar(results) {
-  const rs = (results || []).filter(r => r && (r.resultCompressed || r.resultTeX));
+  const rs = (results || []).filter(_isComputedResult);
   if (!rs.length) return '';
   const allLocal = rs.every(r => r._local === true);
   const cls = allLocal ? 'result-star result-star-local' : 'result-star';
@@ -9137,6 +9331,38 @@ function resultProvenanceStar(results) {
 function _topoResults(topo) {
   return [].concat(...Object.values((topo && topo.configs) || {})
     .map(c => c.results || c.Results || []));
+}
+
+// Flatten a record's `authors` field into a single searchable string. The
+// field is heterogeneous across the corpus: a plain string ("Henn, Johannes
+// M., Smirnov, Vladimir A."), a list of strings, or a list of INSPIRE author
+// dicts ({full_name, inspire_id}). All three forms reduce to a comma-joined
+// name string so that typing an author surname in the library search box
+// surfaces every diagram from that author's papers.
+function _authorsSearchText(authors) {
+  if (!authors) return '';
+  if (typeof authors === 'string') return authors;
+  if (Array.isArray(authors)) {
+    return authors.map(a => {
+      if (!a) return '';
+      if (typeof a === 'string') return a;
+      if (typeof a === 'object') return a.full_name || a.fullName || a.name || '';
+      return '';
+    }).filter(Boolean).join(', ');
+  }
+  return '';
+}
+
+// Lowercased author text gathered across every record of a config, joined so
+// surnames from any attached paper are matchable. Returns '' when no record
+// carries authors.
+function _recordsAuthorsText(records) {
+  if (!Array.isArray(records)) return '';
+  return records
+    .map(r => _authorsSearchText(r && (r.authors || r.Authors)))
+    .filter(Boolean)
+    .join(' ; ')
+    .toLowerCase();
 }
 
 function populateBrowser() {
@@ -9165,17 +9391,31 @@ function populateBrowser() {
     const t = library.topologies[key];
     const hasResults = Object.values(t.configs||{}).some(_cfgHasComputedResult);
     const isLocal = backendMode === 'full' && _resultsAllLocal(_topoResults(t));
-    // Collect all diagram names/aliases under this topology for search
+    // Collect all diagram names/aliases AND record author names under this
+    // topology for search. Aliases (e.g. "Landshoff diagram") and author
+    // surnames (e.g. "Henn") both become matchable in the search box.
     const _diagramNames = [];
+    const _authorParts = [];
     for (const ck in (t.configs||{})) {
-      const cn = t.configs[ck].Names || t.configs[ck].names || [];
+      const cfg = t.configs[ck];
+      const cn = cfg.Names || cfg.names || [];
       (Array.isArray(cn) ? cn : [cn]).forEach(n => { if (n) _diagramNames.push(n.toLowerCase()); });
-      const cName = t.configs[ck].canonicalName || t.configs[ck].CanonicalName;
+      const cName = cfg.canonicalName || cfg.CanonicalName;
       if (cName) _diagramNames.push(cName.toLowerCase());
+      const at = _recordsAuthorsText(cfg.Records || cfg.records);
+      if (at) _authorParts.push(at);
     }
+    const _authors = _authorParts.join(' ; ');
     const isWaitlisted = topoIsFullyWaitlisted(key, t);
     const isPeriod = Object.values(t.configs||{}).some(_cfgIsPeriod);
-    topos.push({ key, name: t.primaryName||t.name||t.Name||key, loops: t.loops??t.L??0, legs: t.legs??0, props: t.props??0, topo: t, configs: Object.keys(t.configs||{}).length, hasResults, isLocal, isWaitlisted, isPeriod, _diagramNames });
+    // Topology-level sort aggregates: a topology may hold several configs with
+    // different scale / reference counts, so use the MAX across its configs as
+    // the representative (a topology containing a 5-scale config sorts as a
+    // 5-scale topology; one cited by 3 papers in any config sorts at 3 refs).
+    const _cfgVals = Object.values(t.configs || {});
+    const massScalesMax = _cfgVals.reduce((m, c) => Math.max(m, (c.MassScales ?? c.massScales ?? 0)), 0);
+    const refCountMax = _cfgVals.reduce((m, c) => Math.max(m, _cfgRefCount(c)), 0);
+    topos.push({ key, name: t.primaryName||t.name||t.Name||key, loops: t.loops??t.L??0, legs: t.legs??0, props: t.props??0, topo: t, configs: Object.keys(t.configs||{}).length, hasResults, isLocal, isWaitlisted, isPeriod, massScalesMax, refCountMax, _diagramNames, _authors });
   }
 
   // Classify function class into canonical categories
@@ -9214,15 +9454,24 @@ function populateBrowser() {
       const name = canonical || (cfgNames.length > 0 ? (Array.isArray(cfgNames) ? cfgNames[0] : cfgNames) : ck);
       const source = cfg.source || cfg.Source || '';
       const fc = cfg.FunctionClass || cfg.functionClass || '';
+      // All aliases (lowercased) + record author names, so the Diagrams tab
+      // matches "Landshoff diagram" and surnames like "Henn" the same way the
+      // Topologies tab does.
+      const _aliases = (Array.isArray(cfgNames) ? cfgNames : [cfgNames])
+        .filter(Boolean).map(n => n.toLowerCase());
+      if (canonical) _aliases.push(canonical.toLowerCase());
+      const _authors = _recordsAuthorsText(cfg.Records || cfg.records);
       diagrams.push({
         topoKey: key, configKey: ck, topo: t, cfg,
         cni: cfg.CNickelIndex || cfg.CNickel || cfg.nickel || (key + ':' + ck),
+        _aliases, _authors,
         name, topoName: t.primaryName||t.name||t.Name||key,
         loops: t.loops??t.L??0, legs: t.legs??0, props: t.props??0,
         source,
         isLocal: backendMode === 'full' && _resultsAllLocal(cfg.results || cfg.Results),
         isWaitlisted: _waitlistConfigSet.has(waitlistKey(key, ck)),
         massScales: cfg.MassScales ?? cfg.massScales ?? null,
+        refCount: _cfgRefCount(cfg),
         fcClass: classifyFC(fc),
         hasResults: _cfgHasComputedResult(cfg),
         isPeriod: _cfgIsPeriod(cfg),
@@ -9327,10 +9576,65 @@ function populateBrowser() {
     return { active, group };
   }
 
+  // ── "Sort by" control ──
+  // A single-select segmented bar reusing the same .browser-seg chrome as the
+  // chip filters (so it inherits their look + the maroon-bar recolor), plus a
+  // trailing direction-toggle segment (▲ asc / ▼ desc). Unlike the filter
+  // groups this is single-select: clicking a key sets it; the arrow flips
+  // direction. Choice persists in localStorage (mirrors the filter chips).
+  function buildSortControl() {
+    const group = $('browser-sort');
+    if (!group) return;
+    group.innerHTML = '';
+    group.style.display = '';
+
+    const track = document.createElement('div');
+    track.className = 'browser-seg browser-sort-seg';
+
+    const keySegs = [];
+    BROWSER_SORT_KEYS.forEach(spec => {
+      const s = document.createElement('div');
+      s.className = 'browser-seg-item';
+      s.textContent = spec.label;
+      s.dataset.sortKey = spec.id;
+      s.addEventListener('click', () => {
+        if (_browserSortKey === spec.id) return;
+        _browserSortKey = spec.id;
+        localStorage.setItem('subtropica-sort-key', _browserSortKey);
+        syncActive();
+        renderList();
+      });
+      track.appendChild(s);
+      keySegs.push(s);
+    });
+
+    // Direction toggle as a final segment; the arrow reflects current dir.
+    const dirSeg = document.createElement('div');
+    dirSeg.className = 'browser-seg-item browser-sort-dir';
+    dirSeg.title = 'Toggle ascending / descending';
+    dirSeg.addEventListener('click', () => {
+      _browserSortDir = _browserSortDir === 'asc' ? 'desc' : 'asc';
+      localStorage.setItem('subtropica-sort-dir', _browserSortDir);
+      syncActive();
+      renderList();
+    });
+    track.appendChild(dirSeg);
+
+    function syncActive() {
+      keySegs.forEach(s => s.classList.toggle('on', s.dataset.sortKey === _browserSortKey));
+      dirSeg.textContent = _browserSortDir === 'desc' ? '▼' : '▲';
+      dirSeg.setAttribute('aria-label', _browserSortDir === 'desc' ? 'descending' : 'ascending');
+    }
+    syncActive();
+
+    group.appendChild(track);
+  }
+
   const loopVals = [...new Set(items.map(t=>t.loops))].sort((a,b)=>a-b);
   const legVals = [...new Set(items.map(t => Math.min(t.legs, 8)))].sort((a,b)=>a-b);
   filters.loops = buildChipGroup('browser-filter-loops', loopVals);
   filters.legs = buildChipGroup('browser-filter-legs', legVals, v => v >= 8 ? '≥8' : `${v}`);
+  buildSortControl();
 
   // Precomputed toggle — restore from localStorage, default on for full mode
   const precomputedCb = $('browser-precomputed-cb');
@@ -9448,10 +9752,11 @@ function populateBrowser() {
         if (!isReviewMode && t.isWaitlisted) return false;
         if (fLoops.size > 0 && !fLoops.has(t.loops)) return false;
         if (fLegs.size > 0 && !fLegs.has(Math.min(t.legs, 8))) return false;
-        if (sf && !t.name.toLowerCase().includes(sf) && !t.key.toLowerCase().includes(sf) && !(t._diagramNames && t._diagramNames.some(n => n.includes(sf)))) return false;
+        if (sf && !t.name.toLowerCase().includes(sf) && !t.key.toLowerCase().includes(sf) && !(t._diagramNames && t._diagramNames.some(n => n.includes(sf))) && !(t._authors && t._authors.includes(sf))) return false;
         return true;
       });
       filtered.sort((a, b) => (a.loops - b.loops) || (a.legs - b.legs) || (a.props - b.props));
+      applyBrowserSort(filtered);   // user "Sort by" choice (canonical order above = tie-break)
       $('browser-count').textContent = filtered.length + ' topolog' + (filtered.length!==1?'ies':'y');
       body.innerHTML = '';
       if (filtered.length === 0) {
@@ -9512,10 +9817,11 @@ function populateBrowser() {
         if (fLegs.size > 0 && !fLegs.has(Math.min(d.legs, 8))) return false;
         if (fFC.size > 0 && !fFC.has(d.fcClass)) return false;
         if (fMS.size > 0 && !fMS.has(d.massScales != null ? Math.min(d.massScales, 10) : null)) return false;
-        if (sf && !d.name.toLowerCase().includes(sf) && !d.topoName.toLowerCase().includes(sf) && !d.topoKey.toLowerCase().includes(sf) && !d.configKey.toLowerCase().includes(sf) && !(d.cni || '').toLowerCase().includes(sf)) return false;
+        if (sf && !d.name.toLowerCase().includes(sf) && !d.topoName.toLowerCase().includes(sf) && !d.topoKey.toLowerCase().includes(sf) && !d.configKey.toLowerCase().includes(sf) && !(d.cni || '').toLowerCase().includes(sf) && !(d._aliases && d._aliases.some(n => n.includes(sf))) && !(d._authors && d._authors.includes(sf))) return false;
         return true;
       });
       filtered.sort((a, b) => (a.loops - b.loops) || (a.legs - b.legs) || (a.props - b.props) || a.name.localeCompare(b.name));
+      applyBrowserSort(filtered);   // user "Sort by" choice (canonical order above = tie-break)
       $('browser-count').textContent = filtered.length + ' diagram' + (filtered.length!==1?'s':'');
       body.innerHTML = '';
       if (filtered.length === 0) {
@@ -10045,7 +10351,9 @@ function openFamilyDetail(slug, opts) {
   // texkeys are intentionally dropped per operator request.
   // Report-issue buttons are omitted because collection refs carry no
   // recordId (the button needs a paper x topology x config triple).
-  const refs = fam.refs || [];
+  // Display-time chronological sort (earliest -> latest), keyed on the
+  // arXiv id; the persisted fam.refs order is not mutated.
+  const refs = _sortRefsByDate(fam.refs || [], r => r && r.arxiv);
   if (refs.length > 0) {
     const refSec = document.createElement('div');
     refSec.className = 'popup-section fam-section';

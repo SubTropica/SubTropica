@@ -86,7 +86,7 @@ IntegrationStep::divergence = "Divergence detected integrating out `1` at `2`, p
 
 $HyperEvaluatePeriods::usage = "If True, automatically evaluate periods to MZVs.";
 
-$HyperSplittingField::usage = "Algebraic extension field used for factorization throughout HyperIntica (e.g. FactorList, PartialFractions). Set to {} for rationals (default), or e.g. {Sqrt[2]} to adjoin algebraic numbers.";
+$HyperSplittingField::usage = "Algebraic extension field used for factorization throughout HyperIntica (e.g. FactorList, STPartialFractions). Set to {} for rationals (default), or e.g. {Sqrt[2]} to adjoin algebraic numbers.";
 
 $QuietPrint::usage = "If True (default), suppresses informational Print[] output from HyperIntica internals. Set to False to see verbose internal prints.";
 
@@ -112,20 +112,20 @@ Wp::usage = "Wp[i] is the i-th algebraic root letter with the '+Sqrt' branch; in
 WmOverWp::usage = "WmOverWp[i] is the compound alphabet letter Wm[i]/Wp[i] introduced by the symbol-level ratio-merge pass (stCombineWmWpRatios) when two symbol terms differ only in one slot by the Wm \[LeftRightArrow] Wp conjugation with opposite coefficients.  Kept as an atomic symbol rather than the literal ratio so downstream lookup tables and LaTeX rendering can treat it as a first-class letter.";
 STShowAlgebraicLetters::usage = "STShowAlgebraicLetters[] prints a table of the currently-defined algebraic root letters Wm[i]/Wp[i] introduced by the most recent FindRoots integration: the polynomial, its Feynman-parameter variable, the discriminant, the two roots, and Vieta sum/product. Call it from a notebook after STIntegrate[..., FindRoots -> True] to see what each Wm[i]/Wp[i] stands for.";
 
-$UseFFPolynomialQuotient::usage = "If True, PartialFractions[] uses SPQRPolynomialQuotient[] \
+$UseFFPolynomialQuotient::usage = "If True, STPartialFractions[] uses SPQRPolynomialQuotient[] \
 (finite-field arithmetic via FiniteFlow/SPQR) instead of PolynomialQuotient[]. \
 Set automatically by ConfigureSubTropica[].";
 
 $PartialFractionsMaxWeight::usage = "MaxWeight parameter {wmin, wmax} passed to SPQRPolynomialQuotient[] \
 when $UseFFPolynomialQuotient is True. Default {1, 100}. \
 Set this before calling HyperInt[] or STEvaluate[] to tune the finite-field computation. \
-Can also be overridden per-call via the \"MaxWeight\" option of PartialFractions[].";
+Can also be overridden per-call via the \"MaxWeight\" option of STPartialFractions[].";
 
 SPQRPolynomialQuotient::usage = "SPQRPolynomialQuotient[f, p, x] computes PolynomialQuotient[f, p, x] \
 via the SPQR/FiniteFlow finite-field backend (drop-in replacement, no intermediate expression swell). \
 The definition lives in PolynomialQuotientFF.wl, which SubTropica.wl Get[]s once both FiniteFlow and \
-SPQR have loaded; PartialFractions[] dispatches to it when $UseFFPolynomialQuotient is True. \
-This public declaration is itself the essential part of the fix: it makes the PartialFractions[] \
+SPQR have loaded; STPartialFractions[] dispatches to it when $UseFFPolynomialQuotient is True. \
+This public declaration is itself the essential part of the fix: it makes the STPartialFractions[] \
 dispatch, the SubTropica.wl availability checks, and the PolynomialQuotientFF.wl definitions all \
 bind the single symbol HyperIntica`SPQRPolynomialQuotient. Without it the dispatch parse-binds an empty \
 HyperIntica`Private` symbol and the finite-field path silently never fires (dead-code bug, found and \
@@ -515,7 +515,7 @@ Example:
 Used internally by ShuffleProduct. Results are memoized in \$ShuffleWordsCache.";
 
 
-PartialFractions::usage = "PartialFractions[f, var] computes the partial fraction decomposition of the rational function f in var over \$HyperSplittingField.
+STPartialFractions::usage = "STPartialFractions[f, var] computes the partial fraction decomposition of the rational function f in var over \$HyperSplittingField.
 
 Returns a list {poly, {zero1, m1, c_{1,1},...,c_{1,m1}}, ...} where:
   poly    - polynomial (integer) part
@@ -3205,8 +3205,8 @@ CanonicalizeAlgebraicLetters[results_] := Module[
 
 
 (*Partial fractioning*)
-Options[PartialFractions] = {"MaxWeight" -> Automatic};
-PartialFractions[f_, var_, opts:OptionsPattern[]] := Module[
+Options[STPartialFractions] = {"MaxWeight" -> Automatic};
+STPartialFractions[f_, var_, opts:OptionsPattern[]] := Module[
   {key, p, q, poles = {}, facs, zero, pre = 1, result, i, coef, fac, m, simp007, maxW},
   key = {f, var};
   If[KeyExistsQ[$PartialFractionsCache, key], Return[$PartialFractionsCache[key]]];
@@ -3368,7 +3368,7 @@ coeffrules=num//CoefficientRules[#,var]&;
 Sum[cf[[2]] LinApart[var^cf[[1,1]] 1/den,var],{cf,coeffrules}]
 ]
 
-PartialFractions[f_, var_] := Module[
+STPartialFractions[f_, var_] := Module[
   {key, p, q, poles = {}, facs, zero, pre = 1, result, appart, i, coef, fac, m, simp007,Apart=myApart},
   key = {f, var};
   If[KeyExistsQ[$PartialFractionsCache, key], Return[$PartialFractionsCache[key]]];
@@ -4492,12 +4492,12 @@ IntegrateII[wordlist_List, var_] := Module[
   (*polynomial + Subscript[\[CapitalSigma], i] \[CapitalSigma]\:2c7c Subscript[c, ij]/(var - pole\:1d62)^j*)
   (*Format: {poly, {pole1, c11, c12, ...}, {pole2, c21, c22, ...}, ...}*)
   (*where Subscript[c, ij] is coefficient of 1/(var - pole\:1d62)^j*)
-    parfr = PartialFractions[w[[1]], var]; If[parfr === $Failed, Return[$Failed]];
+    parfr = STPartialFractions[w[[1]], var]; If[parfr === $Failed, Return[$Failed]];
     (*3. Handle polynomial part:*)
     If[Length[parfr] > 0 && parfr[[1]] =!= 0,
      (*a: Direct integration of polynomial part.
        parfr[[1]] is guaranteed polynomial in var by construction
-       (PolynomialQuotient, see PartialFractions). Calling Integrate[]
+       (PolynomialQuotient, see STPartialFractions). Calling Integrate[]
        on it leaked Wolfram's internal Integrate`V[i][j] placeholders
        when the coefficients contained symbolic W-letters; computing
        the antiderivative term-by-term is exact and avoids the leak. *)

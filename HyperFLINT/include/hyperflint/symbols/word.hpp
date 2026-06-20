@@ -33,8 +33,23 @@ struct Word {
     // Mutable so `struct_hash()` can lazy-compute on a const Word.
     // Aggregate-init `Word{vec}` continues to compile because C++14+
     // default-member-initializers fill these fields automatically.
-    // CALLER CONTRACT: do not mutate `letters` (e.g. via the non-const
-    // operator[]) after the first `struct_hash()` call on this Word.
+    // CALLER CONTRACT (two parts):
+    //  1. Do not mutate `letters` (e.g. via the non-const operator[])
+    //     after the first `struct_hash()` call on this Word.
+    //  2. struct_hash() is computed RELATIVE TO the letters' PolyCtx:
+    //     poly_struct_hash_raw unpacks packed exponent vectors against
+    //     p.ctx() (poly_struct_hash.hpp; the SAME letter hashes
+    //     differently under a 5-var vs a 50-var ctx). A no-verify
+    //     consumer that keys/compares by the memoized hash WITHOUT a
+    //     Word::equal fallback -- notably the regkey/PolesBucket path
+    //     (regkey_struct_hash -> struct_hash; poles_bucket.hpp,
+    //     integration_step.cpp; poly_struct_hash.hpp:14 "No defensive
+    //     equality") -- is sound ONLY if every Word it compares was
+    //     first-hashed under one shared ctx. Do NOT pre-seed this memo
+    //     in a phase whose ctx may differ from a downstream no-verify
+    //     consumer: doing so in collect_words caused systematic false
+    //     merges + catastrophically wrong results (see
+    //     notes/hf_shuffle_opt/JOURNAL.md, Phase 1.1, 2026-06-17).
     mutable std::pair<uint64_t, uint64_t> cached_hash_{0, 0};
     mutable bool hash_cached_{false};
 

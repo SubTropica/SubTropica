@@ -1279,8 +1279,12 @@ static TransformResultSym transform_shuffle_impl(
         for (const auto& a : acc) {
             for (const auto& s : sub) {
                 TransformPairSym np;
+                // shuffle_product already returns a collect_words'd Wordlist
+                // (shuffle.cpp), so re-collecting here was an idempotent no-op
+                // that still paid a full extra pass over every term (N
+                // WordlistTerm/Word deep-copies + content_keys + a map). Removed
+                // 2026-06-17 (hf_shuffle_opt Phase 1.3; codex-referee finding).
                 np.shuffle   = shuffle_product(a.shuffle, s.shuffle);
-                np.shuffle   = collect_words(np.shuffle);
                 np.regulator = shuffle_symbolic_sym(a.regulator, s.regulator);
                 next.push_back(std::move(np));
             }

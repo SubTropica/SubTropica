@@ -80,8 +80,24 @@ function correctionDedupKey(payload) {
   return "corr:" + parts.join("|");
 }
 
+// Stamp Access-Control-Allow-Origin on EVERY response, not just the OPTIONS
+// preflight and GET /pdf. The POST JSON replies (/submit, /correction,
+// /request-paper) are built with Response.json() and previously carried no
+// CORS headers, so the browser blocked the response body and the client's
+// fetch() rejected — the UI showed "Network error" even though the request
+// had reached the Worker and the GitHub workflow_dispatch had already fired
+// (filing the issue / dispatching the run). A single wrapper is the reliable
+// chokepoint; per-route headers drift out of sync, which is exactly how the
+// POST routes ended up uncovered.
 export default {
   async fetch(request, env) {
+    const resp = await handleRequest(request, env);
+    resp.headers.set("Access-Control-Allow-Origin", "*");
+    return resp;
+  },
+};
+
+async function handleRequest(request, env) {
     // CORS preflight
     if (request.method === "OPTIONS") {
       return new Response(null, {
@@ -501,5 +517,4 @@ export default {
         { status: 500 }
       );
     }
-  }
-};
+}

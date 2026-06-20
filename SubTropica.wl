@@ -632,7 +632,7 @@ $STDependencies = <|
     "status" -> "untested", "version" -> "", "statusMsg" -> "",
     "resolvedPath" -> "",
     "getPath" -> Function[""],
-    "usedBy" -> {"PartialFractions (SPQRPolynomialQuotient)", "FiniteFlow (numerical Groebner via BuildPolynomialSystem)"},
+    "usedBy" -> {"STPartialFractions (SPQRPolynomialQuotient)", "FiniteFlow (numerical Groebner via BuildPolynomialSystem)"},
     "installHint" -> "PacletInstall[\"SPQR\"]  (ships with a compatible FiniteFlow build; needs FiniteFlow loaded first).",
     "configHint" -> "Auto-resolved via PacletObject[\"SPQR\"]; override with ConfigureSubTropica[SPQRPath -> \"/absolute/path/to/SPQR\"] if the paclet isn't picked up."
   |>,
@@ -668,7 +668,7 @@ $STDependencies = <|
     "status" -> "untested", "version" -> "", "statusMsg" -> "",
     "resolvedPath" -> "",
     "getPath" -> Function[$FiniteFlowPath],
-    "usedBy" -> {"PartialFractions (accelerated)", "AMFlow (FiniteFlow+LiteRed reducer)"},
+    "usedBy" -> {"STPartialFractions (accelerated)", "AMFlow (FiniteFlow+LiteRed reducer)"},
     "installHint" -> "git clone https://github.com/peraro/finiteflow && cd finiteflow && mkdir build && cd build && cmake .. && make install  (builds mathlink/fflowmlink.dylib and mathlink/FiniteFlow.m)",
     "configHint" -> "ConfigureSubTropica[FiniteFlowPath -> \"/absolute/path/to/finiteflow/mathlink\"]  (dir containing FiniteFlow.m and fflowmlink.dylib)"
   |>,
@@ -1993,7 +1993,7 @@ Options[ConfigureSubTropica] = {
 With[{$SubTropicaDir = DirectoryName[$InputFileName]},
 
 $SubTropicaInstallDir = $SubTropicaDir;
-$SubTropicaVersion = "1.2.5";
+$SubTropicaVersion = "1.2.6";
 
 (* Init-order fix: line 109 set $STHyperFlintDataPath before
    $SubTropicaInstallDir was bound, so the install-dir-derived data
@@ -2183,12 +2183,12 @@ ConfigureSubTropica[opts:OptionsPattern[]] := Module[
            disable FF and report it. *)
         If[ffPath   =!= "" && !DirectoryQ[ffPath],
             $UseFFPolynomialQuotient = False;
-            Print["Provided FiniteFlowPath \"", ffPath, "\" not found; FF disabled. PartialFractions[] will use PolynomialQuotient[]."];
+            Print["Provided FiniteFlowPath \"", ffPath, "\" not found; FF disabled. STPartialFractions[] will use PolynomialQuotient[]."];
             Return[]
         ];
         If[spqrPath =!= "" && !DirectoryQ[spqrPath],
             $UseFFPolynomialQuotient = False;
-            Print["Provided SPQRPath \"", spqrPath, "\" not found; FF disabled. PartialFractions[] will use PolynomialQuotient[]."];
+            Print["Provided SPQRPath \"", spqrPath, "\" not found; FF disabled. STPartialFractions[] will use PolynomialQuotient[]."];
             Return[]
         ];
 
@@ -2224,7 +2224,7 @@ ConfigureSubTropica[opts:OptionsPattern[]] := Module[
             $UseFFPolynomialQuotient = MatchQ[DownValues[SPQRPolynomialQuotient], {__}] &&
                                         MatchQ[FiniteFlow`Private`FFDefaultNThreadsImplem, _LibraryFunction];
             If[$UseFFPolynomialQuotient,
-                Print["FiniteFlow and SPQR loaded; PartialFractions[] will use SPQRPolynomialQuotient[]."],
+                Print["FiniteFlow and SPQR loaded; STPartialFractions[] will use SPQRPolynomialQuotient[]."],
                 Print["FiniteFlow WL package loaded but C library could not be found; using PolynomialQuotient[]."]
             ],
             $UseFFPolynomialQuotient = False;
@@ -6281,7 +6281,7 @@ stMakeNonDegenerateVerificationPoint[edges_, nodes_, seed_Integer,
 
 stBuildSymbolicSubRules[edges_, nodes_, kinPoint_List] := Module[
 	{edgeMasses, nodeMasses, nExt, subRules, flattenSym,
-	 edgesF, nodesF, stb},
+	 edgesF, nodesF, stb, cbImag = <||>, cbOK = False},
 
 	(* Flatten Subscript notation so _Symbol matches Subscript[m, k]'s flat
 	   form and so the emitted LHS names (mm, mm2, MM, MM2, ...) line up with
@@ -6298,6 +6298,54 @@ stBuildSymbolicSubRules[edges_, nodes_, kinPoint_List] := Module[
 	nExt = Length[nodesF];
 	flattenSym[sym_] := Symbol[stMmaExprToPython[sym]];
 	subRules = {};
+
+	(* ---- Channel-basis Feynman i0  (negF -> negF - i0) ----
+	   Reference-independent replacement for the multiplicative i\[CurlyEpsilon] prescription
+	   below.  Extract the -F Symanzik polynomial, read its x-monomial coefficients
+	   (the physical channels, each linear in the EXTERNAL invariants; internal masses
+	   held real), and solve for the external-invariant imaginary displacements that
+	   give EVERY channel an equal -i\[CurlyEpsilon].  Rationale: the Feynman prescription is
+	   F -> F - i0 on the Symanzik polynomial; since F is linear in the invariants,
+	   displacing each channel coefficient by an equal -i\[CurlyEpsilon] realises it exactly, with
+	   the correct sheet for every letter (Log, Hlog, AND the multivariate sqrt-Kallen/
+	   Gram roots Wm/Wp).  This fixes (i) the box combination channel u = -(s12+s23),
+	   which the old multiplicative x->x(1+i\[CurlyEpsilon]) dropped, and (ii) the sqrt sheet, which a
+	   magnitude-weighted continuation-from-Euclidean variant mis-signed.  When the
+	   polynomial cannot be extracted (scaleless / vacuum), cbOK stays False and each
+	   symbol falls back to the multiplicative prescription. *)
+	Module[{cbEta = 10^-6, cbRaw, cbXvars = Null, cbFF, cbNegF, cbMons,
+	        cbCoeffs, cbExtVars, cbMat, cbDelta},
+		cbNegF = Quiet @ Check[
+			(cbRaw = Flatten[Quiet[SOFIASymanzik[{edgesF, nodesF}, dimension -> 4 - 2 eps],
+				{First::nofirst, First::argt, General::stop}]][[1]];
+			 cbXvars = Union @ Cases[cbRaw, sx_Symbol /; StringStartsQ[SymbolName[sx], "x"], Infinity];
+			 cbFF = Cases[cbRaw, a_^b_ /; ! FreeQ[b, eps] && ! FreeQ[a, Alternatives @@ cbXvars] &&
+				! FreeQ[a, mm | MM | s12 | s23 | s13 | s14 | s24 | s34 | s15 | s25 | s35 | s45] :> a, Infinity];
+			 If[cbFF === {}, $Failed, cbFF[[1]]]),
+			$Failed];
+		If[cbNegF =!= $Failed && MatchQ[cbXvars, {__Symbol}],
+			cbMons = MonomialList[Expand[cbNegF], cbXvars];
+			cbCoeffs = DeleteDuplicates[cbMons /. Thread[cbXvars -> 1]];
+			cbExtVars = Select[Complement[Variables[cbNegF], cbXvars], ! MatchQ[#, mm | mm[_]] &];
+			cbCoeffs = Select[cbCoeffs, ! FreeQ[#, Alternatives @@ cbExtVars] &];
+			If[cbExtVars =!= {} && cbCoeffs =!= {},
+				cbMat = Outer[Coefficient[#1, #2] &, cbCoeffs, cbExtVars];
+				cbDelta = Quiet @ Check[
+					LeastSquares[N[cbMat], N[ConstantArray[-cbEta, Length[cbCoeffs]]]], $Failed];
+				(* GUARD (physics + adversarial review 2026-06-17): only trust the
+				   solve when EVERY channel reaches -cbEta to high relative accuracy,
+				   i.e. M.delta == -cbEta*1 (residual ~ machine eps).  This holds for
+				   square or consistently-overdetermined channel systems (all current
+				   1-loop..3-loop library topologies).  A genuinely INCONSISTENT
+				   overdetermined system (more independent chord channels than external
+				   invariants, e.g. some 4-loop 4-point topologies) makes LeastSquares
+				   only APPROXIMATE the target and can hand a channel a positive
+				   imaginary part -> Im[negF] > 0 there -> WRONG sheet.  In that case
+				   leave cbOK = False and fall back to the multiplicative prescription
+				   rather than silently mis-branch. *)
+				If[VectorQ[cbDelta, NumericQ] &&
+						Max[Abs[N[cbMat] . cbDelta + cbEta]] < cbEta 10^-3,
+					cbImag = AssociationThread[cbExtVars, cbDelta]; cbOK = True]]]];
 
 	(* Feynman i\[CurlyEpsilon] prescription for the symbolic result evaluation.
 	   Applied to kinematic substitutions before ginsh/N evaluation.
@@ -6323,6 +6371,14 @@ stBuildSymbolicSubRules[edges_, nodes_, kinPoint_List] := Module[
 	mmSym[idx_Integer] := ToExpression["mm" <> ToString[idx]];
 	MMSym[None] := MM;
 	MMSym[idx_Integer] := ToExpression["MM" <> ToString[idx]];
+
+	(* Displacement helpers.  When the channel-basis solve succeeded (cbOK), an
+	   external invariant `sym` is displaced by its solved channel-basis imaginary
+	   part (negF -> negF - i0); an internal mass is left REAL.  When it did not,
+	   fall back to the legacy multiplicative prescription per symbol. *)
+	cbExt[sym_, v_] := With[{im = If[TrueQ[cbOK], Lookup[cbImag, sym, None], None]},
+		If[NumericQ[im], v + I im, v (1 + I iep)]];
+	cbMass[vsq_] := If[TrueQ[cbOK], vsq, vsq (1 - I iep)];
 
 	(* Append a rule with the flat LHS.  Also append an indexed-form
 	   alias mm[idx] -> val (resp. MM[idx] -> val) so the same subRules
@@ -6357,14 +6413,14 @@ stBuildSymbolicSubRules[edges_, nodes_, kinPoint_List] := Module[
 					pyParam = flattenSym[mass];
 					idx = mass[[1]];
 					val = pyParam /. kinPoint;
-					If[NumericQ[val], appendMassRule[mmSym[idx], val^2 (1 - I iep)]]
+					If[NumericQ[val], appendMassRule[mmSym[idx], cbMass[val^2]]]
 				],
 			MatchQ[mass, _Symbol],
 				Module[{pyParam, val, idx},
 					pyParam = flattenSym[mass];
 					idx = trailingIndex[mass];
 					val = pyParam /. kinPoint;
-					If[NumericQ[val], appendMassRule[mmSym[idx], val^2 (1 - I iep)]]
+					If[NumericQ[val], appendMassRule[mmSym[idx], cbMass[val^2]]]
 				],
 			True, Null
 		],
@@ -6387,21 +6443,21 @@ stBuildSymbolicSubRules[edges_, nodes_, kinPoint_List] := Module[
 			MatchQ[nm, Sqrt[_Symbol]],
 				Module[{sq = Expand[nm^2], val},
 					val = sq /. kinPoint;
-					If[NumericQ[val], AppendTo[subRules, sq -> val (1 + I iep)]]
+					If[NumericQ[val], AppendTo[subRules, sq -> cbExt[sq, val]]]
 				],
 			MatchQ[nm, _Symbol[_Integer]],
 				Module[{pyParam, val, idx},
 					pyParam = Symbol[stMmaExprToPython[nm] <> "sq"];
 					idx = nm[[1]];
 					val = pyParam /. kinPoint;
-					If[NumericQ[val], appendMassRule[MMSym[idx], val (1 + I iep)]]
+					If[NumericQ[val], appendMassRule[MMSym[idx], cbExt[If[idx === None, MM, MM[idx]], val]]]
 				],
 			MatchQ[nm, _Symbol],
 				Module[{pyParam, val, idx},
 					pyParam = Symbol[stMmaExprToPython[nm] <> "sq"];
 					idx = trailingIndex[nm];
 					val = pyParam /. kinPoint;
-					If[NumericQ[val], appendMassRule[MMSym[idx], val (1 + I iep)]]
+					If[NumericQ[val], appendMassRule[MMSym[idx], cbExt[If[idx === None, MM, MM[idx]], val]]]
 				],
 			True, Null
 		]],
@@ -6411,7 +6467,7 @@ stBuildSymbolicSubRules[edges_, nodes_, kinPoint_List] := Module[
 	(* Mandelstams: sij * (1 + i*\[CurlyEpsilon]) *)
 	Module[{mandelstamRules},
 		mandelstamRules = Cases[kinPoint, (s_ -> v_) /; StringMatchQ[ToString[s], "s" ~~ DigitCharacter ..]
-			:> (s -> v (1 + I iep))];
+			:> (s -> cbExt[s, v])];
 		subRules = Join[subRules, mandelstamRules];
 	];
 
@@ -8831,7 +8887,7 @@ stNIntegrateAMFlow[{edges_List, nodes_List}, opts___] := Module[
 	{order, verbose, kinPoint, exponents, reducer, precision, nThread, family,
 	 dim, dimInfo, d0, normalization,
 	 nEdges, nLoops, nExt, loops, legs, cons, props, replacement, numericList,
-	 indices, amflowOrder, target, sol, jResult, minPow, maxPow, coeffs,
+	 indices, amflowOrder, headroom, target, sol, jResult, minPow, maxPow, coeffs,
 	 valSeries, errSeries, normFactor, valExpr, errExpr,
 	 t0 = AbsoluteTime[]},
 
@@ -8923,8 +8979,23 @@ stNIntegrateAMFlow[{edges_List, nodes_List}, opts___] := Module[
 		   leading pole, which for a generic L-loop integral in D = 4 - 2 eps
 		   can reach eps^(-2L).  For non-4 D0 the leading pole location shifts,
 		   so this padding may be over- or under-generous; users wanting high
-		   precision in non-4 dimensions should bump "Order" manually. *)
-		amflowOrder = order + 2*nLoops;
+		   precision in non-4 dimensions should bump "Order" manually.
+
+		   ORDER HEADROOM (2026-06-15): AMFlow reconstructs the eps-Laurent
+		   series by matching the auxiliary-mass solution at sample eps points;
+		   the HIGHEST requested order is the edge of that reconstruction and
+		   comes out systematically wrong for DIVERGENT integrals.  Measured on
+		   the massless one-mass triangle C0(0,0,s;0,0,0) (1/eps^2): at the top
+		   requested order the finite part was 3.0122 vs the exact pi^2/12 =
+		   0.8225 (off by O(1)), yet EXACT one order below; the poles and all
+		   imaginary parts are exact at every order.  So we compute `headroom`
+		   extra orders, making the user's requested top order eps^order interior
+		   (hence accurate), then truncate the returned series back to eps^order
+		   (below, after normalization).  headroom = 2 keeps a margin beyond the
+		   single corrupted edge order seen in practice; it only adds a few extra
+		   eps sample points and leaves finite / single-pole results unchanged. *)
+		headroom = 2;
+		amflowOrder = order + 2*nLoops + headroom;
 		target = {jHead[family, Sequence @@ indices]};
 
 		If[verbose, Print["[STNIntegrate/AMFlow] calling SolveIntegrals..."]];
@@ -8940,18 +9011,18 @@ stNIntegrateAMFlow[{edges_List, nodes_List}, opts___] := Module[
 		Return[$Failed]
 	];
 
-	{minPow, maxPow, coeffs} = stAMFlowExtractSeries[jResult, order];
+	(* Extract the FULL headroom-padded series (to order + headroom) so the
+	   user's requested top order eps^order is interior to AMFlow's
+	   reconstruction (see ORDER HEADROOM note above). *)
+	{minPow, maxPow, coeffs} = stAMFlowExtractSeries[jResult, order + headroom];
 	valSeries = SeriesData[eps, 0, coeffs, minPow, maxPow + 1, 1];
-	errSeries = SeriesData[eps, 0,
-		ConstantArray[10^(-precision), Length[coeffs]],
-		minPow, maxPow + 1, 1];
 
 	(* AMFlow returns the bare Feynman integral with no MS-bar prefactor.
 	   pySecDec and FIESTA both bake in exp(L*eps*EulerGamma) when
 	   Normalization -> Automatic, so apply the same factor here for
 	   cross-backend agreement.  For Normalization -> 1 leave AMFlow's
 	   raw result alone; for an explicit expression, use it as the
-	   prefactor. *)
+	   prefactor.  Applied to the full padded series, before truncation. *)
 	normFactor = Switch[normalization,
 		Automatic, Exp[nLoops*eps*EulerGamma],
 		1,         1,
@@ -8962,10 +9033,22 @@ stNIntegrateAMFlow[{edges_List, nodes_List}, opts___] := Module[
 		coeffs = Table[Coefficient[Expand[valExpr], eps, k],
 			{k, minPow, maxPow}];
 		valSeries = SeriesData[eps, 0, coeffs, minPow, maxPow + 1, 1];
-		(* The error bound is an order-of-magnitude estimate; the constant
-		   term of normFactor is 1 for Normalization -> Automatic so the
-		   bound is unchanged.  errSeries left as-is. *)
 	];
+
+	(* Truncate the headroom-padded series back to the user's requested "Order".
+	   THIS is what repairs the divergent-integral finite part: eps^order is now
+	   an interior (accurate) coefficient, and the corrupted edge orders
+	   eps^(order+1 .. order+headroom) are discarded.  The error bound is an
+	   order-of-magnitude estimate (constant term of normFactor is 1 for
+	   Normalization -> Automatic), rebuilt at the truncated length. *)
+	If[maxPow > order && order >= minPow,
+		valSeries = SeriesData[eps, 0,
+			Table[SeriesCoefficient[valSeries, {eps, 0, k}], {k, minPow, order}],
+			minPow, order + 1, 1];
+	];
+	errSeries = SeriesData[eps, 0,
+		ConstantArray[10^(-precision), Max[order, minPow] - minPow + 1],
+		minPow, Max[order, minPow] + 1, 1];
 
 	{valSeries, errSeries}
 ];
@@ -11963,7 +12046,7 @@ stHyperFlintStripContexts[s_String] :=
    (integrand forms) leaves HF faces unchecked; standalone STHyperFlint
    arms the scan hard.  A `"divergent":true` response is handled
    downstream by the STHyperFlint::divergent branch. *)
-stHyperFlintBuildRequest[integrand_, vars_List, algLetters_:False] :=
+stHyperFlintBuildRequest[integrand_, vars_List, algLetters_:False, carryDischarge_:False] :=
 Module[{freeSyms, exprStr, varStrs, req},
     freeSyms = stHyperFlintFreeSymbols[integrand, vars];
     exprStr  = stHyperFlintStripContexts @ ToString[integrand, InputForm];
@@ -11990,6 +12073,8 @@ Module[{freeSyms, exprStr, varStrs, req},
     |>;
     If[TrueQ[algLetters],
         req = Append[req, "algebraic_letters" -> True]];
+    If[TrueQ[carryDischarge],
+        req = Append[req, "carry_discharge" -> True]];
     ExportString[req, "JSON", "Compact" -> True]];
 
 (* Default thread budget for hyperflint.  Memory-only setting; override
@@ -12076,6 +12161,12 @@ Options[STHyperFlint] = {
                                 better for downstream numerical evaluation.
                                 Unsupported integrand shapes fall back to the
                                 reduced path with STHyperFlint::nofactored. *)
+    ,
+    "Carry" -> False  (* True => pass "carry_discharge" -> True to the hyperflint
+                          op; the integrator runs the carry DFS, discharging
+                          carried deg-2 Wm/Wp letters at their step.  Requires
+                          FindRoots -> True (allow_algebraic_letters).  Ported
+                          from campaign/hf-perf 2026-06-19. *)
 };
 
 (* Diagnostic counters \[LongDash] same shape as the
@@ -12248,7 +12339,7 @@ stHyperFlintCore[integrand_, vars_List, opts:OptionsPattern[]] := Module[
                     "; "]];
             Return[$Failed]]];
 
-    requestJSON = stHyperFlintBuildRequest[integrand, vars, findRoots];
+    requestJSON = stHyperFlintBuildRequest[integrand, vars, findRoots, TrueQ[OptionValue["Carry"]]];
 
     If[useLibLink,
         (* LibraryLink path (Phase \[Gamma].2).  Synchronous, in-process.  If
@@ -12619,13 +12710,29 @@ Options[STFindLROrdersHF] = {
                                      ($stCarryExecuteArmed False) pending the
                                      full-pipeline value gate; see
                                      notes/carry_option/TASK2_VERIFY_FINDING.md *)
-    "VerifyOrder" -> None        (* 2026-06-13: a list of variables (a
+    "VerifyOrder" -> None,       (* 2026-06-13: a list of variables (a
                                      permutation of xvars) -> VERIFY that this
                                      ONE order is LR (no search), returning the
                                      verdict Association <|"OrderIsLR"->_, ...|>
                                      instead of the search result.  Cheap
                                      specific-order certification for the carry
                                      order-pinning guard (HF verify_order). *)
+    "ScorePruneFactor" -> Automatic  (* 2026-06-16: score-driven branch-and-bound
+                                     prune of the subset-DP.  When resolved to a
+                                     finite X > 0, any partial order whose
+                                     elimination score exceeds X times the best
+                                     score among partial orders of the SAME length
+                                     is dropped (its subset is never extended).
+                                     This stops the 2^n table from filling with
+                                     explosive pivots: e.g. an x3-first branch that
+                                     costs 18x the cheapest size-1 elimination is
+                                     pruned so it never seeds the size-2 blow-up.
+                                     The surviving orders are still genuinely LR
+                                     (verified by oracle).  Automatic (default)
+                                     inherits the $STScorePruneFactor global
+                                     (itself Infinity = exhaustive, unchanged
+                                     behavior); an explicit value overrides it.
+                                     Ignored when Carry -> True. *)
 };
 
 (* Convenience single-group dispatch: a flat poly list is wrapped as
@@ -12638,7 +12745,9 @@ STFindLROrdersHF[groupPolys_List, xvars_List, opts:OptionsPattern[]] /;
 Module[{coeffVars, req, procResult, resp, bestOrder, score, respStr,
         threads, timeout, hfBin = $STHyperFlintPath, allPolys, useLibLink,
         carryQ = TrueQ[OptionValue["Carry"]],
-        verifyOrder = OptionValue["VerifyOrder"]},
+        verifyOrder = OptionValue["VerifyOrder"],
+        scorePruneFactor = OptionValue["ScorePruneFactor"] /.
+            Automatic :> $STScorePruneFactor},
     (* Lazy load if eager autoload failed (e.g., during Get["SubTropica`"]
        the LibraryFunctionLoad didn't fire cleanly). *)
     stHFLibraryEnsureLoaded[];
@@ -12689,7 +12798,14 @@ Module[{coeffVars, req, procResult, resp, bestOrder, score, respStr,
            HF verifies THIS order is LR (no search) and the response carries
            order_is_lr instead of a searched best_order. *)
         If[ListQ[verifyOrder],
-        <|"verify_order" -> (ToString /@ verifyOrder)|>, <||>]],
+        <|"verify_order" -> (ToString /@ verifyOrder)|>, <||>],
+        (* 2026-06-16 score-driven prune: emit the field only when a finite
+           positive factor is requested (and not in carry mode, where the
+           subset table must stay exhaustive).  A missing field = HF default
+           Infinity = no pruning, so old binaries are unaffected. *)
+        If[NumericQ[scorePruneFactor] && scorePruneFactor > 0 &&
+           scorePruneFactor < Infinity && !carryQ,
+        <|"score_prune_factor" -> N[scorePruneFactor]|>, <||>]],
         "JSON", "Compact" -> True];
 
     (* Phase \[Gamma].1: LibraryLink transport if available (in-process,
@@ -14458,6 +14574,18 @@ STIntegrateHF[args___] := STIntegrate[args,
    entry of STEvaluateGraph when the option is non-default.        *)
 $STLROrderBackend = "HyperIntica";
 
+(* 2026-06-16 score-driven branch-and-bound prune factor (master default).
+   When a finite X > 0, STFindLROrdersHF asks HF's find_lr_orders to drop any
+   partial order whose elimination score exceeds X times the best score among
+   partial orders of the same length, so the subset-DP never extends an
+   explosive pivot (e.g. an x3-first branch costing 18x the cheapest size-1
+   step).  Infinity (default) = exhaustive search, unchanged behavior.  The
+   "ScorePruneFactor" option on STIntegrate/STEvaluateGraph/STFindLROrdersHF
+   defaults to Automatic, which inherits THIS global; an explicit option value
+   overrides it.  STEvaluateGraph Block-scopes this so all nested order-finding
+   calls inherit a single value without per-call-site threading. *)
+$STScorePruneFactor = Infinity;
+
 (* Fallback counter (reset per STEvaluateGraph run).
    2026-06-06 (notes/hf_lr_search_deficiencies.md): counts ENGINE
    FAILURES only ($Failed: timeout, missing binary, bad JSON), where
@@ -14588,8 +14716,9 @@ stLRResultNOLRQ[r_] := (r === $Failed) ||
         (ListQ[First[r]] && First[r] =!= {} && First[First[r]] === NOLR)));
 
 Options[stDispatchFubini2] = Options[STFasterFubini2];
-Options[stDispatchFubini2] = DeleteDuplicates @ Append[
-    Options[stDispatchFubini2], "Carry" -> False];
+Options[stDispatchFubini2] = DeleteDuplicates @ Join[
+    Options[stDispatchFubini2],
+    {"Carry" -> False, "ScorePruneFactor" -> Automatic}];
 
 (* Per-face FindRoots -> Automatic cascade.  Try FindRoots -> False first;
    if the LR search returns NOLR, retry with FindRoots -> True so the
@@ -14623,9 +14752,10 @@ Module[{restOpts, falseResult, falseNOLR},
 
 stDispatchFubini2[groupPoly_, xvars_, opts:OptionsPattern[]] :=
 Module[{backend = $STLROrderBackend, findRoots, carry, hfResult, t0, dt, ret,
-        nxv = Length[xvars]},
+        nxv = Length[xvars], scorePrune},
     findRoots = TrueQ[FindRoots /. {opts} /. {FindRoots -> False}];
     carry = TrueQ["Carry" /. {opts} /. {"Carry" -> False}];
+    scorePrune = "ScorePruneFactor" /. {opts} /. {"ScorePruneFactor" -> Automatic};
     t0 = AbsoluteTime[];
     If[carry && backend =!= "HyperFLINT" && !$stDispatchNoCarryWarned,
         $stDispatchNoCarryWarned = True;
@@ -14645,7 +14775,8 @@ Module[{backend = $STLROrderBackend, findRoots, carry, hfResult, t0, dt, ret,
             hfResult = If[carry && findRoots,
                 Module[{strictFR, carryRes},
                     strictFR = STFindLROrdersHF[groupPoly, xvars,
-                        FindRoots -> findRoots, "Carry" -> False];
+                        FindRoots -> findRoots, "Carry" -> False,
+                        "ScorePruneFactor" -> scorePrune];
                     If[stDispatchNOLRQ[strictFR] || strictFR === $Failed,
                         carryRes = STFindLROrdersHF[groupPoly, xvars,
                             FindRoots -> findRoots, "Carry" -> True];
@@ -14660,7 +14791,8 @@ Module[{backend = $STLROrderBackend, findRoots, carry, hfResult, t0, dt, ret,
                                 "CarryLegOnly" -> False|>],
                             strictFR]]],
                 STFindLROrdersHF[groupPoly, xvars,
-                    FindRoots -> findRoots, "Carry" -> carry]];
+                    FindRoots -> findRoots, "Carry" -> carry,
+                    "ScorePruneFactor" -> scorePrune]];
             (* HF NOLR IS FINAL (user directive 2026-06-06,
                notes/hf_lr_search_deficiencies.md): never re-run the
                same LR search in Mma.  Rationale: (i) the False legs
@@ -16799,7 +16931,8 @@ Options[STfindLinearlyReducibleOrders2] = {
     "SkipExistingOrders" -> False,
     "UIComms" -> None,
     "MethodLR" -> "Lungo",
-    "Carry" -> False   (* carry-discharge LR tier; spec 2026-06-10-carry-option-design.md.  NOTE: under StopAt LR-checks the carry verdict is computed on the serial path only; parallel subkernels lack the HF binary path and report strict (pre-existing limitation, see notes/carry_option/G3B_FINDINGS.md) *)
+    "Carry" -> False,   (* carry-discharge LR tier; spec 2026-06-10-carry-option-design.md.  NOTE: under StopAt LR-checks the carry verdict is computed on the serial path only; parallel subkernels lack the HF binary path and report strict (pre-existing limitation, see notes/carry_option/G3B_FINDINGS.md) *)
+    "ScorePruneFactor" -> Automatic   (* 2026-06-16 score-driven branch-and-bound prune; Automatic inherits $STScorePruneFactor; threaded to stDispatchFubini2 -> STFindLROrdersHF *)
 };
 
 STfindLinearlyReducibleOrders2[id_:"NP", opts:OptionsPattern[]] :=
@@ -16820,7 +16953,9 @@ Module[{result},
                 "SkipExistingOrders" -> OptionValue["SkipExistingOrders"],
                 "UIComms" -> OptionValue["UIComms"],
                 "MethodLR" -> ("MethodLR" /. {opts} /. {"MethodLR" -> "Lungo"}),
-                "Carry" -> ("Carry" /. {opts} /. {"Carry" -> False})
+                "Carry" -> ("Carry" /. {opts} /. {"Carry" -> False}),
+                "ScorePruneFactor" ->
+                    ("ScorePruneFactor" /. {opts} /. {"ScorePruneFactor" -> Automatic})
             ]
     ];
     If[OptionValue["ScanGauges"], Return[result]];
@@ -17363,9 +17498,17 @@ stCarryExecuteTerm[group_List, fv_List, profile_Association,
        (the $NoAlgebraicRootsContributions zeroing) and successQ is blind to
        it.  So we CERTIFY the PINNED order is STRICTLY LR for the transformed
        term BEFORE executing, via HF's specific-order verifier (VerifyOrder,
-       2026-06-13: O(n) walk, no O(2^n) search -- cheap and exact, unlike the
-       earlier free-search + best==pinned proxy that was over-conservative AND
-       timed out on real faces, lib9 >600 s).  STRICT (FindRoots -> False) is
+       2026-06-13; 2026-06-17 made intersection-exact).  It screens the order
+       with an O(n) single-path walk that accepts a genuine rationalized
+       deg<=1 term immediately, and only falls back to the O(2^n)
+       intersection-refined subset table (the SAME letters find_lr_orders'
+       SEARCH uses) when the single-path walk hits a blocker that may be a
+       spurious resultant -- so the verdict agrees with the SEARCH by
+       construction.  This supersedes the single-path-only walk that
+       FALSE-rejected genuinely-LR multi-group orders
+       (notes/verify_multigroup_bug/REPRO.md), and the even-earlier
+       free-search + best==pinned proxy that was over-conservative AND timed
+       out on real faces (lib9 >600 s).  STRICT (FindRoots -> False) is
        the safety condition: a genuine carry substitution RATIONALIZES the
        obligation, leaving a deg<=1 (strictly-LR) term -- no deg-2 letter for
        the zeroing flag to silently drop.  A non-strictly-LR pinned order
@@ -17565,7 +17708,8 @@ Options[STfindLinearlyReducibleOrdersHighestEpsOrder2] = {
     "SkipExistingOrders" -> False,
     "UIComms" -> None,
     "MethodLR" -> "Lungo",
-    "Carry" -> False   (* carry-discharge LR tier; spec 2026-06-10-carry-option-design.md.  NOTE: under StopAt LR-checks the carry verdict is computed on the serial path only; parallel subkernels lack the HF binary path and report strict (pre-existing limitation, see notes/carry_option/G3B_FINDINGS.md) *)
+    "Carry" -> False,   (* carry-discharge LR tier; spec 2026-06-10-carry-option-design.md.  NOTE: under StopAt LR-checks the carry verdict is computed on the serial path only; parallel subkernels lack the HF binary path and report strict (pre-existing limitation, see notes/carry_option/G3B_FINDINGS.md) *)
+    "ScorePruneFactor" -> Automatic   (* 2026-06-16 score-driven branch-and-bound prune; Automatic inherits $STScorePruneFactor; threaded to stDispatchFubini2 -> STFindLROrdersHF *)
 };
 
 STfindLinearlyReducibleOrdersHighestEpsOrder2[id_:"NP", opts:OptionsPattern[]] := Module[
@@ -17678,7 +17822,8 @@ STfindLinearlyReducibleOrdersHighestEpsOrder2[id_:"NP", opts:OptionsPattern[]] :
                           xvars,
                           Heuristic -> OptionValue[Heuristic],
                           FindRoots -> OptionValue[FindRoots],
-                          "Carry" -> carryValue
+                          "Carry" -> carryValue,
+                          "ScorePruneFactor" -> OptionValue["ScorePruneFactor"]
                       ],
                       If[("MethodLR" /. {opts} /. {"MethodLR" -> "Lungo"}) === "Doppio",
                       (* Task 8: Euler-discriminant chi-filtered Lungo-core
@@ -17704,7 +17849,8 @@ STfindLinearlyReducibleOrdersHighestEpsOrder2[id_:"NP", opts:OptionsPattern[]] :
                           Join[#, xvars] & /@ (polysAndPairs[[;; , 1]]),
                           xvars,
                           Heuristic -> OptionValue[Heuristic],
-                          FindRoots -> OptionValue[FindRoots]
+                          FindRoots -> OptionValue[FindRoots],
+                          "ScorePruneFactor" -> OptionValue["ScorePruneFactor"]
                       ]]
                   ];
                   (* FindRoots-truthy (True or Automatic) returns the wrapped
@@ -20408,6 +20554,7 @@ Options[STEvaluateGraph] = Join[
         "Order" -> Automatic,            (* Output order in eps: Automatic = through eps^0 (finite part); n = through eps^n *)
         "StopAt" -> Automatic,
         "Carry" -> False,  (* carry-discharge LR tier; spec 2026-06-10-carry-option-design.md.  NOTE: under StopAt LR-checks the carry verdict is computed on the serial path only; parallel subkernels lack the HF binary path and report strict (pre-existing limitation, see notes/carry_option/G3B_FINDINGS.md) *)
+        "ScorePruneFactor" -> Automatic,  (* 2026-06-16 score-driven branch-and-bound prune for the HF LR search; Automatic inherits the $STScorePruneFactor global (Infinity = exhaustive).  A finite X > 0 drops partial orders scoring > X times the best of their length, breaking the subset-DP blow-up on hard faces.  Block-scoped over the order-finding so every nested call inherits one value. *)
         "StartAt" -> None,
         "Gauge" -> Automatic,
         "IncludeGauges" -> All,
@@ -20474,11 +20621,33 @@ Options[STEvaluateGraph] = Join[
    in STHyperFlint.  Subkernels receive the Block'd value through the
    existing STSetupKernel ParallelEvaluate propagation. *)
 STEvaluateGraph[g_, opts : OptionsPattern[]] :=
-    Block[{$stInsideDiagramPipeline = True,
-           $stCheckDivergencesManaged = True,
-           $HyperInticaCheckDivergences =
-               stResolveCheckDivergences[{opts}, False]},
-        stEvaluateGraphCore[g, opts]];
+    (* Merge 2026-06-18 (hf-shuffle-opt -> main): combine the PV-fetch
+       intercept (branch) with the Block-scoped $STScorePruneFactor (main).
+       The PV fetch short-circuits a fetchable 1-loop entry; the fall-through
+       Block carries BOTH the divergence-policy globals and the score-prune
+       factor for the integrator path. *)
+    With[{stpvFetch$ = pvTryFetch[g,
+            OptionValue[STEvaluateGraph, {opts}, "Dimension"],
+            OptionValue[STEvaluateGraph, {opts}, "Order"]]},
+      (* STEP-3 PV FETCH intercept: a fetchable 1-loop library entry returns its stored
+         (sign-corrected) Laurent directly; pvTryFetch is conservative on every axis and
+         returns $pvFallThrough otherwise, so the integrator path below is unchanged. *)
+      If[stpvFetch$ =!= $pvFallThrough,
+        stpvFetch$,
+        Block[{$stInsideDiagramPipeline = True,
+               $stCheckDivergencesManaged = True,
+               $HyperInticaCheckDivergences =
+                   stResolveCheckDivergences[{opts}, False],
+               (* 2026-06-16: Block-scope the score-prune factor for the whole
+                  diagram run so every nested order-finding call (the ~21
+                  STfindLinearlyReducibleOrders2 sites) inherits one value without
+                  per-site threading.  Automatic resolves against the prior global
+                  (evaluated in the outer scope by Block before localization), and
+                  the value is auto-restored on exit, so no cross-call leak. *)
+               $STScorePruneFactor =
+                   ("ScorePruneFactor" /. {opts} /. {"ScorePruneFactor" -> Automatic}) /.
+                       Automatic :> $STScorePruneFactor},
+            stEvaluateGraphCore[g, opts]]]];
 
 Options[stEvaluateGraphCore] = Options[STEvaluateGraph];
 
@@ -23487,10 +23656,22 @@ STEvaluate[___] := Message[STEvaluate::badinput];
 *)
 
 Clear[STIntegrate];
-Options[STIntegrate] = DeleteDuplicates @ Join[
-    Options[STEvaluateGraph],
-    Options[STEvaluateGraphFromPropagators]
-    (* STEvaluateEulerIntegral options are already covered via STEvaluateGraphFromPropagators *)
+(* Dedup by option NAME (keep first), not by whole rule.  DeleteDuplicates
+   only removed identical rules, so a key defined with different defaults in
+   STEvaluateGraph vs STEvaluateGraphFromPropagators (e.g. "Integrator",
+   "Gauge", FindRoots) survived TWICE -- ugly in Options[STIntegrate] and,
+   worse, resolved inconsistently: `key /. Options` and OptionValue take the
+   FIRST occurrence (the STEvaluateGraph dynamic defaults), while
+   Association[Options[STIntegrate]] (used at the save-command site) took the
+   LAST.  DeleteDuplicatesBy[..., First] keeps the first occurrence per key,
+   matching OptionValue and making every consumer agree. *)
+Options[STIntegrate] = DeleteDuplicatesBy[
+    Join[
+        Options[STEvaluateGraph],
+        Options[STEvaluateGraphFromPropagators]
+        (* STEvaluateEulerIntegral options are already covered via STEvaluateGraphFromPropagators *)
+    ],
+    First
 ];
 
 
@@ -23499,6 +23680,7 @@ $STOptionValues = <|
     "Order"                  -> {Automatic, "integer n = expand through eps^n"},
     "StopAt"                 -> {Automatic, "AfterBuildingIntegrand", "AfterExpansion", "AfterLinearOrder", "AfterMinimalLRCheck", "AfterMinimalLRCheckOneShot"},
     "Carry"                  -> {False, True},
+    "ScorePruneFactor"       -> {Automatic, "Infinity = exhaustive (default)", "finite X > 0 = drop partial orders scoring > X times the best of their length"},
     "StartAt"                -> {None, "checkpoint ID string"},
     "Gauge"                  -> {Automatic, "{x1 -> 1}", "{}  (no gauge)"},
     "IncludeGauges"          -> {All, "{1, 2, ...}  (list of gauge indices)"},
@@ -31291,6 +31473,28 @@ stEntryHasResultQ[e_Association, resultIdx_Integer] :=
   (KeyExistsQ[e["Results"][[resultIdx]], "resultCompressed"] ||
    KeyExistsQ[e["Results"][[resultIdx]], "resultDataId"]);
 stEntryHasResultQ[___] := False;
+
+(* \[HorizontalLine]\[HorizontalLine] STEP-3 Passarino-Veltman auto-routing: FETCH path \[HorizontalLine]\[HorizontalLine]
+   Get the PV module HERE (its result-loading deps -- stMergeResultRecord, stEntryHasResultQ,
+   computeNickelIndex, SOFIASymanzik, $SubTropicaInstallDir -- are now all in scope) so its
+   definitions land in SubTropica`Private`.  The STEvaluateGraph wrapper intercepts via
+   pvTryFetch: a 1-loop scalar n-gon (n<=5) whose CANONICAL form is in the library at the
+   requested Dimension and Order is returned from the (sign-corrected) stored Laurent -- a
+   validated symbolic drop-in (pv_wire_probe.wl: STEvaluateGraph[g]==pvGraphFetch[g]) -- else
+   pvTryFetch returns $pvFallThrough and the normal integrator runs.  The symbolic compute path
+   (classify/reduce) lives in notes/passarino_veltman/pv_step3_lib.wl and is a follow-on. *)
+With[{pvFile$ = FileNameJoin[{DirectoryName[$InputFileName], "PassarinoVeltman.wl"}]},
+  If[FileExistsQ[pvFile$],
+    Get[pvFile$],
+    (* PassarinoVeltman.wl is dev-only and is NOT shipped in the public release
+       (excluded in scripts/public-release-exclude.txt).  When it is absent,
+       stub the STEP-3 fetch primitive so the STEvaluateGraph PV-fetch intercept
+       (the pvTryFetch call upstream) always falls through to the normal
+       integrator instead of leaving an unevaluated pvTryFetch[...]. *)
+    $pvFallThrough = pvFallThrough$sentinel;
+    pvTryFetch[___] := $pvFallThrough;
+  ]
+];
 
 (* Split-write: stubs to entry.json, heavy map merged into results.json.
    Both written atomically (temp + rename). Idempotent on already-split

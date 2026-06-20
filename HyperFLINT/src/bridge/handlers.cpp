@@ -683,6 +683,19 @@ std::string find_lr_orders(const std::string& body) {
             }
         }
 
+        // ScorePruneFactor (2026-06-17): optional "score_prune_factor":<num>
+        // relative branch-and-bound cutoff over the subset DP.  Absent =>
+        // +inf (no pruning); the Mma wrapper omits the field for Infinity.
+        double score_prune_factor =
+            std::numeric_limits<double>::infinity();
+        {
+            std::regex re("\"score_prune_factor\"\\s*:\\s*"
+                          "([0-9]+\\.?[0-9]*([eE][+-]?[0-9]+)?)");
+            std::smatch m;
+            if (std::regex_search(body, m, re))
+                score_prune_factor = std::atof(m[1].str().c_str());
+        }
+
         // Order-resolved singularities (2026-06-07): optional emit_sings
         // flag.  When set, a SingCollector is threaded through the LR
         // walk and accumulates every IRREDUCIBLE kinematic divisor (free
@@ -743,7 +756,7 @@ std::string find_lr_orders(const std::string& body) {
         } else {
             result = hyperflint::lr_search::find_lr_orders(
                 group_polys, xvar_indices, allow_al, sings_ptr,
-                carry_discharge);
+                carry_discharge, score_prune_factor);
         }
         auto t1 = std::chrono::steady_clock::now();
         compute_s = std::chrono::duration<double>(t1 - t0).count();

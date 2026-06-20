@@ -11,9 +11,46 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Added
 
+- `STHyperFlint` integrator-level `"Carry"` option (`carry_discharge`): the carry
+  DFS discharges carried degree-2 `Wm` / `Wp` letters at their integration step
+  (requires `FindRoots -> True`).
+- `ScorePruneFactor`, a score-driven branch-and-bound prune for `find_lr_orders`
+  (HyperFLINT linear-reducibility order search).
+- Library browser "Sort by" control (loops, propagators, mass scales, references).
+- Three-loop sub-sector topologies from arXiv:2111.13595 (Issue #46): 29 new
+  topologies plus single-scale bare-scalar results, with an import-attribution
+  panel in the web interface.
+
 ### Changed
 
+- Renamed the partial-fraction-decomposition function `PartialFractions` to
+  `STPartialFractions` (its `Options` and usage text follow). Wolfram Language
+  15.0 introduced a built-in, Protected `System`PartialFractions`, which
+  shadowed the package symbol and silently rejected SubTropica's own definition
+  at load (`Set::write` / `SetDelayed::write`). `STPartialFractions` follows the
+  public `ST*` naming convention. Calls to `PartialFractions[f, var]` should
+  become `STPartialFractions[f, var]`.
+
+- Web UI About window now reports **computed results**, **singularity analyses**,
+  and **proposed alphabets** as separate counts (matching the README library
+  table), instead of a single lumped "results" figure.
+
 ### Fixed
+
+- Wolfram Language 15.0 compatibility. SubTropica now loads and integrates
+  cleanly under v15. The only incompatibility was the `PartialFractions` symbol
+  collision noted above; the HyperFLINT LibraryLink dylib loads unchanged, and
+  the package uses no functions whose signature or behavior changed in 15.0.
+
+- `verify_order_is_lr` no longer reports a multi-group false negative: the
+  HyperFLINT linear-reducibility verification now reads the intersection-refined
+  set table, matching the order search by construction.
+- Web UI: result-provenance stars are restored under the split-result schema,
+  and library search now matches aliases and author names.
+- Submission worker: the CORS header is set on all responses, so POST replies
+  are readable (fixes the spurious "Network error" reported on submission).
+- Library data: several one-loop entries re-expressed to the physical `s + i0`
+  channel.
 
 
 ## [1.2.5] — 2026-06-16

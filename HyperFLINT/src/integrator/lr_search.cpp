@@ -598,7 +598,8 @@ LrResult find_lr_orders(
     const std::vector<size_t>& xvar_indices,
     bool allow_algebraic_letters,
     SingCollector* sings,
-    bool carry_discharge) {
+    bool carry_discharge,
+    double score_prune_factor) {
     // Carry-discharge (Doppio FindRoots) tier is only meaningful when
     // deg-2 letters are admitted: with deg<=1 letters there is no
     // sqrt-obligation to carry, so the flag is a no-op there and the
@@ -674,11 +675,37 @@ LrResult find_lr_orders(
     set_table[0] = group_polys;
     orders_table[0] = LrResult{{}, 0.0, {}};
 
+    // Score-based branch-and-bound (ScorePruneFactor).  A subset whose
+    // best-order score exceeded score_prune_factor * the best score at its
+    // size is recorded here; it is never used as a parent, so its (most
+    // expensive) next-size reductions are never computed.  Inactive when
+    // score_prune_factor is +inf (the default).
+    std::unordered_set<uint64_t> score_pruned;
+    const bool prune_on =
+        score_prune_factor < INF && score_prune_factor > 0.0 && !do_carry;
+
     // DP over subset size.
     for (size_t size = 1; size <= n; ++size) {
         auto subsets = subsets_of_size(n, size);
         bool any_live_at_size = false;  // any non-NOLR order at this size
         for (uint64_t bits : subsets) {
+            // ScorePruneFactor: if EVERY parent of this subset was pruned,
+            // it is unreachable via a surviving order — skip its (most
+            // expensive) Step A reduction entirely, and propagate the prune.
+            if (prune_on) {
+                bool any_live_parent = false;
+                for (size_t bit = 0; bit < n; ++bit) {
+                    if (!(bits & (1ull << bit))) continue;
+                    if (!score_pruned.count(bits ^ (1ull << bit))) {
+                        any_live_parent = true;
+                        break;
+                    }
+                }
+                if (!any_live_parent) {
+                    score_pruned.insert(bits);
+                    continue;
+                }
+            }
             // Step A: for each group g, build preSTable (one list per
             // pivot bit v ∈ bits), then intersect.
             std::vector<std::vector<Poly>> set_for_bits(G);
@@ -688,10 +715,15 @@ LrResult find_lr_orders(
                 for (size_t bit = 0; bit < n; ++bit) {
                     if (!(bits & (1ull << bit))) continue;
                     const uint64_t prev_bits = bits ^ (1ull << bit);
+                    // ScorePruneFactor: a score-pruned parent contributes no
+                    // pivot path (do not extend the expensive branch).
+                    if (prune_on && score_pruned.count(prev_bits)) continue;
                     auto it = set_table.find(prev_bits);
                     if (it == set_table.end()) {
                         // Parent subset was dropped by memory pruning or
-                        // never computed — fatal in single-group MVP.
+                        // never computed — fatal in single-group MVP (but a
+                        // benign skip once score pruning is active).
+                        if (prune_on) continue;
                         throw std::runtime_error(
                             "find_lr_orders: missing parent subset state");
                     }
@@ -822,6 +854,32 @@ LrResult find_lr_orders(
             }
             if (!best.nolr()) any_live_at_size = true;
             orders_table[bits] = best;
+        }
+
+        // ScorePruneFactor: mark, for the NEXT size, every subset whose
+        // best-order score exceeds score_prune_factor * (the lowest score
+        // among non-pruned subsets at THIS size).  NOLR / unreachable
+        // subsets are pruned too (they cannot lead to an LR order).  The
+        // full subset (size == n) has no children, so there is nothing to
+        // prune for it.
+        if (prune_on && size < n) {
+            double best_score = INF;
+            for (uint64_t bits : subsets) {
+                if (score_pruned.count(bits)) continue;
+                auto it = orders_table.find(bits);
+                if (it != orders_table.end() && !it->second.nolr())
+                    best_score = std::min(best_score, it->second.score);
+            }
+            if (best_score < INF) {
+                const double cutoff = score_prune_factor * best_score;
+                for (uint64_t bits : subsets) {
+                    if (score_pruned.count(bits)) continue;
+                    auto it = orders_table.find(bits);
+                    if (it == orders_table.end() || it->second.nolr()
+                        || it->second.score > cutoff)
+                        score_pruned.insert(bits);
+                }
+            }
         }
 
         // Early NOLR exit (2026-06-06, value-preserving): NOLR
@@ -1023,6 +1081,54 @@ LrResult find_lr_orders(
     return it->second;
 }
 
+// Build the intersection-refined subset reduction table that find_lr_orders'
+// order SEARCH uses ("Step A").  set_table[bits][g] is the letter set obtained
+// by reducing group g down to the variable subset encoded by `bits`, where a
+// letter survives ONLY if it is produced along EVERY single-pivot path into
+// that subset (intersect_proportional over the per-parent reductions).  That
+// intersection is what removes order-dependent spurious resultants: a single
+// reduction path over-approximates the Landau set (st_fubini_lr emits ALL
+// pairwise resultants, no compatibility graph), so a letter can appear via one
+// last-pivot choice but not another and is then genuinely fictitious.  The
+// SEARCH (and HyperInt's cgReduction) drop such letters; a single-path walk
+// does not.  Default semantics only --- no Euler chi-filter, no score-prune, no
+// carry-discharge (those are find_lr_orders levers, all OFF by default), and
+// sings collection is off (nullptr) --- so this reproduces the SEARCH's
+// DEFAULT-mode set_table exactly.  Mirrors the Step-A loop in find_lr_orders;
+// the two MUST stay in sync (cross-checked by the multi-group regression
+// fixture and notes/verify_multigroup_bug/verify_sweep.py).
+static std::unordered_map<uint64_t, std::vector<std::vector<Poly>>>
+build_lr_set_table(const std::vector<std::vector<Poly>>& group_polys,
+                   const std::vector<size_t>& xvar_indices) {
+    const size_t G = group_polys.size();
+    const size_t n = xvar_indices.size();
+    std::unordered_map<uint64_t, std::vector<std::vector<Poly>>> set_table;
+    // Seed: set_table[{}] = the raw group polynomials.
+    set_table[0] = group_polys;
+    for (size_t size = 1; size <= n; ++size) {
+        for (uint64_t bits : subsets_of_size(n, size)) {
+            std::vector<std::vector<Poly>> set_for_bits(G);
+            for (size_t g = 0; g < G; ++g) {
+                std::vector<std::vector<Poly>> preTable;
+                preTable.reserve(size);
+                for (size_t bit = 0; bit < n; ++bit) {
+                    if (!(bits & (1ull << bit))) continue;
+                    const uint64_t prev_bits = bits ^ (1ull << bit);
+                    auto it = set_table.find(prev_bits);
+                    if (it == set_table.end())
+                        throw std::runtime_error(
+                            "verify_order_is_lr: missing parent subset state");
+                    preTable.push_back(
+                        st_fubini_lr(it->second[g], xvar_indices[bit], nullptr));
+                }
+                set_for_bits[g] = intersect_proportional(preTable);
+            }
+            set_table[bits] = std::move(set_for_bits);
+        }
+    }
+    return set_table;
+}
+
 OrderVerifyResult verify_order_is_lr(
     const std::vector<std::vector<Poly>>& group_polys,
     const std::vector<size_t>& xvar_indices,
@@ -1051,26 +1157,27 @@ OrderVerifyResult verify_order_is_lr(
         if (env && allow_algebraic_letters) max_deg = std::atol(env);
     }
 
-    // Walk the SPECIFIED order: cur[g] holds group g's letter set after
-    // integrating order[0..k-1].  At pivot order[k] check the linearity
-    // constraint on cur (Step-B parity), then advance via st_fubini_lr.
-    std::vector<std::vector<Poly>> cur = group_polys;
-    for (size_t k = 0; k < n; ++k) {
-        const size_t pivot = order_var_indices[k];
-        for (size_t g = 0; g < G; ++g) {
-            for (const auto& p : cur[g]) {
+    // Per-step admissibility predicate, SHARED by the fast single-path screen
+    // and the authoritative intersection walk so they can never diverge.
+    // Returns true (and fills `out`.blocking_*) iff some letter in `letters`
+    // has degree > max_deg in `pivot`, or is a deg-2 letter whose sqrt
+    // obligation uses a still-pending variable (order[k+1..]).  Identical to
+    // find_lr_orders' Step-B test (degree window + forbidden-pending guard).
+    auto step_blocks = [&](const std::vector<std::vector<Poly>>& letters,
+                           size_t pivot, size_t k,
+                           OrderVerifyResult& out) -> bool {
+        for (size_t g = 0; g < letters.size(); ++g) {
+            for (const auto& p : letters[g]) {
                 const long d = p.degree_in_var(pivot);
+                if (d < 1) continue;  // pivot-free letters pass (Step-B parity)
                 if (d > max_deg) {
-                    res.is_lr = false;
-                    res.blocking_step = static_cast<int>(k);
-                    res.blocking_degree = d;
-                    res.blocking_letter = p.canonical_prop_form().to_string();
-                    return res;
+                    out.is_lr = false;
+                    out.blocking_step = static_cast<int>(k);
+                    out.blocking_degree = d;
+                    out.blocking_letter = p.canonical_prop_form().to_string();
+                    return true;
                 }
                 if (d >= 2 && allow_algebraic_letters) {
-                    // deg-2 letter: reject if its sqrt-obligation depends on a
-                    // still-PENDING variable (order[k+1..]); parity with
-                    // find_lr_orders' forbidden_after_step.
                     std::vector<size_t> used = p.used_var_indices();
                     bool has_forbidden = false;
                     for (size_t j = k + 1; j < n && !has_forbidden; ++j) {
@@ -1080,24 +1187,78 @@ OrderVerifyResult verify_order_is_lr(
                         }
                     }
                     if (has_forbidden) {
-                        res.is_lr = false;
-                        res.blocking_step = static_cast<int>(k);
-                        res.blocking_degree = d;
-                        res.forbidden_dep = true;
-                        res.blocking_letter = p.canonical_prop_form().to_string();
-                        return res;
+                        out.is_lr = false;
+                        out.blocking_step = static_cast<int>(k);
+                        out.blocking_degree = d;
+                        out.forbidden_dep = true;
+                        out.blocking_letter = p.canonical_prop_form().to_string();
+                        return true;
                     }
                 }
             }
         }
-        // advance the per-group letter set along this pivot (single path, no
-        // cross-order intersection); st_fubini_lr already dedups its output
-        if (k + 1 < n) {
-            std::vector<std::vector<Poly>> nxt(G);
-            for (size_t g = 0; g < G; ++g)
-                nxt[g] = st_fubini_lr(cur[g], pivot, nullptr);
-            cur = std::move(nxt);
+        return false;
+    };
+
+    // FAST SCREEN (O(n)): walk the SINGLE reduction path along the order.
+    // st_fubini_lr is monotone under input-set inclusion, and the
+    // intersection-refined set at each prefix (what the order SEARCH and
+    // HyperInt's cgReduction effectively use) is a SUBSET of this single-path
+    // set.  So if NO single-path prefix blocks, the smaller intersection set
+    // cannot block either => the order is genuinely LR.  This keeps the common
+    // carry case (a rationalized, strictly-linear transformed term) at O(n); a
+    // single-path block is only POSSIBLY real and is adjudicated below.  A
+    // single-path "LR" can never be a false accept (subset of a linear set is
+    // linear), so this screen is sound.
+    {
+        std::vector<std::vector<Poly>> cur = group_polys;
+        OrderVerifyResult scratch;
+        bool blocked = false;
+        for (size_t k = 0; k < n; ++k) {
+            const size_t pivot = order_var_indices[k];
+            if (step_blocks(cur, pivot, k, scratch)) { blocked = true; break; }
+            if (k + 1 < n) {
+                std::vector<std::vector<Poly>> nxt(G);
+                for (size_t g = 0; g < G; ++g)
+                    nxt[g] = st_fubini_lr(cur[g], pivot, nullptr);
+                cur = std::move(nxt);
+            }
         }
+        if (!blocked) { res.is_lr = true; return res; }
+    }
+
+    // The single-path screen hit a blocker, but a single path
+    // over-approximates the Landau set (st_fubini_lr emits ALL pairwise
+    // resultants, no compatibility graph), so the blocker may be a spurious
+    // letter (e.g. x8^2+x8+1) that the intersection drops.  Re-decide against
+    // the SAME intersection-refined set_table the SEARCH uses: a letter
+    // survives a subset only if produced along EVERY pivot path into it.  This
+    // is what makes verify agree with find_lr_orders by construction (and so
+    // with HyperInt on every order the SEARCH accepts).  Single-path was the
+    // multi-group false-negative; see notes/verify_multigroup_bug/REPRO.md.
+    if (n > 63) {  // bitmask subset table, same cap as find_lr_orders
+        throw std::runtime_error(
+            "verify_order_is_lr: > 63 integration variables (bitmask overflow)");
+    }
+    const auto set_table = build_lr_set_table(group_polys, xvar_indices);
+
+    // ctx-variable-index -> bit position in xvar_indices, for the prefix mask.
+    std::unordered_map<size_t, size_t> bit_of;
+    bit_of.reserve(n * 2);
+    for (size_t b = 0; b < n; ++b) bit_of[xvar_indices[b]] = b;
+
+    // At step k the already-integrated subset is {order[0..k-1]} (= `bits`),
+    // whose intersection-refined letter set is set_table[bits]; require it
+    // linear (<= max_deg) in the next pivot order[k].  Same per-step test
+    // find_lr_orders' Step B applies to set_table[prev_bits].
+    uint64_t bits = 0;
+    for (size_t k = 0; k < n; ++k) {
+        const size_t pivot = order_var_indices[k];
+        auto itc = set_table.find(bits);
+        if (itc == set_table.end())  // every prefix subset was built above
+            throw std::runtime_error("verify_order_is_lr: missing prefix state");
+        if (step_blocks(itc->second, pivot, k, res)) return res;
+        bits |= (1ull << bit_of[pivot]);  // integrate order[k]
     }
     res.is_lr = true;
     return res;

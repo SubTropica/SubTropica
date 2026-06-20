@@ -3103,6 +3103,9 @@ body:not(.mode-full) .config-footer { display: none; }
   flex-wrap: wrap;
   gap: 4px;
 }
+/* The "Imported" badge is an <a> (it links to the ancillary files), so
+   strip the anchor underline and inherit the .badge chrome unchanged. */
+a.badge-imported { text-decoration: none; cursor: pointer; }
 
 .popup-section {
   padding-top: 12px;
@@ -4135,6 +4138,34 @@ input[type="checkbox"].mac-switch:focus-visible { outline: 2px solid var(--accen
 .browser-seg-item:hover { color: var(--text); }
 .browser-seg-item.on,
 .browser-seg-item.on:hover { color: #fff; font-weight: 600; }
+
+/* "Sort by" segmented bar reuses the filter chrome; the trailing segment is a
+   direction toggle (▲ asc / ▼ desc) rather than a sort key. Give it a left
+   divider and a fixed, arrow-sized width so it reads as a separate affordance.
+   Unlike the multi-select filter thumb, the sort bar has no sliding thumb — the
+   active key is shown via the per-item .on state set in JS. */
+.browser-sort-seg { overflow: visible; }
+/* The sort bar has no sliding thumb (single-select), so the active key needs a
+   static background to read as selected. Echo the filter thumb: green pill off
+   the maroon bar, white pill (dark text) on it. Round the ends so the first/last
+   key keep the bar's rounded corners. */
+.browser-sort-seg .browser-seg-item.on {
+  background: var(--green);
+  border-radius: 9px;
+}
+.browser-header-top .browser-sort-seg .browser-seg-item.on { background: #fff; }
+.browser-seg-item.browser-sort-dir {
+  padding: 0 8px;
+  border-left: 1px solid var(--border);
+  font-size: 10px;
+  color: var(--text);
+}
+.browser-seg-item.browser-sort-dir:hover { color: var(--accent); }
+.browser-header-top .browser-seg-item.browser-sort-dir {
+  border-left-color: rgba(255, 255, 255, 0.3);
+  color: rgba(255, 255, 255, 0.9);
+}
+.browser-header-top .browser-seg-item.browser-sort-dir:hover { color: #fff; }
 
 /* Filters sit on the maroon title bar — recolor for the dark background with
    translucent white (matching the search box); the green thumb/on-state stays. */

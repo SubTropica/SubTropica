@@ -1213,10 +1213,13 @@ static void reduce_inplace_impl(Poly& num, Poly& den) {
 
     // Size gate: skip the narrow-ctx hoist for small polys. The
     // transplant round-trip dominates when polys are trivially small.
-    // Threshold chosen from the adversarial review's FLINT benchmarks:
-    // sum-of-lengths < 4 is a net loss; >= 4 the gcd Johnson/
-    // subresultant work starts to dominate. Same constant as
-    // Poly::gcd::kNarrowMinLen.
+    // The threshold was ORIGINALLY 4 (from FLINT GCD micro-benchmarks:
+    // "sum-of-lengths < 4 is a net loss; >= 4 the gcd Johnson/subresultant
+    // work starts to dominate", same constant as Poly::gcd::kNarrowMinLen).
+    // 2026-06-18: a clean A/B on the real integration workload showed the
+    // micro-benchmark UNDER-counted the per-call narrow round-trip; the
+    // default is now 16 (see the size_gate_min_static block below). This is
+    // NO LONGER tied to Poly::gcd::kNarrowMinLen (which remains 4).
     //
     // 2026-05-02 correction: an earlier version of this comment cited
     // a "~33% transplant / ~16% real poly math" tst1/tst2 profile.
@@ -1239,19 +1242,30 @@ static void reduce_inplace_impl(Poly& num, Poly& den) {
     //  canonicalization. The "95%-constant-gcd" finding does not make it
     //  skippable. See findings F14. Lever B (cross-GCD) is value-preserving.]
     // 2026-05-01 (Tier 3 refined lever): env-gated raise of the size-gate
-    // threshold. Default 4 = current behavior. Higher values push more
-    // tiny-poly calls onto the wide-ctx GCD path, skipping the narrow-ctx
-    // transplant overhead. Phase-0 nterm-blowup data showed 97% of
-    // reduce_inplace calls (steps 5-7 of parity-1) operate on polys with
-    // avg num+den length 2-18 and shrink ratio 0.85-0.99 — GCD removes
-    // ~0-1 monomials per call but pays the full transplant + narrow-ctx
-    // setup cost. Raising the threshold may amortize that overhead by
-    // routing through wide-ctx instead.
+    // threshold. Higher values push more tiny-poly calls onto the wide-ctx
+    // GCD path, skipping the narrow-ctx transplant overhead. Phase-0
+    // nterm-blowup data showed 97% of reduce_inplace calls (steps 5-7 of
+    // parity-1) operate on polys with avg num+den length 2-18 and shrink
+    // ratio 0.85-0.99 — GCD removes ~0-1 monomials per call but pays the full
+    // transplant + narrow-ctx setup cost.
+    //
+    // 2026-06-18 (hf_shuffle_opt Phase 4 reduce lever): DEFAULT RAISED 4 -> 16.
+    // The old default 4 came from FLINT micro-benchmarks ("<4 net loss, >=4
+    // gcd dominates"); that under-counted the per-call narrow round-trip cost
+    // on the REAL integration workload. A clean A/B on a quiesced node
+    // (mimalloc ON) over the full tst+lib2L suite: raising the gate to 16 cuts
+    // rn_setup (the transplant) ~entirely and nets -14% (tst1), -16% (tst2.st,
+    // tst3.mt OMP40) wall, FLAT on tst0/lib2L/3l3pt (3l3pt never narrows:
+    // rn_setup=0, it is wide-GCD-bound), with BYTE-IDENTICAL results on every
+    // fixture. gate16 ~= gate64 ~= NO_NARROW (the win plateaus); 16 is the
+    // least-aggressive winning value, keeping narrow for genuinely large polys
+    // where the GCD savings beat the transplant. See
+    // notes/hf_shuffle_opt/JOURNAL.md Phase 4.1.
     static const slong size_gate_min_static = []{
         const char* e = HF_FLAG_REDUCE_SIZE_GATE_MIN;
-        if (!e || !*e) return slong{4};
+        if (!e || !*e) return slong{16};
         long v = std::strtol(e, nullptr, 10);
-        return v > 0 ? static_cast<slong>(v) : slong{4};
+        return v > 0 ? static_cast<slong>(v) : slong{16};
     }();
     // 2026-05-01 (adaptive size-gate): when HF_REDUCE_SIZE_GATE_DIVISOR=N
     // is set (N > 0), the threshold becomes per-call:
@@ -1934,11 +1948,16 @@ inline AddNarrowDecision decide_narrow_ctx_for_add(
     // Same env-cached constants as reduce_inplace (lines 547-565). Static
     // caches are process-wide so re-evaluating them here costs one
     // already-resolved branch per call; they are NOT re-read from env.
+    // 2026-06-18: default RAISED 4 -> 16 to MATCH reduce_inplace (companion
+    // change; this add-path narrow has the same transplant overhead). The
+    // shared HF_REDUCE_SIZE_GATE_MIN=16 A/B that validated the reduce change
+    // raised BOTH gates, so both-at-16 is the configuration that measured
+    // -16% tst2 with byte-identical results. See notes/hf_shuffle_opt/JOURNAL.md.
     static const slong size_gate_min_static = []{
         const char* e = HF_FLAG_REDUCE_SIZE_GATE_MIN;
-        if (!e || !*e) return slong{4};
+        if (!e || !*e) return slong{16};
         long v = std::strtol(e, nullptr, 10);
-        return v > 0 ? static_cast<slong>(v) : slong{4};
+        return v > 0 ? static_cast<slong>(v) : slong{16};
     }();
     static const slong size_gate_divisor = []{
         const char* e = HF_FLAG_REDUCE_SIZE_GATE_DIVISOR;
