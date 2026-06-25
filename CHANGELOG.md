@@ -11,6 +11,64 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Added
 
+### Changed
+
+### Fixed
+
+
+## [1.2.7] - 2026-06-25
+
+### Added
+
+- **Experimental automatic rationalization.**  The `Rationalize` option of
+  `STIntegrate` looks for a rationalizing change of variables for square-root
+  letters (currently the genus-zero, conic case) through an Euler substitution,
+  extending the hyperlogarithm integrators to some integrals whose natural
+  alphabet is algebraic.  `Rationalize` (`Automatic` / `True` / `False`) is the
+  user-facing umbrella for the per-face root-handling escalation (strict, then
+  `FindRoots` algebraic letters, then the Euler-rationalization rung) and
+  supersedes the deprecated `Carry` option.
+- **n-gon kinematic family collection.**  Explicit closed-form results for the
+  one-loop n-gon integrals are added as native library results: the massless
+  pentagon, hexagon (in harmonic polylogarithms), and heptagon (Murakami
+  spherical-tetrahedron volume), the all-mass box (Murakami-Yano hyperbolic
+  tetrahedron) and all-mass pentagon, and explicit multiple-polylogarithm forms
+  for the Basso-Dixon, ladder, and fishnet families.  Generic-mass member
+  configurations are registered for n = 2 through 8.
+- **Per-result "Download .nb"** button, and Export / Notebook buttons on diagram
+  entries, in the web interface.
+- Bare Euler-integrand input to `STIntegrate` now defaults to the HyperFLINT
+  backend.
+
+### Changed
+
+- **Computed-results library expansion (209 to 417).**  Most of the growth is the
+  arXiv:1705.06483 phi^4 period import (two- through six-loop periods, with the
+  external scale restored), together with the n-gon volumes and the exact
+  ladder / box / triangle / fishnet closed forms above.  The bundled library now
+  holds 503 topologies and 1,105 mass configurations.
+- **Library reference audit.**  The n = 2, 3, and 4 external-leg entries were
+  fact-checked against their cited references; off-shell references that had been
+  attached to scaleless or wrong-mass entries were re-homed to the correct
+  sibling configurations.
+
+### Fixed
+
+- n = 4 mis-encodings re-canonicalized into the correct off-shell
+  configurations; one spurious n = 4 entry not present in its cited reference was
+  removed.
+- Closed-form display: `p_i^2` rendered as `M_i^2` in 19 ladder / box / triangle
+  results, the pentagon `H(0; .)` reduced to `log`, ladder / fishnet cross-ratios
+  grounded in Mandelstam `s_{ij}`, and `g_k` defined explicitly in the all-mass
+  box result.
+- Web UI: result-star precedence, collection reference cards, the
+  install-packages banner copy, and the paper-thumbnail placeholder.
+
+
+## [1.2.6] - 2026-06-19
+
+### Added
+
 - `STHyperFlint` integrator-level `"Carry"` option (`carry_discharge`): the carry
   DFS discharges carried degree-2 `Wm` / `Wp` letters at their integration step
   (requires `FindRoots -> True`).

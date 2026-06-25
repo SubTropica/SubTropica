@@ -26,33 +26,33 @@
       <span class="app-title" id="app-title" style="cursor:pointer"><span class="title-accent">Sub</span><span class="title-main">Tropica</span> <span class="title-badge title-badge-desktop">Online</span><span class="title-badge title-badge-mobile">Mobile</span></span>
       <div class="toolbar-sep"></div>
       <div class="toolbar-group" id="mode-segment">
-        <button class="mode-btn active-draw" id="mode-draw" title="[1] Draw mode">&#9998; Draw</button>
-        <button class="mode-btn" id="mode-delete" title="[2] Delete mode">&#10005; Delete</button>
+        <button class="mode-btn active-draw" id="mode-draw" data-tip="[1] Draw mode">&#9998; Draw</button>
+        <button class="mode-btn" id="mode-delete" data-tip="[2] Delete mode">&#10005; Delete</button>
       </div>
       <div class="toolbar-sep"></div>
       <div class="toolbar-group">
-        <button class="btn btn-sm btn-secondary" id="undo-btn" title="Ctrl+Z">&#x21A9; Undo</button>
-        <button class="btn btn-sm btn-secondary" id="redo-btn" title="Ctrl+Y">&#x21AA; Redo</button>
+        <button class="btn btn-sm btn-secondary" id="undo-btn" data-tip="Ctrl+Z">&#x21A9; Undo</button>
+        <button class="btn btn-sm btn-secondary" id="redo-btn" data-tip="Ctrl+Y">&#x21AA; Redo</button>
         <button class="btn btn-sm btn-secondary btn-danger" id="clear-btn">Clear</button>
       </div>
       <div class="toolbar-sep"></div>
       <div class="display-dropdown">
         <button class="btn btn-sm btn-secondary display-dropdown-btn" id="display-btn">Display</button>
         <div class="display-dropdown-menu" id="display-menu">
-          <label class="display-dropdown-item" title="Show momentum labels [N]">
+          <label class="display-dropdown-item" data-tip="Show momentum labels [N]">
             <input type="checkbox" id="momenta-toggle" checked/>
             <span>Momenta</span>
           </label>
-          <label class="display-dropdown-item" title="Show momentum arrows">
+          <label class="display-dropdown-item" data-tip="Show momentum arrows">
             <input type="checkbox" id="arrows-toggle" checked/>
             <span>Arrows</span>
           </label>
           <div class="display-dropdown-divider"></div>
-          <label class="display-dropdown-slider" title="Edge line thickness">
+          <label class="display-dropdown-slider" data-tip="Edge line thickness">
             <span>Thickness</span>
             <input type="range" id="line-scale" min="0.3" max="3" step="0.1" value="1"/>
           </label>
-          <label class="display-dropdown-slider" title="Label font size">
+          <label class="display-dropdown-slider" data-tip="Label font size">
             <span>Labels</span>
             <input type="range" id="label-scale" min="0.3" max="3" step="0.1" value="1"/>
           </label>
@@ -75,7 +75,7 @@
         <svg class="ico" viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg> Library
       </button>
       <div class="overflow-dropdown" id="overflow-dropdown">
-        <button class="btn btn-sm btn-secondary overflow-btn" id="overflow-btn" title="More" aria-label="More options">
+        <button class="btn btn-sm btn-secondary overflow-btn" id="overflow-btn" data-tip="More" aria-label="More options">
           <svg class="ico" viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="12" r="1.8"/><circle cx="12" cy="12" r="1.8"/><circle cx="19" cy="12" r="1.8"/></svg>
         </button>
         <div class="overflow-menu" id="overflow-menu" role="menu">
@@ -93,13 +93,13 @@
           <div class="overflow-sep"></div>
           <button class="overflow-item overflow-danger" data-action="clear" role="menuitem">Clear canvas</button>
           <div class="overflow-sep"></div>
-          <button class="overflow-item" data-action="safe-exit" role="menuitem" title="Initialize $STQuadruple, $STGraph, etc. to consistent values and shut down the server + viewer cleanly.">Safe exit (initialize globals)</button>
+          <button class="overflow-item" data-action="safe-exit" role="menuitem" data-tip="Initialize $STQuadruple, $STGraph, etc. to consistent values and shut down the server + viewer cleanly.">Safe exit (initialize globals)</button>
         </div>
       </div>
-      <button class="theme-toggle" id="theme-toggle" title="Toggle dark mode">
+      <button class="theme-toggle" id="theme-toggle" data-tip="Toggle dark mode">
         <svg class="ico" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
       </button>
-      <button class="theme-toggle" id="help-btn" title="Keyboard shortcuts [?]">?</button>
+      <button class="theme-toggle" id="help-btn" data-tip="Keyboard shortcuts [?]">?</button>
     </div>
   </div>
 
@@ -118,14 +118,14 @@
       </select>
     </div>
     <div class="review-toolbar-center">
-      <button class="review-nav-btn" id="review-prev-btn" title="Previous [K or ←]">&larr; Prev</button>
+      <button class="review-nav-btn" id="review-prev-btn" data-tip="Previous [K or ←]">&larr; Prev</button>
       <span class="review-progress" id="review-progress"><input type="text" id="review-progress-input" class="review-progress-input" value="—" size="4"> / <span id="review-progress-total">—</span></span>
-      <button class="review-nav-btn" id="review-next-btn" title="Next [J or →]">Next &rarr;</button>
+      <button class="review-nav-btn" id="review-next-btn" data-tip="Next [J or →]">Next &rarr;</button>
     </div>
     <div class="review-toolbar-right">
       <span class="review-current-label" id="review-current-label"></span>
-      <button class="review-nav-btn" id="review-reload-btn" title="Reload queue">&#x21bb;</button>
-      <button class="review-nav-btn review-close-btn" id="review-exit-btn" title="Exit review mode">&times;</button>
+      <button class="review-nav-btn" id="review-reload-btn" data-tip="Reload queue">&#x21bb;</button>
+      <button class="review-nav-btn review-close-btn" id="review-exit-btn" data-tip="Exit review mode">&times;</button>
     </div>
   </div>
 
@@ -141,7 +141,7 @@
     <div class="review-filter-group" id="review-filter-ms">
       <span class="review-filter-group-label">mass scales</span>
     </div>
-    <button class="review-filter-clear" id="review-filter-clear" title="Clear all filters">clear</button>
+    <button class="review-filter-clear" id="review-filter-clear" data-tip="Clear all filters">clear</button>
   </div>
 
   <!-- ═══════════ FULL-PAGE CANVAS ═══════════ -->
@@ -194,22 +194,22 @@
   <div class="review-pdf-panel" id="review-pdf-panel" style="display:none">
     <div class="review-pdf-toolbar">
       <div class="pdf-nav-side">
-        <button class="review-pdf-nav" id="review-pdf-close" title="Close PDF panel">&times;</button>
+        <button class="review-pdf-nav" id="review-pdf-close" data-tip="Close PDF panel">&times;</button>
       </div>
       <div class="pdf-nav-center">
-        <button class="review-pdf-nav" id="review-pdf-prev" title="Previous page">&larr;</button>
-        <span class="review-pdf-page" id="review-pdf-page"><input class="pdf-page-inline" id="review-pdf-page-input" type="text" value="—" size="3" title="Edit page number" autocomplete="off"/> / <span id="review-pdf-page-total">—</span></span>
-        <button class="review-pdf-nav" id="review-pdf-next" title="Next page">&rarr;</button>
+        <button class="review-pdf-nav" id="review-pdf-prev" data-tip="Previous page">&larr;</button>
+        <span class="review-pdf-page" id="review-pdf-page"><input class="pdf-page-inline" id="review-pdf-page-input" type="text" value="—" size="3" data-tip="Edit page number" autocomplete="off"/> / <span id="review-pdf-page-total">—</span></span>
+        <button class="review-pdf-nav" id="review-pdf-next" data-tip="Next page">&rarr;</button>
       </div>
       <div class="pdf-nav-side pdf-nav-side-end">
-        <button class="review-pdf-nav" id="review-pdf-open" title="Open PDF in new tab">&#8599;</button>
-        <button class="review-pdf-nav review-pdf-bib" id="review-pdf-bibtex" title="Fetch BibTeX from INSPIRE and copy to clipboard">Copy BibTeX</button>
+        <button class="review-pdf-nav" id="review-pdf-open" data-tip="Open PDF in new tab">&#8599;</button>
+        <button class="review-pdf-nav review-pdf-bib" id="review-pdf-bibtex" data-tip="Fetch BibTeX from INSPIRE and copy to clipboard">Copy BibTeX</button>
       </div>
     </div>
     <div class="review-pdf-viewport" id="review-pdf-viewport">
       <div class="pdf-pages" id="review-pdf-pages"></div>
     </div>
-    <div class="review-pdf-resize" id="review-pdf-resize" title="Drag to resize"></div>
+    <div class="review-pdf-resize" id="review-pdf-resize" data-tip="Drag to resize"></div>
   </div>
 
   <!-- ═══════════ REVIEW SIDE PANEL (persistent right column in review mode) ═══════════ -->
@@ -240,8 +240,8 @@
     <div class="config-sheet-handle" id="config-sheet-handle" aria-hidden="true">
       <div class="config-sheet-handle-bar"></div>
     </div>
-    <button class="config-sheet-close" id="config-sheet-close" title="Close" aria-label="Close panel">&times;</button>
-    <div class="config-tab-pull" id="config-tab-pull" title="Side panel [C]">
+    <button class="config-sheet-close" id="config-sheet-close" data-tip="Close" aria-label="Close panel">&times;</button>
+    <div class="config-tab-pull" id="config-tab-pull" data-tip="Side panel [C]">
       <span class="config-tab-icon-open"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="9" y1="3" x2="9" y2="21"/></svg></span>
       <span class="config-tab-icon-close">&#x2190;</span>
     </div>
@@ -251,7 +251,7 @@
       <button class="config-tab" data-tab="cfg-export">Export</button>
       <button class="config-tab" data-tab="cfg-paper" id="cfg-paper-tab">PDF preview</button>
       <div class="cfg-help-wrap" style="margin-left:auto">
-        <button class="cfg-help-btn" id="cfg-help-toggle" title="Input notation help">?</button>
+        <button class="cfg-help-btn" id="cfg-help-toggle" data-tip="Input notation help">?</button>
         <div class="cfg-help-popup" id="cfg-help-popup">
           <div class="cfg-help-title">Input notation</div>
           <table class="cfg-help-table">
@@ -483,21 +483,21 @@
           <div class="export-cmd" id="export-cmd-graph">
             <div class="export-cmd-header">
               <span class="export-cmd-label">Graph form</span>
-              <button class="modal-btn-tiny export-copy" data-target="export-cmd-graph" title="Copy to clipboard">Copy</button>
+              <button class="modal-btn-tiny export-copy" data-target="export-cmd-graph" data-tip="Copy to clipboard">Copy</button>
             </div>
             <pre class="export-code" id="export-code-graph"></pre>
           </div>
           <div class="export-cmd" id="export-cmd-props">
             <div class="export-cmd-header">
               <span class="export-cmd-label">Propagator form</span>
-              <button class="modal-btn-tiny export-copy" data-target="export-cmd-props" title="Copy to clipboard">Copy</button>
+              <button class="modal-btn-tiny export-copy" data-target="export-cmd-props" data-tip="Copy to clipboard">Copy</button>
             </div>
             <pre class="export-code" id="export-code-props"></pre>
           </div>
           <div class="export-cmd" id="export-cmd-quad">
             <div class="export-cmd-header">
               <span class="export-cmd-label">Quadruple form</span>
-              <button class="modal-btn-tiny export-copy" data-target="export-cmd-quad" title="Copy to clipboard">Copy</button>
+              <button class="modal-btn-tiny export-copy" data-target="export-cmd-quad" data-tip="Copy to clipboard">Copy</button>
             </div>
             <pre class="export-code" id="export-code-quad"></pre>
           </div>
@@ -519,13 +519,13 @@
         <div class="cfg-pdf-nav" id="cfg-pdf-nav" style="display:none">
           <div class="pdf-nav-side"></div>
           <div class="pdf-nav-center">
-            <button class="review-pdf-nav" id="cfg-pdf-prev" title="Previous page">&larr;</button>
-            <span class="review-pdf-page" id="cfg-pdf-page"><input class="pdf-page-inline" id="cfg-pdf-page-input" type="text" value="—" size="3" title="Edit page number" autocomplete="off"/> / <span id="cfg-pdf-page-total">—</span></span>
-            <button class="review-pdf-nav" id="cfg-pdf-next" title="Next page">&rarr;</button>
+            <button class="review-pdf-nav" id="cfg-pdf-prev" data-tip="Previous page">&larr;</button>
+            <span class="review-pdf-page" id="cfg-pdf-page"><input class="pdf-page-inline" id="cfg-pdf-page-input" type="text" value="—" size="3" data-tip="Edit page number" autocomplete="off"/> / <span id="cfg-pdf-page-total">—</span></span>
+            <button class="review-pdf-nav" id="cfg-pdf-next" data-tip="Next page">&rarr;</button>
           </div>
           <div class="pdf-nav-side pdf-nav-side-end">
-            <button class="review-pdf-nav" id="cfg-pdf-open" title="Open PDF in new tab">&#8599;</button>
-            <button class="review-pdf-nav review-pdf-bib" id="cfg-pdf-bibtex" title="Fetch BibTeX from INSPIRE and copy to clipboard">Copy BibTeX</button>
+            <button class="review-pdf-nav" id="cfg-pdf-open" data-tip="Open PDF in new tab">&#8599;</button>
+            <button class="review-pdf-nav review-pdf-bib" id="cfg-pdf-bibtex" data-tip="Fetch BibTeX from INSPIRE and copy to clipboard">Copy BibTeX</button>
           </div>
         </div>
         <div class="pdf-pages" id="cfg-pdf-pages" style="display:none"></div>
@@ -536,7 +536,7 @@
     <div class="config-footer" id="config-footer">
       <!-- JS populates: Integrate button (full mode) or Get SubTropica link (lite mode) -->
     </div>
-    <div class="config-resize" id="config-resize" title="Drag to resize"></div>
+    <div class="config-resize" id="config-resize" data-tip="Drag to resize"></div>
   </div>
 
   <!-- ═══════════ EXPORT DROPDOWN ═══════════ -->
@@ -553,26 +553,26 @@
   <!-- ═══════════ BOTTOM CONTROLS ═══════════ -->
   <div class="bottom-bar" id="bottom-bar">
     <div class="bottom-group">
-      <button class="bottom-btn" id="rotate-cw-btn" title="Rotate 45° clockwise"><svg class="ico" viewBox="0 0 24 24"><path d="M23 4v6h-6"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg></button>
-      <button class="bottom-btn" id="rotate-ccw-btn" title="Rotate 45° counter-clockwise"><svg class="ico" viewBox="0 0 24 24"><path d="M1 4v6h6"/><path d="M3.51 15a9 9 0 1 0 2.12-9.36L1 10"/></svg></button>
-      <button class="bottom-btn" id="flip-h-btn" title="Flip horizontal"><svg class="ico" viewBox="0 0 24 24"><path d="M7 16L3 12l4-4"/><path d="M17 16l4-4-4-4"/><line x1="3" y1="12" x2="21" y2="12"/></svg></button>
-      <button class="bottom-btn" id="flip-v-btn" title="Flip vertical"><svg class="ico" viewBox="0 0 24 24"><path d="M16 7l-4-4-4 4"/><path d="M16 17l-4 4-4-4"/><line x1="12" y1="3" x2="12" y2="21"/></svg></button>
-      <button class="bottom-btn" id="rebalance-btn" title="Auto-arrange [L]">
+      <button class="bottom-btn" id="rotate-cw-btn" data-tip="Rotate 45° clockwise"><svg class="ico" viewBox="0 0 24 24"><path d="M23 4v6h-6"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg></button>
+      <button class="bottom-btn" id="rotate-ccw-btn" data-tip="Rotate 45° counter-clockwise"><svg class="ico" viewBox="0 0 24 24"><path d="M1 4v6h6"/><path d="M3.51 15a9 9 0 1 0 2.12-9.36L1 10"/></svg></button>
+      <button class="bottom-btn" id="flip-h-btn" data-tip="Flip horizontal"><svg class="ico" viewBox="0 0 24 24"><path d="M7 16L3 12l4-4"/><path d="M17 16l4-4-4-4"/><line x1="3" y1="12" x2="21" y2="12"/></svg></button>
+      <button class="bottom-btn" id="flip-v-btn" data-tip="Flip vertical"><svg class="ico" viewBox="0 0 24 24"><path d="M16 7l-4-4-4 4"/><path d="M16 17l-4 4-4-4"/><line x1="12" y1="3" x2="12" y2="21"/></svg></button>
+      <button class="bottom-btn" id="rebalance-btn" data-tip="Auto-arrange [L]">
         <svg class="ico" viewBox="0 0 24 24"><path d="M12 2l1.5 4.5L18 8l-4.5 1.5L12 14l-1.5-4.5L6 8l4.5-1.5L12 2z"/><path d="M5 16l1 3 3 1-3 1-1 3-1-3-3-1 3-1 1-3z"/><path d="M19 14l.75 2.25L22 17l-2.25.75L19 20l-.75-2.25L16 17l2.25-.75L19 14z"/></svg>
       </button>
     </div>
     <div class="bottom-sep"></div>
     <div class="bottom-group">
-      <label class="bottom-snap" title="[S] Toggle snap">
+      <label class="bottom-snap" data-tip="[S] Toggle snap">
         <input type="checkbox" id="snap-toggle"/>
         <span>Snap to grid</span>
       </label>
     </div>
     <div class="bottom-sep"></div>
     <div class="bottom-group">
-      <button class="bottom-btn" id="zoom-out-btn" title="Zoom out">&minus;</button>
+      <button class="bottom-btn" id="zoom-out-btn" data-tip="Zoom out">&minus;</button>
       <span class="bottom-zoom" id="zoom-display">100%</span>
-      <button class="bottom-btn" id="zoom-in-btn" title="Zoom in">+</button>
+      <button class="bottom-btn" id="zoom-in-btn" data-tip="Zoom in">+</button>
     </div>
   </div>
 
@@ -612,35 +612,26 @@
             <button class="browser-tab" id="browser-tab-families" data-tab="families">Collections</button>
           </div>
           <div class="browser-filters">
+            <!-- One wrapping row: every filter chip group flows left-to-right and
+                 spills onto further rows as the bar narrows. Source/Results are
+                 multi-select category bars (built by buildFlagChipGroup). -->
             <div class="browser-filter-row">
               <div class="browser-chip-group" id="browser-filter-loops" data-label="Loops:"></div>
               <div class="browser-chip-group" id="browser-filter-legs" data-label="Legs:"></div>
-              <div class="browser-toggles-right">
-                <label class="browser-precomputed-toggle" id="browser-filter-precomputed">
-                  <span>Computed only</span>
-                  <input type="checkbox" id="browser-precomputed-cb" class="mac-switch"/>
-                </label>
-                <label class="browser-precomputed-toggle" id="browser-filter-local" style="display:none">
-                  <span>Local only</span>
-                  <input type="checkbox" id="browser-local-cb" class="mac-switch"/>
-                </label>
-              </div>
-            </div>
-            <div class="browser-filter-row">
               <div class="browser-chip-group" id="browser-filter-fc" data-label="Class:" style="display:none"></div>
               <div class="browser-chip-group" id="browser-filter-ms" data-label="Scales:" style="display:none"></div>
               <div class="browser-chip-group" id="browser-filter-verified" data-label="Verified:" style="display:none"></div>
-            </div>
-            <div class="browser-filter-row">
-              <div class="browser-chip-group" id="browser-sort" data-label="Sort:"></div>
+              <div class="browser-chip-group" id="browser-filter-source" data-label="Source:"></div>
+              <div class="browser-chip-group" id="browser-filter-results" data-label="Results:"></div>
+              <div class="browser-chip-group" id="browser-sort" data-label="Sort by"></div>
             </div>
           </div>
-          <button type="button" class="browser-filters-btn" id="browser-filters-btn" aria-expanded="false" title="Show filters">Filters</button>
+          <button type="button" class="browser-filters-btn" id="browser-filters-btn" aria-expanded="false" data-tip="Show filters">Filters</button>
           <span style="position:relative;display:inline-block">
             <input class="browser-search" id="browser-search" placeholder="Search..." autocomplete="off"/>
-            <button id="browser-search-clear" style="position:absolute;right:6px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:14px;color:var(--text-muted);display:none;padding:0 2px" title="Clear search">&times;</button>
+            <button id="browser-search-clear" style="position:absolute;right:6px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:14px;color:var(--text-muted);display:none;padding:0 2px" data-tip="Clear search">&times;</button>
           </span>
-          <button class="btn btn-sm btn-secondary browser-sync-btn" id="browser-sync-btn" title="Sync with central library" style="display:none">Sync</button>
+          <button class="btn btn-sm btn-secondary browser-sync-btn" id="browser-sync-btn" data-tip="Sync with central library" style="display:none">Sync</button>
           <button class="detail-close" id="browser-close">&times;</button>
         </div>
       </div>
@@ -678,27 +669,27 @@
                  data-tip-html="<strong>&epsilon; order</strong> — highest power of <code>eps</code> to keep in the expansion. <code>0</code> gives the finite part (through <code>eps^0</code>); use <code>1</code> or <code>2</code> for subleading terms.">&epsilon; order</label>
           <input class="ic-input ic-input-xs" id="ic-eps-order" value="0" type="number" step="1"
                  data-tip-html="<strong>&epsilon; order</strong> — highest power of <code>eps</code> to keep in the expansion. <code>0</code> gives the finite part (through <code>eps^0</code>); use <code>1</code> or <code>2</code> for subleading terms."/>
-          <button class="modal-btn-tiny" id="ic-check-complexity" title="Run the Tier-2 kernel complexity check (tropical expansion, divergent facets, LR-gauge)" style="display:none;margin-left:auto">Check complexity</button>
-          <button class="modal-btn-tiny" id="ic-check-mpl" title="Check if polylogarithmic" style="display:none">Check if MPL</button>
-          <button class="modal-btn-tiny" id="ic-save-exit" title="Sync $STGraph / $STQuadruple / $STPropagators with the current diagram and return to Mathematica without printing any output" style="display:none">Save and exit</button>
+          <button class="modal-btn-tiny" id="ic-check-complexity" data-tip="Run the Tier-2 kernel complexity check (tropical expansion, divergent facets, LR-gauge)" style="display:none;margin-left:auto">Check complexity</button>
+          <button class="modal-btn-tiny" id="ic-check-mpl" data-tip="Check if polylogarithmic" style="display:none">Check if MPL</button>
+          <button class="modal-btn-tiny" id="ic-save-exit" data-tip="Sync $STGraph / $STQuadruple / $STPropagators with the current diagram and return to Mathematica without printing any output" style="display:none">Save and exit</button>
         </div>
       </div>
       <div class="integral-card-actions">
-        <button class="modal-btn-tiny ic-online-only" id="integral-copy-tex" title="Copy LaTeX"
+        <button class="modal-btn-tiny ic-online-only" id="integral-copy-tex" data-tip="Copy LaTeX"
                 data-tip-html="Copy the Feynman-parameter integrand in <strong>LaTeX</strong> form, ready to paste into a paper or notes.">LaTeX</button>
-        <button class="modal-btn-tiny ic-online-only" id="integral-copy-mma" title="Copy Mathematica"
+        <button class="modal-btn-tiny ic-online-only" id="integral-copy-mma" data-tip="Copy Mathematica"
                 data-tip-html="Copy the Feynman integral as a <strong>Mathematica</strong> expression using SubTropica conventions: <code>mm[i]</code> for internal masses<sup>2</sup>, <code>MM</code>/<code>MM<sub>i</sub></code> for external, <code>s</code>/<code>t</code>/<code>u</code> for Mandelstams.">Mathematica</button>
       </div>
-      <div class="difficulty-stars" id="difficulty-stars" title="Estimated difficulty"></div>
+      <div class="difficulty-stars" id="difficulty-stars" data-tip="Estimated difficulty"></div>
     </div>
-    <button class="integrate-fab" id="integrate-fab" title="Integrate diagram">
-      <span class="integrate-fab-chevron" id="integral-card-toggle" title="Toggle formula preview"></span>
+    <button class="integrate-fab" id="integrate-fab" data-tip="Integrate diagram">
+      <span class="integrate-fab-chevron" id="integral-card-toggle" data-tip="Toggle formula preview"></span>
       <span class="mascot-emoji" style="font-size:1.2em">&#x1F965;</span>&thinsp;Integrate
     </button>
   </div>
 
   <!-- ═══════════ LIBRARY FAB (mobile only) ═══════════ -->
-  <button class="library-fab" id="library-fab" title="Library" aria-label="Open library">
+  <button class="library-fab" id="library-fab" data-tip="Library" aria-label="Open library">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
   </button>
 

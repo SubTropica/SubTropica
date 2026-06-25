@@ -16,7 +16,7 @@
     {
       "reference": "arXiv:1705.03545",
       "familyName": "basso-dixon_L2x2_massless-internal-offshell-external",
-      "description": "Basso-Dixon fishnet family, basso-dixon_L2x2_massless-internal-offshell-external. Basso-Dixon fishnet B_{M,N}: an M x N rectangular grid, 4 external operators at the corners, defined in dual (region-momentum) space via products of 1/x_ij^2 propagators. The L = MN loop integral is conformal. Momentum space: the (M+1) x (N+1) vertex grid (2MN+M+N massless edges, 4 off-shell corner legs, MN loops); B_{M,1} = the M-rung 4-pt ladder; transpose symmetry fixes the canonical orientation M >= N. Value = BassoDixonI[2, 2, 1/3, 1/5].",
+      "description": "Basso-Dixon fishnet family, basso-dixon_L2x2_massless-internal-offshell-external. Basso-Dixon fishnet B_{M,N}: an M x N rectangular grid, 4 external operators at the corners, defined in dual (region-momentum) space via products of 1/x_ij^2 propagators. The L = MN loop integral is conformal. Momentum space: the (M+1) x (N+1) vertex grid (2MN+M+N massless edges, 4 off-shell corner legs, MN loops); B_{M,1} = the M-rung 4-pt ladder; transpose symmetry fixes the canonical orientation M >= N.",
       "method": [
         "closed form"
       ],
@@ -28,7 +28,41 @@
       "verifiedAt": ""
     }
   ],
-  "Results": [],
+  "Results": [
+    {
+      "numeric": 354.96665481535746,
+      "normalization": "Exact $2\\times2$ Basso--Dixon fishnet: the convention-free conformal determinant of Usyukina--Davydychev ladders (arXiv:1705.03545, Eqs. 1--6), $\\Phi^{(1)}\\Phi^{(3)}-\\frac{1}{3}\\,(\\Phi^{(2)})^2$, weight-8 explicit classical polylogarithms in the conformal cross-ratios $z,\\bar z$. The numeric is its value at $z=1/3$, $\\bar z=1/5$.",
+      "provenance": "closed-form-from-cited-literature",
+      "seedRecordId": "fs_5146f836c796",
+      "timestamp": "2026-06-21T23:33:58Z",
+      "contributor": "SM",
+      "stVersion": "SubTropica 1.2.6",
+      "import": {
+        "submittedBy": "Sebastian Mizera",
+        "source": {
+          "paper": "arXiv:1705.03545",
+          "title": "Gluing Ladders into Fishnets",
+          "authors": "Benjamin Basso, Lance J. Dixon",
+          "journal": "Phys. Rev. Lett. 119 (2017) 071601",
+          "texkey": "Basso:2017jwq",
+          "doi": "10.1103/PhysRevLett.119.071601"
+        },
+        "method": "Basso-Dixon fishnet B_{M,N}: convention-free conformal determinant det[c_ij Phi^(M-N-1+i+j)(z,zbar)] of Usyukina-Davydychev ladders, evaluated at z=1/3, zbar=1/5. The slice B_{M,1} reduces exactly to the M-rung 4-point ladder Phi^(M).",
+        "importedAt": "2026-06-21"
+      },
+      "seedFamilyExpand": {
+        "family": "bd",
+        "params": [
+          2,
+          2
+        ]
+      },
+      "dimension": "4",
+      "symbolWeight": 8,
+      "resultDataId": "c96fa021c8b42b2b",
+      "resultTeXPreview": "\\Phi^{(1)}\\Phi^{(3)}-\\frac{1}{3}\\,\\bigl(\\Phi^{(2)}\\bigr)^{2} \\\\[4pt] \\Phi^{(L)}(z,\\bar z)=-\\frac{1}{L!\\,(z-\\bar z)}\\sum_{j=L}^{2L}\\frac{(-1)^{j}\\,j!}{(j-L)!\\,(2L-j)!}\\,\\log^{\\,2L-j}\\!\\frac{(1-z)(1-\\bar z)}{z\\bar z}\\left[\\operatorname{Li}_{j}\\!\\left(\\tfrac{\\bar z-1}{\\bar z}\\right)-\\operatorname{Li}_{j}\\!\\left(\\tfrac{z-1}{z}\\right)\\right] \\\\[4pt] u=z\\bar z=\\frac{M_1^2\\,M_3^2}{s_{12}\\,s_{23}},\\quad v=(1-z)(1-\\bar z)=\\frac{M_2^2\\,M_4^2}{s_{12}\\,s_{23}}"
+    }
+  ],
   "Names": [
     "basso-dixon_L2x2_massless-internal-offshell-external"
   ],

@@ -77,4 +77,18 @@ ChiFilterStats chi_filter_stats();
 void reset_chi_filter_stats();
 void chi_stats_count_sectors_call();  // incremented inside euler_chi
 
+// Explicitly re-arm the msolve spawn circuit breaker (defined in euler_chi.cpp):
+// when msolve spawns keep failing (rc=-1; under contention this is spawn-level
+// EAGAIN, not an input crash) the filter abstains, but the thousands of failing
+// spawns per request can starve concurrent subprocess launches (the
+// EulerFilter->True parallel-integration break).  After N
+// consecutive msolve failures the spawn is skipped for the rest of the process
+// (filter still abstains => identical result, storm capped).  This is
+// DELIBERATELY NOT called per find_lr_orders / find_lr_orders_scan request: the
+// breaker must persist across requests so a permanently-broken msolve is capped
+// once, while a working msolve never trips (each success resets the streak
+// before the threshold).  Call this only to force a fresh attempt mid-process
+// (e.g. after fixing HF_MSOLVE_PATH).
+void reset_chi_spawn_breaker();
+
 }  // namespace hyperflint

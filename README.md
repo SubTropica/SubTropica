@@ -1,6 +1,6 @@
 # 🥥 SubTropica
 
-[![Version](https://img.shields.io/badge/version-1.2.6-blue)](https://github.com/SubTropica/SubTropica)
+[![Version](https://img.shields.io/badge/version-1.2.7-blue)](https://github.com/SubTropica/SubTropica)
 [![Mathematica](https://img.shields.io/badge/Mathematica-13.1%2B-red)](https://www.wolfram.com/mathematica/)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 [![Data: CC BY-NC-SA 4.0](https://img.shields.io/badge/data_license-CC_BY--NC--SA_4.0-orange)](LICENSE-DATA)
@@ -22,6 +22,8 @@ PacletInstall["https://subtropi.ca/HyperFLINT.paclet"]
 
 Once installed, it automatically becomes the default symbolic integrator of `STIntegrate`. More details are provided [below](#optional-the-hyperflint-backend-macos).
 
+This release also adds **experimental support for automatic rationalization**: the `Rationalize` option of `STIntegrate` looks for a change of variables that rationalizes square-root letters (currently the genus-zero, conic case) via an Euler substitution, extending the hyperlogarithm integrators to some integrals whose natural alphabet is algebraic.
+
 ## Features
 
 - **Tropical subtraction** — Newton polytope analysis, singular subtraction, and epsilon expansion for generic Euler integrals
@@ -40,11 +42,11 @@ The library currently contains:
 
 |                         |       |
 | :---------------------- | ----: |
-| **Topologies**          | 453 |
-| **Mass configurations** | 1,041 |
-| **Literature records**  | 1,883 |
+| **Topologies**          | 503 |
+| **Mass configurations** | 1,105 |
+| **Literature records**  | 1,947 |
 | **Papers scanned**      | 1,298 |
-| **Computed results**    | 209 |
+| **Computed results**    | 417 |
 | **Singularity analyses** | 415 |
 | **Proposed alphabets**  | 404 |
 

@@ -23,17 +23,18 @@
   "Records": [
     {
       "epsOrders": "0",
-      "reference": "Phys. Lett. B305 (1993) 136Â–143, doi: 10.1016/0370-2693(93)91118-7",
+      "reference": "Phys. Lett. B305 (1993) 136–143, doi: 10.1016/0370-2693(93)91118-7",
       "authors": "N.I. Ussyukina, A.I. Davydychev",
       "description": "The ladder box integrals are considered with massive external legs and no internal masses. These are finite, and their value in 4 dimensions is expressed explicitly in terms of single-valued multiple polylogarithms.",
       "recordId": "1505927623.GgFX",
       "verified": true,
-      "verifiedAt": "auto-loopedia"
+      "verifiedAt": "auto-loopedia",
+      "title": "Exact results for three and four point ladder diagrams with an arbitrary number of rungs"
     },
     {
       "reference": "Phys. Lett. B 298 (1993) 363",
       "familyName": "ladder4pt_L4_massless-internal-offshell-external",
-      "description": "4-mass ladder family, ladder4pt_L4_massless-internal-offshell-external. Planar L-rung box ladder: rails t_1..t_{L+1}, b_1..b_{L+1}; rail edges (t_i,t_{i+1}), (b_i,b_{i+1}); rungs (t_i,b_i); 4 off-shell external legs at t_1, t_{L+1}, b_1, b_{L+1}. 2L+2 vertices, 3L+1 propagators, L loops. Massless internal lines. Value = PhiLadder[4, 1/3, 1/5].",
+      "description": "4-mass ladder family, ladder4pt_L4_massless-internal-offshell-external. Planar L-rung box ladder: rails t_1..t_{L+1}, b_1..b_{L+1}; rail edges (t_i,t_{i+1}), (b_i,b_{i+1}); rungs (t_i,b_i); 4 off-shell external legs at t_1, t_{L+1}, b_1, b_{L+1}. 2L+2 vertices, 3L+1 propagators, L loops. Massless internal lines.",
       "method": [
         "closed form"
       ],
@@ -42,12 +43,14 @@
       ],
       "recordId": "fs_9aa3fdf3148c",
       "verified": false,
-      "verifiedAt": ""
+      "verifiedAt": "",
+      "title": "An approach to the evaluation of three and four point ladder diagrams",
+      "authors": "N. I. Usyukina, A. I. Davydychev"
     },
     {
       "reference": "arXiv:1705.03545",
       "familyName": "basso-dixon_L4x1_massless-internal-offshell-external",
-      "description": "Basso-Dixon fishnet family, basso-dixon_L4x1_massless-internal-offshell-external. Basso-Dixon fishnet B_{M,N}: an M x N rectangular grid, 4 external operators at the corners, defined in dual (region-momentum) space via products of 1/x_ij^2 propagators. The L = MN loop integral is conformal. Momentum space: the (M+1) x (N+1) vertex grid (2MN+M+N massless edges, 4 off-shell corner legs, MN loops); B_{M,1} = the M-rung 4-pt ladder; transpose symmetry fixes the canonical orientation M >= N. Value = BassoDixonI[4, 1, 1/3, 1/5].",
+      "description": "Basso-Dixon fishnet family, basso-dixon_L4x1_massless-internal-offshell-external. Basso-Dixon fishnet B_{M,N}: an M x N rectangular grid, 4 external operators at the corners, defined in dual (region-momentum) space via products of 1/x_ij^2 propagators. The L = MN loop integral is conformal. Momentum space: the (M+1) x (N+1) vertex grid (2MN+M+N massless edges, 4 off-shell corner legs, MN loops); B_{M,1} = the M-rung 4-pt ladder; transpose symmetry fixes the canonical orientation M >= N.",
       "method": [
         "closed form"
       ],
@@ -59,7 +62,40 @@
       "verifiedAt": ""
     }
   ],
-  "Results": [],
+  "Results": [
+    {
+      "numeric": 341.83304493389926,
+      "normalization": "Exact finite conformal integral: the weight-8 Usyukina--Davydychev function $\\Phi^{(4)}(z,\\bar z)$ (the $4$-loop ladder), written as explicit classical polylogarithms $\\operatorname{Li}_j$ in the conformal cross-ratios $z,\\bar z$ (grounded in the external kinematics; the external scale prefactor is stripped). Not a dim-reg series. The numeric is its value at the reference point $z=1/3$, $\\bar z=1/5$.",
+      "provenance": "closed-form-from-cited-literature",
+      "seedRecordId": "fs_9aa3fdf3148c",
+      "timestamp": "2026-06-21T23:33:58Z",
+      "contributor": "SM",
+      "stVersion": "SubTropica 1.2.6",
+      "import": {
+        "submittedBy": "Sebastian Mizera",
+        "source": {
+          "paper": "Phys. Lett. B 305 (1993) 136",
+          "title": "Exact results for three and four point ladder diagrams with an arbitrary number of rungs",
+          "authors": "N. I. Usyukina, A. I. Davydychev",
+          "journal": "Phys. Lett. B 305 (1993) 136-143",
+          "texkey": "Usyukina:1993ch",
+          "doi": "10.1016/0370-2693(93)91118-7"
+        },
+        "method": "Usyukina-Davydychev box ladder: value is the closed-form weight-2L single-valued polylogarithm Phi^(L)(z,zbar) evaluated at z=1/3, zbar=1/5. Box dictionary G^(L)_box = Phi^(L)(u,v)/(s t^L), sigma=+1, validated by pySecDec at L=1 (rel err 5e-9) and L=2 (3.7e-5); see notes/normalization_validation_2026-06.json.",
+        "importedAt": "2026-06-21"
+      },
+      "seedFamilyExpand": {
+        "family": "ladder",
+        "params": [
+          4
+        ]
+      },
+      "dimension": "4",
+      "symbolWeight": 8,
+      "resultDataId": "81bfc4e51b186ecc",
+      "resultTeXPreview": "-\\frac{1}{4!\\,(z-\\bar z)}\\sum_{j=4}^{8}\\frac{(-1)^{j}\\,j!}{(j-4)!\\,(8-j)!}\\,\\log^{\\,8-j}\\!\\frac{(1-z)(1-\\bar z)}{z\\bar z}\\left[\\operatorname{Li}_{j}\\!\\left(\\tfrac{\\bar z-1}{\\bar z}\\right)-\\operatorname{Li}_{j}\\!\\left(\\tfrac{z-1}{z}\\right)\\right] \\\\[4pt] u=z\\bar z=\\frac{M_1^2\\,M_3^2}{s_{12}\\,s_{23}},\\quad v=(1-z)(1-\\bar z)=\\frac{M_2^2\\,M_4^2}{s_{12}\\,s_{23}}"
+    }
+  ],
   "Names": [
     "4-mass 4-loop 4-point (13 propagators)",
     "four-mass 4-loop 4-point (13 propagators)"

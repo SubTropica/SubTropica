@@ -255,10 +255,15 @@ result = STIntegrate[{edges, nodes}{{STINTEGRATE_EXTRA_OPTS}}];
 
 
 (* ::Text:: *)
-(*To compare analytically, load the compressed expression:*)
+(*The stored result, ready to use as referenceResult:*)
 
 
+{{#IF_INPUTFORM}}
+referenceResult = {{RESULT_INPUTFORM}};
+{{/IF_INPUTFORM}}
+{{#IF_COMPRESSED}}
 referenceResult = Uncompress["{{RESULT_COMPRESSED}}"];
+{{/IF_COMPRESSED}}
 
 
 {{#IF_ALPHABET}}

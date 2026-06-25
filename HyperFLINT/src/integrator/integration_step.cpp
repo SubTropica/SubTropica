@@ -1381,9 +1381,40 @@ void check_divergences_pass(const PolyCtx& ctx,
         for (auto& kv : bin_map) {
             RegulatorSym rsym;
             rsym.reserve(kv.second.terms.size());
-            for (auto& t : kv.second.terms) {
-                if (!t.coef.is_zero())
-                    rsym.push_back(std::move(t));
+            // HF-DIVCHECK-PARITY fix (notes/hf_divcheck_parity.md): the
+            // Avenue-F deferred-bump optimization (PolesBucket::bump,
+            // include/hyperflint/integrator/poles_bucket.hpp) does NOT
+            // fold a colliding contribution into terms[i].coef; on a key
+            // collision it pushes the new coef onto the parallel pending[i]
+            // list, to be drained later. The main integration path drains
+            // BOTH terms[i].coef and pending[i] via collect_into_flat (this
+            // TU, ~line 2640: "drain pending[i] alongside terms[i].coef").
+            // The divergence-check verdict previously read terms[i].coef
+            // ALONE, so a bin whose contributions CANCEL across a
+            // collision (terms[i].coef + sum(pending[i]) == 0) was misread
+            // as a nonzero Log[var]^lp boundary term and spuriously flagged
+            // divergent. This is the binding HF-DIVCHECK-PARITY gap: e.g.
+            // 1/((x+1)(x+2)) accumulates the (lp=1,p=0) infinity bin as
+            // terms.coef=(1) with pending=(-1) -> true coef 0 (finite); the
+            // canceling -1 from Log[x+2] collided with the +1 from Log[x+1]
+            // into the same empty-shuffle-key slot and was deferred.
+            // Mirror the canonical drain here: materialize each bucket
+            // entry as terms[i].coef + Sigma_j pending[i][j], then drop the
+            // genuinely-zero entries before the zero test. PolesBucket
+            // maintains pending.size() == terms.size() at every bump, so
+            // the index is always valid; with HF_DEFER_BUMP=0 every
+            // pending[i] is empty and this loop reduces to the pre-fix
+            // shape (skip-if-zero, move-through).
+            const size_t n_bin = kv.second.terms.size();
+            for (size_t i = 0; i < n_bin; ++i) {
+                auto& t = kv.second.terms[i];
+                SymCoef full = std::move(t.coef);
+                if (i < kv.second.pending.size()) {
+                    for (auto& pc : kv.second.pending[i])
+                        full += pc;
+                }
+                if (full.is_zero()) continue;
+                rsym.push_back(RegTermSym{std::move(full), std::move(t.key)});
             }
             if (rsym.empty()) continue;
             RegulatorSym closed = close_positive_letters_in_regulator_sym(

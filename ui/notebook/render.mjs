@@ -262,6 +262,10 @@ export async function buildTokens(entry, recordIdx = 0, opts = {}) {
     // round-trips correctly; the value was never used downstream anyway.
     tokens.RESULT_TEX_RAW = result.resultTeX || '';
     tokens.RESULT_COMPRESSED = wlString(result.resultCompressed || '');
+    // Raw (unquoted) WL InputForm of the stored result: the evaluatable form for
+    // imported/series results that have no resultCompressed (e.g. the 1705.06483
+    // period imports). Substituted into a code cell as-is.
+    tokens.RESULT_INPUTFORM = result.resultInputForm || '';
     tokens.STVERSION = result.stVersion || '';
     tokens.CONTRIBUTOR = result.contributor || '';
     tokens.SYMBOL_WEIGHT = result.symbolWeight ?? '';
@@ -301,6 +305,10 @@ export async function buildTokens(entry, recordIdx = 0, opts = {}) {
     LIBRARY_ENTRY: caseId !== 'i',
     RESULT: Boolean(result),
     NO_RESULT: !result,
+    // referenceResult source: prefer the raw InputForm; Uncompress the binary
+    // form only when there is no InputForm, so exactly one assignment fires.
+    INPUTFORM: Boolean(result?.resultInputForm),
+    COMPRESSED: Boolean(result?.resultCompressed) && !result?.resultInputForm,
     ALPHABET: hasAlphabet,
     W_DEFS: Boolean(result?.wDefinitions?.length),
     REFERENCES: Boolean(entry.References?.length),

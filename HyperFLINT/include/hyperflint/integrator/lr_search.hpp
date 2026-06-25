@@ -19,6 +19,7 @@
 #include "hyperflint/core/poly.hpp"
 
 #include <cstdint>
+#include <stdexcept>
 #include <string>
 #include <unordered_set>
 #include <utility>
@@ -26,6 +27,21 @@
 
 namespace hyperflint {
 namespace lr_search {
+
+// Budget safety net (2026-06-20).  The exhaustive default LR search
+// (score_prune_factor == +inf) can wedge on a single uninterruptible
+// FLINT discriminant/resultant on a huge multivariate letter: 100% of
+// the wall is one fmpq_mpoly_resultant FFT poly-mul that ignores Mma
+// aborts and SIGTERM (only SIGKILL stops it).  find_lr_orders reads two
+// env vars (HF_LR_TIME_BUDGET_S, HF_LR_MAX_OPERAND_TERMS; both default 0
+// = UNLIMITED) and throws this typed exception so the exhaustive default
+// bails CLEANLY instead of hanging.  Both defaults unset => the budget
+// checks are inert and behavior is byte-identical to the pre-change
+// engine.  The handler catches it and serializes a DISTINCT failed
+// response (budget_exceeded + error), NEVER a NOLR verdict.
+struct LrBudgetExceeded : std::runtime_error {
+    using std::runtime_error::runtime_error;
+};
 
 // Per-face kinematic-divisor collector (order-resolved singularities
 // pipeline; notes/ristretto/order_resolved_singularities.md, step 2).
@@ -140,6 +156,17 @@ bool lr_letter_admissible(const Poly& p, size_t var_idx,
 // (factor_table handler) call it alongside reset_lr_memos so stats
 // from a prior call in the same process don't bleed.
 void reset_lr_trace();
+
+// Reset the budget safety net (g_lr_budget) from the environment
+// (HF_LR_TIME_BUDGET_S / HF_LR_MAX_OPERAND_TERMS; both default 0 =
+// UNLIMITED).  find_lr_orders and verify_order_is_lr call this on entry
+// so the per-call steady_clock deadline starts fresh; external drivers
+// of st_fubini_lr (factor_table handler) must call it alongside
+// reset_lr_memos / reset_lr_trace so a stale deadline (already in the
+// past) from a prior budgeted call in the SAME process cannot throw
+// LrBudgetExceeded spuriously.  With both env vars unset it leaves the
+// budget inert (no-op checks).
+void reset_lr_budget();
 
 // N-way intersection under proportionality equivalence.  Picks
 // representatives from the FIRST list.  Matches the semantics of Mma's

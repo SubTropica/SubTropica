@@ -6,12 +6,9 @@
   "edges": "{{{1, 2}, 0}, {{1, 3}, 0}, {{2, 4}, 0}, {{3, 4}, 0}}",
   "nodes": "{{1, 0}, {2, 0}, {3, 0}, {4, 0}}",
   "References": [
-    "arXiv:hep-ph/9912329 (Nucl.Phys.B 580 (485), 2000)",
     "arXiv:2104.03957 (JHEP 10 (148), 2021)",
-    "arXiv:1104.2787 (JHEP 06 (100), 2011)",
     "arXiv:1401.4361 (JHEP 03 (071), 2014)",
     "arXiv:2008.04823 (JHEP 03 (027), 2021)",
-    "arXiv:1805.09326",
     "arXiv:2112.00055",
     "arXiv:2305.19768",
     "arXiv:0712.1851 (JHEP 02 (002), 2008)",
@@ -28,12 +25,10 @@
     "arXiv:2210.05347 (JHEP 05 (168), 2023)",
     "arXiv:1511.03614 (Comput.Phys.Commun. 204 (189), 2016)",
     "arXiv:2201.03593 (doi: 10.1007/978-3-030-99558-4)",
-    "arXiv:hep-ph/9307327",
     "arXiv:2511.15381",
     "arXiv:2312.02067",
     "arXiv:2312.03453",
     "arXiv:2112.08900",
-    "arXiv:2211.14110 (JHEP 02 (177), 2023)",
     "arXiv:2506.10456",
     "arXiv:2405.18755",
     "arXiv:2207.09275",
@@ -41,7 +36,6 @@
     "arXiv:2403.18047 (JHEP 05 (004), 2025)",
     "arXiv:1612.07798",
     "arXiv:2512.05923",
-    "arXiv:2302.01956 (JHEP 05 (059), 2023)",
     "arXiv:2311.02457",
     "arXiv:1910.11852",
     "arXiv:2204.12983",
@@ -54,27 +48,6 @@
     "arXiv:hep-ph/9212308"
   ],
   "Records": [
-    {
-      "reference": "arXiv:hep-ph/9912329, Nucl.Phys.B 580 (485), 2000",
-      "authors": "Gehrmann, T., Remiddi, E.",
-      "description": "One-loop massless box integral with three massless on-shell external legs and one off-shell leg $q=p_1+p_2+p_3$. Used as pedagogical example to demonstrate the differential equation method. The result is expressed in terms of Gauss $_2F_1$ hypergeometric functions for arbitrary space-time dimension $d$.",
-      "epsOrders": "all orders",
-      "familyName": "Massless box / 1L-box-1offshell",
-      "method": "DE + IBP",
-      "tools": [
-        "FORM"
-      ],
-      "ancillaryFiles": false,
-      "doi": "10.1016/S0550-3213(00)00223-6",
-      "texkey": "Gehrmann:1999as",
-      "masterCount": 1,
-      "computationLevel": "full",
-      "dimScheme": "d=D",
-      "location": "Eq. (3.1), Section 3",
-      "recordId": "bf_91784e9e1a24",
-      "verified": true,
-      "verifiedAt": "auto-loopedia"
-    },
     {
       "dimScheme": "d=4-2*eps",
       "recordId": "bf_ecc95fa05102",
@@ -97,26 +70,6 @@
       "doi": "10.1007/JHEP10(2021)148"
     },
     {
-      "dimScheme": "d=2m-2*eps",
-      "recordId": "bf_80968fc71e8f",
-      "familyName": "I_box_6d",
-      "verified": true,
-      "verifiedAt": "auto-loopedia",
-      "authors": "Dixon, Lance J., Drummond, James M., Henn, Johannes M.",
-      "texkey": "Dixon:2011ng",
-      "computationLevel": "full",
-      "masterCount": 1,
-      "location": "Appendix B",
-      "transcendentalWeight": 2,
-      "method": [],
-      "reference": "arXiv:1104.2787, JHEP 06 (100), 2011",
-      "ancillaryFiles": [],
-      "description": "Scalar box integral in $D=6$ dimensions with two-mass-easy configuration. Result in terms of $\\operatorname{Li}_2$ functions.",
-      "epsOrders": "all orders",
-      "tools": [],
-      "doi": "10.1007/JHEP06(2011)100"
-    },
-    {
       "dimScheme": "d=4-2*eps",
       "recordId": "bf_d996ef079344",
       "familyName": "G4_4loop_box",
@@ -137,47 +90,6 @@
         "FIESTA"
       ],
       "doi": "10.1007/JHEP03(2014)071"
-    },
-    {
-      "dimScheme": "d=4",
-      "recordId": "bf_acc916212fd0",
-      "familyName": "traintrack_1L_four_mass_box",
-      "verified": true,
-      "verifiedAt": "auto-loopedia",
-      "authors": [
-        {
-          "full_name": "Bourjaily, Jacob L.",
-          "inspire_id": 1020130
-        },
-        {
-          "full_name": "He, Yang-Hui",
-          "inspire_id": 1006373
-        },
-        {
-          "full_name": "Mcleod, Andrew J.",
-          "inspire_id": 1486130
-        },
-        {
-          "full_name": "Von Hippel, Matt",
-          "inspire_id": 1067843
-        },
-        {
-          "full_name": "Wilhelm, Matthias",
-          "inspire_id": 1283987
-        }
-      ],
-      "computationLevel": "full",
-      "texkey": "Bourjaily:2018ycu",
-      "masterCount": 0,
-      "location": "Eq. (1), Sec. Introduction",
-      "transcendentalWeight": 2,
-      "method": [],
-      "reference": "arXiv:1805.09326 (Phys.Rev.Lett. 121 (071603), 2018)",
-      "ancillaryFiles": [],
-      "description": "1-loop traintrack: the four-mass box integral. 1-loop box with 4 massless propagators, 8 massless external legs grouped into 4 off-shell momenta $q_i$. Finite and dual-conformally invariant in $d=4$. Numerator ensures dual-conformal invariance. Evaluates to dilogarithms (weight 2). First evaluated by Hodges (1977). Depends on 1 dual-conformal cross-ratio.",
-      "epsOrders": "",
-      "tools": [],
-      "doi": "10.1103/PhysRevLett.121.071603"
     },
     {
       "dimScheme": "d=4-2*eps",
@@ -492,34 +404,6 @@
       "verifiedAt": "auto-loopedia"
     },
     {
-      "reference": "arXiv:hep-ph/9307327 (Phys.Atom.Nucl. 56 (1553-1557), 1993)",
-      "authors": [
-        {
-          "full_name": "Usyukina, N.I.",
-          "inspire_id": 2192017
-        },
-        {
-          "full_name": "Davydychev, Andrei I.",
-          "inspire_id": 1012291
-        }
-      ],
-      "description": "One-loop scalar box $D^{(1)}(k_1^2,k_2^2,k_3^2,k_4^2,s,t)$ with massless internal propagators and all four external momenta off-shell. Via a two-fold MB representation, reduces to the one-loop triangle via variable pairing $X=k_1^2 k_3^2/(s t), Y=k_2^2 k_4^2/(s t)$, giving $D^{(1)} = (i \\pi^2/(s t)) \\Phi^{(1)}(X,Y)$.",
-      "epsOrders": "",
-      "familyName": "one-loop massless box with four off-shell external legs",
-      "method": "direct_integration, Mellin-Barnes",
-      "tools": [],
-      "ancillaryFiles": false,
-      "doi": "",
-      "texkey": "Usyukina:1992wz",
-      "masterCount": 1,
-      "dimScheme": "d=4",
-      "computationLevel": "full",
-      "location": "Section 2, Fig. 2, Eqs. (12)-(16)",
-      "recordId": "bx_23679f74bfed",
-      "verified": true,
-      "verifiedAt": "auto-loopedia"
-    },
-    {
       "reference": "arXiv:2511.15381",
       "authors": [
         {
@@ -677,34 +561,6 @@
       "computationLevel": "basis",
       "location": "Sec. 2.1",
       "recordId": "bx_8376770baf0f",
-      "verified": true,
-      "verifiedAt": "auto-loopedia"
-    },
-    {
-      "reference": "arXiv:2211.14110 (JHEP 02 (177), 2023)",
-      "authors": [
-        {
-          "full_name": "Haug, Juliane",
-          "inspire_id": 3069946
-        },
-        {
-          "full_name": "Wunder, Fabian",
-          "inspire_id": 3081625
-        }
-      ],
-      "description": "Scalar one-loop box integral $D_0(s_1,s_2,q^2)$ with four massless internal propagators and one off-shell external leg ($p_1^2=p_2^2=p_3^2=0, q^2=(p_1+p_2+p_3)^2 \\neq 0$). Computed in $d=4-2\\varepsilon$ via Feynman parametrization with a factorization that decouples into 1D integrals, giving an all-order epsilon expansion in single-valued polylogarithms. The $+i0$ prescription is kept explicit so real and imaginary parts are determined in all kinematic regions. Appendix A handles vanishing Mandelstam limits.",
-      "epsOrders": "all_orders",
-      "familyName": "1-off-shell-leg one-loop 4-point scalar box (4 propagators)",
-      "method": "direct_integration, series_expansion",
-      "tools": [],
-      "ancillaryFiles": false,
-      "doi": "10.1007/JHEP02(2023)177",
-      "texkey": "Haug:2022hkr",
-      "masterCount": 1,
-      "dimScheme": "d=4-2*eps",
-      "computationLevel": "full",
-      "location": "Section 2, eq. (2.1); Appendix A",
-      "recordId": "bx_4ffd0acb2baf",
       "verified": true,
       "verifiedAt": "auto-loopedia"
     },
@@ -931,25 +787,6 @@
       "verifiedAt": "auto-loopedia"
     },
     {
-      "reference": "arXiv:2302.01956 (JHEP 05 (059), 2023)",
-      "authors": "Haug, Juliane, Wunder, Fabian",
-      "description": "One-loop scalar box integral with four massless propagators and two non-adjacent off-shell external legs ($p_1^2=p_3^2=0, p_2^2$ and $p_4^2$ nonzero). Closed-form result as four Gauss $_2F_1$ functions, and equivalently in single-valued polylogarithms allowing all-order epsilon expansion with explicit real and imaginary parts.",
-      "epsOrders": "all_orders",
-      "familyName": "massless 1-loop 4-point non-adjacent double off-shell box",
-      "method": "direct_integration",
-      "tools": [],
-      "ancillaryFiles": false,
-      "doi": "10.1007/JHEP05(2023)059",
-      "texkey": "Haug:2023eqg",
-      "masterCount": 1,
-      "dimScheme": "d=4-2*eps",
-      "computationLevel": "full",
-      "location": "Eq. (2.1), Eq. (2.36), Eq. (3.8)",
-      "recordId": "bx_5926ba0b2aec",
-      "verified": true,
-      "verifiedAt": "auto-loopedia"
-    },
-    {
       "reference": "arXiv:2311.02457 (PoS RADCOR2023 (058), 2024)",
       "authors": [
         {
@@ -1078,25 +915,6 @@
       "computationLevel": "IBP_only",
       "location": "Section 5.1",
       "recordId": "bx_45526e96993d",
-      "verified": false,
-      "verifiedAt": ""
-    },
-    {
-      "reference": "arXiv:1805.09326",
-      "authors": "",
-      "description": "1-loop traintrack: the four-mass box integral. 1-loop box with 4 massless propagators, 8 massless external legs grouped into 4 off-shell momenta q_i. Finite and dual-conformally invariant in d=4. Numerator ensures dual-conformal invariance. Evaluates to dilogarithms (weight 2). First evaluated by Hodges (1977). Depends on 1 dual-conformal cross-ratio.",
-      "epsOrders": "",
-      "familyName": "traintrack_1L_four_mass_box",
-      "method": "direct_integration",
-      "tools": [],
-      "ancillaryFiles": false,
-      "doi": "",
-      "texkey": "",
-      "masterCount": 0,
-      "dimScheme": "d=4",
-      "computationLevel": "full",
-      "location": "Eq. (1), Sec. Introduction",
-      "recordId": "bx_cfdeffc255f1",
       "verified": false,
       "verifiedAt": ""
     },

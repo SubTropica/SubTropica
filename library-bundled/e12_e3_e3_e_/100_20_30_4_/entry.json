@@ -1,261 +1,297 @@
 {
-	"CNickelIndex": "e12|e3|e3|e|:100|20|30|4|",
-	"MassScales": 6,
-	"FunctionClass": "hypergeometric",
-	"EpsilonOrder": "-2,-1,0",
-	"edges": "{{{1, 2}, 0}, {{1, 3}, 0}, {{2, 4}, 0}, {{3, 4}, 0}}",
-	"nodes": "{{1, M[1]}, {2, M[2]}, {4, M[3]}, {3, M[4]}}",
-	"References": [
-		"arXiv:1401.3546",
-		"arXiv:2309.12772",
-		"arXiv:2206.04609",
-		"arXiv:2303.11657",
-		"Phys. Lett. B 298 (1993) 363",
-		"Phys. Lett. B 305 (1993) 136",
-		"arXiv:hep-th/0607160",
-		"arXiv:1805.09326",
-		"arXiv:1910.01534",
-		"arXiv:2005.08771",
-		"arXiv:2306.11780",
-		"arXiv:1705.03545",
-		"arXiv:1811.10623",
-		"arXiv:2007.15049",
-		"arXiv:2310.08625",
-		"arXiv:2209.05291",
-		"arXiv:1811.03282",
-		"arXiv:1905.11467",
-		"arXiv:2005.01735",
-		"arXiv:2010.08552",
-		"arXiv:2311.14669 (Phys.Rev.Lett. 132 (101601), 2024)",
-		"arXiv:2311.16219 (Comput.Phys.Commun. 303 (109278), 2024)"
-	],
-	"Records": [
-		{
-			"reference": "arXiv:1401.3546, JHEP 10 (125), 2014",
-			"authors": "Abreu, Samuel, Britto, Ruth, Duhr, Claude, Gardi, Einan",
-			"description": "One-loop box with massless propagators and four external masses, finite in $D=4$. Related to three-mass triangle by $B^{4m}=-T(p_1^2 p_3^2, p_2^2 p_4^2, s t)$. Weight 2.",
-			"epsOrders": "-2,-1,0",
-			"familyName": "B^{4m} (four-mass box) / B(4m) (four-mass box)",
-			"method": "direct_integration + unitarity",
-			"tools": [],
-			"ancillaryFiles": false,
-			"doi": "10.1007/JHEP10(2014)125",
-			"texkey": "Abreu:2014cla",
-			"masterCount": 1,
-			"transcendentalWeight": 2,
-			"dimScheme": "d=4",
-			"computationLevel": "full",
-			"location": "Section 4.2",
-			"recordId": "bf_fcf2fdd7f13f",
-			"verified": false,
-			"verifiedAt": ""
-		},
-		{
-			"authors": "Duhr, Claude, Porkert, Franziska",
-			"texkey": "Duhr:2023bku",
-			"verified": false,
-			"verifiedAt": "",
-			"reference": "arXiv:2309.12772, JHEP 02 (179), 2024",
-			"ancillaryFiles": [],
-			"recordId": "bf_b6f00d56877e",
-			"masterCount": 1,
-			"computationLevel": "full",
-			"doi": "10.1007/JHEP02(2024)179",
-			"tools": [],
-			"description": "One-loop massless box in $d=2$ with generic propagator powers. Result: sv Appell $F_1$.",
-			"epsOrders": "all orders",
-			"method": [],
-			"dimScheme": "d=2",
-			"location": "Section 4.2",
-			"familyName": "Star_4 (box d=2)"
-		},
-		{
-			"authors": "He, Song, Li, Zhenjie, Ma, Rourou, Wu, Zihao, Yang, Qinglin, Zhang, Yang",
-			"texkey": "He:2022ctv",
-			"verified": false,
-			"verifiedAt": "",
-			"reference": "arXiv:2206.04609, JHEP 10 (165), 2022",
-			"ancillaryFiles": [],
-			"recordId": "bf_bee61dd2f3b0",
-			"masterCount": 11,
-			"computationLevel": "full",
-			"doi": "10.1007/JHEP10(2022)165",
-			"tools": [
-				"FIRE"
-			],
-			"description": "One-loop box integral family with four different external masses. 11 master integrals upgraded to UT basis using rational prefactors with square roots $r_1$-$r_5$ of Kaellen-type polynomials.",
-			"epsOrders": "",
-			"method": [],
-			"dimScheme": "d=D",
-			"location": "Section 3.1",
-			"familyName": "one-loop four-mass box"
-		},
-		{
-			"authors": "Jiang, Xuhang, Yang, Li Lin",
-			"ancillaryFiles": [],
-			"recordId": "bf_2ff4a35af8cd",
-			"epsOrders": "",
-			"location": "Section III D, Eqs. (36)-(50), Fig. 5",
-			"texkey": "Jiang:2023qnl",
-			"verified": false,
-			"verifiedAt": "",
-			"reference": "arXiv:2303.11657, Phys.Rev.D 108 (7), 2023",
-			"masterCount": 0,
-			"computationLevel": "basis",
-			"doi": "10.1103/PhysRevD.108.076004",
-			"tools": [],
-			"description": "One-loop four-mass box integral family with four distinct external masses $m_1, m_2, m_3, m_4$ and massless internal propagators. All symbol letters (rational and algebraic) are derived from minors of the $5\\times 5$ $Q$ matrix associated with the Baikov representation. The rational letters reproduce $W_1,\\ldots,W_{10},W_{13},W_{18}$ of He et al. (2022); 14 algebraic letters involving square roots of $Q_{ii}$ are also obtained, equivalent to $W_{21},\\ldots,W_{30},W_{46},W_{62},W_{51},W_{59}$ of He et al.",
-			"method": [],
-			"dimScheme": "d=4-2*eps",
-			"familyName": "four-mass box"
-		},
-		{
-			"reference": "Phys. Lett. B 298 (1993) 363",
-			"familyName": "ladder4pt_L1_massless-internal-offshell-external",
-			"description": "4-mass ladder family, ladder4pt_L1_massless-internal-offshell-external. Planar L-rung box ladder: rails t_1..t_{L+1}, b_1..b_{L+1}; rail edges (t_i,t_{i+1}), (b_i,b_{i+1}); rungs (t_i,b_i); 4 off-shell external legs at t_1, t_{L+1}, b_1, b_{L+1}. 2L+2 vertices, 3L+1 propagators, L loops. Massless internal lines. Value = PhiLadder[1, 1/3, 1/5].",
-			"method": [
-				"closed form"
-			],
-			"tools": [
-				"SubTropica seed_families"
-			],
-			"recordId": "fs_dff36983b180",
-			"verified": true,
-			"verifiedAt": "2026-06-06"
-		},
-		{
-			"reference": "arXiv:1805.09326",
-			"familyName": "traintrack_L1_massless-internal-offshell-external",
-			"description": "Traintrack family, traintrack_L1_massless-internal-offshell-external. Planar chain of L boxes (cells), massless internal lines. External legs at every vertex: 4 off-shell corners (distinct masses, the collapsed pairs of the paper's 2L+6 massless particles) + 2L-2 massless middle legs; L=1 is the four-mass box. The L-loop traintrack is a weight-(L+1) hyperlogarithm over a Calabi-Yau (L-1)-fold: L=1 is a box, L=2 elliptic, L=3 a K3 surface, L=4 a Calabi-Yau threefold.",
-			"method": [
-				"closed form"
-			],
-			"tools": [
-				"SubTropica seed_families"
-			],
-			"recordId": "fs_7f82186e82d6",
-			"verified": false,
-			"verifiedAt": ""
-		},
-		{
-			"reference": "arXiv:1705.03545",
-			"familyName": "basso-dixon_L1x1_massless-internal-offshell-external",
-			"description": "Basso-Dixon fishnet family, basso-dixon_L1x1_massless-internal-offshell-external. Basso-Dixon fishnet B_{M,N}: an M x N rectangular grid, 4 external operators at the corners, defined in dual (region-momentum) space via products of 1/x_ij^2 propagators. The L = MN loop integral is conformal. Momentum space: the (M+1) x (N+1) vertex grid (2MN+M+N massless edges, 4 off-shell corner legs, MN loops); B_{M,1} = the M-rung 4-pt ladder; transpose symmetry fixes the canonical orientation M >= N. Value = BassoDixonI[1, 1, 1/3, 1/5].",
-			"method": [
-				"closed form"
-			],
-			"tools": [
-				"SubTropica seed_families"
-			],
-			"recordId": "fs_47ca851a09b3",
-			"verified": true,
-			"verifiedAt": "2026-06-06"
-		},
-		{
-			"reference": "arXiv:2311.14669 (Phys.Rev.Lett. 132 (101601), 2024)",
-			"authors": "Fevola, C., Mizera, S., Telen, S.",
-			"description": "Landau singularities of the 1-loop box (A₄) computed via principal Landau determinants.",
-			"familyName": "PLD: A4",
-			"recordId": "bf_c12f647dadb6",
-			"verified": false
-		}
-	],
-	"Results": [
-		{
-			"dimension": "4 - 2*eps",
-			"epsOrder": "0",
-			"epsOrders": "0",
-			"propExponents": [
-				1,
-				1,
-				1,
-				1
-			],
-			"propagators": [],
-			"numerators": [],
-			"internalMasses": [],
-			"externalMasses": [],
-			"substitutions": "",
-			"normalization": "Automatic",
-			"stVersion": "SubTropica v1.0.395",
-			"stCommand": "",
-			"contributor": "Sebastian Mizera",
-			"timestamp": "2026-04-19T22:32:50",
-			"verifiedAt": "2026-04-19T22:32:50",
-			"verified": true,
-			"method": "direct_integration",
-			"tools": [
-				"SubTropica"
-			],
-			"methodLR": "Lungo",
-			"byteCount": 13864,
-			"alphabet": [
-				"s_{12} W_1^-+M_2^2",
-				"W_1^-",
-				"s_{12}",
-				"M_2^2",
-				"s_{12} W_1^++M_2^2",
-				"W_1^+",
-				"M_4^2 W_1^-+s_{23}",
-				"s_{23}",
-				"M_4^2",
-				"M_4^2 W_1^++s_{23}",
-				"M_1^2",
-				"M_3^2"
-			],
-			"symbolWeight": 2,
-			"symbolTerms": 26,
-			"normalizedAlphabet": [
-				"W_1",
-				"W^-_1",
-				"W_2",
-				"W_3",
-				"W_4",
-				"W^+_1",
-				"W_5",
-				"W_6",
-				"W_7",
-				"W_8",
-				"W_9"
-			],
-			"symbolScale": "M_1^2",
-			"normalizedSymbolTerms": 22,
-			"legOrder": [],
-			"findRoots": true,
-			"resultDataId": "eb81ea8b776754f9.1",
-			"resultTeXPreview": "\\left(\\frac{2 H\\left(-\\frac{M_4^2}{s_{23}-M_4^2},\\frac{1}{W_1^-+1}\\,;1\\right)}{2 s_{12} M_4^2 W_1^--2 s_{12} M_4^2 W_1^+}-\\frac{2 H\\left(-\\frac{M_4^2}{s_{23}-M_4^2},\\frac{1}{W_1^++1}\\,;1\\right)}{2 s_{12} M_4^2 W_1^--2 s_{12} M_4^2 W_1^+}-\\frac{4 H\\left(0,\\frac{1}{W_1^-+1}\\,;1\\right)}{2 s_{12} M_4^2 W_1^--2 s_{12} M_4^2 W_1^+}+\\frac{4 H\\left(0,\\frac{1}{W_1^++1}\\,;1\\right)}{2 s_{12} M_4^2 W_1^--2 s_{12} M_4^2 W_1^+}+\\frac{2 H\\left(\\frac{s_{12}}{s_{12}-M_2^2},\\frac{1}{W_1^-+1}\\,;1\\right)}{2 s_{12} M_4^2 W_1^--2 s_{12} M_4^2 W_1^+}-\\frac{2 H\\left(\\frac{s_{12}}{s_{12}-M_2^2},\\frac{1}{W_1^++1}\\,;1\\right)}{2 s_{12} M_4^2 W_1^--2 s_{12} M_4^2 W_1^+}-\\frac{2 \\log \\left(-W_1^-\\right) \\log \\left(s_{23} M_3^{-2}\\right)}{2 s_{12} M_4^2 W_1^--2 s_{12} M_4^2 W_1^+}+\\frac{2 \\log \\left(-W_1^+\\right) \\log \\left(s_{23} M_3^{-2}\\right)}{2 s_{12} M_4^2 W_1^--2 s_{12} M_4^2 W_1^+}+\\frac{\\log ^2\\left(-W_1^-\\right)}{2 s_{12} M_4^2 W_1^--2 s_{12} M_4^2 W_1^+}-\\frac{\\log ^2\\left(-W_1^+\\right)}{2 s_{12} M_4^2 W_1^--2 s_{12} M_4^2 W_1^+}+\\frac{2 \\log \\left(M_1^2 M_2^{-2}\\right) \\log \\left(-W_1^-\\right)}{2 s_{12} M_4^2 W_1^--2 s_{12} M_4^2 W_1^+}-\\frac{2 \\log \\left(M_1^2 M_2^{-2}\\right) \\log \\left(-W_1^+\\right)}{2 s_{12} M_4^2 W_1^--2 s_{12} M_4^2 W_1^+}\\right)+O\\left(\\varepsilon^1\\right)"
-		}
-	],
-	"Names": [
-		"$B^{4m} $(four-mass box)",
-		"Star_4 (box d=2)",
-		"B(4m) (four-mass box)",
-		"one-loop four-mass box",
-		"four-mass box"
-	],
-	"Source": [
-		"arXiv"
-	],
-	"Loops": 1,
-	"NumPropagators": 4,
-	"CanonicalName": "4-mass box",
-	"MassConfig": {
-		"numEdges": 4,
-		"numMassiveEdges": 0,
-		"numMasslessEdges": 4,
-		"distinctInternalMasses": 0,
-		"internalMassLabels": [],
-		"edgeMassPattern": "0000",
-		"numExtLegs": 4,
-		"numOnshellMassiveExtLegs": 4,
-		"numMasslessExtLegs": 0,
-		"extLegSignature": "MMMM"
-	},
-	"commonNames": [
-		"D₀"
-	],
-	"Subsectors": [
-		"e12|e2|e|:100|20|3|"
-	],
-	"ParentSectors": []
+  "CNickelIndex": "e12|e3|e3|e|:100|20|30|4|",
+  "MassScales": 6,
+  "FunctionClass": "hypergeometric",
+  "EpsilonOrder": "-2,-1,0",
+  "edges": "{{{1, 2}, 0}, {{1, 3}, 0}, {{2, 4}, 0}, {{3, 4}, 0}}",
+  "nodes": "{{1, M[1]}, {2, M[2]}, {4, M[3]}, {3, M[4]}}",
+  "References": [
+    "arXiv:1401.3546",
+    "arXiv:2309.12772",
+    "arXiv:2206.04609",
+    "arXiv:2303.11657",
+    "Phys. Lett. B 298 (1993) 363",
+    "Phys. Lett. B 305 (1993) 136",
+    "arXiv:hep-th/0607160",
+    "arXiv:1805.09326",
+    "arXiv:1910.01534",
+    "arXiv:2005.08771",
+    "arXiv:2306.11780",
+    "arXiv:1705.03545",
+    "arXiv:1811.10623",
+    "arXiv:2007.15049",
+    "arXiv:2310.08625",
+    "arXiv:2209.05291",
+    "arXiv:1811.03282",
+    "arXiv:1905.11467",
+    "arXiv:2005.01735",
+    "arXiv:2010.08552",
+    "arXiv:2311.14669 (Phys.Rev.Lett. 132 (101601), 2024)",
+    "arXiv:2311.16219 (Comput.Phys.Commun. 303 (109278), 2024)"
+  ],
+  "Records": [
+    {
+      "reference": "arXiv:1401.3546, JHEP 10 (125), 2014",
+      "authors": "Abreu, Samuel, Britto, Ruth, Duhr, Claude, Gardi, Einan",
+      "description": "One-loop box with massless propagators and four external masses, finite in $D=4$. Related to three-mass triangle by $B^{4m}=-T(p_1^2 p_3^2, p_2^2 p_4^2, s t)$. Weight 2.",
+      "epsOrders": "-2,-1,0",
+      "familyName": "B^{4m} (four-mass box) / B(4m) (four-mass box)",
+      "method": "direct_integration + unitarity",
+      "tools": [],
+      "ancillaryFiles": false,
+      "doi": "10.1007/JHEP10(2014)125",
+      "texkey": "Abreu:2014cla",
+      "masterCount": 1,
+      "transcendentalWeight": 2,
+      "dimScheme": "d=4",
+      "computationLevel": "full",
+      "location": "Section 4.2",
+      "recordId": "bf_fcf2fdd7f13f",
+      "verified": false,
+      "verifiedAt": ""
+    },
+    {
+      "authors": "Duhr, Claude, Porkert, Franziska",
+      "texkey": "Duhr:2023bku",
+      "verified": false,
+      "verifiedAt": "",
+      "reference": "arXiv:2309.12772, JHEP 02 (179), 2024",
+      "ancillaryFiles": [],
+      "recordId": "bf_b6f00d56877e",
+      "masterCount": 1,
+      "computationLevel": "full",
+      "doi": "10.1007/JHEP02(2024)179",
+      "tools": [],
+      "description": "One-loop massless box in $d=2$ with generic propagator powers. Result: sv Appell $F_1$.",
+      "epsOrders": "all orders",
+      "method": [],
+      "dimScheme": "d=2",
+      "location": "Section 4.2",
+      "familyName": "Star_4 (box d=2)"
+    },
+    {
+      "authors": "He, Song, Li, Zhenjie, Ma, Rourou, Wu, Zihao, Yang, Qinglin, Zhang, Yang",
+      "texkey": "He:2022ctv",
+      "verified": false,
+      "verifiedAt": "",
+      "reference": "arXiv:2206.04609, JHEP 10 (165), 2022",
+      "ancillaryFiles": [],
+      "recordId": "bf_bee61dd2f3b0",
+      "masterCount": 11,
+      "computationLevel": "full",
+      "doi": "10.1007/JHEP10(2022)165",
+      "tools": [
+        "FIRE"
+      ],
+      "description": "One-loop box integral family with four different external masses. 11 master integrals upgraded to UT basis using rational prefactors with square roots $r_1$-$r_5$ of Kaellen-type polynomials.",
+      "epsOrders": "",
+      "method": [],
+      "dimScheme": "d=D",
+      "location": "Section 3.1",
+      "familyName": "one-loop four-mass box"
+    },
+    {
+      "authors": "Jiang, Xuhang, Yang, Li Lin",
+      "ancillaryFiles": [],
+      "recordId": "bf_2ff4a35af8cd",
+      "epsOrders": "",
+      "location": "Section III D, Eqs. (36)-(50), Fig. 5",
+      "texkey": "Jiang:2023qnl",
+      "verified": false,
+      "verifiedAt": "",
+      "reference": "arXiv:2303.11657, Phys.Rev.D 108 (7), 2023",
+      "masterCount": 0,
+      "computationLevel": "basis",
+      "doi": "10.1103/PhysRevD.108.076004",
+      "tools": [],
+      "description": "One-loop four-mass box integral family with four distinct external masses $m_1, m_2, m_3, m_4$ and massless internal propagators. All symbol letters (rational and algebraic) are derived from minors of the $5\\times 5$ $Q$ matrix associated with the Baikov representation. The rational letters reproduce $W_1,\\ldots,W_{10},W_{13},W_{18}$ of He et al. (2022); 14 algebraic letters involving square roots of $Q_{ii}$ are also obtained, equivalent to $W_{21},\\ldots,W_{30},W_{46},W_{62},W_{51},W_{59}$ of He et al.",
+      "method": [],
+      "dimScheme": "d=4-2*eps",
+      "familyName": "four-mass box"
+    },
+    {
+      "reference": "Phys. Lett. B 298 (1993) 363",
+      "familyName": "ladder4pt_L1_massless-internal-offshell-external",
+      "description": "4-mass ladder family, ladder4pt_L1_massless-internal-offshell-external. Planar L-rung box ladder: rails t_1..t_{L+1}, b_1..b_{L+1}; rail edges (t_i,t_{i+1}), (b_i,b_{i+1}); rungs (t_i,b_i); 4 off-shell external legs at t_1, t_{L+1}, b_1, b_{L+1}. 2L+2 vertices, 3L+1 propagators, L loops. Massless internal lines.",
+      "method": [
+        "closed form"
+      ],
+      "tools": [
+        "SubTropica seed_families"
+      ],
+      "recordId": "fs_dff36983b180",
+      "verified": true,
+      "verifiedAt": "2026-06-06",
+      "title": "An approach to the evaluation of three and four point ladder diagrams",
+      "authors": "N. I. Usyukina, A. I. Davydychev"
+    },
+    {
+      "reference": "arXiv:1805.09326",
+      "familyName": "traintrack_L1_massless-internal-offshell-external",
+      "description": "Traintrack family, traintrack_L1_massless-internal-offshell-external. Planar chain of L boxes (cells), massless internal lines. External legs at every vertex: 4 off-shell corners (distinct masses, the collapsed pairs of the paper's 2L+6 massless particles) + 2L-2 massless middle legs; L=1 is the four-mass box. The L-loop traintrack is a weight-(L+1) hyperlogarithm over a Calabi-Yau (L-1)-fold: L=1 is a box, L=2 elliptic, L=3 a K3 surface, L=4 a Calabi-Yau threefold.",
+      "method": [
+        "closed form"
+      ],
+      "tools": [
+        "SubTropica seed_families"
+      ],
+      "recordId": "fs_7f82186e82d6",
+      "verified": false,
+      "verifiedAt": ""
+    },
+    {
+      "reference": "arXiv:1705.03545",
+      "familyName": "basso-dixon_L1x1_massless-internal-offshell-external",
+      "description": "Basso-Dixon fishnet family, basso-dixon_L1x1_massless-internal-offshell-external. Basso-Dixon fishnet B_{M,N}: an M x N rectangular grid, 4 external operators at the corners, defined in dual (region-momentum) space via products of 1/x_ij^2 propagators. The L = MN loop integral is conformal. Momentum space: the (M+1) x (N+1) vertex grid (2MN+M+N massless edges, 4 off-shell corner legs, MN loops); B_{M,1} = the M-rung 4-pt ladder; transpose symmetry fixes the canonical orientation M >= N.",
+      "method": [
+        "closed form"
+      ],
+      "tools": [
+        "SubTropica seed_families"
+      ],
+      "recordId": "fs_47ca851a09b3",
+      "verified": true,
+      "verifiedAt": "2026-06-06"
+    },
+    {
+      "reference": "arXiv:2311.14669 (Phys.Rev.Lett. 132 (101601), 2024)",
+      "authors": "Fevola, C., Mizera, S., Telen, S.",
+      "description": "Landau singularities of the 1-loop box (A₄) computed via principal Landau determinants.",
+      "familyName": "PLD: A4",
+      "recordId": "bf_c12f647dadb6",
+      "verified": false
+    }
+  ],
+  "Results": [
+    {
+      "dimension": "4 - 2*eps",
+      "epsOrder": "0",
+      "epsOrders": "0",
+      "propExponents": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "propagators": [],
+      "numerators": [],
+      "internalMasses": [],
+      "externalMasses": [],
+      "substitutions": "",
+      "normalization": "Automatic",
+      "stVersion": "SubTropica v1.0.395",
+      "stCommand": "",
+      "contributor": "Sebastian Mizera",
+      "timestamp": "2026-04-19T22:32:50",
+      "verifiedAt": "2026-04-19T22:32:50",
+      "verified": true,
+      "method": "direct_integration",
+      "tools": [
+        "SubTropica"
+      ],
+      "methodLR": "Lungo",
+      "byteCount": 13864,
+      "alphabet": [
+        "s_{12} W_1^-+M_2^2",
+        "W_1^-",
+        "s_{12}",
+        "M_2^2",
+        "s_{12} W_1^++M_2^2",
+        "W_1^+",
+        "M_4^2 W_1^-+s_{23}",
+        "s_{23}",
+        "M_4^2",
+        "M_4^2 W_1^++s_{23}",
+        "M_1^2",
+        "M_3^2"
+      ],
+      "symbolWeight": 2,
+      "symbolTerms": 26,
+      "normalizedAlphabet": [
+        "W_1",
+        "W^-_1",
+        "W_2",
+        "W_3",
+        "W_4",
+        "W^+_1",
+        "W_5",
+        "W_6",
+        "W_7",
+        "W_8",
+        "W_9"
+      ],
+      "symbolScale": "M_1^2",
+      "normalizedSymbolTerms": 22,
+      "legOrder": [],
+      "findRoots": true,
+      "resultDataId": "eb81ea8b776754f9.1",
+      "resultTeXPreview": "\\left(\\frac{2 H\\left(-\\frac{M_4^2}{s_{23}-M_4^2},\\frac{1}{W_1^-+1}\\,;1\\right)}{2 s_{12} M_4^2 W_1^--2 s_{12} M_4^2 W_1^+}-\\frac{2 H\\left(-\\frac{M_4^2}{s_{23}-M_4^2},\\frac{1}{W_1^++1}\\,;1\\right)}{2 s_{12} M_4^2 W_1^--2 s_{12} M_4^2 W_1^+}-\\frac{4 H\\left(0,\\frac{1}{W_1^-+1}\\,;1\\right)}{2 s_{12} M_4^2 W_1^--2 s_{12} M_4^2 W_1^+}+\\frac{4 H\\left(0,\\frac{1}{W_1^++1}\\,;1\\right)}{2 s_{12} M_4^2 W_1^--2 s_{12} M_4^2 W_1^+}+\\frac{2 H\\left(\\frac{s_{12}}{s_{12}-M_2^2},\\frac{1}{W_1^-+1}\\,;1\\right)}{2 s_{12} M_4^2 W_1^--2 s_{12} M_4^2 W_1^+}-\\frac{2 H\\left(\\frac{s_{12}}{s_{12}-M_2^2},\\frac{1}{W_1^++1}\\,;1\\right)}{2 s_{12} M_4^2 W_1^--2 s_{12} M_4^2 W_1^+}-\\frac{2 \\log \\left(-W_1^-\\right) \\log \\left(s_{23} M_3^{-2}\\right)}{2 s_{12} M_4^2 W_1^--2 s_{12} M_4^2 W_1^+}+\\frac{2 \\log \\left(-W_1^+\\right) \\log \\left(s_{23} M_3^{-2}\\right)}{2 s_{12} M_4^2 W_1^--2 s_{12} M_4^2 W_1^+}+\\frac{\\log ^2\\left(-W_1^-\\right)}{2 s_{12} M_4^2 W_1^--2 s_{12} M_4^2 W_1^+}-\\frac{\\log ^2\\left(-W_1^+\\right)}{2 s_{12} M_4^2 W_1^--2 s_{12} M_4^2 W_1^+}+\\frac{2 \\log \\left(M_1^2 M_2^{-2}\\right) \\log \\left(-W_1^-\\right)}{2 s_{12} M_4^2 W_1^--2 s_{12} M_4^2 W_1^+}-\\frac{2 \\log \\left(M_1^2 M_2^{-2}\\right) \\log \\left(-W_1^+\\right)}{2 s_{12} M_4^2 W_1^--2 s_{12} M_4^2 W_1^+}\\right)+O\\left(\\varepsilon^1\\right)"
+    },
+    {
+      "numeric": 6.031161282118907,
+      "normalization": "Exact finite conformal integral: the weight-2 Usyukina--Davydychev function $\\Phi^{(1)}(z,\\bar z)$ (the $1$-loop ladder), written as explicit classical polylogarithms $\\operatorname{Li}_j$ in the conformal cross-ratios $z,\\bar z$ (grounded in the external kinematics; the external scale prefactor is stripped). Not a dim-reg series. The numeric is its value at the reference point $z=1/3$, $\\bar z=1/5$.",
+      "provenance": "closed-form-from-cited-literature",
+      "seedRecordId": "fs_dff36983b180",
+      "timestamp": "2026-06-21T23:33:58Z",
+      "contributor": "SM",
+      "stVersion": "SubTropica 1.2.6",
+      "import": {
+        "submittedBy": "Sebastian Mizera",
+        "source": {
+          "paper": "Phys. Lett. B 305 (1993) 136",
+          "title": "Exact results for three and four point ladder diagrams with an arbitrary number of rungs",
+          "authors": "N. I. Usyukina, A. I. Davydychev",
+          "journal": "Phys. Lett. B 305 (1993) 136-143",
+          "texkey": "Usyukina:1993ch",
+          "doi": "10.1016/0370-2693(93)91118-7"
+        },
+        "method": "Usyukina-Davydychev box ladder: value is the closed-form weight-2L single-valued polylogarithm Phi^(L)(z,zbar) evaluated at z=1/3, zbar=1/5. Box dictionary G^(L)_box = Phi^(L)(u,v)/(s t^L), sigma=+1, validated by pySecDec at L=1 (rel err 5e-9) and L=2 (3.7e-5); see notes/normalization_validation_2026-06.json.",
+        "importedAt": "2026-06-21"
+      },
+      "verified": true,
+      "method": "pySecDec box dictionary G^(1)=Phi^(1)/(s t), rel err 5e-9",
+      "seedFamilyExpand": {
+        "family": "ladder",
+        "params": [
+          1
+        ]
+      },
+      "dimension": "4",
+      "symbolWeight": 2,
+      "resultDataId": "570a72537953d728",
+      "resultTeXPreview": "-\\frac{1}{1!\\,(z-\\bar z)}\\sum_{j=1}^{2}\\frac{(-1)^{j}\\,j!}{(j-1)!\\,(2-j)!}\\,\\log^{\\,2-j}\\!\\frac{(1-z)(1-\\bar z)}{z\\bar z}\\left[\\operatorname{Li}_{j}\\!\\left(\\tfrac{\\bar z-1}{\\bar z}\\right)-\\operatorname{Li}_{j}\\!\\left(\\tfrac{z-1}{z}\\right)\\right] \\\\[4pt] u=z\\bar z=\\frac{M_1^2\\,M_3^2}{s_{12}\\,s_{23}},\\quad v=(1-z)(1-\\bar z)=\\frac{M_2^2\\,M_4^2}{s_{12}\\,s_{23}}"
+    }
+  ],
+  "Names": [
+    "$B^{4m} $(four-mass box)",
+    "Star_4 (box d=2)",
+    "B(4m) (four-mass box)",
+    "one-loop four-mass box",
+    "four-mass box"
+  ],
+  "Source": [
+    "arXiv"
+  ],
+  "Loops": 1,
+  "NumPropagators": 4,
+  "CanonicalName": "4-mass box",
+  "MassConfig": {
+    "numEdges": 4,
+    "numMassiveEdges": 0,
+    "numMasslessEdges": 4,
+    "distinctInternalMasses": 0,
+    "internalMassLabels": [],
+    "edgeMassPattern": "0000",
+    "numExtLegs": 4,
+    "numOnshellMassiveExtLegs": 4,
+    "numMasslessExtLegs": 0,
+    "extLegSignature": "MMMM"
+  },
+  "commonNames": [
+    "D₀"
+  ],
+  "Subsectors": [
+    "e12|e2|e|:100|20|3|"
+  ],
+  "ParentSectors": []
 }

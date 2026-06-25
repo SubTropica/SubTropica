@@ -4937,13 +4937,14 @@ IntegrationStep[wordlist_List, var_] := MaybeQuiet[Module[
 ]]
 
 
-Options[HyperInt] = {"Monitor" -> False};
+Options[HyperInt] = {"Monitor" -> False, "EvaluatePeriodsQ" -> False};
 
 (*A function wrapping everything needed for integration + an option to monitor which integration variable is being processed:*)
 HyperInt[f_, vars_, opts:OptionsPattern[]] := MaybeQuiet[Module[
-  {F, i, var, a, b, varList, scaledVar, result, monitor},
+  {F, i, var, a, b, varList, scaledVar, result, monitor, evaluatePeriodsQ},
 
   monitor = OptionValue["Monitor"];
+  evaluatePeriodsQ = If[OptionValue["EvaluatePeriodsQ"] === Automatic, $HyperEvaluatePeriods, OptionValue["EvaluatePeriodsQ"]];
 
   If[!ListQ[f],
     F = ConvertToHlogRegInf[f];
@@ -4997,11 +4998,11 @@ HyperInt[f_, vars_, opts:OptionsPattern[]] := MaybeQuiet[Module[
   ];
   If[F === $Failed, Return[$Failed]];
   
-  If[$HyperEvaluatePeriods, 
-    result = EvaluatePeriods[F]; 
+  If[evaluatePeriodsQ,
+    result = EvaluatePeriods[F];
     Return[result]
   ];
-  
+
   F
 ]];
 
@@ -5014,15 +5015,29 @@ HyperInt[f_, vars_, opts:OptionsPattern[]] := MaybeQuiet[Module[
 *)
 Clear[HyperIntica];
 
+(* HyperIntica defaults "EvaluatePeriodsQ" to False (unlike HyperInt, whose
+   default Automatic defers to the global $HyperEvaluatePeriods). The resolved
+   value is forwarded explicitly so this default takes effect even though the
+   wrappers delegate to HyperInt. *)
+Options[HyperIntica] = {"Monitor" -> False, "EvaluatePeriodsQ" -> False};
+
 (* Integrate-style: HyperIntica[f, {x,0,1}, {y,0,Infinity}, ...] *)
 HyperIntica[f_, limits__List, opts:OptionsPattern[]] /;
     AllTrue[{limits}, MatchQ[#, {_Symbol, _, _}]&] :=
     HyperInt[f,
         (#[[1]] -> {#[[2]], #[[3]]})& /@ {limits},
+        "EvaluatePeriodsQ" -> OptionValue[HyperIntica, {opts}, "EvaluatePeriodsQ"],
         opts
     ];
 
-(* Fallthrough: all other calls delegate directly to HyperInt *)
+(* Original HyperInt syntax: HyperIntica[f, {x->{0,1},...}] or HyperIntica[f, {x,y}] *)
+HyperIntica[f_, vars_, opts:OptionsPattern[]] :=
+    HyperInt[f, vars,
+        "EvaluatePeriodsQ" -> OptionValue[HyperIntica, {opts}, "EvaluatePeriodsQ"],
+        opts
+    ];
+
+(* Fallthrough: any other arity delegates directly to HyperInt *)
 HyperIntica[args___] := HyperInt[args];
 
 

@@ -35,6 +35,7 @@
 extern char** environ;
 
 #include <algorithm>
+#include <atomic>
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
@@ -121,6 +122,80 @@ ChiCount chi_staircase_count(
 // =====================================================================
 // msolve subprocess + GB-output parsing
 // =====================================================================
+namespace {
+
+// msolve spawn circuit breaker.  A find_lr_orders request can issue THOUSANDS
+// of chi judgements, i.e. thousands of msolve spawns.  When those spawns keep
+// FAILING (rc=-1), each still fork()s, and that spawn storm -- concurrent with
+// the per-face integrator's own RunProcess subprocesses on the parallel
+// transport -- can drive the process table toward the ulimit and make an
+// UNRELATED concurrent spawn fail with EAGAIN (surfaced as a misleading
+// RunProcess "Program not found" -> integration fails).  That was the
+// EulerFilter->True 2-mass-box break: order selection was already byte-identical
+// (the filter abstains when chi fails), but the useless spawn storm broke the
+// integration subprocesses.  NB rc=-1 here is NOT necessarily an msolve crash on
+// the input (the same inputs solve standalone): under contention the failure is
+// spawn-level (posix_spawnp EAGAIN / waitpid mismatch / !WIFEXITED), which the
+// breaker also caps.  Once msolve has failed N consecutive times we stop
+// spawning for the rest of the process: the filter keeps abstaining (RESULT
+// identical to spawning-and-failing) but the storm is capped.  A single SUCCESS
+// resets the streak, so a healthy msolve never trips (it solves before reaching
+// N), and a transient hiccup is forgiven -- BUT once tripped the process stays
+// disabled until an explicit reset_chi_spawn_breaker() (a clustered run of >= N
+// failures on a FLAKY msolve can therefore KEEP a letter that a full
+// spawn-everything run would have DROPPED; still conservative -- only ever keeps
+// extra letters).  N = HF_CHI_MAX_SPAWN_FAILS (default 64; 0 disables).  The
+// counters are process-global; NOT reset per request (see reset_chi_spawn_breaker).
+std::atomic<long> g_chi_consecutive_fails{0};
+std::atomic<bool> g_chi_spawn_disabled{false};
+std::atomic<bool> g_chi_breaker_warned{false};
+
+long chi_spawn_fail_threshold()
+{
+    const char* e = std::getenv("HF_CHI_MAX_SPAWN_FAILS");
+    if (e != nullptr && *e != '\0') {
+        char* end = nullptr;
+        long v = std::strtol(e, &end, 10);
+        if (end != e && v >= 0) return v;
+    }
+    return 64;
+}
+
+void chi_spawn_note_result(bool ok)
+{
+    if (ok) {
+        g_chi_consecutive_fails.store(0);
+        return;
+    }
+    const long thr = chi_spawn_fail_threshold();
+    if (thr == 0) return;  // breaker disabled
+    const long n = ++g_chi_consecutive_fails;
+    if (n >= thr && !g_chi_spawn_disabled.exchange(true)) {
+        if (!g_chi_breaker_warned.exchange(true))
+            std::fprintf(stderr,
+                "[hf-euler-filter] msolve failed %ld consecutive times; "
+                "disabling the chi spawn for the rest of this process "
+                "(filter abstains => keeps letters).  Set "
+                "HF_CHI_MAX_SPAWN_FAILS=0 to force every spawn, or "
+                "HF_MSOLVE_PATH=/abs/path/to/msolve if msolve is mis-resolved.\n",
+                n);
+    }
+}
+
+}  // namespace
+
+// Explicit re-arm hook.  NOT called per find_lr_orders request (the breaker is
+// meant to persist across requests in a process: a permanently-broken msolve is
+// capped once, a working msolve never trips because each success resets the
+// streak before the threshold).  Call only to force a fresh attempt mid-process
+// (e.g. after fixing HF_MSOLVE_PATH).
+void reset_chi_spawn_breaker()
+{
+    g_chi_consecutive_fails.store(0);
+    g_chi_spawn_disabled.store(false);
+    g_chi_breaker_warned.store(false);
+}
+
 namespace {
 
 // grevlex comparison: a > b iff deg(a) > deg(b), or equal degrees and the
@@ -215,6 +290,11 @@ std::optional<std::vector<std::vector<unsigned long>>> msolve_leading_exps(
 {
     if (polys.empty() || var_names.empty()) return std::nullopt;
 
+    // Circuit breaker: after too many consecutive msolve failures, stop
+    // spawning (the filter abstains anyway; this only caps a useless,
+    // resource-eating spawn storm).  See g_chi_spawn_disabled above.
+    if (g_chi_spawn_disabled.load()) return std::nullopt;
+
     char in_tmpl[] = "/tmp/hf_chi_in_XXXXXX";
     char out_tmpl[] = "/tmp/hf_chi_out_XXXXXX";
     int in_fd = mkstemp(in_tmpl);
@@ -303,6 +383,10 @@ std::optional<std::vector<std::vector<unsigned long>>> msolve_leading_exps(
         std::remove(in_tmpl);
         std::remove(out_tmpl);
     }
+    // Feed the circuit breaker: a usable result resets the streak; a spawn
+    // failure / crash / unparsable output (rc != 0 or empty result) extends it
+    // and may trip the breaker for the rest of the process.
+    chi_spawn_note_result(result.has_value());
     return result;
 }
 

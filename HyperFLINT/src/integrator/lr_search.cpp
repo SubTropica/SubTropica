@@ -84,6 +84,53 @@ struct LrMemo {
 };
 LrMemo g_lr_memo;
 
+// Budget safety net (2026-06-20, notes: lr_search budget).  A process-
+// global, single-threaded (same argument as LrTrace / LrMemo: the
+// handler calls find_lr_orders synchronously) deadline + operand-size
+// guard, reset at every find_lr_orders entry from the two env vars.
+// Both limits default to 0 = UNLIMITED, which makes every check below a
+// no-op => the verdict path is BYTE-IDENTICAL to the pre-budget engine
+// when neither env var is set (hard requirement).
+//
+//   HF_LR_TIME_BUDGET_S      double seconds; 0 = unlimited.  A
+//                            steady_clock deadline; a time deadline
+//                            CANNOT preempt the single in-flight FLINT
+//                            op (the wedge), so it only catches BETWEEN
+//                            ops (top of the DP subset loop, top of
+//                            st_fubini_lr).
+//   HF_LR_MAX_OPERAND_TERMS  size_t term count; 0 = unlimited.  THE
+//                            load-bearing guard: checked on FLINT
+//                            operands BEFORE each expensive op
+//                            (discriminant / resultant / factor) so the
+//                            monster op is never STARTED.
+struct LrBudget {
+    bool   time_on = false;
+    double budget_s = 0.0;
+    std::chrono::steady_clock::time_point start{};
+    size_t max_operand_terms = 0;   // 0 = unlimited
+
+    // Elapsed wall since `start`.  Cheap (one steady_clock read).
+    double elapsed_s() const {
+        return std::chrono::duration<double>(
+            std::chrono::steady_clock::now() - start).count();
+    }
+    // Time-deadline check, for the BETWEEN-ops call sites.  Throws when a
+    // finite budget has been exceeded; a no-op when time_on is false.
+    void check_time(const char* where) const {
+        if (!time_on) return;
+        const double e = elapsed_s();
+        if (e >= budget_s) {
+            char buf[160];
+            std::snprintf(buf, sizeof(buf),
+                "LR time budget exceeded: %.3fs elapsed >= %.3fs budget "
+                "(at %s); set HF_LR_TIME_BUDGET_S=0 to disable",
+                e, budget_s, where);
+            throw LrBudgetExceeded(buf);
+        }
+    }
+};
+LrBudget g_lr_budget;
+
 bool env_flag_off(const char* name) {
     const char* v = std::getenv(name);
     return v != nullptr && std::strcmp(v, "0") == 0;
@@ -224,6 +271,14 @@ std::vector<Poly> st_fubini_lr(const std::vector<Poly>& polys, size_t var_idx,
     const PolyCtx& pctx = polys.front().ctx();
     const auto* ctx = pctx.raw();
 
+    // Budget time deadline (2026-06-20): check on every st_fubini_lr
+    // entry, the coarsest BETWEEN-ops granularity.  No-op unless
+    // HF_LR_TIME_BUDGET_S is a finite positive value.
+    g_lr_budget.check_time("st_fubini_lr entry");
+    // Operand-size limit (THE load-bearing guard, latched once here for
+    // the per-op checks below; 0 = unlimited).
+    const size_t max_operand_terms = g_lr_budget.max_operand_terms;
+
     LrTrace& tr = g_lr_trace;
     const bool tron = tr.level > 0;
     const double t_call0 = tron ? now_s() : 0.0;
@@ -272,6 +327,23 @@ std::vector<Poly> st_fubini_lr(const std::vector<Poly>& polys, size_t var_idx,
             if (!fmpq_mpoly_is_zero(lc.raw(), ctx)) temp.push_back(std::move(lc));
         }
         if (n >= 1) {
+            // Operand-size trace (HF_LR_TRACE>=1) + budget guard
+            // (2026-06-20): a discriminant is Res(f, f') and can be the
+            // uninterruptible monster.  Print the input n_terms so a
+            // threshold can be picked, then SKIP-BY-THROWING if the
+            // operand exceeds the budget so the op is never started.
+            const size_t f_nt = f.n_terms();
+            if (tron) std::fprintf(stderr,
+                "[lrtrace] disc operand n_terms=%zu (pivot=%zu deg=%ld)\n",
+                f_nt, var_idx, n);
+            if (max_operand_terms != 0 && f_nt > max_operand_terms) {
+                char buf[160];
+                std::snprintf(buf, sizeof(buf),
+                    "LR operand-size budget exceeded: discriminant input "
+                    "n_terms=%zu > %zu (HF_LR_MAX_OPERAND_TERMS)",
+                    f_nt, max_operand_terms);
+                throw LrBudgetExceeded(buf);
+            }
             const double t0 = tron ? now_s() : 0.0;
             Poly d = f.discriminant_in_var(var_idx);
             if (tron) tr.t_disc += now_s() - t0;
@@ -306,6 +378,36 @@ std::vector<Poly> st_fubini_lr(const std::vector<Poly>& polys, size_t var_idx,
             const Poly& fj = polys[j];
             if (fmpq_mpoly_is_zero(fj.raw(), ctx)) continue;
             if (fj.degree_in_var(var_idx) < 1) continue;
+            // Operand-size trace (HF_LR_TRACE>=1) + budget guard
+            // (2026-06-20): the resultant is the FFT poly-mul that
+            // dominates the wedge.  Cost scales with the operand sizes,
+            // so guard on their PRODUCT (computed in a 128-bit
+            // accumulator so the multiply cannot overflow for any
+            // realistic term count).  Print both inputs + the product so
+            // a threshold can be chosen, then skip-by-throwing if over
+            // budget BEFORE the op is started.
+            const size_t fi_nt = fi.n_terms();
+            const size_t fj_nt = fj.n_terms();
+            const unsigned __int128 prod =
+                static_cast<unsigned __int128>(fi_nt) *
+                static_cast<unsigned __int128>(fj_nt);
+            if (tron) std::fprintf(stderr,
+                "[lrtrace] res operands n_terms=%zu x %zu = %llu "
+                "(pivot=%zu)\n", fi_nt, fj_nt,
+                static_cast<unsigned long long>(
+                    prod > static_cast<unsigned __int128>(~0ull)
+                        ? ~0ull : static_cast<unsigned long long>(prod)),
+                var_idx);
+            if (max_operand_terms != 0 &&
+                prod > static_cast<unsigned __int128>(max_operand_terms)) {
+                char buf[192];
+                std::snprintf(buf, sizeof(buf),
+                    "LR operand-size budget exceeded: resultant inputs "
+                    "n_terms=%zu x %zu (product > %zu, "
+                    "HF_LR_MAX_OPERAND_TERMS)",
+                    fi_nt, fj_nt, max_operand_terms);
+                throw LrBudgetExceeded(buf);
+            }
             const double t0 = tron ? now_s() : 0.0;
             Poly r = fi.resultant(fj, var_idx);
             if (tron) {
@@ -325,6 +427,23 @@ std::vector<Poly> st_fubini_lr(const std::vector<Poly>& polys, size_t var_idx,
     for (const auto& p : temp) {
         if (fmpq_mpoly_is_zero(p.raw(), ctx)) continue;
         if (fmpq_mpoly_is_fmpq(p.raw(), ctx)) continue;
+        // Operand-size trace (HF_LR_TRACE>=1) + budget guard (2026-06-20):
+        // fmpq_mpoly_factor on a huge resultant/discriminant is itself an
+        // uninterruptible op.  Guard on the factor INPUT size BEFORE the
+        // op (covering both the memo-hit-miss and memo-off paths below;
+        // bailing on an oversized poly is correct regardless of memo
+        // state).  Print the input n_terms for threshold selection.
+        const size_t p_nt = p.n_terms();
+        if (tron) std::fprintf(stderr,
+            "[lrtrace] factor operand n_terms=%zu\n", p_nt);
+        if (max_operand_terms != 0 && p_nt > max_operand_terms) {
+            char buf[160];
+            std::snprintf(buf, sizeof(buf),
+                "LR operand-size budget exceeded: factor input n_terms=%zu "
+                "> %zu (HF_LR_MAX_OPERAND_TERMS)",
+                p_nt, max_operand_terms);
+            throw LrBudgetExceeded(buf);
+        }
         if (g_lr_memo.factor_on) {
             std::string fkey = p.to_string();
             auto it = g_lr_memo.factors.find(fkey);
@@ -383,6 +502,27 @@ void reset_lr_memos() {
 }
 
 void reset_lr_trace() { g_lr_trace = LrTrace{}; }
+
+void reset_lr_budget() {
+    // Read the two env vars and reset the process-global budget.  Both
+    // default to 0 = UNLIMITED, so an unset environment makes every
+    // downstream check a no-op (the verdict path stays byte-identical).
+    // The time deadline starts from NOW (steady_clock); the size guard
+    // is a static term-count threshold latched for st_fubini_lr.  Single-
+    // threaded by the same argument as LrTrace / LrMemo.
+    g_lr_budget = LrBudget{};
+    g_lr_budget.start = std::chrono::steady_clock::now();
+    const char* tb_env = std::getenv("HF_LR_TIME_BUDGET_S");
+    if (tb_env != nullptr && *tb_env != '\0') {
+        const double b = std::atof(tb_env);
+        if (b > 0.0) { g_lr_budget.time_on = true; g_lr_budget.budget_s = b; }
+    }
+    const char* mot_env = std::getenv("HF_LR_MAX_OPERAND_TERMS");
+    if (mot_env != nullptr && *mot_env != '\0') {
+        const long long m = std::atoll(mot_env);
+        if (m > 0) g_lr_budget.max_operand_terms = static_cast<size_t>(m);
+    }
+}
 
 bool lr_letter_admissible(const Poly& p, size_t var_idx,
                           const std::vector<size_t>& forbidden_after,
@@ -669,6 +809,22 @@ LrResult find_lr_orders(
         }
     }
 
+    // Budget safety net (2026-06-20): reset the process-global budget
+    // from the environment on every entry, mirroring how HF_LR_TRACE is
+    // read just above.  Both limits default to 0 = UNLIMITED, so an
+    // unset environment makes every downstream check a no-op (the
+    // verdict path stays byte-identical).  The steady_clock deadline
+    // starts here, after the (cheap) setup but before the DP work.
+    reset_lr_budget();
+    if (g_lr_trace.level > 0 &&
+        (g_lr_budget.time_on || g_lr_budget.max_operand_terms != 0)) {
+        std::fprintf(stderr,
+            "[lrtrace] budget: time_budget_s=%s max_operand_terms=%zu\n",
+            g_lr_budget.time_on
+                ? std::to_string(g_lr_budget.budget_s).c_str() : "off",
+            g_lr_budget.max_operand_terms);
+    }
+
     const double INF = std::numeric_limits<double>::infinity();
 
     // Seed: set[g][{}] = group_polys[g] for every g, orders[{}] = ({}, 0).
@@ -689,6 +845,10 @@ LrResult find_lr_orders(
         auto subsets = subsets_of_size(n, size);
         bool any_live_at_size = false;  // any non-NOLR order at this size
         for (uint64_t bits : subsets) {
+            // Budget time deadline (2026-06-20): the per-subset BETWEEN-
+            // ops checkpoint.  No-op unless HF_LR_TIME_BUDGET_S is a
+            // finite positive value (g_lr_budget.time_on).
+            g_lr_budget.check_time("find_lr_orders DP subset loop");
             // ScorePruneFactor: if EVERY parent of this subset was pruned,
             // it is unreachable via a surviving order — skip its (most
             // expensive) Step A reduction entirely, and propagate the prune.
@@ -1148,8 +1308,15 @@ OrderVerifyResult verify_order_is_lr(
     const size_t G = group_polys.size();
 
     // st_fubini_lr is called directly here (not via find_lr_orders), so reset
-    // its per-request step/factor memos (header contract).
+    // its per-request step/factor memos (header contract).  Also reset the
+    // budget from the environment (header contract): the steady_clock
+    // deadline must start fresh, and resetting prevents a stale deadline
+    // (already in the past) from a prior budgeted find_lr_orders call in the
+    // same process from throwing LrBudgetExceeded spuriously here.  With the
+    // env vars unset this leaves the budget inert (no-op checks), so the
+    // verify verdict stays byte-identical to the pre-budget engine.
     reset_lr_memos();
+    reset_lr_budget();
 
     long max_deg = allow_algebraic_letters ? 2L : 1L;
     {

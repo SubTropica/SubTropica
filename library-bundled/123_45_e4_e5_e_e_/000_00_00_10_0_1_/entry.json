@@ -4,7 +4,8 @@
   "FunctionClass": "MPL",
   "EpsilonOrder": "2",
   "References": [
-    "arXiv:1408.6409"
+    "arXiv:1408.6409",
+    "arXiv:2507.17815 (JHEP 01 (014), 2026)"
   ],
   "Records": [
     {
@@ -171,6 +172,52 @@
       "recordId": "bx_a2de74070aa5",
       "verified": false,
       "verifiedAt": ""
+    },
+    {
+      "reference": "arXiv:2507.17815 (JHEP 01 (014), 2026)",
+      "authors": [
+        {
+          "full_name": "Barrera, Oscar",
+          "inspire_id": 2957072
+        },
+        {
+          "full_name": "Dersy, Aur\u00e9lien",
+          "inspire_id": 2083042
+        },
+        {
+          "full_name": "Husain, Rabia",
+          "inspire_id": 1925286
+        },
+        {
+          "full_name": "Schwartz, Matthew D.",
+          "inspire_id": 1019662
+        },
+        {
+          "full_name": "Zhang, Xiaoyuan",
+          "inspire_id": 1806305
+        }
+      ],
+      "description": "Called $I_4(x,z)$ in the paper. 2-loop 4-point master integral for $q\\bar{q} \\to VV$ planar topologies from Gehrmann, Tancredi, Weihs (1306.6344). 7 massless propagators in planar double box. Two massless on-shell legs ($p_1,p_2$) and two off-shell legs ($q_1,q_2$). Depends on $(x,z)$. Prefactor $P_4(x,z)=x^2/(m^6 z (1+x)^4)$. Symbol Galois-even ($x\\to 1/x$ invariant). Fitted at $\\varepsilon^0$ (weight 4) with galois uniform basis of 633 functions. AMFlow: 5.4 CPU-h/point, 332 points, 28 digits. Reduction: 9.4 h.",
+      "epsOrders": "0",
+      "familyName": "2-loop massless planar double box",
+      "method": "DE, IBP",
+      "tools": [
+        "AMFlow",
+        "SOFIA",
+        "BLADE",
+        "GiNaC",
+        "Fplll"
+      ],
+      "ancillaryFiles": false,
+      "doi": "10.1007/JHEP01(2026)014",
+      "texkey": "Barrera:2025uin",
+      "masterCount": 0,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "full",
+      "location": "Eq. (19), Section 4.2, fourth diagram",
+      "recordId": "bx_108eff1e474e",
+      "verified": true,
+      "verifiedAt": "auto-loopedia"
     }
   ],
   "Names": [

@@ -1,77 +1,115 @@
 {
-	"CNickelIndex": "e12|e3|e3|e|:123|45|67|8|",
-	"MassScales": 10,
-	"FunctionClass": "MPL",
-	"EpsilonOrder": "-1,0",
-	"References": [
-		"arXiv:1005.2076",
-		"arXiv:2311.14669 (Phys.Rev.Lett. 132 (101601), 2024)",
-		"arXiv:2311.16219 (Comput.Phys.Commun. 303 (109278), 2024)"
-	],
-	"Records": [
-		{
-			"authors": "Denner, A., Dittmaier, S.",
-			"texkey": "Denner:2010tr",
-			"verified": false,
-			"verifiedAt": "",
-			"reference": "arXiv:1005.2076, Nucl.Phys.B 844 (199), 2011",
-			"ancillaryFiles": [],
-			"recordId": "bf_d7724b134ec0",
-			"masterCount": 1,
-			"transcendentalWeight": 2,
-			"computationLevel": "full",
-			"doi": "10.1016/j.nuclphysb.2010.11.002",
-			"tools": [],
-			"description": "The general scalar one-loop 4-point (box) integral $D_0$ with four arbitrary complex internal masses and general external momenta in $D=4-2\\varepsilon$ dimensions. The paper provides closed-form analytic results in terms of dilogarithms and logarithms for all kinematic configurations, including regular and singular (IR-divergent) cases.",
-			"epsOrders": "-1,0",
-			"method": [],
-			"dimScheme": "d=4-2*eps",
-			"location": "Eq. (2.1), Eq. (2.2), Eq. (3.1)",
-			"familyName": "D0"
-		},
-		{
-			"reference": "arXiv:2311.14669 (Phys.Rev.Lett. 132 (101601), 2024)",
-			"authors": "Fevola, C., Mizera, S., Telen, S.",
-			"description": "Landau singularities of the 1-loop box (A₄) computed via principal Landau determinants.",
-			"familyName": "PLD: A4",
-			"recordId": "bf_a939ff98ed0f",
-			"verified": false
-		}
-	],
-	"Names": [
-		"D0"
-	],
-	"Source": [
-		"arXiv"
-	],
-	"Loops": 1,
-	"NumPropagators": 4,
-	"Results": [],
-	"edges": "{{{1, 2}, m[2]}, {{1, 3}, m[3]}, {{2, 4}, m[5]}, {{3, 4}, m[7]}}",
-	"nodes": "{{1, M[1]}, {2, M[2]}, {4, M[3]}, {3, M[4]}}",
-	"CanonicalName": "4-mass box (e)",
-	"MassConfig": {
-		"numEdges": 4,
-		"numMassiveEdges": 4,
-		"numMasslessEdges": 0,
-		"distinctInternalMasses": 4,
-		"internalMassLabels": [
-			"m[2]",
-			"m[3]",
-			"m[5]",
-			"m[7]"
-		],
-		"edgeMassPattern": "1234",
-		"numExtLegs": 4,
-		"numOnshellMassiveExtLegs": 4,
-		"numMasslessExtLegs": 0,
-		"extLegSignature": "MMMM"
-	},
-	"commonNames": [
-		"D₀(4 masses)"
-	],
-	"Subsectors": [],
-	"ParentSectors": [
-		"e12|e3|e4|e4|e|:123|45|67|89|10|"
-	]
+  "CNickelIndex": "e12|e3|e3|e|:123|45|67|8|",
+  "MassScales": 10,
+  "FunctionClass": "MPL",
+  "EpsilonOrder": "-1,0",
+  "References": [
+    "arXiv:1005.2076",
+    "arXiv:2311.14669 (Phys.Rev.Lett. 132 (101601), 2024)",
+    "arXiv:2311.16219 (Comput.Phys.Commun. 303 (109278), 2024)"
+  ],
+  "Records": [
+    {
+      "authors": "Denner, A., Dittmaier, S.",
+      "texkey": "Denner:2010tr",
+      "verified": false,
+      "verifiedAt": "",
+      "reference": "arXiv:1005.2076, Nucl.Phys.B 844 (199), 2011",
+      "ancillaryFiles": [],
+      "recordId": "bf_d7724b134ec0",
+      "masterCount": 1,
+      "transcendentalWeight": 2,
+      "computationLevel": "full",
+      "doi": "10.1016/j.nuclphysb.2010.11.002",
+      "tools": [],
+      "description": "The general scalar one-loop 4-point (box) integral $D_0$ with four arbitrary complex internal masses and general external momenta in $D=4-2\\varepsilon$ dimensions. The paper provides closed-form analytic results in terms of dilogarithms and logarithms for all kinematic configurations, including regular and singular (IR-divergent) cases.",
+      "epsOrders": "-1,0",
+      "method": [],
+      "dimScheme": "d=4-2*eps",
+      "location": "Eq. (2.1), Eq. (2.2), Eq. (3.1)",
+      "familyName": "D0"
+    },
+    {
+      "reference": "arXiv:2311.14669 (Phys.Rev.Lett. 132 (101601), 2024)",
+      "authors": "Fevola, C., Mizera, S., Telen, S.",
+      "description": "Landau singularities of the 1-loop box (A₄) computed via principal Landau determinants.",
+      "familyName": "PLD: A4",
+      "recordId": "bf_a939ff98ed0f",
+      "verified": false
+    }
+  ],
+  "Names": [
+    "D0"
+  ],
+  "Source": [
+    "arXiv"
+  ],
+  "Loops": 1,
+  "NumPropagators": 4,
+  "Results": [
+    {
+      "dimension": "4",
+      "symbolWeight": 2,
+      "propExponents": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "internalMasses": [
+        "m[1]",
+        "m[2]",
+        "m[3]",
+        "m[4]"
+      ],
+      "provenance": "closed-form-from-cited-literature",
+      "normalization": "Exact all-mass box in $D=4$ with generic internal masses $m_i^2>0$: the volume of a general hyperbolic tetrahedron (Murakami--Yano / Bourjaily--Gardi--McLeod--Vergu, arXiv:1912.11067), a weight-2 polylogarithm. The $g_k$ are the three $\\mathfrak{S}_4$ orbits of BGMV's lengths form, built from $r_{ij}=\\hat Y_{ij}+\\sqrt{\\hat Y_{ij}^2-1}$ (and $\\bar g_k$ their $r\\to1/r$ images); the only algebraic root is $\\sqrt{\\det\\hat Y}$, imaginary in the physical $(3,1)$ region ($\\hat Y_{ij}\\ge1$, $\\det\\hat Y<0$). The massless box $\\Phi^{(1)}$ is the $m_i^2\\to0$ limit. A runnable evaluator is in the copied code. Measure $\\int d^4 k/(i\\pi^2)\\prod_e(-q_e^2+m_e^2)^{-1}$.",
+      "import": {
+        "submittedBy": "Sebastian Mizera",
+        "source": {
+          "paper": "JHEP 08 (2020) 029",
+          "title": "All-Mass n-gon Integrals in n Dimensions",
+          "authors": "J. L. Bourjaily, E. Gardi, A. J. McLeod, C. Vergu",
+          "journal": "JHEP 08 (2020) 029",
+          "texkey": "Bourjaily:2019exo",
+          "doi": "10.1007/JHEP08(2020)029"
+        },
+        "method": "Closed-form hyperbolic-tetrahedron volume (Murakami-Yano, via Bourjaily-Gardi-McLeod-Vergu arXiv:1912.11067, 'lengths' form). resultCompressed verified to 12 digits against the NGon oracle at an in-region Cayley point; over-determined verification (deterministic Feynman integral, S_4-invariance, Phi^(1) anchor).",
+        "importedAt": "2026-06-24"
+      },
+      "contributor": "SM",
+      "timestamp": "2026-06-24T12:00:00Z",
+      "stVersion": "SubTropica 1.2.6",
+      "byteCount": 26030,
+      "resultDataId": "3eab3e5e2e8beb4f",
+      "resultTeXPreview": "\\frac{\\Gamma(2)}{\\sqrt{|\\det Y|}}\\,\\frac14\\,\\mathrm{Im}\\,\\left[\\sum_{k=1}^{3}\\mathrm{Li}_2(g_k)-\\sum_{k=1}^{3}\\mathrm{Li}_2(\\bar g_k)\\right]"
+    }
+  ],
+  "edges": "{{{1, 2}, m[2]}, {{1, 3}, m[3]}, {{2, 4}, m[5]}, {{3, 4}, m[7]}}",
+  "nodes": "{{1, M[1]}, {2, M[2]}, {4, M[3]}, {3, M[4]}}",
+  "CanonicalName": "4-mass box (e)",
+  "MassConfig": {
+    "numEdges": 4,
+    "numMassiveEdges": 4,
+    "numMasslessEdges": 0,
+    "distinctInternalMasses": 4,
+    "internalMassLabels": [
+      "m[2]",
+      "m[3]",
+      "m[5]",
+      "m[7]"
+    ],
+    "edgeMassPattern": "1234",
+    "numExtLegs": 4,
+    "numOnshellMassiveExtLegs": 4,
+    "numMasslessExtLegs": 0,
+    "extLegSignature": "MMMM"
+  },
+  "commonNames": [
+    "D₀(4 masses)"
+  ],
+  "Subsectors": [],
+  "ParentSectors": [
+    "e12|e3|e4|e4|e|:123|45|67|89|10|"
+  ]
 }

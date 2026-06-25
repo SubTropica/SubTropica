@@ -14,7 +14,9 @@
     "arXiv:2201.03593 (doi: 10.1007/978-3-030-99558-4)",
     "arXiv:2009.11471 (JHEP 03 (278), 2021)",
     "arXiv:2311.14669 (Phys.Rev.Lett. 132 (101601), 2024)",
-    "arXiv:2311.16219 (Comput.Phys.Commun. 303 (109278), 2024)"
+    "arXiv:2311.16219 (Comput.Phys.Commun. 303 (109278), 2024)",
+    "arXiv:1805.09326 (Phys.Rev.Lett. 121 (071603), 2018)",
+    "arXiv:hep-ph/9307327 (Phys.Atom.Nucl. 56 (1553-1557), 1993)"
   ],
   "Records": [
     {
@@ -224,6 +226,75 @@
       "familyName": "PLD: A4",
       "recordId": "bf_e863638496ae",
       "verified": false
+    },
+    {
+      "dimScheme": "d=4",
+      "recordId": "bf_acc916212fd0",
+      "familyName": "traintrack_1L_four_mass_box",
+      "verified": true,
+      "verifiedAt": "auto-loopedia",
+      "authors": [
+        {
+          "full_name": "Bourjaily, Jacob L.",
+          "inspire_id": 1020130
+        },
+        {
+          "full_name": "He, Yang-Hui",
+          "inspire_id": 1006373
+        },
+        {
+          "full_name": "Mcleod, Andrew J.",
+          "inspire_id": 1486130
+        },
+        {
+          "full_name": "Von Hippel, Matt",
+          "inspire_id": 1067843
+        },
+        {
+          "full_name": "Wilhelm, Matthias",
+          "inspire_id": 1283987
+        }
+      ],
+      "computationLevel": "full",
+      "texkey": "Bourjaily:2018ycu",
+      "masterCount": 0,
+      "location": "Eq. (1), Sec. Introduction",
+      "transcendentalWeight": 2,
+      "method": [],
+      "reference": "arXiv:1805.09326 (Phys.Rev.Lett. 121 (071603), 2018)",
+      "ancillaryFiles": [],
+      "description": "1-loop traintrack: the four-mass box integral. 1-loop box with 4 massless propagators, 8 massless external legs grouped into 4 off-shell momenta $q_i$. Finite and dual-conformally invariant in $d=4$. Numerator ensures dual-conformal invariance. Evaluates to dilogarithms (weight 2). First evaluated by Hodges (1977). Depends on 1 dual-conformal cross-ratio.",
+      "epsOrders": "",
+      "tools": [],
+      "doi": "10.1103/PhysRevLett.121.071603"
+    },
+    {
+      "reference": "arXiv:hep-ph/9307327 (Phys.Atom.Nucl. 56 (1553-1557), 1993)",
+      "authors": [
+        {
+          "full_name": "Usyukina, N.I.",
+          "inspire_id": 2192017
+        },
+        {
+          "full_name": "Davydychev, Andrei I.",
+          "inspire_id": 1012291
+        }
+      ],
+      "description": "One-loop scalar box $D^{(1)}(k_1^2,k_2^2,k_3^2,k_4^2,s,t)$ with massless internal propagators and all four external momenta off-shell. Via a two-fold MB representation, reduces to the one-loop triangle via variable pairing $X=k_1^2 k_3^2/(s t), Y=k_2^2 k_4^2/(s t)$, giving $D^{(1)} = (i \\pi^2/(s t)) \\Phi^{(1)}(X,Y)$.",
+      "epsOrders": "",
+      "familyName": "one-loop massless box with four off-shell external legs",
+      "method": "direct_integration, Mellin-Barnes",
+      "tools": [],
+      "ancillaryFiles": false,
+      "doi": "",
+      "texkey": "Usyukina:1992wz",
+      "masterCount": 1,
+      "dimScheme": "d=4",
+      "computationLevel": "full",
+      "location": "Section 2, Fig. 2, Eqs. (12)-(16)",
+      "recordId": "bx_23679f74bfed",
+      "verified": true,
+      "verifiedAt": "auto-loopedia"
     }
   ],
   "Names": [

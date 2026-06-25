@@ -1,0 +1,103 @@
+{
+	"CNickelIndex": "1123|24|55|e45|e5||:0000|00|00|100|10||",
+	"MassScales": 1,
+	"FunctionClass": "MPL",
+	"References": [
+		"arXiv:1705.06483 (doi: 10.1103/PhysRevD.96.036016)"
+	],
+	"Records": [
+		{
+			"reference": "arXiv:1705.06483 (doi: 10.1103/PhysRevD.96.036016)",
+			"authors": "M. V. Kompaniets, E. Panzer",
+			"description": "Massless 6-loop phi^4 propagator period from the ancillary files p_int_g2.m of arXiv:1705.06483 (Kompaniets-Panzer); results are rational linear combinations of multiple zeta values. anc Nickel e123|e24|55|445|5||. Entry created from scratch (no pre-existing library topology at 6 loops).",
+			"recordId": "bx_1705_g2_l6_1123_24_55_e45_e5__",
+			"verified": false,
+			"verifiedAt": "",
+			"texkey": "Kompaniets:2017yct",
+			"doi": "10.1103/PhysRevD.96.036016",
+			"ancNickel": "e123|e24|55|445|5||",
+			"ancSource": "g2"
+		}
+	],
+	"Source": [
+		"arXiv"
+	],
+	"Results": [
+		{
+			"dimension": "4 - 2*eps",
+			"epsOrder": -1,
+			"propExponents": [
+				1,
+				1,
+				1,
+				1,
+				1,
+				1,
+				1,
+				1,
+				1,
+				1,
+				1
+			],
+			"propagators": [],
+			"numerators": [],
+			"internalMasses": [],
+			"externalMasses": [],
+			"substitutions": "{}",
+			"normalization": "Automatic",
+			"scale": "p^2",
+			"scaleExponent": "1 - 6 eps",
+			"scaleClass": "g2: genuine phi^4 propagator self-energy; 2L-V=1; I ~ (p2)^{1 - 6 eps}; mass dimension (mass)^2",
+			"alphabet": [
+				"p^2"
+			],
+			"stVersion": "SubTropica 1.2.5",
+			"contributor": "SM",
+			"timestamp": "2026-06-23T18:33:57Z",
+			"verified": true,
+			"verifiedVia": "value = (p^2)^{1 - 6 eps} * Cfull^6 * anc[pInt[6,45]] (KP G-scheme period, external scale restored; p^2 = -MM > 0 spacelike, Euclidean-real). Cfull = Exp[eps*EulerGamma] Gamma[1+eps] Gamma[1-eps]^2/Gamma[2-2eps], the fixed diagram-independent per-loop normalization VERIFIED at L=4 and L=5. sigma = (-1)^#edges = -1 (11 props, odd nu_tot) by the loop-independent edge-parity rule, confirmed at L=4 and L=5 -- the leading pole is Cfull-independent and the sign rule is parity-based, so a fresh 6-loop pySD anchor is not required (leading-eps pySD deferred). anc period from Kompaniets-Panzer (arXiv:1705.06483; peer-reviewed HyperInt; trusted). Bridge: the library CNI round-trips under computeNickelIndex AND an explicit anc-Nickel <-> lib-CNI vertex isomorphism. NOT independently integrated to all orders (6-loop pySD/AMFlow/FIRE infeasible: IBP wall). verified:true with this leading-eps-scope provenance.",
+			"periodImport": true,
+			"periodTarget": "1123|24|55|e45|e5||",
+			"import": {
+				"submittedBy": "Sebastian Mizera",
+				"source": {
+					"paper": "arXiv:1705.06483",
+					"title": "Minimally subtracted six loop renormalization of O(n)-symmetric phi^4 theory and critical exponents",
+					"authors": "M. V. Kompaniets, E. Panzer",
+					"journal": "Phys. Rev. D 96 (2017) 036016",
+					"texkey": "Kompaniets:2017yct",
+					"doi": "10.1103/PhysRevD.96.036016",
+					"ancFile": "anc/p_int_g2.m -> pInt[6,45]  (g2 = genuine phi^4 propagator period)",
+					"ancNickel": "e123|e24|55|445|5||",
+					"ancUrl": "https://arxiv.org/abs/1705.06483"
+				},
+				"method": "Single-scale phi^4 propagator self-energy, external scale restored. value = (p^2)^{1 - 6 eps} * Cfull^6 * anc[pInt[6,45]]: the KP G-scheme period (Cfull = Exp[eps*EulerGamma] Gamma[1+eps] Gamma[1-eps]^2/Gamma[2-2eps], G-scheme -> SubTropica normalization per loop) with the external Euclidean invariant restored, so the stored value is the dimensionful momentum-space integral, not the p^2=1 reduced form. g2: genuine phi^4 propagator self-energy; 2L-V=1; I ~ (p2)^{1 - 6 eps}; mass dimension (mass)^2. Created from scratch (no prior L=6 topology): anc Nickel -> graph -> computeNickelIndex -> entry. NOT computed by STIntegrate/HyperFLINT (a HyperInt reimplementation; circular).",
+				"validation": "value = (p^2)^{1 - 6 eps} * Cfull^6 * anc[pInt[6,45]] (KP G-scheme period, external scale restored; p^2 = -MM > 0 spacelike, Euclidean-real). Cfull = Exp[eps*EulerGamma] Gamma[1+eps] Gamma[1-eps]^2/Gamma[2-2eps], the fixed diagram-independent per-loop normalization VERIFIED at L=4 and L=5. sigma = (-1)^#edges = -1 (11 props, odd nu_tot) by the loop-independent edge-parity rule, confirmed at L=4 and L=5 -- the leading pole is Cfull-independent and the sign rule is parity-based, so a fresh 6-loop pySD anchor is not required (leading-eps pySD deferred). anc period from Kompaniets-Panzer (arXiv:1705.06483; peer-reviewed HyperInt; trusted). Bridge: the library CNI round-trips under computeNickelIndex AND an explicit anc-Nickel <-> lib-CNI vertex isomorphism. NOT independently integrated to all orders (6-loop pySD/AMFlow/FIRE infeasible: IBP wall). verified:true with this leading-eps-scope provenance.",
+				"importedAt": "2026-06-23"
+			},
+			"resultDataId": "fc7fcf02111f2871",
+			"resultTeXPreview": "-\\frac{p^2}{48 \\varepsilon ^5} + \\frac{\\frac{1}{8} p^2 \\log \\left(p^2\\right)-\\frac{49 p^2}{96}}{\\varepsilon ^4} + \\frac{\\frac{1}{192} \\left(2 \\pi ^2 p^2-1367 p^2\\right)-\\frac{3}{8} p^2 \\log ^2\\left(p^2\\right)+\\frac{49}{16} p^2 \\log \\left(p^2\\right)}{\\varepsilon ^3} + \\frac{\\frac{1}{384} \\left(-512 \\zeta (3) p^2+98 \\pi ^2 p^2-28209 p^2\\right)+\\frac{3}{4} p^2 \\log ^3\\left(p^2\\right)-\\frac{147}{16} p^2 \\log ^2\\left(p^2\\right)+\\frac{1}{32} \\left(1367 p^2-2 \\pi ^2 p^2\\right) \\log \\left(p^2\\right)}{\\varepsilon ^2} + \\frac{\\frac{-75264 \\zeta (3) p^2-58 \\pi ^4 p^2+8202 \\pi ^2 p^2-1410645 p^2}{2304}+\\frac{1}{64} \\left(512 \\zeta (3) p^2-98 \\pi ^2 p^2+28209 p^2\\right) \\log \\left(p^2\\right)-\\frac{9}{8} p^2 \\log ^4\\left(p^2\\right)+\\frac{147}{8} p^2 \\log ^3\\left(p^2\\right)+\\frac{3}{32} \\left(2 \\pi ^2 p^2-1367 p^2\\right) \\log ^2\\left(p^2\\right)}{\\varepsilon } + O\\left(\\varepsilon ^0\\right)"
+		}
+	],
+	"Names": [
+		"6-loop phi^4 propagator (g2, 11-prop) 1123|24|55|e45|e5||",
+		"6-loop propagator (11 propagators)"
+	],
+	"PrimaryName": "6-loop phi^4 propagator (g2, 11-prop) 1123|24|55|e45|e5||",
+	"edges": "{{{1, 2}, 0}, {{1, 2}, 0}, {{1, 3}, 0}, {{1, 4}, 0}, {{2, 3}, 0}, {{2, 5}, 0}, {{3, 6}, 0}, {{3, 6}, 0}, {{4, 5}, 0}, {{4, 6}, 0}, {{5, 6}, 0}}",
+	"nodes": "{{4, M}, {5, M}}",
+	"MassConfig": {
+		"numEdges": 11,
+		"numMassiveEdges": 0,
+		"numMasslessEdges": 11,
+		"distinctInternalMasses": 0,
+		"internalMassLabels": [],
+		"edgeMassPattern": "00000000000",
+		"numExtLegs": 2,
+		"numOnshellMassiveExtLegs": 2,
+		"numMasslessExtLegs": 0,
+		"extLegSignature": "MM"
+	},
+	"Loops": 6,
+	"NumPropagators": 11
+}

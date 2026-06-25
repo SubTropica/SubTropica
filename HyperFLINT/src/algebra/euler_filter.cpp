@@ -71,6 +71,23 @@ bool is_boundary_monomial(const Poly& p)
     return total == 1;
 }
 
+// msolve binary path: an absolute path threaded by the caller env
+// (HF_MSOLVE_PATH) wins; otherwise the bare name "msolve" resolved via PATH.
+// The CLI subkernel transport (handlers via STHyperFlint) REPLACES the child
+// environment with a minimal PATH that omits /opt/homebrew/bin, so a bare-name
+// posix_spawnp can silently miss a brew-installed msolve and force the whole
+// chi filter into its conservative-keep abstain (EulerFilter-on then differs
+// from the master only by abstaining, never by dropping).  Honoring a nonempty
+// HF_MSOLVE_PATH (normally an absolute path) lets the Mma side pin the resolved
+// msolve so the filter works even under a stripped PATH.  (Mma also restores
+// PATH now; this is the belt-and-suspenders half.)
+std::string msolve_binary()
+{
+    const char* p = std::getenv("HF_MSOLVE_PATH");
+    if (p != nullptr && *p != '\0') return std::string(p);
+    return "msolve";
+}
+
 // letter-independent twist exponents: distinct primes drawn by a seeded
 // shuffle (values free in the cleared-dlog representation; only relative
 // genericity matters — the reference draws prime ranks 30..230)
@@ -137,6 +154,7 @@ bool chi_letter_genuine(const std::vector<Poly>& augmented_group,
             param_names.push_back(all_names[v]);
     }
     const std::vector<long> exps = twist_exponents(fac_strs.size(), seed_tw);
+    const std::string msolve_path = msolve_binary();
 
     // ---- generic chi (memoized; max of two draws) ----
     const unsigned long UNUSABLE = ~0UL;
@@ -147,10 +165,10 @@ bool chi_letter_genuine(const std::vector<Poly>& augmented_group,
     } else {
         chi_stats_count_sectors_call();
         ChiCount a = chi_count_sectors(fac_strs, exps, prop_names,
-            param_names, "0", (unsigned long) (seed_tw + 1));
+            param_names, "0", (unsigned long) (seed_tw + 1), msolve_path);
         chi_stats_count_sectors_call();
         ChiCount b = chi_count_sectors(fac_strs, exps, prop_names,
-            param_names, "0", (unsigned long) (seed_tw + 2));
+            param_names, "0", (unsigned long) (seed_tw + 2), msolve_path);
         if (a.status == ChiStatus::Finite && b.status == ChiStatus::Finite)
             chi_gen = std::max(a.count, b.count);
         else if (a.status == ChiStatus::Finite)
@@ -176,7 +194,7 @@ bool chi_letter_genuine(const std::vector<Poly>& augmented_group,
     const uint64_t seed_draw = seed_tw ^ fnv1a(lstr);
     chi_stats_count_sectors_call();
     ChiCount on1 = chi_count_sectors(fac_strs, exps, prop_names,
-        param_names, lstr, (unsigned long) (seed_draw + 3));
+        param_names, lstr, (unsigned long) (seed_draw + 3), msolve_path);
     if (on1.status == ChiStatus::PositiveDim) return true;  // Indet rule
     if (on1.status != ChiStatus::Finite) {
         if (!cache.warned_failure) {
@@ -190,7 +208,7 @@ bool chi_letter_genuine(const std::vector<Poly>& augmented_group,
     if (on1.count < chi_gen) return true;   // drop seen: genuine
     chi_stats_count_sectors_call();
     ChiCount on2 = chi_count_sectors(fac_strs, exps, prop_names,
-        param_names, lstr, (unsigned long) (seed_draw + 4));
+        param_names, lstr, (unsigned long) (seed_draw + 4), msolve_path);
     if (on2.status == ChiStatus::PositiveDim) return true;
     if (on2.status != ChiStatus::Finite) return true;
     return on2.count < chi_gen;

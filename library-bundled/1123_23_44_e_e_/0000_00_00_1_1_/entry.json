@@ -11,10 +11,13 @@
       "epsOrders": "-4,-3,-2,-1,0,1",
       "reference": "arXiv:1705.06483 (doi: 10.1103/PhysRevD.96.036016)",
       "authors": "Mikhail V. Kompaniets and Erik Panzer",
-      "description": "massless propagator computed for the $\\varphi^4$ 6-loop calculation available from the ancillary files p_int_g4.mpl (Maple) and p_int_g4.m (Mathematica) of the arXiv submission results are rational linear combinations of multiple zeta values",
+      "description": "massless propagator computed for the $\\varphi^4$ 6-loop calculation available from the ancillary files p_int_g4.mpl (Maple) and p_int_g4.m (Mathematica) of the arXiv submission results are rational linear combinations of multiple zeta values. The pInt[4,8] period for this 4-loop 8-propagator topology is imported here as a Result: value = Cfull^4 * (anc g4 period), the G-scheme -> SubTropica normalization conversion, with the overall sign inherited from the ancillary period (Cfull -> 1 as eps -> 0). Independently validated by pySecDec single-scale Euclidean integration at p^2=-1 (magnitude and transcendental structure at every order; method-independent of the HyperInt reduction that produced the ancillary value).",
       "recordId": "1504717746.hNX6",
       "verified": true,
-      "verifiedAt": "auto-loopedia"
+      "verifiedAt": "2026-06-21",
+      "texkey": "Kompaniets:2017yct",
+      "doi": "10.1103/PhysRevD.96.036016",
+      "verifiedVia": "pySD-Euclidean s=-1: independent pySecDec single-scale Euclidean integration at p^2=-1 (sector decomposition; method-independent of the HyperInt reduction that produced the ancillary value) reproduces the MAGNITUDE and full transcendental structure of value_ST at every Laurent order eps^-4..eps^1 to Monte-Carlo accuracy. pySD-Euclidean s=-1 (NESO, processes=8, geometric, prefactor exp(4eps*gammaE)) reproduces +value_ST at every order eps^-4..eps^1; sigma=+1; max rel dev 6.7e-07. For this 8-propagator (even nu_tot) integral the pySD-raw output reproduces value_ST DIRECTLY with no sign flip (sigma = +1 = (-1)^nu_tot = (-1)^8); this is a magnitude + transcendental-structure check, NOT an independent sign check. The stored sign is inherited from the ancillary G-scheme period through Cfull^L (Cfull -> 1 as eps -> 0). The Cfull normalization is independently anchored at 2 loops by a first-principles massless-bubble recursion. NOT validated against HyperFLINT/STIntegrate (a HyperInt reimplementation -> circular)."
     }
   ],
   "Source": [
@@ -86,6 +89,58 @@
       "evensChiDrop": [
         0
       ]
+    },
+    {
+      "dimension": "4 - 2*eps",
+      "epsOrder": 1,
+      "propExponents": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "propagators": [],
+      "numerators": [],
+      "internalMasses": [],
+      "externalMasses": [],
+      "substitutions": "{}",
+      "normalization": "Automatic",
+      "stVersion": "SubTropica 1.2.6",
+      "contributor": "SM",
+      "timestamp": "2026-06-22T01:47:19Z",
+      "verified": true,
+      "verifiedVia": "pySD-Euclidean s=-1: independent pySecDec single-scale Euclidean integration at p^2=-1 (sector decomposition; method-independent of the HyperInt reduction that produced the ancillary value) reproduces the MAGNITUDE and full transcendental structure of value_ST at every Laurent order eps^-4..eps^1 to Monte-Carlo accuracy. pySD-Euclidean s=-1 (NESO, processes=8, geometric, prefactor exp(4eps*gammaE)) reproduces +value_ST at every order eps^-4..eps^1; sigma=+1; max rel dev 6.7e-07. For this 8-propagator (even nu_tot) integral the pySD-raw output reproduces value_ST DIRECTLY with no sign flip (sigma = +1 = (-1)^nu_tot = (-1)^8); this is a magnitude + transcendental-structure check, NOT an independent sign check. The stored sign is inherited from the ancillary G-scheme period through Cfull^L (Cfull -> 1 as eps -> 0). The Cfull normalization is independently anchored at 2 loops by a first-principles massless-bubble recursion. NOT validated against HyperFLINT/STIntegrate (a HyperInt reimplementation -> circular). Stored value carries the restored external scale (p^2)^{0 - 4 eps} (p2 = -MM > 0, Euclidean-real); at the pySD anchor MM=-1, i.e. p2=+1, the scale factor is 1, so the validated magnitude and transcendental structure are unchanged by the restoration.",
+      "periodImport": true,
+      "periodTarget": "1123|23|44|e|e|",
+      "import": {
+        "submittedBy": "Sebastian Mizera",
+        "source": {
+          "paper": "arXiv:1705.06483",
+          "title": "Minimally subtracted six loop renormalization of O(n)-symmetric phi^4 theory and critical exponents",
+          "authors": "M. V. Kompaniets, E. Panzer",
+          "journal": "Phys. Rev. D 96 (2017) 036016",
+          "texkey": "Kompaniets:2017yct",
+          "doi": "10.1103/PhysRevD.96.036016",
+          "ancFile": "anc/p_int_g4.m -> pInt[4,8]  (g4 = IRR-rearranged auxiliary integrals; valence-4 AND independently pySD-confirmed to equal the unit-power period of this graph; NOT phi^4 self-energies)",
+          "ancNickel": "e11|23|334|4|e|",
+          "ancUrl": "https://arxiv.org/abs/1705.06483"
+        },
+        "method": "Single-scale phi^4 propagator integral, external scale restored. value = (p^2)^{0 - 4 eps} * Cfull^4 * anc[pInt[4,8]]: the KP G-scheme period series (Cfull = Exp[eps*EulerGamma] Gamma[1+eps] Gamma[1-eps]^2/Gamma[2-2eps], G-scheme -> SubTropica normalization per loop) with the external Euclidean invariant restored, so the stored value is the dimensionful momentum-space integral, not the p^2=1 reduced form. g4: IRR-rearranged auxiliary p-integral (NOT a phi^4 self-energy); 2L-V=0; I ~ (p2)^{-4 eps}; log-divergent, dimensionless. p2 = -MM > 0 : the spacelike (mostly-plus) external invariant, = minus the package mostly-minus Euclidean MM (MM<0; conventions.md L918-924). value = (p2)^{0 - 4 eps} * (dimensionless p2=1 form) is REAL for p2>0 (KP G-scheme). At the pySD anchor MM=-1, i.e. p2=+1, the scale factor is 1, reproducing the anchored period; the i*pi tower appears only on continuation to timelike p2<0 (MM>0). NOT computed by STIntegrate/HyperFLINT (a HyperInt reimplementation; using it to validate the ancillary HyperInt value would be circular).",
+        "validation": "pySD-Euclidean s=-1: independent pySecDec single-scale Euclidean integration at p^2=-1 (sector decomposition; method-independent of the HyperInt reduction that produced the ancillary value) reproduces the MAGNITUDE and full transcendental structure of value_ST at every Laurent order eps^-4..eps^1 to Monte-Carlo accuracy. pySD-Euclidean s=-1 (NESO, processes=8, geometric, prefactor exp(4eps*gammaE)) reproduces +value_ST at every order eps^-4..eps^1; sigma=+1; max rel dev 6.7e-07. For this 8-propagator (even nu_tot) integral the pySD-raw output reproduces value_ST DIRECTLY with no sign flip (sigma = +1 = (-1)^nu_tot = (-1)^8); this is a magnitude + transcendental-structure check, NOT an independent sign check. The stored sign is inherited from the ancillary G-scheme period through Cfull^L (Cfull -> 1 as eps -> 0). The Cfull normalization is independently anchored at 2 loops by a first-principles massless-bubble recursion. NOT validated against HyperFLINT/STIntegrate (a HyperInt reimplementation -> circular). Stored value carries the restored external scale (p^2)^{0 - 4 eps} (p2 = -MM > 0, Euclidean-real); at the pySD anchor MM=-1, i.e. p2=+1, the scale factor is 1, so the validated magnitude and transcendental structure are unchanged by the restoration.",
+        "importedAt": "2026-06-21"
+      },
+      "scale": "p^2",
+      "scaleExponent": "0 - 4 eps",
+      "scaleClass": "g4: IRR-rearranged auxiliary p-integral (NOT a phi^4 self-energy); 2L-V=0; I ~ (p2)^{-4 eps}; log-divergent, dimensionless",
+      "alphabet": [
+        "p^2"
+      ],
+      "resultDataId": "b5fd27c12e7e00c7",
+      "resultTeXPreview": "\\frac{1}{3 \\varepsilon ^4} + \\frac{3-\\frac{4 \\log \\left(p^2\\right)}{3}}{\\varepsilon ^3} + \\frac{\\frac{4}{3} \\log \\left(p^2\\right) \\left(2 \\log \\left(p^2\\right)-9\\right)-\\frac{\\pi ^2}{9}+\\frac{49}{3}}{\\varepsilon ^2} + \\frac{\\frac{4}{9} \\log \\left(p^2\\right) \\left(-8 \\log ^2\\left(p^2\\right)+54 \\log \\left(p^2\\right)+\\pi ^2-147\\right)+\\frac{14 \\zeta (3)}{9}-\\pi ^2+67}{\\varepsilon } + \\frac{4}{9} \\log \\left(p^2\\right) \\left(2 \\log \\left(p^2\\right) \\left(4 \\left(\\log \\left(p^2\\right)-9\\right) \\log \\left(p^2\\right)-\\pi ^2+147\\right)-14 \\zeta (3)+9 \\pi ^2-603\\right)+14 \\zeta (3)+\\frac{13 \\pi ^4}{270}-\\frac{49 \\pi ^2}{9}+\\frac{637}{3} + \\frac{1}{270} \\varepsilon  \\left(\\zeta (3) \\left(27060-140 \\left(12 \\left(9-2 \\log \\left(p^2\\right)\\right) \\log \\left(p^2\\right)+\\pi ^2\\right)\\right)+4 \\log \\left(p^2\\right) \\left(4 \\log \\left(p^2\\right) \\left(4 \\log \\left(p^2\\right) \\left(3 \\left(45-4 \\log \\left(p^2\\right)\\right) \\log \\left(p^2\\right)+5 \\left(\\pi ^2-147\\right)\\right)-135 \\left(\\pi ^2-67\\right)\\right)-13 \\pi ^4+1470 \\pi ^2-57330\\right)+31788 \\zeta (5)+117 \\pi ^4-6030 \\pi ^2+116370\\right) + O\\left(\\varepsilon ^2\\right)"
     }
   ],
   "Names": [

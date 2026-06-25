@@ -1,242 +1,307 @@
 {
-	"CNickelIndex": "123|24|e|e4|e|:000|00|1|20|3|",
-	"MassScales": 3,
-	"FunctionClass": "MPL",
-	"EpsilonOrder": "0",
-	"edges": "{{{1, 3}, 0}, {{1, 2}, 0}, {{2, 3}, 0}, {{3, 5}, 0}, {{2, 4}, 0}, {{4, 5}, 0}}",
-	"nodes": "{{1, M[3]}, {4, M[1]}, {5, M[2]}}",
-	"References": [
-		"arXiv:1401.3546 (JHEP 10 (125), 2014)",
-		"arXiv:2502.05121 (JHEP 05 (185), 2025)",
-		"arXiv:2507.17815",
-		"arXiv:hep-ph/9402223 (Phys.Lett.B 332 (159), 1994)",
-		"Phys. Lett. B 298 (1993) 363",
-		"Phys. Lett. B 305 (1993) 136",
-		"arXiv:1207.3824",
-		"arXiv:2311.14669 (Phys.Rev.Lett. 132 (101601), 2024)",
-		"arXiv:2311.16219 (Comput.Phys.Commun. 303 (109278), 2024)"
-	],
-	"Records": [
-		{
-			"reference": "arXiv:2507.17815",
-			"authors": [
-				{
-					"full_name": "Barrera, Oscar",
-					"inspire_id": 2957072
-				},
-				{
-					"full_name": "Dersy, Aurélien",
-					"inspire_id": 2083042
-				},
-				{
-					"full_name": "Husain, Rabia",
-					"inspire_id": 1925286
-				},
-				{
-					"full_name": "Schwartz, Matthew D.",
-					"inspire_id": 1019662
-				},
-				{
-					"full_name": "Zhang, Xiaoyuan",
-					"inspire_id": 1806305
-				}
-			],
-			"description": "Called T2 in the paper. 2-loop triangle ladder with three off-shell external legs and all massless internal lines. 6 propagators, 5 vertices. Finite in $d=4$, uniform transcendental weight 4. Conformal variables $z \\bar{z}=p_2^2/p_1^2$, $(1-z)(1-\\bar{z})=p_3^2/p_1^2$. Result involves $\\operatorname{Li}_4, \\operatorname{Li}_3, \\operatorname{Li}_2$ with prefactor $1/((1-z)(1-\\bar{z})(z-\\bar{z}))$. AMFlow: 1.1 CPU-h/point, 100 points, 20 digits.",
-			"epsOrders": "0",
-			"familyName": "2-loop massless three-mass triangle ladder",
-			"method": "DE, IBP",
-			"tools": [
-				"AMFlow",
-				"SOFIA",
-				"Kira",
-				"FireFly",
-				"GiNaC",
-				"Fplll",
-				"PolyLogTools"
-			],
-			"ancillaryFiles": false,
-			"doi": "",
-			"texkey": "",
-			"masterCount": 0,
-			"dimScheme": "d=4",
-			"computationLevel": "full",
-			"location": "Eq. (30), Section 4.3, second diagram",
-			"recordId": "bx_3d81fd13d7dc",
-			"verified": false,
-			"verifiedAt": ""
-		},
-		{
-			"reference": "arXiv:hep-ph/9402223 (Phys.Lett.B 332 (159), 1994)",
-			"authors": "Usyukina, Natalia I., Davydychev, Andrei I.",
-			"description": "Two-loop planar ladder three-point diagram with massless propagators and all off-shell external momenta. Result expressed in terms of $\\Phi^{(2)}$ function involving polylogarithms up to $\\operatorname{Li}_4$.",
-			"epsOrders": "",
-			"familyName": "planar ladder (fig.1a)",
-			"method": "uniqueness, direct_integration",
-			"tools": [],
-			"ancillaryFiles": true,
-			"doi": "10.1016/0370-2693(94)90874-5",
-			"texkey": "Usyukina:1994iw",
-			"masterCount": 0,
-			"dimScheme": "d=4",
-			"computationLevel": "full",
-			"location": "eq.(14), eq.(15), sec.3",
-			"recordId": "bx_3f67467adc38",
-			"verified": false,
-			"verifiedAt": ""
-		},
-		{
-			"reference": "arXiv:2502.05121 (JHEP 05 (185), 2025)",
-			"authors": "von Hippel, Matt, Wilhelm, Matthias",
-			"description": "Two-loop triangle-box integral used as benchmark for machine-learning optimization of IBP seeding strategies. All external legs are massive with $p_1+p_2+p_3=0$. The paper applies genetic algorithms, FunSearch, and strongly typed genetic programming to discover improved seeding heuristics, reducing the number of IBP seeds from 14588 (rectangular) to 88.",
-			"epsOrders": "",
-			"familyName": "two-loop triangle-box",
-			"method": "IBP",
-			"tools": [
-				"Kira"
-			],
-			"ancillaryFiles": false,
-			"doi": "10.1007/JHEP05(2025)185",
-			"texkey": "vonHippel:2025okr",
-			"masterCount": 16,
-			"dimScheme": "d=D",
-			"computationLevel": "IBP_only",
-			"location": "fig. 1, eq. (2.2)",
-			"recordId": "bx_57bbb4392961",
-			"verified": false,
-			"verifiedAt": ""
-		},
-		{
-			"authors": "Abreu, Samuel, Britto, Ruth, Duhr, Claude, Gardi, Einan",
-			"texkey": "Abreu:2014cla",
-			"verified": false,
-			"verifiedAt": "",
-			"reference": "arXiv:1401.3546, JHEP 10 (125), 2014",
-			"ancillaryFiles": [],
-			"recordId": "bf_6bf5487ef16a",
-			"masterCount": 1,
-			"transcendentalWeight": 4,
-			"computationLevel": "full",
-			"doi": "10.1007/JHEP10(2014)125",
-			"tools": [],
-			"description": "Two-loop three-point ladder with 6 massless propagators and 3 external masses, finite in $D=4$. Weight-4 result in $z,\\bar{z}$. Main example: all single/double cuts computed, integral reconstructed from cuts via dispersion and symbol reconstruction.",
-			"epsOrders": "-4,-3,-2,-1,0",
-			"method": [],
-			"dimScheme": "d=4",
-			"location": "Section 5, eq.(5.1); Appendices C,D",
-			"familyName": "T_L (two-loop three-point ladder)"
-		},
-		{
-			"reference": "Phys. Lett. B 298 (1993) 363",
-			"familyName": "triangle-ladder_L2_massless-internal-offshell-external",
-			"description": "Triangle ladder family, triangle-ladder_L2_massless-internal-offshell-external. The Usyukina-Davydychev triangle ladder $T^{(L)}$ consists of $(L{-}1)$ box cells capped by a triangle at the apex, with two rails of $L$ edges converging to a shared apex vertex and $L$ rungs connecting the rails at each level. It has $2L{+}1$ vertices, $3L$ massless internal propagators, $L$ loops, and three off-shell external legs at the two base vertices and the apex. The triangle ladder evaluates to the same $\\Phi^{(L)}$ as the four-point box ladder and the generalised-ladder fan via the conformal magic identity, but is a genuinely different topology from both for $L \\ge 2$: the triangle ladder has $V = 2L{+}1$, $E = 3L$ versus $V = L{+}2$, $E = 2L{+}1$ for the fan. Only $L = 1$ (the triangle) is shared. Value = PhiLadder[2, 1/3, 1/5].",
-			"method": [
-				"closed form"
-			],
-			"tools": [
-				"SubTropica seed_families"
-			],
-			"recordId": "fs_c654ee876846",
-			"verified": false,
-			"verifiedAt": ""
-		},
-		{
-			"reference": "arXiv:2311.14669 (Phys.Rev.Lett. 132 (101601), 2024)",
-			"authors": "Fevola, C., Mizera, S., Telen, S.",
-			"description": "Landau singularities of the planar triangle-bubble computed via principal Landau determinants.",
-			"familyName": "PLD: pltrb",
-			"recordId": "bf_64dd4e026b2d",
-			"verified": false
-		},
-		{
-			"reference": "arXiv:2311.14669 (Phys.Rev.Lett. 132 (101601), 2024)",
-			"authors": "Fevola, C., Mizera, S., Telen, S.",
-			"description": "Landau singularities of the planar triangle-bubble with zero internal, equal external masses, computed via principal Landau determinants.",
-			"familyName": "PLD: pltrb",
-			"structural": {
-				"corrections": [
-					{
-						"date": "2026-06-10",
-						"action": "recanonicalized",
-						"from": "123|24|e|e4|e|:000|00|1|20|2|",
-						"note": "v1.2.3 release curation: re-keyed from non-canonical home"
-					}
-				]
-			},
-			"recordId": "bf_d23fb429d420",
-			"verified": false
-		}
-	],
-	"Results": [
-		{
-			"dimension": "4 - 2*eps",
-			"epsOrder": 0,
-			"propExponents": [
-				1,
-				1,
-				1,
-				1,
-				1,
-				1
-			],
-			"propagators": [],
-			"numerators": [],
-			"internalMasses": [],
-			"externalMasses": [],
-			"substitutions": "{MM1 -> (1 - z)*(1 - zb), MM2 -> z*zb, MM3 -> 1}",
-			"normalization": "Automatic",
-			"stVersion": "SubTropica v1.0.379",
-			"stCommand": "STIntegrate[{{{{1, 4}, 0}, {{2, 4}, 0}, {{2, 3}, 0}, {{3, 5}, 0}, {{1, 5}, 0}, {{4, 5}, 0}}, {{1, Subscript[M, 1]}, {2, Subscript[M, 2]}, {3, Subscript[M, 3]}}}, Dimension -> \"4 - 2*eps\", Order -> 0, Substitutions -> {MM1 -> (1 - z)*(1 - zb), MM2 -> z*zb, MM3 -> 1}]",
-			"contributor": "SM",
-			"timestamp": "2026-04-19T18:59:45",
-			"byteCount": 40720,
-			"alphabet": [
-				"z",
-				"z-1",
-				"\\text{zb}",
-				"\\text{zb}-1"
-			],
-			"symbolWeight": 4,
-			"symbolTerms": 32,
-			"legOrder": [
-				1,
-				2,
-				3
-			],
-			"resultDataId": "55a49840cf00c819.1",
-			"resultTeXPreview": "\\frac{H\\left(0,\\frac{1}{z}\\,;1\\right) \\left(-3 \\log ^2\\left(\\frac{z-1}{z}\\right)-6 \\log \\left(\\frac{1}{(z-1) (\\text{zb}-1)}\\right) \\log \\left(\\frac{z-1}{z}\\right)-6 \\zeta(2)+12 H(0,z\\,;1)-6 H\\left(0,\\frac{z \\text{zb}}{z+\\text{zb}-1}\\,;1\\right)-6 H\\left(\\frac{z \\text{zb}}{z+\\text{zb}-1},z\\,;1\\right)+\\pi ^2\\right)+H\\left(0,\\frac{1}{\\text{zb}}\\,;1\\right) \\left(3 \\log ^2\\left(\\frac{\\text{zb}-1}{\\text{zb}}\\right)+6 \\log \\left(\\frac{1}{(z-1) (\\text{zb}-1)}\\right) \\log \\left(\\frac{\\text{zb}-1}{\\text{zb}}\\right)+6 \\zeta(2)-12 H(0,\\text{zb}\\,;1)+6 H\\left(0,\\frac{z \\text{zb}}{z+\\text{zb}-1}\\,;1\\right)+6 H\\left(\\frac{z \\text{zb}}{z+\\text{zb}-1},\\text{zb}\\,;1\\right)-\\pi ^2\\right)-3 \\left(\\zeta(2) \\log ^2\\left(\\frac{1}{1-z}\\right)-2 \\log \\left(\\frac{1}{z \\text{zb}}\\right) \\zeta(2) \\log \\left(\\frac{1}{1-z}\\right)-\\log ^2\\left(\\frac{1}{1-\\text{zb}}\\right) \\zeta(2)+2 \\log \\left(\\frac{1}{1-\\text{zb}}\\right) \\log \\left(\\frac{1}{z \\text{zb}}\\right) \\zeta(2)-4 \\zeta(2) H\\left(0,\\frac{z-1}{z}\\,;1\\right)+4 \\zeta(2) H\\left(0,\\frac{\\text{zb}-1}{\\text{zb}}\\,;1\\right)+2 \\zeta(2) H\\left(\\frac{(z-1) (\\text{zb}-1)}{z (\\text{zb}-1)-\\text{zb}},\\frac{z-1}{z}\\,;1\\right)-2 \\zeta(2) H\\left(\\frac{(z-1) (\\text{zb}-1)}{z (\\text{zb}-1)-\\text{zb}},\\frac{\\text{zb}-1}{\\text{zb}}\\,;1\\right)+4 \\log \\left(\\frac{(z-1) (\\text{zb}-1)}{z \\text{zb}}\\right) H\\left(0,0,\\frac{1}{z}\\,;1\\right)-4 \\log \\left(\\frac{(z-1) (\\text{zb}-1)}{z \\text{zb}}\\right) H\\left(0,0,\\frac{1}{\\text{zb}}\\,;1\\right)-2 \\log \\left(\\frac{1}{(z-1) (\\text{zb}-1)}\\right) H\\left(0,\\frac{1}{z},1\\,;1\\right)-2 \\log \\left(\\frac{(z-1) (\\text{zb}-1)}{z \\text{zb}}\\right) H\\left(0,\\frac{1}{z},\\frac{1}{z}\\,;1\\right)+2 \\log \\left(\\frac{1}{(z-1) (\\text{zb}-1)}\\right) H\\left(0,\\frac{1}{\\text{zb}},1\\,;1\\right)+2 \\log \\left(\\frac{(z-1) (\\text{zb}-1)}{z \\text{zb}}\\right) H\\left(0,\\frac{1}{\\text{zb}},\\frac{1}{\\text{zb}}\\,;1\\right)-2 \\log \\left(\\frac{1}{(z-1) (\\text{zb}-1)}\\right) H\\left(\\frac{1}{z},0,1\\,;1\\right)+2 \\log \\left(\\frac{1}{z \\text{zb}}\\right) H\\left(\\frac{1}{z},0,1\\,;1\\right)-2 \\log \\left(\\frac{(z-1) (\\text{zb}-1)}{z \\text{zb}}\\right) H\\left(\\frac{1}{z},0,\\frac{1}{z}\\,;1\\right)+2 \\log \\left(\\frac{1}{(z-1) (\\text{zb}-1)}\\right) H\\left(\\frac{1}{\\text{zb}},0,1\\,;1\\right)-2 \\log \\left(\\frac{1}{z \\text{zb}}\\right) H\\left(\\frac{1}{\\text{zb}},0,1\\,;1\\right)+2 \\log \\left(\\frac{(z-1) (\\text{zb}-1)}{z \\text{zb}}\\right) H\\left(\\frac{1}{\\text{zb}},0,\\frac{1}{\\text{zb}}\\,;1\\right)+6 H\\left(0,0,0,\\frac{1}{z}\\,;1\\right)-6 H\\left(0,0,0,\\frac{1}{\\text{zb}}\\,;1\\right)-4 H\\left(0,0,1,\\frac{1}{z}\\,;1\\right)+4 H\\left(0,0,1,\\frac{1}{\\text{zb}}\\,;1\\right)-4 H\\left(0,0,\\frac{1}{z},1\\,;1\\right)-4 H\\left(0,0,\\frac{1}{z},\\frac{1}{z}\\,;1\\right)+4 H\\left(0,0,\\frac{1}{\\text{zb}},1\\,;1\\right)+4 H\\left(0,0,\\frac{1}{\\text{zb}},\\frac{1}{\\text{zb}}\\,;1\\right)-2 H\\left(0,1,0,\\frac{1}{z}\\,;1\\right)+2 H\\left(0,1,0,\\frac{1}{\\text{zb}}\\,;1\\right)+2 H\\left(0,\\frac{1}{z},0,1\\,;1\\right)-2 H\\left(0,\\frac{1}{z},0,\\frac{1}{z}\\,;1\\right)-4 H\\left(0,\\frac{1}{z},1,1\\,;1\\right)+2 H\\left(0,\\frac{1}{z},1,\\frac{1}{z}\\,;1\\right)+2 H\\left(0,\\frac{1}{z},\\frac{1}{z},1\\,;1\\right)-2 H\\left(0,\\frac{1}{\\text{zb}},0,1\\,;1\\right)+2 H\\left(0,\\frac{1}{\\text{zb}},0,\\frac{1}{\\text{zb}}\\,;1\\right)+4 H\\left(0,\\frac{1}{\\text{zb}},1,1\\,;1\\right)-2 H\\left(0,\\frac{1}{\\text{zb}},1,\\frac{1}{\\text{zb}}\\,;1\\right)-2 H\\left(0,\\frac{1}{\\text{zb}},\\frac{1}{\\text{zb}},1\\,;1\\right)-2 H\\left(0,\\frac{1}{-\\text{zb} z+z+\\text{zb}},0,\\frac{1}{z}\\,;1\\right)+2 H\\left(0,\\frac{1}{-\\text{zb} z+z+\\text{zb}},0,\\frac{1}{\\text{zb}}\\,;1\\right)-2 H\\left(0,\\frac{1}{-\\text{zb} z+z+\\text{zb}},\\frac{1}{z},1\\,;1\\right)+2 H\\left(0,\\frac{1}{-\\text{zb} z+z+\\text{zb}},\\frac{1}{z},\\frac{1}{z}\\,;1\\right)+2 H\\left(0,\\frac{1}{-\\text{zb} z+z+\\text{zb}},\\frac{1}{\\text{zb}},1\\,;1\\right)-2 H\\left(0,\\frac{1}{-\\text{zb} z+z+\\text{zb}},\\frac{1}{\\text{zb}},\\frac{1}{\\text{zb}}\\,;1\\right)-4 H\\left(\\frac{1}{z},0,1,1\\,;1\\right)+2 H\\left(\\frac{1}{z},0,1,\\frac{1}{z}\\,;1\\right)+2 H\\left(\\frac{1}{z},0,\\frac{1}{z},1\\,;1\\right)-2 H\\left(\\frac{1}{z},1,0,1\\,;1\\right)+2 H\\left(\\frac{1}{z},1,0,\\frac{1}{z}\\,;1\\right)+4 H\\left(\\frac{1}{\\text{zb}},0,1,1\\,;1\\right)-2 H\\left(\\frac{1}{\\text{zb}},0,1,\\frac{1}{\\text{zb}}\\,;1\\right)-2 H\\left(\\frac{1}{\\text{zb}},0,\\frac{1}{\\text{zb}},1\\,;1\\right)+2 H\\left(\\frac{1}{\\text{zb}},1,0,1\\,;1\\right)-2 H\\left(\\frac{1}{\\text{zb}},1,0,\\frac{1}{\\text{zb}}\\,;1\\right)-4 H\\left(\\frac{1}{-\\text{zb} z+z+\\text{zb}},0,0,\\frac{1}{z}\\,;1\\right)+4 H\\left(\\frac{1}{-\\text{zb} z+z+\\text{zb}},0,0,\\frac{1}{\\text{zb}}\\,;1\\right)-2 H\\left(\\frac{1}{-\\text{zb} z+z+\\text{zb}},0,\\frac{1}{z},1\\,;1\\right)+2 H\\left(\\frac{1}{-\\text{zb} z+z+\\text{zb}},0,\\frac{1}{z},\\frac{1}{z}\\,;1\\right)+2 H\\left(\\frac{1}{-\\text{zb} z+z+\\text{zb}},0,\\frac{1}{\\text{zb}},1\\,;1\\right)-2 H\\left(\\frac{1}{-\\text{zb} z+z+\\text{zb}},0,\\frac{1}{\\text{zb}},\\frac{1}{\\text{zb}}\\,;1\\right)-2 H\\left(\\frac{1}{-\\text{zb} z+z+\\text{zb}},\\frac{1}{z},0,1\\,;1\\right)+2 H\\left(\\frac{1}{-\\text{zb} z+z+\\text{zb}},\\frac{1}{z},0,\\frac{1}{z}\\,;1\\right)+2 H\\left(\\frac{1}{-\\text{zb} z+z+\\text{zb}},\\frac{1}{\\text{zb}},0,1\\,;1\\right)-2 H\\left(\\frac{1}{-\\text{zb} z+z+\\text{zb}},\\frac{1}{\\text{zb}},0,\\frac{1}{\\text{zb}}\\,;1\\right)\\right)}{6 (z-1) (z-\\text{zb}) (\\text{zb}-1)} + \\cdots"
-		}
-	],
-	"Names": [
-		"2-loop massless three-mass triangle ladder",
-		"planar ladder (fig.1a)",
-		"T_L (two-loop three-point ladder)",
-		"two-loop triangle-box",
-		"Triangle-box, massless propagators, 3 distinct external masses"
-	],
-	"Source": [
-		"arXiv"
-	],
-	"Loops": 2,
-	"NumPropagators": 6,
-	"CanonicalName": "3-mass triangle-box",
-	"MassConfig": {
-		"numEdges": 6,
-		"numMassiveEdges": 0,
-		"numMasslessEdges": 6,
-		"distinctInternalMasses": 0,
-		"internalMassLabels": [],
-		"edgeMassPattern": "000000",
-		"numExtLegs": 3,
-		"numOnshellMassiveExtLegs": 3,
-		"numMasslessExtLegs": 0,
-		"extLegSignature": "MMM"
-	},
-	"Subsectors": [
-		"123|e23|e|e|:000|100|2|3|"
-	],
-	"ParentSectors": [
-		"123|45|e4|e5|e|e|:000|00|00|10|0|2|",
-		"123|45|e4|e5|e|e|:000|00|00|10|2|3|",
-		"123|45|e4|e5|e|e|:000|00|10|20|3|4|"
-	]
+  "CNickelIndex": "123|24|e|e4|e|:000|00|1|20|3|",
+  "MassScales": 3,
+  "FunctionClass": "MPL",
+  "EpsilonOrder": "0",
+  "edges": "{{{1, 3}, 0}, {{1, 2}, 0}, {{2, 3}, 0}, {{3, 5}, 0}, {{2, 4}, 0}, {{4, 5}, 0}}",
+  "nodes": "{{1, M[3]}, {4, M[1]}, {5, M[2]}}",
+  "References": [
+    "arXiv:1401.3546 (JHEP 10 (125), 2014)",
+    "arXiv:2502.05121 (JHEP 05 (185), 2025)",
+    "arXiv:2507.17815",
+    "arXiv:hep-ph/9402223 (Phys.Lett.B 332 (159), 1994)",
+    "Phys. Lett. B 298 (1993) 363",
+    "Phys. Lett. B 305 (1993) 136",
+    "arXiv:1207.3824",
+    "arXiv:2311.14669 (Phys.Rev.Lett. 132 (101601), 2024)",
+    "arXiv:2311.16219 (Comput.Phys.Commun. 303 (109278), 2024)",
+    "arXiv:hep-ph/9307327 (Phys.Atom.Nucl. 56 (1553-1557), 1993)"
+  ],
+  "Records": [
+    {
+      "reference": "arXiv:2507.17815",
+      "authors": [
+        {
+          "full_name": "Barrera, Oscar",
+          "inspire_id": 2957072
+        },
+        {
+          "full_name": "Dersy, Aurélien",
+          "inspire_id": 2083042
+        },
+        {
+          "full_name": "Husain, Rabia",
+          "inspire_id": 1925286
+        },
+        {
+          "full_name": "Schwartz, Matthew D.",
+          "inspire_id": 1019662
+        },
+        {
+          "full_name": "Zhang, Xiaoyuan",
+          "inspire_id": 1806305
+        }
+      ],
+      "description": "Called T2 in the paper. 2-loop triangle ladder with three off-shell external legs and all massless internal lines. 6 propagators, 5 vertices. Finite in $d=4$, uniform transcendental weight 4. Conformal variables $z \\bar{z}=p_2^2/p_1^2$, $(1-z)(1-\\bar{z})=p_3^2/p_1^2$. Result involves $\\operatorname{Li}_4, \\operatorname{Li}_3, \\operatorname{Li}_2$ with prefactor $1/((1-z)(1-\\bar{z})(z-\\bar{z}))$. AMFlow: 1.1 CPU-h/point, 100 points, 20 digits.",
+      "epsOrders": "0",
+      "familyName": "2-loop massless three-mass triangle ladder",
+      "method": "DE, IBP",
+      "tools": [
+        "AMFlow",
+        "SOFIA",
+        "Kira",
+        "FireFly",
+        "GiNaC",
+        "Fplll",
+        "PolyLogTools"
+      ],
+      "ancillaryFiles": false,
+      "doi": "",
+      "texkey": "",
+      "masterCount": 0,
+      "dimScheme": "d=4",
+      "computationLevel": "full",
+      "location": "Eq. (30), Section 4.3, second diagram",
+      "recordId": "bx_3d81fd13d7dc",
+      "verified": false,
+      "verifiedAt": ""
+    },
+    {
+      "reference": "arXiv:hep-ph/9402223 (Phys.Lett.B 332 (159), 1994)",
+      "authors": "Usyukina, Natalia I., Davydychev, Andrei I.",
+      "description": "Two-loop planar ladder three-point diagram with massless propagators and all off-shell external momenta. Result expressed in terms of $\\Phi^{(2)}$ function involving polylogarithms up to $\\operatorname{Li}_4$.",
+      "epsOrders": "",
+      "familyName": "planar ladder (fig.1a)",
+      "method": "uniqueness, direct_integration",
+      "tools": [],
+      "ancillaryFiles": true,
+      "doi": "10.1016/0370-2693(94)90874-5",
+      "texkey": "Usyukina:1994iw",
+      "masterCount": 0,
+      "dimScheme": "d=4",
+      "computationLevel": "full",
+      "location": "eq.(14), eq.(15), sec.3",
+      "recordId": "bx_3f67467adc38",
+      "verified": false,
+      "verifiedAt": ""
+    },
+    {
+      "reference": "arXiv:2502.05121 (JHEP 05 (185), 2025)",
+      "authors": "von Hippel, Matt, Wilhelm, Matthias",
+      "description": "Two-loop triangle-box integral used as benchmark for machine-learning optimization of IBP seeding strategies. All external legs are massive with $p_1+p_2+p_3=0$. The paper applies genetic algorithms, FunSearch, and strongly typed genetic programming to discover improved seeding heuristics, reducing the number of IBP seeds from 14588 (rectangular) to 88.",
+      "epsOrders": "",
+      "familyName": "two-loop triangle-box",
+      "method": "IBP",
+      "tools": [
+        "Kira"
+      ],
+      "ancillaryFiles": false,
+      "doi": "10.1007/JHEP05(2025)185",
+      "texkey": "vonHippel:2025okr",
+      "masterCount": 16,
+      "dimScheme": "d=D",
+      "computationLevel": "IBP_only",
+      "location": "fig. 1, eq. (2.2)",
+      "recordId": "bx_57bbb4392961",
+      "verified": false,
+      "verifiedAt": ""
+    },
+    {
+      "authors": "Abreu, Samuel, Britto, Ruth, Duhr, Claude, Gardi, Einan",
+      "texkey": "Abreu:2014cla",
+      "verified": false,
+      "verifiedAt": "",
+      "reference": "arXiv:1401.3546, JHEP 10 (125), 2014",
+      "ancillaryFiles": [],
+      "recordId": "bf_6bf5487ef16a",
+      "masterCount": 1,
+      "transcendentalWeight": 4,
+      "computationLevel": "full",
+      "doi": "10.1007/JHEP10(2014)125",
+      "tools": [],
+      "description": "Two-loop three-point ladder with 6 massless propagators and 3 external masses, finite in $D=4$. Weight-4 result in $z,\\bar{z}$. Main example: all single/double cuts computed, integral reconstructed from cuts via dispersion and symbol reconstruction.",
+      "epsOrders": "-4,-3,-2,-1,0",
+      "method": [],
+      "dimScheme": "d=4",
+      "location": "Section 5, eq.(5.1); Appendices C,D",
+      "familyName": "T_L (two-loop three-point ladder)"
+    },
+    {
+      "reference": "Phys. Lett. B 298 (1993) 363",
+      "familyName": "triangle-ladder_L2_massless-internal-offshell-external",
+      "description": "Triangle ladder family, triangle-ladder_L2_massless-internal-offshell-external. The Usyukina-Davydychev triangle ladder $T^{(L)}$ consists of $(L{-}1)$ box cells capped by a triangle at the apex, with two rails of $L$ edges converging to a shared apex vertex and $L$ rungs connecting the rails at each level. It has $2L{+}1$ vertices, $3L$ massless internal propagators, $L$ loops, and three off-shell external legs at the two base vertices and the apex. The triangle ladder evaluates to the same $\\Phi^{(L)}$ as the four-point box ladder and the generalised-ladder fan via the conformal magic identity, but is a genuinely different topology from both for $L \\ge 2$: the triangle ladder has $V = 2L{+}1$, $E = 3L$ versus $V = L{+}2$, $E = 2L{+}1$ for the fan. Only $L = 1$ (the triangle) is shared.",
+      "method": [
+        "closed form"
+      ],
+      "tools": [
+        "SubTropica seed_families"
+      ],
+      "recordId": "fs_c654ee876846",
+      "verified": false,
+      "verifiedAt": "",
+      "title": "An approach to the evaluation of three and four point ladder diagrams",
+      "authors": "N. I. Usyukina, A. I. Davydychev"
+    },
+    {
+      "reference": "arXiv:2311.14669 (Phys.Rev.Lett. 132 (101601), 2024)",
+      "authors": "Fevola, C., Mizera, S., Telen, S.",
+      "description": "Landau singularities of the planar triangle-bubble computed via principal Landau determinants.",
+      "familyName": "PLD: pltrb",
+      "recordId": "bf_64dd4e026b2d",
+      "verified": false
+    },
+    {
+      "reference": "arXiv:2311.14669 (Phys.Rev.Lett. 132 (101601), 2024)",
+      "authors": "Fevola, C., Mizera, S., Telen, S.",
+      "description": "Landau singularities of the planar triangle-bubble with zero internal, equal external masses, computed via principal Landau determinants.",
+      "familyName": "PLD: pltrb",
+      "structural": {
+        "corrections": [
+          {
+            "date": "2026-06-10",
+            "action": "recanonicalized",
+            "from": "123|24|e|e4|e|:000|00|1|20|2|",
+            "note": "v1.2.3 release curation: re-keyed from non-canonical home"
+          }
+        ]
+      },
+      "recordId": "bf_d23fb429d420",
+      "verified": false
+    },
+    {
+      "reference": "arXiv:hep-ph/9307327 (Phys.Atom.Nucl. 56 (1553-1557), 1993)",
+      "authors": [
+        {
+          "full_name": "Usyukina, N.I.",
+          "inspire_id": 2192017
+        },
+        {
+          "full_name": "Davydychev, Andrei I.",
+          "inspire_id": 1012291
+        }
+      ],
+      "description": "Two-loop planar ladder three-point $C^{(2)}(p_1^2,p_2^2,p_3^2)$ with massless internal lines and three generic off-shell external momenta. Computed at $n=4$ via uniqueness with analytic regularization. Closed-form $\\Phi^{(2)}(x,y)$ in Eq. (23) involves $\\operatorname{Li}_4, \\operatorname{Li}_3, \\operatorname{Li}_2$ of arguments $-\\rho x, -\\rho y$, plus log products and $\\zeta(4)$; weight 4.",
+      "epsOrders": "",
+      "familyName": "two-loop massless planar ladder triangle with off-shell external legs",
+      "method": "direct_integration, Mellin-Barnes",
+      "tools": [],
+      "ancillaryFiles": false,
+      "doi": "",
+      "texkey": "Usyukina:1992wz",
+      "masterCount": 1,
+      "dimScheme": "d=4",
+      "computationLevel": "full",
+      "location": "Section 3, Fig. 3, Eqs. (17)-(23)",
+      "recordId": "bx_6308eabbd689",
+      "verified": false,
+      "verifiedAt": ""
+    }
+  ],
+  "Results": [
+    {
+      "dimension": "4 - 2*eps",
+      "epsOrder": 0,
+      "propExponents": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "propagators": [],
+      "numerators": [],
+      "internalMasses": [],
+      "externalMasses": [],
+      "substitutions": "{MM1 -> (1 - z)*(1 - zb), MM2 -> z*zb, MM3 -> 1}",
+      "normalization": "Automatic",
+      "stVersion": "SubTropica v1.0.379",
+      "stCommand": "STIntegrate[{{{{1, 4}, 0}, {{2, 4}, 0}, {{2, 3}, 0}, {{3, 5}, 0}, {{1, 5}, 0}, {{4, 5}, 0}}, {{1, Subscript[M, 1]}, {2, Subscript[M, 2]}, {3, Subscript[M, 3]}}}, Dimension -> \"4 - 2*eps\", Order -> 0, Substitutions -> {MM1 -> (1 - z)*(1 - zb), MM2 -> z*zb, MM3 -> 1}]",
+      "contributor": "SM",
+      "timestamp": "2026-04-19T18:59:45",
+      "byteCount": 40720,
+      "alphabet": [
+        "z",
+        "z-1",
+        "\\text{zb}",
+        "\\text{zb}-1"
+      ],
+      "symbolWeight": 4,
+      "symbolTerms": 32,
+      "legOrder": [
+        1,
+        2,
+        3
+      ],
+      "resultDataId": "55a49840cf00c819.1",
+      "resultTeXPreview": "\\frac{H\\left(0,\\frac{1}{z}\\,;1\\right) \\left(-3 \\log ^2\\left(\\frac{z-1}{z}\\right)-6 \\log \\left(\\frac{1}{(z-1) (\\text{zb}-1)}\\right) \\log \\left(\\frac{z-1}{z}\\right)-6 \\zeta(2)+12 H(0,z\\,;1)-6 H\\left(0,\\frac{z \\text{zb}}{z+\\text{zb}-1}\\,;1\\right)-6 H\\left(\\frac{z \\text{zb}}{z+\\text{zb}-1},z\\,;1\\right)+\\pi ^2\\right)+H\\left(0,\\frac{1}{\\text{zb}}\\,;1\\right) \\left(3 \\log ^2\\left(\\frac{\\text{zb}-1}{\\text{zb}}\\right)+6 \\log \\left(\\frac{1}{(z-1) (\\text{zb}-1)}\\right) \\log \\left(\\frac{\\text{zb}-1}{\\text{zb}}\\right)+6 \\zeta(2)-12 H(0,\\text{zb}\\,;1)+6 H\\left(0,\\frac{z \\text{zb}}{z+\\text{zb}-1}\\,;1\\right)+6 H\\left(\\frac{z \\text{zb}}{z+\\text{zb}-1},\\text{zb}\\,;1\\right)-\\pi ^2\\right)-3 \\left(\\zeta(2) \\log ^2\\left(\\frac{1}{1-z}\\right)-2 \\log \\left(\\frac{1}{z \\text{zb}}\\right) \\zeta(2) \\log \\left(\\frac{1}{1-z}\\right)-\\log ^2\\left(\\frac{1}{1-\\text{zb}}\\right) \\zeta(2)+2 \\log \\left(\\frac{1}{1-\\text{zb}}\\right) \\log \\left(\\frac{1}{z \\text{zb}}\\right) \\zeta(2)-4 \\zeta(2) H\\left(0,\\frac{z-1}{z}\\,;1\\right)+4 \\zeta(2) H\\left(0,\\frac{\\text{zb}-1}{\\text{zb}}\\,;1\\right)+2 \\zeta(2) H\\left(\\frac{(z-1) (\\text{zb}-1)}{z (\\text{zb}-1)-\\text{zb}},\\frac{z-1}{z}\\,;1\\right)-2 \\zeta(2) H\\left(\\frac{(z-1) (\\text{zb}-1)}{z (\\text{zb}-1)-\\text{zb}},\\frac{\\text{zb}-1}{\\text{zb}}\\,;1\\right)+4 \\log \\left(\\frac{(z-1) (\\text{zb}-1)}{z \\text{zb}}\\right) H\\left(0,0,\\frac{1}{z}\\,;1\\right)-4 \\log \\left(\\frac{(z-1) (\\text{zb}-1)}{z \\text{zb}}\\right) H\\left(0,0,\\frac{1}{\\text{zb}}\\,;1\\right)-2 \\log \\left(\\frac{1}{(z-1) (\\text{zb}-1)}\\right) H\\left(0,\\frac{1}{z},1\\,;1\\right)-2 \\log \\left(\\frac{(z-1) (\\text{zb}-1)}{z \\text{zb}}\\right) H\\left(0,\\frac{1}{z},\\frac{1}{z}\\,;1\\right)+2 \\log \\left(\\frac{1}{(z-1) (\\text{zb}-1)}\\right) H\\left(0,\\frac{1}{\\text{zb}},1\\,;1\\right)+2 \\log \\left(\\frac{(z-1) (\\text{zb}-1)}{z \\text{zb}}\\right) H\\left(0,\\frac{1}{\\text{zb}},\\frac{1}{\\text{zb}}\\,;1\\right)-2 \\log \\left(\\frac{1}{(z-1) (\\text{zb}-1)}\\right) H\\left(\\frac{1}{z},0,1\\,;1\\right)+2 \\log \\left(\\frac{1}{z \\text{zb}}\\right) H\\left(\\frac{1}{z},0,1\\,;1\\right)-2 \\log \\left(\\frac{(z-1) (\\text{zb}-1)}{z \\text{zb}}\\right) H\\left(\\frac{1}{z},0,\\frac{1}{z}\\,;1\\right)+2 \\log \\left(\\frac{1}{(z-1) (\\text{zb}-1)}\\right) H\\left(\\frac{1}{\\text{zb}},0,1\\,;1\\right)-2 \\log \\left(\\frac{1}{z \\text{zb}}\\right) H\\left(\\frac{1}{\\text{zb}},0,1\\,;1\\right)+2 \\log \\left(\\frac{(z-1) (\\text{zb}-1)}{z \\text{zb}}\\right) H\\left(\\frac{1}{\\text{zb}},0,\\frac{1}{\\text{zb}}\\,;1\\right)+6 H\\left(0,0,0,\\frac{1}{z}\\,;1\\right)-6 H\\left(0,0,0,\\frac{1}{\\text{zb}}\\,;1\\right)-4 H\\left(0,0,1,\\frac{1}{z}\\,;1\\right)+4 H\\left(0,0,1,\\frac{1}{\\text{zb}}\\,;1\\right)-4 H\\left(0,0,\\frac{1}{z},1\\,;1\\right)-4 H\\left(0,0,\\frac{1}{z},\\frac{1}{z}\\,;1\\right)+4 H\\left(0,0,\\frac{1}{\\text{zb}},1\\,;1\\right)+4 H\\left(0,0,\\frac{1}{\\text{zb}},\\frac{1}{\\text{zb}}\\,;1\\right)-2 H\\left(0,1,0,\\frac{1}{z}\\,;1\\right)+2 H\\left(0,1,0,\\frac{1}{\\text{zb}}\\,;1\\right)+2 H\\left(0,\\frac{1}{z},0,1\\,;1\\right)-2 H\\left(0,\\frac{1}{z},0,\\frac{1}{z}\\,;1\\right)-4 H\\left(0,\\frac{1}{z},1,1\\,;1\\right)+2 H\\left(0,\\frac{1}{z},1,\\frac{1}{z}\\,;1\\right)+2 H\\left(0,\\frac{1}{z},\\frac{1}{z},1\\,;1\\right)-2 H\\left(0,\\frac{1}{\\text{zb}},0,1\\,;1\\right)+2 H\\left(0,\\frac{1}{\\text{zb}},0,\\frac{1}{\\text{zb}}\\,;1\\right)+4 H\\left(0,\\frac{1}{\\text{zb}},1,1\\,;1\\right)-2 H\\left(0,\\frac{1}{\\text{zb}},1,\\frac{1}{\\text{zb}}\\,;1\\right)-2 H\\left(0,\\frac{1}{\\text{zb}},\\frac{1}{\\text{zb}},1\\,;1\\right)-2 H\\left(0,\\frac{1}{-\\text{zb} z+z+\\text{zb}},0,\\frac{1}{z}\\,;1\\right)+2 H\\left(0,\\frac{1}{-\\text{zb} z+z+\\text{zb}},0,\\frac{1}{\\text{zb}}\\,;1\\right)-2 H\\left(0,\\frac{1}{-\\text{zb} z+z+\\text{zb}},\\frac{1}{z},1\\,;1\\right)+2 H\\left(0,\\frac{1}{-\\text{zb} z+z+\\text{zb}},\\frac{1}{z},\\frac{1}{z}\\,;1\\right)+2 H\\left(0,\\frac{1}{-\\text{zb} z+z+\\text{zb}},\\frac{1}{\\text{zb}},1\\,;1\\right)-2 H\\left(0,\\frac{1}{-\\text{zb} z+z+\\text{zb}},\\frac{1}{\\text{zb}},\\frac{1}{\\text{zb}}\\,;1\\right)-4 H\\left(\\frac{1}{z},0,1,1\\,;1\\right)+2 H\\left(\\frac{1}{z},0,1,\\frac{1}{z}\\,;1\\right)+2 H\\left(\\frac{1}{z},0,\\frac{1}{z},1\\,;1\\right)-2 H\\left(\\frac{1}{z},1,0,1\\,;1\\right)+2 H\\left(\\frac{1}{z},1,0,\\frac{1}{z}\\,;1\\right)+4 H\\left(\\frac{1}{\\text{zb}},0,1,1\\,;1\\right)-2 H\\left(\\frac{1}{\\text{zb}},0,1,\\frac{1}{\\text{zb}}\\,;1\\right)-2 H\\left(\\frac{1}{\\text{zb}},0,\\frac{1}{\\text{zb}},1\\,;1\\right)+2 H\\left(\\frac{1}{\\text{zb}},1,0,1\\,;1\\right)-2 H\\left(\\frac{1}{\\text{zb}},1,0,\\frac{1}{\\text{zb}}\\,;1\\right)-4 H\\left(\\frac{1}{-\\text{zb} z+z+\\text{zb}},0,0,\\frac{1}{z}\\,;1\\right)+4 H\\left(\\frac{1}{-\\text{zb} z+z+\\text{zb}},0,0,\\frac{1}{\\text{zb}}\\,;1\\right)-2 H\\left(\\frac{1}{-\\text{zb} z+z+\\text{zb}},0,\\frac{1}{z},1\\,;1\\right)+2 H\\left(\\frac{1}{-\\text{zb} z+z+\\text{zb}},0,\\frac{1}{z},\\frac{1}{z}\\,;1\\right)+2 H\\left(\\frac{1}{-\\text{zb} z+z+\\text{zb}},0,\\frac{1}{\\text{zb}},1\\,;1\\right)-2 H\\left(\\frac{1}{-\\text{zb} z+z+\\text{zb}},0,\\frac{1}{\\text{zb}},\\frac{1}{\\text{zb}}\\,;1\\right)-2 H\\left(\\frac{1}{-\\text{zb} z+z+\\text{zb}},\\frac{1}{z},0,1\\,;1\\right)+2 H\\left(\\frac{1}{-\\text{zb} z+z+\\text{zb}},\\frac{1}{z},0,\\frac{1}{z}\\,;1\\right)+2 H\\left(\\frac{1}{-\\text{zb} z+z+\\text{zb}},\\frac{1}{\\text{zb}},0,1\\,;1\\right)-2 H\\left(\\frac{1}{-\\text{zb} z+z+\\text{zb}},\\frac{1}{\\text{zb}},0,\\frac{1}{\\text{zb}}\\,;1\\right)\\right)}{6 (z-1) (z-\\text{zb}) (\\text{zb}-1)} + \\cdots"
+    },
+    {
+      "numeric": 24.976621996053765,
+      "normalization": "Exact finite conformal integral: the weight-4 Usyukina--Davydychev function $\\Phi^{(2)}(z,\\bar z)$ (the $2$-loop ladder), written as explicit classical polylogarithms $\\operatorname{Li}_j$ in the conformal cross-ratios $z,\\bar z$ (grounded in the external kinematics; the external scale prefactor is stripped). Not a dim-reg series. The numeric is its value at the reference point $z=1/3$, $\\bar z=1/5$.",
+      "provenance": "closed-form-from-cited-literature",
+      "seedRecordId": "fs_c654ee876846",
+      "timestamp": "2026-06-21T23:33:58Z",
+      "contributor": "SM",
+      "stVersion": "SubTropica 1.2.6",
+      "import": {
+        "submittedBy": "Sebastian Mizera",
+        "source": {
+          "paper": "Phys. Lett. B 305 (1993) 136",
+          "title": "Exact results for three and four point ladder diagrams with an arbitrary number of rungs",
+          "authors": "N. I. Usyukina, A. I. Davydychev",
+          "journal": "Phys. Lett. B 305 (1993) 136-143",
+          "texkey": "Usyukina:1993ch",
+          "doi": "10.1016/0370-2693(93)91118-7"
+        },
+        "method": "Usyukina-Davydychev triangle ladder: value is Phi^(L)(z,zbar) at z=1/3, zbar=1/5 (same Phi^(L) as the 4-mass box ladder). Triangle anchor T^(L) = Phi^(L)(x,y)/(p3^2)^L, c0=1, validated by pySecDec at L=1 (12 digits) and L=2 (no-refit ~1e-5).",
+        "importedAt": "2026-06-21"
+      },
+      "verified": true,
+      "method": "pySecDec triangle anchor T^(2)=Phi^(2)/(p3^2)^2, no-refit ~1e-5",
+      "seedFamilyExpand": {
+        "family": "ladder",
+        "params": [
+          2
+        ]
+      },
+      "dimension": "4",
+      "symbolWeight": 4,
+      "resultDataId": "4217966f050fd432.1",
+      "resultTeXPreview": "-\\frac{1}{2!\\,(z-\\bar z)}\\sum_{j=2}^{4}\\frac{(-1)^{j}\\,j!}{(j-2)!\\,(4-j)!}\\,\\log^{\\,4-j}\\!\\frac{(1-z)(1-\\bar z)}{z\\bar z}\\left[\\operatorname{Li}_{j}\\!\\left(\\tfrac{\\bar z-1}{\\bar z}\\right)-\\operatorname{Li}_{j}\\!\\left(\\tfrac{z-1}{z}\\right)\\right] \\\\[4pt] u=z\\bar z=\\frac{M_1^2}{M_3^2},\\quad v=(1-z)(1-\\bar z)=\\frac{M_2^2}{M_3^2}"
+    }
+  ],
+  "Names": [
+    "2-loop massless three-mass triangle ladder",
+    "planar ladder (fig.1a)",
+    "T_L (two-loop three-point ladder)",
+    "two-loop triangle-box",
+    "Triangle-box, massless propagators, 3 distinct external masses"
+  ],
+  "Source": [
+    "arXiv"
+  ],
+  "Loops": 2,
+  "NumPropagators": 6,
+  "CanonicalName": "3-mass triangle-box",
+  "MassConfig": {
+    "numEdges": 6,
+    "numMassiveEdges": 0,
+    "numMasslessEdges": 6,
+    "distinctInternalMasses": 0,
+    "internalMassLabels": [],
+    "edgeMassPattern": "000000",
+    "numExtLegs": 3,
+    "numOnshellMassiveExtLegs": 3,
+    "numMasslessExtLegs": 0,
+    "extLegSignature": "MMM"
+  },
+  "Subsectors": [
+    "123|e23|e|e|:000|100|2|3|"
+  ],
+  "ParentSectors": [
+    "123|45|e4|e5|e|e|:000|00|00|10|0|2|",
+    "123|45|e4|e5|e|e|:000|00|00|10|2|3|",
+    "123|45|e4|e5|e|e|:000|00|10|20|3|4|"
+  ]
 }

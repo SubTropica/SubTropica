@@ -8,7 +8,9 @@
     "arXiv:2201.03593 (doi: 10.1007/978-3-030-99558-4)",
     "arXiv:hep-ph/0106243",
     "arXiv:2506.10456",
-    "arXiv:1104.2661 (Int.J.Mod.Phys.A 26 (2557), 2011)"
+    "arXiv:1104.2661 (Int.J.Mod.Phys.A 26 (2557), 2011)",
+    "arXiv:hep-ph/9912329, Nucl.Phys.B 580 (485), 2000",
+    "arXiv:2211.14110 (JHEP 02 (177), 2023)"
   ],
   "Records": [
     {
@@ -152,6 +154,55 @@
       "recordId": "bx_0d1d868d63fb",
       "verified": false,
       "verifiedAt": ""
+    },
+    {
+      "reference": "arXiv:hep-ph/9912329, Nucl.Phys.B 580 (485), 2000",
+      "authors": "Gehrmann, T., Remiddi, E.",
+      "description": "One-loop massless box integral with three massless on-shell external legs and one off-shell leg $q=p_1+p_2+p_3$. Used as pedagogical example to demonstrate the differential equation method. The result is expressed in terms of Gauss $_2F_1$ hypergeometric functions for arbitrary space-time dimension $d$.",
+      "epsOrders": "all orders",
+      "familyName": "Massless box / 1L-box-1offshell",
+      "method": "DE + IBP",
+      "tools": [
+        "FORM"
+      ],
+      "ancillaryFiles": false,
+      "doi": "10.1016/S0550-3213(00)00223-6",
+      "texkey": "Gehrmann:1999as",
+      "masterCount": 1,
+      "computationLevel": "full",
+      "dimScheme": "d=D",
+      "location": "Eq. (3.1), Section 3",
+      "recordId": "bf_91784e9e1a24",
+      "verified": true,
+      "verifiedAt": "auto-loopedia"
+    },
+    {
+      "reference": "arXiv:2211.14110 (JHEP 02 (177), 2023)",
+      "authors": [
+        {
+          "full_name": "Haug, Juliane",
+          "inspire_id": 3069946
+        },
+        {
+          "full_name": "Wunder, Fabian",
+          "inspire_id": 3081625
+        }
+      ],
+      "description": "Scalar one-loop box integral $D_0(s_1,s_2,q^2)$ with four massless internal propagators and one off-shell external leg ($p_1^2=p_2^2=p_3^2=0, q^2=(p_1+p_2+p_3)^2 \\neq 0$). Computed in $d=4-2\\varepsilon$ via Feynman parametrization with a factorization that decouples into 1D integrals, giving an all-order epsilon expansion in single-valued polylogarithms. The $+i0$ prescription is kept explicit so real and imaginary parts are determined in all kinematic regions. Appendix A handles vanishing Mandelstam limits.",
+      "epsOrders": "all_orders",
+      "familyName": "1-off-shell-leg one-loop 4-point scalar box (4 propagators)",
+      "method": "direct_integration, series_expansion",
+      "tools": [],
+      "ancillaryFiles": false,
+      "doi": "10.1007/JHEP02(2023)177",
+      "texkey": "Haug:2022hkr",
+      "masterCount": 1,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "full",
+      "location": "Section 2, eq. (2.1); Appendix A",
+      "recordId": "bx_4ffd0acb2baf",
+      "verified": true,
+      "verifiedAt": "auto-loopedia"
     }
   ],
   "Source": [

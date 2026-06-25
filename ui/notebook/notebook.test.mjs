@@ -47,6 +47,19 @@ const caseI = {
   nodes: '{{1, 0}}',
   NumPropagators: 4, Records: [], Results: [],
 };
+// A result stored as a WL InputForm series with NO resultCompressed -- the shape
+// of the 1705.06483 period / 6-loop g2 imports. The notebook must embed the
+// evaluatable InputForm, not an empty Uncompress.
+const caseInputForm = {
+  CNickelIndex: '1123|e2|34|45|55|e|:0000|10|00|00|00|1|',
+  edges: '{{{1, 2}, 0}}', nodes: '{{2, M}, {6, M}}',
+  NumPropagators: 11, Records: [{ recordId: 'sm_l6', texkey: '' }],
+  Results: [{
+    propExponents: Array(11).fill(1), dimension: '4 - 2*eps', epsOrder: '-1',
+    resultInputForm: 'SeriesData[eps, 0, {Rational[-1, 18]*p2}, -5, 0, 1]',
+    resultTeX: '-\\frac{p^2}{18 \\varepsilon ^5}', stVersion: '1.2.5', scale: 'p^2',
+  }],
+};
 
 async function build(entry, idx = 0) {
   const wl = await renderNotebook(template, entry, idx, { offline: true });
@@ -86,6 +99,22 @@ test('no MISSING token placeholder leaks into any case (Bug 2)', async () => {
     const { wl } = await build(e);
     assert.ok(!/MISSING/.test(wl), `case ${name}: a MISSING token placeholder leaked through`);
   }
+});
+
+test('resultInputForm is embedded as referenceResult, with no empty Uncompress', async () => {
+  const { wl } = await build(caseInputForm);
+  assert.match(wl, /referenceResult = SeriesData\[eps, 0, \{Rational\[-1, 18\]\*p2\}, -5, 0, 1\];/,
+    'InputForm result should be assigned to referenceResult verbatim');
+  assert.ok(!/Uncompress\["\s*"\]/.test(wl),
+    'must not emit an empty Uncompress[""] for an InputForm-only result');
+  assert.ok(!/MISSING/.test(wl), 'no token placeholder leaked');
+});
+
+test('a resultCompressed-only result still round-trips via Uncompress', async () => {
+  const { wl } = await build(caseIII);
+  assert.match(wl, /referenceResult = Uncompress\["1:abc"\];/,
+    'compressed result should still use Uncompress');
+  assert.ok(!/referenceResult = ;/.test(wl), 'no empty referenceResult assignment');
 });
 
 test('case-ii STIntegrate falls back to the bare call (Bug 3)', async () => {

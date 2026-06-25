@@ -9,7 +9,11 @@
     "arXiv:1709.06055 (Phys.Rev.D 96 (), 2017)",
     "arXiv:2201.03593 (doi: 10.1007/978-3-030-99558-4)",
     "arXiv:hep-ph/0106243",
-    "arXiv:2412.15962"
+    "arXiv:2412.15962",
+    "arXiv:1112.4524 (JHEP 03 (101), 2012)",
+    "arXiv:1510.06758 (Phys.Rev.D 93 (125014), 2016)",
+    "arXiv:1705.03478",
+    "arXiv:2603.18691"
   ],
   "Records": [
     {
@@ -143,6 +147,141 @@
       "computationLevel": "IBP_only",
       "location": "Section 3.2, Eq. (3.37), Fig. 3",
       "recordId": "bx_0a4a17c53a8b",
+      "verified": false,
+      "verifiedAt": ""
+    },
+    {
+      "reference": "arXiv:1112.4524 (JHEP 03 (101), 2012)",
+      "authors": "Gehrmann, Thomas, Henn, Johannes M., Huber, Tobias",
+      "description": "One-loop scalar triangle integral with two on-shell massless legs (p1^2 = p2^2 = 0) and one off-shell leg q = p1 + p2. Defined in Eq. on p. ~14 as D_1 = int d^Dk/[i(2pi)^D] / (k^2 (k+p1)^2 (k-p2)^2). Closed-form result D_1^exp = -Gamma^2(-eps) Gamma(1-eps) Gamma(1+eps) / Gamma(1-2eps) given in appendix (Eq. for D_1).",
+      "epsOrders": "6",
+      "familyName": "Massless 1-loop form-factor triangle",
+      "method": "direct_integration",
+      "tools": [],
+      "ancillaryFiles": false,
+      "doi": "10.1007/JHEP03(2012)101",
+      "texkey": "Gehrmann:2011xn",
+      "masterCount": 1,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "full",
+      "location": "Section 3.1, Eq. defining D_1 (line 682); appendix Eqs. (A) for D_1 expansion",
+      "recordId": "bx_4545535d7eb8",
+      "verified": false,
+      "verifiedAt": ""
+    },
+    {
+      "reference": "arXiv:1510.06758 (Phys.Rev.D 93 (125014), 2016)",
+      "authors": [
+        {
+          "full_name": "von Manteuffel, Andreas",
+          "inspire_id": 1020667
+        },
+        {
+          "full_name": "Panzer, Erik",
+          "inspire_id": 1261632
+        },
+        {
+          "full_name": "Schabinger, Robert M.",
+          "inspire_id": 1042049
+        }
+      ],
+      "description": "One-loop integral family for massless QCD quark and gluon form factors. Covers all one-loop form factor diagrams. Finite basis uses dimension-shifted ($d=6-2\\varepsilon$) bubble with squared propagators.",
+      "epsOrders": "6",
+      "familyName": "A1",
+      "method": "",
+      "tools": [
+        "Reduze2",
+        "HyperInt",
+        "Qgraf"
+      ],
+      "ancillaryFiles": true,
+      "doi": "10.1103/PhysRevD.93.125014",
+      "texkey": "vonManteuffel:2015gxa",
+      "masterCount": 1,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "basis",
+      "location": "Table 1, Eq. (11)-(12)",
+      "recordId": "bx_59a40488ffef",
+      "verified": false,
+      "verifiedAt": ""
+    },
+    {
+      "reference": "arXiv:1705.03478",
+      "authors": [
+        {
+          "full_name": "Harley, Mark",
+          "inspire_id": 1307863
+        },
+        {
+          "full_name": "Moriello, Francesco",
+          "inspire_id": 1799374
+        },
+        {
+          "full_name": "Schabinger, Robert M.",
+          "inspire_id": 1042049
+        }
+      ],
+      "description": "One-external-mass one-loop triangle with generic positive integer propagator exponents $\\nu_1, \\nu_2, \\nu_3$. Studied via s-channel cut in the Baikov-Lee representation to demonstrate the formalism for higher-multiplicity propagators and to verify the cut-discontinuity relation.",
+      "epsOrders": "all_orders",
+      "familyName": "OneExternalMassOneLoopTriangle",
+      "method": "direct_integration",
+      "tools": [],
+      "ancillaryFiles": true,
+      "doi": "",
+      "texkey": "",
+      "masterCount": 1,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "full",
+      "location": "Section 3.1 (subsec:triangle-gendots), Appendix B (sapp:oneloop-tri)",
+      "recordId": "bx_211db94f21ff",
+      "verified": false,
+      "verifiedAt": ""
+    },
+    {
+      "reference": "arXiv:2603.18691",
+      "authors": [
+        {
+          "full_name": "Dhani, Prasanna K.",
+          "inspire_id": 1607975
+        },
+        {
+          "full_name": "Pyretzidis, Konstantinos",
+          "inspire_id": 2938780
+        },
+        {
+          "full_name": "Ramírez-Uribe, Selomit",
+          "inspire_id": 1730297
+        },
+        {
+          "full_name": "Ríos-Sánchez, José",
+          "inspire_id": 2760441
+        },
+        {
+          "full_name": "Sborlini, German F.R.",
+          "inspire_id": 1074173
+        },
+        {
+          "full_name": "Tiwari, Surabhi",
+          "inspire_id": 1935452
+        },
+        {
+          "full_name": "Rodrigo, Germán",
+          "inspire_id": 991497
+        }
+      ],
+      "description": "One-loop massless triangle. IR-finite integrands constructed via LTD.",
+      "epsOrders": "0",
+      "familyName": "Massless 1-loop triangle (3 massless legs) / Massless 1-loop triangle (2 massless legs)",
+      "method": "direct_integration",
+      "tools": [],
+      "ancillaryFiles": false,
+      "doi": "",
+      "texkey": "Dhani:2026cxx",
+      "masterCount": 0,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "full",
+      "location": "Sections 4-5, Table I",
+      "recordId": "bx_8a53ac3dc4bf",
       "verified": false,
       "verifiedAt": ""
     }

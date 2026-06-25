@@ -4,7 +4,9 @@
   "FunctionClass": "unknown",
   "EpsilonOrder": "0",
   "References": [
-    "hep-ph/0611236"
+    "hep-ph/0611236",
+    "arXiv:1901.11510 (JHEP 05 (153), 2019)",
+    "arXiv:2008.03045 (Phys.Lett.B 814 (), 2021)"
   ],
   "Records": [
     {
@@ -15,6 +17,63 @@
       "recordId": "1499265872.sHLO",
       "verified": true,
       "verifiedAt": "auto-loopedia"
+    },
+    {
+      "reference": "arXiv:1901.11510 (JHEP 05 (153), 2019)",
+      "authors": "Frellesvig, Hjalte, Gasparotto, Federico, Laporta, Stefano, Mandal, Manoj K., Mastrolia, Pierpaolo, Mattiazzi, Luca, Mizera, Sebastian",
+      "description": "Planar two-loop double-triangle with four equal-mass and one massless propagator, two on-shell external legs $p_1, p_2$. The loop-by-loop Baikov $u$ contains an integer power of $z$ that is regularised via $z^{-1} \\to z^{\\rho-1}$ ($\\rho \\to 0$). On the penta-cut there are 2 masters; reduction of dotted integrals such as $I_{1,1,1,1,1;-2} = -(s/2) I_{1,1,1,1,1;-1}$ is obtained from a mixed monomial/dlog basis via intersection numbers, in agreement with LiteRed.",
+      "epsOrders": "",
+      "familyName": "Planar Double Triangle",
+      "method": "intersection",
+      "tools": [
+        "LiteRed"
+      ],
+      "ancillaryFiles": false,
+      "doi": "10.1007/JHEP05(2019)153",
+      "texkey": "Frellesvig:2019kgj",
+      "masterCount": 2,
+      "dimScheme": "d=D",
+      "computationLevel": "maximal_cut",
+      "location": "Section 11, Eqs. (11.1)-(11.16), Fig. 10",
+      "recordId": "bx_4dad6d5ccfba",
+      "verified": false,
+      "verifiedAt": ""
+    },
+    {
+      "reference": "arXiv:2008.03045 (Phys.Lett.B 814 (), 2021)",
+      "authors": [
+        {
+          "full_name": "Chen, Jiaqi",
+          "inspire_id": 1849049
+        },
+        {
+          "full_name": "Jiang, Xuhang",
+          "inspire_id": 1849050
+        },
+        {
+          "full_name": "Xu, Xiaofeng",
+          "inspire_id": 1764994
+        },
+        {
+          "full_name": "Yang, Li Lin",
+          "inspire_id": 1031254
+        }
+      ],
+      "description": "Two-loop triangle with 7 propagators (5 active in top topology). Internal mass $m$, external masses $m_1^2, m_2^2$. Canonical basis constructed via dlog integrals and intersection theory.",
+      "epsOrders": "",
+      "familyName": "Two-loop four-scale triangle",
+      "method": "intersection, DE",
+      "tools": [],
+      "ancillaryFiles": false,
+      "doi": "10.1016/j.physletb.2021.136085",
+      "texkey": "",
+      "masterCount": 4,
+      "dimScheme": "d=4-2*eps",
+      "computationLevel": "basis",
+      "location": "Sec. 3-4, Supplemental Sec. S3",
+      "recordId": "bx_02ac4740e8d6",
+      "verified": false,
+      "verifiedAt": ""
     }
   ],
   "Source": [

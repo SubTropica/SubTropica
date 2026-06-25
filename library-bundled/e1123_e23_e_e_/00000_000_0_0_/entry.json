@@ -10,7 +10,7 @@
     {
       "reference": "arXiv:2111.13595",
       "authors": "Piotr Bargiela, Fabrizio Caola, Andreas von Manteuffel, Lorenzo Tancredi",
-      "description": "Three-loop massless four-point sub-topology imported from arXiv:2111.13595 (reduction family PL, sector 13476). Bare scalar skeleton; reference and ancillary files only, no result imported.",
+      "description": "Three-loop massless four-point bare scalar (reduction family PL, sector 13476, all-unit propagator powers) imported from the arXiv:2111.13595 ancillary i2m IBP reduction (30 masters, uncrossed + crossed). Reconstructed in library Mandelstams via the paper variable x = -u/s (anc scale sA = s12, x = (s12+s23)/s12 = -s13/s12; the canonical symbol-alphabet letter is its reciprocal s12/(s12+s23)), in the RAW PHYSICAL (Feynman s+i0) branch: the ancillary reconstruction is already the physical value, so no branch conversion (no I -> -I) is applied. The graph is stored in the CLASS3 crossing (nodes {1,3,2,4}), whose Symanzik F = -x1 x2 (s12 x4 x5 + s23 x3 x6) is sign-definite (Euclidean-real at s12,s23 < 0). Leading 1/eps^3 (coefficient 1/3). The eps^-2 coefficient's (s12+s23)^2 denominator is a REMOVABLE representation artifact, not a u-channel pole: the Symanzik F carries no s13 = (s12+s23) channel (the s13 leg partition is realized by no spanning 2-forest of this graph), so no s13 Landau singularity exists; the apparent pole cancels (double zero of the numerator at s23 = -s12) and independent pySecDec is finite there. This is NOT the paper's p1 p2 p3 p4 leg ordering; it is the Euclidean-real crossing, chosen so the stored value is correct (the leg ordering is secondary).",
       "recordId": "ax_459b6d0ce521",
       "ancillaryFiles": true,
       "ancillaryPaths": [
@@ -31,11 +31,13 @@
         "anc/README.txt"
       ],
       "sourceFamily": "PL_sec13476",
-      "masterCount": 0,
-      "epsOrders": "",
+      "masterCount": 30,
+      "epsOrders": "eps^-3..0",
       "texkey": "Bargiela:2021wuy",
       "doi": "10.1007/JHEP02(2022)153",
-      "verified": false
+      "verified": true,
+      "verifiedVia": "criterion-3 against INDEPENDENT pySecDec (which builds the Symanzik U/F directly from the graph and never reads the anc reduction). EUCLIDEAN {s12=-7/13, s23=-3/11}: stored series = pySecDec = {0.333333, 3.028130, 15.942858, 57.226264} at eps^-3..0, Im ~ 0 (eps^-3,-2 reconfirmed this run to ~1e-7). MINKOWSKI (contour-deformed pySecDec, +i0) at independent points {5,-2}, {5,-7} (crossing x=-0.4), {5,3} (crossing x=1.6): the stored series equals pySecDec through eps^0 in BOTH real and imaginary parts to Monte-Carlo accuracy (~1e-4); the conjugate (anti-causal s-i0) form and the wrong-Riemann-sheet STIntegrate-native form are REJECTED at every order. STVerify is N/A for these timelike-branch anc imports (no library-native Minkowski +i0 oracle; the Euclidean pySecDec is itself the STVerify numerical backend). physics-reviewer SOUND; adversarial-reviewer (drift) cleared after the eps^0 crossing-point oracle closed the top-order certification gap.",
+      "legOrder": "CLASS3 crossing {1,3,2,4} (Euclidean-real; not paper p1p2p3p4)"
     }
   ],
   "Names": [
@@ -46,9 +48,66 @@
   ],
   "Loops": 3,
   "NumPropagators": 6,
-  "Results": [],
+  "Results": [
+    {
+      "dimension": "4 - 2*eps",
+      "epsOrder": 0,
+      "propExponents": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "propagators": [],
+      "numerators": [],
+      "internalMasses": [],
+      "externalMasses": [],
+      "substitutions": "{}",
+      "normalization": "Automatic",
+      "stVersion": "SubTropica v1.2.6",
+      "stCommand": "STIntegrate[{{{{1, 2}, 0}, {{1, 2}, 0}, {{1, 3}, 0}, {{1, 4}, 0}, {{2, 3}, 0}, {{2, 4}, 0}}, {{1, 0}, {3, 0}, {2, 0}, {4, 0}}}, Dimension -> \"4 - 2*eps\", Order -> 0]",
+      "contributor": "SM",
+      "timestamp": "2026-06-20T06:28:07",
+      "byteCount": 482432,
+      "alphabet": [
+        "s_{12}",
+        "s_{23}",
+        "s_{12}+s_{23}"
+      ],
+      "symbolWeight": 4,
+      "symbolTerms": 69,
+      "legOrder": [
+        1,
+        3,
+        2,
+        4
+      ],
+      "resultTeXPreview": "\\varepsilon^{-3}\\colon \\frac{1}{3} \\\\ \\varepsilon^{-2}\\colon \\frac{-3 s_{23}^2 H\\left(\\frac{s_{12}}{s_{12}+s_{23}}\\,;1\\right)-3 i \\pi  s_{12} s_{23} H\\left(\\frac{s_{12}}{s_{12}+s_{23}}\\,;1\\right)-3 s_{12} s_{23} H\\left(\\frac{s_{12}}{s_{12}+s_{23}}\\,;1\\right)-3 s_{12} s_{23} H\\left(\\frac{s_{12}}{s_{12}+s_{23}},\\frac{s_{12}}{s_{12}+s_{23}}\\,;1\\right)+3 i \\pi  s_{12}^2+10 s_{12}^2-3 s_{12}^2 \\log (s_{12})-3 s_{23}^2 \\log (s_{12})+3 i \\pi  s_{12} s_{23}+20 s_{12} s_{23}-6 s_{12} s_{23} \\log (s_{12})+10 s_{23}^2}{3 (s_{12}+s_{23})^2} \\\\ \\varepsilon^{-1}\\colon -\\frac{s_{12} \\left(-18 \\log ^2(s_{12})+36 i \\pi  \\log (s_{12})+120 \\log (s_{12})+19 \\pi ^2-120 i \\pi -268\\right)}{12 (s_{12}+s_{23})}-\\frac{2 s_{12} s_{23} \\left(-2 i \\pi  H\\left(0,\\frac{s_{12}}{s_{12}+s_{23}}\\,;1\\right)+2 H\\left(0,0,\\frac{s_{12}}{s_{12}+s_{23}}\\,;1\\right)+\\log ^2\\left(\\frac{s_{12}+s_{23}}{s_{12}}\\right) H\\left(\\frac{s_{12}}{s_{12}+s_{23}}\\,;1\\right)+2 i \\pi  \\log \\left(\\frac{s_{12}+s_{23}}{s_{12}}\\right) H\\left(\\frac{s_{12}}{s_{12}+s_{23}}\\,;1\\right)-2 \\log \\left(\\frac{s_{12}+s_{23}}{s_{12}}\\right) H\\left(0,\\frac{s_{12}}{s_{12}+s_{23}}\\,;1\\right)\\right)}{3 (s_{12}+s_{23})^2}+\\frac{s_{12} s_{23} \\left(-6 i \\pi  H\\left(0,\\frac{s_{12}}{s_{12}+s_{23}}\\,;1\\right)+6 H\\left(0,0,\\frac{s_{12}}{s_{12}+s_{23}}\\,;1\\right)+3 \\log ^2\\left(\\frac{s_{12}+s_{23}}{s_{12}}\\right) H\\left(\\frac{s_{12}}{s_{12}+s_{23}}\\,;1\\right)+6 i \\pi  \\log \\left(\\frac{s_{12}+s_{23}}{s_{12}}\\right) H\\left(\\frac{s_{12}}{s_{12}+s_{23}}\\,;1\\right)-6 \\log \\left(\\frac{s_{12}+s_{23}}{s_{12}}\\right) H\\left(0,\\frac{s_{12}}{s_{12}+s_{23}}\\,;1\\right)-\\pi ^2 \\log \\left(\\frac{s_{12}+s_{23}}{s_{12}}\\right)+3 \\pi ^2 \\log (s_{12})-4 i \\pi ^3-7 \\pi ^2\\right)}{3 (s_{12}+s_{23})^2}+\\frac{2 s_{12} s_{23} \\left(\\pi ^2 H\\left(\\frac{s_{12}}{s_{12}+s_{23}}\\,;1\\right)-6 i \\pi  H\\left(0,\\frac{s_{12}}{s_{12}+s_{23}}\\,;1\\right)-6 H\\left(0,\\frac{s_{12}}{s_{12}+s_{23}},\\frac{s_{12}}{s_{12}+s_{23}}\\,;1\\right)\\right)}{3 (s_{12}+s_{23})^2}-\\frac{s_{12} s_{23} \\left(7 \\pi ^2 H\\left(\\frac{s_{12}}{s_{12}+s_{23}}\\,;1\\right)-42 i \\pi  H\\left(\\frac{s_{12}}{s_{12}+s_{23}}\\,;1\\right)-6 i \\pi  H\\left(0,\\frac{s_{12}}{s_{12}+s_{23}}\\,;1\\right)+18 i \\pi  H\\left(\\frac{s_{12}}{s_{12}+s_{23}},\\frac{s_{12}}{s_{12}+s_{23}}\\,;1\\right)-42 H\\left(\\frac{s_{12}}{s_{12}+s_{23}},\\frac{s_{12}}{s_{12}+s_{23}}\\,;1\\right)-6 H\\left(0,\\frac{s_{12}}{s_{12}+s_{23}},\\frac{s_{12}}{s_{12}+s_{23}}\\,;1\\right)+36 H\\left(\\frac{s_{12}}{s_{12}+s_{23}},\\frac{s_{12}}{s_{12}+s_{23}},\\frac{s_{12}}{s_{12}+s_{23}}\\,;1\\right)+18 i \\pi  \\log (s_{12}) H\\left(\\frac{s_{12}}{s_{12}+s_{23}}\\,;1\\right)+18 \\log (s_{12}) H\\left(\\frac{s_{12}}{s_{12}+s_{23}},\\frac{s_{12}}{s_{12}+s_{23}}\\,;1\\right)\\right)}{4 (s_{12}+s_{23})^2}-\\frac{4 s_{12}^2 \\left(\\frac{s_{12}+s_{23}}{s_{12}}-1\\right) \\left(\\frac{5}{288} \\left(3 \\pi ^2 H\\left(\\frac{s_{12}}{s_{12}+s_{23}}\\,;1\\right)-108 H\\left(\\frac{s_{12}}{s_{12}+s_{23}},\\frac{s_{12}}{s_{12}+s_{23}},\\frac{s_{12}}{s_{12}+s_{23}}\\,;1\\right)-54 \\log ^2(s_{12}) H\\left(\\frac{s_{12}}{s_{12}+s_{23}}\\,;1\\right)-108 \\log (s_{12}) H\\left(\\frac{s_{12}}{s_{12}+s_{23}},\\frac{s_{12}}{s_{12}+s_{23}}\\,;1\\right)-18 \\log ^3(s_{12})+3 \\pi ^2 \\log (s_{12})-116 \\zeta(3)\\right)+\\frac{1}{144} \\left(\\frac{1}{4} \\left(-\\frac{12 (s_{12}+s_{23})}{s_{12}}-30\\right)+25\\right) \\left(36 H\\left(\\frac{s_{12}}{s_{12}+s_{23}},\\frac{s_{12}}{s_{12}+s_{23}}\\,;1\\right)+36 \\log (s_{12}) H\\left(\\frac{s_{12}}{s_{12}+s_{23}}\\,;1\\right)+18 \\log ^2(s_{12})-\\pi ^2\\right)+\\frac{1}{12} \\left(\\frac{5}{2} \\left(-\\frac{12 (s_{12}+s_{23})}{s_{12}}-30\\right)+\\frac{335}{2}\\right) \\left(-H\\left(\\frac{s_{12}}{s_{12}+s_{23}}\\,;1\\right)-\\log (s_{12})\\right)+\\frac{1}{36} \\left(\\frac{67}{4} \\left(-\\frac{12 (s_{12}+s_{23})}{s_{12}}-30\\right)+940\\right)\\right)}{(s_{12}+s_{23})^2}+\\frac{s_{12} s_{23} \\left(-135 \\pi ^2 H\\left(\\frac{s_{12}}{s_{12}+s_{23}}\\,;1\\right)+756 i \\pi  H\\left(\\frac{s_{12}}{s_{12}+s_{23}}\\,;1\\right)+1332 H\\left(\\frac{s_{12}}{s_{12}+s_{23}}\\,;1\\right)+324 i \\pi  H\\left(0,\\frac{s_{12}}{s_{12}+s_{23}}\\,;1\\right)-324 i \\pi  H\\left(\\frac{s_{12}}{s_{12}+s_{23}},\\frac{s_{12}}{s_{12}+s_{23}}\\,;1\\right)+324 H\\left(0,\\frac{s_{12}}{s_{12}+s_{23}},\\frac{s_{12}}{s_{12}+s_{23}}\\,;1\\right)-324 H\\left(\\frac{s_{12}}{s_{12}+s_{23}},\\frac{s_{12}}{s_{12}+s_{23}},\\frac{s_{12}}{s_{12}+s_{23}}\\,;1\\right)+162 \\log ^2(s_{12}) H\\left(\\frac{s_{12}}{s_{12}+s_{23}}\\,;1\\right)-324 i \\pi  \\log (s_{12}) H\\left(\\frac{s_{12}}{s_{12}+s_{23}}\\,;1\\right)-756 \\log (s_{12}) H\\left(\\frac{s_{12}}{s_{12}+s_{23}}\\,;1\\right)+144 \\log ^3(s_{12})-270 i \\pi  \\log ^2(s_{12})-1008 \\log ^2(s_{12})-186 \\pi ^2 \\log (s_{12})+1260 i \\pi  \\log (s_{12})+3552 \\log (s_{12})-608 \\zeta(3)+33 i \\pi ^3+434 \\pi ^2-2220 i \\pi -5600\\right)}{72 (s_{12}+s_{23})^2}-\\frac{s_{12} s_{23} \\left(18 \\log ^3\\left(\\frac{s_{12}+s_{23}}{s_{12}}\\right)+54 \\log ^2(s_{12}) \\log \\left(\\frac{s_{12}+s_{23}}{s_{12}}\\right)+54 \\log (s_{12}) \\log ^2\\left(\\frac{s_{12}+s_{23}}{s_{12}}\\right)-126 \\log ^2\\left(\\frac{s_{12}+s_{23}}{s_{12}}\\right)-252 \\log (s_{12}) \\log \\left(\\frac{s_{12}+s_{23}}{s_{12}}\\right)+21 \\pi ^2 \\log \\left(\\frac{s_{12}+s_{23}}{s_{12}}\\right)+444 \\log \\left(\\frac{s_{12}+s_{23}}{s_{12}}\\right)+18 \\log ^3(s_{12})-126 \\log ^2(s_{12})+21 \\pi ^2 \\log (s_{12})+444 \\log (s_{12})-316 \\zeta(3)-49 \\pi ^2-700\\right)}{54 (s_{12}+s_{23})^2}+\\frac{s_{12} s_{23} \\left(21 \\pi ^2 H\\left(\\frac{s_{12}}{s_{12}+s_{23}}\\,;1\\right)+444 H\\left(\\frac{s_{12}}{s_{12}+s_{23}}\\,;1\\right)-252 H\\left(\\frac{s_{12}}{s_{12}+s_{23}},\\frac{s_{12}}{s_{12}+s_{23}}\\,;1\\right)+108 H\\left(\\frac{s_{12}}{s_{12}+s_{23}},\\frac{s_{12}}{s_{12}+s_{23}},\\frac{s_{12}}{s_{12}+s_{23}}\\,;1\\right)+54 \\log ^2(s_{12}) H\\left(\\frac{s_{12}}{s_{12}+s_{23}}\\,;1\\right)-252 \\log (s_{12}) H\\left(\\frac{s_{12}}{s_{12}+s_{23}}\\,;1\\right)+108 \\log (s_{12}) H\\left(\\frac{s_{12}}{s_{12}+s_{23}},\\frac{s_{12}}{s_{12}+s_{23}}\\,;1\\right)+18 \\log ^3(s_{12})-126 \\log ^2(s_{12})+21 \\pi ^2 \\log (s_{12})+444 \\log (s_{12})-316 \\zeta(3)-49 \\pi ^2-700\\right)}{144 (s_{12}+s_{23})^2}+\\frac{s_{12} s_{23} \\left(145 \\pi ^2 H\\left(\\frac{s_{12}}{s_{12}+s_{23}}\\,;1\\right)-672 i \\pi  H\\left(\\frac{s_{12}}{s_{12}+s_{23}}\\,;1\\right)-1332 H\\left(\\frac{s_{12}}{s_{12}+s_{23}}\\,;1\\right)-192 i \\pi  H\\left(0,\\frac{s_{12}}{s_{12}+s_{23}}\\,;1\\right)+288 i \\pi  H\\left(\\frac{s_{12}}{s_{12}+s_{23}},\\frac{s_{12}}{s_{12}+s_{23}}\\,;1\\right)+84 H\\left(\\frac{s_{12}}{s_{12}+s_{23}},\\frac{s_{12}}{s_{12}+s_{23}}\\,;1\\right)-192 H\\left(0,\\frac{s_{12}}{s_{12}+s_{23}},\\frac{s_{12}}{s_{12}+s_{23}}\\,;1\\right)+252 H\\left(\\frac{s_{12}}{s_{12}+s_{23}},\\frac{s_{12}}{s_{12}+s_{23}},\\frac{s_{12}}{s_{12}+s_{23}}\\,;1\\right)-162 \\log ^2(s_{12}) H\\left(\\frac{s_{12}}{s_{12}+s_{23}}\\,;1\\right)+288 i \\pi  \\log (s_{12}) H\\left(\\frac{s_{12}}{s_{12}+s_{23}}\\,;1\\right)+756 \\log (s_{12}) H\\left(\\frac{s_{12}}{s_{12}+s_{23}}\\,;1\\right)-36 \\log (s_{12}) H\\left(\\frac{s_{12}}{s_{12}+s_{23}},\\frac{s_{12}}{s_{12}+s_{23}}\\,;1\\right)-108 \\log ^3(s_{12})+162 i \\pi  \\log ^2(s_{12})+756 \\log ^2(s_{12})+144 \\pi ^2 \\log (s_{12})-756 i \\pi  \\log (s_{12})-2664 \\log (s_{12})-240 \\zeta(3)-19 i \\pi ^3-336 \\pi ^2+1332 i \\pi +4200\\right)}{24 (s_{12}+s_{23})^2}+\\frac{s_{12} s_{23} \\left(216 i \\pi  H\\left(0,\\frac{s_{12}}{s_{12}+s_{23}}\\,;1\\right)-216 H\\left(0,0,\\frac{s_{12}}{s_{12}+s_{23}}\\,;1\\right)-108 \\log ^2\\left(\\frac{s_{12}+s_{23}}{s_{12}}\\right) H\\left(\\frac{s_{12}}{s_{12}+s_{23}}\\,;1\\right)-216 i \\pi  \\log \\left(\\frac{s_{12}+s_{23}}{s_{12}}\\right) H\\left(\\frac{s_{12}}{s_{12}+s_{23}}\\,;1\\right)+216 \\log \\left(\\frac{s_{12}+s_{23}}{s_{12}}\\right) H\\left(0,\\frac{s_{12}}{s_{12}+s_{23}}\\,;1\\right)+126 \\log ^3\\left(\\frac{s_{12}+s_{23}}{s_{12}}\\right)+378 \\log ^2(s_{12}) \\log \\left(\\frac{s_{12}+s_{23}}{s_{12}}\\right)+378 \\log (s_{12}) \\log ^2\\left(\\frac{s_{12}+s_{23}}{s_{12}}\\right)-882 \\log ^2\\left(\\frac{s_{12}+s_{23}}{s_{12}}\\right)-1764 \\log (s_{12}) \\log \\left(\\frac{s_{12}+s_{23}}{s_{12}}\\right)+75 \\pi ^2 \\log \\left(\\frac{s_{12}+s_{23}}{s_{12}}\\right)+3108 \\log \\left(\\frac{s_{12}+s_{23}}{s_{12}}\\right)+126 \\log ^3(s_{12})-882 \\log ^2(s_{12})+75 \\pi ^2 \\log (s_{12})+3108 \\log (s_{12})-148 \\zeta(3)-175 \\pi ^2-4900\\right)}{108 (s_{12}+s_{23})^2}+\\cdots",
+      "normalizedAlphabet": [
+        "W_1",
+        "W_2"
+      ],
+      "symbolScale": "s_{12}",
+      "normalizedSymbolTerms": 15,
+      "resultTeXTruncated": true,
+      "resultDataId": "0c547fad00c678fc",
+      "import": {
+        "submittedBy": "Sebastian Mizera",
+        "source": {
+          "paper": "arXiv:2111.13595",
+          "title": "Three-loop helicity amplitudes for diphoton production in gluon fusion",
+          "authors": "P. Bargiela, F. Caola, A. von Manteuffel, L. Tancredi",
+          "journal": "JHEP 02 (2022) 153",
+          "ancUrl": "https://arxiv.org/abs/2111.13595"
+        },
+        "importedAt": "2026-06-20"
+      }
+    }
+  ],
   "edges": "{{{1, 2}, 0}, {{1, 2}, 0}, {{1, 3}, 0}, {{1, 4}, 0}, {{2, 3}, 0}, {{2, 4}, 0}}",
-  "nodes": "{{1, 0}, {2, 0}, {3, 0}, {4, 0}}",
+  "nodes": "{{1, 0}, {3, 0}, {2, 0}, {4, 0}}",
   "CanonicalName": "Bubble double-triangle (a)",
   "MassConfig": {
     "numEdges": 6,
@@ -63,5 +122,6 @@
     "extLegSignature": "0000"
   },
   "Subsectors": [],
-  "ParentSectors": []
+  "ParentSectors": [],
+  "quadruple": "{E^(3*eps*EulerGamma)*Gamma[3*eps], (x1*x2*x3 + x1*x2*x4 + x1*x3*x4 + x2*x3*x4 + x1*x2*x5 + x1*x4*x5 + x2*x4*x5 + x1*x2*x6 + x1*x3*x6 + x2*x3*x6 + x1*x5*x6 + x2*x5*x6)^(2*(-1 + 2*eps))/(s12*x1*x2*x4*x5 + s23*x1*x2*x3*x6)^(3*eps), {x1, x2, x3, x4, x5, x6}, {s12, s23}}"
 }

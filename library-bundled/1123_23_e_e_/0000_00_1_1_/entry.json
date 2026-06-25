@@ -6,17 +6,21 @@
   "References": [
     "arXiv:1705.06483 (doi: 10.1103/PhysRevD.96.036016)",
     "arXiv:1004.3653",
-    "arXiv:2111.13595"
+    "arXiv:2111.13595",
+    "arXiv:1408.4064"
   ],
   "Records": [
     {
       "epsOrders": "-3,-2,-1,0,1,2",
       "reference": "arXiv:1705.06483 (doi: 10.1103/PhysRevD.96.036016)",
       "authors": "Mikhail V. Kompaniets and Erik Panzer",
-      "description": "massless propagator computed for the $\\varphi^4$ 6-loop calculation available from the ancillary files p_int_g4.mpl (Maple) and p_int_g4.m (Mathematica) of the arXiv submission results are rational linear combinations of multiple zeta values",
+      "description": "massless propagator computed for the $\\varphi^4$ 6-loop calculation available from the ancillary files p_int_g4.mpl (Maple) and p_int_g4.m (Mathematica) of the arXiv submission results are rational linear combinations of multiple zeta values. The pInt[3,5] period for this 3-loop 6-propagator topology is imported here as a Result: value = Cfull^3 * (anc g4 period), cross-checked against the existing independent library computation of the same integral.",
       "recordId": "1504717745.Wx0u",
       "verified": true,
-      "verifiedAt": "auto-loopedia"
+      "verifiedAt": "2026-06-22",
+      "texkey": "Kompaniets:2017yct",
+      "doi": "10.1103/PhysRevD.96.036016",
+      "verifiedVia": "cross-checked low-loop import (validation policy 2026-06-22). value_ST = Cfull^3 * anc[pInt[3,5]], with Cfull = Exp[eps*EulerGamma] Gamma[1+eps] Gamma[1-eps]^2/Gamma[2-2eps] converting the ancillary G-scheme normalization to the SubTropica normalization per loop (Cfull verified independently at L=4 and L=5 by pySD-Euclidean). The ancillary period is from Kompaniets-Panzer (arXiv:1705.06483; peer-reviewed HyperInt; trusted). VERIFIED by cross-check against the existing INDEPENDENT library computation of the same integral: the entry's existing independent library Result for the same single-scale massless propagator integral (leading orders confirmed to agree at unit scale). The CNI->anc bridge is confirmed by an explicit vertex isomorphism {1->3, 2->1, 3->2, 4->4} (anc->lib; brute-force). NOT validated against HyperFLINT/STIntegrate (a HyperInt reimplementation -> circular)."
     },
     {
       "epsOrders": "-3,-2,-1,0,1,2,3",
@@ -38,6 +42,25 @@
       "masterCount": 19,
       "verified": true,
       "verifiedVia": "criterion-3: anc i2m bare-scalar value == library STIntegrate-native(home graph) EXACT (max|diff|=0) at 3 Euclidean points across delta-free orders eps^lead..0 (the stored truncation; not validated beyond eps^0). STIntegrate-native ran on the cluster (Nereid) via the HyperIntica backend (HyperFLINT dylib absent; the SubTropica backends integrate the same Symanzik integrand and cross-check); MZV ginsh-reduction on the Mac; single cluster-STIntegrate + Mac-ginsh hybrid witness. STVerify N/A (timelike e^{+i pi} branch-resolution gap, same as the existing symbol-proposal records in this entry)."
+    },
+    {
+      "reference": "arXiv:1408.4064",
+      "authors": "Suzuki, Alfredo Takashi",
+      "description": "Three-loop massless off-shell two-point self-energy obtained from the two-loop master by replacing the central (k-q) propagator with a one-loop bubble insertion (Q and Q-s with s=q-k, two parallel propagators). The integral is reduced loop-by-loop: a one-loop self-energy in Q gives a shifted exponent for the central edge of the master, yielding a closed-form expression involving Gamma functions, cos(pi*D), and a single 3F2 hypergeometric of unit argument. Result agrees with Hathrell, Eq. (8.13).",
+      "epsOrders": "all_orders",
+      "familyName": "Massless three-loop two-point self-energy (6 propagators, bubble insertion on master)",
+      "method": "direct_integration",
+      "tools": [],
+      "ancillaryFiles": false,
+      "doi": "",
+      "texkey": "Suzuki:2014hda",
+      "masterCount": 0,
+      "dimScheme": "d=D",
+      "computationLevel": "full",
+      "location": "Section 4, Eq. (45)-(50); Figure 2",
+      "recordId": "bx_43260e8376c9",
+      "verified": false,
+      "verifiedAt": ""
     }
   ],
   "Source": [
@@ -154,6 +177,56 @@
         },
         "importedAt": "2026-06-19"
       }
+    },
+    {
+      "dimension": "4 - 2*eps",
+      "epsOrder": 2,
+      "propExponents": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "propagators": [],
+      "numerators": [],
+      "internalMasses": [],
+      "externalMasses": [],
+      "substitutions": "{}",
+      "normalization": "Automatic",
+      "stVersion": "SubTropica 1.2.6",
+      "contributor": "SM",
+      "timestamp": "2026-06-23T02:30:02Z",
+      "verified": true,
+      "verifiedVia": "cross-checked low-loop import (validation policy 2026-06-22). value_ST = Cfull^3 * anc[pInt[3,5]], with Cfull = Exp[eps*EulerGamma] Gamma[1+eps] Gamma[1-eps]^2/Gamma[2-2eps] converting the ancillary G-scheme normalization to the SubTropica normalization per loop (Cfull verified independently at L=4 and L=5 by pySD-Euclidean). The ancillary period is from Kompaniets-Panzer (arXiv:1705.06483; peer-reviewed HyperInt; trusted). VERIFIED by cross-check against the existing INDEPENDENT library computation of the same integral: the entry's existing independent library Result for the same single-scale massless propagator integral (leading orders confirmed to agree at unit scale). The CNI->anc bridge is confirmed by an explicit vertex isomorphism {1->3, 2->1, 3->2, 4->4} (anc->lib; brute-force). NOT validated against HyperFLINT/STIntegrate (a HyperInt reimplementation -> circular). Stored value carries the restored external scale (p^2)^{0 - 3 eps} (p2 = -MM > 0, Euclidean-real); at the pySD anchor MM=-1, i.e. p2=+1, the scale factor is 1, so the validated magnitude and transcendental structure are unchanged by the restoration.",
+      "periodImport": true,
+      "periodTarget": "1123|23|e|e|",
+      "import": {
+        "submittedBy": "Sebastian Mizera",
+        "source": {
+          "paper": "arXiv:1705.06483",
+          "title": "Minimally subtracted six loop renormalization of O(n)-symmetric phi^4 theory and critical exponents",
+          "authors": "M. V. Kompaniets, E. Panzer",
+          "journal": "Phys. Rev. D 96 (2017) 036016",
+          "texkey": "Kompaniets:2017yct",
+          "doi": "10.1103/PhysRevD.96.036016",
+          "ancFile": "anc/p_int_g4.m -> pInt[3,5]  (g4 = IRR-rearranged auxiliary integrals; valence-4 verified and equal to the unit-power period of this graph by the loop-order normalization anchor + the explicit CNI->anc bridge isomorphism (NOT per-target pySD); NOT phi^4 self-energies)",
+          "ancNickel": "e12|223|3|e|",
+          "ancUrl": "https://arxiv.org/abs/1705.06483"
+        },
+        "method": "Single-scale phi^4 propagator integral, external scale restored. value = (p^2)^{0 - 3 eps} * Cfull^3 * anc[pInt[3,5]]: the KP G-scheme period series (Cfull = Exp[eps*EulerGamma] Gamma[1+eps] Gamma[1-eps]^2/Gamma[2-2eps], G-scheme -> SubTropica normalization per loop) with the external Euclidean invariant restored, so the stored value is the dimensionful momentum-space integral, not the p^2=1 reduced form. g4: IRR-rearranged auxiliary p-integral (NOT a phi^4 self-energy); 2L-V=0; I ~ (p2)^{-3 eps}; log-divergent, dimensionless. p2 = -MM > 0 : the spacelike (mostly-plus) external invariant, = minus the package mostly-minus Euclidean MM (MM<0; conventions.md L918-924). value = (p2)^{0 - 3 eps} * (dimensionless p2=1 form) is REAL for p2>0 (KP G-scheme). At the pySD anchor MM=-1, i.e. p2=+1, the scale factor is 1, reproducing the anchored period; the i*pi tower appears only on continuation to timelike p2<0 (MM>0). NOT computed by STIntegrate/HyperFLINT (a HyperInt reimplementation; using it to validate the ancillary HyperInt value would be circular).",
+        "validation": "cross-checked low-loop import (validation policy 2026-06-22). value_ST = Cfull^3 * anc[pInt[3,5]], with Cfull = Exp[eps*EulerGamma] Gamma[1+eps] Gamma[1-eps]^2/Gamma[2-2eps] converting the ancillary G-scheme normalization to the SubTropica normalization per loop (Cfull verified independently at L=4 and L=5 by pySD-Euclidean). The ancillary period is from Kompaniets-Panzer (arXiv:1705.06483; peer-reviewed HyperInt; trusted). VERIFIED by cross-check against the existing INDEPENDENT library computation of the same integral: the entry's existing independent library Result for the same single-scale massless propagator integral (leading orders confirmed to agree at unit scale). The CNI->anc bridge is confirmed by an explicit vertex isomorphism {1->3, 2->1, 3->2, 4->4} (anc->lib; brute-force). NOT validated against HyperFLINT/STIntegrate (a HyperInt reimplementation -> circular). Stored value carries the restored external scale (p^2)^{0 - 3 eps} (p2 = -MM > 0, Euclidean-real); at the pySD anchor MM=-1, i.e. p2=+1, the scale factor is 1, so the validated magnitude and transcendental structure are unchanged by the restoration.",
+        "importedAt": "2026-06-22"
+      },
+      "scale": "p^2",
+      "scaleExponent": "0 - 3 eps",
+      "scaleClass": "g4: IRR-rearranged auxiliary p-integral (NOT a phi^4 self-energy); 2L-V=0; I ~ (p2)^{-3 eps}; log-divergent, dimensionless",
+      "alphabet": [
+        "p^2"
+      ],
+      "resultDataId": "097e172a96f64227",
+      "resultTeXPreview": "\\frac{1}{3 \\varepsilon ^3} + \\frac{\\frac{7}{3}-\\log \\left(p^2\\right)}{\\varepsilon ^2} + \\frac{\\frac{3}{2} \\log ^2\\left(p^2\\right)-7 \\log \\left(p^2\\right)-\\frac{\\pi ^2}{12}+\\frac{31}{3}}{\\varepsilon } + \\frac{1}{12} \\left(3 \\log \\left(p^2\\right) \\left(-6 \\left(\\log \\left(p^2\\right)-7\\right) \\log \\left(p^2\\right)+\\pi ^2-124\\right)+28 \\zeta (3)-7 \\pi ^2+412\\right) + \\frac{1}{96} \\varepsilon  \\left(12 \\log \\left(p^2\\right) \\left(3 \\log \\left(p^2\\right) \\left(\\log \\left(p^2\\right) \\left(3 \\log \\left(p^2\\right)-28\\right)-\\pi ^2+124\\right)-56 \\zeta (3)+14 \\pi ^2-824\\right)+1568 \\zeta (3)+5 \\pi ^4-248 \\pi ^2+7520\\right) + \\frac{1}{480} \\varepsilon ^2 \\left(\\zeta (3) \\left(46240-280 \\left(6 \\left(14-3 \\log \\left(p^2\\right)\\right) \\log \\left(p^2\\right)+\\pi ^2\\right)\\right)+3 \\log \\left(p^2\\right) \\left(12 \\log \\left(p^2\\right) \\left(\\log \\left(p^2\\right) \\left(-9 \\log ^2\\left(p^2\\right)+105 \\log \\left(p^2\\right)+5 \\pi ^2-620\\right)-35 \\pi ^2+2060\\right)-5 \\left(7520-248 \\pi ^2+5 \\pi ^4\\right)\\right)+57504 \\zeta (5)+175 \\pi ^4-4120 \\pi ^2+3040\\right) + O\\left(\\varepsilon ^3\\right)"
     }
   ],
   "Names": [

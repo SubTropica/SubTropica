@@ -110,4 +110,12 @@ ChiCount chi_count_sectors(
     unsigned long seed,
     const std::string& msolve_path = "msolve");
 
+// Explicitly re-arm the msolve spawn circuit breaker (defined in euler_chi.cpp;
+// also declared in euler_filter.hpp, which the LR drivers include).  This is
+// NOT called per find_lr_orders request -- the breaker is meant to persist
+// across requests in a process so a permanently-broken msolve is capped once.
+// Use only to force a fresh attempt mid-process (e.g. after fixing
+// HF_MSOLVE_PATH).
+void reset_chi_spawn_breaker();
+
 }  // namespace hyperflint

@@ -11,11 +11,14 @@
       "epsOrders": "-2,-1,0,1,2",
       "reference": "arXiv:1705.06483 (doi: 10.1103/PhysRevD.96.036016)",
       "authors": "Mikhail V. Kompaniets and Erik Panzer",
-      "description": "massless propagator computed for the $\\varphi^4$ 6-loop calculation available from the ancillary files p_int_g2.mpl (Maple) and p_int_g2.m (Mathematica) of the arXiv submission results are rational linear combinations of multiple zeta values",
+      "description": "massless propagator computed for the $\\varphi^4$ 6-loop calculation available from the ancillary files p_int_g2.mpl (Maple) and p_int_g2.m (Mathematica) of the arXiv submission results are rational linear combinations of multiple zeta values. The pInt[4,3] period for this 4-loop 7-propagator topology is imported here as a Result: value = Cfull^4 * (anc p_int_g2 period), the G-scheme -> SubTropica normalization conversion, with the overall sign inherited from the ancillary period (Cfull -> 1 as eps -> 0). Independently validated by pySecDec single-scale Euclidean integration at p^2=-1 (magnitude and transcendental structure at every order; method-independent of the HyperInt reduction that produced the ancillary value).",
       "recordId": "1504715324.aCV7",
       "verified": true,
-      "verifiedAt": "2026-04-07",
-      "ancillaryFiles": true
+      "verifiedAt": "2026-06-21",
+      "ancillaryFiles": true,
+      "texkey": "Kompaniets:2017yct",
+      "doi": "10.1103/PhysRevD.96.036016",
+      "verifiedVia": "pySD-Euclidean s=-1: independent pySecDec single-scale Euclidean integration at p^2=-1 (sector decomposition; method-independent of the HyperInt reduction that produced the ancillary value) reproduces the MAGNITUDE and full transcendental structure (Pi^2, Pi^4, Zeta[3]) of value_ST at every Laurent order eps^-2..eps^2 to Monte-Carlo accuracy (|d|<=1e-7). The pySD-raw output differs from the stored value by a single overall sign, a fixed convention constant of the Euclidean (-F)^(-omega) branch for this s=-1 driver (it is NOT an independent check of the overall sign). The stored sign is inherited from the ancillary G-scheme period through Cfull^L (Cfull -> 1 as eps -> 0, so the leading pole and overall sign are preserved); the Cfull normalization is independently anchored at 2 loops, where a first-principles massless-bubble recursion reproduces Cfull^2 * anc[pInt[2,1]] exactly through eps^3 without reference to HyperInt or pySD. NOT validated against HyperFLINT/STIntegrate (a HyperInt reimplementation -> circular)."
     }
   ],
   "Source": [
@@ -87,6 +90,57 @@
       "evensChiDrop": [
         0
       ]
+    },
+    {
+      "dimension": "4 - 2*eps",
+      "epsOrder": 2,
+      "propExponents": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "propagators": [],
+      "numerators": [],
+      "internalMasses": [],
+      "externalMasses": [],
+      "substitutions": "{}",
+      "normalization": "Automatic",
+      "stVersion": "SubTropica v1.2.6",
+      "contributor": "SM",
+      "timestamp": "2026-06-21T19:37:17Z",
+      "verified": true,
+      "verifiedVia": "pySD-Euclidean s=-1: independent pySecDec single-scale Euclidean integration at p^2=-1 (sector decomposition; method-independent of the HyperInt reduction that produced the ancillary value) reproduces the MAGNITUDE and full transcendental structure (Pi^2, Pi^4, Zeta[3]) of value_ST at every Laurent order eps^-2..eps^2 to Monte-Carlo accuracy (|d|<=1e-7). The pySD-raw output differs from the stored value by a single overall sign, a fixed convention constant of the Euclidean (-F)^(-omega) branch for this s=-1 driver (it is NOT an independent check of the overall sign). The stored sign is inherited from the ancillary G-scheme period through Cfull^L (Cfull -> 1 as eps -> 0, so the leading pole and overall sign are preserved); the Cfull normalization is independently anchored at 2 loops, where a first-principles massless-bubble recursion reproduces Cfull^2 * anc[pInt[2,1]] exactly through eps^3 without reference to HyperInt or pySD. NOT validated against HyperFLINT/STIntegrate (a HyperInt reimplementation -> circular). Stored value carries the restored external scale (p^2)^{1 - 4 eps} (p2 = -MM > 0, Euclidean-real); at the pySD anchor MM=-1, i.e. p2=+1, the scale factor is 1, so the validated magnitude and transcendental structure are unchanged by the restoration.",
+      "periodImport": true,
+      "periodTarget": "1112|3|e33|e|",
+      "import": {
+        "submittedBy": "Sebastian Mizera",
+        "source": {
+          "paper": "arXiv:1705.06483",
+          "title": "Minimally subtracted six loop renormalization of O(n)-symmetric phi^4 theory and critical exponents",
+          "authors": "M. V. Kompaniets, E. Panzer",
+          "journal": "Phys. Rev. D 96 (2017) 036016",
+          "texkey": "Kompaniets:2017yct",
+          "doi": "10.1103/PhysRevD.96.036016",
+          "ancFile": "anc/p_int_g2.m -> pInt[4,3]  (g2 = genuine phi^4 propagator periods; NOT the IRR-rearranged g4 auxiliaries)",
+          "ancNickel": "e112|e3|333||",
+          "ancUrl": "https://arxiv.org/abs/1705.06483"
+        },
+        "method": "Single-scale phi^4 propagator integral, external scale restored. value = (p^2)^{1 - 4 eps} * Cfull^4 * anc[pInt[4,3]]: the KP G-scheme period series (Cfull = Exp[eps*EulerGamma] Gamma[1+eps] Gamma[1-eps]^2/Gamma[2-2eps], G-scheme -> SubTropica normalization per loop) with the external Euclidean invariant restored, so the stored value is the dimensionful momentum-space integral, not the p^2=1 reduced form. g2: genuine phi^4 propagator self-energy; 2L-V=1; I ~ (p2)^{1 - 4 eps}; mass dimension (mass)^2. p2 = -MM > 0 : the spacelike (mostly-plus) external invariant, = minus the package mostly-minus Euclidean MM (MM<0; conventions.md L918-924). value = (p2)^{1 - 4 eps} * (dimensionless p2=1 form) is REAL for p2>0 (KP G-scheme). At the pySD anchor MM=-1, i.e. p2=+1, the scale factor is 1, reproducing the anchored period; the i*pi tower appears only on continuation to timelike p2<0 (MM>0). NOT computed by STIntegrate/HyperFLINT (a HyperInt reimplementation; using it to validate the ancillary HyperInt value would be circular).",
+        "validation": "pySD-Euclidean s=-1: independent pySecDec single-scale Euclidean integration at p^2=-1 (sector decomposition; method-independent of the HyperInt reduction that produced the ancillary value) reproduces the MAGNITUDE and full transcendental structure (Pi^2, Pi^4, Zeta[3]) of value_ST at every Laurent order eps^-2..eps^2 to Monte-Carlo accuracy (|d|<=1e-7). The pySD-raw output differs from the stored value by a single overall sign, a fixed convention constant of the Euclidean (-F)^(-omega) branch for this s=-1 driver (it is NOT an independent check of the overall sign). The stored sign is inherited from the ancillary G-scheme period through Cfull^L (Cfull -> 1 as eps -> 0, so the leading pole and overall sign are preserved); the Cfull normalization is independently anchored at 2 loops, where a first-principles massless-bubble recursion reproduces Cfull^2 * anc[pInt[2,1]] exactly through eps^3 without reference to HyperInt or pySD. NOT validated against HyperFLINT/STIntegrate (a HyperInt reimplementation -> circular). Stored value carries the restored external scale (p^2)^{1 - 4 eps} (p2 = -MM > 0, Euclidean-real); at the pySD anchor MM=-1, i.e. p2=+1, the scale factor is 1, so the validated magnitude and transcendental structure are unchanged by the restoration.",
+        "importedAt": "2026-06-21"
+      },
+      "scale": "p^2",
+      "scaleExponent": "1 - 4 eps",
+      "scaleClass": "g2: genuine phi^4 propagator self-energy; 2L-V=1; I ~ (p2)^{1 - 4 eps}; mass dimension (mass)^2",
+      "alphabet": [
+        "p^2"
+      ],
+      "resultDataId": "e624f11f0ae9cfe7",
+      "resultTeXPreview": "\\frac{p^2}{32 \\varepsilon ^2} + \\frac{p^2 \\left(9-2 \\log \\left(p^2\\right)\\right)}{16 \\varepsilon } + \\frac{1}{384} p^2 \\left(96 \\left(\\log \\left(p^2\\right)-9\\right) \\log \\left(p^2\\right)-4 \\pi ^2+2319\\right) + \\frac{1}{192} \\varepsilon  p^2 \\left(2 \\log \\left(p^2\\right) \\left(16 \\left(27-2 \\log \\left(p^2\\right)\\right) \\log \\left(p^2\\right)+4 \\pi ^2-2319\\right)-368 \\zeta (3)-36 \\pi ^2+9693\\right) + \\frac{\\varepsilon ^2 p^2 \\left(88320 \\zeta (3) \\left(2 \\log \\left(p^2\\right)-9\\right)+480 \\log \\left(p^2\\right) \\left(\\log \\left(p^2\\right) \\left(16 \\left(\\log \\left(p^2\\right)-18\\right) \\log \\left(p^2\\right)-4 \\pi ^2+2319\\right)+36 \\pi ^2-9693\\right)-688 \\pi ^4-46380 \\pi ^2+8379585\\right)}{23040} + O\\left(\\varepsilon ^3\\right)"
     }
   ],
   "Names": [

@@ -22,7 +22,8 @@
     "arXiv:2005.01735",
     "arXiv:2010.08552",
     "arXiv:2311.14669 (Phys.Rev.Lett. 132 (101601), 2024)",
-    "arXiv:2311.16219 (Comput.Phys.Commun. 303 (109278), 2024)"
+    "arXiv:2311.16219 (Comput.Phys.Commun. 303 (109278), 2024)",
+    "arXiv:hep-ph/9307327"
   ],
   "Records": [
     {
@@ -66,7 +67,7 @@
     {
       "reference": "Phys. Lett. B 298 (1993) 363",
       "familyName": "ladder4pt_L2_massless-internal-offshell-external",
-      "description": "4-mass ladder family, ladder4pt_L2_massless-internal-offshell-external. Planar L-rung box ladder: rails t_1..t_{L+1}, b_1..b_{L+1}; rail edges (t_i,t_{i+1}), (b_i,b_{i+1}); rungs (t_i,b_i); 4 off-shell external legs at t_1, t_{L+1}, b_1, b_{L+1}. 2L+2 vertices, 3L+1 propagators, L loops. Massless internal lines. Value = PhiLadder[2, 1/3, 1/5].",
+      "description": "4-mass ladder family, ladder4pt_L2_massless-internal-offshell-external. Planar L-rung box ladder: rails t_1..t_{L+1}, b_1..b_{L+1}; rail edges (t_i,t_{i+1}), (b_i,b_{i+1}); rungs (t_i,b_i); 4 off-shell external legs at t_1, t_{L+1}, b_1, b_{L+1}. 2L+2 vertices, 3L+1 propagators, L loops. Massless internal lines.",
       "method": [
         "closed form"
       ],
@@ -75,12 +76,14 @@
       ],
       "recordId": "fs_a7077b50b97a",
       "verified": true,
-      "verifiedAt": "2026-06-06"
+      "verifiedAt": "2026-06-06",
+      "title": "An approach to the evaluation of three and four point ladder diagrams",
+      "authors": "N. I. Usyukina, A. I. Davydychev"
     },
     {
       "reference": "arXiv:1705.03545",
       "familyName": "basso-dixon_L2x1_massless-internal-offshell-external",
-      "description": "Basso-Dixon fishnet family, basso-dixon_L2x1_massless-internal-offshell-external. Basso-Dixon fishnet B_{M,N}: an M x N rectangular grid, 4 external operators at the corners, defined in dual (region-momentum) space via products of 1/x_ij^2 propagators. The L = MN loop integral is conformal. Momentum space: the (M+1) x (N+1) vertex grid (2MN+M+N massless edges, 4 off-shell corner legs, MN loops); B_{M,1} = the M-rung 4-pt ladder; transpose symmetry fixes the canonical orientation M >= N. Value = BassoDixonI[2, 1, 1/3, 1/5].",
+      "description": "Basso-Dixon fishnet family, basso-dixon_L2x1_massless-internal-offshell-external. Basso-Dixon fishnet B_{M,N}: an M x N rectangular grid, 4 external operators at the corners, defined in dual (region-momentum) space via products of 1/x_ij^2 propagators. The L = MN loop integral is conformal. Momentum space: the (M+1) x (N+1) vertex grid (2MN+M+N massless edges, 4 off-shell corner legs, MN loops); B_{M,1} = the M-rung 4-pt ladder; transpose symmetry fixes the canonical orientation M >= N.",
       "method": [
         "closed form"
       ],
@@ -98,9 +101,72 @@
       "familyName": "PLD: dbox",
       "recordId": "bf_f71132754e9a",
       "verified": false
+    },
+    {
+      "reference": "arXiv:hep-ph/9307327",
+      "authors": [
+        {
+          "full_name": "Usyukina, N.I.",
+          "inspire_id": 2192017
+        },
+        {
+          "full_name": "Davydychev, Andrei I.",
+          "inspire_id": 1012291
+        }
+      ],
+      "description": "Two-loop planar double-box $D^{(2)}$ with massless internal lines and four off-shell external momenta. A four-fold Mellin-Barnes representation plus one-loop pairing shows $D^{(2)} = (i\\pi^2)^2/(s^2 t) \\cdot \\Phi^{(2)}(X,Y)$ with $X=k_1^2 k_3^2/(s t)$, $Y=k_2^2 k_4^2/(s t)$. Reduces to the three-point ladder $\\Phi^{(2)}$.",
+      "epsOrders": "",
+      "familyName": "two-loop massless planar double box with four off-shell external legs",
+      "method": "direct_integration, Mellin-Barnes",
+      "tools": [],
+      "ancillaryFiles": false,
+      "doi": "",
+      "texkey": "",
+      "masterCount": 1,
+      "dimScheme": "d=4",
+      "computationLevel": "full",
+      "location": "Section 3, Fig. 4, Eqs. (24)-(26)",
+      "recordId": "bx_b7fdd12bcadf",
+      "verified": true,
+      "verifiedAt": "auto-loopedia"
     }
   ],
-  "Results": [],
+  "Results": [
+    {
+      "numeric": 24.976621996053765,
+      "normalization": "Exact finite conformal integral: the weight-4 Usyukina--Davydychev function $\\Phi^{(2)}(z,\\bar z)$ (the $2$-loop ladder), written as explicit classical polylogarithms $\\operatorname{Li}_j$ in the conformal cross-ratios $z,\\bar z$ (grounded in the external kinematics; the external scale prefactor is stripped). Not a dim-reg series. The numeric is its value at the reference point $z=1/3$, $\\bar z=1/5$.",
+      "provenance": "closed-form-from-cited-literature",
+      "seedRecordId": "fs_a7077b50b97a",
+      "timestamp": "2026-06-21T23:33:58Z",
+      "contributor": "SM",
+      "stVersion": "SubTropica 1.2.6",
+      "import": {
+        "submittedBy": "Sebastian Mizera",
+        "source": {
+          "paper": "Phys. Lett. B 305 (1993) 136",
+          "title": "Exact results for three and four point ladder diagrams with an arbitrary number of rungs",
+          "authors": "N. I. Usyukina, A. I. Davydychev",
+          "journal": "Phys. Lett. B 305 (1993) 136-143",
+          "texkey": "Usyukina:1993ch",
+          "doi": "10.1016/0370-2693(93)91118-7"
+        },
+        "method": "Usyukina-Davydychev box ladder: value is the closed-form weight-2L single-valued polylogarithm Phi^(L)(z,zbar) evaluated at z=1/3, zbar=1/5. Box dictionary G^(L)_box = Phi^(L)(u,v)/(s t^L), sigma=+1, validated by pySecDec at L=1 (rel err 5e-9) and L=2 (3.7e-5); see notes/normalization_validation_2026-06.json.",
+        "importedAt": "2026-06-21"
+      },
+      "verified": true,
+      "method": "pySecDec box dictionary G^(2)=Phi^(2)/(s t^2), rel err 3.7e-5",
+      "seedFamilyExpand": {
+        "family": "ladder",
+        "params": [
+          2
+        ]
+      },
+      "dimension": "4",
+      "symbolWeight": 4,
+      "resultDataId": "32243182ec1905c3",
+      "resultTeXPreview": "-\\frac{1}{2!\\,(z-\\bar z)}\\sum_{j=2}^{4}\\frac{(-1)^{j}\\,j!}{(j-2)!\\,(4-j)!}\\,\\log^{\\,4-j}\\!\\frac{(1-z)(1-\\bar z)}{z\\bar z}\\left[\\operatorname{Li}_{j}\\!\\left(\\tfrac{\\bar z-1}{\\bar z}\\right)-\\operatorname{Li}_{j}\\!\\left(\\tfrac{z-1}{z}\\right)\\right] \\\\[4pt] u=z\\bar z=\\frac{M_1^2\\,M_3^2}{s_{12}\\,s_{23}},\\quad v=(1-z)(1-\\bar z)=\\frac{M_2^2\\,M_4^2}{s_{12}\\,s_{23}}"
+    }
+  ],
   "Names": [
     "$P_{2,2}^{**}$ (four-mass double box, class a)"
   ],

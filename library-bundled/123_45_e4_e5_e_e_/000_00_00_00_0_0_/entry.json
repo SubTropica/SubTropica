@@ -27,19 +27,15 @@
     "arXiv:2508.04394 (Phys.Rev.D 113 (), 2026)",
     "arXiv:1612.07798",
     "arXiv:2111.01498",
-    "arXiv:2401.08226",
-    "arXiv:2507.17815",
     "arXiv:1703.05273",
     "arXiv:1712.09737",
     "arXiv:2311.02370",
-    "arXiv:1308.4632 (Phys.Rev.D 89 (), 2014)",
     "arXiv:1712.03760 (Phys.Rev.D 97 (), 2018)",
     "arXiv:1508.02512 (Chin.Phys.C 40 (), 2016)",
     "arXiv:2110.07968 (JHEP 03 (079), 2022)",
     "arXiv:1511.01323 (Acta Phys.Polon.B 46 (2117), 2015)",
     "arXiv:1904.05299 (Phys.Rev.Lett. 123 (), 2019)",
     "arXiv:2304.01776",
-    "arXiv:hep-ph/9307327",
     "arXiv:1606.09447 (PoS LL2016 (029), 2016)",
     "arXiv:1703.09692 (Comput.Phys.Commun. 222 (313), 2018)",
     "arXiv:1709.06055 (Phys.Rev.D 96 (), 2017)",
@@ -588,87 +584,6 @@
       "verifiedAt": "auto-loopedia"
     },
     {
-      "reference": "arXiv:2401.08226 (JHEP 03 (159), 2024)",
-      "authors": [
-        {
-          "full_name": "Fontana, Gaia",
-          "inspire_id": 2656187
-        },
-        {
-          "full_name": "Gehrmann, Thomas",
-          "inspire_id": 1008686
-        },
-        {
-          "full_name": "Schönwald, Kay",
-          "inspire_id": 1749673
-        }
-      ],
-      "description": "Massless 2-loop 4-point DIS real-virtual family F (forward scattering). Master integrals as HPLs to $\\mathcal{O}(\\varepsilon^6)$. Boundaries via analytic auxiliary mass flow.",
-      "epsOrders": "6",
-      "familyName": "Massless 2-loop 4-point DIS real-virtual family F (forward scattering)",
-      "method": "DE, IBP, series_expansion",
-      "tools": [
-        "Kira",
-        "Fuchsia"
-      ],
-      "ancillaryFiles": false,
-      "doi": "10.1007/JHEP03(2024)159",
-      "texkey": "Fontana:2024olm",
-      "masterCount": 6,
-      "dimScheme": "d=4-2*eps",
-      "computationLevel": "full",
-      "location": "Eq. (3.12), Fig. 3b",
-      "recordId": "bx_b9bb8c3d4b35",
-      "verified": true,
-      "verifiedAt": "auto-loopedia"
-    },
-    {
-      "reference": "arXiv:2507.17815 (JHEP 01 (014), 2026)",
-      "authors": [
-        {
-          "full_name": "Barrera, Oscar",
-          "inspire_id": 2957072
-        },
-        {
-          "full_name": "Dersy, Aurélien",
-          "inspire_id": 2083042
-        },
-        {
-          "full_name": "Husain, Rabia",
-          "inspire_id": 1925286
-        },
-        {
-          "full_name": "Schwartz, Matthew D.",
-          "inspire_id": 1019662
-        },
-        {
-          "full_name": "Zhang, Xiaoyuan",
-          "inspire_id": 1806305
-        }
-      ],
-      "description": "Called $I_4(x,z)$ in the paper. 2-loop 4-point master integral for $q\\bar{q} \\to VV$ planar topologies from Gehrmann, Tancredi, Weihs (1306.6344). 7 massless propagators in planar double box. Two massless on-shell legs ($p_1,p_2$) and two off-shell legs ($q_1,q_2$). Depends on $(x,z)$. Prefactor $P_4(x,z)=x^2/(m^6 z (1+x)^4)$. Symbol Galois-even ($x\\to 1/x$ invariant). Fitted at $\\varepsilon^0$ (weight 4) with galois uniform basis of 633 functions. AMFlow: 5.4 CPU-h/point, 332 points, 28 digits. Reduction: 9.4 h.",
-      "epsOrders": "0",
-      "familyName": "2-loop massless planar double box",
-      "method": "DE, IBP",
-      "tools": [
-        "AMFlow",
-        "SOFIA",
-        "BLADE",
-        "GiNaC",
-        "Fplll"
-      ],
-      "ancillaryFiles": false,
-      "doi": "10.1007/JHEP01(2026)014",
-      "texkey": "Barrera:2025uin",
-      "masterCount": 0,
-      "dimScheme": "d=4-2*eps",
-      "computationLevel": "full",
-      "location": "Eq. (19), Section 4.2, fourth diagram",
-      "recordId": "bx_108eff1e474e",
-      "verified": true,
-      "verifiedAt": "auto-loopedia"
-    },
-    {
       "reference": "arXiv:1703.05273",
       "authors": [
         {
@@ -902,34 +817,6 @@
       "verifiedAt": "auto-loopedia"
     },
     {
-      "reference": "arXiv:hep-ph/9307327",
-      "authors": [
-        {
-          "full_name": "Usyukina, N.I.",
-          "inspire_id": 2192017
-        },
-        {
-          "full_name": "Davydychev, Andrei I.",
-          "inspire_id": 1012291
-        }
-      ],
-      "description": "Two-loop planar double-box $D^{(2)}$ with massless internal lines and four off-shell external momenta. A four-fold Mellin-Barnes representation plus one-loop pairing shows $D^{(2)} = (i\\pi^2)^2/(s^2 t) \\cdot \\Phi^{(2)}(X,Y)$ with $X=k_1^2 k_3^2/(s t)$, $Y=k_2^2 k_4^2/(s t)$. Reduces to the three-point ladder $\\Phi^{(2)}$.",
-      "epsOrders": "",
-      "familyName": "two-loop massless planar double box with four off-shell external legs",
-      "method": "direct_integration, Mellin-Barnes",
-      "tools": [],
-      "ancillaryFiles": false,
-      "doi": "",
-      "texkey": "",
-      "masterCount": 1,
-      "dimScheme": "d=4",
-      "computationLevel": "full",
-      "location": "Section 3, Fig. 4, Eqs. (24)-(26)",
-      "recordId": "bx_b7fdd12bcadf",
-      "verified": true,
-      "verifiedAt": "auto-loopedia"
-    },
-    {
       "reference": "arXiv:1606.09447 (PoS LL2016 (029), 2016)",
       "authors": "Larsen, Kasper J., Zhang, Yang",
       "description": "Massless planar two-loop double box used as worked example for IBP reduction via generalized-unitarity cuts and syzygy equations (Baikov representation, Singular). 7 propagators + 2 ISPs; 8 masters obtained.",
@@ -1156,25 +1043,6 @@
       "computationLevel": "basis",
       "location": "Section 2.3 (Issues at higher loop orders), Section 2.7 (Multi-loop integrand reduction via Groebner basis), Section 4.1 (Baikov representation), Section 4.5 (IBPs from syzygies and unitarity), Exercise 4.1",
       "recordId": "bx_e4bea1e4564a",
-      "verified": false,
-      "verifiedAt": ""
-    },
-    {
-      "reference": "arXiv:1308.4632 (Phys.Rev.D 89 (), 2014)",
-      "authors": "Johansson, Henrik, Kosower, David A., Larsen, Kasper J.",
-      "description": "Planar double-box integral with four massive external legs and massless internal lines. The paper constructs generalized discontinuity operators (master contours) via maximal unitarity to extract the coefficients of the 4 master integrals in the two-loop amplitude basis expansion. IBP identities impose no contour constraints in this four-mass case; only parity-odd Levi-Civita insertions constrain the contours. An equal-mass specialization (k1^2=k4^2, k2^2=k3^2) reduces the master count to 3.",
-      "epsOrders": "0",
-      "familyName": "$P_{2,2}^{**}$ (four-mass double box, class a)",
-      "method": "unitarity, IBP",
-      "tools": [],
-      "ancillaryFiles": true,
-      "doi": "10.1103/PhysRevD.89.125010",
-      "texkey": "Johansson:2013sda",
-      "masterCount": 4,
-      "dimScheme": "d=4-2*eps",
-      "computationLevel": "maximal_cut",
-      "location": "eq. (3.1), (3.17), fig. 1",
-      "recordId": "bx_a8521c81505b",
       "verified": false,
       "verifiedAt": ""
     },

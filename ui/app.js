@@ -3512,7 +3512,7 @@ function openMassPicker(edgeIdx, svgX, svgY) {
         chip.type = 'button';
         chip.className = 'picker-swap-chip';
         chip.textContent = 'p' + subscript(otherExtIdx + 1);
-        chip.title = `Swap this leg (p${subscript(thisExtIdx + 1)}) with p${subscript(otherExtIdx + 1)}`;
+        chip.dataset.tip = `Swap this leg (p${subscript(thisExtIdx + 1)}) with p${subscript(otherExtIdx + 1)}`;
         chip.addEventListener('click', (evt) => {
           evt.stopPropagation();
           if (swapExtLegs(thisExtIdx, otherExtIdx)) closeMassPicker();
@@ -5627,9 +5627,12 @@ function generateThumbnail(topoNickel, configKey, options) {
     drawEdges.forEach(e => {
       if (e.mass > 0) {
         if (e.isLeg && externalOnlyDigits.has(e.mass)) {
-          // External-only mass → "M" (single) or "Mᵢ" where i = leg position
-          // Convention: M[i] in the entry, where i is the boundary-ordered leg index
-          e.massLabel = bigMScales.size === 1 ? 'M' : 'M' + (SUB[e.legIndex] || SUB[0]);
+          // External-only mass → "M" (single) or "Mᵢ" where i = leg position.
+          // Honor legOrder (canonical → display leg index) exactly as the p-leg tip
+          // does, so M and p stay paired when the legs are relabeled (e.g. n-gon
+          // entries drawn in cyclic order). Convention: M[i], i the display leg index.
+          const _dispLeg = legOrder ? (legOrder[e.legIndex - 1] || e.legIndex) : e.legIndex;
+          e.massLabel = bigMScales.size === 1 ? 'M' : 'M' + (SUB[_dispLeg] || SUB[0]);
         } else {
           // Internal or shared mass → "m" or "mₐ" (subscript = mass class digit)
           e.massLabel = mScales.size === 1 ? 'm' : 'm' + (SUB[e.mass] || SUB[0]);
@@ -6085,7 +6088,7 @@ function doLiveMatch() {
       nickelStr;
     $('nickel-display').textContent = displayNickel;
     if (displayNickel !== nickelStr) {
-      $('nickel-display').title =
+      $('nickel-display').dataset.tip =
         'Library (Mathematica) canonical Nickel index. GraphState/JS form: ' + nickelStr;
     } else {
       $('nickel-display').removeAttribute('title');
@@ -6279,7 +6282,7 @@ function singsChiBadge(cfg) {
   const inner = has
     ? `<span class="chi-glyph">χ</span> =${chi}`
     : '<span class="chi-glyph">χ</span>';
-  return `<span class="badge badge-chi" title="${title}">${inner}</span>`;
+  return `<span class="badge badge-chi" data-tip="${title}">${inner}</span>`;
 }
 
 function createConfigToast(topoKey, topo, cm, ck) {
@@ -6313,8 +6316,8 @@ function createConfigToast(topoKey, topo, cm, ck) {
 
   const thumb = generateThumbnail(topoKey, ck);
   thumb.classList.add('notif-thumb');
-  // Provenance star, single source of truth: full = bundled, outlined = local
-  // (every computed result r._local), none = no computed result.
+  // Provenance star, single source of truth: royal-blue = imported, full maroon
+  // = bundled, outlined = local; none = no computed result.
   const starPrefix = resultProvenanceStar(cfg.results || cfg.Results);
   const body = document.createElement('div');
   body.className = 'notif-body';
@@ -6871,13 +6874,13 @@ function functionBadge(fc) {
   ];
   for (const { re, label, cls } of KEYWORDS) {
     if (re.test(fc)) {
-      const title = fc !== label ? ` title="${fc.replace(/"/g, '&quot;')}"` : '';
+      const title = fc !== label ? ` data-tip="${fc.replace(/"/g, '&quot;')}"` : '';
       return `<span class="badge ${cls}"${title}>${label}</span>`;
     }
   }
   // Fallback: truncate long descriptions
   const short = fc.length > 20 ? fc.slice(0, 18) + '\u2026' : fc;
-  const title = fc.length > 20 ? ` title="${fc.replace(/"/g, '&quot;')}"` : '';
+  const title = fc.length > 20 ? ` data-tip="${fc.replace(/"/g, '&quot;')}"` : '';
   return `<span class="badge badge-muted"${title}>${short}</span>`;
 }
 
@@ -7109,13 +7112,19 @@ function openDetailPanel(topoKey, topo, configMatches, configKey, opts) {
         ? (Array.isArray(cfgNames) ? cfgNames[0] : cfgNames)
         : topoName);
     const aliases = Array.isArray(cfgNames) ? cfgNames.filter(n => n && n !== primaryName) : [];
-    const titleAttr = aliases.length > 0 ? ` title="Also known as: ${aliases.join(', ')}"` : '';
     const cNickel = cfg.CNickelIndex || cfg.CNickel || cfg.nickel || `${topoKey}:${configKey}`;
-    titleBlock.innerHTML = `<div class="popup-name"${titleAttr}>${renderInlineMathString(primaryName)}</div>`;
+    // Rich name tooltip: primary name, any aliases, the loops/legs/props line,
+    // and the canonical Nickel index (replaces the old plain "Also known as").
+    const _nameTipLines = [`<strong>${escapeHtml(primaryName)}</strong>`];
+    if (aliases.length) _nameTipLines.push(`Also known as: ${escapeHtml(aliases.join(', '))}`);
+    _nameTipLines.push(`${loops} loop${loops !== 1 ? 's' : ''} &middot; ${legs} leg${legs !== 1 ? 's' : ''} &middot; ${props} propagator${props !== 1 ? 's' : ''}`);
+    _nameTipLines.push(`<code>${escapeHtml(cNickel)}</code>`);
+    const _nameTip = _nameTipLines.join('<br>').replace(/"/g, '&quot;');
+    titleBlock.innerHTML = `<div class="popup-name" data-tip-html="${_nameTip}">${renderInlineMathString(primaryName)}</div>`;
     const topoLine = document.createElement('div');
     topoLine.className = 'popup-topo-line popup-topo-link';
     topoLine.innerHTML = `${renderInlineMathString(topoName)} topology`;
-    topoLine.title = 'Open topology';
+    topoLine.dataset.tip = 'Open topology';
     topoLine.addEventListener('click', () => _openTopologyByKey(topoKey));
     titleBlock.appendChild(topoLine);
     const nickelDiv = document.createElement('div');
@@ -7188,6 +7197,31 @@ function openDetailPanel(topoKey, topo, configMatches, configKey, opts) {
     loadBtn.textContent = 'Load to editor';
     loadBtn.addEventListener('click', _loadClickHandler);
     actions.appendChild(loadBtn);
+
+    // Export / Notebook — same actions as the header, applied to THIS entry's
+    // diagram: load it onto the canvas (_loadClickHandler) then trigger the
+    // header control. The notebook button is disabled until the canvas has a
+    // connected diagram, so poll a few frames for it to become ready.
+    const _loadThenHeader = (btnId) => () => {
+      _loadClickHandler();
+      let tries = 0;
+      const go = () => {
+        const b = document.getElementById(btnId);
+        if (b && !b.disabled) { b.click(); return; }
+        if (tries++ < 20) requestAnimationFrame(go);
+      };
+      requestAnimationFrame(go);
+    };
+    const exportBtn = document.createElement('button');
+    exportBtn.className = 'popup-load-btn popup-load-btn-secondary';
+    exportBtn.textContent = 'Export';
+    exportBtn.addEventListener('click', _loadThenHeader('export-menu-btn'));
+    actions.appendChild(exportBtn);
+    const nbBtn = document.createElement('button');
+    nbBtn.className = 'popup-load-btn popup-load-btn-secondary';
+    nbBtn.textContent = 'Notebook';
+    nbBtn.addEventListener('click', _loadThenHeader('notebook-dl-btn'));
+    actions.appendChild(nbBtn);
 
     if (actions.children.length > 0) header.appendChild(actions);
 
@@ -7283,25 +7317,17 @@ function openDetailPanel(topoKey, topo, configMatches, configKey, opts) {
             `<button type="button" class="report-issue-link"
                 data-record-id="${escapeHtml(recId)}"
                 data-arxiv-id="${escapeHtml(arxivId || '')}"
-                title="Flag a problem with this entry">&#x26A0; Report</button>`
+                data-tip="Flag a problem with this entry">&#x26A0; Report</button>`
           );
         }
         if (linkBtns.length > 0) {
           html += `<div class="popup-record-links">${linkBtns.join(' ')}</div>`;
         }
 
-        // Paper thumbnail (page 1 preview, float left).
-        // Loaded from the public-repo jsDelivr CDN so the live site stays
-        // current with paper additions on `SubTropica/SubTropica@main`
-        // without a Firebase redeploy (mirrors how loadLibrary() resolves
-        // library.json).  Same-origin path is the fallback when jsDelivr
-        // is unreachable; if both fail, the img hides itself.
-        if (arxivId) {
-          const safeId = arxivId.replace(/\//g, '_');
-          const cdnSrc = `https://cdn.jsdelivr.net/gh/SubTropica/SubTropica@main/ui/paper-thumbs/${safeId}.jpg`;
-          const localSrc = `paper-thumbs/${safeId}.jpg`;
-          html += `<img class="popup-record-pdf-thumb" src="${cdnSrc}" data-fallback="${localSrc}" alt="" data-arxiv-id="${escapeHtml(arxivId)}" loading="lazy" onerror="if(this.dataset.fallback){this.src=this.dataset.fallback;delete this.dataset.fallback;}else{this.style.display='none';}">`;
-        }
+        // Paper thumbnail (page 1 preview, float left): white-sheet placeholder
+        // by default, with the real arXiv page-1 thumb preloaded (jsDelivr CDN ->
+        // same-origin) and swapped in only once it loads. See _paperThumbHtml.
+        html += _paperThumbHtml(arxivId);
 
         // Title slot (above authors). We look up the durable INSPIRE cache
         // synchronously; if the cache is already loaded (kicked off at page
@@ -7310,7 +7336,7 @@ function openDetailPanel(topoKey, topo, configMatches, configKey, opts) {
         // element if the cache wasn't ready in time and adds the citation
         // badge once the live fetch completes.
         const cachedHit = getDurableInspireHit(arxivId);
-        const initialTitle = cachedHit && cachedHit.title ? cachedHit.title : '';
+        const initialTitle = (cachedHit && cachedHit.title) ? cachedHit.title : (rec.title || '');
         html += `<div class="popup-record-title">${renderInlineMathString(initialTitle)}</div>`;
         if (authors) {
           // Structured authors (list of {full_name, inspire_id}) or plain string
@@ -7641,15 +7667,23 @@ function openDetailPanel(topoKey, topo, configMatches, configKey, opts) {
         // Badge row: clean, all-badge layout
         const badges = [];
 
-        // Provenance star, per record: a FULL star for a bundled-library result,
-        // an OUTLINED star for one the user computed locally (r._local). Hovering
-        // the star shows a stylized popup (data-tip-html) explaining the meaning.
-        const _isLocal = r._local === true;
-        const _starCls = _isLocal ? 'result-star result-star-local' : 'result-star';
-        const _starTip = _isLocal
-          ? '<strong>Local result</strong>: computed by you on this machine, not part of the bundled library.'
-          : '<strong>Bundled result</strong>: part of the curated SubTropica library shipped with the package.';
-        badges.push(`<span class="${_starCls}" role="img" aria-label="${_isLocal ? 'local result' : 'bundled result'}" data-tip-html="${_starTip}">★</span>`);
+        // Provenance star, per record, sharing the toast colour scheme via
+        // provenanceStarSpan so the panel and the lists always agree: navy
+        // imported (value from a paper) → maroon bundled → white-outlined local.
+        // The source paper itself stays on the Imported badge below, not here.
+        let _starKind, _starTip;
+        if (r.import || r.Import) {
+          _starKind = 'imported';
+          _starTip = `${_IMPORTED_TIP_LEAD}: this value was imported from a published paper, ` +
+                     `not computed in-house. See the Imported badge for the source.`;
+        } else if (r._local === true) {
+          _starKind = 'local';
+          _starTip = '<strong>Local result</strong>: computed by you on this machine, not part of the bundled library.';
+        } else {
+          _starKind = 'bundled';
+          _starTip = '<strong>Bundled result</strong>: part of the curated SubTropica library shipped with the package.';
+        }
+        badges.push(provenanceStarSpan(_starKind, _starTip));
 
         // Dimension: prettify 4 - 2*eps → D = 4−2ε
         if (r.dimension) {
@@ -7658,6 +7692,12 @@ function openDetailPanel(topoKey, topo, configMatches, configKey, opts) {
             .replace(/\s*-\s*/g, '\u2212')
             .replace(/\s*\+\s*/g, '+');
           badges.push(`<span class="badge badge-green">D = ${prettyDim}</span>`);
+          // A pure-integer dimension (D = n, no eps) marks an EXACT finite result:
+          // the critical-dimension value (e.g. the n-gon hyperbolic volume), not a
+          // dimensionally-regularized Laurent series.
+          if (/^\s*\d+\s*$/.test(String(r.dimension))) {
+            badges.push(`<span class="badge badge-blue" data-tip-html="<strong>Exact result</strong>: the finite closed form in integer dimension D (a single transcendental of fixed weight), not a dimensionally-regularized &epsilon;-series.">Exact</span>`);
+          }
         }
 
         // Epsilon order
@@ -7683,7 +7723,7 @@ function openDetailPanel(topoKey, topo, configMatches, configKey, opts) {
             else if (diffDays < 7) dateText = `${diffDays}d ago`;
             else dateText = d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
             const fullTs = d.toLocaleString();
-            badges.push(`<span class="badge badge-accent" title="${fullTs}">${dateText}</span>`);
+            badges.push(`<span class="badge badge-accent" data-tip="${fullTs}">${dateText}</span>`);
             if (diffDays < 7) {
               badges.push(`<span class="badge badge-new">NEW</span>`);
             }
@@ -7701,14 +7741,14 @@ function openDetailPanel(topoKey, topo, configMatches, configKey, opts) {
             name !== 'Anonymous' ? `Contributed by ${name}` : 'Anonymous submission',
             r.stVersion ? `SubTropica ${r.stVersion.replace(/^SubTropica\s*v?/i, 'v')}` : '',
           ].filter(Boolean).join(' \u00B7 ');
-          badges.push(`<span class="badge badge-accent" title="${tooltip}">${initials}</span>`);
+          badges.push(`<span class="badge badge-accent" data-tip="${tooltip}">${initials}</span>`);
         }
 
         // Numerically verified badge (per-result, not per-diagram)
         if (r.verified) {
           const method = r.method || '';
           const tip = `Numerically verified${method ? ' via ' + method : ''}`;
-          badges.push(`<span class="badge badge-green" title="${tip}">\u2713 Verified</span>`);
+          badges.push(`<span class="badge badge-green" data-tip="${tip}">\u2713 Verified</span>`);
         }
 
         // Imported badge (per-result, not per-diagram): this specific value
@@ -7726,12 +7766,12 @@ function openDetailPanel(topoKey, topo, configMatches, configKey, opts) {
         // momentum-space value. Dormant until family-seed Results carry
         // the flag; the badge appears the moment one does.
         if (r.period === true) {
-          badges.push(`<span class="badge badge-purple badge-period" title="\u03c6\u2074 projective period at D=4; not a dim-reg momentum-space value">period</span>`);
+          badges.push(`<span class="badge badge-purple badge-period" data-tip="\u03c6\u2074 projective period at D=4; not a dim-reg momentum-space value">period</span>`);
         }
 
         // Disagreement warning: when results for the same (D, ε) from different contributors differ
         if (inDisagreement) {
-          badges.push(`<span class="badge badge-warn" title="Multiple contributors submitted different results for this (D, ε). Values do not agree — treat with care.">\u26A0 differs</span>`);
+          badges.push(`<span class="badge badge-warn" data-tip="Multiple contributors submitted different results for this (D, ε). Values do not agree — treat with care.">\u26A0 differs</span>`);
         }
 
         if (badges.length > 0) {
@@ -7793,7 +7833,7 @@ function openDetailPanel(topoKey, topo, configMatches, configKey, opts) {
         html += '<div class="popup-result-actions">';
         if (r.resultTeX || r.resultCompressed) html += `<button class="modal-btn-tiny popup-copy-tex">Copy LaTeX</button>`;
         if (r.normalizedSymbolTeX || r.symbolTeX) html += `<button class="modal-btn-tiny popup-copy-symbol-tex">Copy Symbol</button>`;
-        if (r.resultCompressed && backendMode !== 'full') html += `<button class="modal-btn-tiny popup-download-nb" title="Download Mathematica notebook with full result">Download .nb</button>`;
+        if (r.resultDataId || r.resultInputForm || r.resultCompressed || r.resultTeX) html += `<button class="modal-btn-tiny popup-download-nb" data-tip="Download Mathematica notebook with this result">Download .nb</button>`;
         if (backendMode === 'full') html += `<button class="modal-btn-tiny popup-delete-result" style="margin-left:auto;color:var(--red)">\u2715 Delete</button>`;
         html += '</div>';
 
@@ -7862,6 +7902,28 @@ function openDetailPanel(topoKey, topo, configMatches, configKey, opts) {
           // loading line until the sibling fetch resolves and the card is
           // rebuilt (or fails, leaving this in place as the honest state).
           texEl.innerHTML = '<span style="color:var(--text-muted);font-size:11px">Loading full result…</span>';
+        } else if (r.value && texEl) {
+          // Closed-form value-only result (e.g. a φ⁴ period like "3432*Zeta[13]"
+          // or "(441/8)*Zeta[7]"): there is no resultTeX/preview to render, so
+          // typeset the Mathematica `value` itself. Without this, value-only
+          // results (all zigzag/wheel periods) show a star but a blank card.
+          try {
+            // For an opaque closed-form call-form (the imported kinematic family
+            // values: Φ^(L), B_{M,N}) the symbol alone carries no number, so append
+            // its numeric. Explicit-transcendental periods (zigzag/wheel, no import
+            // block) keep their exact symbol untouched.
+            let _tex = _valueToTeX(r.value);
+            if ((r.import || r.Import) && Number.isFinite(r.numeric)) {
+              _tex += '\\;\\approx\\; ' + Number(r.numeric).toPrecision(7).replace(/\.?0+$/, '');
+            }
+            katex.render('\\displaystyle ' + _tex, texEl, {
+              throwOnError: false, displayMode: true, maxSize: Infinity, trust: true
+            });
+          } catch {
+            texEl.innerHTML = '<pre class="result-tex-fallback">' +
+              String(r.value).replace(/&/g, '&amp;').replace(/</g, '&lt;') + '</pre>';
+          }
+          texEl._texStr = r.value;
         } else if (texEl) {
           texEl.style.display = 'none';
         }
@@ -7975,8 +8037,8 @@ function openDetailPanel(topoKey, topo, configMatches, configKey, opts) {
       galSection.className = 'popup-section';
       galSection.innerHTML = `<div class="popup-section-title">Diagrams (${configKeys.length})</div>`;
 
-      const grid = document.createElement('div');
-      grid.className = 'popup-gallery';
+      const list = document.createElement('div');
+      list.className = 'browser-list';
 
       // Sort: exact matches first, then compatible, then the rest
       const sorted = configKeys.slice().sort((a, b) => {
@@ -7992,34 +8054,23 @@ function openDetailPanel(topoKey, topo, configMatches, configKey, opts) {
           ? (Array.isArray(cfgNames) ? cfgNames[0] : cfgNames)
           : ck);
         const matchType = cm[ck] || 'none';
-
-        const card = document.createElement('div');
-        card.className = 'popup-gallery-card' + (matchType === 'exact' ? ' popup-gallery-exact' : matchType === 'compatible' ? ' popup-gallery-compat' : '');
-
-        const cardThumb = generateThumbnail(topoKey, ck);
-        cardThumb.classList.add('popup-gallery-thumb');
-        card.appendChild(cardThumb);
-
-        const cardInfo = document.createElement('div');
-        cardInfo.className = 'popup-gallery-info';
-        let cardBadges = '';
-        const fc = c.FunctionClass || c.functionClass;
-        if (fc && fc !== 'None' && fc !== 'Unknown' && fc !== 'unknown') cardBadges += functionBadge(fc);
-        const epsLabel = summarizeEpsilonOrders(c);
-        if (epsLabel) cardBadges += `<span class="badge badge-gold">\u03B5: ${epsLabel}</span>`;
-        if (matchType === 'exact') cardBadges += '<span class="badge badge-exact">Exact</span>';
-        cardBadges += refCountBadge(c);
-        cardInfo.innerHTML = `<div class="popup-gallery-name">${label}</div>` +
-          (cardBadges ? `<div class="popup-gallery-badges">${cardBadges}</div>` : '');
-        card.appendChild(cardInfo);
-
-        card.addEventListener('click', () => {
-          openDetailPanel(topoKey, topo, cm, ck, fromBrowser ? { fromBrowser: true } : undefined);
-        });
-        grid.appendChild(card);
+        // Same diagram-toast format as the Diagrams tab (thumbnail + full
+        // stats/star/badges), with an "Exact" match tag when applicable.
+        const d = {
+          topoKey, configKey: ck, topo, cfg: c, name: label,
+          loops: topo.loops ?? topo.L ?? 0, legs: topo.legs ?? 0, props: topo.props ?? 0,
+          massScales: c.MassScales ?? c.massScales ?? null,
+          isPeriod: (c.results || c.Results || []).some(r => r && r.period === true),
+          isWaitlisted: _waitlistConfigSet.has(waitlistKey(topoKey, ck)),
+        };
+        const matchBadge = matchType === 'exact'
+          ? '<span class="badge badge-exact">Exact</span>' : '';
+        const card = buildDiagramToast(d, () => openDetailPanel(
+          topoKey, topo, cm, ck, fromBrowser ? { fromBrowser: true } : undefined), matchBadge);
+        list.appendChild(card);
       });
 
-      galSection.appendChild(grid);
+      galSection.appendChild(list);
       content.appendChild(galSection);
     }
   }
@@ -8610,6 +8661,84 @@ ${tikz}
 
 // ─── About ──────────────────────────────────────────────────────────
 
+// Parse a record's timestamp (ISO 8601, or the older human Loopedia format) to
+// epoch ms; -Infinity when absent/unparseable, so undated records sort oldest.
+function _parseRecordTime(r) {
+  if (!r) return -Infinity;
+  const imp = r.import || r.Import;
+  const t = r.timestamp || r.Timestamp || (imp && imp.importedAt) || r.date || r.Date;
+  if (!t) return -Infinity;
+  const ms = Date.parse(t);
+  return isNaN(ms) ? -Infinity : ms;
+}
+
+// The N most recently added diagrams (configs), ranked by their newest record
+// timestamp across both Records and Results. Undated configs are skipped.
+function _recentDiagrams(limit) {
+  const out = [];
+  if (!library || !library.topologies) return out;
+  for (const key in library.topologies) {
+    const t = library.topologies[key];
+    for (const ck in (t.configs || {})) {
+      const cfg = t.configs[ck];
+      let newest = -Infinity;
+      [cfg.records || cfg.Records || [], cfg.results || cfg.Results || []]
+        .forEach(arr => arr.forEach(r => { const ti = _parseRecordTime(r); if (ti > newest) newest = ti; }));
+      if (newest === -Infinity) continue;
+      out.push({ key, ck, cfg, topo: t, t: newest });
+    }
+  }
+  out.sort((a, b) => b.t - a.t);
+  return out.slice(0, limit);
+}
+
+// Render the "Latest results" toasts in the About window. Reuses the library
+// card chrome (thumbnail + provenance star + name + stats); a click opens that
+// diagram's detail panel.
+function renderLatestResults(containerId, limit) {
+  const wrap = $(containerId);
+  if (!wrap) return;
+  wrap.innerHTML = '';
+  const recent = _recentDiagrams(limit);
+  if (!recent.length) { wrap.innerHTML = '<div class="about-latest-empty">No dated entries.</div>'; return; }
+  recent.forEach(({ key, ck, cfg, topo }) => {
+    const cfgNames = cfg.Names || cfg.names || [];
+    const canonical = cfg.canonicalName || cfg.CanonicalName;
+    const name = canonical || (cfgNames.length ? (Array.isArray(cfgNames) ? cfgNames[0] : cfgNames) : ck);
+    const loops = topo.loops ?? topo.L ?? 0, legs = topo.legs ?? 0, props = topo.props ?? topo.Propagators ?? 0;
+    const card = document.createElement('div');
+    card.className = 'browser-toast browser-toast-diagram about-latest-toast';
+    const thumb = generateThumbnail(key, ck);
+    thumb.classList.add('notif-thumb');
+    const star = resultProvenanceStar(cfg.results || cfg.Results);
+    const cbody = document.createElement('div');
+    cbody.className = 'notif-body';
+    cbody.innerHTML =
+      `<div class="notif-title">${star}${renderInlineMathString(name)}</div>` +
+      `<div class="notif-stats"><span><span class="notif-stat-val">${loops}</span> loop${loops!==1?'s':''}</span>` +
+      `<span><span class="notif-stat-val">${legs}</span> leg${legs!==1?'s':''}</span>` +
+      `<span><span class="notif-stat-val">${props}</span> prop${props!==1?'s':''}</span></div>`;
+    card.appendChild(thumb);
+    card.appendChild(cbody);
+    card.addEventListener('click', () => {
+      closeAbout();
+      openDetailPanel(key, topo, { [ck]: 'compatible' }, ck, { fromBrowser: true });
+    });
+    wrap.appendChild(card);
+  });
+}
+
+// Open the library on the Diagrams tab, pre-filtered to one (loops, legs) cell —
+// used by the About "Library coverage" scatter's click-to-filter.
+function openLibraryFiltered(loops, legs) {
+  _browserTab = 'diagrams';
+  localStorage.setItem('subtropica-browser-tab', 'diagrams');
+  localStorage.setItem('subtropica-filter-browser-filter-loops', JSON.stringify([loops]));
+  localStorage.setItem('subtropica-filter-browser-filter-legs', JSON.stringify([Math.min(legs, 8)]));
+  closeAbout();
+  openBrowser();
+}
+
 function openAbout() {
   const body = $('about-body');
   // Compute live stats from library
@@ -8659,12 +8788,9 @@ function openAbout() {
   // no badge in Full (Mathematica-backed) mode.
   const isMobileBadge = typeof matchMedia === 'function' && matchMedia('(max-width: 768px)').matches;
   const titleBadge = isFull ? '' : ` <span class="title-badge">${isMobileBadge ? 'Mobile' : 'Online'}</span>`;
-  const subtitle = isFull
-    ? `v${ST_VERSION}`
-    : `v${ST_VERSION} &mdash; Feynman diagram editor &amp; integral database`;
-  const desc = isFull
-    ? '<div class="about-desc">A Mathematica package for evaluating Euler integrals via tropical geometry.</div>'
-    : '';
+  // Tagline under the title (both web and Mathematica modes); the version sits
+  // to the right of the title.
+  const subtitle = 'Feynman diagram integrator &amp; database';
 
   // Stats: shown in all modes
   let statsHTML = `
@@ -8679,22 +8805,30 @@ function openAbout() {
   `;
 
   let footerHTML = 'Data sourced from <a href="https://arxiv.org" target="_blank" rel="noopener">arXiv</a>, <a href="https://inspirehep.net" target="_blank" rel="noopener">INSPIRE-HEP</a>, <a href="https://loopedia.mpp.mpg.de" target="_blank" rel="noopener">Loopedia</a>, <a href="https://qcdloop.fnal.gov" target="_blank" rel="noopener">QCDLoop</a>, and the <a href="https://mathrepo.mis.mpg.de/PLD/" target="_blank" rel="noopener">PLD database</a>.<br/>Library data licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a>.';
-  if (isFull) footerHTML = `Last sync: ${lastSync}<br/>` + footerHTML;
+  // Show "Last sync" only when there is a real sync time; omit the noisy
+  // "Last sync: never" (the web build, and any never-synced Mathematica app).
+  if (isFull && lastSync && lastSync !== 'never') footerHTML = `Last sync: ${lastSync}<br/>` + footerHTML;
 
   body.innerHTML = `
     <div class="about-coconut"><span class="mascot-emoji">${mascotEmoji()}</span></div>
-    <div class="about-title"><span class="title-accent">Sub</span>Tropica${titleBadge}</div>
+    <div class="about-title"><span class="title-accent">Sub</span>Tropica${titleBadge} <span class="about-version">v${ST_VERSION}</span></div>
     <div class="about-subtitle">${subtitle}</div>
-    ${desc}
     <div class="about-authors">Mathieu Giroux, Sebastian Mizera, Giulio Salvatori</div>
     <div class="about-stats">${statsHTML}</div>
-    <div class="about-scatter-wrap">
-      <div class="about-scatter-title">Library coverage</div>
-      <canvas id="about-scatter" width="360" height="200"></canvas>
+    <div class="about-columns">
+      <div class="about-scatter-wrap">
+        <div class="about-scatter-title">Library coverage</div>
+        <canvas id="about-scatter" width="440" height="280"></canvas>
+      </div>
+      <div class="about-latest">
+        <div class="about-scatter-title">Latest results</div>
+        <div class="about-latest-list" id="about-latest-list"></div>
+      </div>
     </div>
     <div class="about-footer">${footerHTML}</div>
   `;
   requestAnimationFrame(() => drawScatterPlot('about-scatter', scatterPoints));
+  renderLatestResults('about-latest-list', 3);
   $('about-overlay').classList.add('visible');
 }
 
@@ -8850,6 +8984,17 @@ function attachScatterHover(canvas, cells) {
     canvas.style.cursor = 'pointer';
   };
   canvas.onmouseleave = hide;
+  // Click a bubble → open the library on the Diagrams tab, filtered to that
+  // (loops, legs) cell. Same hit-test as the hover above.
+  canvas.onclick = (e) => {
+    const rect = canvas.getBoundingClientRect();
+    const sx = canvas.width / rect.width, sy = canvas.height / rect.height;
+    const mx = (e.clientX - rect.left) * sx, my = (e.clientY - rect.top) * sy;
+    for (const c of cells) {
+      const dx = mx - c.cx, dy = my - c.cy;
+      if (dx * dx + dy * dy <= (c.r + 1.5) * (c.r + 1.5)) { hide(); openLibraryFiltered(c.loops, c.legs); return; }
+    }
+  };
 }
 
 function closeAbout() {
@@ -9297,8 +9442,63 @@ function _isComputedResult(r) {
                   r.resultDataId || r.resultTeXPreview || r.value));
 }
 
+// Typeset a Mathematica InputForm value (e.g. a closed-form period like
+// "3432*Zeta[13]" or "(441/8)*Zeta[7]") as TeX, for results that carry only a
+// `value` (no resultTeX). Handles the common rational·zeta / pi forms; anything
+// it doesn't recognize falls through largely intact (KaTeX renders the rest).
+function _valueToTeX(v) {
+  return String(v)
+    // Closed-form kinematic family values are stored as Mathematica call-forms,
+    // not explicit transcendentals: render the named function (args are
+    // fraction-formatted by the rules below). PhiLadder[L,z,zb] is the
+    // Usyukina-Davydychev ladder Φ^(L)(z,z̄); BassoDixonI[M,N,z,zb] the
+    // Basso-Dixon fishnet determinant B_{M,N}(z,z̄).
+    .replace(/PhiLadder\[\s*(\d+)\s*,\s*([^,\]]+?)\s*,\s*([^\]]+?)\s*\]/g,
+             '\\Phi^{($1)}\\!\\left($2,\\,$3\\right)')
+    .replace(/BassoDixonI\[\s*(\d+)\s*,\s*(\d+)\s*,\s*([^,\]]+?)\s*,\s*([^\]]+?)\s*\]/g,
+             '\\mathrm{B}_{$1,$2}\\!\\left($3,\\,$4\\right)')
+    // NGon[n,Y] is the one-loop n-gon in D=n as the closed form in its Cayley
+    // matrix Y: I_n(Y) = Gamma(n/2) Vol_{n-1}(Sigma(Y))/sqrt(|det Y|).
+    .replace(/NGon\[\s*(\d+)\s*,\s*([^\]]+?)\s*\]/g,
+             'I_{$1}\\!\\left($2\\right)')
+    // symbolic conformal cross-ratios z, z-bar (the kinematic family closed
+    // forms are stored symbolically, not at a pilot point).
+    .replace(/\bzbar\b/g, '\\bar z')
+    .replace(/\bzb\b/g, '\\bar z')
+    .replace(/Zeta\[(\d+)\]/g, '\\zeta($1)')
+    .replace(/\bPi\b/g, '\\pi')
+    .replace(/\bEulerGamma\b/g, '\\gamma')
+    .replace(/\(\s*([-+]?\d+)\s*\/\s*(\d+)\s*\)/g, '\\tfrac{$1}{$2}')
+    .replace(/(\d+)\s*\/\s*(\d+)/g, '\\tfrac{$1}{$2}')
+    .replace(/\^(\d+)/g, '^{$1}')
+    .replace(/\*/g, '\\,');
+}
+
 function _cfgHasComputedResult(cfg) {
   return (cfg.results || cfg.Results || []).some(_isComputedResult);
+}
+
+// Per-entry flags for the Source / Results filters, from a pooled record list
+// (one config's records, or all records under a topology). Flag ids match the
+// chip ids so the render predicate can do entry.kinds[flag] directly.
+//   Results: integral (a computed value) / singularities / alphabet / none
+//   Source : provenance of the computed (integral) results, mirroring the
+//            provenance star — bundled (curated) / imported (from a paper) /
+//            local (user-computed, r._local; Mma app only).
+function _entryFilterFlags(records) {
+  const rs = records || [];
+  const integral = rs.some(_isComputedResult);
+  const singularities = rs.some(r => (r.singularities && r.singularities.length) ||
+                                     (r.singularitiesTeX && r.singularitiesTeX.length));
+  const alphabet = rs.some(r => r.alphabet && r.alphabet.length);
+  const computed = rs.filter(_isComputedResult);
+  return {
+    integral, singularities, alphabet,
+    none: !integral && !singularities && !alphabet,
+    bundled:  computed.some(r => !(r.import || r.Import) && r._local !== true),
+    imported: computed.some(r => r.import || r.Import),
+    local:    computed.some(r => r._local === true),
+  };
 }
 
 // All computed results in a record set are local (user-computed, r._local set by
@@ -9309,22 +9509,58 @@ function _resultsAllLocal(results) {
   return rs.length > 0 && rs.every(r => r._local === true);
 }
 
-// THE single source of truth for the provenance star, used by the editor
-// toasts, the Topologies/Diagrams library lists, and the collection cards.
-// Gate: at least one ACTUAL computed result (see _isComputedResult — value or
-// stub marker), so a proposal/singularity-only config gets NO star. Full star =
-// at least one bundled result; outlined star = computed results exist but every
-// one is local (r._local). The stylized hover popup matches the per-result cards.
+// Star kind → {cls, label}. Single source of truth for the three provenance-star
+// colours, shared by the toasts/cards (resultProvenanceStar) AND the per-record
+// star in the "Computed results" detail panel, so the two always agree:
+//   bundled  — maroon filled star (curated-library result)
+//   local    — white star with a maroon outline (user-computed, r._local)
+//   imported — almost-navy filled star (value imported from a published paper)
+const _PROVENANCE_STAR = {
+  imported: { cls: 'result-star result-star-imported', label: 'imported result' },
+  local:    { cls: 'result-star result-star-local',    label: 'local result' },
+  bundled:  { cls: 'result-star',                       label: 'bundled result' },
+};
+// Navy lead-in for the imported tip, matching the imported star colour. The
+// generic `.tip-popup strong` rule is maroon, so this inline style overrides it.
+const _IMPORTED_TIP_LEAD = '<strong style="color:var(--star-imported)">Imported result</strong>';
+// Render one provenance-star span (with its rich hover popup). The tip is rich
+// HTML that may itself contain double quotes (e.g. the inline-styled navy
+// "Imported result" lead), so its quotes are escaped to &quot; before going
+// into the double-quoted data-tip-html attribute; the tooltip layer decodes
+// dataset.tipHtml back to real HTML when it sets innerHTML.
+function provenanceStarSpan(kind, tip) {
+  const s = _PROVENANCE_STAR[kind] || _PROVENANCE_STAR.bundled;
+  return `<span class="${s.cls}" role="img" aria-label="${s.label}" data-tip-html="${tip.replace(/"/g, '&quot;')}">★</span>`;
+}
+
+// THE single source of truth for the toast/card provenance star. Gate: at least
+// one ACTUAL computed result (see _isComputedResult), so a proposal/singularity-
+// only config gets NO star. Exactly ONE star per toast, by precedence:
+// bundled (maroon) → imported (navy) → local (white+outline). The strongest
+// provenance present wins, so a topology that pools several configs (one bundled,
+// one imported) shows the maroon bundled star, not the blue imported one. The
+// hover popup explains whichever star is shown; the source paper / authors /
+// ancillary link stay on the "Imported" badge in the detail panel, deliberately
+// kept out of this tip (too detailed for a list toast).
 function resultProvenanceStar(results) {
   const rs = (results || []).filter(_isComputedResult);
   if (!rs.length) return '';
-  const allLocal = rs.every(r => r._local === true);
-  const cls = allLocal ? 'result-star result-star-local' : 'result-star';
-  const tip = allLocal
-    ? '<strong>Local result</strong>: computed by you on this machine, not part of the bundled library.'
-    : '<strong>Bundled result</strong>: part of the curated SubTropica library shipped with the package.';
-  const label = allLocal ? 'local result' : 'bundled result';
-  return `<span class="${cls}" role="img" aria-label="${label}" data-tip-html="${tip}">★</span> `;
+  const isImported = r => !!(r.import || r.Import);
+  const isLocal = r => r._local === true;
+  let kind, tip;
+  if (rs.some(r => !isImported(r) && !isLocal(r))) {
+    // at least one bundled (curated, non-imported, non-local) result -> maroon wins
+    kind = 'bundled';
+    tip = '<strong>Bundled result</strong>: part of the curated SubTropica library shipped with the package.';
+  } else if (rs.some(isImported)) {
+    kind = 'imported';
+    tip = `${_IMPORTED_TIP_LEAD}: at least one value here was imported from a published paper, ` +
+          `not computed in-house. Open the entry for the source and ancillary files.`;
+  } else {
+    kind = 'local';
+    tip = '<strong>Local result</strong>: computed by you on this machine, not part of the bundled library.';
+  }
+  return provenanceStarSpan(kind, tip) + ' ';
 }
 
 // Pool every config's result records under a topology (for a topology-level star).
@@ -9332,6 +9568,82 @@ function _topoResults(topo) {
   return [].concat(...Object.values((topo && topo.configs) || {})
     .map(c => c.results || c.Results || []));
 }
+
+// THE single diagram-toast card, shared by the Diagrams tab AND the topology-detail
+// "Diagrams" section so the two are byte-identical: thumbnail + notif-title
+// (provenance star, name, mass-scales / function-class / period / refs / chi badges)
+// + notif-stats (loops/legs/props).  d = {topoKey, configKey, topo, cfg, name,
+// loops, legs, props, massScales, isPeriod, isWaitlisted}.  extraBadges is appended
+// (e.g. an "Exact"/"Compatible" match tag from the topology detail).
+function buildDiagramToast(d, onClick, extraBadges) {
+  const card = document.createElement('div');
+  card.className = 'browser-toast browser-toast-diagram' + (d.isWaitlisted ? ' browser-toast-waitlisted' : '');
+  const thumb = generateThumbnail(d.topoKey, d.configKey);
+  thumb.classList.add('notif-thumb');
+  const cardBody = document.createElement('div');
+  cardBody.className = 'notif-body';
+  let badges = '';
+  const ms = d.massScales;
+  if (ms !== undefined && ms !== null) badges += `<span class="badge badge-accent">${ms} scale${ms !== 1 ? 's' : ''}</span>`;
+  const fc = d.cfg.FunctionClass || d.cfg.functionClass;
+  if (fc && fc !== 'None' && fc !== 'Unknown' && fc !== 'unknown') badges += functionBadge(fc);
+  if (d.isPeriod) badges += '<span class="badge badge-purple badge-period" data-tip="φ⁴ projective period at D=4; not a dim-reg momentum-space value">period</span>';
+  badges += refCountBadge(d.cfg);
+  badges = singsChiBadge(d.cfg) + badges;
+  if (extraBadges) badges += extraBadges;
+  const dResultStar = resultProvenanceStar(d.cfg.results || d.cfg.Results);
+  cardBody.innerHTML = `
+    <div class="notif-title">${dResultStar}${renderInlineMathString(d.name)}${badges ? ' ' + badges : ''}</div>
+    <div class="notif-stats">
+      <span><span class="notif-stat-val">${d.loops}</span> loop${d.loops !== 1 ? 's' : ''}</span>
+      <span><span class="notif-stat-val">${d.legs}</span> leg${d.legs !== 1 ? 's' : ''}</span>
+      <span><span class="notif-stat-val">${d.props}</span> prop${d.props !== 1 ? 's' : ''}</span>
+    </div>
+  `;
+  card.appendChild(thumb);
+  card.appendChild(cardBody);
+  if (onClick) card.addEventListener('click', onClick);
+  return card;
+}
+
+// Paper-thumbnail HTML for a reference card. ALWAYS shows the white-sheet
+// placeholder by default (a paper without an arXiv page-1 thumb, e.g. a pre-arXiv
+// journal paper, keeps it). If the ref has an arXiv id, the real page-1 thumb is
+// PRELOADED (jsDelivr CDN, then same-origin) and swapped in only once it actually
+// loads — so a missing/unreachable thumb never flashes a broken image, it just
+// stays the white sheet.
+function _paperThumbHtml(arxivId) {
+  let attrs = '';
+  if (arxivId) {
+    const safeId = arxivId.replace(/\//g, '_');
+    attrs = ` data-cdn="https://cdn.jsdelivr.net/gh/SubTropica/SubTropica@main/ui/paper-thumbs/${safeId}.jpg"` +
+            ` data-local="paper-thumbs/${safeId}.jpg" data-arxiv-id="${escapeHtml(arxivId)}"`;
+  }
+  return `<img class="popup-record-pdf-thumb popup-record-pdf-thumb-placeholder" ` +
+         `src="paper-thumbs/_journal_placeholder.jpg" alt=""${attrs} loading="lazy" onload="_loadPaperThumb(this)">`;
+}
+// Preload-and-swap the real arXiv thumb behind a placeholder <img>. Runs on the
+// placeholder's onload; no-op once swapped (data-* removed) or for placeholder-only
+// refs. On success the faded-placeholder class is dropped (full-opacity real thumb).
+function _loadPaperThumb(img) {
+  const cdn = img.dataset.cdn, local = img.dataset.local;
+  if (!cdn && !local) return;                 // placeholder-only ref: keep the white sheet
+  delete img.dataset.cdn; delete img.dataset.local;
+  const swap = src => { img.src = src; img.classList.remove('popup-record-pdf-thumb-placeholder'); };
+  const probe = new Image();
+  probe.onload = () => swap(cdn);
+  probe.onerror = () => {
+    if (!local) return;
+    const p2 = new Image();
+    p2.onload = () => swap(local);
+    p2.onerror = () => {};                     // both unreachable: keep the white sheet
+    p2.src = local;
+  };
+  probe.src = cdn;
+}
+// Inline `onload="_loadPaperThumb(this)"` runs in the GLOBAL scope, so the
+// module-scoped function must be exposed on window to be reachable from it.
+window._loadPaperThumb = _loadPaperThumb;
 
 // Flatten a record's `authors` field into a single searchable string. The
 // field is heterogeneous across the corpus: a plain string ("Henn, Johannes
@@ -9415,7 +9727,7 @@ function populateBrowser() {
     const _cfgVals = Object.values(t.configs || {});
     const massScalesMax = _cfgVals.reduce((m, c) => Math.max(m, (c.MassScales ?? c.massScales ?? 0)), 0);
     const refCountMax = _cfgVals.reduce((m, c) => Math.max(m, _cfgRefCount(c)), 0);
-    topos.push({ key, name: t.primaryName||t.name||t.Name||key, loops: t.loops??t.L??0, legs: t.legs??0, props: t.props??0, topo: t, configs: Object.keys(t.configs||{}).length, hasResults, isLocal, isWaitlisted, isPeriod, massScalesMax, refCountMax, _diagramNames, _authors });
+    topos.push({ key, name: t.primaryName||t.name||t.Name||key, loops: t.loops??t.L??0, legs: t.legs??0, props: t.props??0, topo: t, configs: Object.keys(t.configs||{}).length, hasResults, isLocal, isWaitlisted, isPeriod, massScalesMax, refCountMax, _diagramNames, _authors, kinds: _entryFilterFlags(_topoResults(t)) });
   }
 
   // Classify function class into canonical categories
@@ -9474,6 +9786,7 @@ function populateBrowser() {
         refCount: _cfgRefCount(cfg),
         fcClass: classifyFC(fc),
         hasResults: _cfgHasComputedResult(cfg),
+        kinds: _entryFilterFlags(cfg.results || cfg.Results),
         isPeriod: _cfgIsPeriod(cfg),
         compLevel: (() => { const recs = cfg.Records||cfg.records||[]; for (const r of recs) { const cl = r.computationLevel||r.computation_level; if (cl) return cl.replace(/_/g,' '); } return null; })(),
       });
@@ -9611,7 +9924,7 @@ function populateBrowser() {
     // Direction toggle as a final segment; the arrow reflects current dir.
     const dirSeg = document.createElement('div');
     dirSeg.className = 'browser-seg-item browser-sort-dir';
-    dirSeg.title = 'Toggle ascending / descending';
+    dirSeg.dataset.tip = 'Toggle ascending / descending';
     dirSeg.addEventListener('click', () => {
       _browserSortDir = _browserSortDir === 'asc' ? 'desc' : 'asc';
       localStorage.setItem('subtropica-sort-dir', _browserSortDir);
@@ -9630,27 +9943,93 @@ function populateBrowser() {
     group.appendChild(track);
   }
 
+  // Multi-select categorical filter bar (Source / Results). Same .browser-seg
+  // chrome as buildChipGroup but with NO sliding thumb (these categories are not
+  // ordinal): each selected option lights its own pill (.browser-flag-seg .on),
+  // and "All" (index 0) clears. Default empty = All. Returns { active:Set, group }.
+  function buildFlagChipGroup(id, options) {
+    const group = $(id);
+    const active = new Set();
+    if (!group) return { active, group };
+    if (!options.length) { group.style.display = 'none'; return { active, group }; }
+    const storageKey = 'subtropica-filter-' + id;
+    group.innerHTML = '';
+    group.style.display = '';
+    try {
+      const saved = JSON.parse(localStorage.getItem(storageKey) || '[]');
+      saved.forEach(v => { if (options.some(o => o.id === v)) active.add(v); });
+    } catch (e) {}
+    const save = () => localStorage.setItem(storageKey, JSON.stringify([...active]));
+
+    const track = document.createElement('div');
+    track.className = 'browser-seg browser-flag-seg';
+    const allSeg = document.createElement('div');
+    allSeg.className = 'browser-seg-item';
+    allSeg.textContent = 'All';
+    track.appendChild(allSeg);
+    const optSegs = options.map(o => {
+      const s = document.createElement('div');
+      s.className = 'browser-seg-item';
+      s.textContent = o.label;
+      s.dataset.flag = o.id;
+      track.appendChild(s);
+      return s;
+    });
+    function sync() {
+      allSeg.classList.toggle('on', active.size === 0);
+      optSegs.forEach(s => s.classList.toggle('on', active.has(s.dataset.flag)));
+    }
+    allSeg.addEventListener('click', () => {
+      if (active.size === 0) return;
+      active.clear(); save(); sync(); renderList();
+    });
+    optSegs.forEach(s => s.addEventListener('click', () => {
+      const f = s.dataset.flag;
+      if (active.has(f)) active.delete(f); else active.add(f);
+      save(); sync(); renderList();
+    }));
+    sync();
+    group.appendChild(track);
+    return { active, group };
+  }
+
+  // Light the "Filters" button whenever any chip filter is engaged, so an active
+  // (but collapsed) filter set stays visible at a glance.
+  function updateFiltersButtonState() {
+    const btn = $('browser-filters-btn');
+    if (btn) btn.classList.toggle('filters-active',
+      Object.values(filters).some(f => f && f.active && f.active.size > 0));
+  }
+
   const loopVals = [...new Set(items.map(t=>t.loops))].sort((a,b)=>a-b);
   const legVals = [...new Set(items.map(t => Math.min(t.legs, 8)))].sort((a,b)=>a-b);
   filters.loops = buildChipGroup('browser-filter-loops', loopVals);
   filters.legs = buildChipGroup('browser-filter-legs', legVals, v => v >= 8 ? '≥8' : `${v}`);
   buildSortControl();
 
-  // Precomputed toggle — restore from localStorage, default on for full mode
-  const precomputedCb = $('browser-precomputed-cb');
-  if (precomputedCb) {
-    const savedPre = localStorage.getItem('subtropica-filter-precomputed');
-    precomputedCb.checked = savedPre !== null ? savedPre === '1' : (backendMode === 'full');
-    precomputedCb.onchange = () => {
-      localStorage.setItem('subtropica-filter-precomputed', precomputedCb.checked ? '1' : '0');
-      renderList();
-    };
-  }
+  // Source / Results filters (multi-select; replace the old Computed-only and
+  // Local-only toggles). Default is empty = "All" everywhere. The "local"
+  // provenance exists only in the Mathematica app (full backend), so that option
+  // is offered there only.
+  const sourceOpts = [
+    { id: 'bundled',  label: 'Bundled' },
+    { id: 'imported', label: 'Imported' },
+  ];
+  if (backendMode === 'full') sourceOpts.push({ id: 'local', label: 'Local' });
+  filters.source = buildFlagChipGroup('browser-filter-source', sourceOpts);
+  filters.results = buildFlagChipGroup('browser-filter-results', [
+    { id: 'integral',      label: 'Integral' },
+    { id: 'singularities', label: 'Singularities' },
+    { id: 'alphabet',      label: 'Alphabet' },
+    { id: 'none',          label: 'None' },
+  ]);
 
   if (_browserTab === 'diagrams') {
     const fcVals = [...new Set(diagrams.map(d=>d.fcClass).filter(Boolean))].sort();
     const msVals = [...new Set(diagrams.map(d => d.massScales != null ? Math.min(d.massScales, 10) : null).filter(v=>v!=null))].sort((a,b)=>a-b);
-    filters.fc = buildChipGroup('browser-filter-fc', fcVals);
+    // Capitalize the class labels for consistency (elliptic → Elliptic, …);
+    // the underlying fcClass value used for filtering is left untouched.
+    filters.fc = buildChipGroup('browser-filter-fc', fcVals, v => v ? v.charAt(0).toUpperCase() + v.slice(1) : v);
     filters.ms = buildChipGroup('browser-filter-ms', msVals, v => v >= 10 ? '≥10' : `${v}`);
     $('browser-filter-fc').style.display = fcVals.length > 0 ? '' : 'none';
     $('browser-filter-ms').style.display = msVals.length > 0 ? '' : 'none';
@@ -9662,20 +10041,8 @@ function populateBrowser() {
   // visibility model. Hide unconditionally.
   $('browser-filter-verified').style.display = 'none';
 
-  // "Local only" toggle — visible only in full (Mathematica) mode
-  const localFilter = $('browser-filter-local');
-  if (localFilter) {
-    localFilter.style.display = backendMode === 'full' ? '' : 'none';
-    const localCb = $('browser-local-cb');
-    if (localCb) {
-      const savedLocal = localStorage.getItem('subtropica-filter-local');
-      if (savedLocal !== null) localCb.checked = savedLocal === '1';
-      localCb.onchange = () => {
-        localStorage.setItem('subtropica-filter-local', localCb.checked ? '1' : '0');
-        renderList();
-      };
-    }
-  }
+  // (Local-only toggle removed — superseded by the Source filter's "local" chip,
+  // which is offered in the Mathematica app only. See buildFlagChipGroup above.)
 
   const search = $('browser-search');
   const searchClear = $('browser-search-clear');
@@ -9685,12 +10052,8 @@ function populateBrowser() {
   const urlQ = new URLSearchParams(window.location.search).get('q');
   if (urlQ) {
     search.value = urlQ;
-    // A ?q= deep-link (e.g. by CNickelIndex from the audit or a notebook) must
-    // surface its target even when it is a proposals-only config; the default
-    // "Computed only" filter would otherwise hide it. Relax it for this view
-    // (no persist — a normal reload restores the saved preference).
-    const _pcb = $('browser-precomputed-cb');
-    if (_pcb) _pcb.checked = false;
+    // A ?q= deep-link surfaces its target directly; the default "All" Results
+    // filter no longer hides proposal-only configs, so no relaxation is needed.
     const u = new URL(window.location.href);
     u.searchParams.delete('q');
     history.replaceState(null, '', u.toString());
@@ -9738,8 +10101,9 @@ function populateBrowser() {
     const fLegs = filters.legs.active;
     const fFC = filters.fc ? filters.fc.active : new Set();
     const fMS = filters.ms ? filters.ms.active : new Set();
-    const precompOnly = $('browser-precomputed-cb')?.checked || false;
-    const localOnly = $('browser-local-cb')?.checked || false;
+    const fSource = filters.source ? filters.source.active : new Set();
+    const fResults = filters.results ? filters.results.active : new Set();
+    updateFiltersButtonState();
     // Review mode (?review=1) shows waitlisted entries (highlighted blue);
     // public mode hides them entirely. No user toggle for this — it's a
     // tier boundary, not a preference.
@@ -9747,8 +10111,8 @@ function populateBrowser() {
 
     if (_browserTab === 'topos') {
       const filtered = topos.filter(t => {
-        if (precompOnly && !t.hasResults) return false;
-        if (localOnly && !t.isLocal) return false;
+        if (fSource.size > 0 && ![...fSource].some(f => t.kinds[f])) return false;
+        if (fResults.size > 0 && ![...fResults].some(f => t.kinds[f])) return false;
         if (!isReviewMode && t.isWaitlisted) return false;
         if (fLoops.size > 0 && !fLoops.has(t.loops)) return false;
         if (fLegs.size > 0 && !fLegs.has(Math.min(t.legs, 8))) return false;
@@ -9810,8 +10174,8 @@ function populateBrowser() {
     } else {
       // Diagrams tab
       const filtered = diagrams.filter(d => {
-        if (precompOnly && !d.hasResults) return false;
-        if (localOnly && !d.isLocal) return false;
+        if (fSource.size > 0 && ![...fSource].some(f => d.kinds[f])) return false;
+        if (fResults.size > 0 && ![...fResults].some(f => d.kinds[f])) return false;
         if (!isReviewMode && d.isWaitlisted) return false;
         if (fLoops.size > 0 && !fLoops.has(d.loops)) return false;
         if (fLegs.size > 0 && !fLegs.has(Math.min(d.legs, 8))) return false;
@@ -9837,38 +10201,9 @@ function populateBrowser() {
       const list = document.createElement('div'); list.className = 'browser-list';
       filtered.forEach(d => {
         try {
-        const card = document.createElement('div');
-        card.className = 'browser-toast browser-toast-diagram' + (d.isWaitlisted ? ' browser-toast-waitlisted' : '');
-        const thumb = generateThumbnail(d.topoKey, d.configKey);
-        thumb.classList.add('notif-thumb');
-        const cardBody = document.createElement('div');
-        cardBody.className = 'notif-body';
-        let badges = '';
-        const ms = d.massScales;
-        if (ms !== undefined && ms !== null) badges += `<span class="badge badge-accent">${ms} scale${ms !== 1 ? 's' : ''}</span>`;
-        const fc = d.cfg.FunctionClass || d.cfg.functionClass;
-        if (fc && fc !== 'None' && fc !== 'Unknown' && fc !== 'unknown') badges += functionBadge(fc);
-        if (d.isPeriod) badges += '<span class="badge badge-purple badge-period" title="φ⁴ projective period at D=4; not a dim-reg momentum-space value">period</span>';
-        badges += refCountBadge(d.cfg);
-        // chi badge: this diagram has singularities / an alphabet (same marker
-        // as the search-result toast). Lead the badge row.
-        badges = singsChiBadge(d.cfg) + badges;
-        // Verified badge removed from toast — now per-result only.
-        const dResultStar = resultProvenanceStar(d.cfg.results || d.cfg.Results);
-        cardBody.innerHTML = `
-          <div class="notif-title">${dResultStar}${renderInlineMathString(d.name)}${badges ? ' ' + badges : ''}</div>
-          <div class="notif-stats">
-            <span><span class="notif-stat-val">${d.loops}</span> loop${d.loops !== 1 ? 's' : ''}</span>
-            <span><span class="notif-stat-val">${d.legs}</span> leg${d.legs !== 1 ? 's' : ''}</span>
-            <span><span class="notif-stat-val">${d.props}</span> prop${d.props !== 1 ? 's' : ''}</span>
-          </div>
-        `;
-        card.appendChild(thumb);
-        card.appendChild(cardBody);
-        card.addEventListener('click', () => {
-          openDetailPanel(d.topoKey, d.topo, {[d.configKey]: 'compatible'}, d.configKey, { fromBrowser: true });
-        });
-        list.appendChild(card);
+          const card = buildDiagramToast(d, () => openDetailPanel(
+            d.topoKey, d.topo, {[d.configKey]: 'compatible'}, d.configKey, { fromBrowser: true }));
+          list.appendChild(card);
         } catch (e) { console.warn('Thumbnail failed for', d.topoKey, d.configKey, e); }
       });
       // Always append the "Request paper" toast at the end of the list.
@@ -9897,7 +10232,7 @@ function _famBatchChip(batch) {
   if (!batch) return '';
   const cls = { pilot: 'fam-chip-pilot', core: 'fam-chip-core',
                 sweep: 'fam-chip-sweep' }[batch] || 'fam-chip-sweep';
-  return `<span class="fam-chip ${cls}" title="seed batch: ${escapeHtml(batch)}">${escapeHtml(batch)}</span>`;
+  return `<span class="fam-chip ${cls}" data-tip="seed batch: ${escapeHtml(batch)}">${escapeHtml(batch)}</span>`;
 }
 
 // Period-collection chip + header-note text. AR-A1: the phi^4 prose used to be
@@ -10075,10 +10410,9 @@ function populateFamiliesBrowser() {
   // The chip filters / search apply only to topologies & diagrams; hide
   // them on the families index (a flat catalog with its own ordering).
   ['browser-filter-loops', 'browser-filter-legs', 'browser-filter-fc',
-   'browser-filter-ms', 'browser-filter-verified', 'browser-filter-local']
+   'browser-filter-ms', 'browser-filter-verified',
+   'browser-filter-source', 'browser-filter-results']
     .forEach(id => { const el = $(id); if (el) el.style.display = 'none'; });
-  const precompWrap = $('browser-filter-precomputed');
-  if (precompWrap) precompWrap.style.display = 'none';
 
   if (!families) {
     body.innerHTML = '<div style="padding:24px;text-align:center;color:var(--text-muted);font-size:13px">Loading collections…</div>';
@@ -10118,13 +10452,13 @@ function populateFamiliesBrowser() {
     const isUmbrella = fam.familyKind === 'umbrella';
     const isPeriod = fam.familyKind === 'vacuum-period';
     const periodChip = isPeriod
-      ? `<span class="fam-chip fam-chip-period" title="${escapeHtml(_famPeriodText(fam).title)}">period</span>`
+      ? `<span class="fam-chip fam-chip-period" data-tip="${escapeHtml(_famPeriodText(fam).title)}">period</span>`
       : '';
     const umbrellaChip = isUmbrella
-      ? '<span class="fam-chip fam-chip-umbrella" title="umbrella meta-collection: cross-links related collections, no members of its own">umbrella</span>'
+      ? '<span class="fam-chip fam-chip-umbrella" data-tip="umbrella meta-collection: cross-links related collections, no members of its own">umbrella</span>'
       : '';
     const closedChip = fam.closedForm
-      ? '<span class="fam-chip fam-chip-closed" title="closed form known for all ' + escapeHtml((fam.parameter || {}).name || 'L') + '">closed form</span>'
+      ? '<span class="fam-chip fam-chip-closed" data-tip="closed form known for all ' + escapeHtml((fam.parameter || {}).name || 'L') + '">closed form</span>'
       : '';
     // Concise researched function-class label (operator request
     // 2026-06-07: a clean canonical label, not the verbose functionClass
@@ -10146,7 +10480,7 @@ function populateFamiliesBrowser() {
     // (review P1-5): Basso-Dixon (4D) vs Yangian / Multi-leg (2D).
     const dim = _famDimTag(fam);
     const dimMark = dim
-      ? `<span class="fam-dim-mark" title="${dim === '2D' ? 'two-dimensional fishnet' : 'four-dimensional fishnet'}">${dim}</span>`
+      ? `<span class="fam-dim-mark" data-tip="${dim === '2D' ? 'two-dimensional fishnet' : 'four-dimensional fishnet'}">${dim}</span>`
       : '';
     // Visual language mirrors the Topologies/Diagrams cards (notif-title +
     // notif-stats). Operator feedback 2026-06-07: NO definition prose on
@@ -10155,7 +10489,7 @@ function populateFamiliesBrowser() {
     // the admin UI keeps it).
     // dimMark (4D/2D) moved to the badge row so the stat line fits in one line.
     const dimBadge = dim
-      ? `<span class="badge badge-muted" title="${dim === '2D' ? 'two-dimensional' : 'four-dimensional'}">${dim}</span>`
+      ? `<span class="badge badge-muted" data-tip="${dim === '2D' ? 'two-dimensional' : 'four-dimensional'}">${dim}</span>`
       : '';
     row.innerHTML = `
       <div class="notif-body fam-row-body">
@@ -10184,7 +10518,7 @@ function populateFamiliesBrowser() {
     } else {
       const ph = document.createElement('div');
       ph.className = 'fam-thumb fam-row-thumb fam-thumb-empty';
-      ph.title = 'no seeded members yet';
+      ph.dataset.tip = 'no seeded members yet';
       row.insertBefore(ph, row.firstChild);
     }
     // Keyboard + screen-reader access (review P1-4): the card is a button.
@@ -10258,9 +10592,9 @@ function openFamilyDetail(slug, opts) {
   if (fam.functionClassLabel)
     chips += functionBadge(fam.functionClassLabel);
   if (isUmbrella)
-    chips += '<span class="fam-chip fam-chip-umbrella" title="umbrella meta-collection: cross-links related collections, no members of its own">umbrella</span>';
+    chips += '<span class="fam-chip fam-chip-umbrella" data-tip="umbrella meta-collection: cross-links related collections, no members of its own">umbrella</span>';
   if (fam.familyKind === 'vacuum-period')
-    chips += `<span class="fam-chip fam-chip-period" title="${escapeHtml(_famPeriodText(fam).title)}">period</span>`;
+    chips += `<span class="fam-chip fam-chip-period" data-tip="${escapeHtml(_famPeriodText(fam).title)}">period</span>`;
   const titleBlock = document.createElement('div');
   titleBlock.className = 'popup-title-block';
   titleBlock.innerHTML = `
@@ -10307,7 +10641,7 @@ function openFamilyDetail(slug, opts) {
       const copyBtn = document.createElement('button');
       copyBtn.className = 'modal-btn-tiny';
       copyBtn.textContent = 'Copy Mathematica';
-      copyBtn.title = 'Copy standalone Wolfram Language code to clipboard';
+      copyBtn.dataset.tip = 'Copy standalone Wolfram Language code to clipboard';
       copyBtn.addEventListener('click', () => {
         navigator.clipboard.writeText(fam.closedForm.wl).then(() => {
           showWarningToast('Mathematica code copied');
@@ -10376,24 +10710,28 @@ function openFamilyDetail(slug, opts) {
         html += `<div class="popup-record-links">${linkBtns.join(' ')}</div>`;
       }
 
-      // Paper thumbnail (CDN with same-origin fallback, identical to diagram cards)
-      if (arxivId) {
-        const safeId = arxivId.replace(/\//g, '_');
-        const cdnSrc = `https://cdn.jsdelivr.net/gh/SubTropica/SubTropica@main/ui/paper-thumbs/${safeId}.jpg`;
-        const localSrc = `paper-thumbs/${safeId}.jpg`;
-        html += `<img class="popup-record-pdf-thumb" src="${cdnSrc}" data-fallback="${localSrc}" alt="" data-arxiv-id="${escapeHtml(arxivId)}" loading="lazy" onerror="if(this.dataset.fallback){this.src=this.dataset.fallback;delete this.dataset.fallback;}else{this.style.display='none';}">`;
-      } else if (r.journal) {
-        // Pre-arXiv journal-only refs: white placeholder thumbnail
-        html += `<img class="popup-record-pdf-thumb" src="paper-thumbs/_journal_placeholder.jpg" alt="" loading="lazy" style="opacity:0.5">`;
-      }
+      // Paper thumbnail: white-sheet placeholder by default, real arXiv thumb
+      // preloaded and swapped in on load (see _paperThumbHtml).
+      html += _paperThumbHtml(arxivId);
 
-      // Title slot (synchronous from durable INSPIRE cache, then async update)
+      // Title slot (synchronous from durable INSPIRE cache or the curated ref.title,
+      // then async INSPIRE update which only overwrites on a hit). The ref.title
+      // fallback covers refs with no arXiv id (Kellerhals) or absent from INSPIRE.
       const cachedHit = getDurableInspireHit(arxivId);
-      const initialTitle = cachedHit && cachedHit.title ? cachedHit.title : '';
+      const initialTitle = (cachedHit && cachedHit.title) ? cachedHit.title : (r.title || '');
       html += `<div class="popup-record-title">${renderInlineMathString(initialTitle)}</div>`;
 
-      // Authors slot (empty placeholder, filled by INSPIRE async)
-      html += `<div class="popup-record-authors"></div>`;
+      // Authors slot (curated ref.authors fallback; INSPIRE async overwrites on a hit)
+      html += `<div class="popup-record-authors">${r.authors ? escapeHtml(r.authors) : ''}</div>`;
+
+      // Bibliographic line: journal + arXiv id, from the curated ref (or INSPIRE
+      // cache). Always shown from the data so a reference carries its journal and
+      // arXiv even when INSPIRE is unreachable, and so pre-arXiv journal-only refs
+      // (e.g. the 1993 ladder papers) still show their citation.
+      const _refJournal = (cachedHit && cachedHit.journal) ? cachedHit.journal : (r.journal || '');
+      const _refCite = [_refJournal, arxivId ? `arXiv:${arxivId}` : '']
+        .filter(Boolean).join(' · ');
+      if (_refCite) html += `<div class="popup-record-journal" data-arxiv-id="${escapeHtml(arxivId || '')}">${escapeHtml(_refCite)}</div>`;
 
       // For refs without an arXiv id but with a journal string, show it as
       // the reference line (rare; mirrors the fallback-references path in
@@ -10573,14 +10911,11 @@ function openFamilyDetail(slug, opts) {
       // Parameter label (small tag)
       const paramLabel = Array.isArray(t.parameter)
         ? `(${t.parameter.join(',')})` : `${escapeHtml(pName)}=${t.parameter}`;
+      // Collection tiles stay clean: diagram + name + result-quality badges only.
+      // No case-spelling badges (mass variant, n=x/(M,N)/L=x parameter, loop/leg/prop
+      // counts) — the case is implied by the diagram and the member's position.
       cardBody.innerHTML = `
         <div class="notif-title">${resultStar}${renderInlineMathString(displayName)}${memberBadges ? ' ' + memberBadges : ''}</div>
-        <div class="notif-stats">
-          <span><span class="notif-stat-val">${loops}</span> loop${loops !== 1 ? 's' : ''}</span>
-          <span><span class="notif-stat-val">${legs}</span> leg${legs !== 1 ? 's' : ''}</span>
-          <span><span class="notif-stat-val">${props}</span> prop${props !== 1 ? 's' : ''}</span>
-        </div>
-        <span class="fam-member-param-tag">${paramLabel}</span>
       `;
       card.appendChild(cardBody);
 
@@ -11836,7 +12171,7 @@ function populateEdgeTable() {
   const table = document.createElement('table');
   table.className = 'cfg-edge-table';
   table.innerHTML = `<thead><tr>
-    <th style="width:30px;text-align:center" title="Click to assign loop momentum">\u2113</th>
+    <th style="width:30px;text-align:center" data-tip="Click to assign loop momentum">\u2113</th>
     <th style="width:36px">Edge</th>
     <th>Momentum</th>
     <th style="width:50px;text-align:center">Mass</th>
@@ -11864,7 +12199,7 @@ function populateEdgeTable() {
     const toggle = document.createElement('div');
     toggle.className = 'chord-toggle' + (isChord ? ' active' : '');
     toggle.textContent = isChord ? '\u2113' : '';
-    toggle.title = isChord ? 'Remove loop momentum' : 'Assign loop momentum';
+    toggle.dataset.tip = isChord ? 'Remove loop momentum' : 'Assign loop momentum';
     toggle.style.cursor = 'pointer';
     toggle.addEventListener('click', () => toggleChord(ei));
     tdChord.appendChild(toggle);
@@ -11883,7 +12218,7 @@ function populateEdgeTable() {
     momInput.addEventListener('blur', stopEdgePulse);
     if (isChord) {
       // Chord: editable loop momentum label
-      momInput.title = 'Rename loop momentum symbol';
+      momInput.dataset.tip = 'Rename loop momentum symbol';
       momInput.addEventListener('change', function() {
         const ci = chordIndexMap[ei];
         if (ci !== undefined) {
@@ -11896,7 +12231,7 @@ function populateEdgeTable() {
       // Tree edge: read-only (solved from conservation)
       momInput.readOnly = true;
       momInput.style.color = 'var(--text-muted)';
-      momInput.title = 'Solved from momentum conservation';
+      momInput.dataset.tip = 'Solved from momentum conservation';
     }
     tdMom.appendChild(momInput);
     tr.appendChild(tdMom);
@@ -11969,13 +12304,13 @@ function populateEdgeTable() {
   const autoBtn = document.createElement('button');
   autoBtn.className = 'btn btn-sm btn-secondary';
   autoBtn.textContent = 'Auto';
-  autoBtn.title = 'Auto-select loop momenta via BFS spanning tree';
+  autoBtn.dataset.tip = 'Auto-select loop momenta via BFS spanning tree';
   autoBtn.addEventListener('click', autoSelectChords);
   btns.appendChild(autoBtn);
   const clearBtn = document.createElement('button');
   clearBtn.className = 'btn btn-sm btn-secondary';
   clearBtn.textContent = 'Clear';
-  clearBtn.title = 'Clear all momentum assignments';
+  clearBtn.dataset.tip = 'Clear all momentum assignments';
   clearBtn.addEventListener('click', clearChordSelection);
   btns.appendChild(clearBtn);
   container.appendChild(btns);
@@ -12013,8 +12348,8 @@ function populateExtMasses() {
     table.innerHTML = `<thead><tr><th>Leg</th><th>Mom.</th><th style="width:50px;text-align:center">Mass</th></tr></thead>
       <tbody><tr>
         <td><span style="font-size:11px;font-weight:600;color:var(--text-muted)">p<sub>1</sub></span></td>
-        <td><input value="0" disabled title="Fixed by momentum conservation (1-leg)"/></td>
-        <td><input value="0" disabled style="text-align:center" title="Fixed (1-leg)"/></td>
+        <td><input value="0" disabled data-tip="Fixed by momentum conservation (1-leg)"/></td>
+        <td><input value="0" disabled style="text-align:center" data-tip="Fixed (1-leg)"/></td>
       </tr></tbody>`;
     container.appendChild(table);
     return;
@@ -12049,7 +12384,7 @@ function populateExtMasses() {
     const tdGrip = document.createElement('td');
     tdGrip.className = 'ext-drag-grip';
     tdGrip.textContent = '\u2261';  // ≡
-    tdGrip.title = 'Drag to reorder this leg';
+    tdGrip.dataset.tip = 'Drag to reorder this leg';
     tdGrip.addEventListener('pointerdown', (evt) => extGripDown(evt, idx, extEdges, tbody));
     tr.appendChild(tdGrip);
 
@@ -12066,7 +12401,7 @@ function populateExtMasses() {
     const momInput = document.createElement('input');
     momInput.value = e.extMomLabel || '';
     momInput.placeholder = `p_{${legNum}}`;
-    momInput.title = 'Rename (e.g. k, q_1), or type a number to move this leg to that position';
+    momInput.dataset.tip = 'Rename (e.g. k, q_1), or type a number to move this leg to that position';
     momInput.addEventListener('change', function() {
       const raw = this.value;
       const trimmed = raw.trim();
@@ -12126,7 +12461,7 @@ function populateExtMasses() {
         if (otherInput) otherInput.value = this.value;
         render(); renderMassLegend(); onGraphChanged();
       });
-      if (idx === 1) massInput.title = 'Tied to M\u2081 (2-leg)';
+      if (idx === 1) massInput.dataset.tip = 'Tied to M\u2081 (2-leg)';
     } else {
       massInput.addEventListener('change', function() { applyMassChange(edgeIdx, this); });
     }
@@ -12886,7 +13221,7 @@ function populateExportTab() {
       { name: '$STCoefficients', desc: 'coefficients' },
     ];
     varsContainer.innerHTML = vars.map(v =>
-      `<span class="export-var" title="${v.desc} — click to copy" data-copy="${v.name}">` +
+      `<span class="export-var" data-tip="${v.desc} — click to copy" data-copy="${v.name}">` +
       `<span class="export-var-icon">\u2398</span>${v.name}</span>`
     ).join('');
   }
@@ -13558,7 +13893,7 @@ function showIntegrationPanel(payload) {
   stBtn.className = 'integ-formula-btn';
   stBtn.id = 'integ-formula-st-btn';
   stBtn.textContent = 'SubTropica';
-  stBtn.title = 'Show the STIntegrate[] command for this run';
+  stBtn.dataset.tip = 'Show the STIntegrate[] command for this run';
   stBtn.addEventListener('click', () => switchIntegFormula('subtropica'));
   btnRow.appendChild(stBtn);
 
@@ -13972,7 +14307,7 @@ function renderLogPills() {
   if (!el) return;
   const c = _logRecordCounts;
   const mk = (cls, label, n, lvl) =>
-    `<span class="log-pill ${cls}" data-jump-level="${lvl}" title="jump to first ${lvl}">` +
+    `<span class="log-pill ${cls}" data-jump-level="${lvl}" data-tip="jump to first ${lvl}">` +
     `${label} ${n}</span>`;
   const parts = [];
   // Always show info so the user sees that the structured stream is live.
@@ -14302,10 +14637,10 @@ function renderLogToolbar() {
     '<label class="log-toolbar-toggle"><input type="checkbox" id="log-flt-error" checked>error</label>' +
     '<input type="search" class="log-toolbar-search" id="log-search" ' +
       'placeholder="filter lines\u2026">' +
-    '<button class="modal-btn-tiny" id="log-btn-copy" title="Copy visible log as plain text">Copy log</button>' +
-    '<button class="modal-btn-tiny" id="log-btn-export" title="Download progress.jsonl">Export JSONL</button>' +
-    '<button class="modal-btn-tiny" id="log-btn-failure" title="Copy a bundle of setup + repro + warnings/errors" style="display:none">Copy failure report</button>' +
-    '<button class="modal-btn-tiny" id="log-btn-raw" title="Toggle the raw progress.log fallback view">Raw</button>';
+    '<button class="modal-btn-tiny" id="log-btn-copy" data-tip="Copy visible log as plain text">Copy log</button>' +
+    '<button class="modal-btn-tiny" id="log-btn-export" data-tip="Download progress.jsonl">Export JSONL</button>' +
+    '<button class="modal-btn-tiny" id="log-btn-failure" data-tip="Copy a bundle of setup + repro + warnings/errors" style="display:none">Copy failure report</button>' +
+    '<button class="modal-btn-tiny" id="log-btn-raw" data-tip="Toggle the raw progress.log fallback view">Raw</button>';
 
   const bind = (id, evt, fn) => {
     const n = document.getElementById(id);
@@ -14599,7 +14934,7 @@ function renderSetupPanel() {
     const copyBtn = document.createElement('button');
     copyBtn.className = 'modal-btn-tiny';
     copyBtn.textContent = 'Copy STIntegrate';
-    copyBtn.title = 'Copy the fully-resolved STIntegrate[...] command with every option expanded';
+    copyBtn.dataset.tip = 'Copy the fully-resolved STIntegrate[...] command with every option expanded';
     copyBtn.addEventListener('click', ev => {
       ev.stopPropagation();
       navigator.clipboard.writeText(rec.stCommand).then(
@@ -14726,7 +15061,7 @@ function revealVerifiedBadge(res, method) {
   const submit = document.getElementById('integ-submit-btn');
   if (submit && !submit.classList.contains('submitted')) {
     submit.disabled = false;
-    submit.title = '';
+    submit.dataset.tip = '';
   }
 }
 
@@ -15597,7 +15932,7 @@ function onIntegrationComplete(data) {
           methodPopup.innerHTML = '';
           if (methods.length === 0) {
             verifyBtn.disabled = true;
-            verifyBtn.title = 'No numerical backend installed (pySecDec, FIESTA, AMFlow, feyntrop)';
+            verifyBtn.dataset.tip = 'No numerical backend installed (pySecDec, FIESTA, AMFlow, feyntrop)';
             return;
           }
           // Re-enable in case an earlier synchronous populate ran with an
@@ -15605,7 +15940,7 @@ function onIntegrationComplete(data) {
           // kernel.ping() refresh below would otherwise rebuild the
           // method list but leave disabled=true in place.
           verifyBtn.disabled = false;
-          verifyBtn.title = '';
+          verifyBtn.dataset.tip = '';
           _verifyMethod = methods[0].key;
           methods.forEach(m => {
             const row = document.createElement('label');
@@ -15781,7 +16116,7 @@ function onIntegrationComplete(data) {
         // does not invalidate verification — the user retries with the same
         // verified result.
         submitBtn.disabled = true;
-        submitBtn.title = 'Verify the result numerically before submitting';
+        submitBtn.dataset.tip = 'Verify the result numerically before submitting';
         submitBtn.addEventListener('click', async () => {
           submitBtn.disabled = true;
           submitBtn.textContent = 'Submitting\u2026';
@@ -17566,7 +17901,7 @@ function openIntegrateModal() {
         const dlBtn = document.createElement('button');
         dlBtn.className = 'modal-btn-tiny';
         dlBtn.textContent = 'Download notebook';
-        dlBtn.title = 'Starter .wl notebook that reproduces this result with SubTropica';
+        dlBtn.dataset.tip = 'Starter .wl notebook that reproduces this result with SubTropica';
         dlBtn.addEventListener('click', () => downloadResultNotebook(r));
         btns.appendChild(dlBtn);
       }
@@ -17932,7 +18267,7 @@ function renderDifficultyStars(score, stats, isTier2 = false, tier2Data = null, 
   if (!stats ||
       (score <= 0 && !(isTier2 && tier2Data) && !takeoverNotMpl && !mplRunning && !(cachedLRState && cachedLRState.isLR === true))) {
     container.innerHTML = '';
-    container.title = '';
+    container.dataset.tip = '';
     return;
   }
 
@@ -17974,7 +18309,7 @@ function renderDifficultyStars(score, stats, isTier2 = false, tier2Data = null, 
   // Inline MPL decoration (main container only). Spinner while the LR
   // check is running, or MPL badge when we already have an "is LR" verdict.
   if (isMain && mplRunning) {
-    html += `<span class="mpl-spinner" title="Checking polylogarithmicity\u2026"></span>`;
+    html += `<span class="mpl-spinner" data-tip="Checking polylogarithmicity\u2026"></span>`;
   } else if (isMain && !lrFromTier2 && cachedLRState && cachedLRState.isLR === true) {
     html += `<span class="lr-badge lr-badge-mpl">MPL</span>`;
   }
@@ -19194,14 +19529,14 @@ function reviewPopulateRejectSidePanel(item) {
   acceptBtn.className = 'review-verify-btn';
   acceptBtn.style.cssText = 'flex:1;justify-content:center;padding:8px;font-size:12px;';
   acceptBtn.textContent = '\u2713 Accept (A)';
-  acceptBtn.title = 'Create a library entry from the current canvas state';
+  acceptBtn.dataset.tip = 'Create a library entry from the current canvas state';
   acceptBtn.addEventListener('click', () => reviewAcceptReject(item));
 
   const rejectBtn = document.createElement('button');
   rejectBtn.className = 'review-remove-btn';
   rejectBtn.style.cssText = 'flex:1;text-align:center;padding:8px;font-size:12px;';
   rejectBtn.textContent = '\u2715 Confirm Reject (R)';
-  rejectBtn.title = 'Mark this candidate as legitimately not a library entry';
+  rejectBtn.dataset.tip = 'Mark this candidate as legitimately not a library entry';
   rejectBtn.addEventListener('click', () => reviewConfirmReject(item));
 
   actionSec.appendChild(acceptBtn);
@@ -20299,7 +20634,7 @@ async function reviewPopulateSidePanel(item) {
     const key = primaryName.toLowerCase().trim();
     const info = _reviewNameIndex[key];
     if (info && info.count > 1) {
-      nameCollisionBadge = `<span class="badge" style="background:var(--gold-bg,#fef3cd);color:var(--gold,#856404);border:1px solid #f0d77c" title="${info.count} entries share this name: ${info.entries.slice(0, 5).join(', ')}${info.count > 5 ? '...' : ''}">\u26A0 Name collision (${info.count})</span>`;
+      nameCollisionBadge = `<span class="badge" style="background:var(--gold-bg,#fef3cd);color:var(--gold,#856404);border:1px solid #f0d77c" data-tip="${info.count} entries share this name: ${info.entries.slice(0, 5).join(', ')}${info.count > 5 ? '...' : ''}">\u26A0 Name collision (${info.count})</span>`;
     }
   }
   if (badgesEl) {
@@ -20336,7 +20671,7 @@ async function reviewPopulateSidePanel(item) {
     const valEl = document.createElement('span');
     valEl.className = 'review-side-kv-val review-editable';
     valEl.textContent = value || '(empty)';
-    valEl.title = 'Click to edit';
+    valEl.dataset.tip = 'Click to edit';
     valEl.style.cursor = 'pointer';
     if (!value) valEl.style.fontStyle = 'italic';
     valEl.addEventListener('click', () => {
@@ -20550,7 +20885,7 @@ async function reviewPopulateSidePanel(item) {
       const row = document.createElement('div');
       row.className = 'review-side-kv';
       row.style.cursor = 'pointer';
-      row.title = 'Click to edit';
+      row.dataset.tip = 'Click to edit';
       row.innerHTML = `<span class="review-side-kv-key">${escapeHtml(label)}</span>` +
         `<span class="review-side-kv-val">${curVal ? escapeHtml(curVal.length > 80 && !isTextarea ? curVal.slice(0, 77) + '\u2026' : curVal) : '<em style="color:var(--text-muted)">(empty)</em>'}</span>`;
       const valEl = row.querySelector('.review-side-kv-val');
@@ -20661,7 +20996,7 @@ async function reviewPopulateSidePanel(item) {
       const removeBtn = document.createElement('button');
       removeBtn.className = 'review-remove-btn';
       removeBtn.textContent = '\u2715 Remove paper';
-      removeBtn.title = 'Paper does not match this diagram';
+      removeBtn.dataset.tip = 'Paper does not match this diagram';
       removeBtn.addEventListener('click', async () => {
         if (!confirm('Remove this paper from the entry?\n\n' + ref)) return;
         const result = await reviewKernel.removeRecord(item.path, recordId);
@@ -20775,7 +21110,7 @@ async function reviewPopulateSidePanel(item) {
       coverageEntries.forEach(ce => {
         const card = document.createElement('div');
         card.style.cssText = 'display:flex;align-items:center;gap:6px;background:var(--surface-alt);border:1px solid var(--border);border-radius:4px;padding:4px 8px;cursor:pointer;font-size:10px;max-width:100%;';
-        card.title = ce.cni;
+        card.dataset.tip = ce.cni;
         // Highlight the current entry
         if (ce.cni === (entry.CNickelIndex || '')) {
           card.style.borderColor = 'var(--accent)';
@@ -21156,7 +21491,7 @@ function reviewDecorateRecords(refsSection, cfg, topoKey, configKey) {
     const removeBtn = document.createElement('button');
     removeBtn.className = 'review-remove-btn';
     removeBtn.textContent = '\u2715 Remove paper';
-    removeBtn.title = 'Remove this paper from the entry (paper does not match diagram)';
+    removeBtn.dataset.tip = 'Remove this paper from the entry (paper does not match diagram)';
     removeBtn.addEventListener('click', async (evt) => {
       evt.stopPropagation();
       if (!confirm('Remove this paper from the entry?\n\n' + (rec.reference || ''))) return;

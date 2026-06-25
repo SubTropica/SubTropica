@@ -2110,3 +2110,22 @@ add_test(NAME omp-e2e-determinism
                  --mzv-data ${CMAKE_CURRENT_SOURCE_DIR}/data/mzv_reductions.json
                  --fixture-dir ${CMAKE_CURRENT_SOURCE_DIR}/../notes/hf_mzv_rewrite_design_2026-05-05/c_prep_2_fixtures)
 set_tests_properties(omp-e2e-determinism PROPERTIES TIMEOUT 300)
+
+# Carry / Euler-rationalization GATE regression (2026-06-23): the 11
+# notes/carry_benchmark cases (A01-A04, B01-B03, C01 in-scope; C02-C04 must-refuse
+# soundness) drive the genus gate stCarryConicRadicand through a fresh wolframscript
+# kernel that loads SubTropica.wl + the in-process HF dylib. The driver asserts each
+# gate verdict (Association-with-correct-Delta for in-scope incl. C03; the right
+# $Failed[tag] for B03/C02/C04) plus exact-value checks (A01,A02,A04,C01); its exit
+# code == number of failed assertions (scripts/test_carry_*.wl idiom). Repo root
+# reached via ${CMAKE_CURRENT_SOURCE_DIR}/.. (same as omp-e2e-determinism). This is
+# a WL-LEVEL test: it needs `wolframscript` on PATH + a Wolfram license, so it runs
+# only under a LOCAL/CLUSTER `ctest` (the GitHub Actions workflows run no Mma), never
+# in CI. Slow (NIntegrate + strict-HF + order search per case): generous TIMEOUT.
+#   Run just this gate:  cd HyperFLINT/build-release && ctest -R st-carry-benchmark --output-on-failure
+#   Exclude the WL gate:  ctest -LE wl     /     run only it:  ctest -L wl
+add_test(NAME st-carry-benchmark
+         COMMAND ${CMAKE_COMMAND} -E env "OMP_NUM_THREADS=13" --
+                 wolframscript -file
+                 ${CMAKE_CURRENT_SOURCE_DIR}/../notes/carry_benchmark/run_benchmark.wl)
+set_tests_properties(st-carry-benchmark PROPERTIES TIMEOUT 1800 LABELS "wl;carry")

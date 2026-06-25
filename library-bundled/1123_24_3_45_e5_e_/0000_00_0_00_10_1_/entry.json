@@ -11,10 +11,13 @@
       "epsOrders": "-5,-4,-3,-2,-1,0",
       "reference": "arXiv:1705.06483 (doi: 10.1103/PhysRevD.96.036016)",
       "authors": "Mikhail V. Kompaniets and Erik Panzer",
-      "description": "massless propagator computed for the $\\varphi^4$ 6-loop calculation available from the ancillary files p_int_g4.mpl (Maple) and p_int_g4.m (Mathematica) of the arXiv submission results are rational linear combinations of multiple zeta values",
+      "description": "massless propagator computed for the $\\varphi^4$ 6-loop calculation available from the ancillary files p_int_g4.mpl (Maple) and p_int_g4.m (Mathematica) of the arXiv submission results are rational linear combinations of multiple zeta values. The pInt[5,96] period for this 5-loop 10-propagator topology is imported here as a Result: value = Cfull^5 * (anc g4 period). The Cfull^5 normalization and the overall sign sigma = (-1)^#edges are normalization-anchored at 5 loops by independent pySD-Euclidean s=-1 on an even-#edges and an odd-#edges diagram; this sibling follows from the same diagram-independent conversion and the explicit CNI->anc bridge isomorphism, and is not independently integrated per-target.",
       "recordId": "1504717750.6quP",
       "verified": true,
-      "verifiedAt": "auto-loopedia"
+      "verifiedAt": "2026-06-22",
+      "texkey": "Kompaniets:2017yct",
+      "doi": "10.1103/PhysRevD.96.036016",
+      "verifiedVia": "normalization-anchored (validation policy 2026-06-22; the per-target pySD-Euclidean firewall is retired for siblings of an anchored loop order). value_ST = Cfull^5 * anc[pInt[5,96]], with Cfull = Exp[eps*EulerGamma] Gamma[1+eps] Gamma[1-eps]^2/Gamma[2-2eps] -- a fixed, DIAGRAM-INDEPENDENT function of eps converting the ancillary G-scheme normalization to the SubTropica normalization per loop, so Cfull^5 is identical for every 5-loop target. The normalization Cfull^5 and the overall-sign rule sigma = (-1)^nu_tot = (-1)^#edges are INDEPENDENTLY ANCHORED at 5 loops by pySD-Euclidean s=-1 on two diagrams split by edge parity: even-#edges (sigma=+1) anchor [1112|3|334|5|e5|e| (pInt[5,120], g4 10-prop, sigma=+1)]; odd-#edges (sigma=-1) anchor [1112|3|344|e4|e| (pInt[5,3], g2 9-prop, sigma=-1)]. For this 10-propagator target sigma = +1 = (-1)^10. The ancillary period value is from Kompaniets-Panzer (arXiv:1705.06483; peer-reviewed HyperInt computation; trusted). The CNI->anc bridge is confirmed by an explicit vertex isomorphism {1->6, 2->5, 3->4, 4->2, 5->1, 6->3} (anc->lib; brute-force) (brute force: the library graph is isomorphic to the anc Nickel graph), with the valence-4 gate and leading pole eps^-5 (within the valid divergent range -5 <= lead <= 0; the genuine-period identity is guaranteed by the bridge isomorphism + the trusted ancillary value, NOT by the pole order). This target is NOT independently integrated per-target; its value-affecting correctness rests on the anchored normalization + the trusted ancillary value + the exact bridge. NOT validated against HyperFLINT/STIntegrate (a HyperInt reimplementation -> circular)."
     }
   ],
   "Source": [
@@ -86,6 +89,60 @@
       "evensChiDrop": [
         0
       ]
+    },
+    {
+      "dimension": "4 - 2*eps",
+      "epsOrder": 0,
+      "propExponents": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "propagators": [],
+      "numerators": [],
+      "internalMasses": [],
+      "externalMasses": [],
+      "substitutions": "{}",
+      "normalization": "Automatic",
+      "stVersion": "SubTropica 1.2.6",
+      "contributor": "SM",
+      "timestamp": "2026-06-23T00:19:10Z",
+      "verified": true,
+      "verifiedVia": "normalization-anchored (validation policy 2026-06-22; the per-target pySD-Euclidean firewall is retired for siblings of an anchored loop order). value_ST = Cfull^5 * anc[pInt[5,96]], with Cfull = Exp[eps*EulerGamma] Gamma[1+eps] Gamma[1-eps]^2/Gamma[2-2eps] -- a fixed, DIAGRAM-INDEPENDENT function of eps converting the ancillary G-scheme normalization to the SubTropica normalization per loop, so Cfull^5 is identical for every 5-loop target. The normalization Cfull^5 and the overall-sign rule sigma = (-1)^nu_tot = (-1)^#edges are INDEPENDENTLY ANCHORED at 5 loops by pySD-Euclidean s=-1 on two diagrams split by edge parity: even-#edges (sigma=+1) anchor [1112|3|334|5|e5|e| (pInt[5,120], g4 10-prop, sigma=+1)]; odd-#edges (sigma=-1) anchor [1112|3|344|e4|e| (pInt[5,3], g2 9-prop, sigma=-1)]. For this 10-propagator target sigma = +1 = (-1)^10. The ancillary period value is from Kompaniets-Panzer (arXiv:1705.06483; peer-reviewed HyperInt computation; trusted). The CNI->anc bridge is confirmed by an explicit vertex isomorphism {1->6, 2->5, 3->4, 4->2, 5->1, 6->3} (anc->lib; brute-force) (brute force: the library graph is isomorphic to the anc Nickel graph), with the valence-4 gate and leading pole eps^-5 (within the valid divergent range -5 <= lead <= 0; the genuine-period identity is guaranteed by the bridge isomorphism + the trusted ancillary value, NOT by the pole order). This target is NOT independently integrated per-target; its value-affecting correctness rests on the anchored normalization + the trusted ancillary value + the exact bridge. NOT validated against HyperFLINT/STIntegrate (a HyperInt reimplementation -> circular). Stored value carries the restored external scale (p^2)^{0 - 5 eps} (p2 = -MM > 0, Euclidean-real); at the pySD anchor MM=-1, i.e. p2=+1, the scale factor is 1, so the validated magnitude and transcendental structure are unchanged by the restoration.",
+      "periodImport": true,
+      "periodTarget": "1123|24|3|45|e5|e|",
+      "import": {
+        "submittedBy": "Sebastian Mizera",
+        "source": {
+          "paper": "arXiv:1705.06483",
+          "title": "Minimally subtracted six loop renormalization of O(n)-symmetric phi^4 theory and critical exponents",
+          "authors": "M. V. Kompaniets, E. Panzer",
+          "journal": "Phys. Rev. D 96 (2017) 036016",
+          "texkey": "Kompaniets:2017yct",
+          "doi": "10.1103/PhysRevD.96.036016",
+          "ancFile": "anc/p_int_g4.m -> pInt[5,96]  (g4 = IRR-rearranged auxiliary integrals; valence-4 verified and equal to the unit-power period of this graph by the loop-order normalization anchor + the explicit CNI->anc bridge isomorphism (NOT per-target pySD); NOT phi^4 self-energies)",
+          "ancNickel": "e12|e23|45|445|5||",
+          "ancUrl": "https://arxiv.org/abs/1705.06483"
+        },
+        "method": "Single-scale phi^4 propagator integral, external scale restored. value = (p^2)^{0 - 5 eps} * Cfull^5 * anc[pInt[5,96]]: the KP G-scheme period series (Cfull = Exp[eps*EulerGamma] Gamma[1+eps] Gamma[1-eps]^2/Gamma[2-2eps], G-scheme -> SubTropica normalization per loop) with the external Euclidean invariant restored, so the stored value is the dimensionful momentum-space integral, not the p^2=1 reduced form. g4: IRR-rearranged auxiliary p-integral (NOT a phi^4 self-energy); 2L-V=0; I ~ (p2)^{-5 eps}; log-divergent, dimensionless. p2 = -MM > 0 : the spacelike (mostly-plus) external invariant, = minus the package mostly-minus Euclidean MM (MM<0; conventions.md L918-924). value = (p2)^{0 - 5 eps} * (dimensionless p2=1 form) is REAL for p2>0 (KP G-scheme). At the pySD anchor MM=-1, i.e. p2=+1, the scale factor is 1, reproducing the anchored period; the i*pi tower appears only on continuation to timelike p2<0 (MM>0). NOT computed by STIntegrate/HyperFLINT (a HyperInt reimplementation; using it to validate the ancillary HyperInt value would be circular).",
+        "validation": "normalization-anchored (validation policy 2026-06-22; the per-target pySD-Euclidean firewall is retired for siblings of an anchored loop order). value_ST = Cfull^5 * anc[pInt[5,96]], with Cfull = Exp[eps*EulerGamma] Gamma[1+eps] Gamma[1-eps]^2/Gamma[2-2eps] -- a fixed, DIAGRAM-INDEPENDENT function of eps converting the ancillary G-scheme normalization to the SubTropica normalization per loop, so Cfull^5 is identical for every 5-loop target. The normalization Cfull^5 and the overall-sign rule sigma = (-1)^nu_tot = (-1)^#edges are INDEPENDENTLY ANCHORED at 5 loops by pySD-Euclidean s=-1 on two diagrams split by edge parity: even-#edges (sigma=+1) anchor [1112|3|334|5|e5|e| (pInt[5,120], g4 10-prop, sigma=+1)]; odd-#edges (sigma=-1) anchor [1112|3|344|e4|e| (pInt[5,3], g2 9-prop, sigma=-1)]. For this 10-propagator target sigma = +1 = (-1)^10. The ancillary period value is from Kompaniets-Panzer (arXiv:1705.06483; peer-reviewed HyperInt computation; trusted). The CNI->anc bridge is confirmed by an explicit vertex isomorphism {1->6, 2->5, 3->4, 4->2, 5->1, 6->3} (anc->lib; brute-force) (brute force: the library graph is isomorphic to the anc Nickel graph), with the valence-4 gate and leading pole eps^-5 (within the valid divergent range -5 <= lead <= 0; the genuine-period identity is guaranteed by the bridge isomorphism + the trusted ancillary value, NOT by the pole order). This target is NOT independently integrated per-target; its value-affecting correctness rests on the anchored normalization + the trusted ancillary value + the exact bridge. NOT validated against HyperFLINT/STIntegrate (a HyperInt reimplementation -> circular). Stored value carries the restored external scale (p^2)^{0 - 5 eps} (p2 = -MM > 0, Euclidean-real); at the pySD anchor MM=-1, i.e. p2=+1, the scale factor is 1, so the validated magnitude and transcendental structure are unchanged by the restoration.",
+        "importedAt": "2026-06-22"
+      },
+      "scale": "p^2",
+      "scaleExponent": "0 - 5 eps",
+      "scaleClass": "g4: IRR-rearranged auxiliary p-integral (NOT a phi^4 self-energy); 2L-V=0; I ~ (p2)^{-5 eps}; log-divergent, dimensionless",
+      "alphabet": [
+        "p^2"
+      ],
+      "resultDataId": "026915eab0ad950f",
+      "resultTeXPreview": "\\frac{1}{120 \\varepsilon ^5} + \\frac{4-\\log \\left(p^2\\right)}{24 \\varepsilon ^4} + \\frac{30 \\left(\\log \\left(p^2\\right)-8\\right) \\log \\left(p^2\\right)-\\pi ^2+588}{288 \\varepsilon ^3} + \\frac{5 \\left(5 \\log \\left(p^2\\right) \\left(-10 \\left(\\log \\left(p^2\\right)-12\\right) \\log \\left(p^2\\right)+\\pi ^2-588\\right)-20 \\pi ^2+5712\\right)-1628 \\zeta (3)}{1440 \\varepsilon ^2} + \\frac{100 \\log \\left(p^2\\right) \\left(-25 \\log \\left(p^2\\right) \\left(-5 \\left(\\log \\left(p^2\\right)-16\\right) \\log \\left(p^2\\right)+\\pi ^2-588\\right)+3256 \\zeta (3)+200 \\pi ^2-57120\\right)+1120 (8649-1132 \\zeta (3))-1037 \\pi ^4-49000 \\pi ^2}{57600 \\varepsilon } + \\frac{200 \\zeta (3) \\left(6 \\left(15848-2035 \\log \\left(p^2\\right)\\right) \\log \\left(p^2\\right)+407 \\pi ^2\\right)+5 \\log \\left(p^2\\right) \\left(500 \\log \\left(p^2\\right) \\left(5 \\log \\left(p^2\\right) \\left(-3 \\left(\\log \\left(p^2\\right)-20\\right) \\log \\left(p^2\\right)+\\pi ^2-588\\right)-60 \\pi ^2+17136\\right)+3 \\left(-9686880+49000 \\pi ^2+1037 \\pi ^4\\right)\\right)-12 \\left(40 (94963 \\zeta (3)+7761 \\zeta (5)-469980)+119000 \\pi ^2+5041 \\pi ^4\\right)}{172800} + O\\left(\\varepsilon ^1\\right)"
     }
   ],
   "Names": [

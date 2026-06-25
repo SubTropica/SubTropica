@@ -30,13 +30,19 @@
           "arxiv": "1208.1890",
           "texkey": "Brown:2012ia",
           "role": "proof",
-          "description": "Proves the zigzag conjecture: the period of the zigzag graph $Z_n$ is $(2n{-}3)!/(n!(n{-}1)!)$ times $4(1-(1-(-1)^n)/2^{2n-3})\\,\\zeta(2n{-}3)$, establishing the only infinite family of $\\phi^4$ primitives with known amplitudes."
+          "description": "Proves the zigzag conjecture: the period of the zigzag graph $Z_n$ is $(2n{-}3)!/(n!(n{-}1)!)$ times $4(1-(1-(-1)^n)/2^{2n-3})\\,\\zeta(2n{-}3)$, establishing the only infinite family of $\\phi^4$ primitives with known amplitudes.",
+          "title": "Proof of the zig-zag conjecture",
+          "authors": "F. Brown, O. Schnetz",
+          "journal": "J. Number Theory 148 (2015) 478"
         },
         {
           "arxiv": "hep-ph/9504352",
           "texkey": "Broadhurst:1995km",
           "role": "conjecture",
-          "description": "Conjectures the zigzag period identity by evaluating all $\\phi^4$ primitive divergences to 7 loops, linking individual Feynman diagrams to knot-theoretic invariants and specific zeta values."
+          "description": "Conjectures the zigzag period identity by evaluating all $\\phi^4$ primitive divergences to 7 loops, linking individual Feynman diagrams to knot-theoretic invariants and specific zeta values.",
+          "title": "Knots and numbers in $\\phi^4$ theory to 7 loops and beyond",
+          "authors": "D. J. Broadhurst, D. Kreimer",
+          "journal": "Int. J. Mod. Phys. C 6 (1995) 519"
         }
       ],
       "related": [
@@ -296,9 +302,9 @@
       },
       "familyKind": "kinematic",
       "closedForm": {
-        "latex": "\\begin{aligned}I_{\\text{box}}^{(L)} &= \\frac{\\Phi^{(L)}(x,y)}{s\\,t^L}, \\quad x = \\frac{p_1^2\\,p_3^2}{s\\,t},\\quad y = \\frac{p_2^2\\,p_4^2}{s\\,t} \\\\[6pt] \\Phi^{(L)}(x,y) &= -\\frac{1}{L!\\,\\lambda}\\sum_{j=L}^{2L}\\frac{(-1)^j\\,j!\\,[\\ln(y/x)]^{2L-j}}{(j-L)!\\,(2L-j)!}\\bigl[\\mathrm{Li}_j\\!\\bigl(-\\tfrac{1}{\\rho x}\\bigr)-\\mathrm{Li}_j(-\\rho y)\\bigr]\\end{aligned}",
+        "latex": "\\begin{aligned}I_{\\mathrm{ladder}}^{(L)} &= \\frac{\\Phi^{(L)}(x,y)}{s_{12}\\,s_{23}^L}, \\quad x = \\frac{M_1^2\\,M_3^2}{s_{12}\\,s_{23}},\\quad y = \\frac{M_2^2\\,M_4^2}{s_{12}\\,s_{23}} \\\\[6pt] \\Phi^{(L)}(x,y) &= -\\frac{1}{L!\\,\\lambda}\\sum_{j=L}^{2L}\\frac{(-1)^j\\,j!\\,[\\ln(y/x)]^{2L-j}}{(j-L)!\\,(2L-j)!}\\bigl[\\mathrm{Li}_j\\!\\bigl(-\\tfrac{1}{\\rho x}\\bigr)-\\mathrm{Li}_j(-\\rho y)\\bigr]\\end{aligned}",
         "wl": "PhiDavydychev[L_Integer, x_, y_] := Module[{lambda, rho}, lambda = Sqrt[(1 - x - y)^2 - 4 x y]; rho = 2/(1 - x - y + lambda); -(1/(L! lambda)) Sum[((-1)^j j! Log[y/x]^(2 L - j))/((j - L)! (2 L - j)!) (PolyLog[j, -1/(rho x)] - PolyLog[j, -rho y]), {j, L, 2 L}]];\n\n(* 4-mass box ladder: I_box^(L)(s, t, p1sq, p2sq, p3sq, p4sq) *)\nIBox[L_Integer, s_, t_, p1sq_, p2sq_, p3sq_, p4sq_] := PhiDavydychev[L, p1sq p3sq/(s t), p2sq p4sq/(s t)] / (s t^L)",
-        "normalization": "$\\lambda=\\sqrt{(1{-}x{-}y)^2-4xy}$, $\\rho=\\frac{2}{1-x-y+\\lambda}$, $s=(p_1{+}p_2)^2$, $t=(p_2{+}p_3)^2$. Measure: $\\int \\prod_l d^4 k_l/(i\\pi^2) \\prod_e D_e^{-1}$."
+        "normalization": "$\\lambda=\\sqrt{(1{-}x{-}y)^2-4xy}$, $\\rho=\\frac{2}{1-x-y+\\lambda}$. Measure: $\\int \\prod_l d^4 k_l/(i\\pi^2) \\prod_e D_e^{-1}$."
       },
       "normalization": "Box dictionary: $G^{(L)}_{\\mathrm{box}}(s,t,p_i^2) = \\Phi^{(L)}(u,v)/(s\\,t^L)$ with $u=(p_1^2 p_3^2)/(s\\,t)$, $v=(p_2^2 p_4^2)/(s\\,t)$, $s=s_{12}$, $t=s_{23}$. Three-point reduction: $T^{(L)}(p_1^2,p_2^2,p_3^2) = \\Phi^{(L)}(x,y)/(p_3^2)^L$ with $x=p_1^2/p_3^2$, $y=p_2^2/p_3^2$.",
       "refs": [
@@ -306,19 +312,26 @@
           "journal": "Phys. Lett. B 298 (1993) 363",
           "texkey": "Usyukina:1992jd",
           "role": "defining",
-          "description": "Introduces an approach for evaluating three- and four-point massless ladder diagrams in terms of polylogarithms, using the uniqueness method and Mellin-Barnes representations."
+          "description": "Introduces an approach for evaluating three- and four-point massless ladder diagrams in terms of polylogarithms, using the uniqueness method and Mellin-Barnes representations.",
+          "title": "An approach to the evaluation of three and four point ladder diagrams",
+          "authors": "N. I. Usyukina, A. I. Davydychev"
         },
         {
           "journal": "Phys. Lett. B 305 (1993) 136",
           "texkey": "Usyukina:1993ch",
           "role": "defining",
-          "description": "Derives the exact closed-form result $\\Phi^{(L)}(x,y)$ for three- and four-point ladder integrals with an arbitrary number of rungs, expressing them in terms of classical polylogarithms."
+          "description": "Derives the exact closed-form result $\\Phi^{(L)}(x,y)$ for three- and four-point ladder integrals with an arbitrary number of rungs, expressing them in terms of classical polylogarithms.",
+          "title": "Exact results for three and four point ladder diagrams with an arbitrary number of rungs",
+          "authors": "N. I. Usyukina, A. I. Davydychev"
         },
         {
           "arxiv": "hep-th/0607160",
           "texkey": "Drummond:2006rz",
           "role": "modern",
-          "description": "Establishes identities between classes of off-shell four-point conformal integrals (including box ladders), proving dual conformal invariance that later became central to the amplitudes program in $\\mathcal{N}=4$ SYM."
+          "description": "Establishes identities between classes of off-shell four-point conformal integrals (including box ladders), proving dual conformal invariance that later became central to the amplitudes program in $\\mathcal{N}=4$ SYM.",
+          "title": "Magic identities for conformal four-point integrals",
+          "authors": "J. M. Drummond, J. Henn, V. A. Smirnov, E. Sokatchev",
+          "journal": "JHEP 01 (2007) 064"
         }
       ],
       "related": [
@@ -868,13 +881,17 @@
           "arxiv": "1604.08027",
           "texkey": "Broadhurst:1985tld",
           "role": "defining",
-          "description": "Evaluates all 216 massless scalar diagrams through five loops using conformal invariance and recurrence relations, identifying the wheel periods as products of Riemann zeta values."
+          "description": "Evaluates all 216 massless scalar diagrams through five loops using conformal invariance and recurrence relations, identifying the wheel periods as products of Riemann zeta values.",
+          "title": "Massless scalar Feynman diagrams: five loops and beyond",
+          "authors": "D. J. Broadhurst"
         },
         {
           "arxiv": "1704.06350",
           "texkey": "Crump:2017zvd",
           "role": "modern",
-          "description": "Studies graph invariants of $\\phi^4$ primitives, including the wheel family, establishing that the Feynman period is preserved under planar duality, Schnetz twist, and vertex deletion."
+          "description": "Studies graph invariants of $\\phi^4$ primitives, including the wheel family, establishing that the Feynman period is preserved under planar duality, Schnetz twist, and vertex deletion.",
+          "title": "Graph invariants with connections to the Feynman period in $\\phi^4$ theory",
+          "authors": "I. Crump"
         }
       ],
       "related": [
@@ -1140,9 +1157,9 @@
       },
       "familyKind": "kinematic",
       "closedForm": {
-        "latex": "\\begin{aligned}I_{M,N} &= \\frac{1}{s\\,t^M}\\det_{1\\le i,j\\le N}\\!\\bigl[c_{ij}\\,\\Phi^{(M-N-1+i+j)}(x,y)\\bigr] \\\\c_{ij} &= \\frac{(M{-}N{-}1{+}i{+}j)!}{(i{-}1)!\\,(j{-}1)!\\,(M{-}j)!\\,(N{-}i)!}\\end{aligned}",
-        "wl": "PhiDavydychev[L_Integer, x_, y_] := Module[{lambda, rho}, lambda = Sqrt[(1 - x - y)^2 - 4 x y]; rho = 2/(1 - x - y + lambda); -(1/(L! lambda)) Sum[((-1)^j j! Log[y/x]^(2 L - j))/((j - L)! (2 L - j)!) (PolyLog[j, -1/(rho x)] - PolyLog[j, -rho y]), {j, L, 2 L}]];\n\nBDCoeff[i_, j_, M_, N_] := (M - N - 1 + i + j)!/((i - 1)! (j - 1)! (M - j)! (N - i)!);\n(* Basso-Dixon fishnet: I_{M,N}(s, t, p1sq, p2sq, p3sq, p4sq) *)\nIBassoDixon[M_Integer, N_Integer, s_, t_, p1sq_, p2sq_, p3sq_, p4sq_] := Det[Table[BDCoeff[i, j, M, N] PhiDavydychev[M - N - 1 + i + j, p1sq p3sq/(s t), p2sq p4sq/(s t)], {i, N}, {j, N}]] / (s t^M)",
-        "normalization": "where $x = \\frac{p_1^2 p_3^2}{s\\,t}$, $y = \\frac{p_2^2 p_4^2}{s\\,t}$, $s = (p_1{+}p_2)^2$, $t = (p_2{+}p_3)^2$, equivalently $x = z\\bar{z}$, $y = (1{-}z)(1{-}\\bar{z})$. The $(M,1)$ slice reduces to the 4-mass ladder: $I_{M,1} = I_{\\text{box}}^{(M)}$. Same measure convention."
+        "latex": "\\begin{aligned}I_{M,N} &= \\frac{1}{s_{12}\\,s_{23}^M}\\det_{1\\le i,j\\le N}\\!\\bigl[c_{ij}\\,\\Phi^{(M-N-1+i+j)}\\bigr],\\quad c_{ii}=1\\\\[2pt] \\Phi^{(L)}(z,\\bar z) &= -\\frac{1}{L!\\,(z-\\bar z)}\\sum_{j=L}^{2L}\\frac{(-1)^j j!}{(j-L)!\\,(2L-j)!}\\log^{2L-j}\\!\\frac{(1-z)(1-\\bar z)}{z\\bar z}\\Bigl[\\operatorname{Li}_j\\bigl(\\tfrac{\\bar z-1}{\\bar z}\\bigr)-\\operatorname{Li}_j\\bigl(\\tfrac{z-1}{z}\\bigr)\\Bigr]\\end{aligned}",
+        "wl": "PhiDavydychev[L_Integer, x_, y_] := Module[{lambda, rho}, lambda = Sqrt[(1 - x - y)^2 - 4 x y]; rho = 2/(1 - x - y + lambda); -(1/(L! lambda)) Sum[((-1)^j j! Log[y/x]^(2 L - j))/((j - L)! (2 L - j)!) (PolyLog[j, -1/(rho x)] - PolyLog[j, -rho y]), {j, L, 2 L}]];\n\nPhiLadder[L_Integer, z_, zb_] := PhiDavydychev[L, z zb, (1 - z) (1 - zb)];\n\n(* Basso-Dixon 4-mass fishnet determinant, arXiv:1705.03545: I_{M,N} = det of Davydychev ladders; c_ij pure numbers; (M,1) reduces to PhiLadder[M]. *)\nBDCoeff[i_, j_, MM_, NN_] /; i == j := 1;\nBDCoeff[i_, j_, MM_, NN_] /; i > j := Product[Module[{pk = MM - NN - 1 + j + k}, pk (pk - 1)], {k, j + 1, i}];\nBDCoeff[i_, j_, MM_, NN_] /; i < j := 1/BDCoeff[j, i, MM + j - i, NN];\nBassoDixonI[MM_Integer, NN_Integer, z_, zb_] /; NN <= MM := Det[Table[BDCoeff[i, j, MM, NN] PhiLadder[MM - NN - 1 + i + j, z, zb], {i, NN}, {j, NN}]];\n\n(* e.g.  BassoDixonI[2, 2, 1/3, 1/5] *)",
+        "normalization": "where $x = \\frac{M_1^2 M_3^2}{s_{12}\\,s_{23}}$, $y = \\frac{M_2^2 M_4^2}{s_{12}\\,s_{23}}$, equivalently $x = z\\bar{z}$, $y = (1{-}z)(1{-}\\bar{z})$. Measure: $\\int \\prod_l d^4 k_l/(i\\pi^2) \\prod_e D_e^{-1}$."
       },
       "normalization": "Basso-Dixon convention (1705.03545 Eqs. 1-6); the seeded valueExact is the CONVENTION-FREE conformal determinant BassoDixonI[M,N,z,zb] $= \\det[c_{ij}\\,\\mathrm{PhiLadder}^{(M-N-1+i+j)}]$ over the validated Davydychev ladders at the pilot SVPL point $z=1/3$, $\\bar z=1/5$ (Eq. (3) strips BD's antisymmetric prefactor; derivation log notes/families_core_batch/bd_normalization.md). $(M,1)$ members reduce EXACTLY to PhiLadder[M] (the ladder4pt value convention on the shared entries). Momentum dictionary: derived and validated in plan Task 11 before any Results merge; the $(M,1)$ chain must reduce to the validated box dictionary $+\\Phi^{(M)}(u,v)/(s\\,t^M)$ with no refit",
       "refs": [
@@ -1150,31 +1167,46 @@
           "arxiv": "1705.03545",
           "texkey": "Basso:2017jwq",
           "role": "defining",
-          "description": "Introduces the Basso-Dixon fishnet correlator as a determinant of Usyukina-Davydychev ladder integrals $\\Phi^{(L)}$, conjecturing and verifying the representation at all loop orders using integrability and Steinmann relations."
+          "description": "Introduces the Basso-Dixon fishnet correlator as a determinant of Usyukina-Davydychev ladder integrals $\\Phi^{(L)}$, conjecturing and verifying the representation at all loop orders using integrability and Steinmann relations.",
+          "title": "Gluing ladders into fishnets",
+          "authors": "B. Basso, L. J. Dixon",
+          "journal": "Phys. Rev. Lett. 119 (2017) 071601"
         },
         {
           "arxiv": "1811.10623",
           "texkey": "Derkachov:2018rot",
           "role": "proof",
-          "description": "Proves the Basso-Dixon determinant formula in two-dimensional fishnet CFT from first principles, using separation of variables for the integrable $\\mathrm{SL}(2,\\mathbb{C})$ spin chain."
+          "description": "Proves the Basso-Dixon determinant formula in two-dimensional fishnet CFT from first principles, using separation of variables for the integrable $\\mathrm{SL}(2,\\mathbb{C})$ spin chain.",
+          "title": "Basso-Dixon correlators in two-dimensional fishnet CFT",
+          "authors": "S. Derkachov, V. Kazakov, E. Olivucci",
+          "journal": "JHEP 04 (2019) 032"
         },
         {
           "arxiv": "2007.15049",
           "texkey": "Derkachov:2020zvv",
           "role": "follow-up",
-          "description": "Extends the separation-of-variables approach to four-dimensional $\\chi$CFT$_4$ fishnet correlators on square and honeycomb lattices, reproducing the Basso-Dixon conjecture for the scalar-only sector."
+          "description": "Extends the separation-of-variables approach to four-dimensional $\\chi$CFT$_4$ fishnet correlators on square and honeycomb lattices, reproducing the Basso-Dixon conjecture for the scalar-only sector.",
+          "title": "Exactly solvable single-trace four point correlators in $\\chi$CFT$_4$",
+          "authors": "S. Derkachov, E. Olivucci",
+          "journal": "JHEP 02 (2021) 146"
         },
         {
           "arxiv": "2310.08625",
           "texkey": "Duhr:2023eld",
           "role": "modern",
-          "description": "Shows that the Calabi-Yau varieties attached to two-dimensional fishnet integrals have Picard-Fuchs operators that are exterior powers of the ladder operators, recovering the Basso-Dixon formula from Calabi-Yau periods."
+          "description": "Shows that the Calabi-Yau varieties attached to two-dimensional fishnet integrals have Picard-Fuchs operators that are exterior powers of the ladder operators, recovering the Basso-Dixon formula from Calabi-Yau periods.",
+          "title": "The Basso-Dixon formula and Calabi-Yau geometry",
+          "authors": "C. Duhr, A. Klemm, F. Loebbert, C. Nega, F. Porkert",
+          "journal": "JHEP 03 (2024) 177"
         },
         {
           "arxiv": "2209.05291",
           "texkey": "Duhr:2022pch",
           "role": "modern",
-          "description": "Identifies the $\\ell$-loop Yangian-invariant fishnet integral in two dimensions as the quantum volume of the mirror Calabi-Yau $\\ell$-fold, with instanton corrections appearing from $\\ell = 3$ onward."
+          "description": "Identifies the $\\ell$-loop Yangian-invariant fishnet integral in two dimensions as the quantum volume of the mirror Calabi-Yau $\\ell$-fold, with instanton corrections appearing from $\\ell = 3$ onward.",
+          "title": "Yangian-invariant fishnet integrals in 2 dimensions as volumes of Calabi-Yau varieties",
+          "authors": "C. Duhr, A. Klemm, F. Loebbert, C. Nega, F. Porkert",
+          "journal": "Phys. Rev. Lett. 130 (2023) 041602"
         }
       ],
       "related": [
@@ -1903,13 +1935,19 @@
           "arxiv": "1806.01361",
           "texkey": "Caron-Huot:2018dsv",
           "role": "defining",
-          "description": "Computes the double pentaladder integral to all loop orders via a finite-coupling Mellin integral over hypergeometric functions, providing the prototype for the Steinmann hexagon function space."
+          "description": "Computes the double pentaladder integral to all loop orders via a finite-coupling Mellin integral over hypergeometric functions, providing the prototype for the Steinmann hexagon function space.",
+          "title": "The double pentaladder integral to all orders",
+          "authors": "S. Caron-Huot, L. J. Dixon, M. von Hippel, A. J. McLeod, G. Papathanasiou",
+          "journal": "JHEP 07 (2018) 170"
         },
         {
           "arxiv": "2103.02796",
           "texkey": "He:2021esx",
           "role": "modern",
-          "description": "Studies the cluster-algebra structure of all-loop box-ladder, penta-box-ladder, and double-penta-ladder integrals, characterizing their symbol alphabets."
+          "description": "Studies the cluster-algebra structure of all-loop box-ladder, penta-box-ladder, and double-penta-ladder integrals, characterizing their symbol alphabets.",
+          "title": "Notes on cluster algebras and some all-loop Feynman integrals",
+          "authors": "S. He, Z. Li, Q. Yang",
+          "journal": "JHEP 06 (2021) 119"
         }
       ],
       "related": [
@@ -2414,13 +2452,19 @@
           "arxiv": "2301.07965",
           "texkey": "McLeod:2023qdf",
           "role": "defining",
-          "description": "Identifies two infinite families of ten-point Feynman diagrams generalizing the elliptic double box, proving they evaluate to elliptic multiple polylogarithms on a single fixed elliptic curve at all loop orders."
+          "description": "Identifies two infinite families of ten-point Feynman diagrams generalizing the elliptic double box, proving they evaluate to elliptic multiple polylogarithms on a single fixed elliptic curve at all loop orders.",
+          "title": "An infinite family of elliptic ladder integrals",
+          "authors": "A. J. McLeod, R. Morales, M. von Hippel, M. Wilhelm, C. Zhang",
+          "journal": "JHEP 05 (2023) 236"
         },
         {
           "arxiv": "2301.07834",
           "texkey": "Cao:2023tpx",
           "role": "modern",
-          "description": "Revisits maximal-codimension residues of traintrack and elliptic-ladder integrals via Cauchy and Schubert analysis in both Feynman-parameter and momentum-twistor space, identifying the Calabi-Yau geometry at each loop order."
+          "description": "Revisits maximal-codimension residues of traintrack and elliptic-ladder integrals via Cauchy and Schubert analysis in both Feynman-parameter and momentum-twistor space, identifying the Calabi-Yau geometry at each loop order.",
+          "title": "Cutting the traintracks: Cauchy, Schubert and Calabi-Yau",
+          "authors": "Q. Cao, S. He, Y. Tang",
+          "journal": "JHEP 04 (2023) 072"
         }
       ],
       "related": [
@@ -3554,25 +3598,36 @@
           "arxiv": "1805.09326",
           "texkey": "Bourjaily:2018ycu",
           "role": "defining",
-          "description": "Introduces the traintrack integral family and shows it involves weight-$(L{+}1)$ hyperlogarithms over Calabi-Yau $(L{-}1)$-folds at $L$ loops, identifying the K3 surface at three loops and a Calabi-Yau threefold at four loops."
+          "description": "Introduces the traintrack integral family and shows it involves weight-$(L{+}1)$ hyperlogarithms over Calabi-Yau $(L{-}1)$-folds at $L$ loops, identifying the K3 surface at three loops and a Calabi-Yau threefold at four loops.",
+          "title": "Traintracks through Calabi-Yaus: amplitudes beyond elliptic polylogarithms",
+          "authors": "J. L. Bourjaily, Y.-H. He, A. J. McLeod, M. von Hippel, M. Wilhelm",
+          "journal": "Phys. Rev. Lett. 121 (2018) 071603"
         },
         {
           "arxiv": "1910.01534",
           "texkey": "Bourjaily:2019hmc",
           "role": "follow-up",
-          "description": "Embeds the Calabi-Yau geometries arising from traintrack integrals as degree-$2k$ hypersurfaces in $k$-dimensional weighted projective space, providing a uniform geometric framework for the family."
+          "description": "Embeds the Calabi-Yau geometries arising from traintrack integrals as degree-$2k$ hypersurfaces in $k$-dimensional weighted projective space, providing a uniform geometric framework for the family.",
+          "title": "Embedding Feynman integral (Calabi-Yau) geometries in weighted projective space",
+          "authors": "J. L. Bourjaily, A. J. McLeod, C. Vergu, M. Volk, M. von Hippel, M. Wilhelm",
+          "journal": "JHEP 01 (2020) 078"
         },
         {
           "arxiv": "2005.08771",
           "texkey": "Vergu:2020uur",
           "role": "follow-up",
-          "description": "Describes the leading-singularity locus of the traintrack family directly in momentum-twistor space, recovering the elliptic curve at two loops and the K3 surface at three loops from twistor geometry."
+          "description": "Describes the leading-singularity locus of the traintrack family directly in momentum-twistor space, recovering the elliptic curve at two loops and the K3 surface at three loops from twistor geometry.",
+          "title": "Traintrack Calabi-Yaus from twistor geometry",
+          "authors": "C. Vergu, M. Volk",
+          "journal": "JHEP 07 (2020) 160"
         },
         {
           "arxiv": "2306.11780",
           "texkey": "McLeod:2023doa",
           "role": "modern",
-          "description": "Extends the traintrack construction by sequentially intersecting traintrack diagrams, showing the resulting integrals involve $(L{-}1)$-dimensional Calabi-Yau varieties and possess a nested structure of second-order differential operators."
+          "description": "Extends the traintrack construction by sequentially intersecting traintrack diagrams, showing the resulting integrals involve $(L{-}1)$-dimensional Calabi-Yau varieties and possess a nested structure of second-order differential operators.",
+          "title": "Traintracks all the way down",
+          "authors": "A. J. McLeod, M. von Hippel"
         }
       ],
       "related": [
@@ -4068,13 +4123,19 @@
           "arxiv": "1810.07689",
           "texkey": "Bourjaily:2018yfy",
           "role": "defining",
-          "description": "Introduces the tardigrade as a nonplanar graph whose Feynman integral involves Calabi-Yau geometry at each even loop order, establishing the rigidity bound $2(L{-}1)$ and verifying saturation through eleven loops."
+          "description": "Introduces the tardigrade as a nonplanar graph whose Feynman integral involves Calabi-Yau geometry at each even loop order, establishing the rigidity bound $2(L{-}1)$ and verifying saturation through eleven loops.",
+          "title": "A (bounded) bestiary of Feynman integral Calabi-Yau geometries",
+          "authors": "J. L. Bourjaily, A. J. McLeod, M. von Hippel, M. Wilhelm",
+          "journal": "Phys. Rev. Lett. 122 (2019) 031601"
         },
         {
           "arxiv": "2302.14840",
           "texkey": "Doran:2023yzu",
           "role": "modern",
-          "description": "Determines the Hodge structure of the two-loop tardigrade graph hypersurface, identifying its motive as that of a K3 surface with Picard number 11."
+          "description": "Determines the Hodge structure of the two-loop tardigrade graph hypersurface, identifying its motive as that of a K3 surface with Picard number 11.",
+          "title": "Motivic geometry of two-loop Feynman integrals",
+          "authors": "C. F. Doran, A. Harder, E. Pichon-Pharabod, P. Vanhove",
+          "journal": "Quart. J. Math. 75 (2024) 901"
         }
       ],
       "related": [
@@ -4295,7 +4356,10 @@
           "arxiv": "1810.07689",
           "texkey": "Bourjaily:2018yfy",
           "role": "defining",
-          "description": "Introduces the paramecium as the odd-loop companion to the tardigrade in the Calabi-Yau bestiary, demonstrating maximal rigidity $2(L{-}1)$ at each odd loop order from six external legs."
+          "description": "Introduces the paramecium as the odd-loop companion to the tardigrade in the Calabi-Yau bestiary, demonstrating maximal rigidity $2(L{-}1)$ at each odd loop order from six external legs.",
+          "title": "A (bounded) bestiary of Feynman integral Calabi-Yau geometries",
+          "authors": "J. L. Bourjaily, A. J. McLeod, M. von Hippel, M. Wilhelm",
+          "journal": "Phys. Rev. Lett. 122 (2019) 031601"
         }
       ],
       "related": [
@@ -4470,7 +4534,10 @@
           "arxiv": "1810.07689",
           "texkey": "Bourjaily:2018yfy",
           "role": "defining",
-          "description": "Introduces the amoeba as a nonplanar four-point graph in the Calabi-Yau bestiary with non-maximal rigidity at three loops ($K_{2,4}$) and saturation of the bound $2(L{-}1)$ from five loops onward."
+          "description": "Introduces the amoeba as a nonplanar four-point graph in the Calabi-Yau bestiary with non-maximal rigidity at three loops ($K_{2,4}$) and saturation of the bound $2(L{-}1)$ from five loops onward.",
+          "title": "A (bounded) bestiary of Feynman integral Calabi-Yau geometries",
+          "authors": "J. L. Bourjaily, A. J. McLeod, M. von Hippel, M. Wilhelm",
+          "journal": "Phys. Rev. Lett. 122 (2019) 031601"
         }
       ],
       "related": [
@@ -4644,7 +4711,10 @@
           "arxiv": "2212.09550",
           "texkey": "Duhr:2022dxb",
           "role": "defining",
-          "description": "Obtains fully analytic results for the equal-mass ice cone at all loop orders in two dimensions, showing its maximal cuts decompose into two copies of the banana Calabi-Yau periods, and solves the differential equations in terms of iterated integrals."
+          "description": "Obtains fully analytic results for the equal-mass ice cone at all loop orders in two dimensions, showing its maximal cuts decompose into two copies of the banana Calabi-Yau periods, and solves the differential equations in terms of iterated integrals.",
+          "title": "The ice cone family and iterated integrals for Calabi-Yau varieties",
+          "authors": "C. Duhr, A. Klemm, C. Nega, L. Tancredi",
+          "journal": "JHEP 02 (2023) 228"
         }
       ],
       "related": [
@@ -4875,19 +4945,28 @@
           "arxiv": "1912.06201",
           "texkey": "Klemm:2019dbm",
           "role": "defining",
-          "description": "Solves the $L$-loop banana amplitude with general masses via the GKZ system of the Barth-Nieto Calabi-Yau $(L{-}1)$-fold, constructing a complete basis of periods and computing explicit mass dependences through three loops."
+          "description": "Solves the $L$-loop banana amplitude with general masses via the GKZ system of the Barth-Nieto Calabi-Yau $(L{-}1)$-fold, constructing a complete basis of periods and computing explicit mass dependences through three loops.",
+          "title": "The $l$-loop banana amplitude from GKZ systems and relative Calabi-Yau periods",
+          "authors": "A. Klemm, C. Nega, R. Safari",
+          "journal": "JHEP 04 (2020) 088"
         },
         {
           "arxiv": "2008.10574",
           "texkey": "Bonisch:2020qmm",
           "role": "follow-up",
-          "description": "Determines the complete analytic structure of the all-loop banana amplitude with arbitrary masses, computing the leading logarithmic behavior from a novel $\\Gamma$-class evaluation and the imaginary part from the mirror Calabi-Yau."
+          "description": "Determines the complete analytic structure of the all-loop banana amplitude with arbitrary masses, computing the leading logarithmic behavior from a novel $\\Gamma$-class evaluation and the imaginary part from the mirror Calabi-Yau.",
+          "title": "Analytic structure of all loop banana amplitudes",
+          "authors": "K. Bönisch, F. Fischbach, A. Klemm, C. Nega, R. Safari",
+          "journal": "JHEP 05 (2021) 066"
         },
         {
           "arxiv": "2212.08908",
           "texkey": "Pogel:2022vat",
           "role": "modern",
-          "description": "Casts the differential equation for the $L$-loop equal-mass banana into $\\epsilon$-factorized form at all loop orders, exploiting the self-duality of the underlying Calabi-Yau operator to obtain systematic $\\epsilon$-expansions."
+          "description": "Casts the differential equation for the $L$-loop equal-mass banana into $\\epsilon$-factorized form at all loop orders, exploiting the self-duality of the underlying Calabi-Yau operator to obtain systematic $\\epsilon$-expansions.",
+          "title": "Bananas of equal mass: any loop, any order in the dimensional regularisation parameter",
+          "authors": "S. Pögel, X. Wang, S. Weinzierl",
+          "journal": "JHEP 04 (2023) 117"
         }
       ],
       "related": [
@@ -5074,7 +5153,10 @@
           "arxiv": "2402.19034",
           "texkey": "Duhr:2024hjf",
           "role": "defining",
-          "description": "Generalizes the geometric analysis of square fishnet integrals to the hexagonal (three-point) tiling in two dimensions, identifying the simplest members as Picard curves and higher-loop members as Calabi-Yau varieties fixed by Yangian and permutation symmetries."
+          "description": "Generalizes the geometric analysis of square fishnet integrals to the hexagonal (three-point) tiling in two dimensions, identifying the simplest members as Picard curves and higher-loop members as Calabi-Yau varieties fixed by Yangian and permutation symmetries.",
+          "title": "Geometry from integrability: multi-leg fishnet integrals in two dimensions",
+          "authors": "C. Duhr, A. Klemm, F. Loebbert, C. Nega, F. Porkert",
+          "journal": "JHEP 07 (2024) 008"
         }
       ],
       "related": [],
@@ -5411,16 +5493,19 @@
       "normalization": "Fan $F_L$: $G^{(L)}(p_1^2,p_2^2,p_3^2) = \\Phi^{(L)}(x,y)/(p_3^2)^L$ with $x = p_1^2/p_3^2$, $y = p_2^2/p_3^2$; evaluates to the same $\\Phi^{(L)}$ as the 4-mass ladder",
       "familyKind": "kinematic",
       "closedForm": {
-        "latex": "I_{\\text{fan}}^{(L)} = \\frac{\\Phi^{(L)}(x,y)}{(p_3^2)^L}, \\qquad x = \\frac{p_1^2}{p_3^2},\\quad y = \\frac{p_2^2}{p_3^2}",
+        "latex": "I_{\\text{fan}}^{(L)} = \\frac{\\Phi^{(L)}(x,y)}{(M_3^2)^L}, \\qquad x = \\frac{M_1^2}{M_3^2},\\quad y = \\frac{M_2^2}{M_3^2}",
         "wl": "PhiDavydychev[L_Integer, x_, y_] := Module[{lambda, rho}, lambda = Sqrt[(1 - x - y)^2 - 4 x y]; rho = 2/(1 - x - y + lambda); -(1/(L! lambda)) Sum[((-1)^j j! Log[y/x]^(2 L - j))/((j - L)! (2 L - j)!) (PolyLog[j, -1/(rho x)] - PolyLog[j, -rho y]), {j, L, 2 L}]];\n\n(* Generalised ladder (fan): I_fan^(L)(p1sq, p2sq, p3sq) *)\nIFan[L_Integer, p1sq_, p2sq_, p3sq_] := PhiDavydychev[L, p1sq/p3sq, p2sq/p3sq] / p3sq^L",
-        "normalization": "where $\\Phi^{(L)}$ is the same function as in the 4-mass ladder. Three off-shell external momenta $p_1, p_2, p_3$ with $p_1 + p_2 + p_3 = 0$. Same measure convention."
+        "normalization": "where $\\Phi^{(L)}$ is the same function as in the 4-mass ladder. Three off-shell external momenta $p_1, p_2, p_3$ with $p_1 + p_2 + p_3 = 0$. Measure: $\\int \\prod_l d^4 k_l/(i\\pi^2) \\prod_e D_e^{-1}$."
       },
       "refs": [
         {
           "arxiv": "1207.3824",
           "texkey": "Drummond:2012bg",
           "role": "defining",
-          "description": "Introduces and solves an infinite class of three-point loop integrals parametrized by a binary word, expressing them in terms of single-valued polylogarithms and relating the vacuum limits to zigzag and wheel periods."
+          "description": "Introduces and solves an infinite class of three-point loop integrals parametrized by a binary word, expressing them in terms of single-valued polylogarithms and relating the vacuum limits to zigzag and wheel periods.",
+          "title": "Generalised ladders and single-valued polylogarithms",
+          "authors": "J. M. Drummond",
+          "journal": "JHEP 02 (2013) 092"
         }
       ],
       "related": [
@@ -5760,9 +5845,9 @@
       },
       "familyKind": "kinematic",
       "closedForm": {
-        "latex": "I_{\\triangle}^{(L)} = \\frac{\\Phi^{(L)}(x,y)}{(p_3^2)^L}, \\qquad x = \\frac{p_1^2}{p_3^2},\\quad y = \\frac{p_2^2}{p_3^2}",
+        "latex": "I_{\\triangle}^{(L)} = \\frac{\\Phi^{(L)}(x,y)}{(M_3^2)^L}, \\qquad x = \\frac{M_1^2}{M_3^2},\\quad y = \\frac{M_2^2}{M_3^2}",
         "wl": "PhiDavydychev[L_Integer, x_, y_] := Module[{lambda, rho}, lambda = Sqrt[(1 - x - y)^2 - 4 x y]; rho = 2/(1 - x - y + lambda); -(1/(L! lambda)) Sum[((-1)^j j! Log[y/x]^(2 L - j))/((j - L)! (2 L - j)!) (PolyLog[j, -1/(rho x)] - PolyLog[j, -rho y]), {j, L, 2 L}]];\n\n(* Triangle ladder: I_triangle^(L)(p1sq, p2sq, p3sq) *)\nITriangle[L_Integer, p1sq_, p2sq_, p3sq_] := PhiDavydychev[L, p1sq/p3sq, p2sq/p3sq] / p3sq^L",
-        "normalization": "where $\\Phi^{(L)}$ is the same function as in the 4-mass ladder. Three off-shell external momenta $p_1, p_2, p_3$ with $p_1 + p_2 + p_3 = 0$. Same measure convention."
+        "normalization": "where $\\Phi^{(L)}$ is the same function as in the 4-mass ladder. Three off-shell external momenta $p_1, p_2, p_3$ with $p_1 + p_2 + p_3 = 0$. Measure: $\\int \\prod_l d^4 k_l/(i\\pi^2) \\prod_e D_e^{-1}$."
       },
       "normalization": "$T^{(L)}(p_1^2,p_2^2,p_3^2) = \\Phi^{(L)}(x,y)/(p_3^2)^L$ with $x=p_1^2/p_3^2$, $y=p_2^2/p_3^2$; same $\\Phi^{(L)}$ as the 4-mass ladder and the generalised ladder fan",
       "refs": [
@@ -5770,19 +5855,26 @@
           "journal": "Phys. Lett. B 298 (1993) 363",
           "texkey": "Usyukina:1992jd",
           "role": "defining",
-          "description": "Introduces the method for evaluating massless three-point ladder integrals at arbitrary loop order, establishing the triangle-ladder family."
+          "description": "Introduces the method for evaluating massless three-point ladder integrals at arbitrary loop order, establishing the triangle-ladder family.",
+          "title": "An approach to the evaluation of three and four point ladder diagrams",
+          "authors": "N. I. Usyukina, A. I. Davydychev"
         },
         {
           "journal": "Phys. Lett. B 305 (1993) 136",
           "texkey": "Usyukina:1993ch",
           "role": "defining",
-          "description": "Derives the exact closed-form result $\\Phi^{(L)}(x,y)$ for the $L$-loop triangle and box ladder integrals using the uniqueness method."
+          "description": "Derives the exact closed-form result $\\Phi^{(L)}(x,y)$ for the $L$-loop triangle and box ladder integrals using the uniqueness method.",
+          "title": "Exact results for three and four point ladder diagrams with an arbitrary number of rungs",
+          "authors": "N. I. Usyukina, A. I. Davydychev"
         },
         {
           "arxiv": "1207.3824",
           "texkey": "Drummond:2012bg",
           "role": "modern",
-          "description": "Defines the generalised three-point ladders indexed by binary words and shows they evaluate to single-valued polylogarithms; the all-zeros word reduces to the triangle ladder."
+          "description": "Defines the generalised three-point ladders indexed by binary words and shows they evaluate to single-valued polylogarithms; the all-zeros word reduces to the triangle ladder.",
+          "title": "Generalised ladders and single-valued polylogarithms",
+          "authors": "J. M. Drummond",
+          "journal": "JHEP 02 (2013) 092"
         }
       ],
       "related": [
@@ -5865,7 +5957,7 @@
         {
           "parameter": 3,
           "topology": "123_24_e_45_6_e6_e_",
-          "primaryName": "Non-planar triangle-pentagon-box",
+          "primaryName": "Triangle-pentagon-box",
           "loops": 3,
           "sharedWith": [],
           "config": "000_00_1_00_0_20_3_",
@@ -5903,7 +5995,7 @@
         {
           "parameter": 4,
           "topology": "123_24_e_45_6_67_8_e8_e_",
-          "primaryName": "Non-planar triangle-pentagon-hexagon-box",
+          "primaryName": "Triangle-pentagon-hexagon-box",
           "loops": 4,
           "sharedWith": [],
           "config": "000_00_1_00_0_00_0_20_3_",
@@ -6220,55 +6312,110 @@
         "min": 2,
         "max": 8
       },
-      "definition": "The one-loop $n$-gon (or $A_n$ polygon) has $n$ massless internal propagators arranged in a cycle with $n$ massless external legs. In $D = n$ dimensions the integral is finite and evaluates to the volume of a hyperbolic $(n{-}1)$-simplex (Davydychev-Delbourgo 1997). For $n = 3$ (triangle) the result involves Clausen functions; for $n = 4$ (box) it is the Murakami-Yano formula in 16 dilogarithms. The family includes the bubble ($n = 2$), triangle, box, pentagon, hexagon, heptagon, and octagon.",
+      "definition": "The one-loop $n$-gon ($A_n$ polygon): the one-loop $n$-point scalar integral, $n$ internal propagators in a cycle with $n$ external legs, in its critical dimension $D=n$ where it is finite and dual-conformally invariant. As a function of the Cayley matrix $Y$ it equals the volume of a hyperbolic $(n{-}1)$-simplex (Davydychev-Delbourgo; Bourjaily-Gardi-McLeod-Vergu, all-mass), a period of weight $\\lfloor n/2\\rfloor$ in the entries of $Y$. With generic (massive) internal lines the bubble ($n=2$) is a logarithm and the triangle ($n=3$, in $D=3$) the hyperbolic-triangle area $\\pi-\\sum_k\\theta_k$ (both weight $1$); the box ($n=4$) is the Murakami-Yano weight-$2$ dilogarithm, reducing for massless internal lines to the Usyukina-Davydychev $\\Phi^{(1)}$; the hexagon ($n=6$) is a weight-$3$ classical polylogarithm (Kellerhals). The family runs $n=2,\\dots,8$: bubble, triangle, box, pentagon, hexagon, heptagon, octagon.",
       "external": {
-        "legs": null
+        "legs": "n"
       },
-      "massConfig": "massless",
-      "functionClass": "MPL",
+      "massConfig": "massless-internal-offshell-external",
+      "functionClass": "weight-$\\lfloor n/2\\rfloor$ polylogarithms (hyperbolic simplex volumes)",
       "functionClassLabel": "MPL",
       "familyKind": "kinematic",
       "closedForm": {
-        "latex": "I_n \\;=\\; \\frac{\\Gamma(n/2)}{\\sqrt{|\\det S\\,|}}\\;\\mathrm{Vol}_{n-1}(S), \\qquad S_{ij} = \\tfrac{1}{2}\\Bigl(\\sum_{k=i}^{j-1} p_k\\Bigr)^{\\!2}",
-        "normalization": "$\\mathrm{Vol}_{n-1}(S)$ is the volume of the ideal hyperbolic $(n{-}1)$-simplex determined by the $n \\times n$ kinematic matrix $S$ (with $S_{ii} = 0$ for massless external legs). Computed via the Schläfli formula: $d\\,\\mathrm{Vol}_{n-1} = -\\tfrac{1}{n{-}2}\\sum_{i<j} \\mathrm{Vol}_{n-3}(\\mathrm{face}_{ij})\\,d\\theta_{ij}$, where $\\theta_{ij}$ are dihedral angles. For even $n$: weight $n/2$ in polylogarithms (Li$_2$ at $n = 4$, Li$_3$ at $n = 6$). For odd $n$: reduces to even-dimensional sub-volumes. Measure: $I_n = e^{\\varepsilon\\gamma_E}\\mu^{2\\varepsilon}\\int d^n k/(i\\pi^{n/2})\\prod_e(-q_e^2)^{-1}$ at $\\varepsilon = 0$.",
-        "wl": null
+        "latex": "\\begin{aligned}I_n &= \\frac{\\Gamma(n/2)}{\\sqrt{|\\det Y|}}\\,\\mathrm{Vol}_{n-1}\\bigl(\\Sigma(Y)\\bigr),\\qquad \\mathrm{Vol}_{n-1}=\\textstyle\\sum\\mathrm{Cl}_{\\lfloor n/2\\rfloor}(\\theta_{ij}),\\quad \\mathrm{Cl}_2(\\theta)=\\operatorname{Im}\\mathrm{Li}_2(e^{i\\theta})\\\\[4pt]Y_{ij} &= \\tfrac12\\bigl(x_{ij}^2+m_i^2+m_j^2\\bigr),\\qquad \\hat Y_{ij}=\\frac{Y_{ij}}{\\sqrt{Y_{ii}\\,Y_{jj}}}=\\cosh\\ell_{ij},\\qquad \\cos\\theta_{ij}=-\\frac{(\\hat Y^{-1})_{ij}}{\\sqrt{(\\hat Y^{-1})_{ii}\\,(\\hat Y^{-1})_{jj}}}\\end{aligned}",
+        "wl": "(* n-gon one-loop integral in D=n as a hyperbolic (n-1)-simplex volume, made explicit in HARMONIC POLYLOGARITHMS: Clausen Cl_k(theta)=Im Li_k(e^{i theta}) of the dihedral angles theta_ij, cos theta_ij a ratio of minors of the Cayley matrix Y[[i,j]]=(x_ij^2+m_i^2+m_j^2)/2. I_n = Gamma[n/2]/Sqrt[|det Y|] * Vol_{n-1}. n=4 (massless) the box Phi^(1); n=6 (massless) the explicit Kellerhals hexagon (NGonHexVolMassless); n=5 (massless) the explicit Bourjaily-Gardi-McLeod-Vergu Gauss-Bonnet pentagon (NGonPentVolMassless); n=7 (massless) the explicit weight-3 BGMV Gauss-Bonnet heptagon (NGonHeptVolMassless, kinematic Murakami V_4); n=5 (GENERIC internal masses) the explicit BGMV all-mass pentagon (NGonPentVolMassive: weight-2 Murakami V_4 + all-mass triangle Ihat_3). *)\nNGonYhat[Y_] := Table[Y[[i,j]]/Sqrt[Y[[i,i]] Y[[j,j]]], {i, Length[Y]}, {j, Length[Y]}];\nNGonTriAngle[g_, i_, j_, k_] := ArcCos[(g[[k,i]] g[[k,j]] - g[[i,j]])/(Sqrt[g[[k,i]]^2 - 1] Sqrt[g[[k,j]]^2 - 1])];\n(* Usyukina-Davydychev one-loop box Phi^(1)(x,y): the n=4, massless-internal reduction *)\nNGonPhi1[x_, y_] := Module[{lam = Sqrt[(1 - x - y)^2 - 4 x y], rho},\n  rho = 2/(1 - x - y + lam);\n  (1/lam) (Log[y/x] (PolyLog[1, -1/(rho x)] - PolyLog[1, -rho y])\n           - 2 (PolyLog[2, -1/(rho x)] - PolyLog[2, -rho y]))];\n(* n=6 MASSLESS hexagon -- explicit Kellerhals doubly-asymptotic 5-orthoscheme volume\n   (Kellerhals, Geom. Funct. Anal. 5 (1995) 640) summed over the orthoscheme triangulation,\n   Ren-Spradlin-Vergu-Volovich arXiv:2306.04630 eqs (4.2)-(4.6), Rudenko JAMS 36 (2023) 1003.\n   Ideal point via mass-eps regularisation m_i^2=eps->0 (a gauge device for the moduli, NOT a\n   divergence regulator: the integral is finite).  Verified ~6 digits vs Monte-Carlo. *)\n$NGonHexInf = 10^24;                       (* surrogate for the moduli point z_7 = Infinity *)\n\n(* moduli z^sigma (Ren 2306.04630 eq 3.14): z_0=0, z_6=1, z_7=Infinity *)\nNGonHexModuli[Q_, sigma_] := Module[{z = <|0->0, 6->1, 7->$NGonHexInf|>, p},\n  Do[ p = sigma[[1;;i]];\n      z[i] = 1 - Det[Q[[Append[p,6], Append[p,6]]]]/(Det[Q[[p,p]]] Q[[6,6]]), {i,5}];\n  z];\n\n(* signed-triangulation coefficient (eq 4.6), embedding-free Q-minor form:\n   coeff = prod_{k=2}^{5} sgn( det Q[{s1..sk};{s1..s(k-1),6}] / det Q[{s1..sk}] ) *)\nNGonHexCoeff[Q_, sigma_] := Times @@ Table[\n   With[{p = sigma[[1;;k]]},\n     Sign[ Det[Q[[p, Append[sigma[[1;;k-1]], 6]]]]/Det[Q[[p, p]]] ]], {k, 2, 5}];\n\n(* dihedral angles (eq 4.5); z_7=Infinity cancels in every balanced ratio *)\nNGonHexAngles[z_] := Module[{zd, al = Association[], Th},\n  zd[i_, j_] := z[i] - z[j];\n  Do[ al[i] = Re@ArcCos@Sqrt[(zd[i-1,i] zd[i+1,i+2])/(zd[i-1,i+1] zd[i,i+2])], {i, 5}];\n  al[0] = Re@ArcTan@Sqrt[-(zd[0,1] zd[2,5] zd[6,7])/(zd[1,2] zd[5,6] zd[0,7])];\n  Th = Re@ArcTan@Sqrt[-(zd[1,2] zd[3,4] zd[5,6] zd[0,7])/(zd[0,1] zd[2,3] zd[4,5] zd[6,7])];\n  {al, Tan[Th]}];\n\n(* weight-3 I-function (eq 4.3) as a 1-D integral of the Clausen function Cl_2(2y)=\n   Im Li_2(e^{2iy}); split at the Cl_2 kinks (y=m pi) and the rational-factor peaks\n   (y=m pi-b for |a|>1, y=pi/2+m pi-b for |a|<1) so NIntegrate resolves the peaks. *)\nNGonHexIfun[a_, b_, x_] := Module[{lo, hi, s, pts},\n  {lo, hi, s} = If[x >= Pi/2, {Pi/2, x, 1}, {x, Pi/2, -1}];\n  pts = Join[{lo}, Sort@DeleteDuplicates@Select[\n        Flatten@Table[{m Pi, m Pi - b, Pi/2 + m Pi - b}, {m, -3, 5}], lo < # < hi &], {hi}];\n  s/2 NIntegrate[Im[PolyLog[2, Exp[2 I y]]] a/(Cos[b+y]^2 + a^2 Sin[b+y]^2),\n     Evaluate[Sequence @@ {Join[{y}, pts]}],\n     WorkingPrecision -> 24, PrecisionGoal -> 10, MaxRecursion -> 30]];\n\n(* Kellerhals volume of one doubly-asymptotic 5-orthoscheme (eq 4.2) *)\nNGonHexOrtho[al_, lam_] := Module[\n  {a0 = al[0], a1 = al[1], a2 = al[2], a4 = al[4], a5 = al[5], li = 1/lam, p1, p2},\n  p1 = NGonHexIfun[li,0,a1] + NGonHexIfun[lam,0,a2]/2 - NGonHexIfun[li,0,Pi/2-a0]\n     + NGonHexIfun[lam,0,a4]/2 + NGonHexIfun[li,0,a5];\n  p2 = NGonHexIfun[lam,-(Pi/2+a1),Pi/2+a1+a2] + NGonHexIfun[lam,-(Pi/2-a1),Pi/2-a1+a2]\n     - NGonHexIfun[lam,-(Pi/2+a1),Pi+a1] - NGonHexIfun[lam,-(Pi/2-a1),Pi-a1]\n     - NGonHexIfun[lam,-(Pi/2+a5),Pi+a5] - NGonHexIfun[lam,-(Pi/2-a5),Pi-a5]\n     + NGonHexIfun[lam,-(Pi/2+a5),Pi/2+a5+a4] + NGonHexIfun[lam,-(Pi/2-a5),Pi/2-a5+a4];\n  -p1/8 + p2/32];\n\n(* ideal-hexagon volume at fixed eps: sum over the S_5 orthoscheme triangulation (eq 4.6) *)\nNGonHexVolEps[Q_] := Total@Map[\n   Function[s, NGonHexCoeff[Q, s] (NGonHexOrtho @@ NGonHexAngles[NGonHexModuli[Q, s]])],\n   Permutations[Range[5]]];\n\n(* massless hexagon (Y_ii=0): mass-eps regularisation m_i^2=eps (Q_ii=eps, Q_ij=Y_ij+eps,\n   i.e. Y -> Y + eps J), then linear Richardson eps->0 from two eps. *)\nNGonHexVolMassless[Y_] := Module[{e1 = 1/10000, e2 = 1/100000, reg, v1, v2},\n  reg[e_] := N[Y + e ConstantArray[1, {6, 6}], 30];\n  v1 = NGonHexVolEps[reg[e1]]; v2 = NGonHexVolEps[reg[e2]];\n  (v2 e1 - v1 e2)/(e1 - e2)];\n(* n=5 MASSLESS pentagon -- explicit all-mass pentagon of Bourjaily-Gardi-McLeod-Vergu\n   (arXiv:1912.11067, JHEP 08 (2020) 029) via a generalized Gauss-Bonnet theorem, in the\n   massless (ideal 4-simplex) limit where the dilog spherical-tetrahedron and hyperbolic-\n   triangle pieces collapse to the ELEMENTARY weight-2 form Vol = -2 Pi^2 + (Pi/3) Sum theta_ij\n   (the Gauss-Bonnet-Chern analogue of n=3's area = Pi - Sum theta).  theta_ij are the ideal-\n   simplex DIHEDRAL angles, cos theta_ij = -G*_ij = -(Y^-1)_ij/Sqrt[(Y^-1)_ii (Y^-1)_jj] (BGMV\n   polar Gram; internal masses cancel, so finite at the ideal point -- no eps-reg).  Region\n   det Y>0, |G*|<=1; the prefactor c=1 is EXACT (BGMV pure-integral normalization chain).\n   Verified ~6 digits vs Monte-Carlo at two Euclidean points + the regular-simplex anchor. *)\nNGonPentCosTheta[Y_] := Module[{Yi = Inverse[Y]},\n  Table[-Yi[[i, j]]/Sqrt[Yi[[i, i]] Yi[[j, j]]], {i, 5}, {j, 5}]];\nNGonPentVolMassless::region = \"Pentagon point outside the hyperbolic region (det Y <= 0, or some |cos theta_ij| > 1): the Gauss-Bonnet volume is complex, not a genuine period.\";\nNGonPentVolMassless[Y_] := Module[{c = NGonPentCosTheta[Y], vol},\n  vol = -2 Pi^2 + Pi/3 Sum[ArcCos[c[[i, j]]], {i, 5}, {j, i + 1, 5}];\n  If[TrueQ[Chop[Im[N[vol]]] != 0], Message[NGonPentVolMassless::region]]; vol];\n(* n=7 MASSLESS heptagon (ideal 6-simplex): the explicit weight-3 BGMV generalized\n   Gauss-Bonnet heptagon (arXiv:1912.11067).  V_4 is the weight-2 Murakami spherical-\n   tetrahedron volume on the LINK Gram (diag 1, off-diagonal -G*_ij = cos dihedral; the\n   raw G* sub-block is Lorentzian, the sign flip gives the PD spherical tetra).  The j=2\n   polyhedral V_4 is KINEMATIC (only the j=0 vertex angle V_6 -> Pi^3/2 is ideal, folded\n   into 4 Pi^3/3).  Branch: dihedral via the polar relation, '+' root, mod 2 Pi^2.  Region\n   det Y>0, diag(Y^-1)<0, |G*|<=1.  Verified ~6 digits vs the direct integral (4 MC points\n   + a 59-point deterministic quadrature). *)\nNGonV4::branch = \"V_4 solid angle `1` outside (0, Pi^2) after Mod[., 2 Pi^2]: a pointed \\\nsimplicial-cone solid angle is < Pi^2, so this signals a branch flip or a non-positive-definite \\\nlink Gram (the input may not be a proper spherical tetrahedron). Cf. hpl/v4_spherical_tetra.py v4_polyh.\";\nNGonV4Pairs = {{1, 2}, {1, 3}, {2, 3}, {3, 4}, {2, 4}, {1, 4}};\nNGonV4[M_] := Module[{Mi = Inverse[M], cc, a, b, c, d, e, f, q0, q1, q2, zeta, LL, V},\n  cc = Table[If[i == j, 1, -Mi[[i, j]]/Sqrt[Mi[[i, i]] Mi[[j, j]]]], {i, 4}, {j, 4}];\n  {a, b, c, d, e, f} = Exp[I ArcCos[cc[[#[[1]], #[[2]]]]]] & /@ NGonV4Pairs;\n  q0 = a d + b e + c f + a b f + a c e + b c d + d e f + a b c d e f;\n  q1 = -(a - 1/a) (d - 1/d) - (b - 1/b) (e - 1/e) - (c - 1/c) (f - 1/f);\n  q2 = 1/(a d) + 1/(b e) + 1/(c f) + 1/(a b f) + 1/(a c e) + 1/(b c d) + 1/(d e f) + 1/(a b c d e f);\n  zeta = (-q1 + Sqrt[q1^2 - 4 q2 q0])/(2 q2);\n  LL = 1/2 (PolyLog[2, zeta] + PolyLog[2, zeta/(a b d e)] + PolyLog[2, zeta/(a c d f)] + PolyLog[2, zeta/(b c e f)]\n          - PolyLog[2, -zeta/(a b c)] - PolyLog[2, -zeta/(a e f)] - PolyLog[2, -zeta/(b d f)] - PolyLog[2, -zeta/(c d e)]\n          + Log[a] Log[d] + Log[b] Log[e] + Log[c] Log[f]);\n  V = -Re[LL] + Pi (Arg[-q2] + 1/2 Sum[ArcCos[cc[[i, j]]], {i, 4}, {j, i + 1, 4}]) - 3 Pi^2/2;\n  Module[{v = Mod[V, 2 Pi^2], nv},\n    nv = N[v];   (* gate the range test on a REAL value: complex v is the caller's region problem *)\n    If[TrueQ[Chop[Im[nv]] == 0] && TrueQ[Re[nv] < -10^-6 || Re[nv] > Pi^2 + 10^-6],\n       Message[NGonV4::branch, nv]];\n    v]];\nNGonHeptVolMassless[Y_] := Module[{Gs, sV, sP},\n  Gs = With[{Yi = Inverse[Y]}, Table[Yi[[i, j]]/Sqrt[Yi[[i, i]] Yi[[j, j]]], {i, 7}, {j, 7}]];\n  sV = Total[NGonV4[Table[If[r == s, 1, -Gs[[#[[r]], #[[s]]]]], {r, 4}, {s, 4}]] & /@\n        (Complement[Range[7], #] & /@ Subsets[Range[7], {3}])];\n  sP = Total[(NGonPentVolMassless[Y[[#, #]]] ArcCos[-Gs[[Sequence @@ Complement[Range[7], #]]]]) & /@\n        Subsets[Range[7], {5}]];\n  4 Pi^3/3 - (2 Pi/15) sV + (1/5) sP];\n(* ============================================================================\n   n=5 ALL-MASS pentagon (generic internal masses): Bourjaily-Gardi-McLeod-Vergu\n   (arXiv:1912.11067 eq:all_mass_pentagon), assembling the verified weight-2 V_4\n   (Murakami spherical tetrahedron) with the all-mass triangle Ihat_3 (eq:feyn_\n   triangle).  The massless-internal pentagon is the equal-mass limit m_i^2=eps->0\n   of this (Y -> Y + eps J); the two agree (NGonPentVolMassless is the cleaner\n   exact head at Y_ii=0, no eps-reg needed).\n     Ihat_5 = 4 Pi^2/3 - (2/3) Sum_i V_4(link_(i))\n                       + (1/3) Sum_{i<j} ArcCos[-G*_ij] Ihat_3(Ghat_(ij)) ,\n   Ghat_ij = Y_ij/Sqrt[Y_ii Y_jj] (cosh-Gram, diag 1); G*_ij = (Y^-1)_ij/\n   Sqrt[(Y^-1)_ii (Y^-1)_jj] (polar Gram); link_(i) = the 4 indices != i, with the\n   link Gram (off-diagonal -G*, diagonal 1); Ghat_(ij) = the 3 indices != {i,j}.  The\n   signs (ArcCos of -G*, third term +) are pinned vs the direct Feynman Monte-Carlo\n   at 5 kinematic points (notes/ngon_refs/hpl/allmass_pentagon.py); the eps->0\n   massless reduction recovers 0.06048570034.  Ihat_3 (all-mass triangle,\n   eq:feyn_triangle) = 2 ArcTan[Sqrt[det Ghat3]/(1 + Sum off-diag Ghat3)]. *)\nNGonPentIhat3[G3_] :=\n  2 ArcTan[Sqrt[Det[G3]]/(1 + G3[[1, 2]] + G3[[1, 3]] + G3[[2, 3]])];\nNGonPentVolMassive::region =\n  \"All-mass pentagon point outside the physical (Euclidean, below-threshold) region: some \\\ncosh-Gram Yhat_ij < 1 (above threshold), det Y <= 0, or a link Gram not positive-definite. The \\\nvolume is then complex or a spherical (not hyperbolic) simplex, not a genuine period.\";\n(* float input is bumped to 30 digits: the NGonV4 Arg/PolyLog/Mod chain loses ~14 digits and can\n   collapse to Indeterminate at MachinePrecision near a degenerate link; exact input stays exact. *)\nNGonPentVolMassive[Yin_] := Module[\n  {Y = If[Precision[Yin] === Infinity, Yin, SetPrecision[Yin, 30]], Yi, Ghat, Gs, sV, sT, vol, reghyp},\n  Yi = Inverse[Y];\n  Ghat = Table[Y[[i, j]]/Sqrt[Y[[i, i]] Y[[j, j]]], {i, 5}, {j, 5}];\n  Gs = Table[Yi[[i, j]]/Sqrt[Yi[[i, i]] Yi[[j, j]]], {i, 5}, {j, 5}];\n  sV = Total[NGonV4[Table[If[r == s, 1, -Gs[[#[[r]], #[[s]]]]], {r, 4}, {s, 4}]] & /@\n        (Complement[Range[5], {#}] & /@ Range[5])];\n  sT = Total[(ArcCos[-Gs[[#[[1]], #[[2]]]]] NGonPentIhat3[\n        Ghat[[Complement[Range[5], #], Complement[Range[5], #]]]]) & /@ Subsets[Range[5], {2}]];\n  vol = 4 Pi^2/3 - (2/3) sV + (1/3) sT;\n  reghyp = AllTrue[Subsets[Range[5], {2}], TrueQ[N[Ghat[[#[[1]], #[[2]]]]] >= 1] &];\n  If[! reghyp || TrueQ[Chop[Im[N[vol]]] != 0], Message[NGonPentVolMassive::region]];\n  vol];\n(* ============================================================================\n   n=4 ALL-MASS box (generic internal masses m_i^2 > 0): the volume of a general\n   (non-ideal) hyperbolic TETRAHEDRON via the Murakami-Yano formula, Bourjaily-\n   Gardi-McLeod-Vergu (arXiv:1912.11067, JHEP 08 (2020) 029, eq:all_mass_box_r-\n   formula) -- the \"lengths\" form whose ONLY algebraic root is Sqrt[det Yhat]\n   (purely imaginary in the physical (3,1) region, det Yhat < 0).  The massless\n   box NGonPhi1 (Phi^(1)) is the m_i^2 -> 0 ideal-tetrahedron limit of this.\n   Verified to ~1e-16 vs the direct Feynman integral Gamma(2) Int_{Delta_3}\n   (a^T Y a)^{-2} (deterministic nquad + Dirichlet MC) at many in-region points,\n   EXACTLY S_4-permutation-invariant, reducing to the ideal box as m^2->0.\n   Cosh-Gram Yhat_ij = Y_ij/Sqrt[Y_ii Y_jj]; length variables r_ij = Yhat_ij +\n   Sqrt[Yhat_ij^2-1]; the three orbits g_0,g_1,g_2 (BGMV eqs 726/730-741) and\n   their r->1/r images gbar; vol = (1/4) Im[ Sum Li_2(g) - Sum Li_2(gbar) ]. *)\nNGonBoxRmat[Gh_] := Table[If[i == j, 1, With[{g = Gh[[i, j]]}, g + Sqrt[g^2 - 1]]], {i, 4}, {j, 4}];\n\n(* g_k (sx=+1) or its (delta - x_k) variant (sx=-1) for the r-matrix R; BGMV eqs 726/730-741 *)\nNGonBoxGk[R_, sdG_, k_, sx_] := Module[{r, r3, rs, ru, prod, delta, rho, y, x0, xk},\n  r[i_, j_] := R[[i, j]];\n  r3[i_, j_, kk_] := r[i, j] r[j, kk] r[kk, i];\n  rs[i_, j_, kk_] := r3[i, j, kk] - 1;\n  ru[i_, j_, kk_] := r[i, j] r[i, kk] - r[j, kk];\n  prod = r[1, 2] r[1, 3] r[1, 4] r[2, 3] r[2, 4] r[3, 4];\n  delta = 4 prod sdG;\n  rho = 2 (1 - (r3[1, 2, 3] + r3[1, 2, 4] + r3[1, 3, 4] + r3[2, 3, 4])\n             + (r[1, 2] r[2, 3] r[3, 4] r[4, 1] + r[1, 3] r[3, 4] r[4, 2] r[2, 1]\n                + r[1, 4] r[4, 2] r[2, 3] r[3, 1]));\n  y = Switch[k,\n    0, rs[1, 2, 3] rs[1, 2, 4] rs[1, 3, 4] rs[2, 3, 4],\n    1, r[1, 2] r[2, 4] r[4, 3] r[3, 1] ru[1, 2, 3] ru[2, 1, 4] ru[3, 4, 1] ru[4, 3, 2],\n    2, r3[1, 2, 3] rs[1, 2, 3] ru[4, 1, 2] ru[4, 2, 3] ru[4, 3, 1]];\n  x0 = rho\n     + prod (r[1, 2]/r[3, 4] + r[1, 3]/r[2, 4] + r[1, 4]/r[2, 3]\n             + r[2, 3]/r[1, 4] + r[2, 4]/r[1, 3] + r[3, 4]/r[1, 2]\n             - r[1, 2] r[3, 4] - r[1, 4] r[2, 3] - r[1, 3] r[2, 4])\n     - (r[1, 2] r[2, 3] r[3, 4] r[4, 1] + r[1, 3] r[3, 4] r[4, 2] r[2, 1]\n        + r[1, 4] r[4, 2] r[2, 3] r[3, 1]);\n  xk = Switch[k,\n    0, x0,\n    1, x0 + 2 (1 - r[1, 2] r[1, 3] r[2, 4] r[3, 4])\n              (rs[1, 2, 3] - ru[1, 2, 4] r[2, 3] r[3, 4]\n               - ru[2, 1, 4] r[1, 3] r[3, 4] - ru[3, 1, 2] r[1, 4] r[2, 4]),\n    2, x0 + 2 rs[1, 2, 3] (1 - r3[1, 2, 4] - r3[1, 3, 4] - r3[2, 3, 4]\n               + ru[4, 1, 2] ru[4, 1, 3] ru[4, 2, 3]\n               + r[1, 4] r[2, 4] r[3, 4] (r[1, 2] r[3, 4] + r[2, 3] r[4, 1] + r[1, 3] r[2, 4])\n               - (r[1, 4] r[2, 4] r[3, 4])^2)];\n  1 + delta/(rho y) (delta + sx xk)];\n\n(* permutation superscripts g_k^{abcd} -> sigma list {a,b,c,d}; R^sigma = R[[sig, sig]] *)\n$NGonBoxSig = <|\"1234\" -> {1, 2, 3, 4}, \"1342\" -> {1, 3, 4, 2}, \"1423\" -> {1, 4, 2, 3},\n                \"2341\" -> {2, 3, 4, 1}, \"3412\" -> {3, 4, 1, 2}, \"4123\" -> {4, 1, 2, 3}|>;\n\nNGonBoxVolMassive::region =\n  \"All-mass box point outside the physical (Euclidean, below-threshold) region: some \\\ncosh-Gram Yhat_ij < 1 (above threshold) or det Yhat >= 0 (not the (3,1) hyperbolic \\\nsignature). The volume is then a spherical (not hyperbolic) simplex or complex, not a \\\ngenuine period.\";\n(* float input is bumped to 30 digits (the Sqrt-branch + complex-PolyLog chain loses ~14\n   digits at MachinePrecision near a degenerate tetra); exact input stays exact. *)\nNGonBoxVolMassive[Yin_] := Module[\n  {Y = If[Precision[Yin] === Infinity, Yin, SetPrecision[Yin, 30]],\n   Gh, R, Rinv, detG, sdG, g, gb, Li2, gterms, gbterms, vol, reghyp},\n  Gh = NGonYhat[Y];\n  R = NGonBoxRmat[Gh];\n  Rinv = Table[If[i == j, 1, 1/R[[i, j]]], {i, 4}, {j, 4}];\n  detG = Det[Gh];\n  sdG = Sqrt[detG];                       (* imaginary when detG<0; principal = +I branch *)\n  Li2[w_] := PolyLog[2, w];\n  g[k_, tag_] := NGonBoxGk[R[[$NGonBoxSig[tag], $NGonBoxSig[tag]]], sdG, k, +1];\n  gb[k_, tag_] := NGonBoxGk[Rinv[[$NGonBoxSig[tag], $NGonBoxSig[tag]]], sdG, k, -1];\n  gterms = Li2[g[0, \"1234\"]] + Li2[g[1, \"1234\"]] + Li2[g[1, \"1342\"]] + Li2[g[1, \"1423\"]]\n         - Li2[g[2, \"1234\"]] - Li2[g[2, \"2341\"]] - Li2[g[2, \"3412\"]] - Li2[g[2, \"4123\"]];\n  gbterms = Li2[gb[0, \"1234\"]] + Li2[gb[1, \"1234\"]] + Li2[gb[1, \"1342\"]] + Li2[gb[1, \"1423\"]]\n          - Li2[gb[2, \"1234\"]] - Li2[gb[2, \"2341\"]] - Li2[gb[2, \"3412\"]] - Li2[gb[2, \"4123\"]];\n  vol = Im[gterms - gbterms]/4;\n  reghyp = AllTrue[Subsets[Range[4], {2}], TrueQ[N[Gh[[#[[1]], #[[2]]]]] >= 1] &]\n           && TrueQ[N[detG] < 0];\n  (* branch insurance: in the (3,1) region the geometric volume is POSITIVE; a\n     negative value would signal the wrong Sqrt[det Yhat] sheet (cf. the pentagon's\n     silent wrong-branch failure mode). Verified to never fire in-region (150+ pts). *)\n  If[! reghyp || TrueQ[N[Re[vol]] < 0], Message[NGonBoxVolMassive::region]];\n  vol];\nNGonVolume[Y_] := Module[{n = Length[Y], g = NGonYhat[Y]}, Switch[n, 2, ArcCosh[g[[1,2]]], 3, Pi - (NGonTriAngle[g,2,3,1] + NGonTriAngle[g,1,3,2] + NGonTriAngle[g,1,2,3]), _, HyperbolicSimplexVolume[g]]];\nNGon[Y_ /; MatrixQ[Y] && Length[Y] == 4 && AllTrue[Diagonal[Y], PossibleZeroQ]] := NGonPhi1[(Y[[1, 2]] Y[[3, 4]])/(Y[[1, 3]] Y[[2, 4]]), (Y[[1, 4]] Y[[2, 3]])/(Y[[1, 3]] Y[[2, 4]])]/(4 Y[[1, 3]] Y[[2, 4]]);\nNGon[Y_ /; MatrixQ[Y] && Length[Y] == 6 && AllTrue[Diagonal[Y], PossibleZeroQ]] := Gamma[3] NGonHexVolMassless[Y]/Sqrt[Abs[Det[Y]]];\nNGon[Y_ /; MatrixQ[Y] && Length[Y] == 5 && AllTrue[Diagonal[Y], PossibleZeroQ]] := Gamma[5/2] NGonPentVolMassless[Y]/Sqrt[Abs[Det[Y]]];\nNGon[Y_ /; MatrixQ[Y] && Length[Y] == 7 && AllTrue[Diagonal[Y], PossibleZeroQ]] := Gamma[7/2] NGonHeptVolMassless[Y]/Sqrt[Abs[Det[Y]]];\n(* GENUINELY massive pentagon: all m_i^2 > 0.  A mixed massless/massive 5x5 (some but not\n   all diagonals zero) matches neither n=5 head and falls through to the formal period -- the\n   all-mass head would divide by Sqrt[Y_ii]=0 in the cosh-Gram. *)\nNGon[Y_ /; MatrixQ[Y] && Length[Y] == 5 && AllTrue[Diagonal[Y], Positive]] := Gamma[5/2] NGonPentVolMassive[Y]/Sqrt[Abs[Det[Y]]];\nNGon[Y_ /; MatrixQ[Y] && Length[Y] == 4 && AllTrue[Diagonal[Y], Positive]] := Gamma[2] NGonBoxVolMassive[Y]/Sqrt[Abs[Det[Y]]];\nNGon[Y_ /; MatrixQ[Y]] := Gamma[Length[Y]/2] NGonVolume[Y]/Sqrt[Abs[Det[Y]]];",
+        "normalization": "$\\mathrm{Vol}_{n-1}(\\Sigma(Y))$ is the volume of the hyperbolic $(n{-}1)$-simplex whose geodesic edge lengths satisfy $\\cosh\\ell_{ij}=\\hat Y_{ij}$, a period of weight $\\lfloor n/2\\rfloor$. The dihedral angles $\\theta_{ij}$ (with $\\cos\\theta_{ij}$ a ratio of minors of $Y$) enter through the Clausen/Lobachevsky functions $\\Lambda(\\theta)=\\tfrac12\\mathrm{Cl}_2(2\\theta)=\\tfrac12\\operatorname{Im}\\mathrm{Li}_2(e^{2i\\theta})$. Low-$n$ reductions: $n{=}2$ a logarithm $\\operatorname{arccosh}\\hat Y_{12}$; $n{=}3$ the Gauss--Bonnet area $\\pi-\\sum_k\\theta_k$; $n{=}4$ the Usyukina--Davydychev box $\\Phi^{(1)}$ (massless internal lines) or the Murakami--Yano hyperbolic tetrahedron (generic internal masses); $n{=}6$ the Kellerhals hexagon. Physical region $\\det Y>0$ (sign $(-1)^{n-1}$), $|\\cos\\theta_{ij}|\\le1$; outside it the volume is complex. Measure $\\int d^n k/(i\\pi^{n/2})\\prod_e(-q_e^2+m_e^2)^{-1}$, $D=n$."
       },
       "refs": [
         {
           "arxiv": "hep-th/9709216",
           "texkey": "Davydychev:1997wa",
           "role": "defining",
-          "description": "Establishes that the one-loop $n$-point integral in $D = n$ dimensions equals the volume of a geodesic simplex in hyperbolic space, providing the geometric interpretation that underlies all subsequent work on this family."
+          "description": "Establishes that the one-loop $n$-point integral in $D = n$ dimensions equals the volume of a geodesic simplex in hyperbolic space, providing the geometric interpretation that underlies all subsequent work on this family.",
+          "title": "A geometrical angle on Feynman integrals",
+          "authors": "A. I. Davydychev, R. Delbourgo",
+          "journal": "J. Math. Phys. 39 (1998) 4299"
         },
         {
           "arxiv": "1912.11067",
           "texkey": "Bourjaily:2019exo",
           "role": "defining",
-          "description": "Derives explicit closed-form evaluations of all-mass $n$-gon integrals in $n$ dimensions for $n = 2, 3, 4, 5$ using Schläfli-type volume formulas, and establishes the symbol structure for all $n$ via orthoscheme decomposition."
+          "description": "Derives explicit closed-form evaluations of all-mass $n$-gon integrals in $n$ dimensions for $n = 2, 3, 4, 5$ using Schläfli-type volume formulas, and establishes the symbol structure for all $n$ via orthoscheme decomposition.",
+          "title": "All-mass n-gon integrals in n dimensions",
+          "authors": "J. L. Bourjaily, E. Gardi, A. J. McLeod, C. Vergu",
+          "journal": "JHEP 08 (2020) 029"
         },
         {
           "arxiv": "2306.04630",
           "texkey": "Ren:2023tuj",
-          "role": "result",
-          "description": "Gives the cleanest modern presentation of one-loop integrals as volumes of orthoschemes, with explicit evaluation of the massless hexagon in $D = 6$ via the Kellerhals formula."
+          "role": "modern",
+          "description": "Gives the cleanest modern presentation of one-loop integrals as volumes of orthoschemes, with explicit evaluation of the massless hexagon in $D = 6$ via the Kellerhals formula.",
+          "title": "One-loop integrals from volumes of orthoschemes",
+          "authors": "L. Ren, M. Spradlin, C. Vergu, A. Volovich",
+          "journal": "JHEP 05 (2024) 104"
         },
         {
           "arxiv": "hep-ph/9212308",
           "texkey": "Bern:1992em",
-          "role": "result",
-          "description": "Derives dimensionally-regulated one-loop integrals and the reduction of the $n$-point scalar integral to $(n{-}1)$-point integrals in $D = 4 - 2\\varepsilon$, establishing the standard framework for one-loop amplitude computations."
+          "role": "modern",
+          "description": "Derives dimensionally-regulated one-loop integrals and the reduction of the $n$-point scalar integral to $(n{-}1)$-point integrals in $D = 4 - 2\\varepsilon$, establishing the standard framework for one-loop amplitude computations.",
+          "title": "Dimensionally regulated one-loop integrals",
+          "authors": "Z. Bern, L. J. Dixon, D. A. Kosower",
+          "journal": "Phys. Lett. B 302 (1993) 299"
         },
         {
           "arxiv": "2201.03593",
           "texkey": "Weinzierl:2022saz",
-          "role": "review",
-          "description": "Comprehensive textbook on Feynman integrals; Appendix on scalar one-loop integrals lists all massless box mass configurations with explicit dilogarithmic formulas in $D = 4 - 2\\varepsilon$."
+          "role": "modern",
+          "description": "Comprehensive textbook on Feynman integrals; Appendix on scalar one-loop integrals lists all massless box mass configurations with explicit dilogarithmic formulas in $D = 4 - 2\\varepsilon$.",
+          "title": "Feynman Integrals",
+          "authors": "S. Weinzierl",
+          "journal": "UNITEXT for Physics (Springer, 2022)"
+        },
+        {
+          "arxiv": "2012.05599",
+          "journal": "J. Amer. Math. Soc. 36 (2023) 1003",
+          "texkey": null,
+          "texkeyUnresolved": true,
+          "role": "proof",
+          "description": "Proves the formula for the volume of an odd-dimensional hyperbolic orthoscheme in terms of alternating multiple polylogarithms of its moduli (a point in M_{0,n+2}), generalising Lobachevsky's 3-dimensional result; the basis for the n-gon volume at all even n.",
+          "title": "On the Goncharov depth conjecture and a formula for volumes of orthoschemes",
+          "authors": "D. Rudenko"
+        },
+        {
+          "journal": "Geom. Funct. Anal. 5 (1995) 640",
+          "texkey": null,
+          "texkeyUnresolved": true,
+          "role": "proof",
+          "description": "Kellerhals, Volumes in hyperbolic 5-space: expresses the volume of a doubly-asymptotic 5-orthoscheme through a weight-3 trilogarithmic function of its dihedral angles, used here for the explicit massless hexagon (n=6).",
+          "title": "Volumes in hyperbolic 5-space",
+          "authors": "R. Kellerhals"
         }
       ],
-      "related": [],
+      "related": [
+        "ladder4pt"
+      ],
       "generator": "NgonGraph",
       "batch": "core",
-      "previewParameter": 5,
+      "previewParameter": 4,
+      "normalization": "In its critical dimension $D=n$ the $n$-gon is finite and dual-conformally invariant, equal to $\\Gamma(n/2)\\,\\mathrm{Vol}_{n-1}(\\Sigma(Y))/\\sqrt{|\\det Y|}$ for the Cayley matrix $Y_{ij}=\\tfrac12(x_{ij}^2+m_i^2+m_j^2)$, $\\hat Y_{ij}=Y_{ij}/\\sqrt{Y_{ii}Y_{jj}}=\\cosh\\ell_{ij}$. The $n=4$ member is the four-mass box $\\Phi^{(1)}(u,v)/(s\\,t)$ shared with ladder4pt $L=1$, $u=Y_{12}Y_{34}/(Y_{13}Y_{24})$, $v=Y_{14}Y_{23}/(Y_{13}Y_{24})$.",
+      "memberConfigs": {
+        "2": "100_2_",
+        "3": "100_20_3_",
+        "4": "100_20_30_4_",
+        "5": "100_20_30_40_5_",
+        "6": "100_20_30_40_50_6_",
+        "7": "100_20_30_40_50_60_7_",
+        "8": "100_20_30_40_50_60_70_8_"
+      },
+      "allMassConfigs": {
+        "2": "123_4_",
+        "3": "123_45_6_",
+        "4": "123_45_67_8_",
+        "5": "123_45_67_89_10_",
+        "6": "123_45_67_89_1011_12_",
+        "7": "123_45_67_89_1011_1213_14_",
+        "8": "123_45_67_89_1011_1213_1415_16_"
+      },
       "members": [
         {
           "parameter": 2,
@@ -6281,7 +6428,18 @@
               "parameter": 1
             }
           ],
-          "config": "000_0_"
+          "config": "100_2_",
+          "massVariant": "massless",
+          "layout": [
+            [
+              1.0,
+              0.0
+            ],
+            [
+              -1.0,
+              0.0
+            ]
+          ]
         },
         {
           "parameter": 3,
@@ -6306,7 +6464,22 @@
               "parameter": 1
             }
           ],
-          "config": "000_00_0_"
+          "config": "100_20_3_",
+          "massVariant": "massless",
+          "layout": [
+            [
+              1.0,
+              0.0
+            ],
+            [
+              -0.5,
+              0.866
+            ],
+            [
+              -0.5,
+              -0.866
+            ]
+          ]
         },
         {
           "parameter": 4,
@@ -6330,7 +6503,26 @@
               "parameter": 1
             }
           ],
-          "config": "000_00_00_0_"
+          "config": "100_20_30_4_",
+          "massVariant": "massless",
+          "layout": [
+            [
+              1.0,
+              0.0
+            ],
+            [
+              0.0,
+              1.0
+            ],
+            [
+              -0.0,
+              -1.0
+            ],
+            [
+              -1.0,
+              0.0
+            ]
+          ]
         },
         {
           "parameter": 5,
@@ -6338,7 +6530,30 @@
           "primaryName": "Pentagon",
           "loops": 1,
           "sharedWith": [],
-          "config": "000_00_00_00_0_"
+          "config": "100_20_30_40_5_",
+          "massVariant": "massless",
+          "layout": [
+            [
+              1.0,
+              0.0
+            ],
+            [
+              0.309,
+              0.951
+            ],
+            [
+              0.309,
+              -0.951
+            ],
+            [
+              -0.809,
+              0.588
+            ],
+            [
+              -0.809,
+              -0.588
+            ]
+          ]
         },
         {
           "parameter": 6,
@@ -6346,7 +6561,34 @@
           "primaryName": "Hexagon",
           "loops": 1,
           "sharedWith": [],
-          "config": "000_00_00_00_00_0_"
+          "config": "100_20_30_40_50_6_",
+          "massVariant": "massless",
+          "layout": [
+            [
+              1.0,
+              0.0
+            ],
+            [
+              0.5,
+              0.866
+            ],
+            [
+              0.5,
+              -0.866
+            ],
+            [
+              -0.5,
+              0.866
+            ],
+            [
+              -0.5,
+              -0.866
+            ],
+            [
+              -1.0,
+              0.0
+            ]
+          ]
         },
         {
           "parameter": 7,
@@ -6354,7 +6596,38 @@
           "primaryName": "Heptagon",
           "loops": 1,
           "sharedWith": [],
-          "config": "000_00_00_00_00_00_0_"
+          "config": "100_20_30_40_50_60_7_",
+          "massVariant": "massless",
+          "layout": [
+            [
+              1.0,
+              0.0
+            ],
+            [
+              0.623,
+              0.782
+            ],
+            [
+              0.623,
+              -0.782
+            ],
+            [
+              -0.223,
+              0.975
+            ],
+            [
+              -0.223,
+              -0.975
+            ],
+            [
+              -0.901,
+              0.434
+            ],
+            [
+              -0.901,
+              -0.434
+            ]
+          ]
         },
         {
           "parameter": 8,
@@ -6362,7 +6635,297 @@
           "primaryName": "Octagon",
           "loops": 1,
           "sharedWith": [],
-          "config": "000_00_00_00_00_00_00_0_"
+          "config": "100_20_30_40_50_60_70_8_",
+          "massVariant": "massless",
+          "layout": [
+            [
+              1.0,
+              0.0
+            ],
+            [
+              0.707,
+              0.707
+            ],
+            [
+              0.707,
+              -0.707
+            ],
+            [
+              0.0,
+              1.0
+            ],
+            [
+              -0.0,
+              -1.0
+            ],
+            [
+              -0.707,
+              0.707
+            ],
+            [
+              -0.707,
+              -0.707
+            ],
+            [
+              -1.0,
+              0.0
+            ]
+          ]
+        },
+        {
+          "parameter": 2,
+          "topology": "e11_e_",
+          "primaryName": "Bubble",
+          "loops": 1,
+          "sharedWith": [
+            {
+              "family": "banana",
+              "parameter": 1
+            }
+          ],
+          "config": "123_4_",
+          "massVariant": "all-mass",
+          "layout": [
+            [
+              1.0,
+              0.0
+            ],
+            [
+              -1.0,
+              0.0
+            ]
+          ]
+        },
+        {
+          "parameter": 3,
+          "topology": "e12_e2_e_",
+          "primaryName": "Triangle",
+          "loops": 1,
+          "sharedWith": [
+            {
+              "family": "fishnet-multileg-2d",
+              "parameter": 1
+            },
+            {
+              "family": "generalised-ladder",
+              "parameter": 1
+            },
+            {
+              "family": "ice-cone",
+              "parameter": 1
+            },
+            {
+              "family": "triangle-ladder",
+              "parameter": 1
+            }
+          ],
+          "config": "123_45_6_",
+          "massVariant": "all-mass",
+          "layout": [
+            [
+              1.0,
+              0.0
+            ],
+            [
+              -0.5,
+              0.866
+            ],
+            [
+              -0.5,
+              -0.866
+            ]
+          ]
+        },
+        {
+          "parameter": 4,
+          "topology": "e12_e3_e3_e_",
+          "primaryName": "Box",
+          "loops": 1,
+          "sharedWith": [
+            {
+              "family": "basso-dixon",
+              "parameter": [
+                1,
+                1
+              ]
+            },
+            {
+              "family": "ladder4pt",
+              "parameter": 1
+            },
+            {
+              "family": "traintrack",
+              "parameter": 1
+            }
+          ],
+          "config": "123_45_67_8_",
+          "massVariant": "all-mass",
+          "layout": [
+            [
+              1.0,
+              0.0
+            ],
+            [
+              0.0,
+              1.0
+            ],
+            [
+              -0.0,
+              -1.0
+            ],
+            [
+              -1.0,
+              0.0
+            ]
+          ]
+        },
+        {
+          "parameter": 5,
+          "topology": "e12_e3_e4_e4_e_",
+          "primaryName": "Pentagon",
+          "loops": 1,
+          "sharedWith": [],
+          "config": "123_45_67_89_10_",
+          "massVariant": "all-mass",
+          "layout": [
+            [
+              1.0,
+              0.0
+            ],
+            [
+              0.309,
+              0.951
+            ],
+            [
+              0.309,
+              -0.951
+            ],
+            [
+              -0.809,
+              0.588
+            ],
+            [
+              -0.809,
+              -0.588
+            ]
+          ]
+        },
+        {
+          "parameter": 6,
+          "topology": "e12_e3_e4_e5_e5_e_",
+          "primaryName": "Hexagon",
+          "loops": 1,
+          "sharedWith": [],
+          "config": "123_45_67_89_1011_12_",
+          "massVariant": "all-mass",
+          "layout": [
+            [
+              1.0,
+              0.0
+            ],
+            [
+              0.5,
+              0.866
+            ],
+            [
+              0.5,
+              -0.866
+            ],
+            [
+              -0.5,
+              0.866
+            ],
+            [
+              -0.5,
+              -0.866
+            ],
+            [
+              -1.0,
+              0.0
+            ]
+          ]
+        },
+        {
+          "parameter": 7,
+          "topology": "e12_e3_e4_e5_e6_e6_e_",
+          "primaryName": "Heptagon",
+          "loops": 1,
+          "sharedWith": [],
+          "config": "123_45_67_89_1011_1213_14_",
+          "massVariant": "all-mass",
+          "layout": [
+            [
+              1.0,
+              0.0
+            ],
+            [
+              0.623,
+              0.782
+            ],
+            [
+              0.623,
+              -0.782
+            ],
+            [
+              -0.223,
+              0.975
+            ],
+            [
+              -0.223,
+              -0.975
+            ],
+            [
+              -0.901,
+              0.434
+            ],
+            [
+              -0.901,
+              -0.434
+            ]
+          ]
+        },
+        {
+          "parameter": 8,
+          "topology": "e12_e3_e4_e5_e6_e7_e7_e_",
+          "primaryName": "Octagon",
+          "loops": 1,
+          "sharedWith": [],
+          "config": "123_45_67_89_1011_1213_1415_16_",
+          "massVariant": "all-mass",
+          "layout": [
+            [
+              1.0,
+              0.0
+            ],
+            [
+              0.707,
+              0.707
+            ],
+            [
+              0.707,
+              -0.707
+            ],
+            [
+              0.0,
+              1.0
+            ],
+            [
+              -0.0,
+              -1.0
+            ],
+            [
+              -0.707,
+              0.707
+            ],
+            [
+              -0.707,
+              -0.707
+            ],
+            [
+              -1.0,
+              0.0
+            ]
+          ]
         }
       ],
       "missing": []
@@ -6371,6 +6934,6 @@
   "_meta": {
     "builtFrom": "data/families.json",
     "familyCount": 16,
-    "memberCount": 119
+    "memberCount": 126
   }
 }

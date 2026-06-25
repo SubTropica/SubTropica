@@ -13,7 +13,13 @@
 
 #include <flint/fmpq.h>
 #include <flint/fmpz.h>
+#include <flint/fmpz_mpoly.h>
 #include <flint/mpoly.h>
+#include <flint/nmod.h>           // nmod_pow_ui (eval+interp resultant)
+#include <flint/nmod_mpoly.h>     // multi-modular resultant (HF_LR_MODULAR_RESULTANT)
+#include <flint/nmod_poly.h>      // univariate resultant + interpolation (eval+interp)
+#include <flint/ulong_extras.h>   // n_nextprime
+#include <map>
 
 #include <atomic>
 #include <cassert>
@@ -868,12 +874,386 @@ Poly Poly::gcd(const Poly& b) const {
     return r;
 }
 
+// ---- Multi-modular resultant (HF_LR_MODULAR_RESULTANT) ----
+// Res_x(f,g) via CRT of nmod_mpoly_resultant over many primes.  The exact path
+// (fmpq_mpoly_resultant -> Ducos subresultant PRS over Q) swells its INTERMEDIATE
+// coefficients in GMP -- the int1 deg-2-discriminant wedge.  Working mod p keeps
+// every intermediate small; only the final (genuinely large) integer resultant
+// is assembled, by CRT.  Since f = c_f * Z_f (fmpq content * integer zpoly),
+// Res_x(f,g) = c_f^deg_x(g) * c_g^deg_x(f) * Res_x(Z_f, Z_g), and Res_x(Z_f,Z_g)
+// is an INTEGER mpoly -> pure CRT, no rational reconstruction.  Verified
+// byte-equal to fmpz_mpoly_resultant on random + swelling cases
+// (notes/christoph_lr_perf/ff_resultant/multimod_test.cpp: 32/32, 3.5x on swell).
+namespace {
+
+struct FzGuard {                       // copyable RAII fmpz for std::map values
+    fmpz_t v;
+    FzGuard() { fmpz_init(v); }
+    ~FzGuard() { fmpz_clear(v); }
+    FzGuard(const FzGuard& o) { fmpz_init(v); fmpz_set(v, o.v); }
+    FzGuard& operator=(const FzGuard& o) { fmpz_set(v, o.v); return *this; }
+};
+
+void reduce_fmpz_mpoly_mod(nmod_mpoly_t out, const fmpz_mpoly_struct* F,
+                           const fmpz_mpoly_ctx_struct* zctx,
+                           const nmod_mpoly_ctx_t nctx, ulong p) {
+    nmod_mpoly_zero(out, nctx);
+    const slong nv = fmpz_mpoly_ctx_nvars(zctx);
+    const slong len = fmpz_mpoly_length(F, zctx);
+    std::vector<ulong> exp(nv);
+    fmpz_t c; fmpz_init(c);
+    for (slong i = 0; i < len; ++i) {
+        fmpz_mpoly_get_term_coeff_fmpz(c, F, i, zctx);
+        fmpz_mpoly_get_term_exp_ui(exp.data(), F, i, zctx);
+        const ulong cm = fmpz_fdiv_ui(c, p);      // c mod p in [0,p)
+        if (cm) nmod_mpoly_push_term_ui_ui(out, cm, exp.data(), nctx);
+    }
+    fmpz_clear(c);
+    nmod_mpoly_sort_terms(out, nctx);
+    nmod_mpoly_combine_like_terms(out, nctx);
+}
+
+// Eval+interp resultant mod q (Kronecker substitution p_i = s^(D_i)): the
+// multivariate Res(p_1..p_k) maps to a univariate R~(s); interpolate R~ from
+// K+1 points, each a UNIVARIATE-in-var resultant over F_q (compose params to
+// numbers -> nmod_poly_resultant).  No parameter-polynomial intermediates, so
+// no Ducos term-blowup -- the cure for int1's pairwise-resultant wedge.
+// Returns false on degenerate input (caller falls back to nmod_mpoly_resultant).
+// Verified == nmod_mpoly_resultant on random cases (ff_resultant/eval_interp_test.cpp).
+bool evalinterp_resultant_modq(nmod_mpoly_t R, const nmod_mpoly_t f,
+        const nmod_mpoly_t g, slong var, ulong q, const nmod_mpoly_ctx_t ctx) {
+    const slong nv = nmod_mpoly_ctx_nvars(ctx);
+    nmod_t mod; nmod_init(&mod, q);
+    const slong dxf = nmod_mpoly_degree_si(f, var, ctx);
+    const slong dxg = nmod_mpoly_degree_si(g, var, ctx);
+    if (dxf < 1 || dxg < 1) return false;
+    std::vector<slong> params, d;
+    for (slong v = 0; v < nv; ++v) if (v != var) {
+        params.push_back(v);
+        d.push_back(dxg*nmod_mpoly_degree_si(f, v, ctx)
+                    + dxf*nmod_mpoly_degree_si(g, v, ctx));   // deg_v(Res) bound
+    }
+    const slong k = (slong)params.size();
+    // FAST black box (Horner): precompute the term structure of f,g ONCE (coeff,
+    // pivot exponent, param exponents, per-param max degree), then per evaluation
+    // raise each param to its powers and accumulate directly into the univariate-
+    // in-pivot coefficient array -- ~15 us/eval vs ~180 us for
+    // nmod_mpoly_compose_nmod_poly, byte-identical (verified 200/200 +
+    // ff_resultant/fast_evalinterp.cpp).  This is what makes eval+interp (PRS-free,
+    // bounded by the OUTPUT-degree grid) viable on the high-pivot-degree int1
+    // resultants where nmod_mpoly_resultant's Ducos PRS term-blows-up.
+    struct FT { std::vector<ulong> c; std::vector<slong> pe; std::vector<slong> ae;
+                slong pdeg; std::vector<slong> md; };
+    auto build = [&](const nmod_mpoly_t F, FT& T) {
+        const slong L = nmod_mpoly_length(F, ctx);
+        T.c.resize(L); T.pe.resize(L); T.ae.assign((size_t)L*k, 0);
+        T.pdeg = nmod_mpoly_degree_si(F, var, ctx); T.md.assign(k, 0);
+        std::vector<ulong> e(nv);
+        for (slong i = 0; i < L; ++i) {
+            T.c[i] = nmod_mpoly_get_term_coeff_ui(F, i, ctx);
+            nmod_mpoly_get_term_exp_ui(e.data(), F, i, ctx);
+            T.pe[i] = (slong)e[var];
+            for (slong j = 0; j < k; ++j) {
+                slong dd = (slong)e[params[j]];
+                T.ae[(size_t)i*k + j] = dd; if (dd > T.md[j]) T.md[j] = dd;
+            }
+        }
+    };
+    FT Tf, Tg; build(f, Tf); build(g, Tg);
+    std::vector<ulong> uf(Tf.pdeg + 1), ug(Tg.pdeg + 1);
+    std::vector<std::vector<ulong>> pw(k);
+    nmod_poly_t fu, gu; nmod_poly_init(fu, q); nmod_poly_init(gu, q);
+    auto eval_at = [&](const std::vector<ulong>& pv) -> ulong {
+        for (slong j = 0; j < k; ++j) {
+            slong m = std::max(Tf.md[j], Tg.md[j]);
+            pw[j].resize(m + 1); pw[j][0] = 1 % q;
+            for (slong dd = 1; dd <= m; ++dd) pw[j][dd] = nmod_mul(pw[j][dd-1], pv[j] % q, mod);
+        }
+        std::fill(uf.begin(), uf.end(), 0);
+        for (slong i = 0; i < (slong)Tf.c.size(); ++i) {
+            ulong m = Tf.c[i];
+            for (slong j = 0; j < k; ++j) m = nmod_mul(m, pw[j][Tf.ae[(size_t)i*k + j]], mod);
+            uf[Tf.pe[i]] = nmod_add(uf[Tf.pe[i]], m, mod);
+        }
+        std::fill(ug.begin(), ug.end(), 0);
+        for (slong i = 0; i < (slong)Tg.c.size(); ++i) {
+            ulong m = Tg.c[i];
+            for (slong j = 0; j < k; ++j) m = nmod_mul(m, pw[j][Tg.ae[(size_t)i*k + j]], mod);
+            ug[Tg.pe[i]] = nmod_add(ug[Tg.pe[i]], m, mod);
+        }
+        nmod_poly_zero(fu); for (slong i = 0; i <= Tf.pdeg; ++i) if (uf[i]) nmod_poly_set_coeff_ui(fu, i, uf[i]);
+        nmod_poly_zero(gu); for (slong i = 0; i <= Tg.pdeg; ++i) if (ug[i]) nmod_poly_set_coeff_ui(gu, i, ug[i]);
+        return nmod_poly_resultant(fu, gu);
+    };
+    auto cleanup = [&]() { nmod_poly_clear(fu); nmod_poly_clear(gu); };
+    // DEGREE PROBE: the loose bound d[j] over-sizes the dense Kronecker grid.
+    // Detect the ACTUAL deg_{p_j}(Res) by interpolating Res along p_j at 2 base
+    // points (max over bases guards a base accidentally killing the lead term).
+    std::vector<slong> ad(k);
+    for (slong j = 0; j < k; ++j) {
+        slong best = 0;
+        for (int bp = 0; bp < 2; ++bp) {
+            std::vector<ulong> base(k);
+            for (slong i = 0; i < k; ++i) base[i] = (ulong)(13 + 37*bp + 101*i) % q;
+            slong np = d[j] + 1;
+            std::vector<ulong> xs2(np), ys2(np);
+            for (slong t = 0; t < np; ++t) { base[j] = (ulong)(t+1) % q; xs2[t] = base[j]; ys2[t] = eval_at(base); }
+            nmod_poly_t pp; nmod_poly_init(pp, q);
+            nmod_poly_interpolate_nmod_vec(pp, xs2.data(), ys2.data(), np);
+            slong dg = nmod_poly_degree(pp); if (dg > best) best = dg;
+            nmod_poly_clear(pp);
+        }
+        ad[j] = best;                              // probed degree (<= loose d[j])
+    }
+    // Dense Kronecker grid size = prod(ad[j]+1).  eval+interp wins (over Ducos) up
+    // to a large grid; past HF_LR_EVALINTERP_GRIDCAP (default 5e7 ~ 12 min eval)
+    // bail so the caller falls back to nmod_mpoly_resultant (Ducos), guarding
+    // against a pathologically high-degree resultant.  Computed with overflow
+    // saturation so the product cannot wrap.
+    static const unsigned long long gridcap = [] {
+        const char* e = std::getenv("HF_LR_EVALINTERP_GRIDCAP");
+        return e ? strtoull(e, nullptr, 10) : 50000000ULL;
+    }();
+    unsigned long long grid_est = 1;
+    for (slong j = 0; j < k; ++j) {
+        unsigned long long f1 = (unsigned long long)(ad[j] + 1);
+        if (grid_est > gridcap / (f1 ? f1 : 1)) { grid_est = gridcap + 1; break; }
+        grid_est *= f1;
+    }
+    if (grid_est > gridcap) { cleanup(); return false; }
+    std::vector<ulong> D(k); ulong stride = 1;
+    for (slong j = 0; j < k; ++j) { D[j] = stride; stride *= (ulong)(ad[j]+1); }
+    const slong K = (slong)stride - 1;             // Kronecker degree from probed degs
+    std::vector<ulong> xs(K+1), ys(K+1);
+    for (slong i = 0; i <= K; ++i) {
+        ulong a = (ulong)(i + 1) % q; xs[i] = a;
+        std::vector<ulong> pv(k);
+        for (slong j = 0; j < k; ++j) pv[j] = nmod_pow_ui(a, D[j], mod);  // p_j = a^{D[j]}
+        ys[i] = eval_at(pv);
+    }
+    nmod_poly_t Rs; nmod_poly_init(Rs, q);
+    nmod_poly_interpolate_nmod_vec(Rs, xs.data(), ys.data(), K + 1);
+    nmod_mpoly_zero(R, ctx);
+    std::vector<ulong> exp(nv, 0);
+    slong rdeg = nmod_poly_degree(Rs);
+    for (slong e = 0; e <= rdeg; ++e) {
+        ulong c = nmod_poly_get_coeff_ui(Rs, e);
+        if (!c) continue;
+        std::fill(exp.begin(), exp.end(), 0);
+        ulong ee = (ulong)e;
+        for (slong j = 0; j < k; ++j) {
+            exp[params[j]] = ee % (ulong)(ad[j]+1); ee /= (ulong)(ad[j]+1);
+        }
+        nmod_mpoly_push_term_ui_ui(R, c, exp.data(), ctx);
+    }
+    nmod_mpoly_sort_terms(R, ctx); nmod_mpoly_combine_like_terms(R, ctx);
+    nmod_poly_clear(fu); nmod_poly_clear(gu); nmod_poly_clear(Rs);
+    return true;
+}
+
+// R = Res_var(F,G), F,G integer mpolys.  Accept once stable_target consecutive
+// primes leave the CRT value unchanged (early-termination heuristic; standard
+// for modular resultants).
+void multimod_resultant_z(fmpz_mpoly_t R, const fmpz_mpoly_struct* F,
+                          const fmpz_mpoly_struct* G, slong var,
+                          const fmpz_mpoly_ctx_struct* zctx) {
+    const int stable_target = 3;
+    const slong nv = fmpz_mpoly_ctx_nvars(zctx);
+    const slong degF = fmpz_mpoly_degree_si(F, var, zctx);
+    const slong degG = fmpz_mpoly_degree_si(G, var, zctx);
+    std::map<std::vector<ulong>, FzGuard> acc;
+    fmpz_t M; fmpz_init_set_ui(M, 1);
+    fmpz_t r1, newc; fmpz_init(r1); fmpz_init(newc);
+    ulong p = (1UL << 59);
+    int stable = 0;
+    while (stable < stable_target) {
+        p = n_nextprime(p, 1);
+        nmod_mpoly_ctx_t nctx; nmod_mpoly_ctx_init(nctx, nv, ORD_LEX, p);
+        nmod_mpoly_t nf, ng, nr;
+        nmod_mpoly_init(nf, nctx); nmod_mpoly_init(ng, nctx); nmod_mpoly_init(nr, nctx);
+        reduce_fmpz_mpoly_mod(nf, F, zctx, nctx, p);
+        reduce_fmpz_mpoly_mod(ng, G, zctx, nctx, p);
+        if (nmod_mpoly_degree_si(nf, var, nctx) != degF ||
+            nmod_mpoly_degree_si(ng, var, nctx) != degG) {
+            nmod_mpoly_clear(nf, nctx); nmod_mpoly_clear(ng, nctx);
+            nmod_mpoly_clear(nr, nctx); nmod_mpoly_ctx_clear(nctx);
+            continue;                                  // bad prime: degree drop
+        }
+        // Per-prime resultant: FAST eval+interp (PRS-FREE), with Ducos fallback.
+        // int1 has TWO resultant pathologies and ONLY eval+interp clears both:
+        //   (1) integer-coeff swell of the exact fmpq Ducos path -- killed by
+        //       working mod p (any per-prime engine fixes this); and
+        //   (2) a mod-p Ducos PRS TERM-COUNT blowup, where nmod_mpoly_resultant
+        //       ITSELF runs unbounded (high-pivot-degree resultants, e.g.
+        //       Res_x5 deg 10/9, dense grid ~1.6e6).  eval+interp evaluates at
+        //       points (no PRS intermediates) so it is bounded by the OUTPUT-degree
+        //       grid (~29 s for that case with the fast Horner black box), where
+        //       Ducos never returns.  evalinterp_resultant_modq returns false on a
+        //       degenerate side OR when the grid exceeds HF_LR_EVALINTERP_GRIDCAP,
+        //       in which case we fall back to Ducos mod p.
+        if (!evalinterp_resultant_modq(nr, nf, ng, var, p, nctx))
+            nmod_mpoly_resultant(nr, nf, ng, var, nctx);
+        std::map<std::vector<ulong>, ulong> rmap;
+        const slong rlen = nmod_mpoly_length(nr, nctx);
+        std::vector<ulong> exp(nv);
+        for (slong i = 0; i < rlen; ++i) {
+            nmod_mpoly_get_term_exp_ui(exp.data(), nr, i, nctx);
+            rmap[std::vector<ulong>(exp.begin(), exp.end())] =
+                nmod_mpoly_get_term_coeff_ui(nr, i, nctx);
+        }
+        bool changed = false;
+        std::map<std::vector<ulong>, FzGuard> nacc;
+        for (auto& kv : acc) {
+            ulong r2 = 0; auto it = rmap.find(kv.first);
+            if (it != rmap.end()) r2 = it->second;
+            fmpz_CRT_ui(newc, kv.second.v, M, r2, p, 1);
+            if (!fmpz_equal(newc, kv.second.v)) changed = true;
+            fmpz_set(nacc[kv.first].v, newc);
+        }
+        for (auto& kv : rmap) {
+            if (acc.count(kv.first)) continue;
+            fmpz_zero(r1);
+            fmpz_CRT_ui(newc, r1, M, kv.second, p, 1);
+            if (!fmpz_is_zero(newc)) changed = true;
+            fmpz_set(nacc[kv.first].v, newc);
+        }
+        acc.swap(nacc);
+        fmpz_mul_ui(M, M, p);
+        stable = changed ? 0 : (stable + 1);
+        nmod_mpoly_clear(nf, nctx); nmod_mpoly_clear(ng, nctx);
+        nmod_mpoly_clear(nr, nctx); nmod_mpoly_ctx_clear(nctx);
+    }
+    fmpz_mpoly_zero(R, zctx);
+    for (auto& kv : acc) {
+        if (fmpz_is_zero(kv.second.v)) continue;
+        fmpz_mpoly_push_term_fmpz_ui(R, kv.second.v, kv.first.data(), zctx);
+    }
+    fmpz_mpoly_sort_terms(R, zctx);
+    fmpz_mpoly_combine_like_terms(R, zctx);
+    fmpz_clear(M); fmpz_clear(r1); fmpz_clear(newc);
+}
+
+// Drop-in replacement for fmpq_mpoly_resultant.  Degenerate cases (a side is
+// zero or constant in var) fall back to the exact path (cheap, and avoids
+// special-casing the scaling identity).
+void fmpq_mpoly_resultant_multimodular(fmpq_mpoly_t r, const fmpq_mpoly_t f,
+        const fmpq_mpoly_t g, slong var, const fmpq_mpoly_ctx_t ctx) {
+    const fmpz_mpoly_ctx_struct* zctx = ctx->zctx;
+    fmpz_mpoly_struct* Zf = fmpq_mpoly_zpoly_ref(const_cast<fmpq_mpoly_struct*>(f), ctx);
+    fmpz_mpoly_struct* Zg = fmpq_mpoly_zpoly_ref(const_cast<fmpq_mpoly_struct*>(g), ctx);
+    const slong degF = fmpz_mpoly_is_zero(Zf, zctx) ? -1
+                          : fmpz_mpoly_degree_si(Zf, var, zctx);
+    const slong degG = fmpz_mpoly_is_zero(Zg, zctx) ? -1
+                          : fmpz_mpoly_degree_si(Zg, var, zctx);
+    if (degF < 1 || degG < 1) {
+        fmpq_mpoly_resultant(r, f, g, var, ctx);
+        return;
+    }
+    fmpz_mpoly_t Rint; fmpz_mpoly_init(Rint, zctx);
+    multimod_resultant_z(Rint, Zf, Zg, var, zctx);
+    // scale = c_f^degG * c_g^degF (content holds the rational factor and sign).
+    fmpq_t scale, tmp; fmpq_init(scale); fmpq_init(tmp);
+    fmpq_pow_si(scale, fmpq_mpoly_content_ref(const_cast<fmpq_mpoly_struct*>(f), ctx), degG);
+    fmpq_pow_si(tmp,   fmpq_mpoly_content_ref(const_cast<fmpq_mpoly_struct*>(g), ctx), degF);
+    fmpq_mul(scale, scale, tmp);
+    fmpz_mpoly_set(fmpq_mpoly_zpoly_ref(r, ctx), Rint, zctx);
+    fmpq_one(fmpq_mpoly_content_ref(r, ctx));
+    fmpq_mpoly_reduce(r, ctx);
+    fmpq_mpoly_scalar_mul_fmpq(r, r, scale, ctx);
+    fmpq_clear(scale); fmpq_clear(tmp);
+    fmpz_mpoly_clear(Rint, zctx);
+}
+
+}  // namespace
+
 Poly Poly::resultant(const Poly& b, size_t var_idx) const {
     assert_same_ctx(*this, b);
     if (var_idx >= ctx_->vars().size()) {
         throw std::out_of_range("Poly::resultant: var_idx out of range");
     }
+    // HF_DUMP_RESULTANT_OPERANDS: operand capture for the int1 pairwise-resultant
+    // wedge (b).  Set it to a filesystem path P; then for EVERY resultant call we
+    // append a one-line size record to P.sizes, and when the larger operand has
+    // >= HF_DUMP_RESULTANT_MINTERMS terms (default 40) we append the full
+    // (var, ctx_vars, f, g) to P (capped at 300) AND overwrite P.biggest with the
+    // largest pair seen so far.  The dump is FLUSHED BEFORE the (possibly wedging)
+    // computation, so when a run hangs the LAST entry in P / the contents of
+    // P.biggest IS the monster pair.  Mirrors the disc-failure dump below
+    // (mutex + atomic, thread-safe).  No effect when the env var is unset.
+    if (const char* dpath = std::getenv("HF_DUMP_RESULTANT_OPERANDS")) {
+        const slong tf = fmpq_mpoly_length(raw_, ctx_->raw());
+        const slong tg = fmpq_mpoly_length(b.raw_, ctx_->raw());
+        const long  df = degree_in_var(var_idx);
+        const long  dg = b.degree_in_var(var_idx);
+        long minterms = 40;
+        if (const char* mt = std::getenv("HF_DUMP_RESULTANT_MINTERMS")) minterms = std::atol(mt);
+        static std::mutex        rdump_mtx;
+        static std::atomic<int>  rdump_full{0};
+        static long              rdump_maxterms = -1;     // guarded by rdump_mtx
+        const std::string P(dpath);
+        const slong big = tf > tg ? tf : tg;
+        std::lock_guard<std::mutex> lk(rdump_mtx);
+        {
+            std::ofstream sz(P + ".sizes", std::ios::app);
+            if (sz) sz << "var=" << var_idx << "(" << ctx_->vars()[var_idx] << ")"
+                       << " tf=" << tf << " tg=" << tg
+                       << " df=" << df << " dg=" << dg << "\n";
+        }
+        auto write_pair = [&](std::ofstream& o, const char* tag, int idx) {
+            o << "=== RESULTANT PAIR " << tag << " #" << idx
+              << " var_idx=" << var_idx << " var_name=" << ctx_->vars()[var_idx]
+              << " tf=" << tf << " tg=" << tg << " df=" << df << " dg=" << dg << " ===\n"
+              << "ctx_vars:";
+            for (const auto& v : ctx_->vars()) o << " " << v;
+            o << "\nf = " << to_string() << "\ng = " << b.to_string()
+              << "\n=== end pair ===\n";
+            o.flush();
+        };
+        if (big >= (slong)minterms) {
+            int idx = rdump_full.fetch_add(1);
+            if (idx < 300) {
+                std::ofstream dump(P, std::ios::app);
+                if (dump) write_pair(dump, "append", idx);
+            }
+            if (big > rdump_maxterms) {
+                rdump_maxterms = big;
+                std::ofstream bg(P + ".biggest", std::ios::trunc);
+                if (bg) write_pair(bg, "biggest", idx);
+            }
+        }
+    }
+    // Resultant backend selection (Ducos-first guard).  Exact fmpq Ducos is
+    // fastest for SMALL operands, but its intermediate coefficients swell in GMP
+    // for large ones -- the int1 wedge, where one fmpq_mpoly_resultant on ~960-term
+    // operands ran unbounded.  That wedge is pure INTEGER-coefficient swell (NOT a
+    // term-count blowup): the multimodular path (CRT of nmod_mpoly_resultant over
+    // primes) computes the IDENTICAL resultant with every intermediate kept small,
+    // doing the real wedge pair in ~30s where exact never returns.  Byte-equality
+    // to the exact path is verified 32/32 + a swelling case in
+    // notes/christoph_lr_perf/ff_resultant/multimod_test.cpp.  We auto-engage the
+    // multimodular path once the operand size (product of term counts) exceeds a
+    // guard, so the common small case keeps the fast exact path and only the
+    // monster case pays the CRT.  Overrides: HF_LR_RESULTANT_EXACT forces exact;
+    // HF_LR_MODULAR_RESULTANT forces multimodular; HF_LR_RESULTANT_GUARD tunes the
+    // threshold (default 2000 = ~45x45 terms; the int1 monsters are ~9e5).
+    static const bool force_exact   = std::getenv("HF_LR_RESULTANT_EXACT")   != nullptr;
+    static const bool force_modular = std::getenv("HF_LR_MODULAR_RESULTANT") != nullptr;
+    static const unsigned long guard = [] {
+        const char* e = std::getenv("HF_LR_RESULTANT_GUARD");
+        return e ? std::strtoul(e, nullptr, 10) : 2000UL;
+    }();
+    const unsigned __int128 tprod =
+        static_cast<unsigned __int128>(fmpq_mpoly_length(raw_, ctx_->raw())) *
+        static_cast<unsigned __int128>(fmpq_mpoly_length(b.raw_, ctx_->raw()));
+    const bool use_modular =
+        !force_exact && (force_modular ||
+                         tprod > static_cast<unsigned __int128>(guard));
     Poly r(*ctx_);
+    if (use_modular) {
+        fmpq_mpoly_resultant_multimodular(r.raw_, raw_, b.raw_,
+                                          static_cast<slong>(var_idx), ctx_->raw());
+        return r;
+    }
     if (fmpq_mpoly_resultant(r.raw_, raw_, b.raw_,
                              static_cast<slong>(var_idx), ctx_->raw()) == 0) {
         throw std::runtime_error("Poly::resultant: fmpq_mpoly_resultant failed");
@@ -956,6 +1336,25 @@ Poly Poly::discriminant_in_var(size_t var_idx) const {
     long n = degree_in_var(var_idx);
     if (n < 1) {
         return Poly::from_int(*ctx_, 1);
+    }
+
+    // Deg-2 fast path: disc(a x^2 + b x + c) = b^2 - 4 a c, computed DIRECTLY
+    // (two multiplications) instead of the general Res(p, p')/lc.  The general
+    // path runs FLINT's Ducos subresultant PRS, whose intermediate
+    // subresultants blow up in TERM-COUNT over the parameter variables -- the
+    // int1 deg-2-algebraic-letter (Wm/Wp) wedge, where a single discriminant
+    // ran >4 min (even mod p; the term-blowup is independent of coefficient
+    // size).  b^2 - 4ac is one polynomial squaring + one product, no PRS.  This
+    // SIGN: FLINT's Res(f,f',var)/lc returns 4ac - b^2 = -(b^2-4ac), NOT the
+    // textbook b^2-4ac (verified empirically: ff_resultant/disc2_test.cpp,
+    // 77/77 Res/lc == -(b^2-4ac)).  We MATCH the general path byte-for-byte
+    // (downstream is calibrated to its output), so return 4ac - b^2.
+    if (n == 2) {
+        Poly a = coefficient_of_var(var_idx, 2);
+        Poly b = coefficient_of_var(var_idx, 1);
+        Poly c = coefficient_of_var(var_idx, 0);
+        Poly four = Poly::from_int(*ctx_, 4);
+        return four.mul(a).mul(c).sub(b.mul(b));      // 4 a c - b^2  (= Res/lc)
     }
 
     // disc = Resultant(p, dp/dvar, var) / lc(p, var).

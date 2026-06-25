@@ -14,7 +14,7 @@
     {
       "reference": "Phys. Lett. B 298 (1993) 363",
       "familyName": "triangle-ladder_L7_massless-internal-offshell-external",
-      "description": "Triangle ladder family, triangle-ladder_L7_massless-internal-offshell-external. The Usyukina-Davydychev triangle ladder $T^{(L)}$ consists of $(L{-}1)$ box cells capped by a triangle at the apex, with two rails of $L$ edges converging to a shared apex vertex and $L$ rungs connecting the rails at each level. It has $2L{+}1$ vertices, $3L$ massless internal propagators, $L$ loops, and three off-shell external legs at the two base vertices and the apex. The triangle ladder evaluates to the same $\\Phi^{(L)}$ as the four-point box ladder and the generalised-ladder fan via the conformal magic identity, but is a genuinely different topology from both for $L \\ge 2$: the triangle ladder has $V = 2L{+}1$, $E = 3L$ versus $V = L{+}2$, $E = 2L{+}1$ for the fan. Only $L = 1$ (the triangle) is shared. Value = PhiLadder[7, 1/3, 1/5].",
+      "description": "Triangle ladder family, triangle-ladder_L7_massless-internal-offshell-external. The Usyukina-Davydychev triangle ladder $T^{(L)}$ consists of $(L{-}1)$ box cells capped by a triangle at the apex, with two rails of $L$ edges converging to a shared apex vertex and $L$ rungs connecting the rails at each level. It has $2L{+}1$ vertices, $3L$ massless internal propagators, $L$ loops, and three off-shell external legs at the two base vertices and the apex. The triangle ladder evaluates to the same $\\Phi^{(L)}$ as the four-point box ladder and the generalised-ladder fan via the conformal magic identity, but is a genuinely different topology from both for $L \\ge 2$: the triangle ladder has $V = 2L{+}1$, $E = 3L$ versus $V = L{+}2$, $E = 2L{+}1$ for the fan. Only $L = 1$ (the triangle) is shared.",
       "method": [
         "closed form"
       ],
@@ -23,10 +23,45 @@
       ],
       "recordId": "fs_1d57458eb728",
       "verified": false,
-      "verifiedAt": ""
+      "verifiedAt": "",
+      "title": "An approach to the evaluation of three and four point ladder diagrams",
+      "authors": "N. I. Usyukina, A. I. Davydychev"
     }
   ],
-  "Results": [],
+  "Results": [
+    {
+      "numeric": 17460.412422640686,
+      "normalization": "Exact finite conformal integral: the weight-14 Usyukina--Davydychev function $\\Phi^{(7)}(z,\\bar z)$ (the $7$-loop ladder), written as explicit classical polylogarithms $\\operatorname{Li}_j$ in the conformal cross-ratios $z,\\bar z$ (grounded in the external kinematics; the external scale prefactor is stripped). Not a dim-reg series. The numeric is its value at the reference point $z=1/3$, $\\bar z=1/5$.",
+      "provenance": "closed-form-from-cited-literature",
+      "seedRecordId": "fs_1d57458eb728",
+      "timestamp": "2026-06-21T23:33:58Z",
+      "contributor": "SM",
+      "stVersion": "SubTropica 1.2.6",
+      "import": {
+        "submittedBy": "Sebastian Mizera",
+        "source": {
+          "paper": "Phys. Lett. B 305 (1993) 136",
+          "title": "Exact results for three and four point ladder diagrams with an arbitrary number of rungs",
+          "authors": "N. I. Usyukina, A. I. Davydychev",
+          "journal": "Phys. Lett. B 305 (1993) 136-143",
+          "texkey": "Usyukina:1993ch",
+          "doi": "10.1016/0370-2693(93)91118-7"
+        },
+        "method": "Usyukina-Davydychev triangle ladder: value is Phi^(L)(z,zbar) at z=1/3, zbar=1/5 (same Phi^(L) as the 4-mass box ladder). Triangle anchor T^(L) = Phi^(L)(x,y)/(p3^2)^L, c0=1, validated by pySecDec at L=1 (12 digits) and L=2 (no-refit ~1e-5).",
+        "importedAt": "2026-06-21"
+      },
+      "seedFamilyExpand": {
+        "family": "ladder",
+        "params": [
+          7
+        ]
+      },
+      "dimension": "4",
+      "symbolWeight": 14,
+      "resultDataId": "29ceb46195a73ef7.1",
+      "resultTeXPreview": "-\\frac{1}{7!\\,(z-\\bar z)}\\sum_{j=7}^{14}\\frac{(-1)^{j}\\,j!}{(j-7)!\\,(14-j)!}\\,\\log^{\\,14-j}\\!\\frac{(1-z)(1-\\bar z)}{z\\bar z}\\left[\\operatorname{Li}_{j}\\!\\left(\\tfrac{\\bar z-1}{\\bar z}\\right)-\\operatorname{Li}_{j}\\!\\left(\\tfrac{z-1}{z}\\right)\\right] \\\\[4pt] u=z\\bar z=\\frac{M_1^2}{M_3^2},\\quad v=(1-z)(1-\\bar z)=\\frac{M_2^2}{M_3^2}"
+    }
+  ],
   "Names": [
     "triangle-ladder_L7_massless-internal-offshell-external"
   ],

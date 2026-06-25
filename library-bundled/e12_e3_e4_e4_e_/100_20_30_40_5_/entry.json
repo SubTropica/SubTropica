@@ -1,0 +1,98 @@
+{
+  "CNickelIndex": "e12|e3|e4|e4|e|:100|20|30|40|5|",
+  "CanonicalName": "5-mass pentagon",
+  "Names": [],
+  "commonNames": [],
+  "edges": "{{{1, 2}, 0}, {{2, 3}, 0}, {{3, 4}, 0}, {{4, 5}, 0}, {{1, 5}, 0}}",
+  "nodes": "{{1, M[1]}, {2, M[2]}, {3, M[3]}, {4, M[4]}, {5, M[5]}}",
+  "EpsilonOrder": "all_orders",
+  "FunctionClass": "hypergeometric",
+  "Loops": 1,
+  "NumPropagators": 5,
+  "MassScales": 10,
+  "MassConfig": {
+    "numEdges": 5,
+    "numMassiveEdges": 0,
+    "numMasslessEdges": 5,
+    "distinctInternalMasses": 0,
+    "internalMassLabels": [],
+    "edgeMassPattern": "00000",
+    "numExtLegs": 5,
+    "numOnshellMassiveExtLegs": 5,
+    "numMasslessExtLegs": 0,
+    "extLegSignature": "MMMMM"
+  },
+  "Subsectors": [],
+  "ParentSectors": [],
+  "Results": [
+    {
+      "dimension": "5",
+      "symbolWeight": 2,
+      "propExponents": [
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "legOrder": [
+        1,
+        2,
+        5,
+        3,
+        4
+      ],
+      "internalMasses": [],
+      "provenance": "closed-form-from-cited-literature",
+      "normalization": "Exact one-loop massless pentagon in its critical dimension $D=5$: the volume of an ideal hyperbolic $4$-simplex (Davydychev--Delbourgo), a weight-$2$ harmonic polylogarithm. The dihedral angles are written as logarithms, $\\arccos(-D_{ij})=-i\\log W_{ij}$ with the algebraic letter $W_{ij}=-D_{ij}+i\\sqrt{1-D_{ij}^2}=e^{i\\theta_{ij}}$. The Cayley matrix is $Y_{ij}=\\tfrac12(p_i+p_{i+1}+\\cdots+p_{j-1})^2$ with massless internal lines ($Y_{ii}=0$): $p_i$ the external legs in cyclic order, $p_i^2=M_i^2$ the external masses ($M[i]$), and the multi-leg sums the Mandelstam invariants ($s_{i,i+1}=(p_i+p_{i+1})^2$). $D_{ij}$ is the polar Gram $D_{ij}=(Y^{-1})_{ij}/\\sqrt{(Y^{-1})_{ii}(Y^{-1})_{jj}}$ (Gauss--Bonnet form, Bourjaily--Gardi--McLeod--Vergu, arXiv:1912.11067). Region $\\det Y>0$, $|D_{ij}|\\le1$. Not a dim-reg series and not a vacuum period.",
+      "import": {
+        "submittedBy": "Sebastian Mizera",
+        "source": {
+          "paper": "J. Math. Phys. 39 (1998) 4299",
+          "title": "A Geometrical angle on Feynman integrals",
+          "authors": "A. I. Davydychev, R. Delbourgo",
+          "journal": "J. Math. Phys. 39 (1998) 4299-4334",
+          "texkey": "Davydychev:1997wa",
+          "doi": "10.1063/1.532513"
+        },
+        "method": "Closed-form n-gon hyperbolic-simplex volume (Davydychev-Delbourgo, hep-th/9709216); explicit weight-2 Gauss-Bonnet pentagon (BGMV, arXiv:1912.11067). resultCompressed verified to 12 digits against the NGon oracle at an in-region Cayley point.",
+        "importedAt": "2026-06-23"
+      },
+      "contributor": "SM",
+      "timestamp": "2026-06-23T12:00:00Z",
+      "stVersion": "SubTropica 1.2.6",
+      "byteCount": 3730,
+      "resultDataId": "f7292a05ef6fa0ba",
+      "resultTeXPreview": "\\frac{\\Gamma(5/2)}{\\sqrt{\\det Y}}\\left(-2\\pi^2-\\frac{i\\pi}{3}\\sum_{1\\le i<j\\le 5}\\log\\!\\left(-D_{ij}+i\\sqrt{1-D_{ij}^2}\\right)\\right) \\\\[4pt] D_{ij}=\\frac{(Y^{-1})_{ij}}{\\sqrt{(Y^{-1})_{ii}(Y^{-1})_{jj}}},\\quad Y_{ij}=\\tfrac12\\,(p_i+p_{i+1}+\\cdots+p_{j-1})^2,\\qquad p_i^2=M_i^2"
+    }
+  ],
+  "References": [
+    "arXiv:hep-th/9709216 (J. Math. Phys. 39 (1998) 4299)",
+    "arXiv:1912.11067 (JHEP 08 (2020) 029)"
+  ],
+  "Records": [
+    {
+      "recordId": "bx_1e06de35baa0",
+      "reference": "arXiv:hep-th/9709216 (J. Math. Phys. 39 (1998) 4299)",
+      "authors": "A. I. Davydychev, R. Delbourgo",
+      "texkey": "Davydychev:1997wa",
+      "doi": "10.1063/1.532513",
+      "description": "Establishes the one-loop n-point integral in D=n dimensions as the volume of a geodesic simplex in non-Euclidean (hyperbolic) space, the geometric interpretation underlying the whole n-gon family.",
+      "verified": false,
+      "verifiedAt": ""
+    },
+    {
+      "recordId": "bx_c112a678bc79",
+      "reference": "arXiv:1912.11067 (JHEP 08 (2020) 029)",
+      "authors": "J. L. Bourjaily, E. Gardi, A. J. McLeod, C. Vergu",
+      "texkey": "Bourjaily:2019exo",
+      "doi": "10.1007/JHEP08(2020)029",
+      "description": "Explicit hyperbolic-volume closed forms for the all-mass n-gon via a generalized Gauss-Bonnet theorem (the Gauss-Bonnet pentagon used here).",
+      "verified": false,
+      "verifiedAt": ""
+    }
+  ],
+  "Source": [
+    "arXiv"
+  ]
+}

@@ -37,6 +37,7 @@
   --blue-bg:      #e0e8f0;
   --royalblue:    #4169E1;
   --royalblue-bg: #E8EDF8;
+  --star-imported: #1e3a8a;   /* almost-navy fill for the imported provenance star */
   --teal:         #2A7A6A;
   --teal-bg:      #DFF0EC;
   --node-fill:    #1a1714;
@@ -286,6 +287,7 @@ body.dark {
   --chi-bd:       #515b67;
   --royalblue:    #79c0ff;
   --royalblue-bg: #121d2f;
+  --star-imported: #7a9be0;   /* lighter navy for contrast on dark cards */
   --teal:         #56d4c0;
   --teal-bg:      #11271f;
   --node-fill:    #e6edf3;
@@ -589,7 +591,7 @@ body.dark .theme-toggle:hover { color: #fff; }
   min-height: 28px;
   scrollbar-width: thin;
 }
-.integral-card-formula .katex { font-size: 1.15em; }
+.integral-card-formula .katex { font-size: 0.9em; }
 .integral-card-formula::-webkit-scrollbar { height: 3px; }
 .integral-card-formula::-webkit-scrollbar-track { background: transparent; }
 .integral-card-formula::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
@@ -902,8 +904,8 @@ body:not(.mode-full) .export-full-only { display: none; }
   line-height: 1.55;
 }
 .about-panel {
-  width: 380px;
-  max-width: 90vw;
+  width: 860px;
+  max-width: 92vw;
   text-align: center;
   position: relative;
 }
@@ -931,6 +933,14 @@ body:not(.mode-full) .export-full-only { display: none; }
   font-size: 11px; font-weight: 600; color: var(--accent);
   background: var(--accent-light); padding: 1px 6px; border-radius: 4px; vertical-align: 3px;
 }
+/* Version string, to the right of the title (next to the Online/Mobile badge). */
+.about-version {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-muted);
+  vertical-align: 0;       /* sits a touch lower than the Online badge */
+  margin-left: 4px;
+}
 .about-subtitle {
   font-size: 12px;
   color: var(--text-muted);
@@ -944,11 +954,40 @@ body:not(.mode-full) .export-full-only { display: none; }
 }
 .about-stats {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(4, 1fr);   /* 8 stat boxes → two rows of four */
   gap: 8px;
   text-align: center;
   margin-bottom: 16px;
 }
+/* Side-by-side coverage scatter (left) + Latest results (right). Wraps to a
+   stack on narrow screens so the fixed-width canvas never overflows. */
+.about-columns {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 18px;
+  align-items: flex-start;
+  margin: 12px 0;
+}
+.about-columns .about-scatter-wrap { margin: 0; flex: 0 0 auto; }
+.about-latest {
+  flex: 1 1 300px;
+  min-width: 0;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+}
+/* Centre the "Latest results" heading over its column (matching "Library
+   coverage"); the toast cards below stay left-aligned. */
+.about-latest .about-scatter-title { text-align: center; }
+.about-latest-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 4px;
+}
+.about-latest-toast { cursor: pointer; }
+.about-latest-empty { font-size: 12px; color: var(--text-muted); padding: 8px; }
 .about-stat {
   background: var(--bg-warm);
   border: 1px solid var(--border-light);
@@ -965,13 +1004,6 @@ body:not(.mode-full) .export-full-only { display: none; }
   font-size: 11px;
   color: var(--text-muted);
   margin-top: 2px;
-}
-.about-desc {
-  font-size: 12px;
-  color: var(--text-mid);
-  line-height: 1.6;
-  margin-bottom: 14px;
-  max-width: 380px;
 }
 .about-scatter-wrap {
   margin: 12px 0;
@@ -2149,13 +2181,23 @@ body:not(.mode-full) .export-full-only { display: none; }
   vertical-align: 1px;
   margin-left: 2px;
 }
-/* Local results — outlined star (maroon border, white interior) so the
+/* Local results — pure-white interior with a maroon (accent) outline so the
    user can distinguish their own computed results from the curated
-   bundled-library ones at a glance. */
+   bundled-library ones at a glance. White (not var(--surface)) so the star
+   reads against the cream cards in light mode and the dark cards in dark mode,
+   instead of blending into the surface colour. */
 .result-star-local {
-  color: var(--surface, #fff);
+  color: #fff;
   -webkit-text-stroke: 1px var(--accent);
   text-stroke: 1px var(--accent);
+}
+/* Imported results — almost-navy star marking values lifted from a published
+   paper's ancillary files, distinct from the maroon bundled star and the
+   white-outlined local star. Replaces (not joins) the provenance star. */
+.result-star-imported {
+  color: var(--star-imported);
+  -webkit-text-stroke: 0;
+  text-stroke: 0;
 }
 .notif-thumb-wrap {
   position: relative;
@@ -2477,6 +2519,12 @@ body:not(.mode-full) .export-full-only { display: none; }
   transition: opacity 0.15s;
 }
 .popup-load-btn:hover { opacity: 0.85; }
+/* Secondary entry actions (Export, Notebook) — outlined, beside the filled "Load to editor". */
+.popup-load-btn-secondary {
+  background: transparent;
+  color: var(--accent, #8b5c2a);
+  border: 1px solid var(--accent, #8b5c2a);
+}
 .popup-load-inline {
   margin-left: auto;
   align-self: flex-end;
@@ -3149,6 +3197,10 @@ a.badge-imported { text-decoration: none; cursor: pointer; }
 .popup-record-pdf-thumb:hover {
   box-shadow: 0 2px 8px rgba(0,0,0,0.2);
 }
+/* White-sheet placeholder shown until (and unless) the real arXiv thumb loads. */
+.popup-record-pdf-thumb-placeholder {
+  opacity: 0.5;
+}
 .popup-record-ref {
   font-family: var(--font-mono);
   font-size: 12px;
@@ -3168,6 +3220,11 @@ a.badge-imported { text-decoration: none; cursor: pointer; }
 .popup-record-authors {
   font-size: 12px;
   color: var(--text-mid);
+  margin-bottom: 4px;
+}
+.popup-record-journal {
+  font-size: 11px;
+  color: var(--text-muted);
   margin-bottom: 4px;
 }
 .popup-record-links {
@@ -3960,6 +4017,16 @@ body.dark .badge-proposal { color: #e0b040; border-color: #8a6a20; }
 .browser-filters-btn::after { content: ' \25BE'; font-size: 9px; opacity: .85; }
 .browser-header.filters-open .browser-filters-btn::after { content: ' \25B4'; }
 .browser-filters-btn:hover { background: rgba(255, 255, 255, 0.25); }
+/* Lit state: at least one chip filter is engaged (shown even while the filter
+   bar is collapsed). Matches the active Topologies/Diagrams tab — maroon text
+   on a white pill, no coloured indicator. */
+.browser-filters-btn.filters-active,
+.browser-filters-btn.filters-active:hover {
+  background: rgba(255, 255, 255, 0.92);
+  color: var(--accent);
+  font-weight: 600;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
 
 /* Filters are always folded behind the button (at every width); opening drops
    them to a full-width row below the title. */
@@ -4149,11 +4216,13 @@ input[type="checkbox"].mac-switch:focus-visible { outline: 2px solid var(--accen
    static background to read as selected. Echo the filter thumb: green pill off
    the maroon bar, white pill (dark text) on it. Round the ends so the first/last
    key keep the bar's rounded corners. */
-.browser-sort-seg .browser-seg-item.on {
+.browser-sort-seg .browser-seg-item.on,
+.browser-flag-seg .browser-seg-item.on {
   background: var(--green);
   border-radius: 9px;
 }
-.browser-header-top .browser-sort-seg .browser-seg-item.on { background: #fff; }
+.browser-header-top .browser-sort-seg .browser-seg-item.on,
+.browser-header-top .browser-flag-seg .browser-seg-item.on { background: #fff; }
 .browser-seg-item.browser-sort-dir {
   padding: 0 8px;
   border-left: 1px solid var(--border);
@@ -4573,6 +4642,18 @@ body.dark .fam-period-note { color: #bc8cff; background: #271230; }
   border-radius: 8px;
   margin-top: 4px;
 }
+.fam-member-variant {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 600;
+  padding: 0 6px;
+  border-radius: 8px;
+  margin-left: 6px;
+  vertical-align: middle;
+  letter-spacing: 0.02em;
+}
+.fam-member-variant-massless { color: var(--text-muted, #888); background: rgba(127, 127, 127, 0.12); }
+.fam-member-variant-allmass { color: var(--maroon, #9b2d3f); background: rgba(155, 45, 63, 0.13); }
 .fam-member-empty {
   font-size: 12px;
   color: var(--text-muted);

@@ -6,10 +6,7 @@
     "References": [
         "arXiv:1705.05610 (Comput.Phys.Commun. 230 (99), 2018)",
         "arXiv:1802.02419",
-        "arXiv:2303.07395",
-        "arXiv:2412.07522",
-        "arXiv:2102.08225 (Phys.Rev.D 104 (), 2021)",
-        "arXiv:2106.12093"
+        "arXiv:2412.07522"
     ],
     "Records": [
         {
@@ -76,33 +73,6 @@
             "verifiedAt": ""
         },
         {
-            "reference": "arXiv:2303.07395",
-            "authors": [
-                {
-                    "full_name": "Syrrakos, Nikolaos",
-                    "inspire_id": 1820563
-                }
-            ],
-            "description": "Two-loop four-point planar double-box family for single-top production with three massless external legs and one massive leg $q_4^2=m_t^2$, plus one internal massive propagator of mass $m_w$ (W boson). 31 master integrals via Kira IBP. A canonical basis is constructed and solved via the Simplified Differential Equations approach in parameter $x$, with boundary terms in closed form in epsilon. Analytic results in MPLs through weight 4 in ancillary files; weight 6 claimed in the paper. Numerical checks with AMFlow. Called `PL1` in the paper.",
-            "epsOrders": "4",
-            "familyName": "1-mass 2-loop planar double box with internal W propagator (7 propagators)",
-            "method": "IBP, DE, direct_integration",
-            "tools": [
-                "Kira",
-                "AMFlow"
-            ],
-            "ancillaryFiles": true,
-            "doi": "",
-            "texkey": "",
-            "masterCount": 31,
-            "dimScheme": "d=4-2*eps",
-            "computationLevel": "full",
-            "location": "Section 2 (Families), Table 1 and Table 2; Fig. 1. Called `PL1` in the paper.",
-            "recordId": "bx_70a464d42707",
-            "verified": false,
-            "verifiedAt": ""
-        },
-        {
             "reference": "arXiv:2412.07522",
             "authors": [
                 {
@@ -129,84 +99,6 @@
             "computationLevel": "full",
             "location": "Sec. 2.2, Table 1",
             "recordId": "bx_891812252289",
-            "verified": false,
-            "verifiedAt": ""
-        },
-        {
-            "reference": "arXiv:2102.08225 (Phys.Rev.D 104 (), 2021)",
-            "authors": "Basat, Najam ul, Li, Zhao, Wang, Yefan",
-            "description": "Planar two-loop double-box topology for tW single-top production $b(k_1)+g(k_2) \\to W(k_3)+t(k_4)$. Seven propagators: $D_1$-$D_6$ massless, $D_7 = q_2^2 - m_t^2$ carrying top mass. On-shell conditions $k_1^2=k_2^2=0$, $k_3^2=m_W^2$, $k_4^2=m_t^2$. Four independent scales: $s_1=2k_1.k_2$, $s_2=m_W^2-2k_1.k_3$, $m_W$, $m_t$. Paper improves auxiliary-mass-flow (AMF) reduction method via an epsilon-truncation in the matching step; reduces the $F_1$ form factor to 198 scalar integrals via FIRE+LiteRed cross-checked against Tarasov tensor reduction.",
-            "epsOrders": "4",
-            "familyName": "1-mass two-loop 4-point planar double box (tW single-top production, 7 propagators)",
-            "method": "AMF, IBP, series_expansion",
-            "tools": [
-                "SeRA.jl",
-                "FIRE",
-                "LiteRed"
-            ],
-            "ancillaryFiles": false,
-            "doi": "10.1103/PhysRevD.104.056020",
-            "texkey": "Basat:2021xnn",
-            "masterCount": 198,
-            "dimScheme": "d=4-2*eps",
-            "computationLevel": "IBP_only",
-            "location": "Section III, denominators D1-D7",
-            "recordId": "bx_88203e42d874",
-            "verified": false,
-            "verifiedAt": ""
-        },
-        {
-            "reference": "arXiv:2106.12093",
-            "authors": [
-                {
-                    "full_name": "Chen, Long-Bin",
-                    "inspire_id": 1258851
-                },
-                {
-                    "full_name": "Wang, Jian",
-                    "inspire_id": 1336281
-                }
-            ],
-            "description": "Non-planar (crossed) two-loop four-point integral family for $g(k_1) b(k_2) \\to W(k_3) t(k_4)$ with one massive (top) propagator. Nine denominators $P_1..P_9$ are defined, with $P_1..P_7$ the top-sector propagators and $P_8, P_9$ irreducible scalar products. IBP reduction with FIRE gives 34 master integrals. A canonical basis is constructed and the differential equations brought to dln form using the same 15 letters as the planar family plus two additional letters $l_{16} = x^2 z + x y + z$ and $l_{17} = x^2 z^3 + x y(z^2-1) + 2 x z^2 + z^3$. The square root $r_1$ is rationalized by the same variables $(x, y, z)$. Fifteen non-planar masters coincide with planar ones (listed explicitly: $B_1..B_5$, $B_9 = -F_{23}$, $B_{10}, B_{11}, B_{12}, B_{13}, B_{14}, B_{19}, B_{20}, B_{23}, B_{24}$). Remaining boundaries are determined by vanishing at $u=0$, $u=m_W^2$, $t=m_t^2$, $u=m_t^2$, $s=0$, $s=(m_t+m_W)^2$, and $l_{17}=0$, by regularity at $u t = m_t^2 m_W^2$, and by the known result of Gonsalves for the massless non-planar double box.",
-            "epsOrders": "4",
-            "familyName": "Non-planar (crossed) two-loop double box for gb -> tW with one massive (top-quark) propagator / Planar two-loop double box for gb -> tW with one massive (top-quark) propagator",
-            "method": "DE, IBP, direct_integration",
-            "tools": [
-                "FIRE",
-                "FIESTA",
-                "GiNaC"
-            ],
-            "ancillaryFiles": true,
-            "doi": "",
-            "texkey": "",
-            "masterCount": 34,
-            "dimScheme": "d=4-2*eps",
-            "computationLevel": "full",
-            "location": "Appendix (Results of the non-planar integral family); Eqs. (def), (int2); Fig. 2(b); master-integral list def:LBasisT2",
-            "recordId": "bx_ae2b343e40cb",
-            "verified": false,
-            "verifiedAt": ""
-        },
-        {
-            "reference": "arXiv:2106.12093",
-            "authors": "",
-            "description": "Planar two-loop four-point integral family for the process g(k1) b(k2) -> W(k3) t(k4) with exactly one massive propagator (the top quark line). Nine denominators D1..D9 are defined; D1..D7 are genuine propagators while D8, D9 are irreducible scalar products with non-negative powers. FIRE reduction yields 31 master integrals. A canonical (dln) basis is constructed sector by sector by the Argeri-Mastrolia style procedure; the square root r1 = sqrt((s-(mt-mW)^2)(s-(mt+mW)^2)) is rationalized by s = mt^2 (x+z)(1+xz)/x, together with t = y mt^2 and mW = z mt. Boundary conditions are fixed by direct integration of tadpole/bubble-type masters, by regularity at z=0 (no branch cut at mW=0), at x=1 (r1 prefactors), at y=0, at u*t=mt^2 mW^2, and at the pseudo-threshold points l_13=l_14=l_15=0. Analytic results are expressed through multiple polylogarithms and checked numerically with FIESTA at a physical kinematic point.",
-            "epsOrders": "4",
-            "familyName": "Planar two-loop double box for gb -> tW with one massive (top-quark) propagator",
-            "method": "DE, IBP, direct_integration",
-            "tools": [
-                "FIRE",
-                "FIESTA",
-                "GiNaC"
-            ],
-            "ancillaryFiles": true,
-            "doi": "",
-            "texkey": "",
-            "masterCount": 31,
-            "dimScheme": "d=4-2*eps",
-            "computationLevel": "full",
-            "location": "Section 2 (canonical basis and differential equations), Eqs. (def), (int1); Fig. 2(a); master integral list def:LBasisT1",
-            "recordId": "bx_a30eb8648c9e",
             "verified": false,
             "verifiedAt": ""
         }

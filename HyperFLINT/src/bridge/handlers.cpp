@@ -212,6 +212,27 @@ std::string error_json(const std::string& msg) {
     return o.str();
 }
 
+// Budget-exceeded response (2026-06-20).  DISTINCT from a normal NOLR
+// result: it carries "error" (so the Mma wrapper's
+// `KeyExistsQ[resp,"error"]` -> $Failed path fires, exactly like any
+// other failure), PLUS "budget_exceeded":true and "reason" so a caller
+// that wants to distinguish a clean budget bail from a genuine engine
+// error can do so.  CRITICAL: this NEVER emits best_order / score /
+// nolr, so a budget bail can never be mistaken for a NOLR verdict.
+// Field ordering matches error_json (op, schema_version, hf_version,
+// then the failure fields) so a streaming parser sees the envelope head
+// identically.
+std::string budget_exceeded_json(const std::string& reason) {
+    std::ostringstream o;
+    o << "{\"op\":\"find_lr_orders\""
+      << ",\"schema_version\":" << kSchemaVersion
+      << ",\"hf_version\":\"" << json_escape(kHFVersion()) << "\""
+      << ",\"budget_exceeded\":true"
+      << ",\"reason\":\"" << json_escape(reason) << "\""
+      << ",\"error\":\"" << json_escape(reason) << "\"}";
+    return o.str();
+}
+
 std::string error_json_op(const std::string& op, const std::string& msg) {
     // Track 8.1 (iter-43, in-iter fold per reviewer a735322b58cc29e6c
     // rec Q1/Q8): error_json_op now ALSO carries schema_version +
@@ -742,7 +763,17 @@ std::string find_lr_orders(const std::string& body) {
             }
         }
 
-        hyperflint::lr_search::LrResult result;
+        // Value-initialize (2026-06-20): in VERIFY-ORDER mode
+        // find_lr_orders is NOT called, so `result` is never assigned.
+        // LrResult's only scalar WITHOUT a default member initializer is
+        // `score` (double); a plain `LrResult result;` leaves it
+        // indeterminate, and the envelope below reads result.score /
+        // result.nolr() unconditionally (the verify short-circuit lives on
+        // the Mma side, AFTER the JSON is built).  That produced a garbage
+        // "score" (e.g. 2.1e-314) and a bogus "nolr":false in the
+        // verify-mode payload.  `LrResult result{};` zero-inits score (and
+        // runs the NSDMIs) so verify-mode emits score:null, nolr:false.
+        hyperflint::lr_search::LrResult result{};
         hyperflint::lr_search::OrderVerifyResult verify_res;
         double compute_s = 0.0;
         auto t0 = std::chrono::steady_clock::now();
@@ -823,12 +854,20 @@ std::string find_lr_orders(const std::string& body) {
             o << "\"" << json_escape(all_vars[ctx_idx]) << "\"";
         }
         o << "],\"score\":";
-        if (result.nolr() || !std::isfinite(result.score)) {
+        // In VERIFY-ORDER mode there is no search result, so the score /
+        // nolr fields are inert: emit score:null, nolr:false explicitly
+        // (the order-verdict lives in order_is_lr below).  `result` is
+        // value-initialized for this mode (score==0), so this guard is a
+        // defensive belt-and-braces over the value-init: it guarantees the
+        // verify-mode envelope never carries a search-shaped score even if
+        // the default ever changes.  The non-verify path is unchanged.
+        if (verify_requested || result.nolr() || !std::isfinite(result.score)) {
             o << "null";
         } else {
             o << result.score;
         }
-        o << ",\"nolr\":" << (result.nolr() ? "true" : "false")
+        o << ",\"nolr\":"
+          << ((!verify_requested && result.nolr()) ? "true" : "false")
           << ",\"strategy\":\"" << strategy_name << "\""
           << ",\"timing_compute_s\":" << compute_s
           << ",\"nXVars\":" << xvars.size()
@@ -915,6 +954,17 @@ std::string find_lr_orders(const std::string& body) {
         }
         o << "}";
         return o.str();
+    } catch (const hyperflint::lr_search::LrBudgetExceeded& e) {
+        // Budget safety net (2026-06-20): the exhaustive LR search (or the
+        // verify walk) hit its time / operand-size budget and bailed
+        // CLEANLY mid-flight.  Serialize a DISTINCT failed response
+        // (budget_exceeded + reason + error) so the Mma wrapper sees
+        // $Failed, NOT a NOLR verdict.  MUST come before the generic
+        // std::exception catch (LrBudgetExceeded derives from
+        // std::runtime_error, so the base handler would otherwise swallow
+        // it and mislabel it a plain "error").  RAII (the Poly wrappers)
+        // releases any in-flight FLINT memory as the exception unwinds.
+        return budget_exceeded_json(e.what());
     } catch (const std::exception& e) {
         return error_json(e.what());
     } catch (...) {
@@ -1081,8 +1131,13 @@ std::string factor_table(const std::string& body) {
 
         // Per-request memo hygiene: cold memos, bounded memory, clean
         // trace stats (spec 4.1; warm sharing deliberately deferred).
+        // reset_lr_budget starts the steady_clock deadline fresh and
+        // clears any stale (already-past) deadline from a prior budgeted
+        // call in the same process; no-op when the budget env vars are
+        // unset.
         hyperflint::lr_search::reset_lr_memos();
         hyperflint::lr_search::reset_lr_trace();
+        hyperflint::lr_search::reset_lr_budget();
 
         hyperflint::factor_table::FactorTable t =
             hyperflint::factor_table::build(ctx, group_polys, order_indices,

@@ -365,7 +365,14 @@ ScanResult find_lr_orders_scan(
 
     // Per-request lifetime for the st_fubini_lr memo layers (see
     // lr_search.hpp::reset_lr_memos) and the chi-utility accounting.
+    // reset_lr_budget starts the steady_clock deadline fresh and clears
+    // any stale (already-past) deadline from a prior budgeted call in the
+    // same process; no-op when the budget env vars are unset.
     lr_search::reset_lr_memos();
+    lr_search::reset_lr_budget();
+    // chi spawn breaker NOT reset per request (see the note in lr_search.cpp
+    // find_lr_orders): it must persist across calls to cap a crashing-msolve
+    // storm once per process; a working msolve resets its own streak on success.
     if (euler_filter) reset_chi_filter_stats();
 
     // augment each group with the boundary monomials (dpLungoCore seed)
