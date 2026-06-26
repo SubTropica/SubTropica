@@ -16,6 +16,35 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ### Fixed
 
 
+## [1.2.8] - 2026-06-25
+
+Documentation release.  Every public function now carries an options table and a
+worked example in the in-product documentation, the Documentation Center search
+works again, and there is a new gauge-fixing strategy for projective periods.
+
+### Added
+
+- **`GaugeStrategy -> "Derive"`** for `STIntegrate`.  For an eps-free,
+  homogeneous (projective) integrand over `[0, Infinity)^n`, derive the
+  Cheng-Wu gauge and a linearly-reducible integration order from a single order
+  search on the homogeneous letters (the last-ordered variable becomes the
+  gauge, set to 1), instead of scanning every gauge.
+
+### Changed
+
+- **Documentation overhaul.**  Every public function that takes options now
+  carries a full options table, and every reference page carries a worked
+  example.  The reference pages and the guide are reachable and searchable from
+  the Documentation Center.
+
+### Fixed
+
+- **In-product documentation search.**  The Documentation Center search no
+  longer errors on the installed paclet; the released paclet now ships the
+  TextSearch index that its pages resolve against, and the guide page carries
+  the metadata required to be indexed.
+
+
 ## [1.2.7] - 2026-06-25
 
 ### Added
