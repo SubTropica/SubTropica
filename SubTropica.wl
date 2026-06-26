@@ -2036,7 +2036,7 @@ Options[ConfigureSubTropica] = {
 With[{$SubTropicaDir = DirectoryName[$InputFileName]},
 
 $SubTropicaInstallDir = $SubTropicaDir;
-$SubTropicaVersion = "1.2.7";
+$SubTropicaVersion = "1.2.8";
 
 (* Init-order fix: line 109 set $STHyperFlintDataPath before
    $SubTropicaInstallDir was bound, so the install-dir-derived data
@@ -2346,8 +2346,8 @@ STResetConfig[] := If[FileExistsQ[$STConfigFile],
 
 
 (* Tropical Analysis *)
-STForgetCoefficients::usage ="STForgetCoefficients[polynomial, xvars] given a polynomial in variables xvars,
- returns a new polynomial with unit coefficients and same monomial support"
+STForgetCoefficients::usage = "STForgetCoefficients[polynomial, xvars] given a polynomial in variables xvars,
+ returns a new polynomial with unit coefficients and same monomial support.";
 
 STNewton::usage = "
 STNewton[polynomial, xvars] computes the Newton polytope data of the polynomial.
@@ -2364,7 +2364,7 @@ STPreAnalysis[integrand, xvars, coeffs] performs an extended analysis of the sin
 It returns an association <| trData -> tropical data, rays -> divergent rays, faces -> divergent faces, us -> u-variables |>
 ";
 
-ConfigureSubTropica::usage = "ConfigureSubTropica[opt -> val, ...] sets external-tool paths (PolymakePath, GinshPath, MaplePath, HyperIntPath, HyperFlintPath, PythonPath, FiniteFlowPath, SPQRPath, FIESTAPath, AMFlowPath, LiteRedPath, LiteIBPPath, FIREPath, FeyntropPath, IterIntPath, SymbolicEvaluator, KiraPath, NeatIBPPath, SingularPath, PolyLogToolsPath, LibraPath, DiffExpPath, FermatPath, FormPath, MsolvePath, PolymakeConcurrencyFraction). IterIntPath points at the iterint_mpfr driver (or IterInt repo dir); SymbolicEvaluator is \"ginsh\" (default) or \"iterint\" and selects which evaluator STVerify uses for the symbolic Hlog/Log/zeta result. Only options that are explicitly named are updated; omitted options leave the current global state unchanged (no silent reset to package defaults). The configuration is auto-persisted to $STConfigFile and reapplied on the next Get[\"SubTropica`\"], so you only need to call this once per machine.";
+ConfigureSubTropica::usage = "ConfigureSubTropica[opt -> val, ...] sets external-tool paths (PolymakePath, GinshPath, MaplePath, HyperIntPath, HyperFlintPath, PythonPath, FiniteFlowPath, SPQRPath, FIESTAPath, AMFlowPath, LiteRedPath, LiteIBPPath, FIREPath, FeyntropPath, IterIntPath, SymbolicEvaluator, KiraPath, NeatIBPPath, SingularPath, PolyLogToolsPath, LibraPath, DiffExpPath, FermatPath, FormPath, HyperFormPath, HyperLogProceduresPath, MsolvePath, PolymakeConcurrencyFraction). IterIntPath points at the iterint_mpfr driver (or IterInt repo dir); SymbolicEvaluator is \"ginsh\" (default) or \"iterint\" and selects which evaluator STVerify uses for the symbolic Hlog/Log/zeta result. Only options that are explicitly named are updated; omitted options leave the current global state unchanged (no silent reset to package defaults). The configuration is auto-persisted to $STConfigFile and reapplied on the next Get[\"SubTropica`\"], so you only need to call this once per machine.";
 
 STResetConfig::usage = "STResetConfig[] removes the persistent SubTropica configuration file at $STConfigFile, restoring package defaults at the next package load.";
 
@@ -2407,6 +2407,8 @@ STIntegrate[integrand, x, y, ..., opts] is equivalent to STIntegrate[integrand, 
 STIntegrate[{pref, integrand, xvars, coeffs}, opts] evaluates from a pre-built integrand tuple (advanced).
 Scalar products of momenta in propagators, numerators, and substitutions may be written as p*q, p\[CenterDot]q (CenterDot), or p.q (Dot).
 The option \"CheckDivergences\" controls the boundary-divergence scan in all three integrator backends (HyperIntica, HyperInt, HyperFLINT): Automatic (default since 2026-06-16) disables the scan on every form, raw-integrand and diagram alike (tropical geometry guarantees face-level finiteness for diagram forms; raw-integrand forms previously armed it). Pass True to arm the scan in record-and-continue mode (faces of the subtraction pipeline are individually log-divergent by construction, so detections are recorded and summarized via STIntegrate::divergencesRecorded instead of aborting); explicit True/False overrides either way. Standalone STHyperFlint calls arm the scan in hard mode (a detection fails with STHyperFlint::divergent).
+The option \"Rationalize\" -> Automatic | True | False (Experimental) drives the per-face root-handling escalation: strict, then \"FindRoots\" -> True algebraic letters, then an Euler change of variables that rationalizes a square-root (genus-zero conic) letter.  Automatic (the default) reaches the rationalization rung only as a last resort; True forces it available; False stops at algebraic letters.  Roots that are not a single genus-zero conic (degree >= 3 / elliptic radicands, several coupled roots, or roots in more than one integration variable) are not rationalized, and the face is reported as not linearly reducible.  \"Rationalize\" supersedes the deprecated \"Carry\" option; if both are set, \"Carry\" wins and STIntegrate::ratcarryclash is emitted.
+The symbolic integrator is chosen by \"Integrator\" -> Automatic | \"HyperFLINT\" | \"HyperIntica\" | \"HyperInt\" | \"HyperFORM\"; Automatic uses HyperFLINT when the add-on is available, otherwise the built-in HyperIntica.  \"FindRoots\" defaults to Automatic for the graph form and to True for the propagator-list and Euler-integrand forms.  See STOptionValues[] for the complete option list with defaults.
 ";
 
 (* Interactive GUI entry point *)
@@ -2711,7 +2713,7 @@ STReadResults; stReadSubstitutions; stream; STResetConfig; STResetKernelCaches; 
 stResultToTeX; STReview; string; stRunDependencyTests; stSanitizeNickel; STSaveCheckpoint; STSaveResult; STSetContributor;
 STsetupDirectoryExpansion; STSetupKernel; stSetupKernelImpl; stSharedMassLegs; STStop; STSubmitResult; STSubtractionFormula; STSymanzik;
 STSymanzikGraph; stSymbolicEval; STSyncLibrary; stTestOneDependency; stTeXSemicolon; STtoCoeffMonPols; STToFibrationBasis; STToGinsh;
-STToHyper; STToIterInt; STtoMyGraph; STToPySecDec; STTropicalAnalysis; STTropicalizeIntegrand; stTruncateTeX; STVerify;
+STToHyper; STToIterInt; STtoMyGraph; STToPySecDec; STTropicalAnalysis; STTropicalizeIntegrand; stTruncateTeX; STVerify; STFindSingularities; STForgetCoefficients; STNewton;
 stVerifyEulerQuadruple; stVerifyEvalSymbolicGeneric; STwrapError; stWrapRootSubs; style; Subtopologies; SubTropicaID; SymbolicEvaluator;
 t; TopSectorOnly; w; X; z; zeta; zz; $AMFlowLoaded;
 $AMFlowPath; $anResult; $cacheDir; $chordEdges; $ComputationFailed; $diagramImage; $DiffExpPath; $edgeList;
@@ -4066,6 +4068,8 @@ STToPySecDec::missingkin = "Missing kinematic values for: `1`. Provide them in \
 STToPySecDec::buildfail = "pySecDec C++ compilation failed. Run with \"Verbose\"->True for details.";
 STToPySecDec::evalfail = "pySecDec numerical evaluation failed: `1`.";
 STToPySecDec::pythonfail = "Python script failed (exit code `1`): `2`.";
+
+STToPySecDec::usage = "STToPySecDec[{edges, nodes}, opts] and STToPySecDec[{propagators}, opts] numerically evaluate a Feynman integral with pySecDec (numerical sector decomposition), returning the epsilon-expansion coefficients (a numerical value plus an error estimate per order).  Requires a Python with pySecDec installed (point at it with ConfigureSubTropica[PythonPath -> ...]); numeric kinematics are supplied through the \"KinematicPoint\" option (a rule-list of Mandelstam / squared-mass values).  Options include \"Order\", \"Dimension\", \"MaxEval\", \"Accuracy\", \"ContourDeformation\", and \"Integrator\".  Usually reached indirectly via STNIntegrate[..., Method -> \"pySecDec\"] and STVerify; call it directly for low-level control of the pySecDec build.";
 
 Options[STToPySecDec] = {
 	"Order"              -> 0,
@@ -12162,7 +12166,7 @@ STParseHyperLogProceduresOutput[$Failed]   := $Failed;
 (*  throws an STHyperFlint::regkey / ::algletter message and     *)
 (*  returns $Failed so the caller can fall back to HyperIntica.  *)
 
-STHyperFlint::usage = "STHyperFlint[integrand, {x1, ..., xn}] evaluates the Euler integral over [0, \[Infinity])^n analytically by delegating to the external `hyperflint` CLI (C++/FLINT port of HyperIntica).  Returns the same symbolic form HyperInt[integrand, {x1, ..., xn}] produces on convergent inputs.  Set $STHyperFlintPath or use ConfigureSubTropica[HyperFlintPath -> ...] to override the binary location.\n\nIntegrationOrder -> {x1, ..., xn} (a permutation of the supplied variables) reorders the integration before the call (the variable list is otherwise itself the order); the per-face rule-list form is ignored on this single-integrand leaf.  For verified per-face pinning use STIntegrate / STIntegrateHF.";
+STHyperFlint::usage = "STHyperFlint[integrand, {x1, ..., xn}] evaluates the Euler integral over [0, \[Infinity])^n analytically with the HyperFLINT engine (a C++17/FLINT reimplementation of the HyperIntica hyperlogarithm algorithm).  Returns the same symbolic form HyperInt[integrand, {x1, ..., xn}] produces on convergent inputs.  The default transport is the in-process LibraryLink dylib (whose hf_version must equal $SubTropicaVersion); the CLI subprocess transport is disabled by default ($STHyperFlintAllowCLI = False) and is used only on parallel subkernels or when explicitly enabled.  Check $HyperFLINTAvailable to see whether the engine is usable.\n\nSimplifyOutput (default True) post-processes the result; SimplifyOutput -> False returns the unreduced factored form quickly.  Rationalize -> Automatic | True | False is the root-handling umbrella (it supersedes the deprecated Carry); on this single-integrand primitive Automatic leaves the Euler-rationalization rung OFF, so use STIntegrate / STIntegrateHF for the full strict -> FindRoots -> rationalize escalation.  CheckDivergences is armed in hard mode here (a detection fails with STHyperFlint::divergent).\n\nIntegrationOrder -> {x1, ..., xn} (a permutation of the supplied variables) reorders the integration before the call (the variable list is otherwise itself the order); the per-face rule-list form is ignored on this single-integrand leaf.  For verified per-face pinning use STIntegrate / STIntegrateHF.";
 
 $HyperFLINTAvailable::usage = "$HyperFLINTAvailable is True when the HyperFLINT backend (binary + MZV data table) is resolvable, either from a dev source build, the HyperFLINT add-on paclet, or a configured path. Use it to check whether Integrator -> \"HyperFLINT\" / STHyperFlint will run.";
 
@@ -15134,6 +15138,22 @@ $STScorePruneFactor = Infinity;
    STHyperFlint[integrand, vars] call. *)
 $STEulerFilter = False;
 
+(* 2026-06-25 (Christoph): SolverBound threading.  SolverBound is the LR-solver
+   term-count bound consumed by STFubiniLR (the Lungo STFasterFubini2 / STFubiniLR
+   path); a LOWER value prunes runaway polynomial reductions and unblocks faces
+   that wedge at the 10^9 default.  It was an option of STFubiniLR / STFasterFubini2
+   but was NEVER inherited from STIntegrate: it was absent from
+   Options[STEvaluateGraph] / Options[STEvaluateEulerIntegral] (so the per-route
+   FilterRules stripped it at the STIntegrate boundary) AND the stDispatchFubini2
+   call sites forward options by explicit enumeration (so even an un-stripped value
+   never reached the solver).  Cured with the same Block-scoped-global idiom as
+   $STScorePruneFactor: the STEvaluateGraph / STEvaluateEulerIntegral wrappers
+   Block-bind this from the SolverBound option (and push it to subkernels), and
+   STFubiniLR resolves its Automatic default against it; an explicit value on a
+   direct STFubiniLR / STFasterFubini2 call still overrides.  Default 10^9 =
+   byte-identical legacy behavior. *)
+$STSolverBound = 10^9;
+
 (* ================================================================ *)
 (*  IntegrationOrder option (2026-06-22): pin the per-face Euler     *)
 (*  integration order, skipping the per-face LR auto-search.         *)
@@ -16500,13 +16520,13 @@ stIntersectProportional[lists_List] := If[TrueQ[$STUseFastProportionalDedup],
 (*  NOT used by the Espresso path.                              *)
 (* ============================================================ *)
 Clear[STFubiniLR];
-Options[STFubiniLR] = {SolverBound -> 10^9};
+Options[STFubiniLR] = {SolverBound -> Automatic};  (* Automatic resolves to $STSolverBound (10^9 default), which the STEvaluateGraph / STEvaluateEulerIntegral wrappers Block-bind from the user-facing SolverBound option (2026-06-25, Christoph); an explicit value on a direct call overrides.  See $STSolverBound. *)
 STFubiniLR[polynomials_List, var_, OptionsPattern[]] := Module[
     {limit, Snew, term1, term2, f, temp, poly, factors,
      term1Raw, term2Raw, combined},
 
     Snew = polynomials;
-    limit = OptionValue[SolverBound];
+    limit = OptionValue[SolverBound] /. Automatic :> $STSolverBound;
 
     term1Raw = Table[
         {
@@ -16729,7 +16749,7 @@ STHeuristicDescription[h_] := $STHeuristicInfo[h];
 
 Clear[STFasterFubini];
 Options[STFasterFubini] = {
-    SolverBound -> 10^9,
+    SolverBound -> Automatic,  (* inert here (STFasterFubini does not read OptionValue[SolverBound]; it forwards to STFubiniLR via FilterRules only if explicitly given) -- Automatic for uniformity with STFubiniLR so a future explicit-forward cannot shadow $STSolverBound and re-break the threading.  2026-06-25 *)
     FindRoots -> False,
     Heuristic -> "LeafCountLinear"
 };
@@ -16913,7 +16933,7 @@ stEnsureSOFIALoaded[] := Module[{p = $STSOFIAPath, oldDir, ok},
 
 Clear[STFasterFubini2];
 Options[STFasterFubini2] = {
-    SolverBound -> 10^9,
+    SolverBound -> Automatic,  (* inert here (STFasterFubini2 does not read OptionValue[SolverBound]; it forwards to STFubiniLR via FilterRules only if explicitly given) -- Automatic for uniformity with STFubiniLR so a future explicit-forward cannot shadow $STSolverBound and re-break the threading.  2026-06-25 *)
     FindRoots -> False,
     Heuristic -> "LeafCountLinear",
     "Debug" -> False
@@ -17054,6 +17074,40 @@ STFasterFubini2[
         orders[variables // Sort]
     ]
 ]
+
+
+(* ============================================================ *)
+(*  stDeriveGaugeFromHomogeneousLR (2026-06-25, Christoph):       *)
+(*  derive a Cheng-Wu gauge + linearly-reducible integration     *)
+(*  order for an eps-free PROJECTIVE integrand by running the LR  *)
+(*  order search on the homogeneous singularity letters over ALL  *)
+(*  variables: the LAST variable of the resulting order is the    *)
+(*  gauge (set to 1) and the remaining variables are the          *)
+(*  integration order.  Returns {gaugeVar, {orderVars..}} or      *)
+(*  $Failed (no rational LR order, or the search timed out).      *)
+(*  Used by STIntegrate's "GaugeStrategy" -> "Derive".  Rational  *)
+(*  (FindRoots -> False) only for now; algebraic-letter / Carry   *)
+(*  gauge derivation, and homogenization of inhomogeneous         *)
+(*  integrands, are future work.  The letters are the distinct    *)
+(*  variable-bearing irreducible factors of the denominator (the  *)
+(*  singularity loci); STFubiniLR supplies the x_i=0 boundary     *)
+(*  pieces internally.                                            *)
+(* ============================================================ *)
+Options[stDeriveGaugeFromHomogeneousLR] = {"DeriveTimeBudget" -> 120};
+stDeriveGaugeFromHomogeneousLR[integrand_, xvars_List, OptionsPattern[]] :=
+  Module[{letters, res, ord},
+    letters = DeleteCases[
+      FactorList[Denominator[Together[integrand]]][[All, 1]],
+      p_ /; NumericQ[p] || FreeQ[p, Alternatives @@ xvars]];
+    If[letters === {}, Return[$Failed]];
+    res = TimeConstrained[
+      STFasterFubini2[{letters}, xvars, FindRoots -> False],
+      OptionValue["DeriveTimeBudget"], $TimedOut];
+    If[res === $TimedOut || ! ListQ[res] || ! ListQ[First[res]] ||
+       MemberQ[First[res], NOLR], Return[$Failed]];
+    ord = First[res];
+    {Last[ord], Most[ord]}
+  ];
 
 
 (* ============================================================ *)
@@ -21678,6 +21732,7 @@ Options[STEvaluateGraph] = Join[
         "Rationalize" -> Automatic,  (* 2026-06-24 user-facing umbrella for the root-handling escalation (per-face FindRoots False -> True -> carry).  Automatic (default) reaches the carry rung as a last resort; True forces it available; False disables it.  Resolved by stResolveRationalize; the deprecated "Carry" below is a silent alias. *)
         "Carry" -> Automatic,  (* DEPRECATED silent alias for "Rationalize" (sentinel Automatic = defer to Rationalize; an explicit True|False is a legacy override).  carry-discharge LR tier; spec 2026-06-10-carry-option-design.md.  NOTE: under StopAt LR-checks the carry verdict is computed on the serial path only; parallel subkernels lack the HF binary path and report strict (pre-existing limitation, see notes/carry_option/G3B_FINDINGS.md) *)
         "ScorePruneFactor" -> Automatic,  (* 2026-06-16 score-driven branch-and-bound prune for the HF LR search; Automatic inherits the $STScorePruneFactor global (Infinity = exhaustive).  A finite X > 0 drops partial orders scoring > X times the best of their length, breaking the subset-DP blow-up on hard faces.  Block-scoped over the order-finding so every nested call inherits one value. *)
+        SolverBound -> Automatic,  (* 2026-06-25 (Christoph): LR-solver term-count bound for the Lungo STFubiniLR path; Automatic inherits the $STSolverBound global (10^9 default).  A lower value prunes runaway reductions and unblocks faces that wedge at the default.  Block-scoped over the order-finding (mirrors ScorePruneFactor) so every nested STFasterFubini2 / STFubiniLR call inherits it; previously dropped because SolverBound was absent here AND the stDispatchFubini2 call sites forward options by explicit enumeration.  SYMBOL key (not a string) so FilterRules cannot strip it -- declared on STEvaluateEulerIntegral too.  NOTE: only the Mma LR path (LROrderBackend -> "HyperIntica", or an HF -> Mma fallback) consumes SolverBound; the default HF C++ find_lr_orders ignores it (it prunes via ScorePruneFactor + the time budget instead). *)
         "EulerFilter" -> False,  (* 2026-06-21 Doppio-C Euler chi-drop letter filter for the HF LR search.  False (default) = legacy behavior (byte-identical; the C++ filter is dormant).  True = run HF find_lr_orders with HF_EULER_FILTER=1 so every per-subset Fubini letter is vetted against the genuine Euler discriminant of its marginal (msolve-based chi count) and fictitious letters are dropped; conservative (failure/Indeterminate -> KEEP), boundary monomials exempt, so a clean integral's order+score are unchanged.  Needs msolve on PATH.  Block-scoped over the order-finding (via $STEulerFilter) so every nested call inherits one value without per-call-site threading. *)
         IntegrationOrder -> None,  (* 2026-06-22 pro-only pin of the per-face integration order (spec notes/integration_order_design.md).  None / Automatic = legacy auto-search (byte-identical).  {x1,...,xn} (Symbols) = a GLOBAL order projected onto each face; {fspec -> order, ...} (Rules) = PER-FACE (fspec uses the SelectFaces vocabulary).  Block-scoped to $STIntegrationOrderPin over the order-finding; a pinned face SKIPS the LR search.  A SYMBOL key (not a string) so FilterRules cannot strip it -- declared on STEvaluateEulerIntegral too. *)
         "IntegrationOrderVerify" -> False,  (* 2026-06-23 default False (Sebastian): a user-supplied IntegrationOrder pin is TRUSTED (pure SET, no verify call); Automatic|True = HF verify_order (cheap, no wedge) warn+proceed on NOT-LR; "Strict" = verify+abort the face on NOT-LR.  Block-scoped to $STIntegrationOrderVerify. *)
@@ -21806,7 +21861,17 @@ STEvaluateGraph[g_, opts : OptionsPattern[]] :=
                    {}, "STEvaluateGraph"],
                $STIntegrationOrderVerify = stValidateIntegrationOrderVerify[
                    OptionValue[STEvaluateGraph, Flatten[{opts}], "IntegrationOrderVerify"],
-                   "STEvaluateGraph"]},
+                   "STEvaluateGraph"],
+               (* 2026-06-25 (Christoph): Block-scope SolverBound over the whole
+                  diagram run, mirroring $STScorePruneFactor, so the per-face Mma
+                  STFubiniLR search (via stDispatchFubini2 -> STFasterFubini2) sees a
+                  user value set on STIntegrate / STEvaluateGraph instead of the 10^9
+                  package default.  NAME-based OptionValue (not an identity /.) guards
+                  the public SolverBound symbol against a Global` twin (Issue #41).
+                  Automatic inherits the prior global; auto-restored on exit. *)
+               $STSolverBound =
+                   OptionValue[STEvaluateGraph, Flatten[{opts}], SolverBound] /.
+                       Automatic :> $STSolverBound},
             stEvaluateGraphCore[g, opts]]]];
 
 Options[stEvaluateGraphCore] = Options[STEvaluateGraph];
@@ -21907,7 +21972,7 @@ Module[{
            kernel's.  Counters are main-kernel-only; subkernel
            fallbacks are best-effort (may be undercounted). *)
         With[{bk = lrBackendValue, spf = $STScorePruneFactor,
-              ef = $STEulerFilter},
+              ef = $STEulerFilter, sb = $STSolverBound},
             (* 2026-06-20: also propagate the wrapper Block-scoped
                $STScorePruneFactor (~20664) so parallel per-face LR searches on
                subkernels honor a finite ScorePruneFactor.  Previously only the
@@ -21917,9 +21982,11 @@ Module[{
                leak across runs (e.g. from a prior raw-Euler integration).
                2026-06-21: likewise propagate the Block-scoped $STEulerFilter so
                parallel per-face HF LR searches honor the chi-drop flag (and a
-               True cannot leak across runs). *)
+               True cannot leak across runs).
+               2026-06-25: likewise propagate $STSolverBound (Christoph) so parallel
+               per-face Mma STFubiniLR searches honor a user-lowered SolverBound. *)
             ParallelEvaluate[$STLROrderBackend = bk; $STScorePruneFactor = spf;
-                $STEulerFilter = ef]]];
+                $STEulerFilter = ef; $STSolverBound = sb]]];
 
     (* 2026-06-22: push the Block-scoped IntegrationOrder pin + verify mode
        (set on the MAIN kernel by the STEvaluateGraph Block header) to every
@@ -23444,10 +23511,12 @@ Options[STEvaluateEulerIntegral] = Join[
         "Carry"                  -> Automatic,  (* DEPRECATED silent alias for "Rationalize" (sentinel Automatic = defer; explicit True|False = legacy override).  carry-discharge LR tier; spec 2026-06-10-carry-option-design.md.  NOTE: under StopAt LR-checks the carry verdict is computed on the serial path only; parallel subkernels lack the HF binary path and report strict (pre-existing limitation, see notes/carry_option/G3B_FINDINGS.md) *)
         IntegrationOrder         -> None,  (* 2026-06-22 pro-only per-face integration-order pin (spec notes/integration_order_design.md).  MUST be declared here (not only on STEvaluateGraph): the STIntegrate[integrand,x..] / Euler-tuple / STIntegrateHF routes FilterRules[{opts}, Options[STEvaluateEulerIntegral]] before delegating, so an undeclared symbol key would be stripped and the pin would never arrive (same latent bug class as the FindRoots/ScorePruneFactor threading). See $STIntegrationOrderPin. *)
         "IntegrationOrderVerify" -> False,  (* 2026-06-23 default False (Sebastian): a user-supplied IntegrationOrder pin is TRUSTED (pure SET, no verify call); Automatic|True = HF verify_order warn+proceed; "Strict" = abort face on NOT-LR.  See $STIntegrationOrderVerify. *)
+        SolverBound              -> Automatic,  (* 2026-06-25 (Christoph): LR-solver term-count bound.  MUST be declared here (not only on STEvaluateGraph): the STIntegrate[integrand,x..] / Euler-tuple / STIntegrateHF routes FilterRules[{opts}, Options[STEvaluateEulerIntegral]] before delegating, so the undeclared symbol key was stripped and STFasterFubini2 never saw it (same latent class as IntegrationOrder / ScorePruneFactor).  Automatic inherits $STSolverBound (10^9).  NOTE: only the Mma LR path (LROrderBackend -> "HyperIntica", or an HF -> Mma fallback) consumes SolverBound; the default HF C++ find_lr_orders ignores it. *)
         "StartAt"                -> None,
         (* Automatic = detect from homogeneity; True = always scan; False = never *)
         "ScanGauges"             -> Automatic,
         "IncludeGauges"          -> All,
+        "GaugeStrategy"          -> Automatic,  (* 2026-06-25 (Christoph): "Derive" = for an eps-free PROJECTIVE integrand, derive the Cheng-Wu gauge + LR integration order from ONE LR-order search on the homogeneous letters (last var -> gauge), instead of scanning all gauges.  Consumed + removed at the STIntegrate[integrand, x..] dispatch (see stDeriveGaugeFromHomogeneousLR); Automatic = legacy behavior.  Eps-free + homogeneous only. *)
         "Parallelization"        -> All,
         "KernelsAvailable"       -> $ProcessorCount - 1,
         "SimplifyOutput"         -> Simplify,
@@ -23602,7 +23671,15 @@ Module[{cd, res},
                If[ListQ[quad[[3]]], quad[[3]], {}], "STEvaluateEulerIntegral"],
            $STIntegrationOrderVerify = stValidateIntegrationOrderVerify[
                OptionValue[STEvaluateEulerIntegral, Flatten[{opts}], "IntegrationOrderVerify"],
-               "STEvaluateEulerIntegral"]},
+               "STEvaluateEulerIntegral"],
+           (* 2026-06-25 (Christoph): Block-scope SolverBound over the raw-Euler run,
+              mirroring $STScorePruneFactor, so the per-face STFubiniLR search sees a
+              user-set SolverBound (the bug: STFasterFubini2 never saw the option set
+              on STIntegrate).  NAME-based OptionValue guards against a Global` twin;
+              the core pushes this to subkernels.  See the STEvaluateGraph twin. *)
+           $STSolverBound =
+               OptionValue[STEvaluateEulerIntegral, Flatten[{opts}], SolverBound] /.
+                   Automatic :> $STSolverBound},
         (* Pre-existing subkernels persist across runs; reset their
            record tables so the end-of-run harvest cannot report stale
            records from a previous integration.  Kernels launched
@@ -23753,12 +23830,14 @@ Module[{
     $STLROrderBackend     = lrBackendValue;
     If[Length[Kernels[]] > 0,
         With[{bk = lrBackendValue, spf = $STScorePruneFactor,
-              ef = $STEulerFilter},
+              ef = $STEulerFilter, sb = $STSolverBound},
             (* 2026-06-21: propagate the Block-scoped $STEulerFilter alongside the
                backend + score-prune so subkernel HF LR searches honor the
-               chi-drop flag (and a True cannot leak across runs). *)
+               chi-drop flag (and a True cannot leak across runs).
+               2026-06-25: likewise propagate $STSolverBound (Christoph) so parallel
+               per-face Mma STFubiniLR searches honor a user-lowered SolverBound. *)
             ParallelEvaluate[$STLROrderBackend = bk; $STScorePruneFactor = spf;
-                $STEulerFilter = ef]]];
+                $STEulerFilter = ef; $STSolverBound = sb]]];
 
     problemId             = ToString[If[OptionValue["SetProblemID"] === Automatic,
                                 Unique[SubTropicaID], OptionValue["SetProblemID"]]];
@@ -25091,6 +25170,7 @@ $STOptionValues = <|
     "Rationalize"            -> {Automatic, True, False, "the root-handling escalation: Automatic (default) tries strict, then FindRoots->True algebraic letters, then the carry / Euler-rationalization rung -- each per face, only as far as needed; True forces the carry rung available; False stops before it (strict + algebraic letters only).  Replaces the deprecated \"Carry\" option."},
     "Carry"                  -> {False, True, "DEPRECATED silent alias for \"Rationalize\" (True = Rationalize->True, False = Rationalize->False); prefer \"Rationalize\"."},
     "ScorePruneFactor"       -> {Automatic, "Infinity = exhaustive (default)", "finite X > 0 = drop partial orders scoring > X times the best of their length"},
+    "SolverBound"            -> {Automatic, "Automatic = inherit $STSolverBound (10^9, effectively unbounded)", "finite integer N > 0 = term-count bound for the Lungo LR solver; a lower value prunes runaway polynomial reductions (consumed only on the Mma LR path, LROrderBackend -> \"HyperIntica\" or an HF -> Mma fallback)"},
     "EulerFilter"            -> {False, True},
     "IntegrationOrder"       -> {None, "Automatic = legacy auto-search (default)", "{x1, ..., xn} (symbols) = GLOBAL order, projected per face", "{fspec -> order, ...} (rules) = PER-FACE (fspec = SelectFaces vocabulary: i, (o->i), pattern {eps,face} pair e.g. {_,1}, OR-list e.g. {1,4}, Except[...])"},
     "IntegrationOrderVerify" -> {False, Automatic, True, "\"Strict\"", "False (default) = pure set, no verify call; Automatic/True = HF verify_order warn+proceed on NOT-LR; \"Strict\" = abort face on NOT-LR"},
@@ -25099,6 +25179,7 @@ $STOptionValues = <|
     "StartAt"                -> {None, "checkpoint ID string"},
     "Gauge"                  -> {Automatic, "{x1 -> 1}", "{}  (no gauge)"},
     "IncludeGauges"          -> {All, "{1, 2, ...}  (list of gauge indices)"},
+    "GaugeStrategy"          -> {Automatic, "\"Derive\"", "Automatic = scan gauges (legacy); \"Derive\" = for an eps-free, homogeneous (projective) integrand over [0, Infinity)^n, derive the Cheng-Wu gauge and linearly-reducible order from one LR search on the homogeneous letters (the last-ordered variable becomes the gauge, set to 1)"},
     "Verbose"                -> {True, False},
     "ShowTimings"            -> {True, False},
     "ShowIntegrands"         -> {True, False},
@@ -25125,7 +25206,7 @@ $STOptionValues = <|
     "ContourHandling"        -> {"Abort", "Continue"},
     "FindRoots"              -> {Automatic, False, True},
     "CheckDivergences"       -> {Automatic, True, False, "Automatic = off (default since 2026-06-16) on every form, raw-integrand and diagram alike; pass True to arm the scan (record-and-continue: recorded detections are summarized via STIntegrate::divergencesRecorded). Standalone STHyperFlint still arms the scan hard."},
-    "MethodLR"               -> {"Lungo", "Doppio"},
+    "MethodLR"               -> {"Lungo"},
     "MethodPolysAndPairs"    -> {"Fast", "Standard"},
     "ScanGauges"             -> {Automatic, True, False},
     "Substitutions"          -> {"{rule1, rule2, ...}"},
@@ -25175,7 +25256,7 @@ $STAutocompletionData = <|
         "SaveSlowestIntegrand"    -> {"True", "False"},
         "SaveAllIntegrands"       -> {"True", "False"},
         "FindRoots"               -> {"Automatic", "True", "False"},
-        "MethodLR"                -> {"\"Lungo\"", "\"Doppio\""},
+        "MethodLR"                -> {"\"Lungo\""},
         "MethodPolysAndPairs"     -> {"\"Fast\"", "\"Standard\""},
         "ScanGauges"              -> {"Automatic", "True", "False"},
         "Gauge"                   -> {"Automatic", "{}"},
@@ -25627,7 +25708,7 @@ stBoundedToInfinity[integrand_, limSpecs_List] := Module[
    which default to {0, Infinity}. *)
 STIntegrate[integrand_, args__] := Module[
     {argList, limSpecs, opts, xvars, coeffs, limSpec, validLimits,
-     boundedQ, order},
+     boundedQ, order, derived, dg, dord},
 
     (* Context-binding loud guard (audit 2026-06-11, probe rows 3/5): a
        pre-load Global eps survives the coeffs FreeQ filter below (which
@@ -25676,6 +25757,47 @@ STIntegrate[integrand_, args__] := Module[
 
     (* Extract variable list *)
     xvars = limSpecs[[All, 1]];
+
+    (* === derive-gauge (2026-06-25, Christoph) ===========================
+       For an eps-free PROJECTIVE integrand, "GaugeStrategy" -> "Derive" runs
+       the LR-order search on the homogeneous letters over all variables and
+       fixes the LAST-ordered variable as the Cheng-Wu gauge (= 1), then
+       integrates the rest in the derived LR order.  Gated to eps-free +
+       homogeneous: an eps integrand needs the eps-expansion / polytope
+       decomposition (no single global gauge), and an inhomogeneous one has no
+       projective gauge freedom (it falls through to the normal affine path).
+       No rational LR order -> $Failed (the bare [0,Infinity)^n integral of a
+       homogeneous integrand diverges, so there is nothing to fall through to). *)
+    If[("GaugeStrategy" /. Flatten[{opts}] /. {"GaugeStrategy" -> Automatic}) === "Derive" &&
+       FreeQ[integrand, eps] &&
+       AllTrue[limSpecs, MatchQ[#, {_, 0, Infinity}] &] &&   (* projective [0,Infinity)^n only; bounded limits fall through *)
+       STHomogeneousQ[integrand, xvars],
+        (* Cheng-Wu gauge-independence holds ONLY at homogeneity degree -n
+           (n = number of integration variables); a homogeneous integrand of any
+           OTHER degree is scale-divergent and its gauge-fixed value is gauge-
+           DEPENDENT -- a silent wrong answer (adversarial-reviewer 2026-06-25,
+           Case B: deg -3 in n=2 gives 0.262 in gauge x1=1 but 0.144 in gauge
+           x2=1, and the bare integral diverges).  Euler identity:
+           Sum_i x_i d/dx_i f = deg * f.  Reject deg != -n LOUDLY (parity with
+           the normal path's homognoeps guard) rather than returning a finite
+           gauge-dependent number. *)
+        If[! TrueQ[Simplify[
+              Sum[xvars[[i]] D[integrand, xvars[[i]]], {i, Length[xvars]}] ==
+              -Length[xvars] integrand]],
+            Message[STIntegrate::derivegaugedegree, Length[xvars]]; Return[$Failed]];
+        derived = stDeriveGaugeFromHomogeneousLR[integrand, xvars];
+        If[derived === $Failed,
+            Message[STIntegrate::derivegaugenolr]; Return[$Failed]];
+        {dg, dord} = derived;
+        (* NB: IntegrationOrder -> dord is INERT on the default eps-free HF route
+           (STFindLROrdersHF re-derives the per-face order from the gauge-fixed
+           integrand); the derived order serves only to PICK the gauge (its last
+           variable).  The pin still applies on the Mma LROrderBackend route. *)
+        Return[Block[{$stGlobalSymWarnSuppress = True},
+            STIntegrate[integrand /. dg -> 1, Sequence @@ dord,
+                IntegrationOrder -> dord,
+                Sequence @@ DeleteCases[Flatten[{opts}], "GaugeStrategy" -> _]]]]
+    ];
 
     (* Reject inputs where an integration variable is absent from the integrand.
        Over [0, Infinity) the integral is literally divergent; the downstream
@@ -25745,6 +25867,8 @@ STIntegrate::badinput = StringJoin[
 ];
 
 STIntegrate::badlimits = "Integration bounds for variable `1` are {`2`, `3`}. Bounds must be 0, 1, or Infinity.";
+STIntegrate::derivegaugenolr = "\"GaugeStrategy\" -> \"Derive\": the LR-order search on the homogeneous letters found no rational linearly-reducible order (or timed out), so no Cheng-Wu gauge could be derived.  At this stage the projective integral has no rational gauge in which it is linearly reducible (algebraic-letter / Carry derivation is future work), and the bare [0,Infinity)^n affine integral of a homogeneous integrand diverges -- so $Failed is returned rather than a divergent result.  Supply an explicit Gauge + IntegrationOrder, or use the standard gauge scan with FindRoots -> True.";
+STIntegrate::derivegaugedegree = "\"GaugeStrategy\" -> \"Derive\": the integrand is homogeneous but of degree != -`1` (where `1` is the number of integration variables).  Cheng-Wu gauge-fixing is gauge-INDEPENDENT only at homogeneity degree -n, so an integrand of any other degree is scale-divergent: its [0,Infinity)^n integral has no finite value and a gauge-fixed result would depend on which variable is set to 1.  Returning $Failed.  Supply an eps regulator (e.g. a (U+F)^(eps-..) exponent), or integrate an explicitly gauge-fixed projective form of the correct degree.";
 
 STIntegrate::xvarUnused = "Integration variable(s) `1` do not appear in the integrand. Over [0, Infinity) the integral is divergent; the projective gauge-fix the pipeline would otherwise apply silently evaluates the integrand at x_i = 1 and reports that value instead of an actual integral.";
 
@@ -35416,6 +35540,8 @@ With[{stnsLedger = {
   "stValidateIntegrationOrder", "stNormalizeIntegrationOrderPin",
   "stProjectOrderOntoFace", "stResolveFacePin",
   "stValidateIntegrationOrderVerify", "stLeafResolveIntegrationOrder",
+  (* derive-gauge for eps-free projective periods (2026-06-25, Christoph; STIntegrate "GaugeStrategy" -> "Derive") *)
+  "stDeriveGaugeFromHomogeneousLR",
   "stWarnGlobalStructuralSymbols", "stWithSuppressedOutput", "STwrapTranslator", "stWriteSplitEntry", "STXStringReplace", "style$", "STzetaStringReplace", "STZetaStringReplace",
   "stCarryTau", "stCarryPerfectSquareRoot", "stCarrySubstitute", "stCarryChamberOKQ", "stCarryChamberPoint", "stCarryEndpointMap", "stCarryConicPredicate", "stCarryConicRadicand", "stCarryTriggerCheck",
   "stCarryTransformIntegrand", "stCarryExecuteTerm", "stCarryTermSplit", "stCarryApplyExecution"}},

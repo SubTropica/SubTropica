@@ -3,24 +3,24 @@
 (*** Wolfram Notebook File ***)
 (* http://www.wolfram.com/nb *)
 
-(* CreatedBy='Wolfram 14.3' *)
+(* CreatedBy='Wolfram 15.0' *)
 
 (*CacheID: 234*)
 (* Internal cache information:
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       154,          7]
-NotebookDataLength[      5687,        140]
-NotebookOptionsPosition[      3827,        102]
-NotebookOutlinePosition[      4267,        118]
-CellTagsIndexPosition[      4224,        115]
+NotebookDataLength[     12810,        304]
+NotebookOptionsPosition[     10364,        257]
+NotebookOutlinePosition[     10804,        273]
+CellTagsIndexPosition[     10761,        270]
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
 Notebook[{
 
 Cell[CellGroupData[{
-Cell["ConfigureSubTropica", "ObjectName",ExpressionUUID->"1c400f4e-75b6-42ef-ac1c-f7d4f198f87a"],
+Cell["ConfigureSubTropica", "ObjectName",ExpressionUUID->"22f5dc09-284c-4968-96c4-ee1f3b7db830"],
 
 Cell[BoxData[GridBox[{
    {Cell[TextData[{
@@ -30,81 +30,236 @@ MaplePath, HyperIntPath, HyperFlintPath, PythonPath, FiniteFlowPath, \
 SPQRPath, FIESTAPath, AMFlowPath, LiteRedPath, LiteIBPPath, FIREPath, \
 FeyntropPath, IterIntPath, SymbolicEvaluator, KiraPath, NeatIBPPath, \
 SingularPath, PolyLogToolsPath, LibraPath, DiffExpPath, FermatPath, FormPath, \
-MsolvePath, PolymakeConcurrencyFraction). IterIntPath points at the \
-iterint_mpfr driver (or IterInt repo dir); SymbolicEvaluator is \"ginsh\" \
-(default) or \"iterint\" and selects which evaluator STVerify uses for the \
-symbolic Hlog/Log/zeta result. Only options that are explicitly named are \
-updated; omitted options leave the current global state unchanged (no silent \
-reset to package defaults). The configuration is auto-persisted to \
-$STConfigFile and reapplied on the next Get[\"SubTropica`\"], so you only \
-need to call this once per machine."
-    }], "TableText",ExpressionUUID->"e8498193-c35a-44f1-b209-523830941b16"]}
+HyperFormPath, HyperLogProceduresPath, MsolvePath, \
+PolymakeConcurrencyFraction). IterIntPath points at the iterint_mpfr driver \
+(or IterInt repo dir); SymbolicEvaluator is \"ginsh\" (default) or \
+\"iterint\" and selects which evaluator STVerify uses for the symbolic \
+Hlog/Log/zeta result. Only options that are explicitly named are updated; \
+omitted options leave the current global state unchanged (no silent reset to \
+package defaults). The configuration is auto-persisted to $STConfigFile and \
+reapplied on the next Get[\"SubTropica`\"], so you only need to call this \
+once per machine."
+    }], "TableText",ExpressionUUID->"2161b5cd-5520-4058-84b9-b371ffc519b5"]}
   },
   GridBoxAlignment->{"Columns" -> {{Left}}},
   GridBoxItemSize->{
    "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}]], "Usage",
- CellID->1,ExpressionUUID->"639ca7be-f1aa-4ebd-81a0-ec345bbe3413"]
+ CellID->1,ExpressionUUID->"258cc4cd-9e32-4880-84cb-9fd9fc018c07"]
 }, Open  ]],
 
 Cell[CellGroupData[{
 
-Cell["See Also", "SeeAlsoSection",ExpressionUUID->"70c5df35-2f27-4b98-8442-aac8d1e28dab"],
+Cell["Options", "OptionsSection",ExpressionUUID->"854e6e4d-a20d-4128-86a7-a66e359c0891"],
+
+Cell[BoxData[GridBox[{
+   {"\"\<PolymakePath\>\"", "Inherited", 
+    RowBox[{
+     RowBox[{
+     "path", " ", "to", " ", "the", " ", "polymake", " ", "executable", " ", 
+      RowBox[{"(", 
+       RowBox[{"the", " ", "only", " ", "required", " ", "dependency"}], 
+       ")"}]}], ";", " ", 
+     RowBox[{
+      RowBox[{"\"\<\>\"", " ", "re"}], "-", 
+      RowBox[{"runs", " ", "auto"}], "-", "discovery"}]}]},
+   {"\"\<PythonPath\>\"", "Inherited", 
+    RowBox[{
+    "path", " ", "to", " ", "the", " ", "python", " ", "executable", " ", 
+     "used", " ", "for", " ", "pySecDec"}]},
+   {"\"\<GinshPath\>\"", "Inherited", 
+    RowBox[{"path", " ", "to", " ", "the", " ", "ginsh", " ", 
+     RowBox[{"(", "GiNaC", ")"}], " ", "executable"}]},
+   {"\"\<IterIntPath\>\"", "Inherited", 
+    RowBox[{
+    "path", " ", "to", " ", "the", " ", "iterint_mpfr", " ", "driver", " ", 
+     RowBox[{"(", 
+      RowBox[{"or", " ", "the", " ", "IterInt", " ", "repo"}], ")"}]}]},
+   {"\"\<SymbolicEvaluator\>\"", "Inherited", 
+    RowBox[{
+     RowBox[{"\"\<ginsh\>\"", " ", 
+      RowBox[{"(", "default", ")"}], " ", "or", " ", "\"\<iterint\>\""}], ":",
+      " ", 
+     RowBox[{
+     "evaluator", " ", "STVerify", " ", "uses", " ", "for", " ", "the", " ", 
+      "symbolic", " ", "result"}]}]},
+   {"\"\<MaplePath\>\"", "Inherited", 
+    RowBox[{
+    "path", " ", "to", " ", "the", " ", "maple", " ", "executable"}]},
+   {"\"\<HyperIntPath\>\"", "Inherited", 
+    RowBox[{
+    "path", " ", "to", " ", "the", " ", "HyperInt", " ", "install"}]},
+   {"\"\<HyperFlintPath\>\"", "Inherited", 
+    RowBox[{"path", " ", "to", " ", "the", " ", "HyperFLINT", " ", "binary"}]},
+   {"\"\<HyperFlintDataPath\>\"", "Inherited", 
+    RowBox[{
+    "path", " ", "to", " ", "the", " ", "HyperFLINT", " ", "data", " ", 
+     "directory", " ", 
+     RowBox[{"(", 
+      RowBox[{"\"\<\>\"", " ", "derives", " ", "it", " ", "from", " ", "the", 
+       " ", "binary"}], ")"}]}]},
+   {"\"\<HyperLogProceduresPath\>\"", "Inherited", 
+    RowBox[{
+    "path", " ", "to", " ", "the", " ", "HyperlogProcedures", " ", 
+     "install"}]},
+   {"\"\<HyperFormPath\>\"", "Inherited", 
+    RowBox[{
+    "path", " ", "to", " ", "the", " ", "HyperFORM", " ", "directory", " ", 
+     "containing", " ", 
+     RowBox[{"hyperform", ".", "h"}]}]},
+   {"\"\<FormPath\>\"", "Inherited", 
+    RowBox[{"path", " ", "to", " ", "the", " ", "FORM", " ", "executable"}]},
+   {"\"\<PolymakeConcurrencyFraction\>\"", "Inherited", 
+    RowBox[{
+    "fraction", " ", "of", " ", "cores", " ", "polymake", " ", "may", " ", 
+     "use", " ", 
+     RowBox[{"(", "numeric", ")"}]}]},
+   {"\"\<FiniteFlowPath\>\"", "Inherited", 
+    RowBox[{"path", " ", "to", " ", "FiniteFlow", " ", 
+     RowBox[{"(", 
+      RowBox[{"\"\<\>\"", " ", "disables", " ", "it"}], ")"}]}]},
+   {"\"\<SPQRPath\>\"", "Inherited", 
+    RowBox[{"path", " ", "to", " ", "the", " ", "SPQR", " ", "install"}]},
+   {"\"\<MsolvePath\>\"", "Inherited", 
+    RowBox[{"path", " ", "to", " ", "the", " ", "msolve", " ", "executable"}]},
+   {"\"\<SingularPath\>\"", "Inherited", 
+    RowBox[{
+    "path", " ", "to", " ", "the", " ", "Singular", " ", "executable"}]},
+   {"\"\<FermatPath\>\"", "Inherited", 
+    RowBox[{"path", " ", "to", " ", "the", " ", "Fermat", " ", "executable"}]},
+   {"\"\<FIESTAPath\>\"", "Inherited", 
+    RowBox[{"path", " ", "to", " ", "the", " ", "FIESTA", " ", "install"}]},
+   {"\"\<AMFlowPath\>\"", "Inherited", 
+    RowBox[{"path", " ", "to", " ", "the", " ", "AMFlow", " ", "install"}]},
+   {"\"\<LiteRedPath\>\"", "Inherited", 
+    RowBox[{"path", " ", "to", " ", "the", " ", "LiteRed", " ", "install"}]},
+   {"\"\<LiteIBPPath\>\"", "Inherited", 
+    RowBox[{"path", " ", "to", " ", "the", " ", "LiteIBP", " ", "install"}]},
+   {"\"\<FIREPath\>\"", "Inherited", 
+    RowBox[{"path", " ", "to", " ", "the", " ", "FIRE", " ", "install"}]},
+   {"\"\<FeyntropPath\>\"", "Inherited", 
+    RowBox[{
+    "path", " ", "to", " ", "the", " ", "feyntrop", " ", "install"}]},
+   {"\"\<KiraPath\>\"", "Inherited", 
+    RowBox[{"path", " ", "to", " ", "the", " ", "Kira", " ", "executable"}]},
+   {"\"\<NeatIBPPath\>\"", "Inherited", 
+    RowBox[{"path", " ", "to", " ", "the", " ", "NeatIBP", " ", "install"}]},
+   {"\"\<PolyLogToolsPath\>\"", "Inherited", 
+    RowBox[{
+    "path", " ", "to", " ", "the", " ", "PolyLogTools", " ", "install"}]},
+   {"\"\<LibraPath\>\"", "Inherited", 
+    RowBox[{"path", " ", "to", " ", "the", " ", "Libra", " ", "install"}]},
+   {"\"\<DiffExpPath\>\"", "Inherited", 
+    RowBox[{"path", " ", "to", " ", "the", " ", "DiffExp", " ", "install"}]},
+   {"\"\<SOFIAPath\>\"", "Inherited", 
+    RowBox[{"path", " ", "to", " ", "the", " ", 
+     RowBox[{"SOFIA", ".", "m"}], " ", "loader", " ", "file"}]},
+   {"\"\<EffortlessPath\>\"", "Inherited", 
+    RowBox[{"path", " ", "to", " ", "the", " ", 
+     RowBox[{"Effortless", ".", "m"}], " ", "loader", " ", "file"}]},
+   {"\"\<BenchmarkNudge\>\"", "Inherited", 
+    RowBox[{"True", "/", 
+     RowBox[{"False", ":", " ", 
+      RowBox[{
+      "show", " ", "the", " ", "\"\<run STBenchmark[]\>\"", " ", "line", " ", 
+       "in", " ", "the", " ", "load", " ", "banner"}]}]}]}
+  },
+  GridBoxAlignment->{"Columns" -> {Left, Left, Left}},
+  GridBoxDividers->{"Rows" -> {True, {False}, True}}]], "OptionsTable",Express\
+ionUUID->"21a49a57-eb4c-4a4c-956f-ea40de250e67"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["See Also", "SeeAlsoSection",ExpressionUUID->"6a88e62c-e61b-4f26-8aca-dfefc11634a4"],
 
 Cell[TextData[{
  Cell[BoxData[
   ButtonBox["STResetConfig",
    BaseStyle->"Link",
    ButtonData->"paclet:SubTropica/ref/STResetConfig"]], "InlineFormula",
-  ExpressionUUID->"1eaf9bf8-441e-4a15-8269-27f74d43937f"],
+  ExpressionUUID->"4a7839c6-c8d9-47ed-9638-c17637ccc982"],
  " \[EmptyVerySmallSquare] ",
  Cell[BoxData[
   ButtonBox["STBenchmark",
    BaseStyle->"Link",
    ButtonData->"paclet:SubTropica/ref/STBenchmark"]], "InlineFormula",
-  ExpressionUUID->"9caf07a5-ca2b-479a-a90d-5c6196008ceb"]
-}], "SeeAlso",ExpressionUUID->"3b523773-fcec-42cf-92ea-f401c64922f6"]
+  ExpressionUUID->"7df8f057-4d8c-4989-9c17-479a1b8d4865"]
+}], "SeeAlso",ExpressionUUID->"32c4fb89-9f46-4cfe-bee2-95f28d9fc0ee"]
 }, Open  ]],
 
 Cell[CellGroupData[{
 
-Cell["Metadata", "MetadataSection",ExpressionUUID->"0fd59560-2643-4536-a69b-58b86c39444e"],
+Cell[BoxData[
+ InterpretationBox[GridBox[{
+    {
+     StyleBox[
+      RowBox[{"Basic", " ", "Examples"}], "PrimaryExamplesSection"], 
+     ButtonBox[
+      RowBox[{
+       RowBox[{"More", " ", "Examples"}], " ", "\[RightTriangle]"}],
+      BaseStyle->"ExtendedExamplesLink",
+      ButtonData:>"ExtendedExamples"]}
+   }],
+  $Line = 0; Null]], "PrimaryExamplesSection",ExpressionUUID->"c64e0c00-fd0c-\
+4cf8-ad1f-a9c959377a5b"],
+
+Cell["\<\
+Sets the named external-tool paths (leaving the rest unchanged) and persists \
+them; reapplied on the next Get[\"SubTropica`\"].\
+\>", "ExampleText",ExpressionUUID->"7c16dc69-949a-4752-9bfb-508b326242bc"],
+
+Cell[BoxData[
+ RowBox[{"ConfigureSubTropica", "[", 
+  RowBox[{
+   RowBox[{
+   "PolymakePath", " ", "->", " ", "\"\</usr/local/bin/polymake\>\""}], ",", 
+   " ", 
+   RowBox[{
+   "PythonPath", " ", "->", 
+    " ", "\"\<.venvs/subtropica312/bin/python\>\""}]}], "]"}]], "Input",Expres\
+sionUUID->"11dd9b89-ca99-4aea-8597-b57eb98fc9bd"]
+}, Open  ]],
 
 Cell[CellGroupData[{
 
-Cell["Categorization", "CategorizationSection",ExpressionUUID->"a6d9f011-bc34-4231-8ea5-00fcde39afff"],
+Cell["Metadata", "MetadataSection",ExpressionUUID->"6524f4b2-4733-4bc0-a36d-c312479b713a"],
+
+Cell[CellGroupData[{
+
+Cell["Categorization", "CategorizationSection",ExpressionUUID->"cb0a2804-5b91-4c8e-b7b4-ca84a3332e4c"],
 
 Cell["Symbol", "Categorization",
  CellLabel->
-  "Entity Type",ExpressionUUID->"8b2945ea-af02-4a19-80f3-ce50ed6c64a1"],
+  "Entity Type",ExpressionUUID->"fa322017-b0be-4e8d-a4b5-79832ad708b6"],
 
 Cell["SubTropica", "Categorization",
  CellLabel->
-  "Paclet Name",ExpressionUUID->"572310de-5451-48cf-88b9-50a9eac4469c"],
+  "Paclet Name",ExpressionUUID->"10430451-1f3e-445b-a12e-9d23d36d443a"],
 
 Cell["SubTropica`", "Categorization",
- CellLabel->"Context",ExpressionUUID->"7452c123-4b9c-407e-8c95-22ff56f41da7"],
+ CellLabel->"Context",ExpressionUUID->"7d054505-cae7-4632-a57b-e69f3a64d0f0"],
 
 Cell["SubTropica/ref/ConfigureSubTropica", "Categorization",
- CellLabel->"URI",ExpressionUUID->"52f6ea45-ccfb-4ce3-92da-ba7cd92ed090"]
+ CellLabel->"URI",ExpressionUUID->"f3a927ce-7e97-4d69-8e80-18f9b2090177"]
 }, Closed]],
 
 Cell[CellGroupData[{
 
-Cell["Keywords", "KeywordsSection",ExpressionUUID->"6549217f-2214-4f98-9ed1-234896cc6837"],
+Cell["Keywords", "KeywordsSection",ExpressionUUID->"955d0b21-7299-416a-9ac9-ed9c46fd82a3"],
 
-Cell["Feynman integral", "Keywords",ExpressionUUID->"6ac5ab78-9983-4e23-a7b4-d532d4593961"],
+Cell["Feynman integral", "Keywords",ExpressionUUID->"fe5a5024-c89e-49f3-83d7-b962c008a271"],
 
-Cell["tropical geometry", "Keywords",ExpressionUUID->"075d04ed-b069-4a1a-b753-ee17f11996cf"],
+Cell["tropical geometry", "Keywords",ExpressionUUID->"76d6edde-5f03-4b1e-bb7e-db59bb0ea020"],
 
-Cell["dimensional regularization", "Keywords",ExpressionUUID->"e08278b7-c2d2-4c86-8563-d949da3a6527"]
+Cell["dimensional regularization", "Keywords",ExpressionUUID->"3f4b2404-77e4-4ae9-b000-8fae8bbfa1a5"]
 }, Closed]]
 }, Open  ]]
 },
 TaggingRules-><|"Paclet" -> "SubTropica"|>,
-FrontEndVersion->"14.3 for Mac OS X ARM (64-bit) (July 8, 2025)",
+FrontEndVersion->"15.0 for Mac OS X ARM (64-bit) (May 19, 2026)",
 StyleDefinitions->FrontEnd`FileName[{"Wolfram"}, "FunctionPageStylesExt.nb", 
   CharacterEncoding -> "UTF-8"],
-ExpressionUUID->"99a510ba-9c0b-4e54-8e5c-15edc5638ffc"
+ExpressionUUID->"bf60aa35-2de1-428a-a6f7-c9ce4584a71f"
 ]
 (* End of Notebook Content *)
 
@@ -118,28 +273,37 @@ CellTagsIndex->{}
 (*NotebookFileOutline
 Notebook[{
 Cell[CellGroupData[{
-Cell[576, 22, 96, 0, 70, "ObjectName",ExpressionUUID->"1c400f4e-75b6-42ef-ac1c-f7d4f198f87a"],
-Cell[675, 24, 1316, 21, 70, "Usage",ExpressionUUID->"639ca7be-f1aa-4ebd-81a0-ec345bbe3413",
+Cell[576, 22, 96, 0, 70, "ObjectName",ExpressionUUID->"22f5dc09-284c-4968-96c4-ee1f3b7db830"],
+Cell[675, 24, 1357, 22, 70, "Usage",ExpressionUUID->"258cc4cd-9e32-4880-84cb-9fd9fc018c07",
  CellID->1]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[2028, 50, 89, 0, 70, "SeeAlsoSection",ExpressionUUID->"70c5df35-2f27-4b98-8442-aac8d1e28dab"],
-Cell[2120, 52, 506, 12, 70, "SeeAlso",ExpressionUUID->"3b523773-fcec-42cf-92ea-f401c64922f6"]
+Cell[2069, 51, 88, 0, 70, "OptionsSection",ExpressionUUID->"854e6e4d-a20d-4128-86a7-a66e359c0891"],
+Cell[2160, 53, 5355, 114, 70, "OptionsTable",ExpressionUUID->"21a49a57-eb4c-4a4c-956f-ea40de250e67"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[2663, 69, 90, 0, 70, "MetadataSection",ExpressionUUID->"0fd59560-2643-4536-a69b-58b86c39444e"],
+Cell[7552, 172, 89, 0, 70, "SeeAlsoSection",ExpressionUUID->"6a88e62c-e61b-4f26-8aca-dfefc11634a4"],
+Cell[7644, 174, 506, 12, 70, "SeeAlso",ExpressionUUID->"32c4fb89-9f46-4cfe-bee2-95f28d9fc0ee"]
+}, Open  ]],
 Cell[CellGroupData[{
-Cell[2778, 73, 102, 0, 70, "CategorizationSection",ExpressionUUID->"a6d9f011-bc34-4231-8ea5-00fcde39afff"],
-Cell[2883, 75, 117, 2, 70, "Categorization",ExpressionUUID->"8b2945ea-af02-4a19-80f3-ce50ed6c64a1"],
-Cell[3003, 79, 121, 2, 70, "Categorization",ExpressionUUID->"572310de-5451-48cf-88b9-50a9eac4469c"],
-Cell[3127, 83, 115, 1, 70, "Categorization",ExpressionUUID->"7452c123-4b9c-407e-8c95-22ff56f41da7"],
-Cell[3245, 86, 134, 1, 70, "Categorization",ExpressionUUID->"52f6ea45-ccfb-4ce3-92da-ba7cd92ed090"]
+Cell[8187, 191, 424, 12, 70, "PrimaryExamplesSection",ExpressionUUID->"c64e0c00-fd0c-4cf8-ad1f-a9c959377a5b"],
+Cell[8614, 205, 214, 3, 70, "ExampleText",ExpressionUUID->"7c16dc69-949a-4752-9bfb-508b326242bc"],
+Cell[8831, 210, 332, 9, 70, "Input",ExpressionUUID->"11dd9b89-ca99-4aea-8597-b57eb98fc9bd"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[9200, 224, 90, 0, 70, "MetadataSection",ExpressionUUID->"6524f4b2-4733-4bc0-a36d-c312479b713a"],
+Cell[CellGroupData[{
+Cell[9315, 228, 102, 0, 70, "CategorizationSection",ExpressionUUID->"cb0a2804-5b91-4c8e-b7b4-ca84a3332e4c"],
+Cell[9420, 230, 117, 2, 70, "Categorization",ExpressionUUID->"fa322017-b0be-4e8d-a4b5-79832ad708b6"],
+Cell[9540, 234, 121, 2, 70, "Categorization",ExpressionUUID->"10430451-1f3e-445b-a12e-9d23d36d443a"],
+Cell[9664, 238, 115, 1, 70, "Categorization",ExpressionUUID->"7d054505-cae7-4632-a57b-e69f3a64d0f0"],
+Cell[9782, 241, 134, 1, 70, "Categorization",ExpressionUUID->"f3a927ce-7e97-4d69-8e80-18f9b2090177"]
 }, Closed]],
 Cell[CellGroupData[{
-Cell[3416, 92, 90, 0, 70, "KeywordsSection",ExpressionUUID->"6549217f-2214-4f98-9ed1-234896cc6837"],
-Cell[3509, 94, 91, 0, 70, "Keywords",ExpressionUUID->"6ac5ab78-9983-4e23-a7b4-d532d4593961"],
-Cell[3603, 96, 92, 0, 70, "Keywords",ExpressionUUID->"075d04ed-b069-4a1a-b753-ee17f11996cf"],
-Cell[3698, 98, 101, 0, 70, "Keywords",ExpressionUUID->"e08278b7-c2d2-4c86-8563-d949da3a6527"]
+Cell[9953, 247, 90, 0, 70, "KeywordsSection",ExpressionUUID->"955d0b21-7299-416a-9ac9-ed9c46fd82a3"],
+Cell[10046, 249, 91, 0, 70, "Keywords",ExpressionUUID->"fe5a5024-c89e-49f3-83d7-b962c008a271"],
+Cell[10140, 251, 92, 0, 70, "Keywords",ExpressionUUID->"76d6edde-5f03-4b1e-bb7e-db59bb0ea020"],
+Cell[10235, 253, 101, 0, 70, "Keywords",ExpressionUUID->"3f4b2404-77e4-4ae9-b000-8fae8bbfa1a5"]
 }, Closed]]
 }, Open  ]]
 }

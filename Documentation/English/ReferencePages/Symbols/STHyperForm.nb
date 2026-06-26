@@ -1,0 +1,214 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Wolfram 15.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       154,          7]
+NotebookDataLength[      8161,        205]
+NotebookOptionsPosition[      5723,        158]
+NotebookOutlinePosition[      6163,        174]
+CellTagsIndexPosition[      6120,        171]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["STHyperForm", "ObjectName",ExpressionUUID->"492b6cb1-d323-4e81-8528-1c2e29020019"],
+
+Cell[BoxData[GridBox[{
+   {Cell[TextData[{
+     StyleBox["STHyperForm[integrand, {x1, ..., xn}]", "TI"],
+     " \[LineSeparator]evaluates the Euler integral of a rational integrand \
+(optionally carrying Log[poly] numerator factors) over [0, \\[Infinity])^n \
+analytically with the HyperFORM package (Kardos) running under FORM. The \
+variable list doubles as the integration order. Returns a rational \
+combination of Zeta values on success, $Failed (with a message) on \
+out-of-scope input or when HyperFORM cannot reduce all boundary constants. \
+Requires the optional dependencies FORM (>= 5.0, ConfigureSubTropica[FormPath \
+-> ...]) and HyperFORM (ConfigureSubTropica[HyperFormPath -> ...]). \
+IntegrationOrder -> {x1, ..., xn} (a permutation of the supplied variables) \
+reorders the integration before the call (the variable list otherwise doubles \
+as the order); the per-face rule-list form is ignored on this \
+single-integrand leaf. For verified per-face pinning use STIntegrate / \
+STIntegrateHF."
+    }], "TableText",ExpressionUUID->"d767b858-f0d8-4f17-be3c-593cb29b7cad"]}
+  },
+  GridBoxAlignment->{"Columns" -> {{Left}}},
+  GridBoxItemSize->{
+   "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}]], "Usage",
+ CellID->1,ExpressionUUID->"4ae0ab87-fb96-4ae8-8e51-1d8f24d4ebd5"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Options", "OptionsSection",ExpressionUUID->"6aff82f3-d814-47f8-b6d0-1e742f67b5dc"],
+
+Cell[BoxData[GridBox[{
+   {"\"\<IntegrationOrder\>\"", "None", 
+    RowBox[{
+     RowBox[{
+     "None", " ", "uses", " ", "the", " ", "given", " ", "variable", " ", 
+      "list", " ", "as", " ", "the", " ", "order"}], ";", " ", 
+     RowBox[{
+     "a", " ", "global", " ", "permutation", " ", "reorders", " ", "before", " ",
+       "integration"}]}]},
+   {"\"\<IntegrationOrderVerify\>\"", "False", 
+    RowBox[{
+    "inert", " ", "on", " ", "this", " ", "direct", " ", "leaf", " ", 
+     RowBox[{"(", 
+      RowBox[{"the", " ", "order", " ", "is", " ", "trusted"}], ")"}]}]}
+  },
+  GridBoxAlignment->{"Columns" -> {Left, Left, Left}},
+  GridBoxDividers->{"Rows" -> {True, {False}, True}}]], "OptionsTable",Express\
+ionUUID->"c75f1bf5-386b-4e3a-93ca-2290ef52fe52"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["See Also", "SeeAlsoSection",ExpressionUUID->"e6a673ea-a4e7-4e52-b035-41f29a0b178b"],
+
+Cell[TextData[{
+ Cell[BoxData[
+  ButtonBox["STHyperFlint",
+   BaseStyle->"Link",
+   ButtonData->"paclet:SubTropica/ref/STHyperFlint"]], "InlineFormula",
+  ExpressionUUID->"0d099dd5-f26c-465b-a96e-062aeeb0804a"],
+ " \[EmptyVerySmallSquare] ",
+ Cell[BoxData[
+  ButtonBox["STIntegrate",
+   BaseStyle->"Link",
+   ButtonData->"paclet:SubTropica/ref/STIntegrate"]], "InlineFormula",
+  ExpressionUUID->"9e14c604-e977-4d9b-bfe5-d9977d087fd3"]
+}], "SeeAlso",ExpressionUUID->"4c63e097-957d-4128-a8e5-6baac16fc8b2"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ InterpretationBox[GridBox[{
+    {
+     StyleBox[
+      RowBox[{"Basic", " ", "Examples"}], "PrimaryExamplesSection"], 
+     ButtonBox[
+      RowBox[{
+       RowBox[{"More", " ", "Examples"}], " ", "\[RightTriangle]"}],
+      BaseStyle->"ExtendedExamplesLink",
+      ButtonData:>"ExtendedExamples"]}
+   }],
+  $Line = 0; Null]], "PrimaryExamplesSection",ExpressionUUID->"796e0437-11a6-\
+4237-b8ae-bcd64fdcd163"],
+
+Cell["\<\
+Evaluate a rational Euler integral analytically with HyperFORM (under FORM), \
+returning a rational combination of zeta values; for the regression integrand \
+the result is -79/24 + Pi^2/12.  Requires FORM and HyperFORM.\
+\>", "ExampleText",ExpressionUUID->"befafe6b-c807-497b-ad32-2a0e1931d67d"],
+
+Cell[BoxData[
+ RowBox[{"STHyperForm", "[", 
+  RowBox[{"integrand", ",", " ", 
+   RowBox[{"{", 
+    RowBox[{
+    "x4", ",", " ", "x1", ",", " ", "x2", ",", " ", "x5", ",", " ", "x3"}], 
+    "}"}]}], "]"}]], "Input",ExpressionUUID->"e8b3287b-2250-4a14-a0ef-\
+78502b5cf410"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Metadata", "MetadataSection",ExpressionUUID->"b7b6bd95-2916-4119-8cb6-0470e86e5f3e"],
+
+Cell[CellGroupData[{
+
+Cell["Categorization", "CategorizationSection",ExpressionUUID->"c788d4fe-0d41-49fd-ba06-5394df4e6e7a"],
+
+Cell["Symbol", "Categorization",
+ CellLabel->
+  "Entity Type",ExpressionUUID->"30dd6680-2a64-424c-bf51-f1d2859ff918"],
+
+Cell["SubTropica", "Categorization",
+ CellLabel->
+  "Paclet Name",ExpressionUUID->"5f82de77-1bbe-45fc-a7d6-f3b20ee842e7"],
+
+Cell["SubTropica`", "Categorization",
+ CellLabel->"Context",ExpressionUUID->"67c85a47-3cb9-45b9-8fc7-8741c57aede6"],
+
+Cell["SubTropica/ref/STHyperForm", "Categorization",
+ CellLabel->"URI",ExpressionUUID->"6d5186e8-603a-4d29-9a13-8dc7d98c058c"]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Keywords", "KeywordsSection",ExpressionUUID->"6ab8add8-9739-4fdb-85ce-45925770f938"],
+
+Cell["Feynman integral", "Keywords",ExpressionUUID->"90eac98c-6ed8-4e60-9a20-0a38478fe1b4"],
+
+Cell["tropical geometry", "Keywords",ExpressionUUID->"405c406c-a422-43d1-9dc1-077bb6b2a766"],
+
+Cell["dimensional regularization", "Keywords",ExpressionUUID->"c3f3270a-7e7a-4292-86c4-efab344358a9"]
+}, Closed]]
+}, Open  ]]
+},
+TaggingRules-><|"Paclet" -> "SubTropica"|>,
+FrontEndVersion->"15.0 for Mac OS X ARM (64-bit) (May 19, 2026)",
+StyleDefinitions->FrontEnd`FileName[{"Wolfram"}, "FunctionPageStylesExt.nb", 
+  CharacterEncoding -> "UTF-8"],
+ExpressionUUID->"bf60aa35-2de1-428a-a6f7-c9ce4584a71f"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[576, 22, 88, 0, 70, "ObjectName",ExpressionUUID->"492b6cb1-d323-4e81-8528-1c2e29020019"],
+Cell[667, 24, 1293, 21, 70, "Usage",ExpressionUUID->"4ae0ab87-fb96-4ae8-8e51-1d8f24d4ebd5",
+ CellID->1]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[1997, 50, 88, 0, 70, "OptionsSection",ExpressionUUID->"6aff82f3-d814-47f8-b6d0-1e742f67b5dc"],
+Cell[2088, 52, 765, 17, 70, "OptionsTable",ExpressionUUID->"c75f1bf5-386b-4e3a-93ca-2290ef52fe52"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[2890, 74, 89, 0, 70, "SeeAlsoSection",ExpressionUUID->"e6a673ea-a4e7-4e52-b035-41f29a0b178b"],
+Cell[2982, 76, 504, 12, 70, "SeeAlso",ExpressionUUID->"4c63e097-957d-4128-a8e5-6baac16fc8b2"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[3523, 93, 424, 12, 70, "PrimaryExamplesSection",ExpressionUUID->"796e0437-11a6-4237-b8ae-bcd64fdcd163"],
+Cell[3950, 107, 306, 4, 70, "ExampleText",ExpressionUUID->"befafe6b-c807-497b-ad32-2a0e1931d67d"],
+Cell[4259, 113, 271, 7, 70, "Input",ExpressionUUID->"e8b3287b-2250-4a14-a0ef-78502b5cf410"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[4567, 125, 90, 0, 70, "MetadataSection",ExpressionUUID->"b7b6bd95-2916-4119-8cb6-0470e86e5f3e"],
+Cell[CellGroupData[{
+Cell[4682, 129, 102, 0, 70, "CategorizationSection",ExpressionUUID->"c788d4fe-0d41-49fd-ba06-5394df4e6e7a"],
+Cell[4787, 131, 117, 2, 70, "Categorization",ExpressionUUID->"30dd6680-2a64-424c-bf51-f1d2859ff918"],
+Cell[4907, 135, 121, 2, 70, "Categorization",ExpressionUUID->"5f82de77-1bbe-45fc-a7d6-f3b20ee842e7"],
+Cell[5031, 139, 115, 1, 70, "Categorization",ExpressionUUID->"67c85a47-3cb9-45b9-8fc7-8741c57aede6"],
+Cell[5149, 142, 126, 1, 70, "Categorization",ExpressionUUID->"6d5186e8-603a-4d29-9a13-8dc7d98c058c"]
+}, Closed]],
+Cell[CellGroupData[{
+Cell[5312, 148, 90, 0, 70, "KeywordsSection",ExpressionUUID->"6ab8add8-9739-4fdb-85ce-45925770f938"],
+Cell[5405, 150, 91, 0, 70, "Keywords",ExpressionUUID->"90eac98c-6ed8-4e60-9a20-0a38478fe1b4"],
+Cell[5499, 152, 92, 0, 70, "Keywords",ExpressionUUID->"405c406c-a422-43d1-9dc1-077bb6b2a766"],
+Cell[5594, 154, 101, 0, 70, "Keywords",ExpressionUUID->"c3f3270a-7e7a-4292-86c4-efab344358a9"]
+}, Closed]]
+}, Open  ]]
+}
+]
+*)
+
+(* End of internal cache information *)

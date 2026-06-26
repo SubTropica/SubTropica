@@ -1,0 +1,240 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Wolfram 15.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       154,          7]
+NotebookDataLength[      9389,        231]
+NotebookOptionsPosition[      6948,        184]
+NotebookOutlinePosition[      7388,        200]
+CellTagsIndexPosition[      7345,        197]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["STBuildFactorTable", "ObjectName",ExpressionUUID->"78207108-613d-46e8-b0c8-b19b32c194a8"],
+
+Cell[BoxData[GridBox[{
+   {Cell[TextData[{
+     StyleBox["STBuildFactorTable[polys, \"Order\" -> {x1, ...}]", "TI"],
+     " \[LineSeparator]builds the factor-prediction table for the Fubini \
+reduction along the given LR order via HyperFLINT's factor_table op. `polys` \
+is a flat list or list-of-lists (groups, matching STFindLROrdersHF's \
+convention). The integration variables are exactly the entries of \"Order\"; \
+remaining symbols are kinematic parameters. Returns the table Association and \
+installs it as the kernel-global default $STFactorPredictorTable (NOT cleared \
+by STResetKernelCaches). All factorizations are over Q; the table is faithful \
+to HyperIntica integration only when $HyperSplittingField is trivial. NOTE: \
+TimeConstrained cannot abort the in-process LibraryLink call (the singleton \
+fallback factorization is the most likely hang site); the CLI transport is \
+abortable. SCOPE OF THE HYGIENE GUARANTEE: the clean scope protects the HF \
+response parse and the table assembly; the INPUT polynomials are evaluated at \
+the call boundary like any Mathematica arguments, so kinematic variables must \
+be unassigned at build time (a session assignment m = 5 silently bakes 5 into \
+the input letters before STBuildFactorTable runs)."
+    }], "TableText",ExpressionUUID->"26cfcd9e-70da-44bc-92ab-a01cfd8ecf00"]}
+  },
+  GridBoxAlignment->{"Columns" -> {{Left}}},
+  GridBoxItemSize->{
+   "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}]], "Usage",
+ CellID->1,ExpressionUUID->"8c2c9087-b67f-4c02-ae1a-5180cff5146b"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Options", "OptionsSection",ExpressionUUID->"9e6dfc7a-1c25-4394-b8a0-6892ab71877f"],
+
+Cell[BoxData[GridBox[{
+   {"\"\<Order\>\"", "Automatic", 
+    RowBox[{
+     RowBox[{
+      RowBox[{"the", " ", "linear"}], "-", 
+      RowBox[{"reducibility", " ", "integration", " ", "order", " ", 
+       RowBox[{"(", 
+        RowBox[{"list", " ", "of", " ", "distinct", " ", "symbols"}], 
+        ")"}]}]}], ";", " ", "required"}]},
+   {"\"\<FindRoots\>\"", "False", 
+    RowBox[{"emit", " ", "algebraic", " ", 
+     RowBox[{"(", 
+      RowBox[{"square", "-", "root"}], ")"}], " ", "letters", " ", "into", " ",
+      "the", " ", "table"}]},
+   {"\"\<TimeConstraint\>\"", "1800", 
+    RowBox[{"soft", " ", "time", " ", "cap", " ", 
+     RowBox[{"(", "s", ")"}], " ", "on", " ", "the", " ", "table", " ", 
+     "build"}]},
+   {"\"\<Threads\>\"", "Automatic", 
+    RowBox[{"HyperFLINT", " ", "worker", " ", "threads"}]},
+   {"\"\<MaxPairs\>\"", "2000000", 
+    RowBox[{"cap", " ", "on", " ", "stored", " ", "pair", " ", 
+     RowBox[{"(", "resultant", ")"}], " ", "entries"}]},
+   {"\"\<MaxSingletons\>\"", "200000", 
+    RowBox[{"cap", " ", "on", " ", "stored", " ", "singleton", " ", 
+     RowBox[{"(", "letter", ")"}], " ", "entries"}]},
+   {"\"\<MaxResponseMB\>\"", "512", 
+    RowBox[{"cap", " ", 
+     RowBox[{"(", "MB", ")"}], " ", "on", " ", "the", " ", "HyperFLINT", " ", 
+     "response", " ", "size"}]}
+  },
+  GridBoxAlignment->{"Columns" -> {Left, Left, Left}},
+  GridBoxDividers->{"Rows" -> {True, {False}, True}}]], "OptionsTable",Express\
+ionUUID->"81ca3d92-c49b-44ea-bc45-03e51ba31dd2"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["See Also", "SeeAlsoSection",ExpressionUUID->"67f2903b-4ee0-40ee-8570-d386688af0fe"],
+
+Cell[TextData[{
+ Cell[BoxData[
+  ButtonBox["STIntegrate",
+   BaseStyle->"Link",
+   ButtonData->"paclet:SubTropica/ref/STIntegrate"]], "InlineFormula",
+  ExpressionUUID->"06299ffe-9c15-4d2a-9ad0-af7a7f1952bc"],
+ " \[EmptyVerySmallSquare] ",
+ Cell[BoxData[
+  ButtonBox["STHyperFlint",
+   BaseStyle->"Link",
+   ButtonData->"paclet:SubTropica/ref/STHyperFlint"]], "InlineFormula",
+  ExpressionUUID->"a8f1359a-7c37-4d55-a7d4-b1fdf45ee486"]
+}], "SeeAlso",ExpressionUUID->"e940da67-2a78-440e-85ce-e3c5e1a9dbe7"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ InterpretationBox[GridBox[{
+    {
+     StyleBox[
+      RowBox[{"Basic", " ", "Examples"}], "PrimaryExamplesSection"], 
+     ButtonBox[
+      RowBox[{
+       RowBox[{"More", " ", "Examples"}], " ", "\[RightTriangle]"}],
+      BaseStyle->"ExtendedExamplesLink",
+      ButtonData:>"ExtendedExamples"]}
+   }],
+  $Line = 0; Null]], "PrimaryExamplesSection",ExpressionUUID->"e4662991-5857-\
+44e3-a73b-b2748e5fa23e"],
+
+Cell["\<\
+Build the factor-prediction table for the Fubini reduction along the given \
+order (via HyperFLINT) and install it as $STFactorPredictorTable; the \
+reduce-time denominators over x are {s, t, s-t}.  Kinematic symbols must be \
+unassigned at call time.\
+\>", "ExampleText",ExpressionUUID->"14a4db19-7e90-4eae-9c04-90f3eb8592d2"],
+
+Cell[BoxData[
+ RowBox[{"STBuildFactorTable", "[", 
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"(", 
+      RowBox[{
+       RowBox[{"s", " ", "x"}], " ", "+", " ", "1"}], ")"}], " ", 
+     RowBox[{"(", 
+      RowBox[{
+       RowBox[{"t", " ", "x"}], " ", "+", " ", "1"}], ")"}]}], "}"}], ",", 
+   " ", 
+   RowBox[{"\"\<Order\>\"", " ", "->", " ", 
+    RowBox[{"{", "x", "}"}]}]}], "]"}]], "Input",ExpressionUUID->"c0e045e0-\
+4d2e-4a50-86c2-859f9cb38741"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Metadata", "MetadataSection",ExpressionUUID->"757d0615-fff6-43da-b584-e346ef08f40e"],
+
+Cell[CellGroupData[{
+
+Cell["Categorization", "CategorizationSection",ExpressionUUID->"1645966a-c30e-41ee-b549-de72fda0d39e"],
+
+Cell["Symbol", "Categorization",
+ CellLabel->
+  "Entity Type",ExpressionUUID->"ec23b14e-f630-4f0e-949e-529b07d8d0d6"],
+
+Cell["SubTropica", "Categorization",
+ CellLabel->
+  "Paclet Name",ExpressionUUID->"97d9eb62-e921-41c2-a740-f56e440ef779"],
+
+Cell["SubTropica`", "Categorization",
+ CellLabel->"Context",ExpressionUUID->"23227cff-44d2-492e-805f-d0da40578682"],
+
+Cell["SubTropica/ref/STBuildFactorTable", "Categorization",
+ CellLabel->"URI",ExpressionUUID->"54769130-92e0-4c74-b9d9-3b0ebe6e6690"]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Keywords", "KeywordsSection",ExpressionUUID->"1593df46-287b-4b6a-853e-139f830ba4f1"],
+
+Cell["Feynman integral", "Keywords",ExpressionUUID->"e664d0e5-10e1-4e1b-bd44-b47c1bc34fee"],
+
+Cell["tropical geometry", "Keywords",ExpressionUUID->"908ed727-7fb5-4627-a0d5-0ccf3041121c"],
+
+Cell["dimensional regularization", "Keywords",ExpressionUUID->"3af42cc4-cebe-414d-b8c8-dfbcc98d1087"]
+}, Closed]]
+}, Open  ]]
+},
+TaggingRules-><|"Paclet" -> "SubTropica"|>,
+FrontEndVersion->"15.0 for Mac OS X ARM (64-bit) (May 19, 2026)",
+StyleDefinitions->FrontEnd`FileName[{"Wolfram"}, "FunctionPageStylesExt.nb", 
+  CharacterEncoding -> "UTF-8"],
+ExpressionUUID->"bf60aa35-2de1-428a-a6f7-c9ce4584a71f"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[576, 22, 95, 0, 70, "ObjectName",ExpressionUUID->"78207108-613d-46e8-b0c8-b19b32c194a8"],
+Cell[674, 24, 1545, 23, 70, "Usage",ExpressionUUID->"8c2c9087-b67f-4c02-ae1a-5180cff5146b",
+ CellID->1]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[2256, 52, 88, 0, 70, "OptionsSection",ExpressionUUID->"9e6dfc7a-1c25-4394-b8a0-6892ab71877f"],
+Cell[2347, 54, 1501, 33, 70, "OptionsTable",ExpressionUUID->"81ca3d92-c49b-44ea-bc45-03e51ba31dd2"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[3885, 92, 89, 0, 70, "SeeAlsoSection",ExpressionUUID->"67f2903b-4ee0-40ee-8570-d386688af0fe"],
+Cell[3977, 94, 504, 12, 70, "SeeAlso",ExpressionUUID->"e940da67-2a78-440e-85ce-e3c5e1a9dbe7"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[4518, 111, 424, 12, 70, "PrimaryExamplesSection",ExpressionUUID->"e4662991-5857-44e3-a73b-b2748e5fa23e"],
+Cell[4945, 125, 337, 5, 70, "ExampleText",ExpressionUUID->"14a4db19-7e90-4eae-9c04-90f3eb8592d2"],
+Cell[5285, 132, 463, 14, 70, "Input",ExpressionUUID->"c0e045e0-4d2e-4a50-86c2-859f9cb38741"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[5785, 151, 90, 0, 70, "MetadataSection",ExpressionUUID->"757d0615-fff6-43da-b584-e346ef08f40e"],
+Cell[CellGroupData[{
+Cell[5900, 155, 102, 0, 70, "CategorizationSection",ExpressionUUID->"1645966a-c30e-41ee-b549-de72fda0d39e"],
+Cell[6005, 157, 117, 2, 70, "Categorization",ExpressionUUID->"ec23b14e-f630-4f0e-949e-529b07d8d0d6"],
+Cell[6125, 161, 121, 2, 70, "Categorization",ExpressionUUID->"97d9eb62-e921-41c2-a740-f56e440ef779"],
+Cell[6249, 165, 115, 1, 70, "Categorization",ExpressionUUID->"23227cff-44d2-492e-805f-d0da40578682"],
+Cell[6367, 168, 133, 1, 70, "Categorization",ExpressionUUID->"54769130-92e0-4c74-b9d9-3b0ebe6e6690"]
+}, Closed]],
+Cell[CellGroupData[{
+Cell[6537, 174, 90, 0, 70, "KeywordsSection",ExpressionUUID->"1593df46-287b-4b6a-853e-139f830ba4f1"],
+Cell[6630, 176, 91, 0, 70, "Keywords",ExpressionUUID->"e664d0e5-10e1-4e1b-bd44-b47c1bc34fee"],
+Cell[6724, 178, 92, 0, 70, "Keywords",ExpressionUUID->"908ed727-7fb5-4627-a0d5-0ccf3041121c"],
+Cell[6819, 180, 101, 0, 70, "Keywords",ExpressionUUID->"3af42cc4-cebe-414d-b8c8-dfbcc98d1087"]
+}, Closed]]
+}, Open  ]]
+}
+]
+*)
+
+(* End of internal cache information *)

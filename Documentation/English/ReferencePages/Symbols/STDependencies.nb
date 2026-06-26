@@ -3,24 +3,24 @@
 (*** Wolfram Notebook File ***)
 (* http://www.wolfram.com/nb *)
 
-(* CreatedBy='Wolfram 14.3' *)
+(* CreatedBy='Wolfram 15.0' *)
 
 (*CacheID: 234*)
 (* Internal cache information:
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       154,          7]
-NotebookDataLength[      5012,        131]
-NotebookOptionsPosition[      3153,         93]
-NotebookOutlinePosition[      3593,        109]
-CellTagsIndexPosition[      3550,        106]
+NotebookDataLength[      6201,        162]
+NotebookOptionsPosition[      4003,        119]
+NotebookOutlinePosition[      4443,        135]
+CellTagsIndexPosition[      4400,        132]
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
 Notebook[{
 
 Cell[CellGroupData[{
-Cell["STDependencies", "ObjectName",ExpressionUUID->"ef99079f-703d-4d3b-b190-4f497dbafa78"],
+Cell["STDependencies", "ObjectName",ExpressionUUID->"378b5289-7c9c-49c1-98f6-d2cce8275a23"],
 
 Cell[BoxData[GridBox[{
    {Cell[TextData[{
@@ -29,73 +29,99 @@ Cell[BoxData[GridBox[{
 detailed per-tool table (status, version, path, install/config hint). Returns \
 the $STDependencies association. Used as step 1 of STBenchmark[]; polymake is \
 required, all other tools are optional."
-    }], "TableText",ExpressionUUID->"176a46d3-ef16-42f6-b4ba-c492f204fa34"]}
+    }], "TableText",ExpressionUUID->"eb315828-5f30-4ba6-b180-f46485d346b9"]}
   },
   GridBoxAlignment->{"Columns" -> {{Left}}},
   GridBoxItemSize->{
    "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}]], "Usage",
- CellID->1,ExpressionUUID->"905b4833-ccbc-46dc-bccc-ce2cde6c9267"]
+ CellID->1,ExpressionUUID->"c90c153b-b75c-4778-8be3-958877dbe40f"]
 }, Open  ]],
 
 Cell[CellGroupData[{
 
-Cell["See Also", "SeeAlsoSection",ExpressionUUID->"0f725022-ff29-4cca-ade7-72bb6dc3bd48"],
+Cell["See Also", "SeeAlsoSection",ExpressionUUID->"901ad16e-4ab9-475c-a776-35e58621352e"],
 
 Cell[TextData[{
  Cell[BoxData[
   ButtonBox["STCheckDependencies",
    BaseStyle->"Link",
    ButtonData->"paclet:SubTropica/ref/STCheckDependencies"]], "InlineFormula",
-  ExpressionUUID->"d3dcd34d-cd24-47a1-9928-2e6897c02c2b"],
+  ExpressionUUID->"2d400625-aed7-436a-8032-f11af571630b"],
  " \[EmptyVerySmallSquare] ",
  Cell[BoxData[
   ButtonBox["STBenchmark",
    BaseStyle->"Link",
    ButtonData->"paclet:SubTropica/ref/STBenchmark"]], "InlineFormula",
-  ExpressionUUID->"a456a055-69f1-4d32-81a8-aa5abfa13fb9"]
-}], "SeeAlso",ExpressionUUID->"e723e9d8-a6a0-469b-88db-963a6075a792"]
+  ExpressionUUID->"f9afe3b2-3ad8-4114-804d-dc546b1ba42f"]
+}], "SeeAlso",ExpressionUUID->"787396c9-4b25-45aa-9e36-0772be8b9d68"]
 }, Open  ]],
 
 Cell[CellGroupData[{
 
-Cell["Metadata", "MetadataSection",ExpressionUUID->"890da5cf-89fb-489d-ac7d-2ee8aa96226b"],
+Cell[BoxData[
+ InterpretationBox[GridBox[{
+    {
+     StyleBox[
+      RowBox[{"Basic", " ", "Examples"}], "PrimaryExamplesSection"], 
+     ButtonBox[
+      RowBox[{
+       RowBox[{"More", " ", "Examples"}], " ", "\[RightTriangle]"}],
+      BaseStyle->"ExtendedExamplesLink",
+      ButtonData:>"ExtendedExamples"]}
+   }],
+  $Line = 0; Null]], "PrimaryExamplesSection",ExpressionUUID->"afc95c21-e3a5-\
+49a1-b817-ef1ae7cae4e6"],
+
+Cell["\<\
+Re-runs the dependency smoke tests, prints a per-tool table (status, version, \
+path, hint), and returns the $STDependencies association; polymake is \
+required, the rest optional.\
+\>", "ExampleText",ExpressionUUID->"97d9dfd0-2de3-4cca-a52c-29cd23ab5492"],
+
+Cell[BoxData[
+ RowBox[{"STDependencies", "[", "]"}]], "Input",ExpressionUUID->"c28aa5ea-1335-4ea9-9581-162ef022ad0e"]
+}, Open  ]],
 
 Cell[CellGroupData[{
 
-Cell["Categorization", "CategorizationSection",ExpressionUUID->"af77b2dc-b7eb-4654-8e72-fd6401fc4d99"],
+Cell["Metadata", "MetadataSection",ExpressionUUID->"c49a844f-683a-4728-b85b-bf0310f1bc43"],
+
+Cell[CellGroupData[{
+
+Cell["Categorization", "CategorizationSection",ExpressionUUID->"40d80046-9b27-4c9a-b315-70c407837360"],
 
 Cell["Symbol", "Categorization",
  CellLabel->
-  "Entity Type",ExpressionUUID->"17c1d8db-2b12-45e4-b737-d0bfe22e0cf9"],
+  "Entity Type",ExpressionUUID->"cf115db0-5a35-4fbf-8bde-99c5fd42acfe"],
 
 Cell["SubTropica", "Categorization",
  CellLabel->
-  "Paclet Name",ExpressionUUID->"d953ec98-aaa3-4d96-af4a-d6167fc7edbb"],
+  "Paclet Name",ExpressionUUID->"72902f92-96b0-4279-b552-3618aaab8e12"],
 
 Cell["SubTropica`", "Categorization",
- CellLabel->"Context",ExpressionUUID->"f10e994a-4276-4348-ba96-413438ddf992"],
+ CellLabel->"Context",ExpressionUUID->"59e5fa49-bab6-4d67-92fc-35b8e20679d6"],
 
 Cell["SubTropica/ref/STDependencies", "Categorization",
- CellLabel->"URI",ExpressionUUID->"69c7151d-7768-4b8a-a3b6-881f0f8658b1"]
+ CellLabel->"URI",ExpressionUUID->"9939a453-694b-4ab2-93c2-af3ac2912995"]
 }, Closed]],
 
 Cell[CellGroupData[{
 
-Cell["Keywords", "KeywordsSection",ExpressionUUID->"899abf2c-84d7-4971-8d6d-5fed1c92d51f"],
+Cell["Keywords", "KeywordsSection",ExpressionUUID->"48fb1029-7d31-4349-bb00-e20982e5c5f4"],
 
-Cell["Feynman integral", "Keywords",ExpressionUUID->"a524d1e7-33b9-41ac-80b8-fb0607b13f73"],
+Cell["Feynman integral", "Keywords",ExpressionUUID->"276eec61-fbf8-48b3-9fec-efbb710acc01"],
 
-Cell["tropical geometry", "Keywords",ExpressionUUID->"f233112f-b18f-4028-9510-10f7584df4fd"],
+Cell["tropical geometry", "Keywords",ExpressionUUID->"cfac4abb-2de0-4cc0-8d82-f3ba74e082af"],
 
-Cell["dimensional regularization", "Keywords",ExpressionUUID->"eb70e2e8-5780-4257-9eef-7a46e884cb0e"]
+Cell["dimensional regularization", "Keywords",ExpressionUUID->"8a0bd480-0cb0-4674-bfed-60dc64d8abba"]
 }, Closed]]
 }, Open  ]]
 },
 TaggingRules-><|"Paclet" -> "SubTropica"|>,
-FrontEndVersion->"14.3 for Mac OS X ARM (64-bit) (July 8, 2025)",
+FrontEndVersion->"15.0 for Mac OS X ARM (64-bit) (May 19, 2026)",
 StyleDefinitions->FrontEnd`FileName[{"Wolfram"}, "FunctionPageStylesExt.nb", 
   CharacterEncoding -> "UTF-8"],
-ExpressionUUID->"99a510ba-9c0b-4e54-8e5c-15edc5638ffc"
+ExpressionUUID->"bf60aa35-2de1-428a-a6f7-c9ce4584a71f"
 ]
 (* End of Notebook Content *)
 
@@ -109,28 +135,33 @@ CellTagsIndex->{}
 (*NotebookFileOutline
 Notebook[{
 Cell[CellGroupData[{
-Cell[576, 22, 91, 0, 70, "ObjectName",ExpressionUUID->"ef99079f-703d-4d3b-b190-4f497dbafa78"],
-Cell[670, 24, 640, 12, 70, "Usage",ExpressionUUID->"905b4833-ccbc-46dc-bccc-ce2cde6c9267",
+Cell[576, 22, 91, 0, 70, "ObjectName",ExpressionUUID->"378b5289-7c9c-49c1-98f6-d2cce8275a23"],
+Cell[670, 24, 640, 12, 70, "Usage",ExpressionUUID->"c90c153b-b75c-4778-8be3-958877dbe40f",
  CellID->1]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[1347, 41, 89, 0, 70, "SeeAlsoSection",ExpressionUUID->"0f725022-ff29-4cca-ade7-72bb6dc3bd48"],
-Cell[1439, 43, 518, 12, 70, "SeeAlso",ExpressionUUID->"e723e9d8-a6a0-469b-88db-963a6075a792"]
+Cell[1347, 41, 89, 0, 70, "SeeAlsoSection",ExpressionUUID->"901ad16e-4ab9-475c-a776-35e58621352e"],
+Cell[1439, 43, 518, 12, 70, "SeeAlso",ExpressionUUID->"787396c9-4b25-45aa-9e36-0772be8b9d68"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[1994, 60, 90, 0, 70, "MetadataSection",ExpressionUUID->"890da5cf-89fb-489d-ac7d-2ee8aa96226b"],
+Cell[1994, 60, 424, 12, 70, "PrimaryExamplesSection",ExpressionUUID->"afc95c21-e3a5-49a1-b817-ef1ae7cae4e6"],
+Cell[2421, 74, 266, 4, 70, "ExampleText",ExpressionUUID->"97d9dfd0-2de3-4cca-a52c-29cd23ab5492"],
+Cell[2690, 80, 117, 1, 70, "Input",ExpressionUUID->"c28aa5ea-1335-4ea9-9581-162ef022ad0e"]
+}, Open  ]],
 Cell[CellGroupData[{
-Cell[2109, 64, 102, 0, 70, "CategorizationSection",ExpressionUUID->"af77b2dc-b7eb-4654-8e72-fd6401fc4d99"],
-Cell[2214, 66, 117, 2, 70, "Categorization",ExpressionUUID->"17c1d8db-2b12-45e4-b737-d0bfe22e0cf9"],
-Cell[2334, 70, 121, 2, 70, "Categorization",ExpressionUUID->"d953ec98-aaa3-4d96-af4a-d6167fc7edbb"],
-Cell[2458, 74, 115, 1, 70, "Categorization",ExpressionUUID->"f10e994a-4276-4348-ba96-413438ddf992"],
-Cell[2576, 77, 129, 1, 70, "Categorization",ExpressionUUID->"69c7151d-7768-4b8a-a3b6-881f0f8658b1"]
+Cell[2844, 86, 90, 0, 70, "MetadataSection",ExpressionUUID->"c49a844f-683a-4728-b85b-bf0310f1bc43"],
+Cell[CellGroupData[{
+Cell[2959, 90, 102, 0, 70, "CategorizationSection",ExpressionUUID->"40d80046-9b27-4c9a-b315-70c407837360"],
+Cell[3064, 92, 117, 2, 70, "Categorization",ExpressionUUID->"cf115db0-5a35-4fbf-8bde-99c5fd42acfe"],
+Cell[3184, 96, 121, 2, 70, "Categorization",ExpressionUUID->"72902f92-96b0-4279-b552-3618aaab8e12"],
+Cell[3308, 100, 115, 1, 70, "Categorization",ExpressionUUID->"59e5fa49-bab6-4d67-92fc-35b8e20679d6"],
+Cell[3426, 103, 129, 1, 70, "Categorization",ExpressionUUID->"9939a453-694b-4ab2-93c2-af3ac2912995"]
 }, Closed]],
 Cell[CellGroupData[{
-Cell[2742, 83, 90, 0, 70, "KeywordsSection",ExpressionUUID->"899abf2c-84d7-4971-8d6d-5fed1c92d51f"],
-Cell[2835, 85, 91, 0, 70, "Keywords",ExpressionUUID->"a524d1e7-33b9-41ac-80b8-fb0607b13f73"],
-Cell[2929, 87, 92, 0, 70, "Keywords",ExpressionUUID->"f233112f-b18f-4028-9510-10f7584df4fd"],
-Cell[3024, 89, 101, 0, 70, "Keywords",ExpressionUUID->"eb70e2e8-5780-4257-9eef-7a46e884cb0e"]
+Cell[3592, 109, 90, 0, 70, "KeywordsSection",ExpressionUUID->"48fb1029-7d31-4349-bb00-e20982e5c5f4"],
+Cell[3685, 111, 91, 0, 70, "Keywords",ExpressionUUID->"276eec61-fbf8-48b3-9fec-efbb710acc01"],
+Cell[3779, 113, 92, 0, 70, "Keywords",ExpressionUUID->"cfac4abb-2de0-4cc0-8d82-f3ba74e082af"],
+Cell[3874, 115, 101, 0, 70, "Keywords",ExpressionUUID->"8a0bd480-0cb0-4674-bfed-60dc64d8abba"]
 }, Closed]]
 }, Open  ]]
 }

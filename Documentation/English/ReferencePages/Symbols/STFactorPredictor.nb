@@ -1,0 +1,224 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Wolfram 15.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       154,          7]
+NotebookDataLength[      8739,        215]
+NotebookOptionsPosition[      6300,        168]
+NotebookOutlinePosition[      6740,        184]
+CellTagsIndexPosition[      6697,        181]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["STFactorPredictor", "ObjectName",ExpressionUUID->"88e23329-d85f-4a2b-8877-658dc0a7935a"],
+
+Cell[BoxData[GridBox[{
+   {Cell[TextData[{
+     StyleBox["STFactorPredictor[f, g, var]", "TI"],
+     " \[LineSeparator]returns the FactorList of the monic difference f/lc - \
+g/lc (lc = leading coefficient in var) from the prebuilt factor table: {{c0, \
+1}, {P1, n1}, ...} with negative exponents for denominator factors."
+    }], "TableText",ExpressionUUID->"191ecef8-6905-4cb5-90ae-413b3a498485"]},
+   {Cell[TextData[{
+     StyleBox["STFactorPredictor[f, var]", "TI"],
+     " \[LineSeparator]returns the singleton record (coefficient and \
+discriminant factor lists) for letter f."
+    }], "TableText",ExpressionUUID->"57b52fc6-3288-4008-9cf8-ee8a8effdf22"]},
+   {Cell[TextData[{
+     StyleBox["STFactorPredictor[table, ...]", "TI"],
+     " \[LineSeparator]uses an explicit table instead of the kernel-global \
+default. Options: \"OnMiss\" -> \"Factor\" (default; compute on the spot) | \
+\"Missing\"; \"ExtendTable\" -> True (runtime-append misses to the global \
+table). Pair queries with arguments not of degree 1 in var return \
+Missing[\"NotDeg1Pair\"]. Hit/miss counters live in the global table's \
+\"Stats\". Representation note: a table hit returns factors in \
+table-canonical normalization (stCanonicalPolyForm bases, units folded into \
+the constant), while the \"OnMiss\" -> \"Factor\" path returns raw FactorList \
+bases; the two agree in value, factor by factor up to units in the constant."
+    }], "TableText",ExpressionUUID->"cbc0beb4-f223-44c8-ba4d-0355d2ab5283"]}
+  },
+  GridBoxAlignment->{"Columns" -> {{Left}}},
+  GridBoxItemSize->{
+   "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}]], "Usage",
+ CellID->1,ExpressionUUID->"33245a95-b833-40c7-bb4e-96fa662f4354"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Options", "OptionsSection",ExpressionUUID->"fda15020-2dc9-4305-aac4-ad650e4c6839"],
+
+Cell[BoxData[GridBox[{
+   {"\"\<OnMiss\>\"", "\"\<Factor\>\"", 
+    RowBox[{
+     RowBox[{"on", " ", "a", " ", "table", " ", 
+      RowBox[{"miss", ":", " ", 
+       RowBox[{"\"\<Factor\>\"", " ", "computes", " ", "the", " ", 
+        "factorization", " ", "on", " ", "the", " ", "spot"}]}]}], ",", " ", 
+     RowBox[{"or", " ", "\"\<Missing\>\"", " ", "returns", " ", 
+      RowBox[{"Missing", "[", "...", "]"}]}]}]},
+   {"\"\<ExtendTable\>\"", "True", 
+    RowBox[{
+     RowBox[{
+     "append", " ", "computed", " ", "misses", " ", "to", " ", "the", " ", 
+      "kernel"}], "-", 
+     RowBox[{"global", " ", "factor", " ", "table"}]}]}
+  },
+  GridBoxAlignment->{"Columns" -> {Left, Left, Left}},
+  GridBoxDividers->{"Rows" -> {True, {False}, True}}]], "OptionsTable",Express\
+ionUUID->"0b1455e1-003b-4fb9-8d25-95799ae3cc9e"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["See Also", "SeeAlsoSection",ExpressionUUID->"4e585e02-2913-479e-94cd-1d9fcdec4fd2"],
+
+Cell[TextData[{
+ Cell[BoxData[
+  ButtonBox["STBuildFactorTable",
+   BaseStyle->"Link",
+   ButtonData->"paclet:SubTropica/ref/STBuildFactorTable"]], "InlineFormula",
+  ExpressionUUID->"35e42725-b1d6-48b9-92a8-d30e2167fd69"],
+ " \[EmptyVerySmallSquare] ",
+ Cell[BoxData[
+  ButtonBox["STFactor",
+   BaseStyle->"Link",
+   ButtonData->"paclet:SubTropica/ref/STFactor"]], "InlineFormula",
+  ExpressionUUID->"a5f075f5-f5ad-49b8-a939-09e89ad17aec"],
+ " \[EmptyVerySmallSquare] ",
+ Cell[BoxData[
+  ButtonBox["STIntegrate",
+   BaseStyle->"Link",
+   ButtonData->"paclet:SubTropica/ref/STIntegrate"]], "InlineFormula",
+  ExpressionUUID->"c4168ece-ab3a-49c8-bb9e-7f2dee65ced4"]
+}], "SeeAlso",ExpressionUUID->"17414f99-41a3-46af-b419-44912ca4227e"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ InterpretationBox[GridBox[{
+    {
+     StyleBox[
+      RowBox[{"Basic", " ", "Examples"}], "PrimaryExamplesSection"], 
+     ButtonBox[
+      RowBox[{
+       RowBox[{"More", " ", "Examples"}], " ", "\[RightTriangle]"}],
+      BaseStyle->"ExtendedExamplesLink",
+      ButtonData:>"ExtendedExamples"]}
+   }],
+  $Line = 0; Null]], "PrimaryExamplesSection",ExpressionUUID->"6ab12dc9-9885-\
+493f-9edc-630dbf9f27d2"],
+
+Cell["\<\
+Predict the factorization of the monic difference f/lc - g/lc from the \
+prebuilt factor table (or compute it on a miss); for a degree-1 pair it \
+returns the factors of the resultant -Res/(lc lc).\
+\>", "ExampleText",ExpressionUUID->"49bc6c90-e4e9-46ea-99c8-ab62d61d5744"],
+
+Cell[BoxData[
+ RowBox[{"STFactorPredictor", "[", 
+  RowBox[{"f", ",", " ", "g", ",", " ", "x"}], "]"}]], "Input",ExpressionUUID->\
+"7ceb937b-8e68-4acb-b5ba-287055e457d2"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Metadata", "MetadataSection",ExpressionUUID->"9eaaad17-3d45-43ed-9666-d7703b31a765"],
+
+Cell[CellGroupData[{
+
+Cell["Categorization", "CategorizationSection",ExpressionUUID->"f4eb7d8e-0a2f-4646-bbbe-6d3445d11608"],
+
+Cell["Symbol", "Categorization",
+ CellLabel->
+  "Entity Type",ExpressionUUID->"a67718c2-bbb1-4817-b998-2b607b3307f6"],
+
+Cell["SubTropica", "Categorization",
+ CellLabel->
+  "Paclet Name",ExpressionUUID->"64b43bb2-aaea-40de-9b04-4c8da032e80a"],
+
+Cell["SubTropica`", "Categorization",
+ CellLabel->"Context",ExpressionUUID->"a8bf29c7-45e8-4776-8ac4-aa3e16deb017"],
+
+Cell["SubTropica/ref/STFactorPredictor", "Categorization",
+ CellLabel->"URI",ExpressionUUID->"ba4cd602-fbd8-4837-8dba-9a685382493d"]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Keywords", "KeywordsSection",ExpressionUUID->"67771c44-82ce-48e8-b1b5-dd43c8f8a200"],
+
+Cell["Feynman integral", "Keywords",ExpressionUUID->"70546fe2-1124-4d9d-98fd-52cf2cc249c4"],
+
+Cell["tropical geometry", "Keywords",ExpressionUUID->"cf844171-f274-4dd3-8d2d-238ba033280d"],
+
+Cell["dimensional regularization", "Keywords",ExpressionUUID->"1e657fd3-6230-43ec-b1c3-193abd298a1d"]
+}, Closed]]
+}, Open  ]]
+},
+TaggingRules-><|"Paclet" -> "SubTropica"|>,
+FrontEndVersion->"15.0 for Mac OS X ARM (64-bit) (May 19, 2026)",
+StyleDefinitions->FrontEnd`FileName[{"Wolfram"}, "FunctionPageStylesExt.nb", 
+  CharacterEncoding -> "UTF-8"],
+ExpressionUUID->"bf60aa35-2de1-428a-a6f7-c9ce4584a71f"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[576, 22, 94, 0, 70, "ObjectName",ExpressionUUID->"88e23329-d85f-4a2b-8877-658dc0a7935a"],
+Cell[673, 24, 1691, 28, 70, "Usage",ExpressionUUID->"33245a95-b833-40c7-bb4e-96fa662f4354",
+ CellID->1]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[2401, 57, 88, 0, 70, "OptionsSection",ExpressionUUID->"fda15020-2dc9-4305-aac4-ad650e4c6839"],
+Cell[2492, 59, 826, 18, 70, "OptionsTable",ExpressionUUID->"0b1455e1-003b-4fb9-8d25-95799ae3cc9e"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[3355, 82, 89, 0, 70, "SeeAlsoSection",ExpressionUUID->"4e585e02-2913-479e-94cd-1d9fcdec4fd2"],
+Cell[3447, 84, 734, 18, 70, "SeeAlso",ExpressionUUID->"17414f99-41a3-46af-b419-44912ca4227e"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[4218, 107, 424, 12, 70, "PrimaryExamplesSection",ExpressionUUID->"6ab12dc9-9885-493f-9edc-630dbf9f27d2"],
+Cell[4645, 121, 283, 4, 70, "ExampleText",ExpressionUUID->"49bc6c90-e4e9-46ea-99c8-ab62d61d5744"],
+Cell[4931, 127, 170, 3, 70, "Input",ExpressionUUID->"7ceb937b-8e68-4acb-b5ba-287055e457d2"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[5138, 135, 90, 0, 70, "MetadataSection",ExpressionUUID->"9eaaad17-3d45-43ed-9666-d7703b31a765"],
+Cell[CellGroupData[{
+Cell[5253, 139, 102, 0, 70, "CategorizationSection",ExpressionUUID->"f4eb7d8e-0a2f-4646-bbbe-6d3445d11608"],
+Cell[5358, 141, 117, 2, 70, "Categorization",ExpressionUUID->"a67718c2-bbb1-4817-b998-2b607b3307f6"],
+Cell[5478, 145, 121, 2, 70, "Categorization",ExpressionUUID->"64b43bb2-aaea-40de-9b04-4c8da032e80a"],
+Cell[5602, 149, 115, 1, 70, "Categorization",ExpressionUUID->"a8bf29c7-45e8-4776-8ac4-aa3e16deb017"],
+Cell[5720, 152, 132, 1, 70, "Categorization",ExpressionUUID->"ba4cd602-fbd8-4837-8dba-9a685382493d"]
+}, Closed]],
+Cell[CellGroupData[{
+Cell[5889, 158, 90, 0, 70, "KeywordsSection",ExpressionUUID->"67771c44-82ce-48e8-b1b5-dd43c8f8a200"],
+Cell[5982, 160, 91, 0, 70, "Keywords",ExpressionUUID->"70546fe2-1124-4d9d-98fd-52cf2cc249c4"],
+Cell[6076, 162, 92, 0, 70, "Keywords",ExpressionUUID->"cf844171-f274-4dd3-8d2d-238ba033280d"],
+Cell[6171, 164, 101, 0, 70, "Keywords",ExpressionUUID->"1e657fd3-6230-43ec-b1c3-193abd298a1d"]
+}, Closed]]
+}, Open  ]]
+}
+]
+*)
+
+(* End of internal cache information *)

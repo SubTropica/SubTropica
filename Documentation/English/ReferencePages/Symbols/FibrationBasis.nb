@@ -3,24 +3,24 @@
 (*** Wolfram Notebook File ***)
 (* http://www.wolfram.com/nb *)
 
-(* CreatedBy='Wolfram 14.3' *)
+(* CreatedBy='Wolfram 15.0' *)
 
 (*CacheID: 234*)
 (* Internal cache information:
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       154,          7]
-NotebookDataLength[     10525,        272]
-NotebookOptionsPosition[      8292,        230]
-NotebookOutlinePosition[      8732,        246]
-CellTagsIndexPosition[      8689,        243]
+NotebookDataLength[     12928,        344]
+NotebookOptionsPosition[     10261,        296]
+NotebookOutlinePosition[     10701,        312]
+CellTagsIndexPosition[     10658,        309]
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
 Notebook[{
 
 Cell[CellGroupData[{
-Cell["FibrationBasis", "ObjectName",ExpressionUUID->"5919f28c-ba4c-43b5-ad5b-bd5af2755a3f"],
+Cell["FibrationBasis", "ObjectName",ExpressionUUID->"cf3b31cb-dece-430e-9358-1b3b4f629826"],
 
 Cell[BoxData[GridBox[{
    {Cell[TextData[{
@@ -28,12 +28,12 @@ Cell[BoxData[GridBox[{
      " \[LineSeparator]While HyperIntica is the main (analytic) integration \
 routine working under the hood of the STIntegrate function, it can also be \
 used as a standalone function."
-    }], "TableText",ExpressionUUID->"b18c1273-f599-4717-ad89-fac1af36080b"]}
+    }], "TableText",ExpressionUUID->"9df2e448-662b-4ec2-9f3a-e8ad1ee6ca55"]}
   },
   GridBoxAlignment->{"Columns" -> {{Left}}},
   GridBoxItemSize->{
    "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}]], "Usage",
- CellID->1,ExpressionUUID->"f96af79e-4cf5-47cd-894e-d3669b0d8213"],
+ CellID->1,ExpressionUUID->"c7cb2191-a109-4c00-8a4f-26951027b47a"],
 
 Cell["\<\
 While HyperIntica is the main (analytic) integration routine working under \
@@ -44,20 +44,20 @@ expressions built from hyperlogarithms, polylogarithms, logarithms, and \
 rational functions, returning results in terms of multi-zeta values and \
 hyperlogarithms in the original integrand f parameters (if any). The syntax \
 is: (see example below)\
-\>", "Notes",ExpressionUUID->"3b29e1d2-f43c-4a01-bc9a-79b2322a2eb2"],
+\>", "Notes",ExpressionUUID->"f48be8e4-a860-4c29-a8d9-11cb6e55f33b"],
 
 Cell[BoxData[
  RowBox[{"HyperIntica", "[", 
   RowBox[{"integrand", ",", " ", "variables", ",", " ", 
    RowBox[{"\"\<Monitor\>\"", " ", "->", " ", "False"}]}], "]"}]], "Input",Exp\
-ressionUUID->"c4961e11-278f-4937-ba84-b813cd4e4824"]
+ressionUUID->"d578dcb5-2249-47dd-a589-aa4e640e8c3b"]
 }, Open  ]],
 
 Cell[CellGroupData[{
 
-Cell["Details", "Section",ExpressionUUID->"0c262a80-73e3-4492-b62a-90901a496774"],
+Cell["Details", "Section",ExpressionUUID->"5e80538b-fcc2-4105-97e1-96c724a79e09"],
 
-Cell["Fibration basis", "Subsection",ExpressionUUID->"1c07803f-c496-4bee-9d6f-e4fed8d3eb68"],
+Cell["Fibration basis", "Subsection",ExpressionUUID->"57c6f9bb-70e5-4046-8cf0-1f591e1037c6"],
 
 Cell["\<\
 FibrationBasis[expr, variables] rewrites an expression in a fibration basis, \
@@ -68,7 +68,7 @@ Hlog). The variables argument defines the fibration order x_1 \[Precedes] x_2 \
 w_j(x_1,\[Ellipsis],x_n). The output can vary significantly with this \
 ordering. The decomposition is based on the shuffle identity introduced \
 earlier in ,\
-\>", "Text",ExpressionUUID->"3218a4b4-9494-4258-9265-efbd839b3c7c"],
+\>", "Text",ExpressionUUID->"7de318ff-5685-44c8-80b0-408beb78f15e"],
 
 Cell[BoxData[
  RowBox[{
@@ -190,49 +190,115 @@ Cell[BoxData[
        RowBox[{"{", 
         RowBox[{"0", ",", " ", "0"}], "}"}]}], "]"}], " ", "-", "\n", "\t", 
      RowBox[{"mzv", "[", "2", "]"}]}], "*)"}]}]}]], "Input",ExpressionUUID->\
-"4527a284-f814-4401-87a4-c444655c5aad"]
+"e0b1ef6e-37c0-4688-81ca-32381153771b"]
 }, Open  ]],
 
 Cell[CellGroupData[{
 
-Cell["Metadata", "MetadataSection",ExpressionUUID->"d8bb1fb7-da22-4e1a-8391-e641e2eadcda"],
+Cell[BoxData[
+ InterpretationBox[GridBox[{
+    {
+     StyleBox[
+      RowBox[{"Basic", " ", "Examples"}], "PrimaryExamplesSection"], 
+     ButtonBox[
+      RowBox[{
+       RowBox[{"More", " ", "Examples"}], " ", "\[RightTriangle]"}],
+      BaseStyle->"ExtendedExamplesLink",
+      ButtonData:>"ExtendedExamples"]}
+   }],
+  $Line = 0; Null]], "PrimaryExamplesSection",ExpressionUUID->"5e389212-fb16-\
+4dac-ac5f-cad74e6dbafb"],
+
+Cell["\<\
+Re-express a polylogarithm in the fibration basis with z as the innermost \
+variable.\
+\>", "ExampleText",ExpressionUUID->"eaae0285-03db-4a8e-bf17-f81be10caa01"],
+
+Cell[BoxData[
+ RowBox[{"FibrationBasis", "[", 
+  RowBox[{
+   RowBox[{"PolyLog", "[", 
+    RowBox[{"5", ",", " ", 
+     RowBox[{
+      RowBox[{"-", "1"}], "/", "z"}]}], "]"}], ",", " ", 
+   RowBox[{"{", "z", "}"}]}], "]"}]], "Input",ExpressionUUID->"38478141-660e-\
+42c2-9792-165b68e68329"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{
+   FractionBox["7", "360"], " ", 
+   SuperscriptBox["\[Pi]", "4"], " ", 
+   RowBox[{"Hlog", "[", 
+    RowBox[{"z", ",", 
+     RowBox[{"{", "0", "}"}]}], "]"}]}], "+", 
+  RowBox[{
+   FractionBox["1", "6"], " ", 
+   SuperscriptBox["\[Pi]", "2"], " ", 
+   RowBox[{"Hlog", "[", 
+    RowBox[{"z", ",", 
+     RowBox[{"{", 
+      RowBox[{"0", ",", "0", ",", "0"}], "}"}]}], "]"}]}], "-", 
+  RowBox[{"Hlog", "[", 
+   RowBox[{"z", ",", 
+    RowBox[{"{", 
+     RowBox[{"0", ",", "0", ",", "0", ",", "0", ",", 
+      RowBox[{"-", "1"}]}], "}"}]}], "]"}], "+", 
+  RowBox[{"Hlog", "[", 
+   RowBox[{"z", ",", 
+    RowBox[{"{", 
+     RowBox[{"0", ",", "0", ",", "0", ",", "0", ",", "0"}], "}"}]}], "]"}], "-", 
+  RowBox[{
+   FractionBox["3", "2"], " ", 
+   RowBox[{"Hlog", "[", 
+    RowBox[{"z", ",", 
+     RowBox[{"{", "0", "}"}]}], "]"}], " ", 
+   RowBox[{"Zeta", "[", "3", "]"}]}], "+", 
+  RowBox[{"4", " ", 
+   RowBox[{"Zeta", "[", "5", "]"}]}]}]], "Output",ExpressionUUID->"20d75fef-\
+4c77-46bc-a219-859cc20f1d26"]
+}, Open  ]],
 
 Cell[CellGroupData[{
 
-Cell["Categorization", "CategorizationSection",ExpressionUUID->"c8ae9a8b-107d-42d4-9695-899f9e9a4ed7"],
+Cell["Metadata", "MetadataSection",ExpressionUUID->"3e16cdb3-e555-4e4a-a33b-c609334509f8"],
+
+Cell[CellGroupData[{
+
+Cell["Categorization", "CategorizationSection",ExpressionUUID->"74e8fd2f-e64a-455b-b0fd-6c8a6446f1b1"],
 
 Cell["Symbol", "Categorization",
  CellLabel->
-  "Entity Type",ExpressionUUID->"d69ab267-ba91-47de-9c2e-d7dcc95e50e6"],
+  "Entity Type",ExpressionUUID->"95e4e71a-0150-403e-9fbf-76703ed4b1a4"],
 
 Cell["SubTropica", "Categorization",
  CellLabel->
-  "Paclet Name",ExpressionUUID->"539cccc5-f813-4441-9711-958886e8feef"],
+  "Paclet Name",ExpressionUUID->"74307a70-9285-43b2-8875-a772f58e1ef5"],
 
 Cell["SubTropica`", "Categorization",
- CellLabel->"Context",ExpressionUUID->"d76e43eb-732b-4691-b01d-27808c950fc9"],
+ CellLabel->"Context",ExpressionUUID->"5b9d8535-ad8e-4ea3-b0f1-0fc1c01a2bac"],
 
 Cell["SubTropica/ref/FibrationBasis", "Categorization",
- CellLabel->"URI",ExpressionUUID->"32cf8765-9655-4112-b797-3c9586f551b9"]
+ CellLabel->"URI",ExpressionUUID->"37d7d157-bbc7-4e4c-a2c4-2c42ae8652ba"]
 }, Closed]],
 
 Cell[CellGroupData[{
 
-Cell["Keywords", "KeywordsSection",ExpressionUUID->"f759bb54-d1dd-4035-8982-339ded3b3537"],
+Cell["Keywords", "KeywordsSection",ExpressionUUID->"715b2330-aab1-46e4-b78d-169cc87884c5"],
 
-Cell["Feynman integral", "Keywords",ExpressionUUID->"3ec30ea0-a765-433c-a454-49409238e52f"],
+Cell["Feynman integral", "Keywords",ExpressionUUID->"640e65a7-16f4-4369-95b8-5b5435e565ec"],
 
-Cell["tropical geometry", "Keywords",ExpressionUUID->"cadb7590-4736-44a6-b290-a0f30efdb521"],
+Cell["tropical geometry", "Keywords",ExpressionUUID->"c7f64457-e5e2-472d-9515-52f22a6a779c"],
 
-Cell["dimensional regularization", "Keywords",ExpressionUUID->"cf240b4d-2be9-43d2-a97a-c03417940fa5"]
+Cell["dimensional regularization", "Keywords",ExpressionUUID->"4e724476-3ec2-41d5-9fac-7f3089b570f4"]
 }, Closed]]
 }, Open  ]]
 },
 TaggingRules-><|"Paclet" -> "SubTropica"|>,
-FrontEndVersion->"14.3 for Mac OS X ARM (64-bit) (July 8, 2025)",
+FrontEndVersion->"15.0 for Mac OS X ARM (64-bit) (May 19, 2026)",
 StyleDefinitions->FrontEnd`FileName[{"Wolfram"}, "FunctionPageStylesExt.nb", 
   CharacterEncoding -> "UTF-8"],
-ExpressionUUID->"99a510ba-9c0b-4e54-8e5c-15edc5638ffc"
+ExpressionUUID->"bf60aa35-2de1-428a-a6f7-c9ce4584a71f"
 ]
 (* End of Notebook Content *)
 
@@ -246,32 +312,38 @@ CellTagsIndex->{}
 (*NotebookFileOutline
 Notebook[{
 Cell[CellGroupData[{
-Cell[576, 22, 91, 0, 70, "ObjectName",ExpressionUUID->"5919f28c-ba4c-43b5-ad5b-bd5af2755a3f"],
-Cell[670, 24, 551, 11, 70, "Usage",ExpressionUUID->"f96af79e-4cf5-47cd-894e-d3669b0d8213",
+Cell[576, 22, 91, 0, 70, "ObjectName",ExpressionUUID->"cf3b31cb-dece-430e-9358-1b3b4f629826"],
+Cell[670, 24, 551, 11, 70, "Usage",ExpressionUUID->"c7cb2191-a109-4c00-8a4f-26951027b47a",
  CellID->1],
-Cell[1224, 37, 627, 9, 70, "Notes",ExpressionUUID->"3b29e1d2-f43c-4a01-bc9a-79b2322a2eb2"],
-Cell[1854, 48, 233, 4, 70, "Input",ExpressionUUID->"c4961e11-278f-4937-ba84-b813cd4e4824"]
+Cell[1224, 37, 627, 9, 70, "Notes",ExpressionUUID->"f48be8e4-a860-4c29-a8d9-11cb6e55f33b"],
+Cell[1854, 48, 233, 4, 70, "Input",ExpressionUUID->"d578dcb5-2249-47dd-a589-aa4e640e8c3b"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[2124, 57, 81, 0, 70, "Section",ExpressionUUID->"0c262a80-73e3-4492-b62a-90901a496774"],
-Cell[2208, 59, 92, 0, 70, "Subsection",ExpressionUUID->"1c07803f-c496-4bee-9d6f-e4fed8d3eb68"],
-Cell[2303, 61, 602, 9, 70, "Text",ExpressionUUID->"3218a4b4-9494-4258-9265-efbd839b3c7c"],
-Cell[2908, 72, 4188, 120, 70, "Input",ExpressionUUID->"4527a284-f814-4401-87a4-c444655c5aad"]
+Cell[2124, 57, 81, 0, 70, "Section",ExpressionUUID->"5e80538b-fcc2-4105-97e1-96c724a79e09"],
+Cell[2208, 59, 92, 0, 70, "Subsection",ExpressionUUID->"57c6f9bb-70e5-4046-8cf0-1f591e1037c6"],
+Cell[2303, 61, 602, 9, 70, "Text",ExpressionUUID->"7de318ff-5685-44c8-80b0-408beb78f15e"],
+Cell[2908, 72, 4188, 120, 70, "Input",ExpressionUUID->"e0b1ef6e-37c0-4688-81ca-32381153771b"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[7133, 197, 90, 0, 70, "MetadataSection",ExpressionUUID->"d8bb1fb7-da22-4e1a-8391-e641e2eadcda"],
+Cell[7133, 197, 424, 12, 70, "PrimaryExamplesSection",ExpressionUUID->"5e389212-fb16-4dac-ac5f-cad74e6dbafb"],
+Cell[7560, 211, 171, 3, 70, "ExampleText",ExpressionUUID->"eaae0285-03db-4a8e-bf17-f81be10caa01"],
+Cell[7734, 216, 289, 8, 70, "Input",ExpressionUUID->"38478141-660e-42c2-9792-165b68e68329"],
+Cell[8026, 226, 1039, 32, 70, "Output",ExpressionUUID->"20d75fef-4c77-46bc-a219-859cc20f1d26"]
+}, Open  ]],
 Cell[CellGroupData[{
-Cell[7248, 201, 102, 0, 70, "CategorizationSection",ExpressionUUID->"c8ae9a8b-107d-42d4-9695-899f9e9a4ed7"],
-Cell[7353, 203, 117, 2, 70, "Categorization",ExpressionUUID->"d69ab267-ba91-47de-9c2e-d7dcc95e50e6"],
-Cell[7473, 207, 121, 2, 70, "Categorization",ExpressionUUID->"539cccc5-f813-4441-9711-958886e8feef"],
-Cell[7597, 211, 115, 1, 70, "Categorization",ExpressionUUID->"d76e43eb-732b-4691-b01d-27808c950fc9"],
-Cell[7715, 214, 129, 1, 70, "Categorization",ExpressionUUID->"32cf8765-9655-4112-b797-3c9586f551b9"]
+Cell[9102, 263, 90, 0, 70, "MetadataSection",ExpressionUUID->"3e16cdb3-e555-4e4a-a33b-c609334509f8"],
+Cell[CellGroupData[{
+Cell[9217, 267, 102, 0, 70, "CategorizationSection",ExpressionUUID->"74e8fd2f-e64a-455b-b0fd-6c8a6446f1b1"],
+Cell[9322, 269, 117, 2, 70, "Categorization",ExpressionUUID->"95e4e71a-0150-403e-9fbf-76703ed4b1a4"],
+Cell[9442, 273, 121, 2, 70, "Categorization",ExpressionUUID->"74307a70-9285-43b2-8875-a772f58e1ef5"],
+Cell[9566, 277, 115, 1, 70, "Categorization",ExpressionUUID->"5b9d8535-ad8e-4ea3-b0f1-0fc1c01a2bac"],
+Cell[9684, 280, 129, 1, 70, "Categorization",ExpressionUUID->"37d7d157-bbc7-4e4c-a2c4-2c42ae8652ba"]
 }, Closed]],
 Cell[CellGroupData[{
-Cell[7881, 220, 90, 0, 70, "KeywordsSection",ExpressionUUID->"f759bb54-d1dd-4035-8982-339ded3b3537"],
-Cell[7974, 222, 91, 0, 70, "Keywords",ExpressionUUID->"3ec30ea0-a765-433c-a454-49409238e52f"],
-Cell[8068, 224, 92, 0, 70, "Keywords",ExpressionUUID->"cadb7590-4736-44a6-b290-a0f30efdb521"],
-Cell[8163, 226, 101, 0, 70, "Keywords",ExpressionUUID->"cf240b4d-2be9-43d2-a97a-c03417940fa5"]
+Cell[9850, 286, 90, 0, 70, "KeywordsSection",ExpressionUUID->"715b2330-aab1-46e4-b78d-169cc87884c5"],
+Cell[9943, 288, 91, 0, 70, "Keywords",ExpressionUUID->"640e65a7-16f4-4369-95b8-5b5435e565ec"],
+Cell[10037, 290, 92, 0, 70, "Keywords",ExpressionUUID->"c7f64457-e5e2-472d-9515-52f22a6a779c"],
+Cell[10132, 292, 101, 0, 70, "Keywords",ExpressionUUID->"4e724476-3ec2-41d5-9fac-7f3089b570f4"]
 }, Closed]]
 }, Open  ]]
 }

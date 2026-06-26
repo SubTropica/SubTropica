@@ -1,0 +1,220 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Wolfram 15.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       154,          7]
+NotebookDataLength[      7831,        211]
+NotebookOptionsPosition[      5534,        167]
+NotebookOutlinePosition[      5974,        183]
+CellTagsIndexPosition[      5931,        180]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["STNewton", "ObjectName",ExpressionUUID->"f4a9560f-e1bc-497e-8c70-bc14b067e8cb"],
+
+Cell[BoxData[GridBox[{
+   {Cell[TextData[{
+     StyleBox["STNewton[polynomial, xvars]", "TI"],
+     " \[LineSeparator]computes the Newton polytope data of the polynomial. \
+It returns an association <| equations -> supporting plane equations, rays -> \
+outer-pointing normal rays, facets -> facet inequalities, vertices -> vertices"
+    }], "TableText",ExpressionUUID->"000f7ddc-3eea-4387-9471-873a577385ec"]}
+  },
+  GridBoxAlignment->{"Columns" -> {{Left}}},
+  GridBoxItemSize->{
+   "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}]], "Usage",
+ CellID->1,ExpressionUUID->"b0732597-2476-4b19-921a-c4bb86ac36f3"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["See Also", "SeeAlsoSection",ExpressionUUID->"65d00429-e0cb-44e2-b565-6e454b4ba39e"],
+
+Cell[TextData[{
+ Cell[BoxData[
+  ButtonBox["STForgetCoefficients",
+   BaseStyle->"Link",
+   ButtonData->"paclet:SubTropica/ref/STForgetCoefficients"]], 
+  "InlineFormula",ExpressionUUID->"253e15e4-b962-4e09-b41a-07fb7176e8cd"],
+ " \[EmptyVerySmallSquare] ",
+ Cell[BoxData[
+  ButtonBox["STIntegrate",
+   BaseStyle->"Link",
+   ButtonData->"paclet:SubTropica/ref/STIntegrate"]], "InlineFormula",
+  ExpressionUUID->"0ddaafbe-68d4-4295-bf03-c6636155c37d"]
+}], "SeeAlso",ExpressionUUID->"4a0cd3eb-e62e-44fc-93c2-dd05d9f2a82b"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ InterpretationBox[GridBox[{
+    {
+     StyleBox[
+      RowBox[{"Basic", " ", "Examples"}], "PrimaryExamplesSection"], 
+     ButtonBox[
+      RowBox[{
+       RowBox[{"More", " ", "Examples"}], " ", "\[RightTriangle]"}],
+      BaseStyle->"ExtendedExamplesLink",
+      ButtonData:>"ExtendedExamples"]}
+   }],
+  $Line = 0; Null]], "PrimaryExamplesSection",ExpressionUUID->"8589ab04-daba-\
+44f5-b82d-75fc880da8f8"],
+
+Cell["\<\
+Newton-polytope data (vertices, rays, facets) of the triangle U-polynomial.\
+\>", "ExampleText",ExpressionUUID->"dc8f979a-8d42-4ac7-8b6b-dd0239af372d"],
+
+Cell[BoxData[
+ RowBox[{"STNewton", "[", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"x1", " ", "x2"}], " ", "+", " ", 
+    RowBox[{"x1", " ", "x3"}], " ", "+", " ", 
+    RowBox[{"x2", " ", "x3"}]}], ",", " ", 
+   RowBox[{"{", 
+    RowBox[{"x1", ",", " ", "x2", ",", " ", "x3"}], "}"}]}], "]"}]], "Input",E\
+xpressionUUID->"289c1f52-c911-4be8-9678-03da4f294d96"],
+
+Cell[BoxData[
+ RowBox[{"\[LeftAssociation]", 
+  RowBox[{
+   RowBox[{"\<\"equations\"\>", "\[Rule]", 
+    RowBox[{"{", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"-", "2"}], ",", "1", ",", "1", ",", "1"}], "}"}], "}"}]}], ",", 
+   RowBox[{"\<\"rays\"\>", "\[Rule]", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{"0", ",", "0", ",", "1"}], "}"}], ",", 
+      RowBox[{"{", 
+       RowBox[{
+        RowBox[{"-", "1"}], ",", "0", ",", 
+        RowBox[{"-", "1"}]}], "}"}], ",", 
+      RowBox[{"{", 
+       RowBox[{"1", ",", "0", ",", "0"}], "}"}]}], "}"}]}], ",", 
+   RowBox[{"\<\"facets\"\>", "\[Rule]", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{"1", ",", "0", ",", "0", ",", 
+        RowBox[{"-", "1"}]}], "}"}], ",", 
+      RowBox[{"{", 
+       RowBox[{
+        RowBox[{"-", "1"}], ",", "1", ",", "0", ",", "1"}], "}"}], ",", 
+      RowBox[{"{", 
+       RowBox[{"1", ",", 
+        RowBox[{"-", "1"}], ",", "0", ",", "0"}], "}"}]}], "}"}]}], ",", 
+   RowBox[{"\<\"vertices\"\>", "\[Rule]", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{"1", ",", "1", ",", "0", ",", "1"}], "}"}], ",", 
+      RowBox[{"{", 
+       RowBox[{"1", ",", "1", ",", "1", ",", "0"}], "}"}], ",", 
+      RowBox[{"{", 
+       RowBox[{"1", ",", "0", ",", "1", ",", "1"}], "}"}]}], "}"}]}]}], 
+  "\[RightAssociation]"}]], "Output",ExpressionUUID->"1147229a-9d31-483d-ad11-\
+fe2494f1d0d2"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Metadata", "MetadataSection",ExpressionUUID->"c48263be-91be-4a85-b72f-28dcf3e1370b"],
+
+Cell[CellGroupData[{
+
+Cell["Categorization", "CategorizationSection",ExpressionUUID->"4f171468-36f0-4282-8492-85adc9f28233"],
+
+Cell["Symbol", "Categorization",
+ CellLabel->
+  "Entity Type",ExpressionUUID->"54c111e5-98d6-423f-aa09-8db6c754ff9a"],
+
+Cell["SubTropica", "Categorization",
+ CellLabel->
+  "Paclet Name",ExpressionUUID->"ce4cf926-8c27-4581-800d-3e92ffe2754a"],
+
+Cell["SubTropica`", "Categorization",
+ CellLabel->"Context",ExpressionUUID->"730c193c-07c3-4e12-bd8d-8a6a8d8096e2"],
+
+Cell["SubTropica/ref/STNewton", "Categorization",
+ CellLabel->"URI",ExpressionUUID->"a658e224-ca9c-4f1c-b946-565f8aaf95f1"]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Keywords", "KeywordsSection",ExpressionUUID->"c2f6aa06-2849-4f3e-98f7-396bef7766e0"],
+
+Cell["Feynman integral", "Keywords",ExpressionUUID->"583b0f8c-f06b-4a5b-b1d6-fa4a4f298507"],
+
+Cell["tropical geometry", "Keywords",ExpressionUUID->"3679d34f-49b5-4bac-8aa9-a15fe7e56dd3"],
+
+Cell["dimensional regularization", "Keywords",ExpressionUUID->"c4fc8396-3c21-478a-a431-45dbddbd8cb3"]
+}, Closed]]
+}, Open  ]]
+},
+TaggingRules-><|"Paclet" -> "SubTropica"|>,
+FrontEndVersion->"15.0 for Mac OS X ARM (64-bit) (May 19, 2026)",
+StyleDefinitions->FrontEnd`FileName[{"Wolfram"}, "FunctionPageStylesExt.nb", 
+  CharacterEncoding -> "UTF-8"],
+ExpressionUUID->"bf60aa35-2de1-428a-a6f7-c9ce4584a71f"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[576, 22, 85, 0, 70, "ObjectName",ExpressionUUID->"f4a9560f-e1bc-497e-8c70-bc14b067e8cb"],
+Cell[664, 24, 615, 11, 70, "Usage",ExpressionUUID->"b0732597-2476-4b19-921a-c4bb86ac36f3",
+ CellID->1]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[1316, 40, 89, 0, 70, "SeeAlsoSection",ExpressionUUID->"65d00429-e0cb-44e2-b565-6e454b4ba39e"],
+Cell[1408, 42, 520, 12, 70, "SeeAlso",ExpressionUUID->"4a0cd3eb-e62e-44fc-93c2-dd05d9f2a82b"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[1965, 59, 424, 12, 70, "PrimaryExamplesSection",ExpressionUUID->"8589ab04-daba-44f5-b82d-75fc880da8f8"],
+Cell[2392, 73, 161, 2, 70, "ExampleText",ExpressionUUID->"dc8f979a-8d42-4ac7-8b6b-dd0239af372d"],
+Cell[2556, 77, 353, 9, 70, "Input",ExpressionUUID->"289c1f52-c911-4be8-9678-03da4f294d96"],
+Cell[2912, 88, 1432, 41, 70, "Output",ExpressionUUID->"1147229a-9d31-483d-ad11-fe2494f1d0d2"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[4381, 134, 90, 0, 70, "MetadataSection",ExpressionUUID->"c48263be-91be-4a85-b72f-28dcf3e1370b"],
+Cell[CellGroupData[{
+Cell[4496, 138, 102, 0, 70, "CategorizationSection",ExpressionUUID->"4f171468-36f0-4282-8492-85adc9f28233"],
+Cell[4601, 140, 117, 2, 70, "Categorization",ExpressionUUID->"54c111e5-98d6-423f-aa09-8db6c754ff9a"],
+Cell[4721, 144, 121, 2, 70, "Categorization",ExpressionUUID->"ce4cf926-8c27-4581-800d-3e92ffe2754a"],
+Cell[4845, 148, 115, 1, 70, "Categorization",ExpressionUUID->"730c193c-07c3-4e12-bd8d-8a6a8d8096e2"],
+Cell[4963, 151, 123, 1, 70, "Categorization",ExpressionUUID->"a658e224-ca9c-4f1c-b946-565f8aaf95f1"]
+}, Closed]],
+Cell[CellGroupData[{
+Cell[5123, 157, 90, 0, 70, "KeywordsSection",ExpressionUUID->"c2f6aa06-2849-4f3e-98f7-396bef7766e0"],
+Cell[5216, 159, 91, 0, 70, "Keywords",ExpressionUUID->"583b0f8c-f06b-4a5b-b1d6-fa4a4f298507"],
+Cell[5310, 161, 92, 0, 70, "Keywords",ExpressionUUID->"3679d34f-49b5-4bac-8aa9-a15fe7e56dd3"],
+Cell[5405, 163, 101, 0, 70, "Keywords",ExpressionUUID->"c4fc8396-3c21-478a-a431-45dbddbd8cb3"]
+}, Closed]]
+}, Open  ]]
+}
+]
+*)
+
+(* End of internal cache information *)

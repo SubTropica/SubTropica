@@ -1,0 +1,281 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Wolfram 15.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       154,          7]
+NotebookDataLength[     10766,        272]
+NotebookOptionsPosition[      8231,        224]
+NotebookOutlinePosition[      8671,        240]
+CellTagsIndexPosition[      8628,        237]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["STToPySecDec", "ObjectName",ExpressionUUID->"ac2cd601-e85f-487c-a729-27628b3065e5"],
+
+Cell[BoxData[GridBox[{
+   {Cell[TextData[{
+     StyleBox["STToPySecDec[{edges, nodes}, opts]", "TI"],
+     " \[LineSeparator]and"
+    }], "TableText",ExpressionUUID->"257ec693-110c-4d06-947d-c10bda77c085"]},
+   {Cell[TextData[{
+     StyleBox["STToPySecDec[{propagators}, opts]", "TI"],
+     " \[LineSeparator]numerically evaluate a Feynman integral with pySecDec \
+(numerical sector decomposition), returning the epsilon-expansion \
+coefficients (a numerical value plus an error estimate per order). Requires a \
+Python with pySecDec installed (point at it with \
+ConfigureSubTropica[PythonPath -> ...]); numeric kinematics are supplied \
+through the \"KinematicPoint\" option (a rule-list of Mandelstam / \
+squared-mass values). Options include \"Order\", \"Dimension\", \"MaxEval\", \
+\"Accuracy\", \"ContourDeformation\", and \"Integrator\". Usually reached \
+indirectly via STNIntegrate[..., Method -> \"pySecDec\"] and STVerify; call \
+it directly for low-level control of the pySecDec build."
+    }], "TableText",ExpressionUUID->"920c6338-6405-45e6-9470-6b531904bd9c"]}
+  },
+  GridBoxAlignment->{"Columns" -> {{Left}}},
+  GridBoxItemSize->{
+   "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}]], "Usage",
+ CellID->1,ExpressionUUID->"6ee9e831-cf26-4878-8f2f-6ad5ce62cb4b"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Options", "OptionsSection",ExpressionUUID->"b1315bbf-f69d-41f2-80a8-d3307edb5148"],
+
+Cell[BoxData[GridBox[{
+   {"\"\<Order\>\"", "0", 
+    RowBox[{
+     RowBox[{"highest", " ", "\[CurlyEpsilon]"}], "-", 
+     RowBox[{"order", " ", "to", " ", "compute"}]}]},
+   {"\"\<Accuracy\>\"", 
+    RowBox[{"1", "/", "10000"}], 
+    RowBox[{
+    "target", " ", "relative", " ", "accuracy", " ", "for", " ", "the", " ", 
+     "integrator"}]},
+   {"\"\<MaxEval\>\"", 
+    RowBox[{"10", "^", "7"}], 
+    RowBox[{"maximum", " ", "integrand", " ", "evaluations"}]},
+   {"\"\<KinematicPoint\>\"", 
+    RowBox[{"{", "}"}], 
+    RowBox[{
+    "rules", " ", "giving", " ", "numeric", " ", "values", " ", "for", " ", 
+     "every", " ", 
+     RowBox[{"Mandelstam", " ", "/", " ", "squared"}], " ", "mass", " ", 
+     RowBox[{"(", "required", ")"}]}]},
+   {"\"\<Verbose\>\"", "False", 
+    RowBox[{"echo", " ", "the", " ", "generated", " ", "pySecDec", " ", 
+     RowBox[{"build", "/", "run"}]}]},
+   {"\"\<ContourDeformation\>\"", "True", 
+    RowBox[{"enable", " ", "contour", " ", "deformation", " ", 
+     RowBox[{"(", 
+      RowBox[{"needed", " ", "for", " ", 
+       RowBox[{"physical", "/", "complex"}], " ", "kinematics"}], ")"}]}]},
+   {"\"\<CacheDirectory\>\"", "Automatic", 
+    RowBox[{"directory", " ", "for", " ", "the", " ", 
+     RowBox[{"generated", "/", "compiled"}], " ", "pySecDec", " ", 
+     "library"}]},
+   {"\"\<Normalization\>\"", "Automatic", 
+    RowBox[{"overall", " ", "prefactor", " ", "convention"}]},
+   {"\"\<Dimension\>\"", 
+    RowBox[{"4", " ", "-", " ", 
+     RowBox[{"2", " ", "eps"}]}], 
+    RowBox[{"spacetime", " ", "dimension"}]},
+   {"\"\<Exponents\>\"", "Automatic", 
+    RowBox[{"propagator", " ", "exponents", " ", 
+     RowBox[{"(", 
+      RowBox[{"non", "-", 
+       RowBox[{"unit", " ", 
+        RowBox[{"powers", " ", "/", " ", "numerators"}]}]}], ")"}]}]},
+   {"\"\<LoopMomenta\>\"", "Automatic", 
+    RowBox[{"loop", "-", 
+     RowBox[{"momentum", " ", "labels", " ", 
+      RowBox[{"(", 
+       RowBox[{"propagator", " ", "form"}], ")"}]}]}]},
+   {"\"\<Substitutions\>\"", 
+    RowBox[{"{", "}"}], 
+    RowBox[{
+    "symbolic", " ", "replacements", " ", "applied", " ", "before", " ", 
+     "building"}]},
+   {"\"\<Integrator\>\"", "\"\<Qmc\>\"", 
+    RowBox[{
+     RowBox[{"integration", " ", 
+      RowBox[{"algorithm", ":", " ", "Qmc"}]}], ",", " ", "Disteval", ",", 
+     " ", 
+     RowBox[{"or", " ", "Vegas"}]}]},
+   {"\"\<MaxTime\>\"", "Automatic", 
+    RowBox[{
+     RowBox[{"wall", "-", 
+      RowBox[{"clock", " ", "cap", " ", 
+       RowBox[{"(", "s", ")"}], " ", "on", " ", "the", " ", "Python", " ", 
+       "subprocess"}]}], ";", " ", 
+     RowBox[{"Infinity", " ", "disables"}]}]},
+   {"\"\<Homogenize\>\"", "Automatic", 
+    RowBox[{"Euler", "-", 
+     RowBox[{"quadruple", " ", 
+      RowBox[{"route", ":", " ", 
+       RowBox[{
+       "Automatic", " ", "homogenizes", " ", "iff", " ", "the", " ", 
+        "integrand", " ", "is", " ", "inhomogeneous"}]}]}]}]}
+  },
+  GridBoxAlignment->{"Columns" -> {Left, Left, Left}},
+  GridBoxDividers->{"Rows" -> {True, {False}, True}}]], "OptionsTable",Express\
+ionUUID->"aff4581a-525d-4361-9de9-58a926bbf931"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["See Also", "SeeAlsoSection",ExpressionUUID->"d295acc9-a5c7-4f69-b76b-7c3dd3a28702"],
+
+Cell[TextData[{
+ Cell[BoxData[
+  ButtonBox["STNIntegrate",
+   BaseStyle->"Link",
+   ButtonData->"paclet:SubTropica/ref/STNIntegrate"]], "InlineFormula",
+  ExpressionUUID->"372e2c05-75fc-460f-beb3-cc97d20b1de8"],
+ " \[EmptyVerySmallSquare] ",
+ Cell[BoxData[
+  ButtonBox["STVerify",
+   BaseStyle->"Link",
+   ButtonData->"paclet:SubTropica/ref/STVerify"]], "InlineFormula",
+  ExpressionUUID->"3235d380-0abd-449d-a87d-7a50cd3c2efc"]
+}], "SeeAlso",ExpressionUUID->"3ce08792-d1f4-45df-8d11-08da471323d2"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ InterpretationBox[GridBox[{
+    {
+     StyleBox[
+      RowBox[{"Basic", " ", "Examples"}], "PrimaryExamplesSection"], 
+     ButtonBox[
+      RowBox[{
+       RowBox[{"More", " ", "Examples"}], " ", "\[RightTriangle]"}],
+      BaseStyle->"ExtendedExamplesLink",
+      ButtonData:>"ExtendedExamples"]}
+   }],
+  $Line = 0; Null]], "PrimaryExamplesSection",ExpressionUUID->"ed29595d-a8fc-\
+41b0-9504-25860e78530c"],
+
+Cell["\<\
+Numerically evaluate a Feynman integral with pySecDec at a numeric kinematic \
+point, returning the eps-expansion coefficients with error estimates.  \
+Requires pySecDec.\
+\>", "ExampleText",ExpressionUUID->"c357db33-3878-47e5-8e18-4cf0f1ea3006"],
+
+Cell[BoxData[
+ RowBox[{"ConfigureSubTropica", "[", 
+  RowBox[{
+  "PythonPath", " ", "->", " ", "\"\<.venvs/subtropica312/bin/python\>\""}], 
+  "]"}]], "Input",ExpressionUUID->"9dbfe695-3046-41aa-a02d-35dd3dccba8d"],
+
+Cell[BoxData[
+ RowBox[{"STToPySecDec", "[", 
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{"edges", ",", " ", "nodes"}], "}"}], ",", " ", 
+   RowBox[{"\"\<KinematicPoint\>\"", " ", "->", " ", "kinematicPoint"}]}], 
+  "]"}]], "Input",ExpressionUUID->"796513e4-9004-4b54-984f-2c63ce3eb828"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Metadata", "MetadataSection",ExpressionUUID->"6f7614b8-94e5-4b56-af5c-9dc8bf635101"],
+
+Cell[CellGroupData[{
+
+Cell["Categorization", "CategorizationSection",ExpressionUUID->"f6f93cc2-6605-493d-b376-21889775b3bd"],
+
+Cell["Symbol", "Categorization",
+ CellLabel->
+  "Entity Type",ExpressionUUID->"178ba6e1-2943-4d9f-8a47-75895744e47c"],
+
+Cell["SubTropica", "Categorization",
+ CellLabel->
+  "Paclet Name",ExpressionUUID->"d36c228a-ab26-45d8-92aa-5a16c1d28837"],
+
+Cell["SubTropica`", "Categorization",
+ CellLabel->"Context",ExpressionUUID->"af7acde8-5427-4261-a5ab-e3e8131b8015"],
+
+Cell["SubTropica/ref/STToPySecDec", "Categorization",
+ CellLabel->"URI",ExpressionUUID->"d8c67ce8-1572-469e-9987-232c2952f5a3"]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Keywords", "KeywordsSection",ExpressionUUID->"6d532839-9ea0-4d69-a0d9-cf964777549a"],
+
+Cell["Feynman integral", "Keywords",ExpressionUUID->"4ff597dd-d9c8-42fa-b1c1-7a86cd802bf7"],
+
+Cell["tropical geometry", "Keywords",ExpressionUUID->"0a9fa272-ea32-4245-ae4c-f372d3fc99c0"],
+
+Cell["dimensional regularization", "Keywords",ExpressionUUID->"6862ecf2-5856-42af-b2e9-d28f24fecd7a"]
+}, Closed]]
+}, Open  ]]
+},
+TaggingRules-><|"Paclet" -> "SubTropica"|>,
+FrontEndVersion->"15.0 for Mac OS X ARM (64-bit) (May 19, 2026)",
+StyleDefinitions->FrontEnd`FileName[{"Wolfram"}, "FunctionPageStylesExt.nb", 
+  CharacterEncoding -> "UTF-8"],
+ExpressionUUID->"bf60aa35-2de1-428a-a6f7-c9ce4584a71f"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[576, 22, 89, 0, 70, "ObjectName",ExpressionUUID->"ac2cd601-e85f-487c-a729-27628b3065e5"],
+Cell[668, 24, 1281, 22, 70, "Usage",ExpressionUUID->"6ee9e831-cf26-4878-8f2f-6ad5ce62cb4b",
+ CellID->1]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[1986, 51, 88, 0, 70, "OptionsSection",ExpressionUUID->"b1315bbf-f69d-41f2-80a8-d3307edb5148"],
+Cell[2077, 53, 3111, 77, 70, "OptionsTable",ExpressionUUID->"aff4581a-525d-4361-9de9-58a926bbf931"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[5225, 135, 89, 0, 70, "SeeAlsoSection",ExpressionUUID->"d295acc9-a5c7-4f69-b76b-7c3dd3a28702"],
+Cell[5317, 137, 498, 12, 70, "SeeAlso",ExpressionUUID->"3ce08792-d1f4-45df-8d11-08da471323d2"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[5852, 154, 424, 12, 70, "PrimaryExamplesSection",ExpressionUUID->"ed29595d-a8fc-41b0-9504-25860e78530c"],
+Cell[6279, 168, 256, 4, 70, "ExampleText",ExpressionUUID->"c357db33-3878-47e5-8e18-4cf0f1ea3006"],
+Cell[6538, 174, 214, 4, 70, "Input",ExpressionUUID->"9dbfe695-3046-41aa-a02d-35dd3dccba8d"],
+Cell[6755, 180, 282, 6, 70, "Input",ExpressionUUID->"796513e4-9004-4b54-984f-2c63ce3eb828"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[7074, 191, 90, 0, 70, "MetadataSection",ExpressionUUID->"6f7614b8-94e5-4b56-af5c-9dc8bf635101"],
+Cell[CellGroupData[{
+Cell[7189, 195, 102, 0, 70, "CategorizationSection",ExpressionUUID->"f6f93cc2-6605-493d-b376-21889775b3bd"],
+Cell[7294, 197, 117, 2, 70, "Categorization",ExpressionUUID->"178ba6e1-2943-4d9f-8a47-75895744e47c"],
+Cell[7414, 201, 121, 2, 70, "Categorization",ExpressionUUID->"d36c228a-ab26-45d8-92aa-5a16c1d28837"],
+Cell[7538, 205, 115, 1, 70, "Categorization",ExpressionUUID->"af7acde8-5427-4261-a5ab-e3e8131b8015"],
+Cell[7656, 208, 127, 1, 70, "Categorization",ExpressionUUID->"d8c67ce8-1572-469e-9987-232c2952f5a3"]
+}, Closed]],
+Cell[CellGroupData[{
+Cell[7820, 214, 90, 0, 70, "KeywordsSection",ExpressionUUID->"6d532839-9ea0-4d69-a0d9-cf964777549a"],
+Cell[7913, 216, 91, 0, 70, "Keywords",ExpressionUUID->"4ff597dd-d9c8-42fa-b1c1-7a86cd802bf7"],
+Cell[8007, 218, 92, 0, 70, "Keywords",ExpressionUUID->"0a9fa272-ea32-4245-ae4c-f372d3fc99c0"],
+Cell[8102, 220, 101, 0, 70, "Keywords",ExpressionUUID->"6862ecf2-5856-42af-b2e9-d28f24fecd7a"]
+}, Closed]]
+}, Open  ]]
+}
+]
+*)
+
+(* End of internal cache information *)

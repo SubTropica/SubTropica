@@ -1,0 +1,240 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Wolfram 15.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       154,          7]
+NotebookDataLength[      9103,        231]
+NotebookOptionsPosition[      6661,        184]
+NotebookOutlinePosition[      7101,        200]
+CellTagsIndexPosition[      7058,        197]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["STFindSingularities", "ObjectName",ExpressionUUID->"f20db646-3923-43f3-8ec9-d4b2b578eca2"],
+
+Cell[BoxData[GridBox[{
+   {Cell[TextData[{
+     StyleBox["STFindSingularities[{edges, nodes}, opts]", "TI"],
+     " \[LineSeparator]finds the Landau singularities of the graph by the \
+chi-drop method (Chestnov-Crisanti-Giroux): Euler-characteristic drops of the \
+twisted critical ideal of {x1, ..., xE, U, F}, read off per-coordinate SPQR \
+elimination ideals, vetted per letter by the constrained sector count. \
+Returns an Association with \"singularities\", \"chi\", \"complete\", \
+\"trusted\", \"oddLetters\", \"diagnostics\", \"provenance\". NOTE: on hard \
+problems a FiniteFlow projection may not honor \"Budget\" (native calls are \
+not interruptible); for untrusted inputs run under an external process-level \
+watchdog."
+    }], "TableText",ExpressionUUID->"a611a319-cdec-4c80-8e07-128f4123c01c"]}
+  },
+  GridBoxAlignment->{"Columns" -> {{Left}}},
+  GridBoxItemSize->{
+   "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}]], "Usage",
+ CellID->1,ExpressionUUID->"05438696-b1bf-4146-a433-80b20bad0f60"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Options", "OptionsSection",ExpressionUUID->"7ad819e1-ff57-4503-a458-f54e35e21314"],
+
+Cell[BoxData[GridBox[{
+   {"\"\<Method\>\"", "\"\<SPQRLandau\>\"", 
+    RowBox[{
+     RowBox[{"elimination", " ", "method"}], ";", " ", 
+     RowBox[{"the", " ", "only", " ", "supported", " ", "value"}]}]},
+   {"\"\<FindLetters\>\"", "True", 
+    RowBox[{
+     RowBox[{"also", " ", "resolve", " ", "algebraic", " ", 
+      RowBox[{"(", 
+       RowBox[{"square", "-", "root"}], ")"}], " ", "letters"}], ",", " ", 
+     RowBox[{
+     "not", " ", "just", " ", "the", " ", "rational", " ", "alphabet"}]}]},
+   {"\"\<ConfirmPrimes\>\"", "2", 
+    RowBox[{
+    "independent", " ", "modular", " ", "primes", " ", "the", 
+     " ", "\"\<trusted\>\"", " ", "verdict", " ", "must", " ", "agree", " ", 
+     "on"}]},
+   {"\"\<Seed\>\"", "20260610", 
+    RowBox[{
+     RowBox[{"FiniteFlow", " ", "modular"}], "-", 
+     RowBox[{"prime", " ", "/", " ", "parameter"}], "-", 
+     RowBox[{"point", " ", "seed"}]}]},
+   {"\"\<Budget\>\"", "300", 
+    RowBox[{
+     RowBox[{"per", "-", 
+      RowBox[{"projection", " ", "time", " ", "budget", " ", 
+       RowBox[{"(", "s", ")"}]}]}], ";", " ", 
+     RowBox[{"not", " ", "always", " ", "honored", " ", 
+      RowBox[{"(", 
+       RowBox[{
+       "native", " ", "calls", " ", "are", " ", "not", " ", "interruptible"}],
+        ")"}]}]}]},
+   {"\"\<Chart\>\"", "Automatic", 
+    RowBox[{
+     RowBox[{"per", "-", 
+      RowBox[{"coordinate", " ", "elimination", " ", "chart"}]}], ";", " ", 
+     RowBox[{
+     "Automatic", " ", "tries", " ", "charts", " ", "until", " ", "one", " ", 
+      "succeeds"}]}]},
+   {"\"\<Exponents\>\"", "Automatic", 
+    RowBox[{"propagator", " ", "exponents"}]},
+   {"\"\<Verbose\>\"", "False", 
+    RowBox[{"print", " ", 
+     RowBox[{"progress", " ", "/", " ", "diagnostics"}]}]}
+  },
+  GridBoxAlignment->{"Columns" -> {Left, Left, Left}},
+  GridBoxDividers->{"Rows" -> {True, {False}, True}}]], "OptionsTable",Express\
+ionUUID->"52b1fce3-a2db-41c7-9259-c90a77a27b86"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["See Also", "SeeAlsoSection",ExpressionUUID->"36eabf86-e91c-46df-b06f-281da2edeb46"],
+
+Cell[TextData[{
+ Cell[BoxData[
+  ButtonBox["STIntegrate",
+   BaseStyle->"Link",
+   ButtonData->"paclet:SubTropica/ref/STIntegrate"]], "InlineFormula",
+  ExpressionUUID->"aad530a6-2c18-46f4-a68a-c8a30c58ccc5"],
+ " \[EmptyVerySmallSquare] ",
+ Cell[BoxData[
+  ButtonBox["STPreAnalysis",
+   BaseStyle->"Link",
+   ButtonData->"paclet:SubTropica/ref/STPreAnalysis"]], "InlineFormula",
+  ExpressionUUID->"deb2a61e-1026-4e9b-9fcd-39e702fb810d"]
+}], "SeeAlso",ExpressionUUID->"2d3ab0db-8b3d-485a-ac8c-0591f29150c7"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ InterpretationBox[GridBox[{
+    {
+     StyleBox[
+      RowBox[{"Basic", " ", "Examples"}], "PrimaryExamplesSection"], 
+     ButtonBox[
+      RowBox[{
+       RowBox[{"More", " ", "Examples"}], " ", "\[RightTriangle]"}],
+      BaseStyle->"ExtendedExamplesLink",
+      ButtonData:>"ExtendedExamples"]}
+   }],
+  $Line = 0; Null]], "PrimaryExamplesSection",ExpressionUUID->"aed70770-e821-\
+41be-8a66-45121129c134"],
+
+Cell["\<\
+Find the Landau singularities by the chi-drop method (Euler-characteristic \
+drops of the twisted critical ideal).  Returns an Association keyed by \
+\"singularities\"/\"chi\"/\"complete\"/\"trusted\"/...; requires the \
+SPQR/msolve and FiniteFlow stack.\
+\>", "ExampleText",ExpressionUUID->"b1efaf2e-54f3-4bda-ad4b-57124655e884"],
+
+Cell[BoxData[
+ RowBox[{"STFindSingularities", "[", 
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{"edges", ",", " ", "nodes"}], "}"}], ",", " ", 
+   RowBox[{"FindLetters", " ", "->", " ", "False"}]}], "]"}]], "Input",Express\
+ionUUID->"078bb0a4-3e1d-4020-87b2-984294b17088"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Metadata", "MetadataSection",ExpressionUUID->"411e00c1-02c6-4e2f-b89c-7c5537f5fcc1"],
+
+Cell[CellGroupData[{
+
+Cell["Categorization", "CategorizationSection",ExpressionUUID->"0cce7bbe-498d-45ae-8dbf-65faa1b32cf5"],
+
+Cell["Symbol", "Categorization",
+ CellLabel->
+  "Entity Type",ExpressionUUID->"234df340-9624-4aee-af83-8ea1174a6d75"],
+
+Cell["SubTropica", "Categorization",
+ CellLabel->
+  "Paclet Name",ExpressionUUID->"5c1f269b-ec41-45f8-a738-3c13607e6803"],
+
+Cell["SubTropica`", "Categorization",
+ CellLabel->"Context",ExpressionUUID->"a0141ca5-c056-460b-9535-45edd0b0faf2"],
+
+Cell["SubTropica/ref/STFindSingularities", "Categorization",
+ CellLabel->"URI",ExpressionUUID->"fd7f6b09-ac5a-4100-b821-ced442785e57"]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Keywords", "KeywordsSection",ExpressionUUID->"77467c69-0851-418d-812c-5b8f4f9f379c"],
+
+Cell["Feynman integral", "Keywords",ExpressionUUID->"6ad32889-d2ab-411a-aa3d-5ba044d2c105"],
+
+Cell["tropical geometry", "Keywords",ExpressionUUID->"81b4b607-1dfd-47c6-925e-f0029eb07a8f"],
+
+Cell["dimensional regularization", "Keywords",ExpressionUUID->"be1381a1-5b39-4da3-ae06-e4825b63517b"]
+}, Closed]]
+}, Open  ]]
+},
+TaggingRules-><|"Paclet" -> "SubTropica"|>,
+FrontEndVersion->"15.0 for Mac OS X ARM (64-bit) (May 19, 2026)",
+StyleDefinitions->FrontEnd`FileName[{"Wolfram"}, "FunctionPageStylesExt.nb", 
+  CharacterEncoding -> "UTF-8"],
+ExpressionUUID->"bf60aa35-2de1-428a-a6f7-c9ce4584a71f"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[576, 22, 96, 0, 70, "ObjectName",ExpressionUUID->"f20db646-3923-43f3-8ec9-d4b2b578eca2"],
+Cell[675, 24, 1016, 17, 70, "Usage",ExpressionUUID->"05438696-b1bf-4146-a433-80b20bad0f60",
+ CellID->1]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[1728, 46, 88, 0, 70, "OptionsSection",ExpressionUUID->"7ad819e1-ff57-4503-a458-f54e35e21314"],
+Cell[1819, 48, 1931, 47, 70, "OptionsTable",ExpressionUUID->"52b1fce3-a2db-41c7-9259-c90a77a27b86"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[3787, 100, 89, 0, 70, "SeeAlsoSection",ExpressionUUID->"36eabf86-e91c-46df-b06f-281da2edeb46"],
+Cell[3879, 102, 506, 12, 70, "SeeAlso",ExpressionUUID->"2d3ab0db-8b3d-485a-ac8c-0591f29150c7"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[4422, 119, 424, 12, 70, "PrimaryExamplesSection",ExpressionUUID->"aed70770-e821-41be-8a66-45121129c134"],
+Cell[4849, 133, 340, 5, 70, "ExampleText",ExpressionUUID->"b1efaf2e-54f3-4bda-ad4b-57124655e884"],
+Cell[5192, 140, 268, 6, 70, "Input",ExpressionUUID->"078bb0a4-3e1d-4020-87b2-984294b17088"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[5497, 151, 90, 0, 70, "MetadataSection",ExpressionUUID->"411e00c1-02c6-4e2f-b89c-7c5537f5fcc1"],
+Cell[CellGroupData[{
+Cell[5612, 155, 102, 0, 70, "CategorizationSection",ExpressionUUID->"0cce7bbe-498d-45ae-8dbf-65faa1b32cf5"],
+Cell[5717, 157, 117, 2, 70, "Categorization",ExpressionUUID->"234df340-9624-4aee-af83-8ea1174a6d75"],
+Cell[5837, 161, 121, 2, 70, "Categorization",ExpressionUUID->"5c1f269b-ec41-45f8-a738-3c13607e6803"],
+Cell[5961, 165, 115, 1, 70, "Categorization",ExpressionUUID->"a0141ca5-c056-460b-9535-45edd0b0faf2"],
+Cell[6079, 168, 134, 1, 70, "Categorization",ExpressionUUID->"fd7f6b09-ac5a-4100-b821-ced442785e57"]
+}, Closed]],
+Cell[CellGroupData[{
+Cell[6250, 174, 90, 0, 70, "KeywordsSection",ExpressionUUID->"77467c69-0851-418d-812c-5b8f4f9f379c"],
+Cell[6343, 176, 91, 0, 70, "Keywords",ExpressionUUID->"6ad32889-d2ab-411a-aa3d-5ba044d2c105"],
+Cell[6437, 178, 92, 0, 70, "Keywords",ExpressionUUID->"81b4b607-1dfd-47c6-925e-f0029eb07a8f"],
+Cell[6532, 180, 101, 0, 70, "Keywords",ExpressionUUID->"be1381a1-5b39-4da3-ae06-e4825b63517b"]
+}, Closed]]
+}, Open  ]]
+}
+]
+*)
+
+(* End of internal cache information *)
