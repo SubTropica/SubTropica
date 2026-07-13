@@ -2036,7 +2036,7 @@ Options[ConfigureSubTropica] = {
 With[{$SubTropicaDir = DirectoryName[$InputFileName]},
 
 $SubTropicaInstallDir = $SubTropicaDir;
-$SubTropicaVersion = "1.2.8";
+$SubTropicaVersion = "1.2.9";
 
 (* Init-order fix: line 109 set $STHyperFlintDataPath before
    $SubTropicaInstallDir was bound, so the install-dir-derived data
@@ -10621,16 +10621,19 @@ STProduceUs[xvars_,rays_,divFaces_,asAnAssociationQ_:False,normalizeQ_:True,Quie
 			If[Not[nullSpaceTrivialQ],
 				nullSpace=nullSpace//DeleteCases[#,v_/;v . rays[[f]]===0]&;
 			];
-			nullVector=nullSpace//First; 
-			(* Does the geometric property hold? *)
+			(* Does the geometric property hold?  Decided BEFORE taking First:
+			   DeleteCases can empty nullSpace (every null-space vector
+			   orthogonal to the facet ray), and First[{}] leaks a spurious
+			   First::nofirst to the user (issue #49). *)
 			geometricQ=Not[nullSpaceTrivialQ] && Not[nullSpace==={}];
+			nullVector=If[geometricQ,First[nullSpace],Missing["NotFound"]];
 		];
 		(* Normalize the vector so that w.facet = - 1 *)
 		If[geometricQ&&normalizeQ,
 			nullVector=nullVector/(nullVector . rays[[f]])
 		];
 		(* If necessary flip the sign *)
-		If[nullVector . rays[[f]]>0&&geometricQ,nullVector=-nullVector];
+		If[geometricQ&&nullVector . rays[[f]]>0,nullVector=-nullVector];
 		(* If geometric property holds, construct v-function *)
 		If[geometricQ,
 			1-1/(1+Times@@(xvars^nullVector))//Factor
@@ -10662,11 +10665,15 @@ rays[[compDiv[f]]]//NullSpace//SortBy[#,STScoreWvecs]&//DeleteCases[#,v_/;v . ra
 If[nullVectors==={},"NotFound",
 Table[
 nullVector=nV;
-If[Not[nullVector . rays[[f]]===0]&&Not[nullVector===First[{}]]&&normalizeQ,
+(* nV ranges over actual null-space vectors, so the historical
+   nullVector===First[{}] sentinel comparisons were tautologically False;
+   worse, each evaluation of the literal First[{}] emitted a spurious
+   First::nofirst message (issue #49).  Dropped. *)
+If[Not[nullVector . rays[[f]]===0]&&normalizeQ,
 nullVector=nullVector/(nullVector . rays[[f]])
 ];
-If[nullVector . rays[[f]]>0&&Not[nullVector===First[{}]],nullVector=-nullVector];
-If[nullVector . rays[[f]]===0||nullVector===First[{}],"NotFound",1-1/(1+Times@@(xvars^nullVector))//Factor],{nV,nullVectors}]//DeleteDuplicates
+If[nullVector . rays[[f]]>0,nullVector=-nullVector];
+If[nullVector . rays[[f]]===0,"NotFound",1-1/(1+Times@@(xvars^nullVector))//Factor],{nV,nullVectors}]//DeleteDuplicates
 ]
 ,{f,facets[[;;]]}]/.{"NotFound"}-> "NotFound"
 ]
@@ -10703,10 +10710,19 @@ STPreAnalysis[integrand_,vars_,coeffs_,facesQ_:True,regulators_:{eps}]:=Module[
 	(*u-variables*)
 	us=Table[{},{f,trData["rays"]}];
 	us[[divFacets]]=STProduceUs[vars,trData["rays"],divFaces]//Factor;
+	(* Say WHICH facets lack a u-variable instead of leaving a bare "NotFound"
+	   in the returned list (issue #49): this is a genuine geometric
+	   obstruction, not an error, and STExpandIntegral handles it by searching
+	   for a Nilsson-Passare continuation. *)
+	If[MemberQ[us[[divFacets]],"NotFound"],
+		Print["Geometric property fails on ray(s) ",
+			ToString[Pick[divFacets,us[[divFacets]],"NotFound"]],
+			": no u-variable exists there; STExpandIntegral will look for a Nilsson-Passare continuation instead."];
+	];
 	Association@@{
-		"trops"-> trValues[[divFacets]], 
+		"trops"-> trValues[[divFacets]],
 		"rays" -> divFacets,
-		"faces" -> divFaces, 
+		"faces" -> divFaces,
 		"us" -> us[[divFacets]], 
 	"trData"-> trData
 	}
@@ -10717,8 +10733,9 @@ STPreAnalysis[integrand_,vars_,coeffs_,facesQ_:True,regulators_:{eps}]:=Module[
 (*Subtraction Formula [new version; NP updated]*)
 
 
-(* Compute subtraction formula *) 
+(* Compute subtraction formula *)
 (* It is possible to pass tropical data and u-variables if these have already been found *)
+STSubtractionFormula::geomfail = "The geometric property is not satisfied on ray(s) `1`: no u-variable exists there, so the subtraction formula cannot be built.  Returning $Failed.  (The eps-aware pipeline avoids this via the Nilsson-Passare continuation in STExpandIntegral; seeing this message from inside that pipeline means the continuation guarantee was violated.)";
 Clear[STSubtractionFormula];
 STSubtractionFormula[integrand_,vars_,coeffs_,divUs_:{},regulators_:{eps},trDataGiven_:{}]:=Module[
 {trData,regularizeFace,monspols,polsInt,divFacets,faces,divFaces,
@@ -10757,9 +10774,16 @@ Print["Computing u-variables "];
 (* STProduceUs[xvars_,rays_,divFaces_,asAnAssociationQ_:False,normalizeQ_:True,QuietQ_:True] *)
 us[[divFacets]]=If[divUs==={},STProduceUs[vars,trData["rays"],divFaces,False,False,True]//Factor,divUs//Factor];
 ];
-If[Count[us,"NotFound!"]>0,
-	Print[" The geometric property is not satisfied! "];
-	Return[us];
+(* Sentinel fix (issue #49): STProduceUs returns the string "NotFound" (no
+   bang), so the historical Count[us,"NotFound!"] test could never fire and a
+   missing u-variable sailed straight into the W-vector reconstruction below,
+   producing structural garbage (a zero W-vector and string-contaminated
+   Jacobians).  Match the actual sentinel and return a tagged $Failed
+   (cross-model review of the #49 fix): callers get a checkable value
+   instead of a shape-shifted us list. *)
+If[Count[us,"NotFound"]>0,
+	Message[STSubtractionFormula::geomfail, Position[us,"NotFound"]//Flatten];
+	Return[$Failed];
 ,
 Print["Proceeding with u-variables: " , us ]
 ];
@@ -11137,7 +11161,23 @@ STExpandIntegral[integrand_,vars_,coeffs_,regulators_:{eps},trDataGiven_:{},forc
 	Print["Computing Subtractions for each integrand with the geometrical property"];
 	Print["----------"];
 	expansions=Table[
-	{int[[1]],STSubtractionFormula[int[[2]], vars, coeffs,forceUs,regulators,If[Length[subtractableInts]>1,{},trData]]}
+	(* issue #49 follow-up (review finding N3): reuse the precomputed trData
+	   ONLY when no Nilsson-Passare continuation happened -- after a
+	   continuation int[[2]] is a CONTINUED integrand whose Newton-polytope
+	   fan differs from the original trData, and the old
+	   Length[subtractableInts] > 1 test wrongly reused the stale fan in the
+	   single-continued-integrand case.  An empty sixth argument makes
+	   STSubtractionFormula recompute the tropical data for the integrand it
+	   was actually given. *)
+	With[{stSub$=STSubtractionFormula[int[[2]], vars, coeffs,forceUs,regulators,If[NPcontinuation==={},trData,{}]]},
+	(* issue #49 (cross-model review): a $Failed subtraction (geometric
+	   property violated even after the Nilsson-Passare continuation, message
+	   STSubtractionFormula::geomfail already issued) must stop the run like
+	   the notwelldef guard above -- Abort[] surfaces as $Aborted, which the
+	   downstream launcher scan already handles -- instead of flowing a
+	   mis-shaped expansion forward. *)
+	If[stSub$===$Failed,Abort[]];
+	{int[[1]],stSub$}]
 	,{int,subtractableInts}
 	];
 	Print["----------"];
@@ -19607,7 +19647,9 @@ stSetupKernelImpl[nkernels_Integer] := Block[{$ProgressReporting = False},
               algLet       = $HyperIntroduceAlgebraicLetters,
               algSafe      = $STFindRootsParallelSafe,
               ffOn         = $UseFFPolynomialQuotient,
-              checkDv      = $HyperInticaCheckDivergences},
+              checkDv      = $HyperInticaCheckDivergences,
+              abortDv      = $HyperInticaAbortOnDivergence,
+              cdManaged    = $stCheckDivergencesManaged},
             ParallelEvaluate[
                 $PolymakeCommand                = polymakeCmd;
                 $GinshCommand                   = ginshCmd;
@@ -19628,7 +19670,13 @@ stSetupKernelImpl[nkernels_Integer] := Block[{$ProgressReporting = False},
                 $HyperIntroduceAlgebraicLetters = algLet;
                 $STFindRootsParallelSafe        = algSafe;
                 $UseFFPolynomialQuotient        = ffOn;
-                $HyperInticaCheckDivergences    = checkDv]];
+                $HyperInticaCheckDivergences    = checkDv;
+                (* Issue #49: the divergence policy is a TRIPLE (check, abort,
+                   managed-scope marker); propagating checkDv alone left
+                   subkernels with the package defaults for the other two, so
+                   STHyperFlint's Automatic hard-armed as "standalone". *)
+                $HyperInticaAbortOnDivergence   = abortDv;
+                $stCheckDivergencesManaged      = cdManaged]];
 
         (* Suppress FrontEndObject::notavail on sub-kernels running headlessly *)
         ParallelEvaluate[Off[FrontEndObject::notavail]];
@@ -19663,9 +19711,20 @@ stSetupKernelImpl[nkernels_Integer] := Block[{$ProgressReporting = False},
     CreateDirectory[$STJobTrackingDir];
     Put[{}, $STCompletedJobsLog];
 
-    (* Propagate HyperIntica flags from main kernel to all sub-kernels *)
-    With[{checkDiv = $HyperInticaCheckDivergences},
-        ParallelEvaluate[$HyperInticaCheckDivergences = checkDiv]];
+    (* Propagate the divergence-policy flags from main kernel to all
+       sub-kernels.  Issue #49: this must be the full TRIPLE (check, abort,
+       managed-scope marker) -- propagating the check flag alone left
+       subkernels believing every STHyperFlint call is standalone, so
+       "CheckDivergences" -> Automatic hard-armed the scan there no matter
+       what the user or the pipeline had requested.  This runs on BOTH the
+       cold and warm paths, so it also refreshes a pre-existing kernel pool. *)
+    With[{checkDiv = $HyperInticaCheckDivergences,
+          abortDiv = $HyperInticaAbortOnDivergence,
+          cdManaged = $stCheckDivergencesManaged},
+        ParallelEvaluate[
+            $HyperInticaCheckDivergences  = checkDiv;
+            $HyperInticaAbortOnDivergence = abortDiv;
+            $stCheckDivergencesManaged    = cdManaged]];
 
     $KernelSetupQ = True;
   ] (* Module *)
@@ -19698,7 +19757,18 @@ stBuildHyperSnapshot[] := <|
     "HyperVerbosity"                  -> HyperIntica`$HyperVerbosity,
     "HyperInticaCheckDivergences"     -> TrueQ[HyperIntica`$HyperInticaCheckDivergences],
     "HyperInticaAbortOnDivergence"    -> TrueQ[HyperIntica`$HyperInticaAbortOnDivergence],
-    "HyperEvaluatePeriods"            -> TrueQ[HyperIntica`$HyperEvaluatePeriods]
+    "HyperEvaluatePeriods"            -> TrueQ[HyperIntica`$HyperEvaluatePeriods],
+    (* Issue #49: SubTropica's own managed-scope marker must travel with the
+       HyperIntica flags.  STHyperFlint resolves "CheckDivergences" ->
+       Automatic through $stCheckDivergencesManaged; a subkernel that never
+       received it (default False) treats every per-face call as STANDALONE
+       and arms the boundary-divergence scan HARD, overriding both the
+       user's "CheckDivergences" -> False and the pipeline's
+       record-and-continue mode.  Whether the subkernel had the correct
+       value previously depended on DistributeDefinitions timing (cold vs
+       warm kernel pool, All vs LevelParallelism strategy), which is why
+       the failure was environment-dependent. *)
+    "STCheckDivergencesManaged"       -> TrueQ[$stCheckDivergencesManaged]
 |>;
 
 
@@ -19820,7 +19890,13 @@ STLaunchHyperInticaAllKernelIntegrator[{faceDirectory_, ctId_, ctIntegrand_, LRo
                     HyperIntica`$HyperInticaAbortOnDivergence],
         HyperIntica`$HyperEvaluatePeriods =
             snapVal["HyperEvaluatePeriods",
-                    HyperIntica`$HyperEvaluatePeriods]
+                    HyperIntica`$HyperEvaluatePeriods],
+        (* Issue #49: rebind the managed-scope marker so STHyperFlint's
+           "CheckDivergences" -> Automatic defers to the snapshot's
+           HyperIntica flags instead of hard-arming as a standalone call. *)
+        $stCheckDivergencesManaged =
+            snapVal["STCheckDivergencesManaged",
+                    $stCheckDivergencesManaged]
     },
         runIntegrator[];
         localLetterTable = HyperIntica`$HyperAlgebraicLetterTable;
@@ -21823,6 +21899,17 @@ STEvaluateGraph[g_, opts : OptionsPattern[]] :=
                $stEuclideanManagedByGraph = True,
                $HyperInticaCheckDivergences =
                    stResolveCheckDivergences[{opts}, False],
+               (* Issue #49 follow-up: mirror the raw route's record-and-continue
+                  semantics for an explicit "CheckDivergences" -> True.  Without
+                  abort = False, per-face HF calls resolve (check && abort) ->
+                  hard-arm and abort sector-decomposed faces that are
+                  individually divergent by construction.  The second
+                  stResolveCheckDivergences call is pure; Quiet suppresses only
+                  the would-be duplicate bad-value message. *)
+               $HyperInticaAbortOnDivergence =
+                   If[Quiet[stResolveCheckDivergences[{opts}, False],
+                          STIntegrate::badCheckDiv] === True,
+                      False, $HyperInticaAbortOnDivergence],
                (* 2026-06-16: Block-scope the score-prune factor for the whole
                   diagram run so every nested order-finding call (the ~21
                   STfindLinearlyReducibleOrders2 sites) inherits one value without
@@ -24981,7 +25068,14 @@ STEvaluateGraphFromPropagators[propagators_List, opts:OptionsPattern[]] :=
     Block[{$stInsideDiagramPipeline = True,
            $stCheckDivergencesManaged = True,
            $HyperInticaCheckDivergences =
-               stResolveCheckDivergences[{opts}, False]},
+               stResolveCheckDivergences[{opts}, False],
+           (* Issue #49 follow-up: record-and-continue for explicit True,
+              mirroring STEvaluateGraph / the raw route (see the comment
+              there). *)
+           $HyperInticaAbortOnDivergence =
+               If[Quiet[stResolveCheckDivergences[{opts}, False],
+                      STIntegrate::badCheckDiv] === True,
+                  False, $HyperInticaAbortOnDivergence]},
         stEvaluateGraphFromPropagatorsCore[propagators, opts]];
 
 Options[stEvaluateGraphFromPropagatorsCore] = Options[STEvaluateGraphFromPropagators];

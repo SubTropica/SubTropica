@@ -16,6 +16,53 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ### Fixed
 
 
+## [1.2.9] - 2026-07-13
+
+Bug-fix release for issue [#49]: divergence-check policy on parallel
+subkernels, and cleaner handling of integrands whose tropical subtraction
+requires a Nilsson-Passare continuation.
+
+### Fixed
+
+- **Spurious `First::nofirst` from `STPreAnalysis` / `STExpandIntegral`**
+  ([#49]).  `STProduceUs` evaluated `First[{}]` before its geometric-property
+  guard whenever a divergent facet admits no u-variable (an expected outcome
+  that the Nilsson-Passare continuation search probes for), leaking the
+  message during normal operation.  The property is now decided first,
+  `STPreAnalysis` names the facets where it fails, `STProduceAllUs` no longer
+  compares against a literal `First[{}]` sentinel, and `STSubtractionFormula`
+  tests the actual `"NotFound"` sentinel (the historical `"NotFound!"` guard
+  could never fire) and now returns `$Failed` with the new
+  `STSubtractionFormula::geomfail` message instead of flowing the missing
+  u-variable into the W-vector reconstruction; `STExpandIntegral` aborts on
+  that failure like its existing not-well-defined guard.
+
+- **`"CheckDivergences" -> False` was ignored by per-face HyperFLINT calls on
+  parallel subkernels** ([#49]).  `STHyperFlint` resolves `Automatic` through
+  the managed-scope marker `$stCheckDivergencesManaged`, but only one of the
+  three policy globals was propagated to subkernels, so a warm kernel pool
+  treated every per-face call as standalone and armed the boundary-divergence
+  scan hard, flooding `STHyperFlint::divergent` and failing faces regardless
+  of the user's option (environment-dependent: a cold pool could pick the
+  correct marker up through a `DistributeDefinitions` closure).  The full
+  policy triple (check, abort, managed marker) now travels through
+  `STSetupKernel` (cold and warm paths) and the per-job `HyperSnapshot`.
+
+- **Graph pipeline: explicit `"CheckDivergences" -> True` now runs in
+  record-and-continue mode** (matching the raw-integrand route):
+  `STEvaluateGraph` / `STEvaluateGraphFromPropagators` set
+  `$HyperInticaAbortOnDivergence = False` for the run, so detections are
+  recorded and summarized instead of hard-aborting sector-decomposed faces
+  that are individually divergent by construction.
+
+- **Stale tropical data after a Nilsson-Passare continuation.**
+  `STExpandIntegral` reused the original integrand's Newton-polytope fan for
+  the subtraction when the continuation produced exactly one integrand; the
+  tropical data is now recomputed for the continued integrand.
+
+[#49]: https://github.com/SubTropica/SubTropica/issues/49
+
+
 ## [1.2.8] - 2026-06-25
 
 Documentation release.  Every public function now carries an options table and a
