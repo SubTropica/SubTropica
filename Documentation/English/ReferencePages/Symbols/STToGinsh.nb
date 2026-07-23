@@ -20,24 +20,24 @@ WindowFrame->Normal*)
 Notebook[{
 
 Cell[CellGroupData[{
-Cell["STToGinsh", "ObjectName",ExpressionUUID->"efdf8910-9b0c-4d40-a912-4db252bb504c"],
+Cell["STToGinsh", "ObjectName",ExpressionUUID->"13ea8327-77a4-409d-9d94-c463ad0c99a4"],
 
 Cell[BoxData[GridBox[{
    {Cell[TextData[{
      StyleBox["STToGinsh", "TI"],
      " \[LineSeparator]STNIntegrate numerically evaluates integrals."
-    }], "TableText",ExpressionUUID->"038b84d0-44f8-4e49-84ac-1acc907cf570"]}
+    }], "TableText",ExpressionUUID->"bf497d11-ca61-4cb9-bc71-b8c21ebdeed9"]}
   },
   GridBoxAlignment->{"Columns" -> {{Left}}},
   GridBoxItemSize->{
    "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}]], "Usage",
- CellID->1,ExpressionUUID->"1f2543b3-e96d-4177-9e71-ef45dd147fff"],
+ CellID->1,ExpressionUUID->"5c285a8c-fce1-4a38-99e1-32111f5eed63"],
 
 Cell["\<\
 STNIntegrate numerically evaluates integrals. It accepts all the same input \
 formats as STIntegrate (Forms~1--3), including generic parametric \
 representations.\
-\>", "Notes",ExpressionUUID->"d74d5cf1-c006-4fef-a726-7ac82a475832"],
+\>", "Notes",ExpressionUUID->"41fb03b3-a522-4043-9f59-c976221f5f2a"],
 
 Cell[BoxData[
  RowBox[{"STNIntegrate", "[", 
@@ -69,14 +69,14 @@ Cell[BoxData[
    RowBox[{"\"\<Substitutions\>\"", "      ", "->", " ", 
     RowBox[{"{", "}"}]}], "\n", "    ", ",", " ", 
    RowBox[{"\"\<CacheDirectory\>\"", "     ", "->", " ", "Automatic"}]}], 
-  "]"}]], "Input",ExpressionUUID->"c77ef2cb-f831-41c9-825b-03ef6ee3c0e4"]
+  "]"}]], "Input",ExpressionUUID->"92e03020-691c-471b-b026-95cff96d25c6"]
 }, Open  ]],
 
 Cell[CellGroupData[{
 
-Cell["Details", "Section",ExpressionUUID->"c4fafa00-0dc0-49aa-83b9-8e764cacb04a"],
+Cell["Details", "Section",ExpressionUUID->"ab76493f-c14f-4f71-9fe5-8929ffe7f496"],
 
-Cell["Numerical evaluation of hyperlogarithms: STToGinsh", "Subsection",ExpressionUUID->"c57e2408-62b7-4fe4-8200-344513da814b"],
+Cell["Numerical evaluation of hyperlogarithms: STToGinsh", "Subsection",ExpressionUUID->"289ab091-4519-455f-ace5-9147843e5d24"],
 
 Cell["\<\
 STToGinsh[expr] numerically evaluates hyperlogarithm expressions via ginsh, \
@@ -85,7 +85,7 @@ path). It accepts Hlog, Mpl, mzv/zeta, and Log objects, converts them to \
 GiNaC format internally, and returns a floating-point approximation. \
 Expressions containing none of these are returned unchanged. A simple example \
 of usage is:  (see example below)\
-\>", "Text",ExpressionUUID->"993efc91-b3f9-4099-a39e-016db0f67940"],
+\>", "Text",ExpressionUUID->"93ebeb37-02ee-4453-b4d8-76666a27cd48"],
 
 Cell[BoxData[
  RowBox[{
@@ -108,7 +108,7 @@ Cell[BoxData[
      RowBox[{
       RowBox[{"-", "6.20015"}], " ", "+", " ", 
       RowBox[{"6.53276", " ", "I"}]}]}], " ", "*)"}]}]}]], "Input",ExpressionU\
-UID->"679501f5-b2fe-4431-9709-164e1160599e"]
+UID->"b7433330-4ec6-49fc-a3d0-f75546e3a9af"]
 }, Open  ]],
 
 Cell[CellGroupData[{
@@ -124,13 +124,13 @@ Cell[BoxData[
       BaseStyle->"ExtendedExamplesLink",
       ButtonData:>"ExtendedExamples"]}
    }],
-  $Line = 0; Null]], "PrimaryExamplesSection",ExpressionUUID->"9d5cd0ea-d1b6-\
-4a6e-b5c3-92be52b54aed"],
+  $Line = 0; Null]], "PrimaryExamplesSection",ExpressionUUID->"1f9d983b-6662-\
+46d3-9aed-bf4dd3f8f76b"],
 
 Cell["\<\
 Numerically evaluate Hlog/Mpl/mzv/Log objects via ginsh (GiNaC); requires \
 ginsh on PATH.\
-\>", "ExampleText",ExpressionUUID->"14118429-9a0e-4a11-96fb-0f81c0a98c19"],
+\>", "ExampleText",ExpressionUUID->"28015784-86a0-44ee-8541-f154cbfc7e23"],
 
 Cell[BoxData[
  RowBox[{"STToGinsh", "[", 
@@ -141,47 +141,47 @@ Cell[BoxData[
       RowBox[{"{", 
        RowBox[{"0", ",", " ", "1"}], "}"}]}], "]"}]}], " ", "+", " ", 
    RowBox[{"mzv", "[", "3", "]"}]}], "]"}]], "Input",ExpressionUUID->\
-"a20a803f-dadb-4aa0-add6-0624a6908df7"],
+"c0381185-0d02-4994-a7a9-6bb056f8964f"],
 
 Cell[BoxData[
  RowBox[{
   RowBox[{"-", "6.200146397657425`"}], "+", 
   RowBox[{"6.532758270910806`", " ", "\[ImaginaryI]"}]}]], "Output",Expression\
-UUID->"da92aa45-58ac-4b6e-baa0-475fade4dc58"]
+UUID->"1d815de9-9b58-4a13-a1ec-9bde3c26f81e"]
 }, Open  ]],
 
 Cell[CellGroupData[{
 
-Cell["Metadata", "MetadataSection",ExpressionUUID->"b43e2432-0a8b-4149-9339-9c9caa9d68bf"],
+Cell["Metadata", "MetadataSection",ExpressionUUID->"369fa141-3e4c-4dbd-a8e9-574d46d5e13d"],
 
 Cell[CellGroupData[{
 
-Cell["Categorization", "CategorizationSection",ExpressionUUID->"1d5232f8-a295-48d8-9066-578c16aee814"],
+Cell["Categorization", "CategorizationSection",ExpressionUUID->"b834ac7e-2813-4fa8-a1d8-e5d3dde0bbf9"],
 
 Cell["Symbol", "Categorization",
  CellLabel->
-  "Entity Type",ExpressionUUID->"9f58f9af-41ca-491c-b89c-3b2115c06ae4"],
+  "Entity Type",ExpressionUUID->"1c115025-eec1-4a48-9ac3-0a527ce0556e"],
 
 Cell["SubTropica", "Categorization",
  CellLabel->
-  "Paclet Name",ExpressionUUID->"cdc48f11-43a3-485e-bbee-75c59373369a"],
+  "Paclet Name",ExpressionUUID->"276cd7c2-a0d5-4505-b901-bf16fac15a65"],
 
 Cell["SubTropica`", "Categorization",
- CellLabel->"Context",ExpressionUUID->"9b543d2c-46dc-47b0-90d7-a541ae58d5df"],
+ CellLabel->"Context",ExpressionUUID->"cb477b78-e695-4be0-afd0-c278a7003304"],
 
 Cell["SubTropica/ref/STToGinsh", "Categorization",
- CellLabel->"URI",ExpressionUUID->"46d8e6f8-6aac-4bd0-9ac2-78bad6cb3123"]
+ CellLabel->"URI",ExpressionUUID->"e647ff0c-856e-40dc-8e0c-9537fa42720b"]
 }, Closed]],
 
 Cell[CellGroupData[{
 
-Cell["Keywords", "KeywordsSection",ExpressionUUID->"f16b4d5f-f6d1-4562-9b8f-2424ef5756f3"],
+Cell["Keywords", "KeywordsSection",ExpressionUUID->"d541a7f7-92c1-4feb-b8c6-3815a858b5d5"],
 
-Cell["Feynman integral", "Keywords",ExpressionUUID->"eebdb203-e7b3-4937-b185-6a9c5077a330"],
+Cell["Feynman integral", "Keywords",ExpressionUUID->"fc22d6d0-397d-4300-81ed-e19fa4f27e02"],
 
-Cell["tropical geometry", "Keywords",ExpressionUUID->"9d883df1-d1a2-488f-9661-a2efea08ce3a"],
+Cell["tropical geometry", "Keywords",ExpressionUUID->"486a36f2-c620-4e9a-a386-5be14b88bc35"],
 
-Cell["dimensional regularization", "Keywords",ExpressionUUID->"17c0bc39-04c5-4ed8-b47d-35941a2169f2"]
+Cell["dimensional regularization", "Keywords",ExpressionUUID->"6cfce119-7712-4a81-b444-386e4f376d6b"]
 }, Closed]]
 }, Open  ]]
 },
@@ -189,7 +189,7 @@ TaggingRules-><|"Paclet" -> "SubTropica"|>,
 FrontEndVersion->"15.0 for Mac OS X ARM (64-bit) (May 19, 2026)",
 StyleDefinitions->FrontEnd`FileName[{"Wolfram"}, "FunctionPageStylesExt.nb", 
   CharacterEncoding -> "UTF-8"],
-ExpressionUUID->"1ff9506e-550a-43ed-b15a-8f6501f46610"
+ExpressionUUID->"53a75bd2-2569-4ead-bc83-067c0139c096"
 ]
 (* End of Notebook Content *)
 
@@ -203,38 +203,38 @@ CellTagsIndex->{}
 (*NotebookFileOutline
 Notebook[{
 Cell[CellGroupData[{
-Cell[576, 22, 86, 0, 70, "ObjectName",ExpressionUUID->"efdf8910-9b0c-4d40-a912-4db252bb504c"],
-Cell[665, 24, 429, 9, 70, "Usage",ExpressionUUID->"1f2543b3-e96d-4177-9e71-ef45dd147fff",
+Cell[576, 22, 86, 0, 70, "ObjectName",ExpressionUUID->"13ea8327-77a4-409d-9d94-c463ad0c99a4"],
+Cell[665, 24, 429, 9, 70, "Usage",ExpressionUUID->"5c285a8c-fce1-4a38-99e1-32111f5eed63",
  CellID->1],
-Cell[1097, 35, 242, 4, 70, "Notes",ExpressionUUID->"d74d5cf1-c006-4fef-a726-7ac82a475832"],
-Cell[1342, 41, 1556, 30, 70, "Input",ExpressionUUID->"c77ef2cb-f831-41c9-825b-03ef6ee3c0e4"]
+Cell[1097, 35, 242, 4, 70, "Notes",ExpressionUUID->"41fb03b3-a522-4043-9f59-c976221f5f2a"],
+Cell[1342, 41, 1556, 30, 70, "Input",ExpressionUUID->"92e03020-691c-471b-b026-95cff96d25c6"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[2935, 76, 81, 0, 70, "Section",ExpressionUUID->"c4fafa00-0dc0-49aa-83b9-8e764cacb04a"],
-Cell[3019, 78, 127, 0, 70, "Subsection",ExpressionUUID->"c57e2408-62b7-4fe4-8200-344513da814b"],
-Cell[3149, 80, 490, 7, 70, "Text",ExpressionUUID->"993efc91-b3f9-4099-a39e-016db0f67940"],
-Cell[3642, 89, 767, 21, 70, "Input",ExpressionUUID->"679501f5-b2fe-4431-9709-164e1160599e"]
+Cell[2935, 76, 81, 0, 70, "Section",ExpressionUUID->"ab76493f-c14f-4f71-9fe5-8929ffe7f496"],
+Cell[3019, 78, 127, 0, 70, "Subsection",ExpressionUUID->"289ab091-4519-455f-ace5-9147843e5d24"],
+Cell[3149, 80, 490, 7, 70, "Text",ExpressionUUID->"93ebeb37-02ee-4453-b4d8-76666a27cd48"],
+Cell[3642, 89, 767, 21, 70, "Input",ExpressionUUID->"b7433330-4ec6-49fc-a3d0-f75546e3a9af"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[4446, 115, 424, 12, 70, "PrimaryExamplesSection",ExpressionUUID->"9d5cd0ea-d1b6-4a6e-b5c3-92be52b54aed"],
-Cell[4873, 129, 176, 3, 70, "ExampleText",ExpressionUUID->"14118429-9a0e-4a11-96fb-0f81c0a98c19"],
-Cell[5052, 134, 331, 9, 70, "Input",ExpressionUUID->"a20a803f-dadb-4aa0-add6-0624a6908df7"],
-Cell[5386, 145, 194, 4, 70, "Output",ExpressionUUID->"da92aa45-58ac-4b6e-baa0-475fade4dc58"]
+Cell[4446, 115, 424, 12, 70, "PrimaryExamplesSection",ExpressionUUID->"1f9d983b-6662-46d3-9aed-bf4dd3f8f76b"],
+Cell[4873, 129, 176, 3, 70, "ExampleText",ExpressionUUID->"28015784-86a0-44ee-8541-f154cbfc7e23"],
+Cell[5052, 134, 331, 9, 70, "Input",ExpressionUUID->"c0381185-0d02-4994-a7a9-6bb056f8964f"],
+Cell[5386, 145, 194, 4, 70, "Output",ExpressionUUID->"1d815de9-9b58-4a13-a1ec-9bde3c26f81e"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[5617, 154, 90, 0, 70, "MetadataSection",ExpressionUUID->"b43e2432-0a8b-4149-9339-9c9caa9d68bf"],
+Cell[5617, 154, 90, 0, 70, "MetadataSection",ExpressionUUID->"369fa141-3e4c-4dbd-a8e9-574d46d5e13d"],
 Cell[CellGroupData[{
-Cell[5732, 158, 102, 0, 70, "CategorizationSection",ExpressionUUID->"1d5232f8-a295-48d8-9066-578c16aee814"],
-Cell[5837, 160, 117, 2, 70, "Categorization",ExpressionUUID->"9f58f9af-41ca-491c-b89c-3b2115c06ae4"],
-Cell[5957, 164, 121, 2, 70, "Categorization",ExpressionUUID->"cdc48f11-43a3-485e-bbee-75c59373369a"],
-Cell[6081, 168, 115, 1, 70, "Categorization",ExpressionUUID->"9b543d2c-46dc-47b0-90d7-a541ae58d5df"],
-Cell[6199, 171, 124, 1, 70, "Categorization",ExpressionUUID->"46d8e6f8-6aac-4bd0-9ac2-78bad6cb3123"]
+Cell[5732, 158, 102, 0, 70, "CategorizationSection",ExpressionUUID->"b834ac7e-2813-4fa8-a1d8-e5d3dde0bbf9"],
+Cell[5837, 160, 117, 2, 70, "Categorization",ExpressionUUID->"1c115025-eec1-4a48-9ac3-0a527ce0556e"],
+Cell[5957, 164, 121, 2, 70, "Categorization",ExpressionUUID->"276cd7c2-a0d5-4505-b901-bf16fac15a65"],
+Cell[6081, 168, 115, 1, 70, "Categorization",ExpressionUUID->"cb477b78-e695-4be0-afd0-c278a7003304"],
+Cell[6199, 171, 124, 1, 70, "Categorization",ExpressionUUID->"e647ff0c-856e-40dc-8e0c-9537fa42720b"]
 }, Closed]],
 Cell[CellGroupData[{
-Cell[6360, 177, 90, 0, 70, "KeywordsSection",ExpressionUUID->"f16b4d5f-f6d1-4562-9b8f-2424ef5756f3"],
-Cell[6453, 179, 91, 0, 70, "Keywords",ExpressionUUID->"eebdb203-e7b3-4937-b185-6a9c5077a330"],
-Cell[6547, 181, 92, 0, 70, "Keywords",ExpressionUUID->"9d883df1-d1a2-488f-9661-a2efea08ce3a"],
-Cell[6642, 183, 101, 0, 70, "Keywords",ExpressionUUID->"17c0bc39-04c5-4ed8-b47d-35941a2169f2"]
+Cell[6360, 177, 90, 0, 70, "KeywordsSection",ExpressionUUID->"d541a7f7-92c1-4feb-b8c6-3815a858b5d5"],
+Cell[6453, 179, 91, 0, 70, "Keywords",ExpressionUUID->"fc22d6d0-397d-4300-81ed-e19fa4f27e02"],
+Cell[6547, 181, 92, 0, 70, "Keywords",ExpressionUUID->"486a36f2-c620-4e9a-a386-5be14b88bc35"],
+Cell[6642, 183, 101, 0, 70, "Keywords",ExpressionUUID->"6cfce119-7712-4a81-b444-386e4f376d6b"]
 }, Closed]]
 }, Open  ]]
 }

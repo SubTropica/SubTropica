@@ -9,11 +9,138 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+## [1.2.10] - 2026-07-23
+
 ### Added
+
+- **`"AllowSingularContinuation"` option** on `STIntegrate` /
+  `STIntegrateHF` / `STEvaluateGraph` / `STEvaluateEulerIntegral`
+  ([#50]).  Default `False`; set to `True` to retrieve the symbolic
+  result, with any unevaluated boundary periods left in place, that the
+  singular-continuation guard would otherwise replace with `$Failed`.
+
+- **`"ContourDeltaResolution"` option** on `STIntegrate` /
+  `STIntegrateHF` / `STEvaluateGraph` / `STEvaluateEulerIntegral`
+  ([#50]).  Controls what happens when the contour symbol
+  `delta[a] = sign(Im(a + i0)) = +-1` of an on-path singularity does
+  not cancel in the assembled series (see Fixed below).  Default
+  `Automatic` (equivalently `"Reality"`): probe the sign assignments
+  numerically and apply the one that makes every `eps`-coefficient
+  real, as a Euclidean-region answer must be, announcing the choice
+  through the new `STIntegrate::contourdeltaresolved`.  Two conditions
+  are verified before any substitution: flipping a sign must leave the
+  REAL part of every coefficient unchanged (so the applied resolution
+  provably cannot alter the physical answer, only remove an imaginary
+  part), and every surviving symbol must carry a positive numeric
+  letter, i.e. come from the derived on-path period dictionary rather
+  than from a contour-bookkeeping fallback whose sign was never
+  determined.  `None` always leaves `delta[a]` in the result with
+  `STIntegrate::contourdelta`, so `STVerify`'s `delta[_]` resolver (or
+  a hand substitution `delta[a] -> -1` for the standard `a - i0`
+  reading) settles it instead; use it for physical-region kinematics,
+  where a nonzero imaginary part is the physics.  Beyond the one scan
+  of the final series that looks for the symbol, nothing runs unless a
+  `delta` survives, and the stage never gates: when reality does not
+  single out one side, `STIntegrate::contourdelta` now names the reason
+  (resolution off, over the probe cap, an undeclared producer, a moving
+  real part, an undecidable numeric probe, several real assignments, or
+  a value that does not depend on the prescription at all).
+
+- **`STIntegrate::nonunimod` informational message** ([#50]).  Fired by
+  the tropical subtraction whenever a divergent ray pairs
+  non-unimodularly with its integer W-vector (`W.rho = -m` with
+  `m >= 2`, i.e. a divergent cone of lattice index `>= 2`).  These
+  geometries are now handled exactly (see Fixed below); the message
+  announces the mechanism and, being integrand-side, is independent of
+  the requested expansion order.  Note it surfaces only on direct
+  `STSubtractionFormula`/`STExpandIntegral` calls: the full
+  `STIntegrate` pipeline expands on quieted parallel subkernels, so
+  there the diagnostic ledger (below) rather than the printed message
+  is the observable; post-fix correctness does not depend on either.  The encountered pairings are also
+  recorded in the kernel-local diagnostic list
+  `SubTropica`Private`$STNonUnimodularFindings` (never gates; populated
+  in whichever kernel runs the subtraction, so full pipeline runs write
+  it on their parallel subkernels while direct
+  `STSubtractionFormula`/`STExpandIntegral` calls write it in the
+  calling kernel).
 
 ### Changed
 
 ### Fixed
+
+- **Wrong `eps` expansions on non-unimodular divergent cones: tropical
+  subtraction now uses the exact `trop/m` normalization** ([#50]).
+  `STSubtractionFormula` keeps its W-vectors integer (algebraic-letter
+  hygiene), so on a divergent cone of lattice index `m >= 2` a W-vector
+  pairs with its own ray as `W.rho = -m`.  The counterterm damping
+  `(1-u)^(1-trop)` then integrates along the ray to
+  `Gamma(1-trop/2)^2/Gamma(1-trop) x^((trop/2)W)/(-trop)` while the
+  telescoping face term carries the full twist `x^(trop W)`: an
+  eps-exact normalization defect that shifted finite orders (zeta(2)-
+  and squared-log-level errors) with no marker, made results
+  Cheng-Wu-gauge-dependent, and also silently corrupted absolutely
+  convergent integrals of the same cone geometry.  The reported
+  integrand returned `eps^-1 = 16.2930921781` instead of the true
+  `20.5725087` (pySecDec/FIESTA/HyperInt).  The subtraction now uses
+  the damping exponent `(1-u)^(1-trop/m)` and monomial twist
+  `(trop/m).W` with `m = -W.rho` per divergent ray, which makes the
+  telescope exact for every `m` (face integrands become genuinely
+  scale-invariant along their rays); volumes, u-variables, letters, and
+  all unimodular (`m = 1`) geometries are bit-identical to before.
+  Verified: the reported integrand now gives `eps^-1 = 20.57250870`
+  in both completing gauges (gauge invariance restored); the minimal
+  reproducer family lands on its independently computed sector-wise
+  truths to the pySecDec error level at all tested vertex coefficients;
+  and a previously *silently* wrong absolutely convergent member is now
+  exact to 17 digits at `eps^-1` including its finite order.
+
+- **Deep orders blocked by `{+-a}` boundary periods: derived
+  evaluation** ([#50]).  On the non-unimodular geometries above, the
+  deeper expansion orders contain `(0, inf)` boundary periods
+  `ZeroInfPeriod[word]` with equal-magnitude opposite-sign letters
+  (`{+-9/7}` at `eps^0` for the reported integrand), which have a
+  spurious pole on the integration path.  The six word shapes
+  `{a,-a}`, `{-a,a}`, `{a,0,-a}`, `{-a,0,a}`, `{0,a,-a}`, `{0,-a,a}`
+  (`a > 0` exact-numeric) now evaluate in closed form, as a
+  principal-value real part plus the `I Pi` bookkeeping carried by the
+  package's own contour symbol `delta[a] = sign(Im(a + i0)) = +-1` (the
+  convention `FindRoots` branch choices already use), e.g.
+  `Z{a,-a} = 3 zeta(2)/2 + log(a)^2/2 + delta[a] I Pi log 2`, so both
+  admissible prescriptions live in one expression and
+  `delta[a] -> -1` is the standard `a - i0` reading.  Derivation, two
+  independent verifications, machinery anchoring, per-face quadrature
+  gate, and the acceptance battery:
+  `notes/issue50/derivation/eps0/eps0_derivation.md`.  At assembly the
+  `delta` factors normally cancel, which certifies that the expansion
+  does not depend on the prescription; when one survives, the default
+  `"ContourDeltaResolution" -> Automatic` fixes it by reality (above).
+  The reported integrand therefore runs OUT OF THE BOX: the default
+  call returns the full series through `eps^0`, real-valued, with
+  `eps^-1 = 20.57250870` and `eps^0 = -262.11319669` (pySecDec
+  `-262.1131967 +- 3.6e-8`), gauge-invariant at both orders.
+  Dictionary-evaluated words are recorded in the informational list
+  `HyperIntica`$ZeroInfDeformedEvaluations`.
+
+- **Loud failure on unevaluable boundary periods (guard retained)**
+  ([#50]).  Boundary periods outside the derived dictionary --
+  `{+-a}` words of higher depth or letter multiplicity (e.g.
+  `{a,-a,a}`, `{a,0,0,-a}`), symbolic letters, or any other refusal
+  (`ZeroInfPeriodAsMpl::singularity`) -- still mean the containing
+  orders are incomplete.  `STIntegrate` detects every refused period
+  in the assembled results (including at orders above the requested
+  truncation) and fails loudly with `STIntegrate::singcontour`,
+  returning `$Failed` instead of an incomplete expansion; the
+  symbolic result remains retrievable under
+  `"AllowSingularContinuation" -> True`.  The refused-word set is
+  otherwise kept at the established `ZeroInfPeriodAsMpl` branch
+  refusals: broader positive-letter refusals regressed the
+  verified-correct issue-49 control, whose evaluation silently and
+  consistently converts such words (recorded in the diagnostic list
+  `HyperIntica`$ZeroInfSilentPositiveConversions`, no behavior
+  change).  Numerical backends (`STVerify`, pySecDec, FIESTA) remain
+  reliable for any still-guarded integrand.
+
+[#50]: https://github.com/SubTropica/SubTropica/issues/50
 
 
 ## [1.2.9] - 2026-07-13

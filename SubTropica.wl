@@ -2036,7 +2036,7 @@ Options[ConfigureSubTropica] = {
 With[{$SubTropicaDir = DirectoryName[$InputFileName]},
 
 $SubTropicaInstallDir = $SubTropicaDir;
-$SubTropicaVersion = "1.2.9";
+$SubTropicaVersion = "1.2.10";
 
 (* Init-order fix: line 109 set $STHyperFlintDataPath before
    $SubTropicaInstallDir was bound, so the install-dir-derived data
@@ -10437,6 +10437,342 @@ If[KeyExistsQ[$STTropicalDataCache, cacheKey],
 CleanZeroInf[expr_] := expr /. zeroInfRules /. (ZeroInfPeriod[A_] /; ContainsOnly[A, {0, -1}] :> 0) /. zeroInfRulesHALF /.  zeroInfRulesTWO;
 
 
+(* ============================================================ *)
+(*  Issue #50: singular-continuation guard                       *)
+(* ============================================================ *)
+(*  A boundary period ZeroInfPeriod[word] left unevaluated in the
+    results means the expansion is incomplete.  The producer-side
+    refusal class is currently the equal-magnitude opposite-sign {+-a}
+    letter family, which cannot be evaluated on the [0,inf) path
+    without a contour deformation (ZeroInfPeriodAsMpl::singularity);
+    the scan below is deliberately BROADER and fails closed on ANY
+    surviving period whose letters are not in the benign convertible
+    set, whatever produced it.  The guard therefore fails the WHOLE
+    run, loudly, whenever any such object was produced.
+
+    Detection is purely data-borne: every refusal branch returns a
+    marker object (the unevaluated ZeroInfPeriod, or Hlog[Infinity, w])
+    into the result expression, and those objects travel from parallel
+    subkernels through the face result.m files, so scanning the
+    assembled results is complete for every computed slot.  The
+    pre-truncation scan stage catches markers at orders that Series-1
+    would slice off; the final check catches everything that survives
+    to the output.  HyperIntica`$ZeroInfSingularRefusals is kept as a
+    diagnostic record only and deliberately does NOT gate the guard:
+    during a gauge scan the scoring phase integrates faces of LOSING
+    gauges too, and a refusal there must not fail a clean winner.
+    Benign boundary periods with letters in {0, -1, -1/2, -2} are
+    convertible by the zeroInfRules tables and are NOT flagged.
+
+    History (GitHub issue #50): the geometry that produces these
+    markers -- a non-unimodular divergent cone, integer W-vector
+    pairing W.rho = -m with m >= 2 -- ALSO suffered an eps-exact
+    telescope normalization defect (wrong values from some order upward
+    with no marker at those orders, and gauge-dependent).  That defect
+    is fixed at the source: STSubtractionFormula uses the exact
+    (1-u)^(1-trop/m) damping with (trop/m).W twist and announces the
+    geometry with the informational STIntegrate::nonunimod (cause-based
+    detection, fires regardless of the requested order).  With the
+    telescope exact, every fully evaluated order is correct.  The
+    +-a-letter periods that these geometries produce at the deeper
+    orders (eps^0 for the issue-50 integrand) are, for the six DERIVED
+    shapes {a,-a}, {-a,a}, {a,0,-a}, {-a,0,a}, {0,a,-a}, {0,-a,a} with
+    a > 0 exact-numeric, evaluated in closed form by the down-
+    deformation dictionary in ZeroInfPeriodAsMpl (issue #50 Fix 3;
+    derivation and gates: notes/issue50/derivation/eps0/), recorded in
+    HyperIntica`$ZeroInfDeformedEvaluations.  What this guard still
+    catches is everything OUTSIDE that dictionary -- higher depth or
+    multiplicity {+-a} words, symbolic letters, and any other pathology
+    that leaves a refused period in the results (fail closed).  *)
+
+stSingularPeriodCases[expr_] := Union @ Join[
+    Cases[expr,
+        ZeroInfPeriod[w_List] /; !ContainsOnly[Union[w], {0, -1, -1/2, -2}],
+        {0, Infinity}],
+    Cases[expr, (Hlog | HyperIntica`Hlog)[Infinity | DirectedInfinity[1], ___],
+        {0, Infinity}]];
+
+STIntegrate::singcontour = "The result contains (0,inf) boundary periods with a letter on the integration path, outside the derived {+-a} evaluation dictionary (GitHub issue #50): `1`.  The eps-expansion is incomplete wherever such periods appear, so the run is failed loudly.  Returning $Failed.  Numerical backends (STVerify / pySecDec / FIESTA) remain reliable for this integral; set \"AllowSingularContinuation\" -> True to retrieve the symbolic result, with the unevaluated periods left in place, for inspection.";
+
+(* ============================================================ *)
+(*  Contour prescription (delta) at assembly: report or resolve  *)
+(* ============================================================ *)
+(*  On-path singularities of the boundary periods are evaluated with
+    HyperIntica's contour symbol delta[a] = sign(Im(a + i0)) = +-1
+    (issue #50 Fix 3; same convention the FindRoots branch choices use),
+    so an assembled coefficient reads  PV-part + delta[a] I Pi (residue).
+    Three outcomes at assembly:
+
+      - the delta-coefficients CANCEL: the expansion is manifestly
+        independent of the prescription, which is the expected and
+        verified behavior whenever the on-path poles are artifacts of
+        partial-fractioning a Euclidean-positive integrand.  Nothing is
+        reported; the cancellation itself is the certificate.  This
+        outcome, and the ordinary one where no delta was ever produced,
+        cost exactly one Cases scan of the final series and nothing
+        else: no numeric probe is run unless a symbol survives.
+
+      - a delta SURVIVES and REALITY FIXES IT.  Within the regime where
+        the tag multiplies I Pi times a real quantity -- which the
+        dictionary derivation establishes and a Euclidean-region
+        evaluation preserves -- the two prescriptions are complex
+        conjugates, so flipping the sign moves only Im(result).  A
+        Euclidean-region integral is real, so reality is a genuine
+        constraint on the assignment: with a single symbol at most one
+        side can give a real series, and with several the constraint may
+        or may not single one out (I Pi (delta[a] + delta[b]) vanishes
+        for two of the four).  The stage therefore REQUIRES exactly one
+        real assignment, and when it gets it, that assignment IS the
+        side the continuation took.  Nothing is fixed by convention: the
+        answer's own reality reads the prescription off.  The regime is not assumed, it is CHECKED on the same probe
+        values (Re must agree across all assignments, and every symbol
+        must come from the derived dictionary), so the applied
+        resolution provably leaves the real part of the answer
+        untouched.  It is announced through
+        STIntegrate::contourdeltaresolved, never silent.  This is what
+        "ContourDeltaResolution" -> Automatic | "Reality" does.
+
+      - a delta SURVIVES and reality does NOT fix it: the symbol is left
+        in the result and STIntegrate::contourdelta reports it TOGETHER
+        WITH THE REASON, to be fixed exactly like a FindRoots delta --
+        STVerify's delta[_] resolver scores both signs against a
+        numerical backend, or the user substitutes delta[a] -> -1 for
+        the standard a - i0 reading.  "ContourDeltaResolution" -> None
+        always takes this route.  The reasons are worth distinguishing:
+        several real assignments or a prescription-independent value
+        mean there was no real ambiguity; an undecidable probe means the
+        numerics, not the physics, fell short; a moving real part or an
+        undeclared producer means the regime above does not hold here;
+        and NO real assignment, at Euclidean kinematics, is not an
+        ambiguity at all but a sign that the expansion is incomplete,
+        which is the issue-50 disease itself.
+
+    Never gates: a surviving delta is a well-posed answer with a stated
+    ambiguity, not a failure, and a failed numeric probe only demotes
+    the run to the symbolic report.  *)
+
+STIntegrate::contourdelta = "The expansion depends on the contour prescription for singularity/singularities on the integration path: the sign symbol(s) `1` did not cancel in the assembled result, and were left in place because `2`.  Here delta[a] = sign(Im(a + i0)) = +-1 selects the side from which the pole at a is approached (delta[a] -> -1 is the standard a - i0 reading).  STVerify resolves such symbols against a numerical backend, exactly as it does for FindRoots branch choices.";
+
+STIntegrate::contourdeltaresolved = "Contour prescription resolved by reality: `1`.  A singularity on the integration path made the expansion depend on the contour symbol delta[a] = sign(Im(a + i0)) = +-1.  The sign was verified to move only the imaginary part of every eps-coefficient, so it cannot affect the real answer, and exactly one assignment makes the whole series real (tolerance `2` relative to the series scale), which is what a Euclidean-region integral must be.  That assignment was applied.  Because the real part is provably untouched, the only thing this can cost is an imaginary part: if these kinematics are NOT in a Euclidean region, so that a nonzero Im is physical, set \"ContourDeltaResolution\" -> None and resolve the symbol yourself (STVerify's delta[_] resolver scores both signs against a numerical backend).";
+
+STIntegrate::badcontourdeltares = "Unknown \"ContourDeltaResolution\" value `1`; expected Automatic, \"Reality\", or None.  Proceeding with Automatic.";
+
+(* Numeric probe of one assembled eps-coefficient.  Returns a machine
+   number, or $Failed when the coefficient cannot be decided (unbound
+   symbols, ginsh failure, non-numeric leftovers, or the time cap).
+   $Failed means UNDECIDED, never "real": a coefficient that refuses to
+   evaluate must not be allowed to certify a prescription.
+
+   The verdict is read off the VALUE (NumericQ plus a FreeQ for infinite
+   or indeterminate content), not off which messages happened to fire, so
+   it cannot drift with General::stop once a message has been seen three
+   times in a session.  Abort handling lives one level up, around the
+   whole sweep, so that a single interrupt leaves the stage at once
+   instead of being absorbed probe by probe.  The one thing the cap
+   cannot shorten is a blocked external ginsh call, which TimeConstrained
+   can only interrupt once control returns to the kernel; that exposure is
+   the same one STVerify has carried all along. *)
+$stContourDeltaProbeTime = 300;
+
+stContourDeltaNumeric[c_] := Module[{v},
+    v = TimeConstrained[Quiet @ stVerifyEvalSymbolicGeneric[c, {}, False],
+            $stContourDeltaProbeTime, $Failed];
+    (* The value is returned at whatever precision the backend produced;
+       the reality test is relative at 1e-8, eight orders above machine
+       epsilon, so nothing is degraded on the way in. *)
+    If[NumericQ[v] && FreeQ[v, DirectedInfinity | Indeterminate],
+        v, $Failed]];
+
+(* Only the derived on-path period dictionary (issue #50 Fix 3,
+   HyperIntica`zeroInfPMDictValue) is known to emit delta[a] with a
+   POSITIVE NUMERIC letter a and a purely imaginary multiplying
+   coefficient.  HyperIntica's other producer, the Reglim / ReglimWord
+   contour bookkeeping, emits delta[var] on an integration VARIABLE, and
+   it does so precisely in the branches where it could not determine the
+   sign of the imaginary part -- so such a symbol means "undetermined",
+   not "two admissible sides", and its true value need not even be one
+   constant over the remaining integrations.  Reality must not be allowed
+   to speak for it: resolution requires every surviving symbol to be of
+   the derived kind. *)
+stContourDeltaDerivedQ[HyperIntica`delta[a_]] :=
+    NumericQ[a] && TrueQ[Positive[a]];
+stContourDeltaDerivedQ[_] := False;
+
+(* Reality tolerance, relative to the magnitude SCALE of the series
+   itself rather than to an absolute floor: a run normalized to 10^-12
+   would otherwise call every coefficient real, and one normalized to
+   10^12 would accept an imaginary part of 10^4.  The scale is the
+   largest |value| the probe saw, so an exactly zero coefficient passes
+   trivially and a single tiny coefficient cannot tighten the test for
+   the rest. *)
+$stContourDeltaRealTol = 10.^-8;
+
+(* stContourDeltaResolveByReality[res, ds]: the sign assignment for the
+   surviving symbols ds that makes the whole series real, as a list of
+   rules, or a string naming why reality could not read one off.
+
+   Two preconditions are CHECKED, not assumed.
+
+   (i) Flipping a sign may move only the IMAGINARY part.  That is the
+       sentence the whole design rests on, and it holds exactly when the
+       coefficient multiplying the tag is purely imaginary (I Pi times a
+       real residue), which is what the dictionary derivation
+       establishes and what a Euclidean-region evaluation preserves.  It
+       is verified here on the probe values already in hand: Re of every
+       coefficient must agree across all assignments.  When it fails --
+       a complex multiplying coefficient, a non-Euclidean point, an
+       undeclared producer -- the substitution would change the physical
+       part of the answer, and the stage refuses.  When it holds, the
+       resolution provably cannot alter the real part at all.
+
+   (ii) The delta-free coefficients must themselves be real.  They are
+        identical under every assignment, so they cannot discriminate
+        between the sides, but a complex one is a genuinely complex
+        answer and vetoes all of them, which is the Minkowski case that
+        must stay symbolic. *)
+stContourDeltaResolveByReality[res_, ds_List] := Module[
+    {coeffs, deltaFree, deltaTagged, assignments, freeVals, tagVals,
+     scale, tol, realQ, reals, spread},
+
+    coeffs = If[Head[res] === SeriesData, DeleteCases[res[[3]], 0], {res}];
+    If[coeffs === {}, Return["Undecided"]];
+
+    deltaFree   = Select[coeffs,  FreeQ[#, HyperIntica`delta[_]] &];
+    deltaTagged = Select[coeffs, !FreeQ[#, HyperIntica`delta[_]] &];
+    If[deltaTagged === {}, Return["Undecided"]];
+
+    freeVals = stContourDeltaNumeric /@ deltaFree;
+    If[MemberQ[freeVals, $Failed], Return["Undecided"]];
+
+    assignments = Tuples[{-1, 1}, Length[ds]];
+    tagVals = Table[
+        stContourDeltaNumeric[# /. Thread[ds -> a]] & /@ deltaTagged,
+        {a, assignments}];
+    If[!FreeQ[tagVals, $Failed], Return["Undecided"]];
+
+    scale = N @ Max[Join[Abs /@ freeVals, Abs /@ Flatten[tagVals]]];
+    If[!(NumericQ[scale] && TrueQ[scale > 0]), scale = 1];
+    tol = $stContourDeltaRealTol * scale;
+
+    (* precondition (i): the real part must not depend on the assignment *)
+    If[AnyTrue[Transpose[tagVals],
+            !TrueQ[N[Max[Re /@ #] - Min[Re /@ #]] <= tol] &],
+        Return["RePartMoves"]];
+
+    (* precondition (ii): a complex delta-free coefficient vetoes every side *)
+    If[!AllTrue[freeVals, TrueQ[N[Abs[Im[#]]] <= tol] &], Return["NoReal"]];
+
+    realQ = Map[AllTrue[#, Function[v, TrueQ[N[Abs[Im[v]]] <= tol]]] &, tagVals];
+    reals = Flatten @ Position[realQ, True];
+
+    If[Length[reals] === 1, Return[Thread[ds -> assignments[[First[reals]]]]]];
+    If[Length[reals] === 0, Return["NoReal"]];
+
+    (* Several real assignments.  Either the value does not depend on the
+       prescription at all (a delta whose coefficient cancels only after
+       simplification, so there was never an ambiguity), or the imaginary
+       part genuinely fails to separate the sides. *)
+    spread = N @ Max[Abs[Flatten[tagVals] - Flatten[ConstantArray[First[tagVals],
+        Length[assignments]]]]];
+    If[TrueQ[spread <= tol], "Independent", "Several"]];
+
+(* Human-readable half of STIntegrate::contourdelta: WHY the symbol was
+   left in place.  A "no assignment is real" outcome is worth saying out
+   loud, because in a Euclidean region it is not an ambiguity at all but
+   a sign that the expansion is incomplete -- the issue-50 disease. *)
+stContourDeltaReasonText["Off"] :=
+    "resolution was disabled by \"ContourDeltaResolution\" -> None";
+stContourDeltaReasonText["OverCap"] :=
+    "more symbols survived than the reality probe sweeps";
+stContourDeltaReasonText["NotDerived"] :=
+    "at least one symbol did not come from the derived on-path period dictionary (its argument is not a positive number), so the imaginary-only structure that reality selection needs is not established for it";
+stContourDeltaReasonText["Undecided"] :=
+    "the numeric probe could not evaluate every eps-coefficient (unbound symbols, a missing or failing ginsh, or the time budget)";
+stContourDeltaReasonText["RePartMoves"] :=
+    "flipping a sign moved the REAL part of a coefficient, so the symbol does not merely select an imaginary phase here and reality cannot read it off";
+stContourDeltaReasonText["NoReal"] :=
+    "no sign assignment makes the series real; if these kinematics are Euclidean that is not an ambiguity but an incomplete expansion, so check the region and any singular-continuation report";
+stContourDeltaReasonText["Several"] :=
+    "more than one sign assignment makes the series real";
+stContourDeltaReasonText["Independent"] :=
+    "the value does not depend on the assignment; substitute either sign";
+stContourDeltaReasonText[r_] := ToString[r];
+
+(* Assembly stage.  mode is the "ContourDeltaResolution" option value:
+   Automatic | "Reality" resolve by reality when they can, None never
+   does.  The 2^n probe is capped at n = 3 surviving symbols; beyond
+   that the sweep is not worth its ginsh calls and the symbolic report
+   is the honest answer.
+
+   The whole sweep sits inside ONE CheckAbort and ONE overall
+   TimeConstrained budget: a single interrupt, or an exhausted budget,
+   leaves the stage immediately with the symbolic report rather than
+   costing the user a run that has already finished. *)
+$stContourDeltaMaxSymbols = 3;
+$stContourDeltaBudget = 900;
+
+stContourDeltaCheck[res_] := stContourDeltaCheck[res, Automatic];
+
+stContourDeltaCheck[res_, mode_] := Module[{ds, resolveQ, outcome, out},
+    (* Validate BEFORE the early return, so a typo is caught on an
+       ordinary run too; this costs one MatchQ. *)
+    resolveQ = Which[
+        MatchQ[mode, Automatic | "Reality"], True,
+        mode === None,                       False,
+        True, Message[STIntegrate::badcontourdeltares, mode]; True];
+
+    ds = Union@Cases[res, HyperIntica`delta[_], {0, Infinity}];
+    If[ds === {}, Return[res]];
+
+    outcome = Which[
+        !resolveQ,                                       "Off",
+        Length[ds] > $stContourDeltaMaxSymbols,          "OverCap",
+        !AllTrue[ds, stContourDeltaDerivedQ],            "NotDerived",
+        True, CheckAbort[
+                  TimeConstrained[
+                      stContourDeltaResolveByReality[res, ds],
+                      $stContourDeltaBudget, "Undecided"],
+                  "Undecided"]];
+
+    If[MatchQ[outcome, {__Rule}],
+        out = res /. outcome;
+        (* v1.0.443 truncation policy again: if the substitution cancelled
+           the leading coefficient the series can now start above the
+           requested order, and reporting that coefficient would be the
+           same accuracy lie the TruncateOutput stage refuses. *)
+        If[Head[res] === SeriesData && Head[out] === SeriesData &&
+           out[[3]] =!= {} && out[[4]] > res[[5]] - 1,
+            out = SeriesData[eps, 0, {}, res[[5]], res[[5]], 1]];
+        Message[STIntegrate::contourdeltaresolved, outcome,
+            $stContourDeltaRealTol];
+        Return[out]];
+
+    Message[STIntegrate::contourdelta, ds,
+        stContourDeltaReasonText[outcome]];
+    res];
+
+stSingularContinuationGuard[res_, allow_] := Module[{offending},
+    offending = Union[stSingularPeriodCases[res], $STSingularPeriodFindings];
+    If[offending === {}, Return[res]];
+    Message[STIntegrate::singcontour, Short[offending, 3]];
+    If[TrueQ[allow], res, $Failed]];
+
+(* Findings recorded by the pre-truncation scan stage in the packaging
+   chains.  ASSIGNED (not appended) there, so each run overwrites the
+   previous one and no cross-run reset is needed. *)
+$STSingularPeriodFindings = {};
+
+(* Diagnostic ledger of non-unimodular ray pairings (rayIndex -> m with
+   m >= 2) encountered by STSubtractionFormula in this kernel.  Union-
+   appended alongside the informational STIntegrate::nonunimod message and
+   never used for gating.  KERNEL-LOCAL: the pipeline's expansion stage
+   runs on quieted parallel subkernels, so their firings do not reach this
+   kernel's ledger, handlers, or streams (only a forwarded General::stop
+   notice may appear); observe it via direct main-kernel calls (issue #50
+   test hook, see notes/issue50/test_guard1_fires.wl). *)
+$STNonUnimodularFindings = {};
+
+
 (* Compute divergent rays *)
 STTropicalAnalysis[integrand_,vars_,coeffs_:{},refineQ_:False]:=Module[{trData,trop,newInt,mons,pols},
 newInt=integrand;
@@ -10735,12 +11071,20 @@ STPreAnalysis[integrand_,vars_,coeffs_,facesQ_:True,regulators_:{eps}]:=Module[
 
 (* Compute subtraction formula *)
 (* It is possible to pass tropical data and u-variables if these have already been found *)
+STSubtractionFormula::badmmult = "Non-positive lattice multiplier(s) `1` (m_j = -W_j.rho_j must be a positive integer).  This can only arise from a forceUs u-vector whose W pairs non-negatively with its ray; the subtraction formula cannot be built with it.  Returning $Failed.";
 STSubtractionFormula::geomfail = "The geometric property is not satisfied on ray(s) `1`: no u-variable exists there, so the subtraction formula cannot be built.  Returning $Failed.  (The eps-aware pipeline avoids this via the Nilsson-Passare continuation in STExpandIntegral; seeing this message from inside that pipeline means the continuation guarantee was violated.)";
+(* Issue #50, cause-based companion of the singular-continuation guard:
+   informational only, never gates.  Fired by STSubtractionFormula whenever
+   some divergent ray pairs non-unimodularly with its integer W-vector
+   (m_j = -W_j.rho_j >= 2, i.e. a divergent cone of lattice index >= 2).
+   These geometries are handled exactly by the trop/m normalization below,
+   so the message announces the mechanism rather than a problem. *)
+STIntegrate::nonunimod = "Non-unimodular divergent cone detected: ray(s) `1` pair with their integer W-vector(s) as W.rho = -m, m = `2`.  The tropical subtraction uses the exact normalization (1-u)^(1-trop/m) with monomial twist (trop/m).W on these rays (GitHub issue #50 fix), so this geometry is handled correctly; the message is informational.";
 Clear[STSubtractionFormula];
 STSubtractionFormula[integrand_,vars_,coeffs_,divUs_:{},regulators_:{eps},trDataGiven_:{}]:=Module[
 {trData,regularizeFace,monspols,polsInt,divFacets,faces,divFaces,
 us,omus,vvWvects,Js,extraMons,jacFace,volume,compFaces,
-newIntegrand,result,A,B,trint,trValues,Wvects},
+newIntegrand,result,A,B,trint,trValues,Wvects,mMults},
 
 Print["Computing tropical data"];
 trData=If[trDataGiven==={},integrand//STIntegrandTropicalData[#,vars,coeffs]&,trDataGiven];
@@ -10797,6 +11141,55 @@ B =( (1-us[[dF]])//Factor//Denominator)-(A//Factor)//Factor;
 dF-> CoefficientRules[B,vars][[1,1]]-CoefficientRules[A,vars][[1,1]]
 ,{dF,divFacets}];
 Wvects=Association@@Wvects;
+(* Issue #50: lattice multiplicities m_j := -W_j.rho_j (positive integers).
+   STProduceUs above runs with normalizeQ = False, so the W-vectors are kept
+   INTEGER (algebraic-letter hygiene); on a non-unimodular divergent cone
+   (lattice index >= 2) an integer W then pairs with its own ray as
+   W.rho = -m with m >= 2 instead of -1.  The counterterm damping and the
+   extraMon twist below must carry trop/m_j: the radial integral of
+   (1-u_j)^(1-T_j/m_j) along ray j is exactly x^((T_j/m_j) W_j)/(-T_j),
+   matching the unchanged 1/(-T_j) volume factor, so the telescope is exact
+   for every m_j.  Without the /m_j, each m_j >= 2 counterterm integrates to
+   phi_m(T)/(-T) x^((T/m)W) with phi_m(T) =
+   Gamma(1-T/m) Gamma(1-T+T/m)/Gamma(1-T) (the issue-50 cone has m = 2,
+   phi_2(T) = Gamma(1-T/2)^2/Gamma(1-T)) against a full-twist x^(T W) face
+   term: an eps-exact normalization defect producing zeta2-level finite
+   errors from some order upward with no marker (GitHub issue #50; derivation
+   in notes/issue50/derivation/derivation.md).  For m_j = 1 the exponents
+   T_j/1 = T_j are literally unchanged, so unimodular geometries are
+   bit-identical to the historical behavior.
+   Contract for externally supplied divUs (STExpandIntegral's forceUs): the
+   W-recovery above reads off the u-variables actually supplied, so
+   m_j = -W_j.rho_j is the correct normalization FOR THOSE u's (the radial
+   lemma holds per supplied W, whatever its pairing); u's whose 1-u is not a
+   rational function with integer exponents (e.g. STProduceUs
+   normalizeQ = True output on a non-unimodular cone) break the
+   CoefficientRules recovery loudly, exactly as before this fix. *)
+mMults=Association@@Table[dF->-(Wvects[dF] . trData["rays"][[dF]]),{dF,divFacets}];
+(* Adversarial re-review of fc9bcac6c: an integer forceUs u-vector with
+   W.rho = 0 (or > 0) would pass the CoefficientRules recovery and reach
+   here as m <= 0, turning the damping exponent into 1 - T/0 =
+   ComplexInfinity (silently) or flipping the twist sign.  Unreachable from
+   STProduceUs (zero/positive pairings are filtered upstream), so this is a
+   pure fail-loud belt for the forceUs path. *)
+If[Min[Values[mMults]] <= 0,
+	Message[STSubtractionFormula::badmmult,
+		Normal[Select[mMults, # <= 0 &]]];
+	Return[$Failed];
+];
+If[Max[Values[mMults]]>=2,
+	Message[STIntegrate::nonunimod,
+		Keys[Select[mMults,#>=2&]],Values[Select[mMults,#>=2&]]];
+	(* Diagnostic ledger: every non-unimodular pairing THIS KERNEL has built
+	   a subtraction for, as rayIndex -> m entries.  Union-appended, never
+	   gates.  KERNEL-LOCAL: the pipeline expands via
+	   runQuiet[Quiet[ParallelTable[STExpandIntegral...]]], so pipeline
+	   firings land in subkernel ledgers (and their Message output is
+	   quieted); to observe the ledger, call STSubtractionFormula /
+	   STExpandIntegral directly in the main kernel. *)
+	$STNonUnimodularFindings=Union[$STNonUnimodularFindings,
+		Normal[Select[mMults,#>=2&]]];
+];
 (*J space*)
 Js=Table[
 fc-> FirstCase[Subsets[vars//Length//Range,{fc//Length}],I_/;Not[Det[trData["rays"][[fc,I]]]===0]:> Complement[Range[vars//Length],I]]
@@ -10806,8 +11199,10 @@ Js=Join[{divFaces[[1]]-> Range[vars//Length]},Js];
 Js=Association@@Js;
 
 (*Monomial*)
+(* Issue #50: twist exponent (T_j/m_j) W_j, not T_j W_j -- see mMults above.
+   (For the empty face both the old and the new dot products are {}.{} = 0.) *)
 extraMons=Association@@Table[
-fc->(1/(Times@@(vars^(-trValues[[fc]] . ( Wvects/@fc))))/.Alternatives@@vars[[Complement[Range[vars//Length],Js[fc]]]]->1)
+fc->(1/(Times@@(vars^(-(trValues[[fc]]/(mMults/@fc)) . ( Wvects/@fc))))/.Alternatives@@vars[[Complement[Range[vars//Length],Js[fc]]]]->1)
 ,{fc,divFaces}
 ];
 
@@ -10845,7 +11240,7 @@ result=volume[face] Table[
 If[subface==={},
 newIntegrand,
 Times[-a[subface],
-Times@@((jacFace[subface])^(1-trValues[[subface]]))(*why only 1+Trop, rather than n + Trop. Why set x[face]=0?*),
+Times@@((jacFace[subface])^(1-trValues[[subface]]/(mMults/@subface)))(* Issue #50: damping exponent 1 - T_j/m_j, see mMults above.  Historical question kept: why only 1+Trop, rather than n + Trop. Why set x[face]=0? *),
 STrestrictIntegrand[newIntegrand,vars,trData["rays"][[subface]]]
 ]
 ]
@@ -20308,7 +20703,15 @@ result},
         result = integrands;
         currentOrder = vars;
         Put[currentOrder, faceDirectory <> "/successfulOrder.m"];
-        Put[result, faceDirectory <> "/result.m"];
+        (* issue #50 (review finding): this was the one result.m producer that
+           wrote RAW, without the ZeroInfPeriod :> ZeroInfPeriodAsMpl
+           conversion every other producer applies.  The singular-continuation
+           guard's no-false-positive property relies on benign boundary
+           periods never surviving into result.m, so make the invariant local
+           here too (a no-op on period-free 0-dim faces, today's only
+           travelers through this branch). *)
+        Put[result //. ZeroInfPeriod :> ZeroInfPeriodAsMpl //. mzv -> zeta,
+            faceDirectory <> "/result.m"];
         Put[True, faceDirectory <> "/successQ.m"];
         Return[successQ];
     ];
@@ -21844,6 +22247,8 @@ Options[STEvaluateGraph] = Join[
         "ReuseExistingResults"    -> True,   (* Skip faces that already have result.m + successQ.m on disk *)
         "UIComms"                 -> None,   (* Structured progress reporting for SubTropica UI *)
         "ContourHandling"         -> "Abort", (* "Abort" = abort on undetermined contour direction; "Continue" = leave Hlog[Infinity,...] unevaluated *)
+        "AllowSingularContinuation" -> False, (* issue #50: False (default) = return $Failed with STIntegrate::singcontour when the NP continuation crossed a zero locus on the integration path (missing residue => silently incomplete expansion); True = message but return the incomplete result for inspection.  Declared on BOTH STEvaluateGraph and STEvaluateEulerIntegral so FilterRules keeps it on every route (SolverBound lesson). *)
+        "ContourDeltaResolution" -> Automatic, (* issue #50 Fix 4: what to do when the contour symbol delta[a] = sign(Im(a + i0)) = +-1 of an on-path singularity does NOT cancel in the assembled series.  Automatic (default) = "Reality": probe the 2^n sign assignments numerically and apply the one that makes every eps-coefficient real, as a Euclidean-region answer must be, announcing it through STIntegrate::contourdeltaresolved; if none or several are real, or the numerics cannot decide, fall back to the symbolic report.  None = never resolve, always leave delta[a] in the result with STIntegrate::contourdelta (STVerify's delta[_] resolver then scores both signs against a numerical backend, exactly as for FindRoots branch choices).  Beyond the one scan of the final series that looks for the symbol, nothing runs unless a delta actually survives.  Declared on BOTH STEvaluateGraph and STEvaluateEulerIntegral so FilterRules keeps it on every route (SolverBound lesson). *)
         FindRoots                 -> Automatic,   (* B17 (was True since v1.0.398): "Automatic" runs the gauge-scoring phase with FindRoots -> False first; if every gauge returns NOLR, retries with FindRoots -> True (which factors univariate quadratic+ polynomials into linear roots, introducing Wm[i]/Wp[i] algebraic letters via HyperIntica's LinearFactors). The retry handles equal-mass / unequal-mass bubbles, sunrise triangles, and other clustered-mass graphs that False aborts on. Explicit True forces always-FindRoots; explicit False skips entirely. Parallel integration: each subkernel Block-scopes $HyperAlgebraicLetterCounter/Table with JobIndex*$STFindRootsJobStride; the aggregator unions per-subkernel tables. Set $STFindRootsParallelSafe = False to opt out to the legacy serial path. *)
         "AutoRationalize"         -> False,  (* When True, try the M1/M2/M3 rationalization dispatcher (single/double Cheng-Wu, FKV, Kallen, BoxFKV) before falling through to the normal pipeline.  Off by default because the dispatcher may pick a substitution for cases the normal pipeline already handles correctly, producing a DIFFERENTLY-parameterized (FKV-variable) result.  Users who want unlocks should set this True explicitly. *)
         "MethodLR"                -> "Lungo",  (* "Lungo" (default; discriminant/resultant + global dedup) or "Doppio" (Euler-discriminant chi-filtered Lungo-core, genuine order-independent Landau loci; pure Mathematica; needs scripts/doppiofubini/doppio/ in the dev tree -- Task 8 wiring, validated in task8_inkernel_validation.wl).  Any other value aborts via stValidateMethodLR (STIntegrate::badmlr); "AnTropica" was retired 2026-06-09 (see attic/). *)
@@ -23443,6 +23848,12 @@ Module[{
 
         stSetUIStage[uiComms, "CollectingResults", If[isScanPath, 10, 7]];
         stStageTime["STReadResults", pref runQuiet2[STReadResults[problemId], verbose]] //
+            (* issue #50: record singular boundary periods BEFORE Series-1 can
+               truncate away the orders that carry them.  Assignment (not
+               AppendTo) so each run overwrites the last; value passes through
+               untouched. *)
+            stStageTime["SingularPeriodScan",
+                ($STSingularPeriodFindings = stSingularPeriodCases[#]; #)] & //
             stStageTime["Total", Total[#]] & //
             stStageTime["Series-1", Series[#, {eps, 0, outputOrder}]] & //
             stStageTime["zeta->mzv", # /. zeta -> mzv] & //
@@ -23473,7 +23884,24 @@ Module[{
             stStageTime["TruncateOutput",
                 If[Head[#] === SeriesData && #[[4]] > outputOrder && #[[3]] =!= {},
                     SeriesData[eps, 0, {}, outputOrder + 1, outputOrder + 1, 1],
-                    #]] &
+                    #]] & //
+            (* issue #50: fail loudly when the NP continuation crossed a zero
+               locus on the integration path (missing residue).  Must be the
+               LAST stage: consults the pre-truncation scan findings plus the
+               final value, and returns $Failed unless
+               "AllowSingularContinuation" -> True. *)
+            stStageTime["SingularContinuationGuard",
+                stSingularContinuationGuard[#,
+                    OptionValue["AllowSingularContinuation"]]] & //
+            (* issue #50: settle a contour prescription (delta) that did not
+               cancel -- resolved by reality of the series under
+               "ContourDeltaResolution" -> Automatic | "Reality", left
+               symbolic and reported under None.  Never gates.  After the
+               guard so a $Failed passes through untouched, and free of
+               cost unless a delta actually survived. *)
+            stStageTime["ContourDeltaCheck",
+                stContourDeltaCheck[#,
+                    OptionValue["ContourDeltaResolution"]]] &
 
     , showTimings, "Overall timing:"]];
 
@@ -23493,7 +23921,7 @@ Module[{
     stSetUIStage[uiComms, "Done", If[isScanPath, 10, 7]];
     (* Guarantee SeriesData output: if the assembly pipeline did not produce
        a SeriesData (e.g. eps-free result), wrap it now. *)
-    result = If[Head[result] =!= SeriesData && Head[result] =!= Hold && !AssociationQ[result] && IntegerQ[outputOrder] && FreeQ[result, eps],
+    result = If[Head[result] =!= SeriesData && Head[result] =!= Hold && !AssociationQ[result] && result =!= $Failed && result =!= $Aborted && IntegerQ[outputOrder] && FreeQ[result, eps],
         SeriesData[eps, 0, {result}, 0, outputOrder + 1, 1],
         result
     ];
@@ -23640,6 +24068,8 @@ Options[STEvaluateEulerIntegral] = Join[
         "ReuseExistingResults"   -> True,
         "UIComms"                -> None,  (* Structured progress reporting for SubTropica UI; pass <|"IPCDir"->...|> to enable *)
         "ContourHandling"        -> "Abort", (* "Abort" = abort on undetermined contour direction; "Continue" = leave Hlog[Infinity,...] unevaluated *)
+        "AllowSingularContinuation" -> False, (* issue #50: False (default) = return $Failed with STIntegrate::singcontour when the NP continuation crossed a zero locus on the integration path (missing residue => silently incomplete expansion); True = message but return the incomplete result for inspection.  Mirrored on STEvaluateGraph. *)
+        "ContourDeltaResolution" -> Automatic, (* issue #50 Fix 4: Automatic ("Reality") resolves a surviving contour symbol delta[a] by making the series real (Euclidean region), announced via STIntegrate::contourdeltaresolved; None leaves it symbolic with STIntegrate::contourdelta for STVerify's delta[_] resolver.  Mirrored on STEvaluateGraph. *)
         FindRoots                -> True,   (* Default True as of v1.0.398; see Options[STEvaluateGraph] for rationale. *)
         "MethodLR"               -> "Lungo",  (* "Lungo" (default) or "Doppio"; "Espresso" retired 2026-06-12 (attic/) *)
         "MethodPolysAndPairs"    -> "Fast",  (* "Fast" (default) = extract polys directly from STtoCoeffMonPols; "Standard" = sum renormalized integrands per eps-order and call STpreparePolysAndPairs *)
@@ -24965,6 +25395,12 @@ Module[{
         (* Construct answer \[LongDash] each step wrapped so we can tell which one
            stalls on pathological inputs. *)
         stStageTime["STReadResults", pref runQuiet2[STReadResults[problemId], verbose]] //
+            (* issue #50: record singular boundary periods BEFORE Series-1 can
+               truncate away the orders that carry them.  Assignment (not
+               AppendTo) so each run overwrites the last; value passes through
+               untouched. *)
+            stStageTime["SingularPeriodScan",
+                ($STSingularPeriodFindings = stSingularPeriodCases[#]; #)] & //
             stStageTime["Total", Total[#]] & //
             stStageTime["Series-1", Series[#, {eps, 0, outputOrder}]] & //
             stStageTime["zeta->mzv", # /. zeta -> mzv] & //
@@ -24995,7 +25431,24 @@ Module[{
             stStageTime["TruncateOutput",
                 If[Head[#] === SeriesData && #[[4]] > outputOrder && #[[3]] =!= {},
                     SeriesData[eps, 0, {}, outputOrder + 1, outputOrder + 1, 1],
-                    #]] &
+                    #]] & //
+            (* issue #50: fail loudly when the NP continuation crossed a zero
+               locus on the integration path (missing residue).  Must be the
+               LAST stage: consults the pre-truncation scan findings plus the
+               final value, and returns $Failed unless
+               "AllowSingularContinuation" -> True. *)
+            stStageTime["SingularContinuationGuard",
+                stSingularContinuationGuard[#,
+                    OptionValue["AllowSingularContinuation"]]] & //
+            (* issue #50: settle a contour prescription (delta) that did not
+               cancel -- resolved by reality of the series under
+               "ContourDeltaResolution" -> Automatic | "Reality", left
+               symbolic and reported under None.  Never gates.  After the
+               guard so a $Failed passes through untouched, and free of
+               cost unless a delta actually survived. *)
+            stStageTime["ContourDeltaCheck",
+                stContourDeltaCheck[#,
+                    OptionValue["ContourDeltaResolution"]]] &
 
     , showTimings, "Overall timing:"]];
 
@@ -25016,7 +25469,7 @@ Module[{
     stSetUIStage[uiComms, "Done", If[doScan, 10, 7]];
     (* Guarantee SeriesData output: if the assembly pipeline did not produce
        a SeriesData (e.g. eps-free result), wrap it now. *)
-    result = If[Head[result] =!= SeriesData && Head[result] =!= Hold && !AssociationQ[result] && IntegerQ[outputOrder] && FreeQ[result, eps],
+    result = If[Head[result] =!= SeriesData && Head[result] =!= Hold && !AssociationQ[result] && result =!= $Failed && result =!= $Aborted && IntegerQ[outputOrder] && FreeQ[result, eps],
         SeriesData[eps, 0, {result}, 0, outputOrder + 1, 1],
         result
     ];
@@ -25298,6 +25751,8 @@ $STOptionValues = <|
     "SelectFaces"            -> {All, "integer", "{i1, i2, ...}", "epsOrder -> face", "Except[{...}]"},
     "ReuseExistingResults"   -> {True, False},
     "ContourHandling"        -> {"Abort", "Continue"},
+    "AllowSingularContinuation" -> {False, True, "issue #50: False (default) = return $Failed with STIntegrate::singcontour when the Nilsson-Passare continuation crossed a zero locus on the integration path, so the eps-expansion is missing a residue; True = message but return the incomplete result, with the unevaluated boundary periods in place, for inspection."},
+    "ContourDeltaResolution" -> {Automatic, "\"Reality\"", None, "issue #50: what to do when the contour symbol delta[a] = sign(Im(a + i0)) = +-1 of an on-path singularity does not cancel in the assembled series.  Automatic (default) = \"Reality\": apply the sign assignment that makes every eps-coefficient real, as a Euclidean-region answer must be, and announce it (STIntegrate::contourdeltaresolved); if reality does not single one out, fall back to the symbolic report.  None = always leave delta[a] in the result (STIntegrate::contourdelta), for STVerify's delta[_] resolver or a hand substitution."},
     "FindRoots"              -> {Automatic, False, True},
     "CheckDivergences"       -> {Automatic, True, False, "Automatic = off (default since 2026-06-16) on every form, raw-integrand and diagram alike; pass True to arm the scan (record-and-continue: recorded detections are summarized via STIntegrate::divergencesRecorded). Standalone STHyperFlint still arms the scan hard."},
     "MethodLR"               -> {"Lungo"},
@@ -35625,6 +36080,11 @@ With[{stnsLedger = {
   "streamP$", "stream$", "stRename", "stRename$", "stResolveCheckDivergences", "STrestrict", "STrestrictIntegrand",
   "STrestrictPoly", "stResultsSiblingPath", "stride", "stride$", "stringMat", "stringQ", "stringQnts", "stringQnts$", "stringReplacerFunction",
   "stringReplacerFunction$", "string$", "str$", "STScoreWvecs", "stSetUIStage", "STsetupDirectoryExpansionMaple", "STsetupDirectorySubtraction", "STSimplify",
+  (* issue #50 singular-continuation guard (2026-07-21) + contour-delta
+     collection and reality-resolution (2026-07-22) *)
+  "stSingularContinuationGuard", "stSingularPeriodCases",
+  "stContourDeltaCheck", "stContourDeltaNumeric", "stContourDeltaDerivedQ",
+  "stContourDeltaResolveByReality", "stContourDeltaReasonText",
   "stStageTime", "stStampCanonicalName", "stStripDefaultOptions", "stStripMmaContexts", "STSTtoMonomial", "STSTtropicalDataWithRefinement", "stSymbolToTeX", "stTeXBalancedQ", "stTeXCleanup",
   "stTeXH", "stTeXNotationPass", "stTeXOrEmpty", "stTimedHyperFlint", "stTimedHyperForm", "STtoMatGraph", "STtoMonomial", "STtoMonPols", "stTranslateGaugeOpt",
   "STtropicalAnalysisMonsPols", "STtropicalAnalysisMonsPols2", "STTropicalContinuation", "STtropicalData", "STtropicalDataBuildScript", "STtropicalDataFan", "STtropicalDataLegacy", "STtropicalDataOLD",

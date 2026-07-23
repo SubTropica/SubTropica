@@ -17,6 +17,38 @@ BeginPackage["HyperIntica`"]
 
 $STContourHandling = "Abort";
 
+(* Issue #50: run-scoped record of ZeroInfPeriod words that ZeroInfPeriodAsMpl
+   / ZeroInfPeriodRescaleAsMplSafe REFUSED to evaluate (positive letter on the
+   [0,inf) integration path, or undetermined contour direction).  Any entry
+   means the Nilsson-Passare continuation crossed a zero locus of an integrand
+   factor and a contour-deformation residue is missing from the run, so the
+   assembled eps-expansion is incomplete from some finite order upward, not
+   just at the orders where the refused objects are visible.  SubTropica's
+   stSingularContinuationGuard consults this list (belt) in addition to
+   scanning the assembled results for the refused objects themselves
+   (suspenders; parallel-subkernel refusals reach the main kernel only through
+   the data).  Reset by the Euler-core packaging sites before the final
+   integration launch. *)
+$ZeroInfSingularRefusals = {};
+
+(* issue #50 diagnostics (record-only, no behavior change): positive-letter
+   ZeroInfPeriod words that the converter handled through the historical
+   silent path (uniform log branch) rather than refusing.  Lets a session
+   enumerate its exposure to the not-proven-broken singular classes; see
+   the front-door comment in ZeroInfPeriodAsMpl. *)
+$ZeroInfSilentPositiveConversions = {};
+
+(* issue #50 Fix 3 diagnostics (record-only): {+-a}-family words evaluated
+   through the DERIVED down-deformation dictionary in ZeroInfPeriodAsMpl
+   (the six shapes {a,-a}, {-a,a}, {a,0,-a}, {-a,0,a}, {0,a,-a}, {0,-a,a}
+   with a > 0 exact-numeric).  These words were refused through v1.2.9.x
+   (recorded in $ZeroInfSingularRefusals); they now evaluate to exact
+   closed forms (derivation + verification:
+   notes/issue50/derivation/eps0/eps0_derivation.md) and are recorded
+   here instead, so a run's use of the deformed dictionary stays
+   enumerable.  Never gates anything. *)
+$ZeroInfDeformedEvaluations = {};
+
 
 (* ::Section:: *)
 (*Description*)
@@ -3769,6 +3801,84 @@ HlogAsMpl[z_, word_List] := Module[
 
 PositiveRealQ[x_] := TrueQ[Simplify[Im[x] == 0]] && TrueQ[Simplify[Re[x] > 0]]
 
+(* issue #50 Fix 3: derived evaluation of the equal-magnitude opposite-sign
+   {+-a} boundary-period family (the class refused since the v1.2.9 guard).
+
+   zeroInfPMDictWordQ matches EXACTLY the six derived shapes -- one +a,
+   one -a, at most one interior 0, length <= 3 --
+       {a,-a}, {-a,a}, {a,0,-a}, {-a,0,a}, {0,a,-a}, {0,-a,a},
+   with a > 0 an EXACT numeric letter (machine reals and symbols are
+   excluded; symbolic letters keep the ::contour flow).  The match is on
+   letter MULTIPLICITY and position, not the letter set: {a,-a,a},
+   {a,-a,-a}, {a,0,0,-a} and every other {+-a}-lettered word fall through
+   to the historical refusal (fail closed).  Trailing-zero relatives
+   (e.g. {a,-a,0}) are regularized by Reg0 upstream and re-enter here as
+   the covered shapes; that is correct because Reg0 acts at the t -> 0
+   endpoint and commutes with the pole deformation at t = a.
+
+   zeroInfPMDictValue returns the PRESCRIPTION-TAGGED value: the
+   principal-value real part plus the residue bookkeeping carried by
+   this file's own contour symbol delta[a] (see delta::usage), so the
+   two admissible deformations of the on-path pole at t = a are BOTH
+   represented in one expression,
+
+       Z(word) = PV-part + delta[a] * (I Pi) * (residue part),
+       delta[a] = sign(Im(a + i0)) = -1  <->  a -> a - i0  (down),
+                                      +1  <->  a -> a + i0  (up),
+
+   the two being complex conjugates for real letters, so the tagging is
+   exact rather than a choice.  delta[a] = -1 reproduces the down values
+   derived and verified in notes/issue50/derivation/eps0/ (that branch is
+   the one every silent positive-letter conversion in this file already
+   takes, which is why it is the value the machinery must reduce to when
+   the tags are resolved).
+
+   Downstream, the tags either CANCEL identically -- which is what
+   happens whenever the on-path poles are partial-fraction artifacts of
+   a Euclidean-positive integrand, and is the assembled-level proof that
+   the answer is prescription-independent (see
+   SubTropica`Private`stContourDeltaCheck) -- or they SURVIVE, in which
+   case the ambiguity is genuine and is handed to the user in exactly
+   the form the package already uses for FindRoots branch choices:
+   STVerify's delta[_] resolver fixes the sign against a numerical
+   backend.  Derivation, two independent verifications (mpmath 45-digit
+   + symbolic), machinery anchor, and per-face quadrature gate:
+   notes/issue50/derivation/eps0/eps0_derivation.md. *)
+
+zeroInfPMDictWordQ[word_List] := Module[{ls, pos},
+  ls = Complement[Union[word], {0}];
+  If[Length[ls] =!= 2 || !VectorQ[ls, NumericQ] || !FreeQ[ls, _Real],
+    Return[False]];
+  pos = Select[ls, PositiveRealQ];
+  If[Length[pos] =!= 1, Return[False]];
+  With[{a = First[pos]},
+    MatchQ[word,
+      {a, -a} | {-a, a} | {a, 0, -a} | {-a, 0, a} | {0, a, -a} |
+      {0, -a, a}]]]
+
+zeroInfPMDictValue[word_List] := Module[{a, LL, dl},
+  a = First[Select[Complement[Union[word], {0}], PositiveRealQ]];
+  LL = Log[a];
+  (* contour tag: dl = -1 restores the derived/verified down values *)
+  dl = delta[a];
+  Which[
+    word === {a, -a},
+      3 mzv[2]/2 + LL^2/2 + dl I Pi Log[2],
+    word === {-a, a},
+      -3 mzv[2]/2 + LL^2/2 - dl I Pi (Log[2] + LL),
+    word === {-a, 0, a},
+      3 mzv[3]/2 + 2 mzv[2] LL - LL^3/6 - dl I Pi (mzv[2] - LL^2)/2,
+    word === {0, -a, a},
+      -3 mzv[3]/4 + 3 mzv[2] Log[2] + (3/2) mzv[2] LL - LL^3/6 +
+        dl I Pi (mzv[2]/2 + LL Log[2] + LL^2/2),
+    word === {0, a, -a},
+      -3 mzv[3]/4 - 3 mzv[2] Log[2] - (3/2) mzv[2] LL - LL^3/6 -
+        dl I Pi LL Log[2],
+    word === {a, 0, -a},
+      3 mzv[3]/2 - mzv[2] LL - LL^3/6 + dl I Pi mzv[2]/2,
+    True,  (* unreachable under zeroInfPMDictWordQ; fail closed anyway *)
+      ZeroInfPeriod[word]]]
+
 ZeroInfPeriodAsMpl::contour = "Cannot determine contour direction for ZeroInfPeriodAsMpl[`1`]: unable to evaluate Im[`2`]. The result depends on whether `2` approaches the real axis from above or below.";
 
 ZeroInfPeriodAsMpl::singularity = "ZeroInfPeriodAsMpl[`1`]: After rescaling, positive letter(s) `2` lie on the integration path [0,\[Infinity]). This integral requires contour deformation (producing I\[CenterDot]\[Pi] terms). Returning unevaluated.";
@@ -3777,11 +3887,43 @@ ZeroInfPeriodAsMpl[{}] := 1
 
 ZeroInfPeriodAsMpl[word_List] := Module[
   {letters, scale, u, k, result, sorted, ratio, converted,
-   testScale, symbolicVar, imTest, a, innerResult, rescaledWord, 
+   testScale, symbolicVar, imTest, a, innerResult, rescaledWord,
    positiveAfterRescale},
-  
+
   letters = Complement[Union[word], {0}];
-  
+
+  (* issue #50 (review finding, scoped by TWO control regressions): a
+     positive real letter puts a pole on the iterated (0,inf) path, so
+     naively every such word needs an i*eta deformation.  Empirically the
+     machinery converts most of them CONSISTENTLY (one uniform log branch,
+     downstream combinations real and correct): the issue-49 integrand,
+     verified against pySecDec, silently converts {1/15}, {1/15, 5/3} and
+     their 0-interleavings, and both hardening attempts that refused these
+     classes (all positive-letter words; then all multi-letter ones)
+     regressed that control.  The only class PROVEN broken (issue #50) is
+     the equal-magnitude opposite-sign {+-a} family, which the existing
+     branch refusals below already return unevaluated with the marker.
+     So: refusal stays exactly at the v1.2.9 branch set MINUS the six
+     derived {+-a} shapes (issue #50 Fix 3, dictionary below); this front
+     door only RECORDS the silently-converted positive-letter words so a
+     run's exposure to the unproven class is enumerable afterwards
+     (dictionary words are recorded in $ZeroInfDeformedEvaluations at
+     conversion instead: they are derived, not silent). *)
+  If[AnyTrue[letters, PositiveRealQ] && !zeroInfPMDictWordQ[word] &&
+      !MemberQ[$ZeroInfSilentPositiveConversions, word],
+    AppendTo[$ZeroInfSilentPositiveConversions, word]];
+
+  (* issue #50 Fix 3: the derived {+-a}-family dictionary (see the
+     contract comment at zeroInfPMDictWordQ).  Checked before the Which
+     so every route a covered shape could take (ratio === -1 branch, and
+     the roots-of-unity branch when a = 1) resolves to the same derived
+     value; zeroInfPMDictWordQ is False for every other word, so all
+     other flows -- including every refusal -- are untouched. *)
+  If[zeroInfPMDictWordQ[word],
+    If[!MemberQ[$ZeroInfDeformedEvaluations, word],
+      AppendTo[$ZeroInfDeformedEvaluations, word]];
+    Return[zeroInfPMDictValue[word]]];
+
   Which[
     (*All zeros: regularizes to 0*)
     letters === {} && Length[word] > 0,
@@ -3800,8 +3942,10 @@ ZeroInfPeriodAsMpl[word_List] := Module[
     AllTrue[letters, TrueQ[Simplify[Abs[#] == 1]] &],
     (*Check for positive letters using safe comparison*)
     If[AnyTrue[letters, PositiveRealQ],
-      Message[ZeroInfPeriodAsMpl::singularity, word, 
+      Message[ZeroInfPeriodAsMpl::singularity, word,
         Select[letters, PositiveRealQ]];
+      If[!MemberQ[$ZeroInfSingularRefusals, word],
+        AppendTo[$ZeroInfSingularRefusals, word]];
       Return[ZeroInfPeriod[word]]
     ];
     (*Safe to evaluate?*)
@@ -3853,6 +3997,8 @@ ZeroInfPeriodAsMpl[word_List] := Module[
         If[!NumericQ[imTest],
           Message[ZeroInfPeriodAsMpl::contour, word, symbolicVar];
           If[$STContourHandling === "Continue",
+            If[!MemberQ[$ZeroInfSingularRefusals, word],
+              AppendTo[$ZeroInfSingularRefusals, word]];
             Return[Hlog[Infinity, word]],
             Abort[]
           ]
@@ -3863,8 +4009,10 @@ ZeroInfPeriodAsMpl[word_List] := Module[
       rescaledWord = word / testScale;
       positiveAfterRescale = Select[Union[rescaledWord], PositiveRealQ];
       If[Length[positiveAfterRescale] > 0,
-        Message[ZeroInfPeriodAsMpl::singularity, word, 
+        Message[ZeroInfPeriodAsMpl::singularity, word,
           positiveAfterRescale * testScale];
+        If[!MemberQ[$ZeroInfSingularRefusals, word],
+          AppendTo[$ZeroInfSingularRefusals, word]];
         Return[ZeroInfPeriod[word]]
       ];
       (*Check for unit absolute values*)
@@ -3905,8 +4053,10 @@ ZeroInfPeriodRescaleAsMplSafe[word_List, scale_] := Module[
   (*Check if any letters become positive real (on integration path)*)
   positiveAfterRescale = Select[Union[u], PositiveRealQ];
   If[Length[positiveAfterRescale] > 0,
-    Message[ZeroInfPeriodAsMpl::singularity, word, 
+    Message[ZeroInfPeriodAsMpl::singularity, word,
       positiveAfterRescale * scale];
+    If[!MemberQ[$ZeroInfSingularRefusals, word],
+      AppendTo[$ZeroInfSingularRefusals, word]];
     Return[ZeroInfPeriod[word]]
   ];
   
