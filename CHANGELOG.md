@@ -9,6 +9,68 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+## [1.2.11] - 2026-08-07
+
+### Added
+
+- **Six integral families from arXiv:2606.29612** (Chestnov, Crisanti,
+  Giroux) in the bundled library, entered through the paper-intake
+  workflow.  They illustrate the Euler-characteristic counting of that
+  paper, including a four-loop form factor whose naive sector-by-sector
+  sum undercounts the true Euler characteristic.  The library counts in
+  `README.md` regenerate accordingly.
+
+### Changed
+
+- **`SolverBound` is now fail closed: an operand above the bound aborts
+  the linearly-reducible order search instead of being skipped**
+  ([#52]).  `STFubiniLR` forms discriminants and pairwise resultants of
+  the singularity letters, and a finite `SolverBound` used to drop any
+  operand with more terms than the bound.  The letters that operand
+  would have contributed are then missing from the singularity set, the
+  admissibility test `Exponent[letter, pivot] <= 1` passes strictly more
+  often than it should, and the search can certify an order that is
+  **not** linearly reducible.  On a 91-face production sample, 5 of the
+  18 orders certified under `SolverBound -> 10` were not reducible.  A
+  bound trip now raises `STFubiniLR::boundtrip` and abandons the search,
+  so it can no longer be mistaken for a proof that no reducible order
+  exists.  The C++ `find_lr_orders` already made this choice, throwing
+  `LrBudgetExceeded` rather than returning a NOLR verdict.  To bound a
+  runaway search without touching the verdict, use
+  `"ScorePruneFactor" -> N`, which prunes candidate orders rather than
+  singularities, or `"EulerFilter" -> True`, or `HF_LR_TIME_BUDGET_S`.
+  Inert at the default bound `10^9`, where no operand can exceed the
+  bound: verified byte-identical on 91 production faces.
+
+### Fixed
+
+- **`"ScorePruneFactor"` never reached the HyperFLINT order search on
+  the raw-integrand routes** ([#52]).  On
+  `STIntegrate[integrand, x1, ...]` and the Euler-tuple, propagator, and
+  `STIntegrateHF` routes, `opts` binds to a single list of rules rather
+  than to a sequence.  The bare `"ScorePruneFactor" /. {opts}` that
+  resolved the block-scoped global therefore replaced once per inner
+  rule list and produced `{1}` instead of `1`.  The request builder
+  guards that field with `NumericQ`, which `{1}` fails, so the field was
+  dropped and the order search ran exhaustively.  Setting
+  `"ScorePruneFactor" -> 1` had no effect at all on precisely the routes
+  where a user reaches for it.  Both wrapper sites now normalize with
+  `Flatten[{opts}]`, as the sibling `"EulerFilter"` and `SolverBound`
+  assignments already did.
+
+- **HyperFLINT reported `<no reason>` when an integration step failed**
+  ([#52]).  The `hyperflint` op's handler caught `IntegrationStepFailed`
+  without binding the exception, so the response carried no `"reason"`
+  field and the Mathematica side printed its `"<no reason>"`
+  placeholder.  The discarded message names the actual cause, for
+  instance a nonlinear factor in a denominator during partial
+  fractioning, which for a non-reducible integration order is the whole
+  diagnosis.  The handler now reports it, matching the sibling
+  `HyperFLINTDivergentIntegral` catch.
+
+[#52]: https://github.com/SubTropica/SubTropica/issues/52
+
+
 ## [1.2.10] - 2026-07-23
 
 ### Added

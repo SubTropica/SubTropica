@@ -2211,10 +2211,21 @@ std::string hyperflint_sym(const std::string& body) {
             }
             o << "]}";
             return o.str();
-        } catch (const hyperflint::IntegrationStepFailed&) {
+        } catch (const hyperflint::IntegrationStepFailed& e) {
+            // Issue #52 (2026-08-06): this catch previously did NOT bind the
+            // exception and emitted no "reason", so the Mathematica side's
+            // Lookup[resp, "reason", "<no reason>"] printed exactly that and
+            // the user learned nothing.  The message being discarded names
+            // the actual cause, e.g. "partial_fractions: nonlinear factor in
+            // denominator", which for a non-linearly-reducible integration
+            // order is the whole diagnosis.  The sibling
+            // HyperFLINTDivergentIntegral catch above already binds and
+            // reports; this one now matches it.
             flint_cleanup_master();  // R26 R1 -- see above.
             std::ostringstream o;
-            o << "{\"op\":\"hyperflint\",\"failed\":true,\"vars\":[";
+            o << "{\"op\":\"hyperflint\",\"failed\":true"
+              << ",\"reason\":\"" << json_escape(e.what()) << "\""
+              << ",\"vars\":[";
             for (size_t i = 0; i < vars.size(); ++i) {
                 if (i) o << ",";
                 o << "\"" << json_escape(vars[i]) << "\"";

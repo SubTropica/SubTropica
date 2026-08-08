@@ -1,64 +1,88 @@
 {
-	"CNickelIndex": "123|e4|e5|e6|57|e|e7|e|:000|00|00|00|00|0|00|0|",
-	"MassScales": 9,
-	"FunctionClass": "rational",
-	"EpsilonOrder": "",
-	"References": [
+	"CNickelIndex":"123|e4|e5|e6|57|e|e7|e|:000|00|00|00|00|0|00|0|",
+	"MassScales":9,
+	"FunctionClass":"rational",
+	"EpsilonOrder":"",
+	"References":[
 		"arXiv:2512.13794",
 		"arXiv:2311.14669 (Phys.Rev.Lett. 132 (101601), 2024)",
-		"arXiv:2311.16219 (Comput.Phys.Commun. 303 (109278), 2024)"
+		"arXiv:2311.16219 (Comput.Phys.Commun. 303 (109278), 2024)",
+		"arXiv:2606.29612"
 	],
-	"Records": [
+	"Records":[
 		{
-			"reference": "arXiv:2512.13794",
-			"authors": "Bargiela, Piotr, Frellesvig, Hjalte, Marzucca, Robin, Morales, Roger, Seefeld, Florian, Wilhelm, Matthias, Yang, Tong-Zhi",
-			"description": "$I^{**}_{4,2,3}$ two-loop topology with three internal paths of lengths a=4, b=2, c=3 (neither v_L nor v_R carries external legs); 6-point integral, non-planar (b=>=2). Geometry: 1 ISP; max cut ∫dz/√P_2(z); algebraic, dlog (§3.4 Type 1.1)",
-			"epsOrders": "",
-			"familyName": "I^{**}_{4,2,3}",
-			"method": "maximal_cut, Baikov",
-			"tools": [],
-			"ancillaryFiles": false,
-			"doi": "",
-			"texkey": "Bargiela:2025vwl",
-			"masterCount": 0,
-			"dimScheme": "d=4-2*eps",
-			"computationLevel": "topology",
-			"location": "§3.4 Type 1.1",
-			"recordId": "bx_8e34856a59ec",
-			"verified": false,
-			"verifiedAt": ""
+			"reference":"arXiv:2512.13794",
+			"authors":"Bargiela, Piotr, Frellesvig, Hjalte, Marzucca, Robin, Morales, Roger, Seefeld, Florian, Wilhelm, Matthias, Yang, Tong-Zhi",
+			"description":"$I^{**}_{4,2,3}$ two-loop topology with three internal paths of lengths a=4, b=2, c=3 (neither v_L nor v_R carries external legs); 6-point integral, non-planar (b=>=2). Geometry: 1 ISP; max cut ∫dz\/√P_2(z); algebraic, dlog (§3.4 Type 1.1)",
+			"epsOrders":"",
+			"familyName":"I^{**}_{4,2,3}",
+			"method":"maximal_cut, Baikov",
+			"tools":[],
+			"ancillaryFiles":false,
+			"doi":"",
+			"texkey":"Bargiela:2025vwl",
+			"masterCount":0,
+			"dimScheme":"d=4-2*eps",
+			"computationLevel":"topology",
+			"location":"§3.4 Type 1.1",
+			"recordId":"bx_8e34856a59ec",
+			"verified":false,
+			"verifiedAt":""
 		},
 		{
-			"reference": "arXiv:2311.14669 (Phys.Rev.Lett. 132 (101601), 2024)",
-			"authors": "Fevola, C., Mizera, S., Telen, S.",
-			"description": "Landau singularities of the non-planar double pentagon (2nd) computed via principal Landau determinants.",
-			"familyName": "PLD: npl-dpent2",
-			"recordId": "bf_0c1cc7aad0b8",
-			"verified": false
+			"reference":"arXiv:2311.14669 (Phys.Rev.Lett. 132 (101601), 2024)",
+			"authors":"Fevola, C., Mizera, S., Telen, S.",
+			"description":"Landau singularities of the non-planar double pentagon (2nd) computed via principal Landau determinants.",
+			"familyName":"PLD: npl-dpent2",
+			"recordId":"bf_0c1cc7aad0b8",
+			"verified":false
+		},
+		{
+			"reference":"arXiv:2606.29612",
+			"authors":"Chestnov, Vsevolod, Crisanti, Giulio, Giroux, Mathieu",
+			"description":"Non-planar six-point two-loop graph (Fig. 2(b)): massless, 8 vertices (6 external, 2 internal), 9 internal propagators, verified 2-loop via L = E - V + 1 = 9 - 8 + 1 = 2, matching the caption's explicit 'two-loop' label. The paper reports 34 new Landau singularities relative to PLDdata, the largest of length 5543 and total degree 12; a diagnostic note states 8% of sectors trigger the \\caveat{1.2} degeneracy but are resolved directly by SOFIA. EDGE LIST AND VERTEX LABELS WERE SUPPLIED DIRECTLY BY THE USER, NOT EXTRACTED FROM PAPER TEXT: the arXiv LaTeX source shows this diagram only as a PDF figure (figures\/diagram_sixpoint_b.pdf) with a descriptive caption -- no propagator\/graph data appears in the paper's text.",
+			"epsOrders":"",
+			"familyName":"Non-Planar Six-Point (b)",
+			"method":"",
+			"tools":[
+				"FiniteFlow",
+				"FFIntRed"
+			],
+			"ancillaryFiles":true,
+			"doi":"",
+			"texkey":"",
+			"masterCount":0,
+			"dimScheme":"",
+			"computationLevel":"",
+			"location":"Fig. 2(b) (\\cref{fig:new_applications}), Sec. \"New Results\"",
+			"recordId":"bx_a45a5ad0d4ee",
+			"verified":false,
+			"verifiedAt":""
 		}
 	],
-	"Names": [
-		"$I^{**}_{4,2,3}$"
+	"Names":[
+		"$I^{**}_{4,2,3}$",
+		"Non-Planar Six-Point (b)"
 	],
-	"Source": [
+	"Source":[
 		"arXiv"
 	],
-	"Loops": 2,
-	"NumPropagators": 9,
-	"Results": [],
-	"edges": "{{{1, 2}, 0}, {{1, 3}, 0}, {{1, 4}, 0}, {{2, 5}, 0}, {{3, 6}, 0}, {{4, 7}, 0}, {{5, 6}, 0}, {{5, 8}, 0}, {{7, 8}, 0}}",
-	"nodes": "{{2, 0}, {3, 0}, {4, 0}, {6, 0}, {7, 0}, {8, 0}}",
-	"CanonicalName": "Massless non-planar pentagon-hexagon",
-	"MassConfig": {
-		"numEdges": 9,
-		"numMassiveEdges": 0,
-		"numMasslessEdges": 9,
-		"distinctInternalMasses": 0,
-		"internalMassLabels": [],
-		"edgeMassPattern": "000000000",
-		"numExtLegs": 6,
-		"numOnshellMassiveExtLegs": 0,
-		"numMasslessExtLegs": 6,
-		"extLegSignature": "000000"
+	"Loops":2,
+	"NumPropagators":9,
+	"Results":[],
+	"edges":"{{{1, 2}, 0}, {{1, 3}, 0}, {{1, 4}, 0}, {{2, 5}, 0}, {{3, 6}, 0}, {{4, 7}, 0}, {{5, 6}, 0}, {{5, 8}, 0}, {{7, 8}, 0}}",
+	"nodes":"{{2, 0}, {3, 0}, {4, 0}, {6, 0}, {7, 0}, {8, 0}}",
+	"CanonicalName":"Massless non-planar pentagon-hexagon",
+	"MassConfig":{
+		"numEdges":9,
+		"numMassiveEdges":0,
+		"numMasslessEdges":9,
+		"distinctInternalMasses":0,
+		"internalMassLabels":[],
+		"edgeMassPattern":"000000000",
+		"numExtLegs":6,
+		"numOnshellMassiveExtLegs":0,
+		"numMasslessExtLegs":6,
+		"extLegSignature":"000000"
 	}
 }

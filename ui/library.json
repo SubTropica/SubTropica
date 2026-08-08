@@ -84624,6 +84624,62 @@
 				}
 			}
 		},
+		"123|e234|e4|e4||":{
+			"name":"Four-Loop Form Factor",
+			"primaryName":"",
+			"loops":4,
+			"legs":3,
+			"props":8,
+			"families":[],
+			"loopediaURL":"",
+			"nickelFull":"",
+			"legVertices":[],
+			"configs":{
+				"000|0000|00|00||":{
+					"CNickelIndex":"123|e234|e4|e4||:000|0000|00|00||",
+					"MassScales":0,
+					"FunctionClass":"",
+					"EpsilonOrder":"",
+					"References":[
+						"arXiv:2606.29612"
+					],
+					"Records":[
+						{
+							"reference":"arXiv:2606.29612",
+							"authors":"Chestnov, Vsevolod, Crisanti, Giulio, Giroux, Mathieu",
+							"description":"Four-loop form factor (Fig. 3(iii)), used to illustrate Type 2.1 (bulk solutions at infinity): the naive sector-by-sector sum UNDERCOUNTS the true Euler characteristic by exactly 1 (chi=13 regulated vs. sum of chi_S=12 unregulated over sectors), because a critical point attributable to the top sector is pushed to infinity as the nu-regulator vanishes. master_integral_count=13 is recorded as the correct/regulated count (chi), not the naive undercounted sum of 12; both numbers are directly quoted in the text. PROPAGATOR LIST, LOOP MOMENTA AND EXTERNAL MOMENTA WERE SUPPLIED DIRECTLY BY THE USER (labelled 'topology 2' in their description), NOT EXTRACTED FROM PAPER TEXT: the arXiv LaTeX source shows this diagram only as a PDF figure (figures/diagram_nplFF.pdf) with a descriptive caption -- no propagator data appears in the paper's own text, though the caption's on-shell/off-shell kinematic statement and the chi=13 vs. sum-chi_S=12 result are directly quoted.",
+							"epsOrders":"",
+							"familyName":"Four-Loop Form Factor",
+							"method":"",
+							"tools":[
+								"DiscKosky"
+							],
+							"ancillaryFiles":true,
+							"doi":"",
+							"texkey":"",
+							"masterCount":13,
+							"dimScheme":"",
+							"computationLevel":"",
+							"location":"Fig. 3(iii) (\\cref{fig:app_diags}), Sec. \"Subtleties with the Sectors Approach\", Type 2.1 discussion",
+							"recordId":"bx_06ef94e25bbd",
+							"verified":false,
+							"verifiedAt":""
+						}
+					],
+					"Names":[
+						"Four-Loop Form Factor"
+					],
+					"Source":[
+						"arXiv"
+					],
+					"Loops":4,
+					"NumPropagators":8,
+					"Results":[],
+					"edges":"{{{1, 2}, 0}, {{1, 3}, 0}, {{1, 4}, 0}, {{2, 3}, 0}, {{2, 4}, 0}, {{2, 5}, 0}, {{3, 5}, 0}, {{4, 5}, 0}}",
+					"nodes":"{{2, 0}, {3, 0}, {4, 0}}"
+				}
+			}
+		},
 		"123|e23|e3|e|":{
 			"name":"3-loop 3-pt three-point ladder",
 			"primaryName":"Mercedes",
@@ -97942,7 +97998,8 @@
 					"References":[
 						"arXiv:2512.13794",
 						"arXiv:2311.14669 (Phys.Rev.Lett. 132 (101601), 2024)",
-						"arXiv:2311.16219 (Comput.Phys.Commun. 303 (109278), 2024)"
+						"arXiv:2311.16219 (Comput.Phys.Commun. 303 (109278), 2024)",
+						"arXiv:2606.29612"
 					],
 					"Records":[
 						{
@@ -97971,10 +98028,33 @@
 							"familyName":"PLD: npl-dpent2",
 							"recordId":"bf_0c1cc7aad0b8",
 							"verified":false
+						},
+						{
+							"reference":"arXiv:2606.29612",
+							"authors":"Chestnov, Vsevolod, Crisanti, Giulio, Giroux, Mathieu",
+							"description":"Non-planar six-point two-loop graph (Fig. 2(b)): massless, 8 vertices (6 external, 2 internal), 9 internal propagators, verified 2-loop via L = E - V + 1 = 9 - 8 + 1 = 2, matching the caption's explicit 'two-loop' label. The paper reports 34 new Landau singularities relative to PLDdata, the largest of length 5543 and total degree 12; a diagnostic note states 8% of sectors trigger the \\caveat{1.2} degeneracy but are resolved directly by SOFIA. EDGE LIST AND VERTEX LABELS WERE SUPPLIED DIRECTLY BY THE USER, NOT EXTRACTED FROM PAPER TEXT: the arXiv LaTeX source shows this diagram only as a PDF figure (figures/diagram_sixpoint_b.pdf) with a descriptive caption -- no propagator/graph data appears in the paper's text.",
+							"epsOrders":"",
+							"familyName":"Non-Planar Six-Point (b)",
+							"method":"",
+							"tools":[
+								"FiniteFlow",
+								"FFIntRed"
+							],
+							"ancillaryFiles":true,
+							"doi":"",
+							"texkey":"",
+							"masterCount":0,
+							"dimScheme":"",
+							"computationLevel":"",
+							"location":"Fig. 2(b) (\\cref{fig:new_applications}), Sec. \"New Results\"",
+							"recordId":"bx_a45a5ad0d4ee",
+							"verified":false,
+							"verifiedAt":""
 						}
 					],
 					"Names":[
-						"$I^{**}_{4,2,3}$"
+						"$I^{**}_{4,2,3}$",
+						"Non-Planar Six-Point (b)"
 					],
 					"Source":[
 						"arXiv"
@@ -98541,7 +98621,7 @@
 		},
 		"123|e4|e5|e6|e7|e7|e7||":{
 			"name":"$I^{**}_{3,3,3}$",
-			"primaryName":"Del Pezzo $(3,3,3)^{**}$",
+			"primaryName":"Del Pezzo (3,3,3) \u2014 **",
 			"loops":2,
 			"legs":6,
 			"props":9,
@@ -98558,7 +98638,8 @@
 					"References":[
 						"arXiv:2512.13794",
 						"arXiv:2311.14669 (Phys.Rev.Lett. 132 (101601), 2024)",
-						"arXiv:2311.16219 (Comput.Phys.Commun. 303 (109278), 2024)"
+						"arXiv:2311.16219 (Comput.Phys.Commun. 303 (109278), 2024)",
+						"arXiv:2606.29612"
 					],
 					"Records":[
 						{
@@ -98587,10 +98668,33 @@
 							"familyName":"PLD: npl-dpent",
 							"recordId":"bf_0ed961e50b2e",
 							"verified":false
+						},
+						{
+							"reference":"arXiv:2606.29612",
+							"authors":"Chestnov, Vsevolod, Crisanti, Giulio, Giroux, Mathieu",
+							"description":"Non-planar six-point two-loop graph (Fig. 2(c)): massless, 8 vertices (6 external, 2 internal), 9 internal propagators, verified 2-loop via L = E - V + 1 = 9 - 8 + 1 = 2. This is the paper's most demanding example: 45 new Landau singularities relative to PLDdata, the largest of length ~1e8 and total degree 36, with the largest singularity requiring an AMD EPYC 9575F 64-core cluster with ~100 GB memory. EDGE LIST AND VERTEX LABELS WERE SUPPLIED DIRECTLY BY THE USER, NOT EXTRACTED FROM PAPER TEXT: the arXiv LaTeX source shows this diagram only as a PDF figure (figures/diagram_sixpoint_a.pdf) with a descriptive caption -- no propagator/graph data appears in the paper's text.",
+							"epsOrders":"",
+							"familyName":"Non-Planar Six-Point (c)",
+							"method":"",
+							"tools":[
+								"FiniteFlow",
+								"FFIntRed"
+							],
+							"ancillaryFiles":true,
+							"doi":"",
+							"texkey":"",
+							"masterCount":0,
+							"dimScheme":"",
+							"computationLevel":"",
+							"location":"Fig. 2(c) (\\cref{fig:new_applications}), Sec. \"New Results\"",
+							"recordId":"bx_cc9af438c141",
+							"verified":false,
+							"verifiedAt":""
 						}
 					],
 					"Names":[
-						"$I^{**}_{3,3,3}$"
+						"$I^{**}_{3,3,3}$",
+						"Non-Planar Six-Point (c)"
 					],
 					"Source":[
 						"arXiv"
@@ -127786,7 +127890,8 @@
 					"EpsilonOrder":"",
 					"References":[
 						"arXiv:2311.14669 (Phys.Rev.Lett. 132 (101601), 2024)",
-						"arXiv:2311.16219 (Comput.Phys.Commun. 303 (109278), 2024)"
+						"arXiv:2311.16219 (Comput.Phys.Commun. 303 (109278), 2024)",
+						"arXiv:2606.29612"
 					],
 					"Records":[
 						{
@@ -127796,12 +127901,38 @@
 							"familyName":"PLD: env",
 							"recordId":"bf_a89fdcccbbdf",
 							"verified":false
+						},
+						{
+							"reference":"arXiv:2606.29612",
+							"authors":"Chestnov, Vsevolod, Crisanti, Giulio, Giroux, Mathieu",
+							"description":"Fully massive envelope: tetrahedral (K4) graph on 4 vertices, 6 internal propagators of mass m1, and 4 external legs of a DISTINCT mass M1 (fully massive, on-shell, p_i^2=M1^2) -- a 3-loop, 4-point 'bottleneck' diagram (computed as L = E - V + 1 = 6 - 4 + 1 = 3 from the graph below; the paper's caption states the loop order explicitly only for (b,c), not (a)). The paper reports 8 new Landau singularities found relative to the reference dataset of Fevola-Mizera-Telen (PLDdata), the largest of length 653 and total degree 21. EDGE LIST, VERTEX LABELS AND MASSES WERE SUPPLIED DIRECTLY BY THE USER, NOT EXTRACTED FROM PAPER TEXT: the arXiv LaTeX source shows this diagram only as a PDF figure (figures/diagram_envelope.pdf) with a descriptive caption -- no propagator/graph data appears in the paper's text. The full singularity list is stated to live in the paper's companion repository (\\githubrepo), not in the arXiv source.",
+							"epsOrders":"",
+							"familyName":"Fully Massive Envelope",
+							"method":"",
+							"tools":[
+								"FiniteFlow",
+								"FFIntRed"
+							],
+							"ancillaryFiles":true,
+							"doi":"",
+							"texkey":"",
+							"masterCount":0,
+							"dimScheme":"",
+							"computationLevel":"",
+							"location":"Fig. 2(a) (\\cref{fig:new_applications}), Sec. \"New Results\"",
+							"recordId":"bx_599e92ba749f",
+							"verified":false,
+							"verifiedAt":""
 						}
 					],
 					"Names":[
-						"Envelope, equal-mass propagators"
+						"Envelope, equal-mass propagators",
+						"Fully Massive Envelope"
 					],
-					"Source":"PLD",
+					"Source":[
+						"PLD",
+						"arXiv"
+					],
 					"Loops":3,
 					"NumPropagators":6,
 					"edges":"{{{1, 2}, m}, {{1, 3}, m}, {{1, 4}, m}, {{2, 3}, m}, {{2, 4}, m}, {{3, 4}, m}}",
@@ -133330,7 +133461,8 @@
 					"EpsilonOrder":"",
 					"References":[
 						"arXiv:2311.14669 (Phys.Rev.Lett. 132 (101601), 2024)",
-						"arXiv:2311.16219 (Comput.Phys.Commun. 303 (109278), 2024)"
+						"arXiv:2311.16219 (Comput.Phys.Commun. 303 (109278), 2024)",
+						"arXiv:2606.29612"
 					],
 					"Records":[
 						{
@@ -133340,12 +133472,38 @@
 							"familyName":"PLD: acn",
 							"recordId":"bf_69a040c86cbb",
 							"verified":false
+						},
+						{
+							"reference":"arXiv:2606.29612",
+							"authors":"Chestnov, Vsevolod, Crisanti, Giulio, Giroux, Mathieu",
+							"description":"Equal-mass 'acnode' (Fig. 3(i)): two-loop four-point diagram, K4-minus-one-edge topology (5 internal propagators, common mass m1), verified 2-loop via L = E - V + 1 = 5 - 4 + 1 = 2. IMPORTANT CAVEAT explicit in the paper: this is presented as a pathological example where the naive top-sector approach BREAKS -- the top-sector solution set becomes positive-dimensional (dim(J_S) != 0), so CountSectorsUnregulated returns 'Indeterminate' rather than a finite master-integral count; the paper states the resulting singularities are nonetheless 'captured with ease' by SOFIA directly. So this family's top-sector Euler characteristic/master-integral count is genuinely ill-defined via the sector-by-sector method described in the main text, not merely un-extracted -- master_integral_count is left null for that reason, not because of missing information. EDGE LIST, VERTEX LABELS AND MASSES WERE SUPPLIED DIRECTLY BY THE USER, NOT EXTRACTED FROM PAPER TEXT: the arXiv LaTeX source shows this diagram only as a PDF figure (figures/diagram_acnode2.pdf) with a descriptive label -- no propagator/graph data appears in the paper's text.",
+							"epsOrders":"",
+							"familyName":"Equal-Mass Acnode",
+							"method":"",
+							"tools":[
+								"DiscKosky",
+								"SOFIA"
+							],
+							"ancillaryFiles":true,
+							"doi":"",
+							"texkey":"",
+							"masterCount":0,
+							"dimScheme":"",
+							"computationLevel":"",
+							"location":"Fig. 3(i) (\\cref{fig:app_diags}), Sec. \"Subtleties with the Sectors Approach\", Type 1.1 discussion",
+							"recordId":"bx_f9a1f20a57b5",
+							"verified":false,
+							"verifiedAt":""
 						}
 					],
 					"Names":[
-						"Double triangle (a), equal-mass propagators"
+						"Double triangle (a), equal-mass propagators",
+						"Equal-Mass Acnode"
 					],
-					"Source":"PLD",
+					"Source":[
+						"PLD",
+						"arXiv"
+					],
 					"Loops":2,
 					"NumPropagators":5,
 					"edges":"{{{1, 2}, m}, {{1, 3}, m}, {{1, 4}, m}, {{2, 3}, m}, {{2, 4}, m}}",
@@ -133355,6 +133513,50 @@
 					"Subsectors":[],
 					"ParentSectors":[],
 					"Results":[]
+				},
+				"0111|012|0|0|":{
+					"CNickelIndex":"e123|e23|e|e|:0111|012|0|0|",
+					"MassScales":4,
+					"FunctionClass":"",
+					"EpsilonOrder":"",
+					"References":[
+						"arXiv:2606.29612"
+					],
+					"Records":[
+						{
+							"reference":"arXiv:2606.29612",
+							"authors":"Chestnov, Vsevolod, Crisanti, Giulio, Giroux, Mathieu",
+							"description":"Deformed acnode (Fig. 3(ii)): two-loop four-point diagram, K4-minus-one-edge topology (5 internal propagators, mass m1 on four edges and m2 on edge (2,3)), verified 2-loop via L = E - V + 1 = 5 - 4 + 1 = 2. Used to illustrate TWO distinct caveats: Type 1.2 (specialised higher-dimensional solution at the special locus l_degen = m1^2 - m2^2, i.e. specialising to equal masses reproduces the acnode of Fig. 3(i) exactly) and Type 2.2 (a FICTITIOUS singularity at l_spur = m1^2 s12 + m2^2 s23 + s12 s23, where the naive sector-by-sector count drops from 4 to 3 but the fully regulated Euler characteristic shows no genuine drop, chi=30 on both sides). master_integral_count=4 is the generic (non-degenerate) top-sector count quoted directly in the text; it is NOT the count at either special locus. EDGE LIST, VERTEX LABELS AND MASSES WERE SUPPLIED DIRECTLY BY THE USER, NOT EXTRACTED FROM PAPER TEXT: the arXiv LaTeX source shows this diagram only as a PDF figure (figures/diagram_acnode.pdf) with a descriptive label -- no propagator/graph data appears in the paper's text.",
+							"epsOrders":"",
+							"familyName":"Deformed Acnode",
+							"method":"",
+							"tools":[
+								"DiscKosky",
+								"SOFIA"
+							],
+							"ancillaryFiles":true,
+							"doi":"",
+							"texkey":"",
+							"masterCount":4,
+							"dimScheme":"",
+							"computationLevel":"",
+							"location":"Fig. 3(ii) (\\cref{fig:app_diags}), Sec. \"Subtleties with the Sectors Approach\", Type 1.2 and Type 2.2 discussion",
+							"recordId":"bx_629e3a858977",
+							"verified":false,
+							"verifiedAt":""
+						}
+					],
+					"Names":[
+						"Deformed Acnode"
+					],
+					"Source":[
+						"arXiv"
+					],
+					"Loops":2,
+					"NumPropagators":5,
+					"Results":[],
+					"edges":"{{{1, 2}, m[1]}, {{1, 3}, m[1]}, {{1, 4}, m[1]}, {{2, 3}, m[1]}, {{2, 4}, m[2]}}",
+					"nodes":"{{1, 0}, {2, 0}, {3, 0}, {4, 0}}"
 				},
 				"0123|045|0|0|":{
 					"CNickelIndex":"e123|e23|e|e|:0123|045|0|0|",
@@ -169687,13 +169889,13 @@
 		}
 	},
 	"_meta":{
-		"topologyCount":503,
-		"configCount":1105,
+		"topologyCount":504,
+		"configCount":1107,
 		"sourceDir":"library-bundled",
-		"topologies":503,
-		"massConfigurations":1105,
+		"topologies":504,
+		"massConfigurations":1107,
 		"papersScanned":1298,
-		"literatureRecords":1947,
+		"literatureRecords":1953,
 		"computedResults":417,
 		"singularityAnalyses":415,
 		"proposedAlphabets":404
@@ -221843,6 +222045,16 @@
 				]
 			},
 			{
+				"p":"123|e234|e4|e4||",
+				"e":[
+					0,
+					1,
+					3,
+					5,
+					6
+				]
+			},
+			{
 				"p":"123|e23|e3|e|",
 				"e":[
 					0,
@@ -234973,6 +235185,15 @@
 				]
 			},
 			{
+				"p":"123|e234|e4|e4||",
+				"e":[
+					0,
+					1,
+					3,
+					7
+				]
+			},
+			{
 				"p":"123|e23|e3|e|",
 				"e":[
 					0,
@@ -240456,6 +240677,14 @@
 				]
 			},
 			{
+				"p":"123|e234|e4|e4||",
+				"e":[
+					0,
+					1,
+					3
+				]
+			},
+			{
 				"p":"123|e23|e3|e|",
 				"e":[
 					3
@@ -241050,6 +241279,16 @@
 					3,
 					5,
 					6
+				]
+			},
+			{
+				"p":"123|e234|e4|e4||",
+				"e":[
+					0,
+					1,
+					2,
+					3,
+					4
 				]
 			},
 			{
@@ -274352,6 +274591,13 @@
 					8,
 					11
 				]
+			},
+			{
+				"p":"123|e234|e4|e4||",
+				"e":[
+					1,
+					7
+				]
 			}
 		],
 		"eee1122|2||":[
@@ -287076,6 +287322,13 @@
 					8,
 					11
 				]
+			},
+			{
+				"p":"123|e234|e4|e4||",
+				"e":[
+					1,
+					2
+				]
 			}
 		],
 		"eee11112222|2||":[
@@ -288079,6 +288332,14 @@
 					8,
 					9,
 					11
+				]
+			},
+			{
+				"p":"123|e234|e4|e4||",
+				"e":[
+					0,
+					6,
+					7
 				]
 			},
 			{
@@ -289845,6 +290106,12 @@
 					7,
 					9
 				]
+			},
+			{
+				"p":"123|e234|e4|e4||",
+				"e":[
+					0
+				]
 			}
 		],
 		"e11112|e2|e|":[
@@ -290014,6 +290281,13 @@
 					8,
 					9,
 					10
+				]
+			},
+			{
+				"p":"123|e234|e4|e4||",
+				"e":[
+					0,
+					6
 				]
 			}
 		],
@@ -298019,6 +298293,12 @@
 					8,
 					11
 				]
+			},
+			{
+				"p":"123|e234|e4|e4||",
+				"e":[
+					1
+				]
 			}
 		],
 		"ee123|e223|3||":[
@@ -298110,6 +298390,12 @@
 					4,
 					6,
 					11
+				]
+			},
+			{
+				"p":"123|e234|e4|e4||",
+				"e":[
+					3
 				]
 			}
 		],

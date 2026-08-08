@@ -1,0 +1,44 @@
+{
+	"CNickelIndex":"e123|e23|e|e|:0111|012|0|0|",
+	"MassScales":4,
+	"FunctionClass":"",
+	"EpsilonOrder":"",
+	"References":[
+		"arXiv:2606.29612"
+	],
+	"Records":[
+		{
+			"reference":"arXiv:2606.29612",
+			"authors":"Chestnov, Vsevolod, Crisanti, Giulio, Giroux, Mathieu",
+			"description":"Deformed acnode (Fig. 3(ii)): two-loop four-point diagram, K4-minus-one-edge topology (5 internal propagators, mass m1 on four edges and m2 on edge (2,3)), verified 2-loop via L = E - V + 1 = 5 - 4 + 1 = 2. Used to illustrate TWO distinct caveats: Type 1.2 (specialised higher-dimensional solution at the special locus l_degen = m1^2 - m2^2, i.e. specialising to equal masses reproduces the acnode of Fig. 3(i) exactly) and Type 2.2 (a FICTITIOUS singularity at l_spur = m1^2 s12 + m2^2 s23 + s12 s23, where the naive sector-by-sector count drops from 4 to 3 but the fully regulated Euler characteristic shows no genuine drop, chi=30 on both sides). master_integral_count=4 is the generic (non-degenerate) top-sector count quoted directly in the text; it is NOT the count at either special locus. EDGE LIST, VERTEX LABELS AND MASSES WERE SUPPLIED DIRECTLY BY THE USER, NOT EXTRACTED FROM PAPER TEXT: the arXiv LaTeX source shows this diagram only as a PDF figure (figures\/diagram_acnode.pdf) with a descriptive label -- no propagator\/graph data appears in the paper's text.",
+			"epsOrders":"",
+			"familyName":"Deformed Acnode",
+			"method":"",
+			"tools":[
+				"DiscKosky",
+				"SOFIA"
+			],
+			"ancillaryFiles":true,
+			"doi":"",
+			"texkey":"",
+			"masterCount":4,
+			"dimScheme":"",
+			"computationLevel":"",
+			"location":"Fig. 3(ii) (\\cref{fig:app_diags}), Sec. \"Subtleties with the Sectors Approach\", Type 1.2 and Type 2.2 discussion",
+			"recordId":"bx_629e3a858977",
+			"verified":false,
+			"verifiedAt":""
+		}
+	],
+	"Names":[
+		"Deformed Acnode"
+	],
+	"Source":[
+		"arXiv"
+	],
+	"Loops":2,
+	"NumPropagators":5,
+	"Results":[],
+	"edges":"{{{1, 2}, m[1]}, {{1, 3}, m[1]}, {{1, 4}, m[1]}, {{2, 3}, m[1]}, {{2, 4}, m[2]}}",
+	"nodes":"{{1, 0}, {2, 0}, {3, 0}, {4, 0}}"
+}

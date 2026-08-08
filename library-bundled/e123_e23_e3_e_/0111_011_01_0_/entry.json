@@ -1,33 +1,60 @@
 {
-	"CNickelIndex": "e123|e23|e3|e|:0111|011|01|0|",
-	"MassScales": 3,
-	"FunctionClass": "",
-	"EpsilonOrder": "",
-	"References": [
+	"CNickelIndex":"e123|e23|e3|e|:0111|011|01|0|",
+	"MassScales":3,
+	"FunctionClass":"",
+	"EpsilonOrder":"",
+	"References":[
 		"arXiv:2311.14669 (Phys.Rev.Lett. 132 (101601), 2024)",
-		"arXiv:2311.16219 (Comput.Phys.Commun. 303 (109278), 2024)"
+		"arXiv:2311.16219 (Comput.Phys.Commun. 303 (109278), 2024)",
+		"arXiv:2606.29612"
 	],
-	"Records": [
+	"Records":[
 		{
-			"reference": "arXiv:2311.14669 (Phys.Rev.Lett. 132 (101601), 2024)",
-			"authors": "Fevola, C., Mizera, S., Telen, S.",
-			"description": "Landau singularities of the envelope with equal internal, zero external masses, computed via principal Landau determinants.",
-			"familyName": "PLD: env",
-			"recordId": "bf_a89fdcccbbdf",
-			"verified": false
+			"reference":"arXiv:2311.14669 (Phys.Rev.Lett. 132 (101601), 2024)",
+			"authors":"Fevola, C., Mizera, S., Telen, S.",
+			"description":"Landau singularities of the envelope with equal internal, zero external masses, computed via principal Landau determinants.",
+			"familyName":"PLD: env",
+			"recordId":"bf_a89fdcccbbdf",
+			"verified":false
+		},
+		{
+			"reference":"arXiv:2606.29612",
+			"authors":"Chestnov, Vsevolod, Crisanti, Giulio, Giroux, Mathieu",
+			"description":"Fully massive envelope: tetrahedral (K4) graph on 4 vertices, 6 internal propagators of mass m1, and 4 external legs of a DISTINCT mass M1 (fully massive, on-shell, p_i^2=M1^2) -- a 3-loop, 4-point 'bottleneck' diagram (computed as L = E - V + 1 = 6 - 4 + 1 = 3 from the graph below; the paper's caption states the loop order explicitly only for (b,c), not (a)). The paper reports 8 new Landau singularities found relative to the reference dataset of Fevola-Mizera-Telen (PLDdata), the largest of length 653 and total degree 21. EDGE LIST, VERTEX LABELS AND MASSES WERE SUPPLIED DIRECTLY BY THE USER, NOT EXTRACTED FROM PAPER TEXT: the arXiv LaTeX source shows this diagram only as a PDF figure (figures\/diagram_envelope.pdf) with a descriptive caption -- no propagator\/graph data appears in the paper's text. The full singularity list is stated to live in the paper's companion repository (\\githubrepo), not in the arXiv source.",
+			"epsOrders":"",
+			"familyName":"Fully Massive Envelope",
+			"method":"",
+			"tools":[
+				"FiniteFlow",
+				"FFIntRed"
+			],
+			"ancillaryFiles":true,
+			"doi":"",
+			"texkey":"",
+			"masterCount":0,
+			"dimScheme":"",
+			"computationLevel":"",
+			"location":"Fig. 2(a) (\\cref{fig:new_applications}), Sec. \"New Results\"",
+			"recordId":"bx_599e92ba749f",
+			"verified":false,
+			"verifiedAt":""
 		}
 	],
-	"Names": [
-		"Envelope, equal-mass propagators"
+	"Names":[
+		"Envelope, equal-mass propagators",
+		"Fully Massive Envelope"
 	],
-	"Source": "PLD",
-	"Loops": 3,
-	"NumPropagators": 6,
-	"edges": "{{{1, 2}, m}, {{1, 3}, m}, {{1, 4}, m}, {{2, 3}, m}, {{2, 4}, m}, {{3, 4}, m}}",
-	"nodes": "{{1, 0}, {2, 0}, {3, 0}, {4, 0}}",
-	"CanonicalName": "Envelope, equal-mass propagators",
-	"commonNames": [],
-	"Subsectors": [],
-	"ParentSectors": [],
-	"Results": []
+	"Source":[
+		"PLD",
+		"arXiv"
+	],
+	"Loops":3,
+	"NumPropagators":6,
+	"edges":"{{{1, 2}, m}, {{1, 3}, m}, {{1, 4}, m}, {{2, 3}, m}, {{2, 4}, m}, {{3, 4}, m}}",
+	"nodes":"{{1, 0}, {2, 0}, {3, 0}, {4, 0}}",
+	"CanonicalName":"Envelope, equal-mass propagators",
+	"commonNames":[],
+	"Subsectors":[],
+	"ParentSectors":[],
+	"Results":[]
 }

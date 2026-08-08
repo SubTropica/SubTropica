@@ -1,33 +1,60 @@
 {
-	"CNickelIndex": "e123|e23|e|e|:0111|011|0|0|",
-	"MassScales": 3,
-	"FunctionClass": "",
-	"EpsilonOrder": "",
-	"References": [
+	"CNickelIndex":"e123|e23|e|e|:0111|011|0|0|",
+	"MassScales":3,
+	"FunctionClass":"",
+	"EpsilonOrder":"",
+	"References":[
 		"arXiv:2311.14669 (Phys.Rev.Lett. 132 (101601), 2024)",
-		"arXiv:2311.16219 (Comput.Phys.Commun. 303 (109278), 2024)"
+		"arXiv:2311.16219 (Comput.Phys.Commun. 303 (109278), 2024)",
+		"arXiv:2606.29612"
 	],
-	"Records": [
+	"Records":[
 		{
-			"reference": "arXiv:2311.14669 (Phys.Rev.Lett. 132 (101601), 2024)",
-			"authors": "Fevola, C., Mizera, S., Telen, S.",
-			"description": "Landau singularities of the acnode with equal internal, zero external masses, computed via principal Landau determinants.",
-			"familyName": "PLD: acn",
-			"recordId": "bf_69a040c86cbb",
-			"verified": false
+			"reference":"arXiv:2311.14669 (Phys.Rev.Lett. 132 (101601), 2024)",
+			"authors":"Fevola, C., Mizera, S., Telen, S.",
+			"description":"Landau singularities of the acnode with equal internal, zero external masses, computed via principal Landau determinants.",
+			"familyName":"PLD: acn",
+			"recordId":"bf_69a040c86cbb",
+			"verified":false
+		},
+		{
+			"reference":"arXiv:2606.29612",
+			"authors":"Chestnov, Vsevolod, Crisanti, Giulio, Giroux, Mathieu",
+			"description":"Equal-mass 'acnode' (Fig. 3(i)): two-loop four-point diagram, K4-minus-one-edge topology (5 internal propagators, common mass m1), verified 2-loop via L = E - V + 1 = 5 - 4 + 1 = 2. IMPORTANT CAVEAT explicit in the paper: this is presented as a pathological example where the naive top-sector approach BREAKS -- the top-sector solution set becomes positive-dimensional (dim(J_S) != 0), so CountSectorsUnregulated returns 'Indeterminate' rather than a finite master-integral count; the paper states the resulting singularities are nonetheless 'captured with ease' by SOFIA directly. So this family's top-sector Euler characteristic\/master-integral count is genuinely ill-defined via the sector-by-sector method described in the main text, not merely un-extracted -- master_integral_count is left null for that reason, not because of missing information. EDGE LIST, VERTEX LABELS AND MASSES WERE SUPPLIED DIRECTLY BY THE USER, NOT EXTRACTED FROM PAPER TEXT: the arXiv LaTeX source shows this diagram only as a PDF figure (figures\/diagram_acnode2.pdf) with a descriptive label -- no propagator\/graph data appears in the paper's text.",
+			"epsOrders":"",
+			"familyName":"Equal-Mass Acnode",
+			"method":"",
+			"tools":[
+				"DiscKosky",
+				"SOFIA"
+			],
+			"ancillaryFiles":true,
+			"doi":"",
+			"texkey":"",
+			"masterCount":0,
+			"dimScheme":"",
+			"computationLevel":"",
+			"location":"Fig. 3(i) (\\cref{fig:app_diags}), Sec. \"Subtleties with the Sectors Approach\", Type 1.1 discussion",
+			"recordId":"bx_f9a1f20a57b5",
+			"verified":false,
+			"verifiedAt":""
 		}
 	],
-	"Names": [
-		"Double triangle (a), equal-mass propagators"
+	"Names":[
+		"Double triangle (a), equal-mass propagators",
+		"Equal-Mass Acnode"
 	],
-	"Source": "PLD",
-	"Loops": 2,
-	"NumPropagators": 5,
-	"edges": "{{{1, 2}, m}, {{1, 3}, m}, {{1, 4}, m}, {{2, 3}, m}, {{2, 4}, m}}",
-	"nodes": "{{1, 0}, {2, 0}, {3, 0}, {4, 0}}",
-	"CanonicalName": "Double triangle (a), equal-mass propagators",
-	"commonNames": [],
-	"Subsectors": [],
-	"ParentSectors": [],
-	"Results": []
+	"Source":[
+		"PLD",
+		"arXiv"
+	],
+	"Loops":2,
+	"NumPropagators":5,
+	"edges":"{{{1, 2}, m}, {{1, 3}, m}, {{1, 4}, m}, {{2, 3}, m}, {{2, 4}, m}}",
+	"nodes":"{{1, 0}, {2, 0}, {3, 0}, {4, 0}}",
+	"CanonicalName":"Double triangle (a), equal-mass propagators",
+	"commonNames":[],
+	"Subsectors":[],
+	"ParentSectors":[],
+	"Results":[]
 }

@@ -2036,7 +2036,7 @@ Options[ConfigureSubTropica] = {
 With[{$SubTropicaDir = DirectoryName[$InputFileName]},
 
 $SubTropicaInstallDir = $SubTropicaDir;
-$SubTropicaVersion = "1.2.10";
+$SubTropicaVersion = "1.2.11";
 
 (* Init-order fix: line 109 set $STHyperFlintDataPath before
    $SubTropicaInstallDir was bound, so the install-dir-derived data
@@ -2711,7 +2711,7 @@ STMapIntoLoop; STMapSeries; stMmaExprToPython; STNIntegrate; stNIntegratePySecDe
 STParseHyperLogProceduresOutput; stPickKinPointOpts; STPreAnalysis; stPrintGreeting; STPuiseux; stPySecDecEvaluate; stPySecDecFromPropagators; strategy;
 STReadResults; stReadSubstitutions; stream; STResetConfig; STResetKernelCaches; stResolveEulerSubstitutions; stResolveGraphSubstitutions; stResolveHyperFlintDataPath;
 stResultToTeX; STReview; string; stRunDependencyTests; stSanitizeNickel; STSaveCheckpoint; STSaveResult; STSetContributor;
-STsetupDirectoryExpansion; STSetupKernel; stSetupKernelImpl; stSharedMassLegs; STStop; STSubmitResult; STSubtractionFormula; STSymanzik;
+STsetupDirectoryExpansion; STSetupKernel; stSetupKernelImpl; stSharedMassLegs; stSolverBoundTrip; STStop; STSubmitResult; STSubtractionFormula; STSymanzik;
 STSymanzikGraph; stSymbolicEval; STSyncLibrary; stTestOneDependency; stTeXSemicolon; STtoCoeffMonPols; STToFibrationBasis; STToGinsh;
 STToHyper; STToIterInt; STtoMyGraph; STToPySecDec; STTropicalAnalysis; STTropicalizeIntegrand; stTruncateTeX; STVerify; STFindSingularities; STForgetCoefficients; STNewton;
 stVerifyEulerQuadruple; stVerifyEvalSymbolicGeneric; STwrapError; stWrapRootSubs; style; Subtopologies; SubTropicaID; SymbolicEvaluator;
@@ -15589,6 +15589,60 @@ $STEulerFilter = False;
    byte-identical legacy behavior. *)
 $STSolverBound = 10^9;
 
+(* ------------------------------------------------------------------ *)
+(*  SolverBound FAIL-CLOSED (issue #52, 2026-08-06).                    *)
+(*                                                                     *)
+(*  A finite SolverBound makes STFubiniLR SKIP oversized operands when  *)
+(*  forming discriminants and pairwise resultants.  The resulting       *)
+(*  singularity set is a subset of the honest one, so the admissibility *)
+(*  test Exponent[letter, pivot] <= 1 passes strictly more often and    *)
+(*  the search can CERTIFY AN ORDER THAT IS NOT LINEARLY REDUCIBLE.     *)
+(*  Demonstrated on issue #52: at SolverBound -> 10 the search both     *)
+(*  certified a non-reducible order and failed to return the reducible  *)
+(*  one that exists.                                                    *)
+(*                                                                     *)
+(*  The C++ port already makes the correct choice: its analogous        *)
+(*  operand guard HF_LR_MAX_OPERAND_TERMS THROWS LrBudgetExceeded and   *)
+(*  the handler emits a distinct budget_exceeded response, "NEVER a     *)
+(*  NOLR verdict" (lr_search.hpp).  This brings the Mathematica side to *)
+(*  the same doctrine: a bound trip aborts the search instead of        *)
+(*  silently returning an under-approximated letter set.                *)
+(*                                                                     *)
+(*  INERT AT THE DEFAULT: with $STSolverBound = 10^9 no operand can     *)
+(*  exceed the bound, so no trip is possible and behaviour is           *)
+(*  byte-identical to before.  Only a user-lowered bound is affected.   *)
+(*                                                                     *)
+(*  Sound alternatives for bounding a runaway search, none of which     *)
+(*  corrupt the verdict: "ScorePruneFactor" (prunes candidate ORDERS,   *)
+(*  lossy-only), HF_LR_TIME_BUDGET_S (clean deadline), "EulerFilter"    *)
+(*  (msolve-verified, conservative on failure).                         *)
+(* ------------------------------------------------------------------ *)
+$stSolverBoundTag = "STSolverBoundExceeded";
+
+(* Set True whenever a bound trip occurred in this kernel.  Diagnostic
+   only: consumers must not treat the NOLR-shaped return of a tripped
+   search as a proof of non-reducibility. *)
+$STSolverBoundTripped = False;
+
+STFubiniLR::boundtrip =
+    "The linearly-reducible order search hit SolverBound: an operand with `1` \
+terms exceeds the bound `2`, so its discriminant/resultant would have been \
+SKIPPED.  Skipping under-approximates the singularity set and can certify an \
+order that is NOT linearly reducible, so the search is ABORTED instead.  This \
+is a BOUND TRIP, NOT a proof that no linearly reducible order exists.  Raise \
+SolverBound (default 10^9 = unbounded), or bound the search soundly with \
+\"ScorePruneFactor\" -> N, \"EulerFilter\" -> True, or HF_LR_TIME_BUDGET_S.  \
+Shown once per kernel session; Off[STFubiniLR::boundtrip] to silence.";
+$stSolverBoundWarned = False;
+
+(* Raise a bound trip: warn once, latch the session flag, abort the search. *)
+stSolverBoundTrip[nTerms_, limit_] := (
+    If[!TrueQ[$stSolverBoundWarned],
+        $stSolverBoundWarned = True;
+        Message[STFubiniLR::boundtrip, nTerms, limit]];
+    $STSolverBoundTripped = True;
+    Throw[$Failed, $stSolverBoundTag]);
+
 (* ================================================================ *)
 (*  IntegrationOrder option (2026-06-22): pin the per-face Euler     *)
 (*  integration order, skipping the per-face LR auto-search.         *)
@@ -16981,8 +17035,10 @@ STFubiniLR[polynomials_List, var_, OptionsPattern[]] := Module[
             ],
             If[FreeQ[f, var],
                 Nothing,
+                (* issue #52: fail closed rather than skip.  See
+                   $stSolverBoundTag above. *)
                 If[Length[f] > limit,
-                    Nothing,
+                    stSolverBoundTrip[Length[f], limit],
                     discriminantLR[f, var, 0, cc0]
                 ]
             ]
@@ -16993,10 +17049,14 @@ STFubiniLR[polynomials_List, var_, OptionsPattern[]] := Module[
     term1Raw =.;
 
     term2Raw = Table[
-        If[FreeQ[Snew[[ii]], var] || FreeQ[Snew[[jj]], var] ||
-           Length[Snew[[ii]]] > limit || Length[Snew[[jj]]] > limit,
+        If[FreeQ[Snew[[ii]], var] || FreeQ[Snew[[jj]], var],
             Nothing,
-            resultantLR[Snew[[ii]], Snew[[jj]], var, 0, {cc1, cc2}]
+            (* issue #52: fail closed rather than skip.  See
+               $stSolverBoundTag above. *)
+            If[Length[Snew[[ii]]] > limit || Length[Snew[[jj]]] > limit,
+                stSolverBoundTrip[Max[Length[Snew[[ii]]], Length[Snew[[jj]]]], limit],
+                resultantLR[Snew[[ii]], Snew[[jj]], var, 0, {cc1, cc2}]
+            ]
         ],
         {ii, Length[Snew]}, {jj, ii + 1, Length[Snew]}
     ];
@@ -17192,7 +17252,12 @@ STFasterFubini[
     groupPolynomialsRaw_List,
     variables_List,
     opts : OptionsPattern[]
-] := Module[{groupPolynomials, groupMembers, rootPolynomials, rootCounter, polys, ans, set, degree,
+] := (* issue #52: same fail-closed catch as STFasterFubini2 below.  This
+        entry point is standalone (not on the production Lungo path), but
+        it steps through the same STFubiniLR, so it needs the same
+        handler or a trip would escape as an uncaught Throw. *)
+    Catch[
+    Module[{groupPolynomials, groupMembers, rootPolynomials, rootCounter, polys, ans, set, degree,
              ord, ords, orders, freePolynomials, preSTable, preS, preOrders,
              size, vars, temp, newPolys},
 
@@ -17280,6 +17345,18 @@ STFasterFubini[
         {orders[variables // Sort][[1]], rootPolynomials},
         orders[variables // Sort][[1]]
     ]
+],
+    $stSolverBoundTag,
+    (* The handler must return the SAME SHAPE the body would have, so it has
+       to resolve FindRoots exactly as OptionValue[FindRoots] does above.
+       OptionValue[f, Flatten[{opts}], name] -- never a bare
+       FindRoots /. {opts}: callers pass options as a single LIST (see
+       stDispatchFubini2), for which the bare form returns {True} and TrueQ
+       then reads False.  That is the very bug fixed for ScorePruneFactor
+       in this same commit; it must not be reintroduced here. *)
+    (If[TrueQ[OptionValue[STFasterFubini, Flatten[{opts}], FindRoots]],
+        {NOLR, {}},
+        NOLR]) &
 ];
 
 
@@ -17377,7 +17454,14 @@ STFasterFubini2[
     groupPolynomialsRaw_List,
     variables_List,
     opts : OptionsPattern[]
-] := Module[{groupPolynomials, groupMembers, rootPolynomials, rootCounter, polys, set, degree,
+] := (* issue #52: a SolverBound trip inside STFubiniLR aborts the whole
+        search (fail closed).  It is reported in the NOLR-shaped slot so
+        every existing consumer keeps working, but STFubiniLR::boundtrip
+        has already fired and $STSolverBoundTripped is latched, so a trip
+        is distinguishable from a genuine NOLR verdict.  Unreachable at
+        the default bound. *)
+    Catch[
+    Module[{groupPolynomials, groupMembers, rootPolynomials, rootCounter, polys, set, degree,
              ord, orders, preSTable, preOrders, size, vars, newPolys,
              fubiniResult, intersectionResult, debugLog = {}},
 
@@ -17508,6 +17592,14 @@ STFasterFubini2[
         {orders[variables // Sort], rootPolynomials},
         orders[variables // Sort]
     ]
+],
+    $stSolverBoundTag,
+    (* Shape parity with the body's OptionValue[FindRoots] -- see the twin
+       handler on STFasterFubini for why the bare FindRoots /. {opts} form
+       is wrong here (stDispatchFubini2 passes a single LIST). *)
+    (If[TrueQ[OptionValue[STFasterFubini2, Flatten[{opts}], FindRoots]],
+        {{NOLR, Infinity}, {}},
+        {NOLR, Infinity}]) &
 ]
 
 
@@ -18179,7 +18271,7 @@ Module[{result},
                 "MethodLR" -> ("MethodLR" /. {opts} /. {"MethodLR" -> "Lungo"}),
                 "Carry" -> ("Carry" /. {opts} /. {"Carry" -> False}),
                 "ScorePruneFactor" ->
-                    ("ScorePruneFactor" /. {opts} /. {"ScorePruneFactor" -> Automatic})
+                    ("ScorePruneFactor" /. Flatten[{opts}] /. {"ScorePruneFactor" -> Automatic})
             ]
     ];
     If[OptionValue["ScanGauges"], Return[result]];
@@ -22211,7 +22303,7 @@ Options[STEvaluateGraph] = Join[
         "Rationalize" -> Automatic,  (* 2026-06-24 user-facing umbrella for the root-handling escalation (per-face FindRoots False -> True -> carry).  Automatic (default) reaches the carry rung as a last resort; True forces it available; False disables it.  Resolved by stResolveRationalize; the deprecated "Carry" below is a silent alias. *)
         "Carry" -> Automatic,  (* DEPRECATED silent alias for "Rationalize" (sentinel Automatic = defer to Rationalize; an explicit True|False is a legacy override).  carry-discharge LR tier; spec 2026-06-10-carry-option-design.md.  NOTE: under StopAt LR-checks the carry verdict is computed on the serial path only; parallel subkernels lack the HF binary path and report strict (pre-existing limitation, see notes/carry_option/G3B_FINDINGS.md) *)
         "ScorePruneFactor" -> Automatic,  (* 2026-06-16 score-driven branch-and-bound prune for the HF LR search; Automatic inherits the $STScorePruneFactor global (Infinity = exhaustive).  A finite X > 0 drops partial orders scoring > X times the best of their length, breaking the subset-DP blow-up on hard faces.  Block-scoped over the order-finding so every nested call inherits one value. *)
-        SolverBound -> Automatic,  (* 2026-06-25 (Christoph): LR-solver term-count bound for the Lungo STFubiniLR path; Automatic inherits the $STSolverBound global (10^9 default).  A lower value prunes runaway reductions and unblocks faces that wedge at the default.  Block-scoped over the order-finding (mirrors ScorePruneFactor) so every nested STFasterFubini2 / STFubiniLR call inherits it; previously dropped because SolverBound was absent here AND the stDispatchFubini2 call sites forward options by explicit enumeration.  SYMBOL key (not a string) so FilterRules cannot strip it -- declared on STEvaluateEulerIntegral too.  NOTE: only the Mma LR path (LROrderBackend -> "HyperIntica", or an HF -> Mma fallback) consumes SolverBound; the default HF C++ find_lr_orders ignores it (it prunes via ScorePruneFactor + the time budget instead). *)
+        SolverBound -> Automatic,  (* 2026-06-25 (Christoph): LR-solver term-count bound for the Lungo STFubiniLR path; Automatic inherits the $STSolverBound global (10^9 default).  FAIL-CLOSED as of issue #52: an operand above the bound ABORTS the search (STFubiniLR::boundtrip) instead of being skipped, because skipping under-approximates the singularity set and can CERTIFY A NON-REDUCIBLE ORDER (28% of truncation-certified orders on a 91-face production sample).  A trip is not a proof of non-reducibility.  Bound a runaway search soundly with "ScorePruneFactor", "EulerFilter", or HF_LR_TIME_BUDGET_S instead.  Block-scoped over the order-finding (mirrors ScorePruneFactor) so every nested STFasterFubini2 / STFubiniLR call inherits it; previously dropped because SolverBound was absent here AND the stDispatchFubini2 call sites forward options by explicit enumeration.  SYMBOL key (not a string) so FilterRules cannot strip it -- declared on STEvaluateEulerIntegral too.  NOTE: only the Mma LR path (LROrderBackend -> "HyperIntica", or an HF -> Mma fallback) consumes SolverBound; the default HF C++ find_lr_orders ignores it (it prunes via ScorePruneFactor + the time budget instead). *)
         "EulerFilter" -> False,  (* 2026-06-21 Doppio-C Euler chi-drop letter filter for the HF LR search.  False (default) = legacy behavior (byte-identical; the C++ filter is dormant).  True = run HF find_lr_orders with HF_EULER_FILTER=1 so every per-subset Fubini letter is vetted against the genuine Euler discriminant of its marginal (msolve-based chi count) and fictitious letters are dropped; conservative (failure/Indeterminate -> KEEP), boundary monomials exempt, so a clean integral's order+score are unchanged.  Needs msolve on PATH.  Block-scoped over the order-finding (via $STEulerFilter) so every nested call inherits one value without per-call-site threading. *)
         IntegrationOrder -> None,  (* 2026-06-22 pro-only pin of the per-face integration order (spec notes/integration_order_design.md).  None / Automatic = legacy auto-search (byte-identical).  {x1,...,xn} (Symbols) = a GLOBAL order projected onto each face; {fspec -> order, ...} (Rules) = PER-FACE (fspec uses the SelectFaces vocabulary).  Block-scoped to $STIntegrationOrderPin over the order-finding; a pinned face SKIPS the LR search.  A SYMBOL key (not a string) so FilterRules cannot strip it -- declared on STEvaluateEulerIntegral too. *)
         "IntegrationOrderVerify" -> False,  (* 2026-06-23 default False (Sebastian): a user-supplied IntegrationOrder pin is TRUSTED (pure SET, no verify call); Automatic|True = HF verify_order (cheap, no wedge) warn+proceed on NOT-LR; "Strict" = verify+abort the face on NOT-LR.  Block-scoped to $STIntegrationOrderVerify. *)
@@ -22322,7 +22414,20 @@ STEvaluateGraph[g_, opts : OptionsPattern[]] :=
                   (evaluated in the outer scope by Block before localization), and
                   the value is auto-restored on exit, so no cross-call leak. *)
                $STScorePruneFactor =
-                   ("ScorePruneFactor" /. {opts} /. {"ScorePruneFactor" -> Automatic}) /.
+                   (* issue #52 (2026-08-06): Flatten[{opts}] is REQUIRED, not
+                      cosmetic.  On the STIntegrate[integrand, x..] /
+                      Euler-tuple / propagator / STIntegrateHF routes, opts
+                      binds to a SINGLE LIST of rules, so a bare {opts} is a
+                      nested list and ReplaceAll returns one result PER inner
+                      rule list: the global became {1} instead of 1.  The HF
+                      request builder then drops the field, because
+                      NumericQ[{1}] is False, and the exhaustive search runs
+                      unpruned and wedges.  That is Christoph's item 1: he
+                      reported "ScorePruneFactor -> 1 does not seem to help",
+                      and it never reached HF at all.  The sibling
+                      $STEulerFilter and SolverBound assignments already use
+                      Flatten for exactly this reason. *)
+                   ("ScorePruneFactor" /. Flatten[{opts}] /. {"ScorePruneFactor" -> Automatic}) /.
                        Automatic :> $STScorePruneFactor,
                (* 2026-06-21: Block-scope the Euler chi-drop flag for the whole
                   diagram run, mirroring $STScorePruneFactor, so every nested
@@ -24026,7 +24131,7 @@ Options[STEvaluateEulerIntegral] = Join[
         "Carry"                  -> Automatic,  (* DEPRECATED silent alias for "Rationalize" (sentinel Automatic = defer; explicit True|False = legacy override).  carry-discharge LR tier; spec 2026-06-10-carry-option-design.md.  NOTE: under StopAt LR-checks the carry verdict is computed on the serial path only; parallel subkernels lack the HF binary path and report strict (pre-existing limitation, see notes/carry_option/G3B_FINDINGS.md) *)
         IntegrationOrder         -> None,  (* 2026-06-22 pro-only per-face integration-order pin (spec notes/integration_order_design.md).  MUST be declared here (not only on STEvaluateGraph): the STIntegrate[integrand,x..] / Euler-tuple / STIntegrateHF routes FilterRules[{opts}, Options[STEvaluateEulerIntegral]] before delegating, so an undeclared symbol key would be stripped and the pin would never arrive (same latent bug class as the FindRoots/ScorePruneFactor threading). See $STIntegrationOrderPin. *)
         "IntegrationOrderVerify" -> False,  (* 2026-06-23 default False (Sebastian): a user-supplied IntegrationOrder pin is TRUSTED (pure SET, no verify call); Automatic|True = HF verify_order warn+proceed; "Strict" = abort face on NOT-LR.  See $STIntegrationOrderVerify. *)
-        SolverBound              -> Automatic,  (* 2026-06-25 (Christoph): LR-solver term-count bound.  MUST be declared here (not only on STEvaluateGraph): the STIntegrate[integrand,x..] / Euler-tuple / STIntegrateHF routes FilterRules[{opts}, Options[STEvaluateEulerIntegral]] before delegating, so the undeclared symbol key was stripped and STFasterFubini2 never saw it (same latent class as IntegrationOrder / ScorePruneFactor).  Automatic inherits $STSolverBound (10^9).  NOTE: only the Mma LR path (LROrderBackend -> "HyperIntica", or an HF -> Mma fallback) consumes SolverBound; the default HF C++ find_lr_orders ignores it. *)
+        SolverBound              -> Automatic,  (* 2026-06-25 (Christoph): LR-solver term-count bound.  MUST be declared here (not only on STEvaluateGraph): the STIntegrate[integrand,x..] / Euler-tuple / STIntegrateHF routes FilterRules[{opts}, Options[STEvaluateEulerIntegral]] before delegating, so the undeclared symbol key was stripped and STFasterFubini2 never saw it (same latent class as IntegrationOrder / ScorePruneFactor).  Automatic inherits $STSolverBound (10^9).  FAIL-CLOSED as of issue #52: an operand above a finite bound ABORTS the search (STFubiniLR::boundtrip) instead of being skipped; skipping can certify a NON-REDUCIBLE order.  NOTE: only the Mma LR path (LROrderBackend -> "HyperIntica", or an HF -> Mma fallback) consumes SolverBound; the default HF C++ find_lr_orders ignores it. *)
         "StartAt"                -> None,
         (* Automatic = detect from homogeneity; True = always scan; False = never *)
         "ScanGauges"             -> Automatic,
@@ -24153,7 +24258,7 @@ Module[{cd, res},
               before Block localization); auto-restored on exit.  The core
               propagates this resolved value to subkernels (~22458). *)
            $STScorePruneFactor =
-               ("ScorePruneFactor" /. {opts} /. {"ScorePruneFactor" -> Automatic}) /.
+               ("ScorePruneFactor" /. Flatten[{opts}] /. {"ScorePruneFactor" -> Automatic}) /.
                    Automatic :> $STScorePruneFactor,
            (* 2026-06-21: Block-scope the Euler chi-drop flag over the whole
               raw-Euler run, mirroring $STScorePruneFactor, so every nested
@@ -25717,7 +25822,7 @@ $STOptionValues = <|
     "Rationalize"            -> {Automatic, True, False, "the root-handling escalation: Automatic (default) tries strict, then FindRoots->True algebraic letters, then the carry / Euler-rationalization rung -- each per face, only as far as needed; True forces the carry rung available; False stops before it (strict + algebraic letters only).  Replaces the deprecated \"Carry\" option."},
     "Carry"                  -> {False, True, "DEPRECATED silent alias for \"Rationalize\" (True = Rationalize->True, False = Rationalize->False); prefer \"Rationalize\"."},
     "ScorePruneFactor"       -> {Automatic, "Infinity = exhaustive (default)", "finite X > 0 = drop partial orders scoring > X times the best of their length"},
-    "SolverBound"            -> {Automatic, "Automatic = inherit $STSolverBound (10^9, effectively unbounded)", "finite integer N > 0 = term-count bound for the Lungo LR solver; a lower value prunes runaway polynomial reductions (consumed only on the Mma LR path, LROrderBackend -> \"HyperIntica\" or an HF -> Mma fallback)"},
+    "SolverBound"            -> {Automatic, "Automatic = inherit $STSolverBound (10^9, effectively unbounded)", "finite integer N > 0 = size bound on the operands of the Lungo LR solver's discriminant/resultant step.  FAIL-CLOSED (issue #52): an operand above the bound ABORTS the search with STFubiniLR::boundtrip rather than being skipped, because skipping under-approximates the singularity set and can certify an order that is NOT linearly reducible (measured at 28% of truncation-certified orders on a 91-face sample).  A bound trip is NOT a proof that no linearly reducible order exists.  To bound a runaway search soundly use \"ScorePruneFactor\" -> N (prunes candidate ORDERS), \"EulerFilter\" -> True, or HF_LR_TIME_BUDGET_S.  Consumed only on the Mma LR path (LROrderBackend -> \"HyperIntica\", or an HF -> Mma fallback)"},
     "EulerFilter"            -> {False, True},
     "IntegrationOrder"       -> {None, "Automatic = legacy auto-search (default)", "{x1, ..., xn} (symbols) = GLOBAL order, projected per face", "{fspec -> order, ...} (rules) = PER-FACE (fspec = SelectFaces vocabulary: i, (o->i), pattern {eps,face} pair e.g. {_,1}, OR-list e.g. {1,4}, Except[...])"},
     "IntegrationOrderVerify" -> {False, Automatic, True, "\"Strict\"", "False (default) = pure set, no verify call; Automatic/True = HF verify_order warn+proceed on NOT-LR; \"Strict\" = abort face on NOT-LR"},

@@ -1,66 +1,90 @@
 {
-	"CNickelIndex": "123|e4|e5|e6|e7|e7|e7||:000|00|00|00|00|00|00||",
-	"MassScales": 9,
-	"FunctionClass": "higher_genus",
-	"EpsilonOrder": "",
-	"References": [
+	"CNickelIndex":"123|e4|e5|e6|e7|e7|e7||:000|00|00|00|00|00|00||",
+	"MassScales":9,
+	"FunctionClass":"higher_genus",
+	"EpsilonOrder":"",
+	"References":[
 		"arXiv:2512.13794",
 		"arXiv:2311.14669 (Phys.Rev.Lett. 132 (101601), 2024)",
-		"arXiv:2311.16219 (Comput.Phys.Commun. 303 (109278), 2024)"
+		"arXiv:2311.16219 (Comput.Phys.Commun. 303 (109278), 2024)",
+		"arXiv:2606.29612"
 	],
-	"Records": [
+	"Records":[
 		{
-			"reference": "arXiv:2512.13794",
-			"authors": "Bargiela, Piotr, Frellesvig, Hjalte, Marzucca, Robin, Morales, Roger, Seefeld, Florian, Wilhelm, Matthias, Yang, Tong-Zhi",
-			"description": "$I^{**}_{3,3,3}$ two-loop topology with three internal paths of lengths a=3, b=3, c=3 (neither v_L nor v_R carries external legs); 6-point integral, non-planar (b=>=2). Geometry: 2 ISPs; Del Pezzo surface of degree 2; leading singularity is genus-3 curve (§4 Del Pezzo)",
-			"epsOrders": "",
-			"familyName": "I^{**}_{3,3,3}",
-			"method": "maximal_cut, Baikov",
-			"tools": [],
-			"ancillaryFiles": false,
-			"doi": "",
-			"texkey": "Bargiela:2025vwl",
-			"masterCount": 0,
-			"dimScheme": "d=4-2*eps",
-			"computationLevel": "topology",
-			"location": "§3.4 'Integrals with two ISPs' + §4 Del Pezzo I_{3,3,3}",
-			"recordId": "bx_5ff80bdc11cd",
-			"verified": false,
-			"verifiedAt": ""
+			"reference":"arXiv:2512.13794",
+			"authors":"Bargiela, Piotr, Frellesvig, Hjalte, Marzucca, Robin, Morales, Roger, Seefeld, Florian, Wilhelm, Matthias, Yang, Tong-Zhi",
+			"description":"$I^{**}_{3,3,3}$ two-loop topology with three internal paths of lengths a=3, b=3, c=3 (neither v_L nor v_R carries external legs); 6-point integral, non-planar (b=>=2). Geometry: 2 ISPs; Del Pezzo surface of degree 2; leading singularity is genus-3 curve (§4 Del Pezzo)",
+			"epsOrders":"",
+			"familyName":"I^{**}_{3,3,3}",
+			"method":"maximal_cut, Baikov",
+			"tools":[],
+			"ancillaryFiles":false,
+			"doi":"",
+			"texkey":"Bargiela:2025vwl",
+			"masterCount":0,
+			"dimScheme":"d=4-2*eps",
+			"computationLevel":"topology",
+			"location":"§3.4 'Integrals with two ISPs' + §4 Del Pezzo I_{3,3,3}",
+			"recordId":"bx_5ff80bdc11cd",
+			"verified":false,
+			"verifiedAt":""
 		},
 		{
-			"reference": "arXiv:2311.14669 (Phys.Rev.Lett. 132 (101601), 2024)",
-			"authors": "Fevola, C., Mizera, S., Telen, S.",
-			"description": "Landau singularities of the non-planar double pentagon computed via principal Landau determinants.",
-			"familyName": "PLD: npl-dpent",
-			"recordId": "bf_0ed961e50b2e",
-			"verified": false
+			"reference":"arXiv:2311.14669 (Phys.Rev.Lett. 132 (101601), 2024)",
+			"authors":"Fevola, C., Mizera, S., Telen, S.",
+			"description":"Landau singularities of the non-planar double pentagon computed via principal Landau determinants.",
+			"familyName":"PLD: npl-dpent",
+			"recordId":"bf_0ed961e50b2e",
+			"verified":false
+		},
+		{
+			"reference":"arXiv:2606.29612",
+			"authors":"Chestnov, Vsevolod, Crisanti, Giulio, Giroux, Mathieu",
+			"description":"Non-planar six-point two-loop graph (Fig. 2(c)): massless, 8 vertices (6 external, 2 internal), 9 internal propagators, verified 2-loop via L = E - V + 1 = 9 - 8 + 1 = 2. This is the paper's most demanding example: 45 new Landau singularities relative to PLDdata, the largest of length ~1e8 and total degree 36, with the largest singularity requiring an AMD EPYC 9575F 64-core cluster with ~100 GB memory. EDGE LIST AND VERTEX LABELS WERE SUPPLIED DIRECTLY BY THE USER, NOT EXTRACTED FROM PAPER TEXT: the arXiv LaTeX source shows this diagram only as a PDF figure (figures\/diagram_sixpoint_a.pdf) with a descriptive caption -- no propagator\/graph data appears in the paper's text.",
+			"epsOrders":"",
+			"familyName":"Non-Planar Six-Point (c)",
+			"method":"",
+			"tools":[
+				"FiniteFlow",
+				"FFIntRed"
+			],
+			"ancillaryFiles":true,
+			"doi":"",
+			"texkey":"",
+			"masterCount":0,
+			"dimScheme":"",
+			"computationLevel":"",
+			"location":"Fig. 2(c) (\\cref{fig:new_applications}), Sec. \"New Results\"",
+			"recordId":"bx_cc9af438c141",
+			"verified":false,
+			"verifiedAt":""
 		}
 	],
-	"Names": [
-		"$I^{**}_{3,3,3}$"
+	"Names":[
+		"$I^{**}_{3,3,3}$",
+		"Non-Planar Six-Point (c)"
 	],
-	"Source": [
+	"Source":[
 		"arXiv"
 	],
-	"Loops": 2,
-	"NumPropagators": 9,
-	"Results": [],
-	"edges": "{{{1, 2}, 0}, {{1, 3}, 0}, {{1, 4}, 0}, {{2, 5}, 0}, {{3, 6}, 0}, {{4, 7}, 0}, {{5, 8}, 0}, {{6, 8}, 0}, {{7, 8}, 0}}",
-	"nodes": "{{2, 0}, {3, 0}, {4, 0}, {5, 0}, {6, 0}, {7, 0}}",
-	"CanonicalName": "Massless del Pezzo $(3,3,3)^{**}$",
-	"Genus": 3,
-	"HyperellipticConfirmed": false,
-	"MassConfig": {
-		"numEdges": 9,
-		"numMassiveEdges": 0,
-		"numMasslessEdges": 9,
-		"distinctInternalMasses": 0,
-		"internalMassLabels": [],
-		"edgeMassPattern": "000000000",
-		"numExtLegs": 6,
-		"numOnshellMassiveExtLegs": 0,
-		"numMasslessExtLegs": 6,
-		"extLegSignature": "000000"
+	"Loops":2,
+	"NumPropagators":9,
+	"Results":[],
+	"edges":"{{{1, 2}, 0}, {{1, 3}, 0}, {{1, 4}, 0}, {{2, 5}, 0}, {{3, 6}, 0}, {{4, 7}, 0}, {{5, 8}, 0}, {{6, 8}, 0}, {{7, 8}, 0}}",
+	"nodes":"{{2, 0}, {3, 0}, {4, 0}, {5, 0}, {6, 0}, {7, 0}}",
+	"CanonicalName":"Massless del Pezzo $(3,3,3)^{**}$",
+	"Genus":3,
+	"HyperellipticConfirmed":false,
+	"MassConfig":{
+		"numEdges":9,
+		"numMassiveEdges":0,
+		"numMasslessEdges":9,
+		"distinctInternalMasses":0,
+		"internalMassLabels":[],
+		"edgeMassPattern":"000000000",
+		"numExtLegs":6,
+		"numOnshellMassiveExtLegs":0,
+		"numMasslessExtLegs":6,
+		"extLegSignature":"000000"
 	}
 }
