@@ -3493,14 +3493,14 @@ SeriesExpansion[ratPoly_, var_, maxOrder_: 0] := Module[{key, ser, poly, minDeg,
       If[var === 0, Return[{}]];
       If[AllTrue[word, # === 0 &], 
         If[var === 1, Return[{{1, {}}}]];
-        Return[{{(-1)^Length[word] / Length[word]!, 
+        Return[{{(-1)^Length[word],
           {Table[-var, {Length[word]}]}}}]];
       If[word[[-1]] === 0, 
         Return[ConvertToHlogRegInf[Total[Map[#[[1]] * Hlog[var, #[[2]]] &,
           RegTail[{{1, word}}, 0, If[var === 1, 0, Hlog[var, {0}]]]]]]]];
       If[word[[1]] === var, Return[$Failed]];
       If[AllTrue[word, # === word[[1]] &],
-        Return[{{(-1)^Length[word] / Length[word]!, 
+        Return[{{(-1)^Length[word],
           {Table[var/word[[1]] - 1, {Length[word]}]}}}]];
       result = {{1, {}}}; 
       Do[If[word[[i]] === 0, result = ConcatMul[{{1, {-1}}}, result],
