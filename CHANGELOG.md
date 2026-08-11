@@ -9,6 +9,73 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+## [1.2.12] - 2026-08-10
+
+### Added
+
+- **`STVersionInfo[]`**, a one-call version and transport diagnostic: the
+  running `$SubTropicaVersion`, the `PacletInfo.wl` manifest version, the
+  loaded HyperFLINT LibraryLink `hf_version` and whether it matched, the
+  CLI binary's self-reported version, the resolved paths, and the active
+  transport.
+
+### Changed
+
+- **With a finite `"ScorePruneFactor"`, the rationalization (carry)
+  escalation of the HyperFLINT order search is opt-in.**  The carry
+  leg's search is exhaustive by construction and cannot honor a prune,
+  so under a finite prune it was the one stage that could still run
+  unbounded past any time budget.  The strict pruned verdict now stands
+  unless `"Rationalize"` (or the deprecated `"Carry"`) is set
+  explicitly.  When no order is found and the carry rung was skipped,
+  the failure says so: `STEvaluateGraph::nolrcarryskip` /
+  `STEvaluateEulerIntegral::nolrcarryskip` state that the skip is not a
+  proof of non-reducibility and how to force the exhaustive search.
+- **HyperFLINT LibraryLink resolution takes the first version-matching
+  library, not the first existing one**, so a stale local
+  `build-release` build no longer shadows a correct dist or add-on
+  paclet library; when no candidate matches, the loader reports every
+  rejected library with its version and the fix instead of failing
+  silently.
+- **In-tree HyperFLINT builds stamp themselves with the sibling
+  `SubTropica.wl` version automatically** (the CMake `HF_VERSION`
+  default was a hardcoded "1.2.0", so a plain
+  `cmake -S . -B build-release` produced a library the runtime version
+  gate silently rejected).  Configure now warns when a cached or
+  explicit stamp differs from the sibling version, and the HyperFLINT
+  README documents `-DHF_VERSION` and `WOLFRAM_LIBRARY_INCLUDE_DIR`.
+- The welcome-banner benchmark reminder now says "SubTropica vX has not
+  been benchmarked on this machine"; the old "New version (vX)" wording
+  read as an update notice.
+- `STHyperFlint` now says, via `STHyperFlint::lropt`, that the LR-search
+  options (`"ScorePruneFactor"`, `"LROrderBackend"`, and
+  `"EulerFilter" -> True`) have no effect on the single-integrand leaf,
+  which integrates in the given variable order and runs no search.
+
+### Fixed
+
+- **A `SolverBound` trip now surfaces as its own verdict**
+  (`STEvaluateGraph::nolrtrip` / `STEvaluateEulerIntegral::nolrtrip`):
+  the search was aborted by the finite bound, which is not a proof that
+  no linearly reducible order exists.  Previously the abort was
+  reported as a plain "No linearly reducible integration orders found",
+  and the once-per-kernel `STFubiniLR::boundtrip` warning never reached
+  the user in either serial or parallel runs.  Trip flags are gathered
+  from all subkernels and reset per run.
+- `ConfigureSubTropica[HyperFlintPath -> ...]` re-resolves the
+  LibraryLink library path while no library is loaded yet, so repointing
+  a broken install takes effect immediately (a library already loaded in
+  the session stays loaded).
+- Configured tool paths beginning with `~` are expanded before use;
+  previously they passed the existence checks but failed at process
+  launch on the subprocess transports.
+- `"ScorePruneFactor"` is validated: `Automatic`, `Infinity`, or a real
+  number >= 1; the historic one-element-list shape is unwrapped with a
+  message, and invalid values (which could silently disable pruning or,
+  for a complex value, corrupt the result) are rejected loudly.
+- Fibration-basis conversion: corrected the coefficient of all-equal-letter
+  words in `HyperIntica.wl` (Mathieu Giroux).
+
 ## [1.2.11] - 2026-08-07
 
 ### Added

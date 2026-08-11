@@ -56,6 +56,16 @@ cmake -S . -B build-release -DCMAKE_BUILD_TYPE=Release \
 cmake --build build-release
 ```
 
+When this tree sits inside a SubTropica checkout, the build stamps its
+`hf_version` from the sibling `SubTropica.wl` automatically; SubTropica's
+loader accepts a LibraryLink library only when that stamp equals the
+running `$SubTropicaVersion` exactly.  For a copied-out tree, pass the
+stamp yourself with `-DHF_VERSION=<version>`.  The LibraryLink target
+(`hyperflint_librarylink`) needs `WolframLibrary.h`; if the configure
+output says it was not found, point CMake at it with
+`-DWOLFRAM_LIBRARY_INCLUDE_DIR=<Mathematica>/SystemFiles/IncludeFiles/C`
+(without it only the CLI binary is built).
+
 For ASAN- or TSAN-instrumented builds:
 ```bash
 cmake -S . -B build-asan  -DCMAKE_BUILD_TYPE=Debug -DHF_ASAN=ON

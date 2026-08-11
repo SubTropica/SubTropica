@@ -100,11 +100,72 @@ endif()
 # LibraryLink-only section (~line 1100) and was attached as a PRIVATE
 # compile-def to the hyperflint_librarylink dylib; that only stamped
 # the LibraryLink callback TU (hf_library.cpp), not handlers.cpp.
-set(HF_VERSION "1.2.0" CACHE STRING
+# issue #52 round 2: derive the DEFAULT from the sibling SubTropica.wl
+# ($SubTropicaVersion) when this tree sits inside a SubTropica checkout.
+# The runtime library gate is strict equality against $SubTropicaVersion,
+# so a plain in-tree `cmake -S . -B build-release` must produce a stamp
+# the loader will accept; the old hardcoded "1.2.0" default meant every
+# user build following the README was silently rejected at load.
+# Standalone (copied-out) HyperFLINT trees keep the historical fallback.
+# An explicit -DHF_VERSION=... (e.g. release CI's tag-derived stamp)
+# always wins, cache semantics unchanged.
+set(_HF_VERSION_DEFAULT "1.2.0")
+set(_HF_PARENT_WL "${CMAKE_CURRENT_SOURCE_DIR}/../SubTropica.wl")
+if(EXISTS "${_HF_PARENT_WL}")
+    file(STRINGS "${_HF_PARENT_WL}" _hf_parent_ver_lines
+         REGEX "^\\$SubTropicaVersion[ \t]*=")
+    list(LENGTH _hf_parent_ver_lines _hf_parent_ver_count)
+    if(NOT _hf_parent_ver_count EQUAL 1)
+        # Final review (codex #11): with a decoy first match the mismatch
+        # warning below cannot fire (the cache initializes to the decoy), so
+        # ambiguity must be loud here.
+        message(WARNING
+            "Expected exactly one line-start $SubTropicaVersion assignment in "
+            "${_HF_PARENT_WL}, found ${_hf_parent_ver_count}; using the first. "
+            "Pass -DHF_VERSION=<version> explicitly if this is wrong.")
+    endif()
+    if(_hf_parent_ver_count GREATER 0)
+        list(GET _hf_parent_ver_lines 0 _hf_parent_ver_line)
+    else()
+        set(_hf_parent_ver_line "")
+    endif()
+    if(_hf_parent_ver_line MATCHES "\"([0-9.]+)\"")
+        set(_HF_VERSION_DEFAULT "${CMAKE_MATCH_1}")
+        message(STATUS
+            "HF_VERSION default derived from ../SubTropica.wl: ${_HF_VERSION_DEFAULT}")
+    else()
+        # Review M8: if the parse ever breaks, do NOT fail silently into the
+        # historical fallback -- that silently reinstates the very bug the
+        # derivation fixes (and the mismatch warning below cannot fire,
+        # because HF_VERSION would equal the broken default).
+        message(WARNING
+            "Could not parse $SubTropicaVersion from ${_HF_PARENT_WL}; "
+            "falling back to HF_VERSION default ${_HF_VERSION_DEFAULT}.  "
+            "Pass -DHF_VERSION=<version> explicitly.")
+    endif()
+    # Re-run configure when the parent file changes, so the derivation and
+    # the mismatch warning below stay current after a `git pull`.  NOTE
+    # (review M9): the cache entry itself is NOT updated by a re-configure
+    # (set(... CACHE ...) never overwrites); the warning is the guard.
+    set_property(DIRECTORY APPEND PROPERTY CMAKE_CONFIGURE_DEPENDS
+        "${_HF_PARENT_WL}")
+endif()
+set(HF_VERSION "${_HF_VERSION_DEFAULT}" CACHE STRING
     "Version string baked into the LibraryLink hf_version() entry point \
 and into the eval-json response (schema_version=1 / hf_version=...). \
 Mma checks this against $SubTropicaVersion at load time and may also \
-warn on mismatch at every eval-json roundtrip (Track 8.1).")
+warn on mismatch at every eval-json roundtrip (Track 8.1).  Defaults to \
+the sibling SubTropica.wl's $SubTropicaVersion when building in-tree.")
+if(EXISTS "${_HF_PARENT_WL}" AND NOT HF_VERSION STREQUAL _HF_VERSION_DEFAULT)
+    # CACHE semantics: an existing build dir keeps its old stamp even after
+    # the default changes (set() does not overwrite the cache).  Say so
+    # loudly instead of letting the runtime gate reject the build later.
+    message(WARNING "HF_VERSION=${HF_VERSION} differs from the sibling "
+        "SubTropica.wl version ${_HF_VERSION_DEFAULT}.  The runtime library "
+        "gate requires exact equality; a mismatched stamp is rejected at "
+        "load.  If this cache is stale, reconfigure with "
+        "-DHF_VERSION=${_HF_VERSION_DEFAULT}.")
+endif()
 
 # -------- Library target --------
 # Grows over Phases 1-10. Phase 0 implements the Poly wrapper + factor.

@@ -121,7 +121,10 @@ $STHyperFlintSearchPaths = {
        load, so derive the dir from $InputFileName directly. *)
     FileNameJoin[{DirectoryName[$InputFileName], "HyperFLINT", "dist",
         stHFArchDir[], "hyperflint"}],
-    FileNameJoin[{$HomeDirectory, "Projects", "SubTropica-branchSM", "HyperFLINT", "build-release", "hyperflint"}],
+    (* issue #52 round 2: the maintainer-specific ~/Projects/SubTropica-branchSM
+       fallback is gone from the public list (it could silently pick up an
+       unrelated tree on a user machine with the same layout); generic
+       user-level locations below stay. *)
     FileNameJoin[{$HomeDirectory, "Projects", "HyperFLINT", "build-release", "hyperflint"}],
     FileNameJoin[{$HomeDirectory, "HyperFLINT",            "build-release", "hyperflint"}],
     "/opt/hyperflint/bin/hyperflint",
@@ -160,11 +163,34 @@ stHyperFlintSearchPaths[] := Module[{addon = stHyperFlintAddonDir[]},
    repeated discovery calls don't re-spawn chmod. No-op on "" / missing files
    and Quiet so a read-only location degrades gracefully. *)
 $stHFExecEnsured = <||>;
-stHFEnsureExec[p_String] := (
-    If[p =!= "" && FileExistsQ[p] && ! KeyExistsQ[$stHFExecEnsured, p],
+(* issue #52 round 2: a leading "~" passes FileExistsQ (WL expands it there)
+   but reaches RunProcess verbatim, which does no tilde expansion, so a
+   configured "~/..." tool path fails at process launch with pnfd.  Expand
+   tildes once at configuration time; everything else (absolute paths, bare
+   PATH-resolved command names like "msolve") passes through untouched. *)
+stExpandTilde[p_String] := If[StringStartsQ[p, "~"],
+    (* Review S1: ExpandFileName can return $Failed with General::unuser on
+       an unknown ~user; fall back to the original string, quietly. *)
+    Replace[Quiet @ Check[ExpandFileName[p], p], Except[_String] -> p], p];
+stExpandTilde[x_] := x;
+
+STHyperFlint::hfdir = "HyperFlintPath -> `1` is a DIRECTORY; `2`.";
+stHFEnsureExec[p0_String] := Module[{p = stExpandTilde[p0]},
+    (* Final review (codex #10): a directory here passed FileExistsQ and then
+       derived the LibraryLink candidates from its PARENT, silently picking a
+       different library.  Resolve to the contained binary when present. *)
+    If[DirectoryQ[p],
+        With[{cand = FileNameJoin[{p, "hyperflint"}]},
+            If[FileExistsQ[cand] && !DirectoryQ[cand],
+                Message[STHyperFlint::hfdir, p, "using " <> cand];
+                p = cand,
+                Message[STHyperFlint::hfdir, p,
+                    "no hyperflint binary inside; this path cannot work as the CLI"]]]];
+    If[p =!= "" && FileExistsQ[p] && !DirectoryQ[p] &&
+            ! KeyExistsQ[$stHFExecEnsured, p],
         Quiet@RunProcess[{"chmod", "+x", p}];
         $stHFExecEnsured[p] = True];
-    p);
+    p];
 stHFEnsureExec[x_] := x;  (* non-string (e.g. Automatic / unset) passes through *)
 
 stDiscoverHyperFlint[] := stHFEnsureExec @ SelectFirst[stHyperFlintSearchPaths[], FileExistsQ, ""];
@@ -341,8 +367,14 @@ stHyperFlintWarnIfStale[libPath_String] := Module[
         Message[stHyperFlintWarnIfStale::stale, libPath,
             DateString[libAt], DateString[srcMaxAt]]]]];
 
-stHyperFlintTryLoadLibrary[] := Module[{libPath = $STHyperFlintLibraryPath,
-        verFn, ver, lrFn, scanFn, symFn, clrFn, ftFn},
+(* Try ONE candidate library.  Returns True on success (all entry points
+   bound, transport armed), the string "mismatch" when the library loads
+   but its hf_version differs from $SubTropicaVersion (the strict ABI
+   gate; $STHFLibVersion is still recorded so diagnostics show what was
+   found), the string "prebind" during the eager package-init call when
+   $SubTropicaVersion is not yet a string (not a rejection; the lazy
+   retry decides later), and False when the file cannot be loaded. *)
+stHyperFlintTryLoadOne[libPath_] := Module[{verFn, ver, lrFn, scanFn, symFn, clrFn, ftFn},
     If[!StringQ[libPath] || libPath === "" || !FileExistsQ[libPath],
         Return[False]];
     verFn = Quiet @ Check[
@@ -351,12 +383,17 @@ stHyperFlintTryLoadLibrary[] := Module[{libPath = $STHyperFlintLibraryPath,
     If[Head[verFn] =!= LibraryFunction, Return[False]];
     ver = Quiet @ Check[verFn[], $Failed];
     $STHFLibVersion = ToString[ver];
-    If[StringQ[ver] && ver =!= $SubTropicaVersion,
+    If[!StringQ[$SubTropicaVersion], Return["prebind"]];
+    If[!StringQ[ver] || ver =!= $SubTropicaVersion,
         (* Per Phase-\[Gamma] adversarial-review recommendation (finding #8):
            refuse to use a HF library whose version disagrees with the
            Mma-side SubTropica version.  Prevents ABI drift between
-           a stale .dylib and a newer SubTropica.wl. *)
-        Return[False]];
+           a stale .dylib and a newer SubTropica.wl.  FAIL CLOSED on a
+           NON-STRING version too (codex review, issue #52 round 2): a
+           failing hf_version() call previously slipped past the
+           StringQ-guarded inequality and armed the transport with a
+           library of unknown version. *)
+        Return["mismatch"]];
     lrFn = Quiet @ Check[
         LibraryFunctionLoad[libPath, "hf_find_lr_orders",
             {"UTF8String"}, "UTF8String"],
@@ -395,9 +432,50 @@ stHyperFlintTryLoadLibrary[] := Module[{libPath = $STHyperFlintLibraryPath,
         If[Head[scanFn] === LibraryFunction, scanFn, None];
     $STHFLibHyperFlintSym = If[Head[symFn] === LibraryFunction, symFn, None];
     $STHFLibClearState    = If[Head[clrFn] === LibraryFunction, clrFn, None];
+    $STHyperFlintLibraryPath = libPath;   (* record the winning candidate *)
     $STHyperFlintUseLibraryLink = True;
     stHyperFlintWarnIfStale[libPath];
     True];
+
+(* issue #52 round 2: iterate ALL resolver candidates (first MATCHING wins)
+   instead of loading only the first EXISTING path, and report rejections
+   loudly.  Previously a stale build-release library shadowed a correct
+   dist/paclet one, and the version gate's silent Return[False] left the
+   user with "no available transport" and no explanation.  The rejection
+   report uses Print, not Message: the lazy loader runs under Quiet (see
+   stHFLibraryEnsureLoaded), which would swallow a Message \[LongDash] same
+   pattern as stHyperFlintWarnIfStale. *)
+stHyperFlintTryLoadLibrary[] := Module[{cands, rejected = {}, r, ok = False},
+    cands = DeleteDuplicates @ Select[
+        Prepend[If[StringQ[$STHyperFlintPath],
+                stHyperFlintLibraryPathCandidates[$STHyperFlintPath], {}],
+            $STHyperFlintLibraryPath],
+        (StringQ[#] && # =!= "" && FileExistsQ[#]) &];
+    Do[
+        r = stHyperFlintTryLoadOne[c];
+        Which[
+            r === True,       ok = True; Break[],
+            (* Eager package-init pass: $SubTropicaVersion is not bound yet,
+               so nothing can be decided \[LongDash] stop probing (review S4: do not
+               dlopen every candidate on a pass that cannot succeed); the
+               lazy retry re-iterates once the version is bound. *)
+            r === "prebind",  Break[],
+            r === "mismatch", AppendTo[rejected, {c, $STHFLibVersion}],
+            r === False,      AppendTo[rejected, {c, "unloadable"}]],
+        {c, cands}];
+    If[!ok && rejected =!= {} && !TrueQ[$stHFVersionRejectPrinted] &&
+            !TrueQ[$KernelID > 0],  (* master only (review S7): 13 subkernels
+                                       would each print their own copy *)
+        $stHFVersionRejectPrinted = True;
+        Print["[SubTropica] HyperFLINT LibraryLink: no usable library found (expected hf_version = ",
+            $SubTropicaVersion, ").  Rejected:"];
+        Do[Print["    ", rej[[1]], "  (", If[rej[[2]] === "unloadable",
+            "failed to load", "hf_version " <> ToString[rej[[2]]]], ")"],
+            {rej, rejected}];
+        Print["  Fix: rebuild with the matching stamp \[LongDash] cd HyperFLINT && cmake -S . -B build-release -DHF_VERSION=",
+            $SubTropicaVersion,
+            " && cmake --build build-release --target hyperflint-cli --target hyperflint_librarylink \[LongDash] or install the version-matched add-on paclet: PacletInstall[\"https://subtropi.ca/HyperFLINT.paclet\"]."]];
+    ok];
 
 (* The load is deferred behind a one-shot "have we succeeded?" guard.
    Retries on failure: the eager load at package-init time fires before
@@ -604,8 +682,8 @@ $STDependencies = <|
     "resolvedPath" -> "",
     "getPath" -> Function[$STHyperFlintPath],
     "usedBy" -> {"STIntegrate[\"Integrator\" -> \"HyperFLINT\"]", "STHyperFlint"},
-    "installHint" -> "cd ~/Projects/SubTropica-branchSM/HyperFLINT && cmake -S . -B build-release -DCMAKE_BUILD_TYPE=Release && cmake --build build-release -j",
-    "configHint" -> "Auto-discovered at ~/Projects/SubTropica-branchSM/HyperFLINT/build-release/hyperflint; override: ConfigureSubTropica[HyperFlintPath -> \"/absolute/path/to/hyperflint\"]"
+    "installHint" -> "cd <SubTropica>/HyperFLINT && cmake -S . -B build-release && cmake --build build-release -j   (HF_VERSION is derived from the sibling SubTropica.wl automatically)",
+    "configHint" -> "Auto-discovered from the install tree (HyperFLINT/build-release, then dist/<arch>); override: ConfigureSubTropica[HyperFlintPath -> \"/absolute/path/to/hyperflint\"]"
   |>,
   "HyperLogProcedures" -> <|
     "type" -> "maple-package", "required" -> False,
@@ -1561,6 +1639,48 @@ stReadPacletVersion[] := Module[{f, text, m},
   If[Length[m] === 1, First[m], None]
 ];
 
+STVersionInfo::usage = "STVersionInfo[] returns an Association describing every version-bearing component of the install: the running package ($SubTropicaVersion), the PacletInfo.wl manifest, the HyperFLINT LibraryLink library actually loaded (hf_version) and whether it matched, the CLI binary's self-reported version, the resolved paths, and the active transport.  Run it first whenever anything version-related looks off; it is the one-call answer to \"which SubTropica am I actually running, and which engine is it talking to?\".";
+
+(* issue #52 round 2: one diagnostic call instead of a six-symbol snippet.
+   Forces the lazy library load first so LoadedLibraryVersion reflects a
+   real attempt rather than the pre-load empty string. *)
+STVersionInfo[] := Module[{cliVer = Missing["NotAvailable"], out},
+    (* CheckAbort (review S6): LibraryFunctionLoad on a mismatched-arch/ABI
+       library can escape Quiet@Check with an Abort; this function must be
+       total on exactly the broken installs it exists to diagnose. *)
+    CheckAbort[Quiet @ Check[stHFLibraryEnsureLoaded[], Null], Null];
+    If[StringQ[$STHyperFlintPath] && $STHyperFlintPath =!= "" &&
+            FileExistsQ[$STHyperFlintPath],
+        cliVer = Quiet @ Check[
+            TimeConstrained[
+                Module[{o = RunProcess[{$STHyperFlintPath, "--version"},
+                        "StandardOutput"]},
+                    If[StringQ[o],
+                        First[StringCases[o,
+                            "HF_VERSION: " ~~ v : Except["\n"] .. :>
+                                StringTrim[v], 1], Missing["Unparsed"]],
+                        Missing["RunFailed"]]],
+                10, Missing["Timeout"]],
+            Missing["RunFailed"]]];
+    out = <|
+        "SubTropicaVersion"     -> $SubTropicaVersion,
+        "PacletInfoVersion"     -> stReadPacletVersion[],
+        (* Gate on the transport flag (review S5): the loader records the
+           LAST PROBED candidate's version in $STHFLibVersion even when it
+           rejects everything, and "loaded" must mean loaded. *)
+        "LoadedLibraryVersion"  -> If[TrueQ[$STHyperFlintUseLibraryLink],
+                                       $STHFLibVersion, Missing["NotLoaded"]],
+        "LastProbedLibraryVersion" -> If[$STHFLibVersion === "",
+                                       Missing["NothingProbed"], $STHFLibVersion],
+        "LibraryVersionMatch"   -> (TrueQ[$STHyperFlintUseLibraryLink] &&
+                                       $STHFLibVersion === $SubTropicaVersion),
+        "UseLibraryLink"        -> TrueQ[$STHyperFlintUseLibraryLink],
+        "AllowCLI"              -> TrueQ[$STHyperFlintAllowCLI],
+        "CLIVersion"            -> cliVer,
+        "HyperFlintPath"        -> $STHyperFlintPath,
+        "HyperFlintLibraryPath" -> $STHyperFlintLibraryPath|>;
+    out];
+
 (* Returns a one-line suggestion to run STBenchmark[] when the currently-
    installed $SubTropicaVersion has never been benchmarked on this machine
    (or the stored last-run record is for a different version).  Returns ""
@@ -1576,8 +1696,12 @@ stBenchmarkNudgeLine[] := Module[{data, storedVersion},
   data = Association[data];
   storedVersion = Lookup[data, "version", ""];
   If[storedVersion =!= $SubTropicaVersion,
-    "New version (v" <> $SubTropicaVersion <>
-      ") \[LongDash] run STBenchmark[] to re-verify your setup.",
+    (* Wording (issue #52 round 2): the old "New version (vX)" read as an
+       update notice and convinced a user his freshly cloned vX was stale.
+       Say what is actually meant: THIS version has no benchmark record on
+       THIS machine yet. *)
+    "SubTropica v" <> $SubTropicaVersion <>
+      " has not been benchmarked on this machine \[LongDash] run STBenchmark[] to re-verify your setup.",
     ""]
 ];
 
@@ -1953,7 +2077,10 @@ Module[{loaded, applyOne},
     If[!TrueQ[Global`$STSubkernelMode] && FileExistsQ[$STConfigFile],
         loaded = Quiet[Check[Get[$STConfigFile], $Failed]];
         If[AssociationQ[loaded],
-            applyOne[k_String, v_] := Switch[k,
+            (* issue #52 round 2: tilde paths persisted by an earlier session
+               (or written by hand) are expanded here so every consumer,
+               including RunProcess, sees an absolute path. *)
+            applyOne[k_String, v0_] := With[{v = stExpandTilde[v0]}, Switch[k,
                 "PolymakePath",                $PolymakeCommand = v,
                 "GinshPath",                   $GinshCommand = v,
                 "IterIntPath",                 If[StringQ[v] && v =!= "", $STIterIntPath = v],
@@ -1990,7 +2117,7 @@ Module[{loaded, applyOne},
                 "SOFIAPath",                   $STSOFIAPath = v,
                 "EffortlessPath",              $STEffortlessPath = v,
                 "BenchmarkNudge",              $ShowBenchmarkNudge = TrueQ[v],
-                _, Null];
+                _, Null]];
             KeyValueMap[applyOne, loaded]]]];
 
 (* Option defaults are all `Inherited` so a partial call leaves un-named
@@ -2036,7 +2163,7 @@ Options[ConfigureSubTropica] = {
 With[{$SubTropicaDir = DirectoryName[$InputFileName]},
 
 $SubTropicaInstallDir = $SubTropicaDir;
-$SubTropicaVersion = "1.2.11";
+$SubTropicaVersion = "1.2.12";
 
 (* Init-order fix: line 109 set $STHyperFlintDataPath before
    $SubTropicaInstallDir was bound, so the install-dir-derived data
@@ -2149,55 +2276,65 @@ If[$UseFFPolynomialQuotient,
     them to package defaults and persisting the reset.  *)
 ConfigureSubTropica[opts:OptionsPattern[]] := Module[
     {ffPath, spqrPath, ffLoaded, spqrLoaded, ffSpqrTouched},
-    If[OptionValue[PolymakePath]   =!= Inherited, $PolymakeCommand = OptionValue[PolymakePath]];
-    If[OptionValue[GinshPath]      =!= Inherited, $GinshCommand    = OptionValue[GinshPath]];
-    Module[{ip = OptionValue[IterIntPath]},
+    If[OptionValue[PolymakePath]   =!= Inherited, $PolymakeCommand = stExpandTilde[OptionValue[PolymakePath]]];
+    If[OptionValue[GinshPath]      =!= Inherited, $GinshCommand    = stExpandTilde[OptionValue[GinshPath]]];
+    Module[{ip = stExpandTilde[OptionValue[IterIntPath]]},
         If[ip =!= Inherited,
             $STIterIntPath = If[StringQ[ip] && ip =!= "", ip, stDiscoverIterInt[]]]];
     If[OptionValue[SymbolicEvaluator] =!= Inherited &&
        MemberQ[{"ginsh", "iterint"}, OptionValue[SymbolicEvaluator]],
         $STSymbolicEvaluator = OptionValue[SymbolicEvaluator]];
-    If[OptionValue[MaplePath]      =!= Inherited, $MapleCommand    = OptionValue[MaplePath]];
+    If[OptionValue[MaplePath]      =!= Inherited, $MapleCommand    = stExpandTilde[OptionValue[MaplePath]]];
     (* HyperInt / HyperFLINT keep the legacy "" sentinel for "re-run
        auto-discovery"; Inherited (the default) means "leave alone". *)
-    Module[{hp = OptionValue[HyperIntPath]},
+    Module[{hp = stExpandTilde[OptionValue[HyperIntPath]]},
         If[hp =!= Inherited,
             $SThyperIntPath = If[StringQ[hp] && hp =!= "", hp, stDiscoverHyperInt[]]]];
-    Module[{hfp = OptionValue[HyperFlintPath],
-            hfd = OptionValue[HyperFlintDataPath]},
+    Module[{hfp = stExpandTilde[OptionValue[HyperFlintPath]],
+            hfd = stExpandTilde[OptionValue[HyperFlintDataPath]]},
         If[hfp =!= Inherited,
             $STHyperFlintPath = stHFEnsureExec[If[StringQ[hfp] && hfp =!= "", hfp, stDiscoverHyperFlint[]]]];
         Which[
             hfd =!= Inherited && StringQ[hfd] && hfd =!= "" && FileExistsQ[hfd],
                 $STHyperFlintDataPath = hfd,
             hfp =!= Inherited,
-                $STHyperFlintDataPath = stResolveHyperFlintDataPath[$STHyperFlintPath]]];
-    Module[{hlp = OptionValue[HyperLogProceduresPath]},
+                $STHyperFlintDataPath = stResolveHyperFlintDataPath[$STHyperFlintPath]];
+        (* issue #52 round 2: a repointed CLI path must also repoint the
+           LibraryLink resolution; previously the dylib path stayed wherever
+           package load left it, so ConfigureSubTropica[HyperFlintPath -> ...]
+           silently kept using (or rejecting) the OLD library.  Guard (review
+           B2): when a library is ALREADY LOADED it stays loaded for the
+           session (the lazy loader never re-fires), so moving the variable
+           would only make $STHyperFlintLibraryPath disagree with the bound
+           library; repoint only while nothing is loaded. *)
+        If[hfp =!= Inherited && !TrueQ[$STHyperFlintUseLibraryLink],
+            $STHyperFlintLibraryPath = stResolveHyperFlintLibraryPath[$STHyperFlintPath]]];
+    Module[{hlp = stExpandTilde[OptionValue[HyperLogProceduresPath]]},
         If[hlp =!= Inherited,
             $STHyperLogProceduresPath = If[StringQ[hlp] && hlp =!= "", hlp, stDiscoverHyperLogProcedures[]]]];
-    If[OptionValue[PythonPath]                  =!= Inherited, $PythonCommand               = OptionValue[PythonPath]];
+    If[OptionValue[PythonPath]                  =!= Inherited, $PythonCommand               = stExpandTilde[OptionValue[PythonPath]]];
     If[OptionValue[PolymakeConcurrencyFraction] =!= Inherited, $PolymakeConcurrencyFraction = OptionValue[PolymakeConcurrencyFraction]];
-    If[OptionValue[FIESTAPath]                  =!= Inherited, $FIESTAPath                  = OptionValue[FIESTAPath]];
-    If[OptionValue[AMFlowPath]                  =!= Inherited, $AMFlowPath                  = OptionValue[AMFlowPath]];
-    If[OptionValue[LiteRedPath]                 =!= Inherited, $LiteRedPath                 = OptionValue[LiteRedPath]];
-    If[OptionValue[LiteIBPPath]                 =!= Inherited, $LiteIBPPath                 = OptionValue[LiteIBPPath]];
-    If[OptionValue[FIREPath]                    =!= Inherited, $FIREPath                    = OptionValue[FIREPath]];
-    If[OptionValue[FeyntropPath]                =!= Inherited, $FeyntropPath                = OptionValue[FeyntropPath]];
-    If[OptionValue[KiraPath]                    =!= Inherited, $KiraPath                    = OptionValue[KiraPath]];
-    If[OptionValue[NeatIBPPath]                 =!= Inherited, $NeatIBPPath                 = OptionValue[NeatIBPPath]];
-    If[OptionValue[SingularPath]                =!= Inherited, $SingularPath                = OptionValue[SingularPath]];
-    If[OptionValue[PolyLogToolsPath]            =!= Inherited, $PolyLogToolsPath            = OptionValue[PolyLogToolsPath]];
-    If[OptionValue[LibraPath]                   =!= Inherited, $LibraPath                   = OptionValue[LibraPath]];
-    If[OptionValue[DiffExpPath]                 =!= Inherited, $DiffExpPath                 = OptionValue[DiffExpPath]];
-    If[OptionValue[FermatPath]                  =!= Inherited, $FermatPath                  = OptionValue[FermatPath]];
-    If[OptionValue[FormPath]                    =!= Inherited, $FormPath                    = OptionValue[FormPath]];
+    If[OptionValue[FIESTAPath]                  =!= Inherited, $FIESTAPath                  = stExpandTilde[OptionValue[FIESTAPath]]];
+    If[OptionValue[AMFlowPath]                  =!= Inherited, $AMFlowPath                  = stExpandTilde[OptionValue[AMFlowPath]]];
+    If[OptionValue[LiteRedPath]                 =!= Inherited, $LiteRedPath                 = stExpandTilde[OptionValue[LiteRedPath]]];
+    If[OptionValue[LiteIBPPath]                 =!= Inherited, $LiteIBPPath                 = stExpandTilde[OptionValue[LiteIBPPath]]];
+    If[OptionValue[FIREPath]                    =!= Inherited, $FIREPath                    = stExpandTilde[OptionValue[FIREPath]]];
+    If[OptionValue[FeyntropPath]                =!= Inherited, $FeyntropPath                = stExpandTilde[OptionValue[FeyntropPath]]];
+    If[OptionValue[KiraPath]                    =!= Inherited, $KiraPath                    = stExpandTilde[OptionValue[KiraPath]]];
+    If[OptionValue[NeatIBPPath]                 =!= Inherited, $NeatIBPPath                 = stExpandTilde[OptionValue[NeatIBPPath]]];
+    If[OptionValue[SingularPath]                =!= Inherited, $SingularPath                = stExpandTilde[OptionValue[SingularPath]]];
+    If[OptionValue[PolyLogToolsPath]            =!= Inherited, $PolyLogToolsPath            = stExpandTilde[OptionValue[PolyLogToolsPath]]];
+    If[OptionValue[LibraPath]                   =!= Inherited, $LibraPath                   = stExpandTilde[OptionValue[LibraPath]]];
+    If[OptionValue[DiffExpPath]                 =!= Inherited, $DiffExpPath                 = stExpandTilde[OptionValue[DiffExpPath]]];
+    If[OptionValue[FermatPath]                  =!= Inherited, $FermatPath                  = stExpandTilde[OptionValue[FermatPath]]];
+    If[OptionValue[FormPath]                    =!= Inherited, $FormPath                    = stExpandTilde[OptionValue[FormPath]]];
     If[OptionValue[HyperFormPath]               =!= Inherited,
-        Module[{hfp = OptionValue[HyperFormPath]},
+        Module[{hfp = stExpandTilde[OptionValue[HyperFormPath]]},
             $STHyperFormPath = If[StringQ[hfp] && hfp =!= "", hfp,
                 stDiscoverHyperForm[]]]];
-    If[OptionValue[MsolvePath]                  =!= Inherited, $MsolvePath                  = OptionValue[MsolvePath]];
-    If[OptionValue[SOFIAPath]                   =!= Inherited, $STSOFIAPath                 = OptionValue[SOFIAPath]];
-    If[OptionValue[EffortlessPath]              =!= Inherited, $STEffortlessPath            = OptionValue[EffortlessPath]];
+    If[OptionValue[MsolvePath]                  =!= Inherited, $MsolvePath                  = stExpandTilde[OptionValue[MsolvePath]]];
+    If[OptionValue[SOFIAPath]                   =!= Inherited, $STSOFIAPath                 = stExpandTilde[OptionValue[SOFIAPath]]];
+    If[OptionValue[EffortlessPath]              =!= Inherited, $STEffortlessPath            = stExpandTilde[OptionValue[EffortlessPath]]];
     If[OptionValue[BenchmarkNudge]              =!= Inherited, $ShowBenchmarkNudge          = TrueQ[OptionValue[BenchmarkNudge]]];
 
     (* Distribute $PolymakeCommand to any already-running subkernels
@@ -2211,8 +2348,8 @@ ConfigureSubTropica[opts:OptionsPattern[]] := Module[
         passed at least one of FiniteFlowPath / SPQRPath; otherwise the
         load-time / persisted state is preserved and we don't re-print
         any banner. *)
-    ffPath   = OptionValue[FiniteFlowPath];
-    spqrPath = OptionValue[SPQRPath];
+    ffPath   = stExpandTilde[OptionValue[FiniteFlowPath]];
+    spqrPath = stExpandTilde[OptionValue[SPQRPath]];
     ffSpqrTouched = (ffPath =!= Inherited) || (spqrPath =!= Inherited);
     If[ffPath =!= Inherited, $FiniteFlowPath = ffPath];
 
@@ -2713,7 +2850,7 @@ STReadResults; stReadSubstitutions; stream; STResetConfig; STResetKernelCaches; 
 stResultToTeX; STReview; string; stRunDependencyTests; stSanitizeNickel; STSaveCheckpoint; STSaveResult; STSetContributor;
 STsetupDirectoryExpansion; STSetupKernel; stSetupKernelImpl; stSharedMassLegs; stSolverBoundTrip; STStop; STSubmitResult; STSubtractionFormula; STSymanzik;
 STSymanzikGraph; stSymbolicEval; STSyncLibrary; stTestOneDependency; stTeXSemicolon; STtoCoeffMonPols; STToFibrationBasis; STToGinsh;
-STToHyper; STToIterInt; STtoMyGraph; STToPySecDec; STTropicalAnalysis; STTropicalizeIntegrand; stTruncateTeX; STVerify; STFindSingularities; STForgetCoefficients; STNewton;
+STToHyper; STToIterInt; STtoMyGraph; STToPySecDec; STTropicalAnalysis; STTropicalizeIntegrand; stTruncateTeX; STVerify; STVersionInfo; STFindSingularities; STForgetCoefficients; STNewton;
 stVerifyEulerQuadruple; stVerifyEvalSymbolicGeneric; STwrapError; stWrapRootSubs; style; Subtopologies; SubTropicaID; SymbolicEvaluator;
 t; TopSectorOnly; w; X; z; zeta; zz; $AMFlowLoaded;
 $AMFlowPath; $anResult; $cacheDir; $chordEdges; $ComputationFailed; $diagramImage; $DiffExpPath; $edgeList;
@@ -12605,7 +12742,7 @@ STHyperFlint::usage = "STHyperFlint[integrand, {x1, ..., xn}] evaluates the Eule
 
 $HyperFLINTAvailable::usage = "$HyperFLINTAvailable is True when the HyperFLINT backend (binary + MZV data table) is resolvable, either from a dev source build, the HyperFLINT add-on paclet, or a configured path. Use it to check whether Integrator -> \"HyperFLINT\" / STHyperFlint will run.";
 
-STHyperFlint::notfound  = "HyperFLINT binary not found at ``.  Set via ConfigureSubTropica[HyperFlintPath -> \"/absolute/path/to/hyperflint\"], or build with `cd ~/Projects/SubTropica-branchSM/HyperFLINT && cmake -S . -B build-release -DCMAKE_BUILD_TYPE=Release && cmake --build build-release`.";
+STHyperFlint::notfound  = "HyperFLINT binary not found at ``.  Set via ConfigureSubTropica[HyperFlintPath -> \"/absolute/path/to/hyperflint\"], or build with `cd <SubTropica>/HyperFLINT && cmake -S . -B build-release && cmake --build build-release` (HF_VERSION is derived from the sibling SubTropica.wl automatically).";
 STHyperFlint::nodata    = "HyperFLINT data file (mzv_reductions.json) not found.  Tried: ``  -- Fix: re-clone HyperFLINT so <hf_root>/data/mzv_reductions.json is present, OR drop the file at ~/.subtropica/mzv_reductions.json, OR ConfigureSubTropica[HyperFlintDataPath -> \"/abs/path/to/mzv_reductions.json\"].  The file (110 KB) ships with the HyperFLINT source tree.";
 STHyperFlint::badjson   = "HyperFLINT returned non-JSON output: ``";
 STHyperFlint::hferror   = "HyperFLINT error: ``";
@@ -12965,7 +13102,24 @@ Options[STHyperFlint] = {
                           positional vars list); when explicitly True/"Strict" the
                           leaf says so rather than silently ignoring it.  Verified
                           per-face pinning lives in STIntegrate / STIntegrateHF. *)
+    ,
+    "ScorePruneFactor" -> Automatic  (* issue #52 round 2: accepted on the leaf ONLY so an
+                          explicit setting gets STHyperFlint::lropt instead of
+                          OptionValue::nodef (which leaked the Private context name).
+                          ALWAYS inert here: the leaf integrates in the given order and
+                          runs no LR search, so there is nothing to prune.  The search
+                          knob lives on STIntegrate / STIntegrateHF / STFindLROrdersHF. *)
+    ,
+    "LROrderBackend" -> Automatic  (* issue #52 round 2: same treatment as
+                          "ScorePruneFactor" above; no LR search runs on this leaf. *)
+    ,
+    SolverBound -> Automatic  (* issue #52 final review (F7): the option from
+                          the original report's item 2; declared here only so
+                          an explicit setting gets STHyperFlint::lropt instead
+                          of OptionValue::nodef.  Inert: no search on this leaf. *)
 };
+
+STHyperFlint::lropt = "`1` controls the linear-reducibility ORDER SEARCH and has no effect on STHyperFlint, which integrates in the given variable order and runs no search.  Use STIntegrate / STIntegrateHF (search + integrate) or STFindLROrdersHF (search alone).";
 
 (* Diagnostic counters \[LongDash] same shape as the
    stDispatchFubini2 instrumentation.  Useful to see if the HF
@@ -13016,6 +13170,18 @@ Module[{cd, effVars},
         OptionValue[STHyperFlint, {opts}, IntegrationOrder],
         OptionValue[STHyperFlint, {opts}, "IntegrationOrderVerify"],
         "STHyperFlint"];
+    (* issue #52 round 2: LR-search options are inert on this leaf; say so
+       loudly instead of silently accepting (or nodef-ing) them.  Internal
+       per-face dispatch never forwards these, so only direct user calls
+       can trigger the message. *)
+    If[OptionValue[STHyperFlint, {opts}, "ScorePruneFactor"] =!= Automatic,
+        Message[STHyperFlint::lropt, "ScorePruneFactor"]];
+    If[OptionValue[STHyperFlint, {opts}, "LROrderBackend"] =!= Automatic,
+        Message[STHyperFlint::lropt, "LROrderBackend"]];
+    If[TrueQ[OptionValue[STHyperFlint, {opts}, "EulerFilter"]],
+        Message[STHyperFlint::lropt, "EulerFilter"]];
+    If[OptionValue[STHyperFlint, {opts}, SolverBound] =!= Automatic,
+        Message[STHyperFlint::lropt, "SolverBound"]];
     cd = stResolveCheckDivergences[{opts},
         If[TrueQ[$stCheckDivergencesManaged],
             TrueQ[$HyperInticaCheckDivergences] &&
@@ -13477,7 +13643,7 @@ $stHFSchemaWarnOnce  = False;
 $stHFVersionWarnOnce = False;
 $stHFNoCarryWarned   = False;
 
-STFindLROrdersHF::notfound = "HyperFLINT binary not found at ``.  Build with `cd ~/Projects/SubTropica-branchSM/HyperFLINT && cmake --build build-release -j`.";
+STFindLROrdersHF::notfound = "HyperFLINT binary not found at ``.  Build with `cd <SubTropica>/HyperFLINT && cmake -S . -B build-release && cmake --build build-release -j`.";
 STFindLROrdersHF::clidisabled = "HyperFLINT LibraryLink dylib is not loaded and the CLI subprocess transport is disabled ($STHyperFlintAllowCLI = False).  Build a version-matched LibraryLink dylib (so $STHyperFlintUseLibraryLink = True; its hf_version must equal $SubTropicaVersion = `1`), or set $STHyperFlintAllowCLI = True to allow the CLI transport.  Resolved $STHyperFlintLibraryPath: `2`.";
 STFindLROrdersHF::hferror  = "HyperFLINT error: ``";
 STFindLROrdersHF::budgetexceeded = "HyperFLINT find_lr_orders exceeded its search budget (``).  This is the exhaustive-search safety net, NOT a NOLR verdict.  Set \"ScorePruneFactor\" -> N (a finite integer) to prune the branch-and-bound search, or raise/clear HF_LR_TIME_BUDGET_S (default 180 s).  Returning $Failed with the per-kernel budget signal set, so stDispatchFubini2 skips both the STFasterFubini2 fallback and the FindRoots->True retry (each would hit the same operation).";
@@ -13585,8 +13751,8 @@ Module[{coeffVars, req, procResult, resp, bestOrder, score, respStr,
         threads, timeout, hfBin = $STHyperFlintPath, allPolys, useLibLink,
         carryQ = stResolveRationalize[OptionValue["Rationalize"], OptionValue["Carry"], "STFindLROrdersHF", False],
         verifyOrder = OptionValue["VerifyOrder"],
-        scorePruneFactor = OptionValue["ScorePruneFactor"] /.
-            Automatic :> $STScorePruneFactor,
+        scorePruneFactor = stNormalizePrune[OptionValue["ScorePruneFactor"] /.
+            Automatic :> $STScorePruneFactor],
         (* 2026-06-21 Doppio-C Euler chi-drop flag.  Automatic inherits the
            Block-scoped $STEulerFilter global (set by STEvaluateGraph /
            STEvaluateEulerIntegral, default False); an explicit True/False on a
@@ -13948,7 +14114,7 @@ STBuildFactorTable::noorder =
 STBuildFactorTable::badorder =
     "\"Order\" must be a list of distinct symbols; got ``.";
 STBuildFactorTable::notfound = "HyperFLINT binary not found at ``.  Build with \
-`cd ~/Projects/SubTropica-branchSM/HyperFLINT && cmake --build --preset release-portable -j`.";
+`cd <SubTropica>/HyperFLINT && cmake -S . -B build-release && cmake --build build-release -j`.";
 STBuildFactorTable::clidisabled = "HyperFLINT LibraryLink dylib is not loaded and the CLI subprocess transport is disabled ($STHyperFlintAllowCLI = False).  Build a version-matched LibraryLink dylib (so $STHyperFlintUseLibraryLink = True; its hf_version must equal $SubTropicaVersion = `1`), or set $STHyperFlintAllowCLI = True to allow the CLI transport.  Resolved $STHyperFlintLibraryPath: `2`.";
 STBuildFactorTable::hferr = "HyperFLINT factor_table error: ``";
 STBuildFactorTable::timedout = "HyperFLINT factor_table timed out after `` s.";
@@ -15643,6 +15809,58 @@ stSolverBoundTrip[nTerms_, limit_] := (
     $STSolverBoundTripped = True;
     Throw[$Failed, $stSolverBoundTag]);
 
+(* issue #52 round 2: default for the explicit-Rationalize marker (Block-
+   bound by the STEvaluateGraph / STEvaluateEulerIntegral wrappers; consumed
+   by stDispatchFubini2's carry-escalation opt-in). *)
+$STRationalizeExplicit = False;
+
+(* issue #52 round 2 (review finding B1): latch recording that at least one
+   dispatch SKIPPED the carry escalation under a finite prune.  The skip's
+   Message/Print die inside the per-gauge scoring (Block[{Print=(Null&)}] +
+   Quiet), so the only channel that reaches the user is the final verdict:
+   the ::nolr emission sites branch to ::nolrcarryskip when this latch (or a
+   subkernel's) is set.  Block-reset per run by the wrappers, mirrored to
+   subkernels alongside $STSolverBoundTripped. *)
+$STCarrySkipped = False;
+$stDispatchCarrySkipWarned = False;
+$stHFVersionRejectPrinted = False;
+
+(* True when any kernel recorded a SolverBound trip during the current
+   search.  The per-face searches run on subkernels, whose once-per-kernel
+   STFubiniLR::boundtrip Message never reaches the master's output (issue
+   #52 round 2 measured exactly that), so the ::nolr-vs-::nolrtrip decision
+   gathers the latches from every kernel here. *)
+stSolverBoundTrippedAnywhere[] := TrueQ[$STSolverBoundTripped] ||
+    TrueQ[Or @@ Quiet[Check[
+        If[Length[Kernels[]] > 0,
+            ParallelEvaluate[TrueQ[$STSolverBoundTripped]], {}],
+        {}]]];
+
+(* issue #52 round 2 (final review): validate/normalize a user-supplied
+   "ScorePruneFactor".  Accepts Automatic, Infinity, or a real number >= 1;
+   unwraps the historic one-element-list shape (the opts-nesting bug class:
+   {1} silently disabled pruning at BOTH NumericQ gates and restored the
+   multi-hour wedge); rejects everything else to Infinity with a message
+   (a complex value previously flowed through an unevaluated If and
+   returned a WRONG series; values in (0,1) can only discard orders that
+   a prune of 1 keeps). *)
+STIntegrate::prunelist = "\"ScorePruneFactor\" -> `1` is a one-element list; interpreting it as `2`.  Pass a bare number (this shape usually comes from nested option lists).";
+STIntegrate::badprune = "\"ScorePruneFactor\" -> `1` is not Automatic, Infinity, or a real number >= 1; ignoring it (search runs unpruned).";
+stNormalizePrune[v_] := Which[
+    v === Automatic || v === Infinity, v,
+    NumericQ[v] && FreeQ[v, Complex] && TrueQ[v >= 1], v,
+    MatchQ[v, {u_} /; NumericQ[u] && FreeQ[u, Complex] && TrueQ[u >= 1]],
+        (Message[STIntegrate::prunelist, v, First[v]]; First[v]),
+    True,
+        (Message[STIntegrate::badprune, v]; Infinity)];
+
+(* Twin of stSolverBoundTrippedAnywhere for the carry-skip latch (B1). *)
+stCarrySkippedAnywhere[] := TrueQ[$STCarrySkipped] ||
+    TrueQ[Or @@ Quiet[Check[
+        If[Length[Kernels[]] > 0,
+            ParallelEvaluate[TrueQ[$STCarrySkipped]], {}],
+        {}]]];
+
 (* ================================================================ *)
 (*  IntegrationOrder option (2026-06-22): pin the per-face Euler     *)
 (*  integration order, skipping the per-face LR auto-search.         *)
@@ -15900,8 +16118,9 @@ Options[stDispatchFubini2] = DeleteDuplicates @ Join[
    espResult[[2]] uniformly. *)
 stDispatchFubini2[groupPoly_, xvars_, opts:OptionsPattern[]] /;
         (FindRoots /. {opts} /. {FindRoots -> False}) === Automatic :=
-Module[{restOpts, falseResult, falseNOLR},
+Module[{restOpts, falseResult, falseNOLR, tripBefore},
     restOpts = FilterRules[{opts}, Except[FindRoots]];
+    tripBefore = TrueQ[$STSolverBoundTripped];
     falseResult = stDispatchFubini2[groupPoly, xvars,
         Sequence @@ restOpts, FindRoots -> False];
     (* Task 2b: a budget trip on the strict (False) leg ($stHFBudgetTrip set by
@@ -15914,7 +16133,13 @@ Module[{restOpts, falseResult, falseNOLR},
             (ListQ[falseResult] && Length[falseResult] >= 1 &&
              First[falseResult] === NOLR);
         If[falseNOLR,
-            (* Escalate to True leg; returns wrapped shape directly. *)
+            (* Escalate to True leg; returns wrapped shape directly.
+               codex round 2: the True leg SUPERSEDES the strict leg on this
+               face, so a SolverBound trip recorded by the superseded False
+               leg must not survive into the final verdict when the True leg
+               completes cleanly; restore the pre-cascade latch (the True leg
+               re-trips on its own if it also hits the bound). *)
+            $STSolverBoundTripped = tripBefore;
             stDispatchFubini2[groupPoly, xvars,
                 Sequence @@ restOpts, FindRoots -> True],
             (* False succeeded; normalize flat shape into wrapped form. *)
@@ -15925,12 +16150,24 @@ Module[{restOpts, falseResult, falseNOLR},
                 {falseResult, {}}]]]
 ];
 
+stDispatchFubini2::carryskip = "A finite \"ScorePruneFactor\" is set, and the rationalization (carry) search cannot honor it: in carry mode the subset table must stay exhaustive, so that leg runs unpruned and can wedge indefinitely past any time budget (issue #52).  Skipping the carry escalation so the bounded search stays bounded; the strict pruned verdict stands.  Pass \"Rationalize\" -> True explicitly to force the exhaustive carry search.";
+
 stDispatchFubini2[groupPoly_, xvars_, opts:OptionsPattern[]] :=
 Module[{backend = $STLROrderBackend, findRoots, carry, hfResult, t0, dt, ret,
-        nxv = Length[xvars], scorePrune},
+        nxv = Length[xvars], scorePrune, skipCarry},
     findRoots = TrueQ[FindRoots /. {opts} /. {FindRoots -> False}];
     carry = TrueQ["Carry" /. {opts} /. {"Carry" -> False}];
     scorePrune = "ScorePruneFactor" /. {opts} /. {"ScorePruneFactor" -> Automatic};
+    (* issue #52 round 2: with a finite prune in effect, the carry escalation
+       is OPT-IN.  The carry leg's search is exhaustive by construction (the
+       request builder drops score_prune_factor when carryQ, and the C++ side
+       sets prune_on = ... && !do_carry), so under a finite prune it is the
+       one leg that can still wedge for hours \[LongDash] measured on issue #52's
+       integrand at every prune value tried.  An EXPLICIT Rationalize/Carry
+       setting ($STRationalizeExplicit, Block-bound by the wrappers) still
+       forces it: the user asked for the exhaustive search in so many words. *)
+    skipCarry = With[{sp = scorePrune /. Automatic :> $STScorePruneFactor},
+        NumericQ[sp] && sp > 0 && sp < Infinity] && !TrueQ[$STRationalizeExplicit];
     t0 = AbsoluteTime[];
     If[carry && backend =!= "HyperFLINT" && !$stDispatchNoCarryWarned,
         $stDispatchNoCarryWarned = True;
@@ -15951,7 +16188,17 @@ Module[{backend = $STLROrderBackend, findRoots, carry, hfResult, t0, dt, ret,
                structurally irrelevant (flat shape) -- guard on
                carry && findRoots so the extra HF call never runs in
                the strict/no-roots path. *)
-            hfResult = If[carry && findRoots,
+            If[carry && findRoots && skipCarry,
+                (* B1: the latch is the load-bearing channel (the ::nolr
+                   emission sites branch on it); Message is best-effort for
+                   direct callers (the pipeline's per-gauge scoring runs
+                   under Block[{Print=(Null&)}] + Quiet, which eats both
+                   Print and Message -- measured). *)
+                $STCarrySkipped = True;
+                If[!TrueQ[$stDispatchCarrySkipWarned],
+                    $stDispatchCarrySkipWarned = True;
+                    Message[stDispatchFubini2::carryskip]]];
+            hfResult = If[carry && findRoots && !skipCarry,
                 Module[{strictFR, carryRes},
                     strictFR = STFindLROrdersHF[groupPoly, xvars,
                         FindRoots -> findRoots, "Carry" -> False,
@@ -15984,7 +16231,7 @@ Module[{backend = $STLROrderBackend, findRoots, carry, hfResult, t0, dt, ret,
                        under a default Rationalize->Automatic (carry=True) does NOT
                        request carry_discharge / schema-2 / disable score-pruning on
                        a leg that can never carry (codex 2026-06-24). *)
-                    FindRoots -> findRoots, "Carry" -> (carry && findRoots),
+                    FindRoots -> findRoots, "Carry" -> (carry && findRoots && !skipCarry),
                     "ScorePruneFactor" -> scorePrune]];
             (* HF NOLR IS FINAL (user directive 2026-06-06,
                notes/hf_lr_search_deficiencies.md): never re-run the
@@ -22287,6 +22534,8 @@ STFindSlowestJob[] := Module[{files, jobs, slowest},
 
 STEvaluateGraph::timebound = "No valid gauge found within the specified time and/or memory limit(s). Please increase the TimeUpperBound and/or MemoryPercentCutOff.";
 STEvaluateGraph::nolr = "No linearly reducible integration orders found for any gauge choice.";
+STEvaluateGraph::nolrtrip = "No linearly reducible integration order was CERTIFIED: at least one per-face search was ABORTED by the finite SolverBound (STFubiniLR::boundtrip) instead of running to completion.  This is NOT a proof that no reducible order exists.  Raise SolverBound (default 10^9, effectively unbounded), or bound the search with the HyperFLINT backend's \"ScorePruneFactor\" instead (note: a finite prune skips the rationalization escalation unless \"Rationalize\" -> True is set explicitly).";
+STEvaluateGraph::nolrcarryskip = "No linearly reducible integration order was found WITH the rationalization (carry) escalation SKIPPED: a finite \"ScorePruneFactor\" is set, and the carry search cannot honor a prune (it is exhaustive by construction and can wedge indefinitely).  This is NOT a proof that no reducible order exists.  To force the exhaustive carry search anyway, re-run with \"Rationalize\" -> True explicitly (it may run long).  If the prune itself is the obstacle (a small prune can discard the only reducible orders), raise it or remove \"ScorePruneFactor\" entirely.";
 STEvaluateGraph::findrootshf = "\"LROrderBackend\" -> \"HyperFLINT\" combined with FindRoots -> True is unsupported at the LR-search level (HF's find_lr_orders does not yet understand Wm/Wp algebraic letters); downgrading to \"LROrderBackend\" -> \"HyperIntica\" for this call.  Integration still routes through HF if \"Integrator\" -> \"HyperFLINT\" is set.  Warning shown once per kernel session; Off[STEvaluateGraph::findrootshf] to silence.";
 STEvaluateGraph::membound = "Gauge x`1` exceeded memory limit and was skipped.";
 STEvaluateGraph::timeout = "Gauge x`1` exceeded time limit and was skipped.";
@@ -22427,8 +22676,9 @@ STEvaluateGraph[g_, opts : OptionsPattern[]] :=
                       and it never reached HF at all.  The sibling
                       $STEulerFilter and SolverBound assignments already use
                       Flatten for exactly this reason. *)
-                   ("ScorePruneFactor" /. Flatten[{opts}] /. {"ScorePruneFactor" -> Automatic}) /.
-                       Automatic :> $STScorePruneFactor,
+                   stNormalizePrune[
+                       ("ScorePruneFactor" /. Flatten[{opts}] /. {"ScorePruneFactor" -> Automatic}) /.
+                           Automatic :> $STScorePruneFactor],
                (* 2026-06-21: Block-scope the Euler chi-drop flag for the whole
                   diagram run, mirroring $STScorePruneFactor, so every nested
                   order-finding call (the ~21 STfindLinearlyReducibleOrders2
@@ -22468,7 +22718,31 @@ STEvaluateGraph[g_, opts : OptionsPattern[]] :=
                   Automatic inherits the prior global; auto-restored on exit. *)
                $STSolverBound =
                    OptionValue[STEvaluateGraph, Flatten[{opts}], SolverBound] /.
-                       Automatic :> $STSolverBound},
+                       Automatic :> $STSolverBound,
+               (* issue #52 round 2: per-run reset of the SolverBound trip
+                  latch (Block-scoped, so the pre-run value is restored on
+                  exit); the ::nolr emission reads it, gathered across
+                  subkernels, to distinguish "search refused" from "no order
+                  exists". *)
+               $STSolverBoundTripped = False,
+               $STCarrySkipped = False,
+               $stDispatchCarrySkipWarned = False,
+               (* issue #52 round 2: remember whether the caller EXPLICITLY
+                  set the rationalization tier, so a finite ScorePruneFactor
+                  can make the prune-exempt carry escalation opt-in (see
+                  stDispatchFubini2::carryskip) without changing behavior for
+                  callers who asked for Rationalize/Carry in so many words. *)
+               $STRationalizeExplicit =
+                   (* MemberQ, not FreeQ (review M1): FreeQ descends into
+                      option VALUES, so a rule like "Rationalize" -> True
+                      nested inside another option's value would read as
+                      explicit.  MemberQ tests only top-level entries of the
+                      flattened option list. *)
+                   MemberQ[Flatten[{opts}],
+                       (* True|False only (final review F2): an explicit
+                          "Rationalize" -> Automatic is "I did not choose"
+                          and must NOT re-arm the unpruned carry wedge. *)
+                       (Rule | RuleDelayed)["Rationalize" | "Carry" | Rationalize, True | False]]},
             stEvaluateGraphCore[g, opts]]]];
 
 Options[stEvaluateGraphCore] = Options[STEvaluateGraph];
@@ -22569,7 +22843,11 @@ Module[{
            kernel's.  Counters are main-kernel-only; subkernel
            fallbacks are best-effort (may be undercounted). *)
         With[{bk = lrBackendValue, spf = $STScorePruneFactor,
-              ef = $STEulerFilter, sb = $STSolverBound},
+              ef = $STEulerFilter, sb = $STSolverBound,
+              rex = $STRationalizeExplicit},
+            (* NOTE (review M3): this push reaches only kernels alive at core
+               entry; kernels launched later in the same run inherit package
+               defaults for these globals (pre-existing limitation). *)
             (* 2026-06-20: also propagate the wrapper Block-scoped
                $STScorePruneFactor (~20664) so parallel per-face LR searches on
                subkernels honor a finite ScorePruneFactor.  Previously only the
@@ -22583,7 +22861,12 @@ Module[{
                2026-06-25: likewise propagate $STSolverBound (Christoph) so parallel
                per-face Mma STFubiniLR searches honor a user-lowered SolverBound. *)
             ParallelEvaluate[$STLROrderBackend = bk; $STScorePruneFactor = spf;
-                $STEulerFilter = ef; $STSolverBound = sb]]];
+                $STEulerFilter = ef; $STSolverBound = sb;
+                (* issue #52 round 2: per-run reset of the subkernel trip and
+                   carry-skip latches (gathered at ::nolr time) and propagation
+                   of the explicit-Rationalize marker for the carry opt-in. *)
+                $STSolverBoundTripped = False; $STCarrySkipped = False;
+                $STRationalizeExplicit = rex]]];
 
     (* 2026-06-22: push the Block-scoped IntegrationOrder pin + verify mode
        (set on the MAIN kernel by the STEvaluateGraph Block header) to every
@@ -23509,7 +23792,19 @@ Module[{
                like the equal-mass 2-loop sunrise (elliptic); also on
                numerator combinations that spuriously hit NOLR. *)
             If[AllTrue[scores, # === Infinity &],
-                Message[STEvaluateGraph::nolr];
+                (* issue #52 round 2: a SolverBound trip anywhere (master or
+                   subkernel) means the searches were ABORTED, not exhausted;
+                   a carry skip means the rationalization rung was never tried;
+                   saying a plain "no orders found" in either case would be
+                   misleading (measured: the boundtrip Message itself never
+                   reaches the user). *)
+                Which[
+                    stSolverBoundTrippedAnywhere[],
+                        Message[STEvaluateGraph::nolrtrip],
+                    stCarrySkippedAnywhere[],
+                        Message[STEvaluateGraph::nolrcarryskip],
+                    True,
+                        Message[STEvaluateGraph::nolr]];
                 Throw[$Failed, "stEvalGraphExit"];
             ];
 
@@ -24073,6 +24368,8 @@ STHomogeneousQ[f_, xvars_] := If[f === 0, True, Module[{eulerD},
 ]];
 
 STEvaluateEulerIntegral::nolr        = "No linearly reducible integration orders found for any gauge choice.";
+STEvaluateEulerIntegral::nolrtrip    = "No linearly reducible integration order was CERTIFIED: at least one per-face search was ABORTED by the finite SolverBound (STFubiniLR::boundtrip) instead of running to completion.  This is NOT a proof that no reducible order exists.  Raise SolverBound (default 10^9, effectively unbounded), or bound the search with the HyperFLINT backend's \"ScorePruneFactor\" instead (note: a finite prune skips the rationalization escalation unless \"Rationalize\" -> True is set explicitly).";
+STEvaluateEulerIntegral::nolrcarryskip = "No linearly reducible integration order was found WITH the rationalization (carry) escalation SKIPPED: a finite \"ScorePruneFactor\" is set, and the carry search cannot honor a prune (it is exhaustive by construction and can wedge indefinitely).  This is NOT a proof that no reducible order exists.  To force the exhaustive carry search anyway, re-run with \"Rationalize\" -> True explicitly (it may run long).  If the prune itself is the obstacle (a small prune can discard the only reducible orders), raise it or remove \"ScorePruneFactor\" entirely.";
 STEvaluateEulerIntegral::carrydemote = "Carry-leg-only LR order `1` \
 (profile `2`) demoted: its deg-2 letters involve pending variables \
 (carried or conic tier), which the current Wm/Wp machinery cannot \
@@ -24258,8 +24555,9 @@ Module[{cd, res},
               before Block localization); auto-restored on exit.  The core
               propagates this resolved value to subkernels (~22458). *)
            $STScorePruneFactor =
-               ("ScorePruneFactor" /. Flatten[{opts}] /. {"ScorePruneFactor" -> Automatic}) /.
-                   Automatic :> $STScorePruneFactor,
+               stNormalizePrune[
+                   ("ScorePruneFactor" /. Flatten[{opts}] /. {"ScorePruneFactor" -> Automatic}) /.
+                       Automatic :> $STScorePruneFactor],
            (* 2026-06-21: Block-scope the Euler chi-drop flag over the whole
               raw-Euler run, mirroring $STScorePruneFactor, so every nested
               per-face order-finding call inherits one value.  The core
@@ -24301,7 +24599,15 @@ Module[{cd, res},
               the core pushes this to subkernels.  See the STEvaluateGraph twin. *)
            $STSolverBound =
                OptionValue[STEvaluateEulerIntegral, Flatten[{opts}], SolverBound] /.
-                   Automatic :> $STSolverBound},
+                   Automatic :> $STSolverBound,
+           (* issue #52 round 2: see the STEvaluateGraph twin for all four. *)
+           $STSolverBoundTripped = False,
+           $STCarrySkipped = False,
+           $stDispatchCarrySkipWarned = False,
+           $STRationalizeExplicit =
+               MemberQ[Flatten[{opts}],
+                   (* True|False only (final review F2): see the graph twin. *)
+                   (Rule | RuleDelayed)["Rationalize" | "Carry" | Rationalize, True | False]]},
         (* Pre-existing subkernels persist across runs; reset their
            record tables so the end-of-run harvest cannot report stale
            records from a previous integration.  Kernels launched
@@ -24452,14 +24758,23 @@ Module[{
     $STLROrderBackend     = lrBackendValue;
     If[Length[Kernels[]] > 0,
         With[{bk = lrBackendValue, spf = $STScorePruneFactor,
-              ef = $STEulerFilter, sb = $STSolverBound},
+              ef = $STEulerFilter, sb = $STSolverBound,
+              rex = $STRationalizeExplicit},
+            (* NOTE (review M3): this push reaches only kernels alive at core
+               entry; kernels launched later in the same run inherit package
+               defaults for these globals (pre-existing limitation). *)
             (* 2026-06-21: propagate the Block-scoped $STEulerFilter alongside the
                backend + score-prune so subkernel HF LR searches honor the
                chi-drop flag (and a True cannot leak across runs).
                2026-06-25: likewise propagate $STSolverBound (Christoph) so parallel
                per-face Mma STFubiniLR searches honor a user-lowered SolverBound. *)
             ParallelEvaluate[$STLROrderBackend = bk; $STScorePruneFactor = spf;
-                $STEulerFilter = ef; $STSolverBound = sb]]];
+                $STEulerFilter = ef; $STSolverBound = sb;
+                (* issue #52 round 2: per-run reset of the subkernel trip and
+                   carry-skip latches (gathered at ::nolr time) and propagation
+                   of the explicit-Rationalize marker for the carry opt-in. *)
+                $STSolverBoundTripped = False; $STCarrySkipped = False;
+                $STRationalizeExplicit = rex]]];
 
     problemId             = ToString[If[OptionValue["SetProblemID"] === Automatic,
                                 Unique[SubTropicaID], OptionValue["SetProblemID"]]];
@@ -25175,7 +25490,14 @@ Module[{
 
             (* v1.0.420: see explanation at the mirror site in STEvaluateGraph. *)
             If[AllTrue[scores, # === Infinity &],
-                Message[STEvaluateEulerIntegral::nolr];
+                (* issue #52 round 2: see the STEvaluateGraph mirror site. *)
+                Which[
+                    stSolverBoundTrippedAnywhere[],
+                        Message[STEvaluateEulerIntegral::nolrtrip],
+                    stCarrySkippedAnywhere[],
+                        Message[STEvaluateEulerIntegral::nolrcarryskip],
+                    True,
+                        Message[STEvaluateEulerIntegral::nolr]];
                 Throw[$Failed, "stEvalEulerExit"];
             ];
             If[AllTrue[scores, (# >= 10^500 || # === Infinity) &],
@@ -25821,7 +26143,7 @@ $STOptionValues = <|
     "StopAt"                 -> {Automatic, "AfterBuildingIntegrand", "AfterExpansion", "AfterLinearOrder", "AfterMinimalLRCheck", "AfterMinimalLRCheckOneShot"},
     "Rationalize"            -> {Automatic, True, False, "the root-handling escalation: Automatic (default) tries strict, then FindRoots->True algebraic letters, then the carry / Euler-rationalization rung -- each per face, only as far as needed; True forces the carry rung available; False stops before it (strict + algebraic letters only).  Replaces the deprecated \"Carry\" option."},
     "Carry"                  -> {False, True, "DEPRECATED silent alias for \"Rationalize\" (True = Rationalize->True, False = Rationalize->False); prefer \"Rationalize\"."},
-    "ScorePruneFactor"       -> {Automatic, "Infinity = exhaustive (default)", "finite X > 0 = drop partial orders scoring > X times the best of their length"},
+    "ScorePruneFactor"       -> {Automatic, "Infinity = exhaustive (default)", "real X >= 1 = drop partial orders scoring > X times the best of their length.  v1.2.12: with a finite prune the rationalization (carry) escalation is SKIPPED unless \"Rationalize\" -> True is set explicitly (the carry search cannot honor a prune); a no-order outcome then reports as ::nolrcarryskip, which is NOT a proof of non-reducibility.  Values below 1 or non-real values are rejected with a message (they could silently disable pruning or corrupt the result in earlier releases)"},
     "SolverBound"            -> {Automatic, "Automatic = inherit $STSolverBound (10^9, effectively unbounded)", "finite integer N > 0 = size bound on the operands of the Lungo LR solver's discriminant/resultant step.  FAIL-CLOSED (issue #52): an operand above the bound ABORTS the search with STFubiniLR::boundtrip rather than being skipped, because skipping under-approximates the singularity set and can certify an order that is NOT linearly reducible (measured at 28% of truncation-certified orders on a 91-face sample).  A bound trip is NOT a proof that no linearly reducible order exists.  To bound a runaway search soundly use \"ScorePruneFactor\" -> N (prunes candidate ORDERS), \"EulerFilter\" -> True, or HF_LR_TIME_BUDGET_S.  Consumed only on the Mma LR path (LROrderBackend -> \"HyperIntica\", or an HF -> Mma fallback)"},
     "EulerFilter"            -> {False, True},
     "IntegrationOrder"       -> {None, "Automatic = legacy auto-search (default)", "{x1, ..., xn} (symbols) = GLOBAL order, projected per face", "{fspec -> order, ...} (rules) = PER-FACE (fspec = SelectFaces vocabulary: i, (o->i), pattern {eps,face} pair e.g. {_,1}, OR-list e.g. {1,4}, Except[...])"},
@@ -36201,6 +36523,8 @@ With[{stnsLedger = {
   "stValidateIntegrationOrderVerify", "stLeafResolveIntegrationOrder",
   (* derive-gauge for eps-free projective periods (2026-06-25, Christoph; STIntegrate "GaugeStrategy" -> "Derive") *)
   "stDeriveGaugeFromHomogeneousLR",
+  (* issue #52 round 2: SolverBound trip + carry-skip gathers (the ::nolr verdict branch) *)
+  "stSolverBoundTrippedAnywhere", "stCarrySkippedAnywhere", "stNormalizePrune",
   "stWarnGlobalStructuralSymbols", "stWithSuppressedOutput", "STwrapTranslator", "stWriteSplitEntry", "STXStringReplace", "style$", "STzetaStringReplace", "STZetaStringReplace",
   "stCarryTau", "stCarryPerfectSquareRoot", "stCarrySubstitute", "stCarryChamberOKQ", "stCarryChamberPoint", "stCarryEndpointMap", "stCarryConicPredicate", "stCarryConicRadicand", "stCarryTriggerCheck",
   "stCarryTransformIntegrand", "stCarryExecuteTerm", "stCarryTermSplit", "stCarryApplyExecution"}},

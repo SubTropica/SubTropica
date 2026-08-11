@@ -20,19 +20,19 @@ WindowFrame->Normal*)
 Notebook[{
 
 Cell[CellGroupData[{
-Cell["STVerify", "ObjectName",ExpressionUUID->"034c2161-8c39-4e02-bfb6-44756a9da33b"],
+Cell["STVerify", "ObjectName",ExpressionUUID->"b37e7f08-b608-47eb-989b-a04cf6642b9a"],
 
 Cell[BoxData[GridBox[{
    {Cell[TextData[{
      StyleBox["STVerify", "TI"],
      " \[LineSeparator]STVerify cross-checks a symbolic result from \
 STIntegrate against a numerical evaluation."
-    }], "TableText",ExpressionUUID->"a89013ac-99b6-439d-a8e9-8d9eaeb00e9c"]}
+    }], "TableText",ExpressionUUID->"12ef8c6c-6678-4e43-ae37-97294b25db1a"]}
   },
   GridBoxAlignment->{"Columns" -> {{Left}}},
   GridBoxItemSize->{
    "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}]], "Usage",
- CellID->1,ExpressionUUID->"1ceecbf3-1c13-40fc-97f8-e7d056a99af6"],
+ CellID->1,ExpressionUUID->"0ac8a45e-d477-4eef-8562-9a2bf1213c65"],
 
 Cell["\<\
 STVerify cross-checks a symbolic result from STIntegrate against a numerical \
@@ -40,7 +40,7 @@ evaluation. It automatically generates a Euclidean kinematic point, runs \
 STNIntegrate for the numerical side and STToGinsh for the symbolic side, and \
 compares Laurent coefficients order by order. The syntax is: (see example \
 below)\
-\>", "Notes",ExpressionUUID->"d5e04659-ff35-40cb-a852-dfb96c01c674"],
+\>", "Notes",ExpressionUUID->"6f808d87-7580-4b62-a6db-bdf9f9234292"],
 
 Cell[BoxData[
  RowBox[{"STVerify", "[", 
@@ -63,35 +63,35 @@ Cell[BoxData[
    RowBox[{"\"\<Method\>\"", "     ", "->", " ", "\"\<pySecDec\>\""}], "\n", 
    "    ", ",", " ", 
    RowBox[{"\"\<Verbose\>\"", "    ", "->", " ", "False"}]}], "]"}]], "Input",\
-ExpressionUUID->"84d6ba79-7929-4449-9206-b6b564820646"]
+ExpressionUUID->"d34d48bf-0d91-407f-a4c3-ccbd90920d6e"]
 }, Open  ]],
 
 Cell[CellGroupData[{
 
-Cell["Details", "Section",ExpressionUUID->"b26ece09-8a51-4389-a401-a3e4921e5def"],
+Cell["Details", "Section",ExpressionUUID->"9cb4fd69-ade0-440c-a9ac-81d42cd9ebe8"],
 
-Cell["Options", "Subsection",ExpressionUUID->"833a45bc-0f5c-4e7d-b6b5-abe0dac1e16a"],
+Cell["Options", "Subsection",ExpressionUUID->"9d727cd3-7276-4dc9-8368-92a90aabf567"],
 
 Cell["\<\
 \"Tolerance\" (default 10^{-3}) sets the threshold for the relative error \
 between numerical and symbolic coefficients. \"MaxEval\" -> Automatic \
 defaults to 10^6 for one-loop integrals and 10^7 otherwise. The remaining \
 options are inherited from STNIntegrate.\
-\>", "Text",ExpressionUUID->"d81670c7-d239-4fbf-ae76-be827ac4b33e"],
+\>", "Text",ExpressionUUID->"b8bd3f4b-281d-4003-aa2a-a9ae13a598c0"],
 
-Cell["Return value", "Subsection",ExpressionUUID->"2a1cd11c-5f69-48c7-b0d0-2e9c16297696"],
+Cell["Return value", "Subsection",ExpressionUUID->"eb81e791-1372-45b0-8f80-ba385af783ed"],
 
 Cell["\<\
 An Association with keys \"pass\" (True/False), \"reason\", \"maxRelErr\", \
 \"relErr\" (per-coefficient relative errors), \"coefficients\" (detailed \
 comparison at each \[CurlyEpsilon]-order), \"kinPoint\" (the kinematic point \
 used), and \"symbolic\" (the evaluated symbolic result).\
-\>", "Text",ExpressionUUID->"89ad5f0f-a03d-4b8b-bc5d-10a73ceb034b"]
+\>", "Text",ExpressionUUID->"82ab1d9b-72cf-4117-b36a-a140d372d4a1"]
 }, Open  ]],
 
 Cell[CellGroupData[{
 
-Cell["Options", "OptionsSection",ExpressionUUID->"b1ae60dd-f42b-4f14-a0b4-ad20ac9c9355"],
+Cell["Options", "OptionsSection",ExpressionUUID->"1d54b066-4c89-4fb8-98bd-e2386af0c6c5"],
 
 Cell[BoxData[GridBox[{
    {"\"\<Method\>\"", "\"\<pySecDec\>\"", 
@@ -225,7 +225,7 @@ Cell[BoxData[GridBox[{
   },
   GridBoxAlignment->{"Columns" -> {Left, Left, Left}},
   GridBoxDividers->{"Rows" -> {True, {False}, True}}]], "OptionsTable",Express\
-ionUUID->"69b83711-6347-456e-981b-83967c790b15"]
+ionUUID->"484722d4-e553-4ac7-b1ae-df5f53dc414e"]
 }, Open  ]],
 
 Cell[CellGroupData[{
@@ -241,60 +241,60 @@ Cell[BoxData[
       BaseStyle->"ExtendedExamplesLink",
       ButtonData:>"ExtendedExamples"]}
    }],
-  $Line = 0; Null]], "PrimaryExamplesSection",ExpressionUUID->"06bc8e31-e1bc-\
-4cf5-a965-fc11435818c7"],
+  $Line = 0; Null]], "PrimaryExamplesSection",ExpressionUUID->"564d0560-166c-\
+4e50-8574-edfad10b848a"],
 
 Cell["\<\
 Cross-check a symbolic result against a fresh numerical evaluation; returns \
 an Association whose \"pass\" key is True when the relative error is below \
 Tolerance.  Requires a numerical backend.\
-\>", "ExampleText",ExpressionUUID->"6f36bec0-143a-4cf2-8c2c-1467b51a6994"],
+\>", "ExampleText",ExpressionUUID->"77f3485b-06c6-4c03-88e6-feeea2a01a6b"],
 
 Cell[BoxData[
  RowBox[{"ConfigureSubTropica", "[", 
   RowBox[{
   "PythonPath", " ", "->", " ", "\"\<.venvs/subtropica312/bin/python\>\""}], 
-  "]"}]], "Input",ExpressionUUID->"a3d0c3c1-2cee-490b-ad1f-295b558ef5b6"],
+  "]"}]], "Input",ExpressionUUID->"8a015f07-a5a4-4b67-b450-8f55fc747501"],
 
 Cell[BoxData[
  RowBox[{"STVerify", "[", 
   RowBox[{"diag", ",", " ", 
    RowBox[{"STIntegrate", "[", "diag", "]"}]}], "]"}]], "Input",ExpressionUUID\
-->"05fbd606-7ded-452d-8763-50234ab75230"]
+->"c38b7ca4-c447-4b3d-a473-bb3616d986d3"]
 }, Open  ]],
 
 Cell[CellGroupData[{
 
-Cell["Metadata", "MetadataSection",ExpressionUUID->"ad437aec-ec7e-4e96-b0d8-17ce5884898f"],
+Cell["Metadata", "MetadataSection",ExpressionUUID->"22d58107-bf8f-4500-bca0-43eb6cfd0883"],
 
 Cell[CellGroupData[{
 
-Cell["Categorization", "CategorizationSection",ExpressionUUID->"1d6ed63d-2d58-4926-acb2-14222d0063d0"],
+Cell["Categorization", "CategorizationSection",ExpressionUUID->"480f149b-4ab6-43c8-be03-ff3b61a168d6"],
 
 Cell["Symbol", "Categorization",
  CellLabel->
-  "Entity Type",ExpressionUUID->"79709b09-04af-40f0-aa53-3ee64e23f32f"],
+  "Entity Type",ExpressionUUID->"bdff4600-6eaa-450f-a907-3330f44244cf"],
 
 Cell["SubTropica", "Categorization",
  CellLabel->
-  "Paclet Name",ExpressionUUID->"d8b57254-35a3-4ab4-b3e2-af77f1272728"],
+  "Paclet Name",ExpressionUUID->"399c13db-425d-4ad2-a6d8-8d31d719a8cb"],
 
 Cell["SubTropica`", "Categorization",
- CellLabel->"Context",ExpressionUUID->"332ea4fb-8920-4ca5-b7e8-bc7facf7840e"],
+ CellLabel->"Context",ExpressionUUID->"9ea6e79e-aec7-49a9-ab9a-b6ea9d861b7c"],
 
 Cell["SubTropica/ref/STVerify", "Categorization",
- CellLabel->"URI",ExpressionUUID->"5d525bc0-445b-412f-a051-19931ac906cf"]
+ CellLabel->"URI",ExpressionUUID->"09e59d3d-5f98-4de0-8abd-d17350dec288"]
 }, Closed]],
 
 Cell[CellGroupData[{
 
-Cell["Keywords", "KeywordsSection",ExpressionUUID->"db19ec1c-1244-4d67-9a63-d4c18d737e23"],
+Cell["Keywords", "KeywordsSection",ExpressionUUID->"ad735004-ce44-41dc-8c31-316829c7631f"],
 
-Cell["Feynman integral", "Keywords",ExpressionUUID->"c8cb467c-be4b-4167-b4cd-29482025b0c7"],
+Cell["Feynman integral", "Keywords",ExpressionUUID->"ba5facf9-1197-4b31-bdb9-a618d99eff71"],
 
-Cell["tropical geometry", "Keywords",ExpressionUUID->"99d010da-ecb6-4076-9b9a-335932ac1da5"],
+Cell["tropical geometry", "Keywords",ExpressionUUID->"a4c3bc75-3f83-4efb-a2e1-f8f1c74ca321"],
 
-Cell["dimensional regularization", "Keywords",ExpressionUUID->"0b200315-6c9f-4d40-9be9-1ecf44b4ef32"]
+Cell["dimensional regularization", "Keywords",ExpressionUUID->"aeea4097-02b6-45bd-81ab-7257727b3544"]
 }, Closed]]
 }, Open  ]]
 },
@@ -302,7 +302,7 @@ TaggingRules-><|"Paclet" -> "SubTropica"|>,
 FrontEndVersion->"15.0 for Mac OS X ARM (64-bit) (May 19, 2026)",
 StyleDefinitions->FrontEnd`FileName[{"Wolfram"}, "FunctionPageStylesExt.nb", 
   CharacterEncoding -> "UTF-8"],
-ExpressionUUID->"53a75bd2-2569-4ead-bc83-067c0139c096"
+ExpressionUUID->"b07d7e73-3f97-49fe-8b4a-c17bc4e7a666"
 ]
 (* End of Notebook Content *)
 
@@ -316,43 +316,43 @@ CellTagsIndex->{}
 (*NotebookFileOutline
 Notebook[{
 Cell[CellGroupData[{
-Cell[576, 22, 85, 0, 70, "ObjectName",ExpressionUUID->"034c2161-8c39-4e02-bfb6-44756a9da33b"],
-Cell[664, 24, 473, 10, 70, "Usage",ExpressionUUID->"1ceecbf3-1c13-40fc-97f8-e7d056a99af6",
+Cell[576, 22, 85, 0, 70, "ObjectName",ExpressionUUID->"b37e7f08-b608-47eb-989b-a04cf6642b9a"],
+Cell[664, 24, 473, 10, 70, "Usage",ExpressionUUID->"0ac8a45e-d477-4eef-8562-9a2bf1213c65",
  CellID->1],
-Cell[1140, 36, 395, 6, 70, "Notes",ExpressionUUID->"d5e04659-ff35-40cb-a852-dfb96c01c674"],
-Cell[1538, 44, 1018, 21, 70, "Input",ExpressionUUID->"84d6ba79-7929-4449-9206-b6b564820646"]
+Cell[1140, 36, 395, 6, 70, "Notes",ExpressionUUID->"6f808d87-7580-4b62-a6db-bdf9f9234292"],
+Cell[1538, 44, 1018, 21, 70, "Input",ExpressionUUID->"d34d48bf-0d91-407f-a4c3-ccbd90920d6e"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[2593, 70, 81, 0, 70, "Section",ExpressionUUID->"b26ece09-8a51-4389-a401-a3e4921e5def"],
-Cell[2677, 72, 84, 0, 70, "Subsection",ExpressionUUID->"833a45bc-0f5c-4e7d-b6b5-abe0dac1e16a"],
-Cell[2764, 74, 343, 5, 70, "Text",ExpressionUUID->"d81670c7-d239-4fbf-ae76-be827ac4b33e"],
-Cell[3110, 81, 89, 0, 70, "Subsection",ExpressionUUID->"2a1cd11c-5f69-48c7-b0d0-2e9c16297696"],
-Cell[3202, 83, 366, 5, 70, "Text",ExpressionUUID->"89ad5f0f-a03d-4b8b-bc5d-10a73ceb034b"]
+Cell[2593, 70, 81, 0, 70, "Section",ExpressionUUID->"9cb4fd69-ade0-440c-a9ac-81d42cd9ebe8"],
+Cell[2677, 72, 84, 0, 70, "Subsection",ExpressionUUID->"9d727cd3-7276-4dc9-8368-92a90aabf567"],
+Cell[2764, 74, 343, 5, 70, "Text",ExpressionUUID->"b8bd3f4b-281d-4003-aa2a-a9ae13a598c0"],
+Cell[3110, 81, 89, 0, 70, "Subsection",ExpressionUUID->"eb81e791-1372-45b0-8f80-ba385af783ed"],
+Cell[3202, 83, 366, 5, 70, "Text",ExpressionUUID->"82ab1d9b-72cf-4117-b36a-a140d372d4a1"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[3605, 93, 88, 0, 70, "OptionsSection",ExpressionUUID->"b1ae60dd-f42b-4f14-a0b4-ad20ac9c9355"],
-Cell[3696, 95, 5148, 132, 70, "OptionsTable",ExpressionUUID->"69b83711-6347-456e-981b-83967c790b15"]
+Cell[3605, 93, 88, 0, 70, "OptionsSection",ExpressionUUID->"1d54b066-4c89-4fb8-98bd-e2386af0c6c5"],
+Cell[3696, 95, 5148, 132, 70, "OptionsTable",ExpressionUUID->"484722d4-e553-4ac7-b1ae-df5f53dc414e"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[8881, 232, 424, 12, 70, "PrimaryExamplesSection",ExpressionUUID->"06bc8e31-e1bc-4cf5-a965-fc11435818c7"],
-Cell[9308, 246, 282, 4, 70, "ExampleText",ExpressionUUID->"6f36bec0-143a-4cf2-8c2c-1467b51a6994"],
-Cell[9593, 252, 214, 4, 70, "Input",ExpressionUUID->"a3d0c3c1-2cee-490b-ad1f-295b558ef5b6"],
-Cell[9810, 258, 191, 4, 70, "Input",ExpressionUUID->"05fbd606-7ded-452d-8763-50234ab75230"]
+Cell[8881, 232, 424, 12, 70, "PrimaryExamplesSection",ExpressionUUID->"564d0560-166c-4e50-8574-edfad10b848a"],
+Cell[9308, 246, 282, 4, 70, "ExampleText",ExpressionUUID->"77f3485b-06c6-4c03-88e6-feeea2a01a6b"],
+Cell[9593, 252, 214, 4, 70, "Input",ExpressionUUID->"8a015f07-a5a4-4b67-b450-8f55fc747501"],
+Cell[9810, 258, 191, 4, 70, "Input",ExpressionUUID->"c38b7ca4-c447-4b3d-a473-bb3616d986d3"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[10038, 267, 90, 0, 70, "MetadataSection",ExpressionUUID->"ad437aec-ec7e-4e96-b0d8-17ce5884898f"],
+Cell[10038, 267, 90, 0, 70, "MetadataSection",ExpressionUUID->"22d58107-bf8f-4500-bca0-43eb6cfd0883"],
 Cell[CellGroupData[{
-Cell[10153, 271, 102, 0, 70, "CategorizationSection",ExpressionUUID->"1d6ed63d-2d58-4926-acb2-14222d0063d0"],
-Cell[10258, 273, 117, 2, 70, "Categorization",ExpressionUUID->"79709b09-04af-40f0-aa53-3ee64e23f32f"],
-Cell[10378, 277, 121, 2, 70, "Categorization",ExpressionUUID->"d8b57254-35a3-4ab4-b3e2-af77f1272728"],
-Cell[10502, 281, 115, 1, 70, "Categorization",ExpressionUUID->"332ea4fb-8920-4ca5-b7e8-bc7facf7840e"],
-Cell[10620, 284, 123, 1, 70, "Categorization",ExpressionUUID->"5d525bc0-445b-412f-a051-19931ac906cf"]
+Cell[10153, 271, 102, 0, 70, "CategorizationSection",ExpressionUUID->"480f149b-4ab6-43c8-be03-ff3b61a168d6"],
+Cell[10258, 273, 117, 2, 70, "Categorization",ExpressionUUID->"bdff4600-6eaa-450f-a907-3330f44244cf"],
+Cell[10378, 277, 121, 2, 70, "Categorization",ExpressionUUID->"399c13db-425d-4ad2-a6d8-8d31d719a8cb"],
+Cell[10502, 281, 115, 1, 70, "Categorization",ExpressionUUID->"9ea6e79e-aec7-49a9-ab9a-b6ea9d861b7c"],
+Cell[10620, 284, 123, 1, 70, "Categorization",ExpressionUUID->"09e59d3d-5f98-4de0-8abd-d17350dec288"]
 }, Closed]],
 Cell[CellGroupData[{
-Cell[10780, 290, 90, 0, 70, "KeywordsSection",ExpressionUUID->"db19ec1c-1244-4d67-9a63-d4c18d737e23"],
-Cell[10873, 292, 91, 0, 70, "Keywords",ExpressionUUID->"c8cb467c-be4b-4167-b4cd-29482025b0c7"],
-Cell[10967, 294, 92, 0, 70, "Keywords",ExpressionUUID->"99d010da-ecb6-4076-9b9a-335932ac1da5"],
-Cell[11062, 296, 101, 0, 70, "Keywords",ExpressionUUID->"0b200315-6c9f-4d40-9be9-1ecf44b4ef32"]
+Cell[10780, 290, 90, 0, 70, "KeywordsSection",ExpressionUUID->"ad735004-ce44-41dc-8c31-316829c7631f"],
+Cell[10873, 292, 91, 0, 70, "Keywords",ExpressionUUID->"ba5facf9-1197-4b31-bdb9-a618d99eff71"],
+Cell[10967, 294, 92, 0, 70, "Keywords",ExpressionUUID->"a4c3bc75-3f83-4efb-a2e1-f8f1c74ca321"],
+Cell[11062, 296, 101, 0, 70, "Keywords",ExpressionUUID->"aeea4097-02b6-45bd-81ab-7257727b3544"]
 }, Closed]]
 }, Open  ]]
 }
