@@ -168,6 +168,20 @@ void reset_lr_trace();
 // budget inert (no-op checks).
 void reset_lr_budget();
 
+// issue #52 round 3 (item 9): budget checkpoints for op bodies OUTSIDE
+// st_fubini_lr (lr_scan keep-rules, factor_table build).  Each is a
+// no-op when the corresponding env var is unset (results/state identical;
+// wall-clock timing fields may differ by the cost of the check itself).
+// `where`/`what` land in the thrown LrBudgetExceeded message.  NOTE: no
+// time checkpoint is exported into fr_judge -- it is shared with
+// find_lr_orders' carry paths, where the loader-defaulted 180 s budget
+// would add a live abort point inside the production search (round-3
+// review finding 8).  A pair-form (product) helper was considered and
+// dropped: every pairwise site is already covered inside st_fubini_lr
+// (codex round-3 verification).
+void lr_budget_check_time(const char* where);
+void lr_budget_check_operand(const char* what, std::size_t n_terms);
+
 // N-way intersection under proportionality equivalence.  Picks
 // representatives from the FIRST list.  Matches the semantics of Mma's
 // `Intersection[..., SameTest -> ProportionalPolynomialsQLR]` up to

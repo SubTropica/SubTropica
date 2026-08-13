@@ -179,6 +179,15 @@ FrJudgment fr_judge(const Poly& letter, size_t pivot,
     // the actual sqrt argument: the ODD-multiplicity part of the
     // pivot-discriminant (even powers exit the root rationally; the
     // numeric content is a constant sqrt -- function class unchanged)
+    // issue #52 round 3 (item 9): operand fuse for this op body --
+    // previously unguarded, so a monster keep-rule discriminant ignored
+    // HF_LR_MAX_OPERAND_TERMS.  No-op when unset.  Deliberately NO time
+    // checkpoint here (review finding 8): fr_judge is shared with
+    // find_lr_orders' carry paths, and the loader defaults the time
+    // budget ON (180 s) in every kernel, so a time check here would add
+    // a live abort point inside the production search.
+    lr_search::lr_budget_check_operand("lr_scan keep-rule discriminant",
+                                       letter.n_terms());
     Poly disc = letter.discriminant_in_var(pivot);
     const auto* ctx = disc.ctx().raw();
     if (fmpq_mpoly_is_zero(disc.raw(), ctx)) {
@@ -187,6 +196,10 @@ FrJudgment fr_judge(const Poly& letter, size_t pivot,
         out.ok = true;
         return out;
     }
+    // issue #52 round 3 (item 9): operand fuse before the factorization
+    // (the second previously-unguarded expensive op in this body).
+    lr_search::lr_budget_check_operand("lr_scan keep-rule factor",
+                                       disc.n_terms());
     fmpq_mpoly_factor_t fac;
     fmpq_mpoly_factor_init(fac, ctx);
     if (!fmpq_mpoly_factor(fac,

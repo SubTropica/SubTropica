@@ -222,15 +222,23 @@ std::string error_json(const std::string& msg) {
 // Field ordering matches error_json (op, schema_version, hf_version,
 // then the failure fields) so a streaming parser sees the envelope head
 // identically.
-std::string budget_exceeded_json(const std::string& reason) {
+std::string budget_exceeded_json_op(const std::string& op,
+                                    const std::string& reason) {
+    // issue #52 round 3 (item 9): op-parameterized so the factor_table /
+    // find_lr_orders_scan catches report their own op instead of
+    // masquerading as find_lr_orders.
     std::ostringstream o;
-    o << "{\"op\":\"find_lr_orders\""
+    o << "{\"op\":\"" << json_escape(op) << "\""
       << ",\"schema_version\":" << kSchemaVersion
       << ",\"hf_version\":\"" << json_escape(kHFVersion()) << "\""
       << ",\"budget_exceeded\":true"
       << ",\"reason\":\"" << json_escape(reason) << "\""
       << ",\"error\":\"" << json_escape(reason) << "\"}";
     return o.str();
+}
+
+std::string budget_exceeded_json(const std::string& reason) {
+    return budget_exceeded_json_op("find_lr_orders", reason);
 }
 
 std::string error_json_op(const std::string& op, const std::string& msg) {
@@ -1223,6 +1231,11 @@ std::string factor_table(const std::string& body) {
                 + " MB, cap " + std::to_string(lim.max_response_mb)
                 + " MB)");
         return out;
+    } catch (const hyperflint::lr_search::LrBudgetExceeded& e) {
+        // issue #52 round 3 (item 9, codex): keep the structured budget
+        // flag on the secondary ops -- a budget abort must never surface
+        // as a generic engine error (and never as NOLR).
+        return budget_exceeded_json_op(kOp, e.what());
     } catch (const std::exception& e) {
         return error_json_op(kOp, e.what());
     } catch (...) {
@@ -1452,6 +1465,10 @@ std::string find_lr_orders_scan(const std::string& body) {
           << ",\"nGroups\":" << group_polys.size()
           << "}";
         return o.str();
+    } catch (const hyperflint::lr_search::LrBudgetExceeded& e) {
+        // issue #52 round 3 (item 9, codex): structured budget flag on the
+        // scan op too (see the factor_table catch above).
+        return budget_exceeded_json_op(kOp, e.what());
     } catch (const std::exception& e) {
         return error_json_op(kOp, e.what());
     } catch (...) {

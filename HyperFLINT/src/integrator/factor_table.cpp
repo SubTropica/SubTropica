@@ -90,6 +90,10 @@ bool factor_into(FactorTable& t, Stats& st, const Poly& target,
     // returns one Poly per distinct irreducible base; dividing out the
     // canonical rep of each base to its maximal power leaves the
     // rational unit in `work`.
+    // issue #52 round 3 (item 9): budget checkpoints -- this op body ran
+    // unguarded (only st_fubini_lr had them).  No-ops when unset.
+    lr_search::lr_budget_check_time("factor_table factor");
+    lr_search::lr_budget_check_operand("factor_table factor", work.n_terms());
     const double t1 = now_s();
     std::vector<Poly> bases = hyperflint::factor_bases(work);
     for (const Poly& base : bases) {
@@ -257,6 +261,14 @@ FactorTable build(const PolyCtx& ctx,
                 }
                 if (se.deg == 2) {
                     se.has_disc = true;
+                    // issue #52 round 3 (item 9): operand fuse before the
+                    // singleton discriminant.  Belt: under the current
+                    // serialized build the same L already passed
+                    // st_fubini_lr's per-poly guard (codex), so this fires
+                    // only if the build order changes -- kept for
+                    // robustness against exactly that.
+                    lr_search::lr_budget_check_operand(
+                        "factor_table singleton discriminant", L.n_terms());
                     se.disc = make_object(
                         t, t.stats, {L.discriminant_in_var(var_idx)}, {},
                         pool_ids);

@@ -9,6 +9,36 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+## [1.2.13] - 2026-08-13
+
+Issue #52 round 3 (budget-abort honesty + gauge questions).
+
+### Added
+- Per-call `"TimeBudget"` option (seconds; `0`/`Infinity` disables) on
+  `STIntegrate`/`STIntegrateHF` and the order-search functions: an
+  LR-search deadline that reaches the in-process engine, the CLI, and
+  launched subkernels.
+- Budget aborts carry dedicated verdicts at every level
+  (`::noorderbudget` per face, `::nolrbudget` for a whole scan,
+  `::budgettrips` post-scan summary gathered from subkernels) — an
+  abort is never reported as a NOLR.
+- `orderProvenance.m` sibling next to every `bestOrder.m` (versions,
+  backend, prune, budget state, pinned-vs-searched, letter-set hash).
+- `STExpandIntegral::projinput` warning on exactly projective input
+  (no `[0, Infinity)^n` integral exists for any eps; gauge-fix first).
+- HyperFLINT: structured `budget_exceeded` responses from
+  `factor_table`/`find_lr_orders_scan`; the operand fuse also guards
+  those op bodies.
+
+### Fixed
+- Fail-closed face scan: a budget/transport abort could silently leave
+  the previous face's order in `bestOrder.m` and later passes reused
+  it; an aborted face now never writes an order.
+- Budget aborts no longer trigger the internal retry ladders (which
+  re-ran the tripped search and destroyed its artifacts).
+- Configuration-aware `::budgetexceeded` advice; corrected
+  `IntegrationOrder` verification cost model in the documentation.
+
 ## [1.2.12] - 2026-08-10
 
 ### Added

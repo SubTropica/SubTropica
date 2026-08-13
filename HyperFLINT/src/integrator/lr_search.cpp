@@ -524,6 +524,26 @@ void reset_lr_budget() {
     }
 }
 
+// issue #52 round 3 (item 9): exported checkpoints for op bodies outside
+// st_fubini_lr.  No-ops when the env vars are unset (byte-identical
+// requirement); throw LrBudgetExceeded otherwise, which every bridge
+// handler now maps to the structured budget_exceeded response.
+void lr_budget_check_time(const char* where) {
+    g_lr_budget.check_time(where);
+}
+
+void lr_budget_check_operand(const char* what, std::size_t n_terms) {
+    const size_t cap = g_lr_budget.max_operand_terms;
+    if (cap != 0 && n_terms > cap) {
+        char buf[160];
+        std::snprintf(buf, sizeof(buf),
+            "LR operand-size budget exceeded: %s input n_terms=%zu > %zu "
+            "(HF_LR_MAX_OPERAND_TERMS)", what, n_terms, cap);
+        throw LrBudgetExceeded(buf);
+    }
+}
+
+
 bool lr_letter_admissible(const Poly& p, size_t var_idx,
                           const std::vector<size_t>& forbidden_after,
                           long max_deg) {

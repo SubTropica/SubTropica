@@ -2163,7 +2163,7 @@ Options[ConfigureSubTropica] = {
 With[{$SubTropicaDir = DirectoryName[$InputFileName]},
 
 $SubTropicaInstallDir = $SubTropicaDir;
-$SubTropicaVersion = "1.2.12";
+$SubTropicaVersion = "1.2.13";
 
 (* Init-order fix: line 109 set $STHyperFlintDataPath before
    $SubTropicaInstallDir was bound, so the install-dir-derived data
@@ -2730,6 +2730,14 @@ Each item corresponds to the integral over the integration variables of a locall
 ";
 
 STExpandIntegral::notwelldef = "The Euler integral is not well-defined: the tropical evaluation of the integrand vanishes on at least one ray of the Newton-polytope fan, and no regulator-dependent exponent is present to regulate that divergence. Typical cause: a Feynman-parameter integrand without an eps regulator on a subexpression (e.g., raw 1/(x1+x2) or eps/(x1+x2) instead of (x1+x2)^(-1-eps)).";
+(* issue #52 round 3: an EXACTLY projective input (total scaling weight 0 in
+   the dx/x convention, eps-parts included) is a warning, not an abort: the
+   overall-scale direction is a lineality direction of the fan (never among
+   the rays the guard above tests), the [0, Infinity)^n integral does not
+   exist for any eps, and the expansion is chart-dependent -- only a COMMON
+   gauge section makes its terms meaningful (verified: restricting every
+   term to a section reproduces the gauge-fixed expansion term by term). *)
+STExpandIntegral::projinput = "The integrand is homogeneous in the integration variables including its eps-dependent exponents (total dx/x scaling weight 0), so its integral over [0, Infinity)^`1` does not exist for any eps and this expansion is chart-dependent: its terms are meaningful only under one COMMON gauge section.  Gauge-fix first (set one variable to 1 and drop it from the variable list; STIntegrate's gauge scan does this automatically) and expand the gauge-fixed integrand instead.";
 
 (* Evaluate Subtractions by HyperInt *)
 STEvaluateSubtractionNP::usage="
@@ -11170,6 +11178,13 @@ STPreAnalysis[integrand_,vars_,coeffs_,facesQ_:True,regulators_:{eps}]:=Module[
 	trData=integrand//STIntegrandTropicalData[#,vars,coeffs]&;
 	trint=integrand//STTropicalizeIntegrand[#,vars,coeffs]&;
 	trValues=Table[STEvalRay[trint,ray,vars],{ray,trData["rays"]}]//Factor;
+	(* issue #52 round 3: same projective-input warning as STExpandIntegral
+	   (two-sided ray test; see the comment there). *)
+	If[Length[vars]>0 &&
+			STEvalRay[trint,ConstantArray[1,Length[vars]],vars]===0 &&
+			STEvalRay[trint,ConstantArray[-1,Length[vars]],vars]===0,
+		Message[STExpandIntegral::projinput,Length[vars]];
+	];
 	divFacets=Position[trValues/.Alternatives@@regulators->0,v_/;v>= 0]//Flatten;
 	If[facesQ,faces=trData//STGetFaces[#,divFacets]&,faces="NotComputed"];
 	divFaces=Cases[faces,v_/;SubsetQ[divFacets,v]];
@@ -11500,6 +11515,18 @@ STExpandIntegral[integrand_,vars_,coeffs_,regulators_:{eps},trDataGiven_:{},forc
 	trint=integrand//STTropicalizeIntegrand[#,vars,coeffs]&;
 	trValues=Table[STEvalRay[trint,ray,vars],{ray,trData["rays"]}]//Factor;
 
+	(* issue #52 round 3: warn on an exactly projective input (the scaling
+	   direction is a fan lineality direction, so the notwelldef guard below
+	   can never see it).  Review finding 18: test BOTH +-(1,...,1) rays --
+	   trop(+1) = 0 alone means the maxima cancel, not homogeneity; both
+	   vanishing is the two-sided criterion the message asserts.  n > 0
+	   guards the zero-variable input (a constant tropicalizes to 0). *)
+	If[Length[vars]>0 &&
+			STEvalRay[trint,ConstantArray[1,Length[vars]],vars]===0 &&
+			STEvalRay[trint,ConstantArray[-1,Length[vars]],vars]===0,
+		Message[STExpandIntegral::projinput,Length[vars]];
+	];
+
 	(* Check if trop = 0 on some ray*)
 	If[MemberQ[trValues,0],
 		Print[" The Euler integral is not well defined! Aborting ... "];
@@ -11622,6 +11649,18 @@ STExpandIntegral[integrand_,vars_,coeffs_,regulators_:{eps},trDataGiven_:{},forc
 	
 	trint=integrand//STTropicalizeIntegrand[#,vars,coeffs]&;
 	trValues=Table[STEvalRay[trint,ray,vars],{ray,trData["rays"]}]//Factor;
+
+	(* issue #52 round 3: warn on an exactly projective input (the scaling
+	   direction is a fan lineality direction, so the notwelldef guard below
+	   can never see it).  Review finding 18: test BOTH +-(1,...,1) rays --
+	   trop(+1) = 0 alone means the maxima cancel, not homogeneity; both
+	   vanishing is the two-sided criterion the message asserts.  n > 0
+	   guards the zero-variable input (a constant tropicalizes to 0). *)
+	If[Length[vars]>0 &&
+			STEvalRay[trint,ConstantArray[1,Length[vars]],vars]===0 &&
+			STEvalRay[trint,ConstantArray[-1,Length[vars]],vars]===0,
+		Message[STExpandIntegral::projinput,Length[vars]];
+	];
 
 	(* Check if trop = 0 on some ray*)
 	If[MemberQ[trValues,0],
@@ -13646,7 +13685,21 @@ $stHFNoCarryWarned   = False;
 STFindLROrdersHF::notfound = "HyperFLINT binary not found at ``.  Build with `cd <SubTropica>/HyperFLINT && cmake -S . -B build-release && cmake --build build-release -j`.";
 STFindLROrdersHF::clidisabled = "HyperFLINT LibraryLink dylib is not loaded and the CLI subprocess transport is disabled ($STHyperFlintAllowCLI = False).  Build a version-matched LibraryLink dylib (so $STHyperFlintUseLibraryLink = True; its hf_version must equal $SubTropicaVersion = `1`), or set $STHyperFlintAllowCLI = True to allow the CLI transport.  Resolved $STHyperFlintLibraryPath: `2`.";
 STFindLROrdersHF::hferror  = "HyperFLINT error: ``";
-STFindLROrdersHF::budgetexceeded = "HyperFLINT find_lr_orders exceeded its search budget (``).  This is the exhaustive-search safety net, NOT a NOLR verdict.  Set \"ScorePruneFactor\" -> N (a finite integer) to prune the branch-and-bound search, or raise/clear HF_LR_TIME_BUDGET_S (default 180 s).  Returning $Failed with the per-kernel budget signal set, so stDispatchFubini2 skips both the STFasterFubini2 fallback and the FindRoots->True retry (each would hit the same operation).";
+(* issue #52 round 3: the advice is built AT THE EMISSION SITE (second
+   template slot) so it can react to the resolved configuration -- Christoph
+   hit this message with ScorePruneFactor -> 1 already active and was told to
+   set ScorePruneFactor. *)
+STFindLROrdersHF::budgetexceeded = "HyperFLINT find_lr_orders exceeded its search budget (`1`).  This is the exhaustive-search safety net, NOT a NOLR verdict.  `2`  Returning $Failed with the per-kernel budget signal set, so stDispatchFubini2 skips both the STFasterFubini2 fallback and the FindRoots->True retry (each would hit the same operation).";
+(* Second argument (review finding 11): whether the emitting entry point
+   accepts the "TimeBudget" option -- the scan op does not, so its advice
+   must not recommend an option it rejects. *)
+stHFBudgetAdvice[prune_, hasTimeBudgetOpt_:True] := Module[{tb},
+    tb = If[TrueQ[hasTimeBudgetOpt],
+        "Raise HF_LR_TIME_BUDGET_S or set the per-call \"TimeBudget\" option",
+        "Raise HF_LR_TIME_BUDGET_S"];
+    If[NumericQ[prune] && prune >= 1 && prune < Infinity,
+        "A finite \"ScorePruneFactor\" (" <> ToString[prune] <> ") is already active, so further pruning is unlikely to help.  " <> tb <> " (sound: the deadline is a per-search wall-clock safety net checked only between engine operations, so elapsed time can overshoot it; a bigger budget cannot change any returned value), set HF_LR_MAX_OPERAND_TERMS as a fail-fast fuse (an ABORT, not a verdict: it can abort a search whose reducible order exists), or pin a known order with IntegrationOrder.",
+        "Set \"ScorePruneFactor\" -> N (a finite integer) to prune the branch-and-bound search, " <> ToLowerCase[StringTake[tb, 1]] <> StringDrop[tb, 1] <> " (default 180 s), or set HF_LR_MAX_OPERAND_TERMS as a fail-fast fuse (an ABORT, not a verdict)."]];
 STFindLROrdersHF::timedout = "HyperFLINT find_lr_orders timed out after `` s.";
 STFindLROrdersHF::badjson  = "HyperFLINT returned non-JSON: ``";
 (* iter-41 Track 6.5 full PASS: contract-check warning fires when the
@@ -13738,6 +13791,17 @@ Options[STFindLROrdersHF] = {
                                      (failure -> KEEP), boundary monomials
                                      exempt, so a clean integral's order+score
                                      are unchanged.  Needs msolve on PATH. *)
+    ,
+    "TimeBudget" -> Automatic    (* issue #52 round 3: per-call LR search time
+                                    budget in seconds.  Automatic (default)
+                                    inherits the Block-scoped $STTimeBudget
+                                    global (itself Automatic = the process env
+                                    HF_LR_TIME_BUDGET_S, loader default 180 s);
+                                    a number N >= 0 runs this call under an
+                                    N-second deadline (0 disables), reaching
+                                    the in-process dylib, the CLI child, and
+                                    (via the wrappers' ParallelEvaluate push)
+                                    the subkernels. *)
 };
 
 (* Convenience single-group dispatch: a flat poly list is wrapped as
@@ -13760,7 +13824,12 @@ Module[{coeffVars, req, procResult, resp, bestOrder, score, respStr,
            transport below runs with the process env HF_EULER_FILTER=1. *)
         eulerFilterQ = TrueQ[OptionValue["EulerFilter"] /.
             Automatic :> $STEulerFilter],
-        prevEulerEnv},
+        prevEulerEnv,
+        (* issue #52 round 3: per-call LR time budget (see Options comment). *)
+        timeBudgetVal = stValidateTimeBudget[
+            OptionValue["TimeBudget"] /. Automatic :> $STTimeBudget,
+            "STFindLROrdersHF"],
+        prevTBEnv},
     (* Lazy load if eager autoload failed (e.g., during Get["SubTropica`"]
        the LibraryFunctionLoad didn't fire cleanly). *)
     stHFLibraryEnsureLoaded[];
@@ -13841,9 +13910,20 @@ Module[{coeffVars, req, procResult, resp, bestOrder, score, respStr,
        touched and the legacy path is byte-identical. *)
     Internal`WithLocalSettings[
         (* setup *)
-        If[eulerFilterQ,
+        (If[eulerFilterQ,
             prevEulerEnv = Environment["HF_EULER_FILTER"];
-            SetEnvironment["HF_EULER_FILTER" -> "1"]],
+            SetEnvironment["HF_EULER_FILTER" -> "1"]];
+        (* issue #52 round 3: per-call time budget -- override the env for the
+           duration of the transport; the CLI branch below re-reads
+           Environment[] AFTER this setup, so both transports see it. *)
+        If[timeBudgetVal =!= Automatic,
+            prevTBEnv = Environment["HF_LR_TIME_BUDGET_S"];
+            (* CForm, NOT InputForm: InputForm renders 1.*^-6 as "1.*^-6",
+               which C's atof parses as 1.0 (it stops at '*') -- a
+               silently 10^6-times-too-large budget (b2c_probe).  CForm
+               gives "1.e-6"-style strings atof understands. *)
+            SetEnvironment["HF_LR_TIME_BUDGET_S" ->
+                ToString[CForm[timeBudgetVal]]]]),
         (* body *)
         If[useLibLink,
         (* LibraryLink path \[LongDash] synchronous, in-process. *)
@@ -13900,10 +13980,14 @@ Module[{coeffVars, req, procResult, resp, bestOrder, score, respStr,
         (* cleanup: restore the prior HF_EULER_FILTER (unset -> None removes it;
            SetEnvironment[... -> None] is the working unset in this Mma, whereas
            UnsetEnvironment is a no-op here). *)
-        If[eulerFilterQ,
+        (If[eulerFilterQ,
             If[prevEulerEnv === $Failed,
                 SetEnvironment["HF_EULER_FILTER" -> None],
-                SetEnvironment["HF_EULER_FILTER" -> prevEulerEnv]]]
+                SetEnvironment["HF_EULER_FILTER" -> prevEulerEnv]]];
+        If[timeBudgetVal =!= Automatic,
+            If[prevTBEnv === $Failed,
+                SetEnvironment["HF_LR_TIME_BUDGET_S" -> None],
+                SetEnvironment["HF_LR_TIME_BUDGET_S" -> prevTBEnv]]])
     ];
 
     If[resp === $Failed || !AssociationQ[resp],
@@ -13951,7 +14035,8 @@ Module[{coeffVars, req, procResult, resp, bestOrder, score, respStr,
        complete. *)
     If[TrueQ[Lookup[resp, "budget_exceeded", False]],
         Message[STFindLROrdersHF::budgetexceeded,
-            Lookup[resp, "reason", Lookup[resp, "error", "<no reason>"]]];
+            Lookup[resp, "reason", Lookup[resp, "error", "<no reason>"]],
+            stHFBudgetAdvice[scorePruneFactor]];
         $stHFBudgetTrip = True;
         Return[$Failed]];
 
@@ -14601,7 +14686,8 @@ Module[{coeffVars, req, resp, respStr, procResult, threads, timeout,
        complete. *)
     If[TrueQ[Lookup[resp, "budget_exceeded", False]],
         Message[STFindLROrdersHF::budgetexceeded,
-            Lookup[resp, "reason", Lookup[resp, "error", "<no reason>"]]];
+            Lookup[resp, "reason", Lookup[resp, "error", "<no reason>"]],
+            stHFBudgetAdvice[Infinity, False]];
         $stHFBudgetTrip = True;
         Return[$Failed]];
 
@@ -15698,6 +15784,15 @@ STIntegrateHF[args___] := STIntegrate[args,
 (* Current backend selection.  Local to Block-scoped callers;
    ParallelEvaluate receives it via DistributeDefinitions at the
    entry of STEvaluateGraph when the option is non-default.        *)
+(* DIRECT-CALLER TRAP (issue #52 round 3): this load-time default is the
+   UNBUDGETED in-process Mma finder.  STIntegrateHF / the wrappers flip the
+   global per run, but a DIRECT call to STfindLinearlyReducibleOrders2 (or any
+   sibling that consults $STLROrderBackend) inherits "HyperIntica" and can
+   wedge indefinitely -- measured: an 18-minute wedge on a face whose HF-path
+   search trips a 1.5 s budget cleanly.  Set
+   SubTropica`Private`$STLROrderBackend = "HyperFLINT" first when driving
+   those functions directly.  Changing this default is a behavior decision
+   (plain STIntegrate semantics), deliberately NOT taken here. *)
 $STLROrderBackend = "HyperIntica";
 
 (* 2026-06-16 score-driven branch-and-bound prune factor (master default).
@@ -15711,6 +15806,29 @@ $STLROrderBackend = "HyperIntica";
    overrides it.  STEvaluateGraph Block-scopes this so all nested order-finding
    calls inherit a single value without per-call-site threading. *)
 $STScorePruneFactor = Infinity;
+(* issue #52 round 3: per-call LR time budget.  Automatic = leave the process
+   env HF_LR_TIME_BUDGET_S alone (loader default 180 s, shell override wins);
+   a positive number N = run THIS call's find_lr_orders under an N-second
+   deadline (0 disables it for the call).  Implemented by save/set/restore of
+   the env around the transport, so it reaches the in-process dylib AND the
+   CLI child, and -- Block-scoped by the wrappers + pushed via
+   ParallelEvaluate -- the subkernels too, closing the
+   SetEnvironment-does-not-reach-launched-subkernels trap (round-3 review
+   B3iii). *)
+$STTimeBudget = Automatic;
+STIntegrate::badtimebudget = "Invalid \"TimeBudget\" -> `1` in `2`: must be Automatic, Infinity (= 0 = no deadline for the call), or a non-negative number of seconds.  Using Automatic.";
+(* Review finding 6: mirror stNormalizePrune's hardening -- NumericQ[2+I] is
+   True and (2+I) >= 0 stays UNEVALUATED, so an unguarded Which returns
+   unevaluated and the env write becomes a garbage string that atof reads as
+   0.0 (deadline silently disabled).  FreeQ[Complex] + TrueQ close it, the
+   exact bug class stNormalizePrune's comment records.  Infinity is accepted
+   as "no deadline" for parity with ScorePruneFactor (maps to 0 = off). *)
+stValidateTimeBudget[value_, caller_String] := Which[
+    value === Automatic, Automatic,
+    value === Infinity, 0.,
+    NumericQ[value] && FreeQ[value, Complex] && TrueQ[value >= 0], N[value],
+    True, Message[STIntegrate::badtimebudget, InputForm[value], caller];
+        Automatic];
 
 (* 2026-06-21 Doppio-C Euler chi-drop letter filter (master default OFF).
    When True, STFindLROrdersHF runs HF's find_lr_orders with the env var
@@ -15861,12 +15979,37 @@ stCarrySkippedAnywhere[] := TrueQ[$STCarrySkipped] ||
             ParallelEvaluate[TrueQ[$STCarrySkipped]], {}],
         {}]]];
 
+(* issue #52 round 3 (review findings 3+4): budget-trip gather, mirroring the
+   two round-2 gathers above -- the per-gauge scoring runs in SUBKERNELS by
+   default, so the main-kernel ledger alone under-counts (measured: inert).
+   Aggregates counts and face lists from every live subkernel. *)
+stBudgetTrippedAnywhere[] := ($stHFBudgetTripCount > 0 ||
+    Length[$stHFBudgetTripFaces] > 0 ||
+    TrueQ[Or @@ Quiet[Check[
+        If[Length[Kernels[]] > 0,
+            ParallelEvaluate[
+                $stHFBudgetTripCount > 0 || Length[$stHFBudgetTripFaces] > 0],
+            {}],
+        {}]]]);
+stHFBudgetTripGather[] := Module[{sub},
+    sub = Quiet[Check[
+        If[Length[Kernels[]] > 0,
+            ParallelEvaluate[{$stHFBudgetTripCount, $stHFBudgetTripFaces}],
+            {}],
+        {}]];
+    If[ListQ[sub],
+        Do[If[MatchQ[s, {_Integer, _List}],
+                $stHFBudgetTripCount += s[[1]];
+                $stHFBudgetTripFaces =
+                    DeleteDuplicates[Join[$stHFBudgetTripFaces, s[[2]]]]],
+            {s, sub}]]];
+
 (* ================================================================ *)
 (*  IntegrationOrder option (2026-06-22): pin the per-face Euler     *)
 (*  integration order, skipping the per-face LR auto-search.         *)
 (*  spec: notes/integration_order_design.md.                         *)
 (* ================================================================ *)
-IntegrationOrder::usage = "IntegrationOrder is a pro-only option for STIntegrate / STIntegrateHF / STEvaluateGraph / STEvaluateEulerIntegral that PINS the integration order in the eps-aware Euler pipeline, skipping the per-face linearly-reducible-order auto-search.  The option key may be written as the bare symbol IntegrationOrder or as the quoted string \"IntegrationOrder\" (both accepted identically; likewise FindRoots / \"FindRoots\").\n\nTwo forms:\n  IntegrationOrder -> {x1, x2, ..., xn}  (a flat list of Schwinger SYMBOLS): a GLOBAL order.  Every face inherits it, PROJECTED onto that face's variables (the global relative order is preserved; a gauge-fixed variable is simply dropped).\n  IntegrationOrder -> {fspec1 -> order1, fspec2 -> order2, ...}  (a list of RULES): a PER-FACE order.  Each fspec uses the SelectFaces directory-label vocabulary: an integer i (face i at any eps order), a rule (o -> i) (face i at eps order o), a 2-element {epsSpec, faceSpec} PAIR (matched as a pattern against {epsOrder, faceIndex}) when a slot is a pattern (e.g. {_, 1} = face 1 at any eps; {_, 1|2} = faces 1 or 2; {Except[0], 1} = face 1 except at eps 0), an OR-list of integer / (o->i) rule specs ({1, 4} = faces 1 or 4; {0->1, 0->2} = those pairs; a bare-integer pair {0, 1} is an OR, so use (0 -> 1) to target a specific eps/face), or Except[...].  A matched face has its LR search SKIPPED and its order SET; unmatched faces fall back to the auto-search.  First matching rule wins.\n\nAbsent, Automatic, or None reproduces the legacy auto-search behavior byte-for-byte.\n\nThe companion string sub-option \"IntegrationOrderVerify\" controls how a pinned order is checked: Automatic (= True) verifies the order is linearly reducible via HyperFLINT verify_order (cheap, O(n), no wedging) and warns + proceeds on a NOT-LR verdict; \"Strict\" verifies and ABORTS the face on a NOT-LR verdict; False sets the order without any verification.  Default False (a user-supplied pin is trusted).\n\nDiscoverability is pro-level: read the on-disk face directory names / bestOrder.m, or run with \"Verbose\" -> True; each pinned face echoes \"[IntegrationOrder] face <i> pinned to <order>\".";
+IntegrationOrder::usage = "IntegrationOrder is a pro-only option for STIntegrate / STIntegrateHF / STEvaluateGraph / STEvaluateEulerIntegral that PINS the integration order in the eps-aware Euler pipeline, skipping the per-face linearly-reducible-order auto-search.  The option key may be written as the bare symbol IntegrationOrder or as the quoted string \"IntegrationOrder\" (both accepted identically; likewise FindRoots / \"FindRoots\").\n\nTwo forms:\n  IntegrationOrder -> {x1, x2, ..., xn}  (a flat list of Schwinger SYMBOLS): a GLOBAL order.  Every face inherits it, PROJECTED onto that face's variables (the global relative order is preserved; a gauge-fixed variable is simply dropped).\n  IntegrationOrder -> {fspec1 -> order1, fspec2 -> order2, ...}  (a list of RULES): a PER-FACE order.  Each fspec uses the SelectFaces directory-label vocabulary: an integer i (face i at any eps order), a rule (o -> i) (face i at eps order o), a 2-element {epsSpec, faceSpec} PAIR (matched as a pattern against {epsOrder, faceIndex}) when a slot is a pattern (e.g. {_, 1} = face 1 at any eps; {_, 1|2} = faces 1 or 2; {Except[0], 1} = face 1 except at eps 0), an OR-list of integer / (o->i) rule specs ({1, 4} = faces 1 or 4; {0->1, 0->2} = those pairs; a bare-integer pair {0, 1} is an OR, so use (0 -> 1) to target a specific eps/face), or Except[...].  A matched face has its LR search SKIPPED and its order SET; unmatched faces fall back to the auto-search.  First matching rule wins.\n\nAbsent, Automatic, or None reproduces the legacy auto-search behavior byte-for-byte.\n\nThe companion string sub-option \"IntegrationOrderVerify\" controls how a pinned order is checked: Automatic (= True) verifies the order is linearly reducible via HyperFLINT verify_order and warns + proceeds on a NOT-LR verdict.  Cost model (issue #52 round 3): verification is O(n) CALLS, but a call that hits a blocker escalates to the same exponential subset table the full search uses, and a single step can be expensive (a 431 s budget-tripped verify was measured on a pathological order) -- run it under HF_LR_TIME_BUDGET_S / \"TimeBudget\" and treat $Failed as INCONCLUSIVE, not as a NOT-LR verdict; \"Strict\" verifies and ABORTS the face on a NOT-LR verdict; False sets the order without any verification.  Default False (a user-supplied pin is trusted).\n\nDiscoverability is pro-level: read the on-disk face directory names / bestOrder.m, or run with \"Verbose\" -> True; each pinned face echoes \"[IntegrationOrder] face <i> pinned to <order>\".";
 
 (* Block-scoped globals consumed by the per-face order-finder intercept
    (STfindLinearlyReducibleOrdersHighestEpsOrder2 / ...BruteForce).  Set on
@@ -15970,6 +16113,49 @@ $STHFFallbackWarned = False;
    cannot leak it into a later dispatch. *)
 $stHFBudgetWarned   = False;
 $stHFBudgetTrip     = False;
+(* issue #52 round 3: kernel-local ledger of budget-aborted face searches.
+   The per-gauge scoring runs under Block[{Print=(Null&)}] + Quiet, which
+   eats ::budgetexceeded (measured, round 2), so a tripped gauge was
+   indistinguishable from a genuinely non-LR gauge.  The latch is the
+   load-bearing channel (the $STCarrySkipped precedent): the trip branch of
+   stDispatchFubini2 increments the count, the face-scan demote appends the
+   face path, and stHFBudgetTripSummarize[] (called OUTSIDE the quiet
+   regions, at the gauge-selection points) emits one summary Message and
+   clears.  KERNEL-LOCAL: subkernel trips are not gathered (stated in the
+   message text). *)
+$stHFBudgetTripCount = 0;
+$stHFBudgetTripFaces = {};
+stHFBudgetTripSummarize[] := (
+    (* Pull subkernel ledgers first (review finding 4: the parallel scan is
+       the default, and its trips land in subkernels). *)
+    stHFBudgetTripGather[];
+    If[$stHFBudgetTripCount > 0 || Length[$stHFBudgetTripFaces] > 0,
+        Message[STIntegrate::budgettrips,
+            Max[$stHFBudgetTripCount, Length[$stHFBudgetTripFaces]],
+            Short[$stHFBudgetTripFaces, 3]]];
+    $stHFBudgetTripCount = 0;
+    $stHFBudgetTripFaces = {};
+    Quiet[Check[If[Length[Kernels[]] > 0,
+        ParallelEvaluate[
+            $stHFBudgetTripCount = 0; $stHFBudgetTripFaces = {};]], Null]];);
+
+(* issue #52 round 3: provenance sibling written next to every bestOrder.m.
+   Records WHAT certified the stored order (version, HF lib, backend, prune,
+   letter-set hash, search leg) so a certified-then-fails artifact is
+   diagnosable at a glance (his SubTropicaID$342089 bestOrder from v1.2.10
+   was not).  Diagnostic only; nothing reads it back. *)
+stOrderProvenance[extra_Association] := Join[<|
+    "SubTropicaVersion" -> $SubTropicaVersion,
+    "HFLibVersion"      -> $STHFLibVersion,
+    (* HF source SHA deliberately absent: $STHFLibSourceSha lives on the
+       unmerged bench-guardrails branch; add it here when that merges
+       (review finding 9). *)
+    "Backend"           -> $STLROrderBackend,
+    "ScorePruneFactor"  -> $STScorePruneFactor,
+    "TimeBudgetEnv"     -> Environment["HF_LR_TIME_BUDGET_S"],
+    "OperandFuseEnv"    -> Environment["HF_LR_MAX_OPERAND_TERMS"],
+    "BudgetTripped"     -> TrueQ[$stHFBudgetTrip],
+    "Date"              -> DateString["ISODateTime"]|>, extra];
 
 (* Diagnostic counters \[LongDash] populated when $STDispatchProfile = True.
    Useful for adversarial-review-style "is HF really exercised on this
@@ -16261,6 +16447,10 @@ Module[{backend = $STLROrderBackend, findRoots, carry, hfResult, t0, dt, ret,
                     If[!TrueQ[$stHFBudgetWarned],
                         Message[stDispatchFubini2::budget];
                         $stHFBudgetWarned = True];
+                    (* issue #52 round 3: ledger for the post-scan summary
+                       (the advisory above is eaten inside the quiet
+                       gauge-scoring regions; the counter is not). *)
+                    $stHFBudgetTripCount++;
                     $Failed,
                 hfResult === $Failed,
                     $STHFFallbackCount++;
@@ -18535,6 +18725,8 @@ STfindLinearlyReducibleOrdersHighestEpsOrder[id_:"NP", OptionsPattern[]] := Modu
 {
   NPfilenamesUpToEps, NPfilenamesEpsOrders,
   polysAndPairs, xvars, linearlyReducibleOrders, bestOrder,
+  score, (* issue #52 round 3 (review finding 16): previously wrote the
+            package-level symbol *)
   failed = {},
   stringReplacerFunction,
   fileEpsMaxEpsOrder, fileEpsOrders, file,
@@ -18569,15 +18761,29 @@ STfindLinearlyReducibleOrdersHighestEpsOrder[id_:"NP", OptionsPattern[]] := Modu
         ,
         Module[{espResult, rootPolys = {}},
           espResult = stDispatchFubini2[Join[#, xvars] & /@ (polysAndPairs[[;; , 1]]), xvars, Heuristic -> OptionValue[Heuristic], FindRoots -> OptionValue[FindRoots]];
-          If[OptionValue[FindRoots] =!= False,
-            {bestOrder, score} = espResult[[1]];
-            rootPolys = espResult[[2]];,
-            {bestOrder, score} = espResult;
-          ];
+          (* issue #52 round 3 FAIL-CLOSED (review finding B2): same guard as
+             the eps-aware sibling -- a $Failed espResult must never leave the
+             previous face's bestOrder in place (Part::partd is globally Off,
+             so the bare destructure was silent).  Non-conforming shapes
+             demote to the no-order handling below, trip-aware. *)
+          Which[
+            OptionValue[FindRoots] =!= False &&
+            ListQ[espResult] && Length[espResult] >= 2 && ListQ[espResult[[1]]],
+              {bestOrder, score} = espResult[[1]];
+              rootPolys = espResult[[2]],
+            OptionValue[FindRoots] === False &&
+            ListQ[espResult] && Length[espResult] == 2,
+              {bestOrder, score} = espResult;
+              rootPolys = {},
+            True,
+              bestOrder = NOLR; score = Infinity; rootPolys = {}];
 
           If[bestOrder === NOLR,
             failed = Join[failed, {file}];
-            Message[STIntegrate::noorder, file, xvars];
+            If[TrueQ[$stHFBudgetTrip],
+                AppendTo[$stHFBudgetTripFaces, file];
+                Message[STIntegrate::noorderbudget, file, xvars],
+                Message[STIntegrate::noorder, file, xvars]];
             Abort[];
           ];
 
@@ -18593,6 +18799,11 @@ STfindLinearlyReducibleOrdersHighestEpsOrder[id_:"NP", OptionsPattern[]] := Modu
 
       Do[
         Put[bestOrder, file2 <> "/bestOrder.m"];
+        Put[stOrderProvenance[<|
+            "Order" -> bestOrder,
+            "FindRoots" -> OptionValue[FindRoots],
+            "PolysHash" -> Hash[polysAndPairs]|>],
+            file2 <> "/orderProvenance.m"];
         ,
         {file2, fileEpsOrders[[;; , 2]]}
       ];
@@ -19745,6 +19956,12 @@ STfindLinearlyReducibleOrdersHighestEpsOrder2[id_:"NP", opts:OptionsPattern[]] :
                           Message[STIntegrate::noorder,
                               "doppio-bridge-missing", xvars];
                           Abort[]];
+                       (* issue #52 round 3 (review finding 14): the Doppio
+                          branch bypasses stDispatchFubini2's per-dispatch
+                          latch reset, so a stale $stHFBudgetTrip from an
+                          earlier face would mislabel a genuine Doppio NOLR
+                          as a budget abort.  Clear it here. *)
+                       $stHFBudgetTrip = False;
                        STFubiniDoppio2[
                           Join[#, xvars] & /@ (polysAndPairs[[;; , 1]]),
                           xvars,
@@ -19761,12 +19978,29 @@ STfindLinearlyReducibleOrdersHighestEpsOrder2[id_:"NP", opts:OptionsPattern[]] :
                   ];
                   (* FindRoots-truthy (True or Automatic) returns the wrapped
                      shape {{order, score}, rootPolys}; explicit False returns
-                     the flat shape {order, score}. *)
-                  If[OptionValue[FindRoots] =!= False,
-                    {bestOrder, score} = espResult[[1]];
-                    rootPolys = espResult[[2]];,
-                    {bestOrder, score} = espResult;
-                  ];
+                     the flat shape {order, score}.
+                     issue #52 round 3 FAIL-CLOSED (review finding B2): a
+                     budget trip / transport failure returns bare $Failed
+                     here, and the historical unguarded destructure -- with
+                     Part::partd globally Off -- silently KEPT the previous
+                     face's bestOrder (outer-Module scope), which the Put
+                     below then persisted and "SkipExistingOrders" reused.
+                     Every path now assigns all three variables explicitly;
+                     a non-conforming espResult demotes to the existing
+                     no-order handling (which distinguishes a budget abort
+                     from a genuine NOLR via $stHFBudgetTrip). *)
+                  Which[
+                    OptionValue[FindRoots] =!= False &&
+                    ListQ[espResult] && Length[espResult] >= 2 &&
+                    ListQ[espResult[[1]]],
+                      {bestOrder, score} = espResult[[1]];
+                      rootPolys = espResult[[2]],
+                    OptionValue[FindRoots] === False &&
+                    ListQ[espResult] && Length[espResult] == 2,
+                      {bestOrder, score} = espResult;
+                      rootPolys = {},
+                    True,
+                      bestOrder = NOLR; score = Infinity; rootPolys = {}];
                   totalScore += score;
 
                   (* carrydemote (spec 4b.5): a CarryLegOnly best order
@@ -19866,10 +20100,18 @@ STfindLinearlyReducibleOrdersHighestEpsOrder2[id_:"NP", opts:OptionsPattern[]] :
 
                   If[bestOrder === NOLR,
                       failed = Join[failed, {file}];
+                      (* issue #52 round 3: a budget ABORT is not a NOLR
+                         verdict; say which one this is, and feed the
+                         kernel-local ledger so the gauge scan can report
+                         trips after its quiet region. *)
+                      If[TrueQ[$stHFBudgetTrip],
+                          AppendTo[$stHFBudgetTripFaces, file]];
                       If[OptionValue["ScanGauges"],
                           Return[Infinity];
                       ,
-                          Message[STIntegrate::noorder, file, xvars];
+                          If[TrueQ[$stHFBudgetTrip],
+                              Message[STIntegrate::noorderbudget, file, xvars],
+                              Message[STIntegrate::noorder, file, xvars]];
                           Abort[];
                       ];
                   ];
@@ -19887,6 +20129,15 @@ STfindLinearlyReducibleOrdersHighestEpsOrder2[id_:"NP", opts:OptionsPattern[]] :
 
             Do[
                 Put[bestOrder, file2 <> "/bestOrder.m"];
+                Put[stOrderProvenance[<|
+                    "Order" -> bestOrder,
+                    "FindRoots" -> OptionValue[FindRoots],
+                    (* review finding 9: distinguish pinned-vs-searched.
+                       (rootPolys is inner-Module scope, not visible here;
+                       the winning-leg record awaits a small plumbing pass.) *)
+                    "Pinned" -> (stIntOrderPinnedThisFace =!= None),
+                    "PolysHash" -> Hash[polysAndPairs]|>],
+                    file2 <> "/orderProvenance.m"];
             , {file2, fileEpsOrders[[;; , 2]]}];
             (* a successful strict order supersedes a stale carry verdict --
                without this, a once-demoted face is re-scanned on every resume
@@ -19912,6 +20163,12 @@ eeBound=10;
 
 
 STIntegrate::noorder = "No linearly reducible integration order found for `1`. Either no such order exists, or it does not exist for the current choice of variables: `2`.";
+(* issue #52 round 3 (2026-08-12): a budget/transport abort is NOT a NOLR
+   verdict, and must never be reported as one (the verdict-honesty rule from
+   v1.2.12).  This message replaces ::noorder on the face-scan demote path
+   whenever the per-kernel budget latch is set. *)
+STIntegrate::noorderbudget = "The order search for `1` was ABORTED by the LR search budget (HF_LR_TIME_BUDGET_S / HF_LR_MAX_OPERAND_TERMS) before completing -- this is NOT a NOLR verdict; a linearly reducible order may exist.  Raise or clear the budget (shell environment, or ParallelEvaluate[SetEnvironment[...]] for launched subkernels) and re-run, or pin a known order with IntegrationOrder.  Variables: `2`.";
+STIntegrate::budgettrips = "`1` face order-search(es) were budget-aborted during this scan (main + gathered subkernel counts; faces, where recorded: `2`).  Those searches are ABORTS, not NOLR verdicts: an affected gauge might be viable at a higher budget (the per-call \"TimeBudget\" option reaches subkernels).  The scan proceeded with the gauges that completed.";
 
 
 Options[STfindLinearlyReducibleOrdersBruteForce] = {
@@ -19922,6 +20179,7 @@ Options[STfindLinearlyReducibleOrdersBruteForce] = {
 STfindLinearlyReducibleOrdersBruteForce[id_:"NP", OptionsPattern[]] := Module[
 {
   NPfilenames, polysAndPairs, bestOrder, xvars, linearlyReducibleOrders,
+  score, (* issue #52 round 3 (review finding 16) *)
   failed = {},
   counter = 0, total,
   startTime
@@ -19943,6 +20201,13 @@ STfindLinearlyReducibleOrdersBruteForce[id_:"NP", OptionsPattern[]] := Module[
       If[polysAndPairs === {},
         Put["no_integration_required", file <> "/orders.m"];
         Put["no_integration_required", file <> "/bestOrder.m"];
+        (* issue #52 round 3 (review finding 17): the trivial branch writes
+           the provenance sibling like every other bestOrder.m writer. *)
+        Put[stOrderProvenance[<|
+            "Order" -> "no_integration_required",
+            "FindRoots" -> OptionValue[FindRoots],
+            "PolysHash" -> Hash[polysAndPairs]|>],
+            file <> "/orderProvenance.m"];
         ,
         xvars = Get[file <> "/vars.m"][[1]];
 
@@ -19965,15 +20230,26 @@ STfindLinearlyReducibleOrdersBruteForce[id_:"NP", OptionsPattern[]] := Module[
                 Message[STIntegrate::intorderfaceskip, stPin,
                     STParseFaceDirectory[file][[2]], xvars]];
             espResult = stDispatchFubini2[Join[#, xvars] & /@ (polysAndPairs[[;; , 1]]), xvars, Heuristic -> OptionValue[Heuristic], FindRoots -> OptionValue[FindRoots]];
-            If[OptionValue[FindRoots] =!= False,
-              {bestOrder, score} = espResult[[1]];
-              rootPolys = espResult[[2]];,
-              {bestOrder, score} = espResult;
-            ];
+            (* issue #52 round 3 FAIL-CLOSED (review finding B2): same guard
+               as the HighestEpsOrder2 path; see the comment there. *)
+            Which[
+              OptionValue[FindRoots] =!= False &&
+              ListQ[espResult] && Length[espResult] >= 2 && ListQ[espResult[[1]]],
+                {bestOrder, score} = espResult[[1]];
+                rootPolys = espResult[[2]],
+              OptionValue[FindRoots] === False &&
+              ListQ[espResult] && Length[espResult] == 2,
+                {bestOrder, score} = espResult;
+                rootPolys = {},
+              True,
+                bestOrder = NOLR; score = Infinity; rootPolys = {}];
 
             If[bestOrder === NOLR,
               failed = Join[failed, {file}];
-              Message[STIntegrate::noorder, file, xvars];
+              If[TrueQ[$stHFBudgetTrip],
+                  AppendTo[$stHFBudgetTripFaces, file];
+                  Message[STIntegrate::noorderbudget, file, xvars],
+                  Message[STIntegrate::noorder, file, xvars]];
               Abort[];
             ];
 
@@ -19985,6 +20261,12 @@ STfindLinearlyReducibleOrdersBruteForce[id_:"NP", OptionsPattern[]] := Module[
           ];
         ];
         Put[bestOrder, file <> "/bestOrder.m"];
+        Put[stOrderProvenance[<|
+            "Order" -> bestOrder,
+            "FindRoots" -> OptionValue[FindRoots],
+            "Pinned" -> (stPin =!= None && Sort[stPin] === Sort[xvars]),
+            "PolysHash" -> Hash[polysAndPairs]|>],
+            file <> "/orderProvenance.m"];
       ]
 
     , {file, NPfilenames}],
@@ -22535,6 +22817,12 @@ STFindSlowestJob[] := Module[{files, jobs, slowest},
 STEvaluateGraph::timebound = "No valid gauge found within the specified time and/or memory limit(s). Please increase the TimeUpperBound and/or MemoryPercentCutOff.";
 STEvaluateGraph::nolr = "No linearly reducible integration orders found for any gauge choice.";
 STEvaluateGraph::nolrtrip = "No linearly reducible integration order was CERTIFIED: at least one per-face search was ABORTED by the finite SolverBound (STFubiniLR::boundtrip) instead of running to completion.  This is NOT a proof that no reducible order exists.  Raise SolverBound (default 10^9, effectively unbounded), or bound the search with the HyperFLINT backend's \"ScorePruneFactor\" instead (note: a finite prune skips the rationalization escalation unless \"Rationalize\" -> True is set explicitly).";
+(* issue #52 round 3 (review finding 3): the all-gauges-Infinity verdict must
+   also distinguish the HF time/operand budget abort -- otherwise a run whose
+   every gauge tripped the budget reports a plain ::nolr, the exact false-NOLR
+   conflation v1.2.12 eliminated at the dispatch level. *)
+STEvaluateGraph::nolrbudget = "No linearly reducible integration order was CERTIFIED: at least one per-face search was ABORTED by the LR search budget (HF_LR_TIME_BUDGET_S / HF_LR_MAX_OPERAND_TERMS) instead of running to completion.  This is NOT a proof that no reducible order exists.  Raise the budget (the per-call \"TimeBudget\" option reaches subkernels) or see ::budgetexceeded for the full option ladder.";
+STEvaluateEulerIntegral::nolrbudget = "No linearly reducible integration order was CERTIFIED: at least one per-face search was ABORTED by the LR search budget (HF_LR_TIME_BUDGET_S / HF_LR_MAX_OPERAND_TERMS) instead of running to completion.  This is NOT a proof that no reducible order exists.  Raise the budget (the per-call \"TimeBudget\" option reaches subkernels) or see ::budgetexceeded for the full option ladder.";
 STEvaluateGraph::nolrcarryskip = "No linearly reducible integration order was found WITH the rationalization (carry) escalation SKIPPED: a finite \"ScorePruneFactor\" is set, and the carry search cannot honor a prune (it is exhaustive by construction and can wedge indefinitely).  This is NOT a proof that no reducible order exists.  To force the exhaustive carry search anyway, re-run with \"Rationalize\" -> True explicitly (it may run long).  If the prune itself is the obstacle (a small prune can discard the only reducible orders), raise it or remove \"ScorePruneFactor\" entirely.";
 STEvaluateGraph::findrootshf = "\"LROrderBackend\" -> \"HyperFLINT\" combined with FindRoots -> True is unsupported at the LR-search level (HF's find_lr_orders does not yet understand Wm/Wp algebraic letters); downgrading to \"LROrderBackend\" -> \"HyperIntica\" for this call.  Integration still routes through HF if \"Integrator\" -> \"HyperFLINT\" is set.  Warning shown once per kernel session; Off[STEvaluateGraph::findrootshf] to silence.";
 STEvaluateGraph::membound = "Gauge x`1` exceeded memory limit and was skipped.";
@@ -22552,6 +22840,7 @@ Options[STEvaluateGraph] = Join[
         "Rationalize" -> Automatic,  (* 2026-06-24 user-facing umbrella for the root-handling escalation (per-face FindRoots False -> True -> carry).  Automatic (default) reaches the carry rung as a last resort; True forces it available; False disables it.  Resolved by stResolveRationalize; the deprecated "Carry" below is a silent alias. *)
         "Carry" -> Automatic,  (* DEPRECATED silent alias for "Rationalize" (sentinel Automatic = defer to Rationalize; an explicit True|False is a legacy override).  carry-discharge LR tier; spec 2026-06-10-carry-option-design.md.  NOTE: under StopAt LR-checks the carry verdict is computed on the serial path only; parallel subkernels lack the HF binary path and report strict (pre-existing limitation, see notes/carry_option/G3B_FINDINGS.md) *)
         "ScorePruneFactor" -> Automatic,  (* 2026-06-16 score-driven branch-and-bound prune for the HF LR search; Automatic inherits the $STScorePruneFactor global (Infinity = exhaustive).  A finite X > 0 drops partial orders scoring > X times the best of their length, breaking the subset-DP blow-up on hard faces.  Block-scoped over the order-finding so every nested call inherits one value. *)
+        "TimeBudget" -> Automatic,  (* issue #52 round 3: per-call LR search time budget in seconds; Automatic inherits $STTimeBudget (itself Automatic = the HF_LR_TIME_BUDGET_S env, loader default 180 s); N >= 0 runs every order search of this call under an N-second deadline (0 disables).  Block-scoped and pushed to subkernels alongside ScorePruneFactor, so it reaches parallel per-face searches (unlike a controller-side SetEnvironment). *)
         SolverBound -> Automatic,  (* 2026-06-25 (Christoph): LR-solver term-count bound for the Lungo STFubiniLR path; Automatic inherits the $STSolverBound global (10^9 default).  FAIL-CLOSED as of issue #52: an operand above the bound ABORTS the search (STFubiniLR::boundtrip) instead of being skipped, because skipping under-approximates the singularity set and can CERTIFY A NON-REDUCIBLE ORDER (28% of truncation-certified orders on a 91-face production sample).  A trip is not a proof of non-reducibility.  Bound a runaway search soundly with "ScorePruneFactor", "EulerFilter", or HF_LR_TIME_BUDGET_S instead.  Block-scoped over the order-finding (mirrors ScorePruneFactor) so every nested STFasterFubini2 / STFubiniLR call inherits it; previously dropped because SolverBound was absent here AND the stDispatchFubini2 call sites forward options by explicit enumeration.  SYMBOL key (not a string) so FilterRules cannot strip it -- declared on STEvaluateEulerIntegral too.  NOTE: only the Mma LR path (LROrderBackend -> "HyperIntica", or an HF -> Mma fallback) consumes SolverBound; the default HF C++ find_lr_orders ignores it (it prunes via ScorePruneFactor + the time budget instead). *)
         "EulerFilter" -> False,  (* 2026-06-21 Doppio-C Euler chi-drop letter filter for the HF LR search.  False (default) = legacy behavior (byte-identical; the C++ filter is dormant).  True = run HF find_lr_orders with HF_EULER_FILTER=1 so every per-subset Fubini letter is vetted against the genuine Euler discriminant of its marginal (msolve-based chi count) and fictitious letters are dropped; conservative (failure/Indeterminate -> KEEP), boundary monomials exempt, so a clean integral's order+score are unchanged.  Needs msolve on PATH.  Block-scoped over the order-finding (via $STEulerFilter) so every nested call inherits one value without per-call-site threading. *)
         IntegrationOrder -> None,  (* 2026-06-22 pro-only pin of the per-face integration order (spec notes/integration_order_design.md).  None / Automatic = legacy auto-search (byte-identical).  {x1,...,xn} (Symbols) = a GLOBAL order projected onto each face; {fspec -> order, ...} (Rules) = PER-FACE (fspec uses the SelectFaces vocabulary).  Block-scoped to $STIntegrationOrderPin over the order-finding; a pinned face SKIPS the LR search.  A SYMBOL key (not a string) so FilterRules cannot strip it -- declared on STEvaluateEulerIntegral too. *)
@@ -22679,6 +22968,12 @@ STEvaluateGraph[g_, opts : OptionsPattern[]] :=
                    stNormalizePrune[
                        ("ScorePruneFactor" /. Flatten[{opts}] /. {"ScorePruneFactor" -> Automatic}) /.
                            Automatic :> $STScorePruneFactor],
+               (* issue #52 round 3: Block-scope the per-call LR time budget,
+                  mirroring $STScorePruneFactor (Flatten for the same
+                  opts-nesting trap). *)
+               $STTimeBudget = stValidateTimeBudget[
+                   ("TimeBudget" /. Flatten[{opts}] /. {"TimeBudget" -> Automatic}) /.
+                       Automatic :> $STTimeBudget, "STEvaluateGraph"],
                (* 2026-06-21: Block-scope the Euler chi-drop flag for the whole
                   diagram run, mirroring $STScorePruneFactor, so every nested
                   order-finding call (the ~21 STfindLinearlyReducibleOrders2
@@ -22833,6 +23128,11 @@ Module[{
     $STLROrderBackend   = lrBackendValue;
     $STHFFallbackCount  = 0;
     $STHFFallbackWarned = False;
+    (* issue #52 round 3: the budget-trip ledger is per-RUN — clear it here so
+       residue from an earlier aborted run cannot surface in this run's
+       post-scan summary (a_tests T5a caught exactly that leak). *)
+    $stHFBudgetTripCount = 0;
+    $stHFBudgetTripFaces = {};
     If[Length[Kernels[]] > 0,
         (* Propagate the backend selection to every subkernel so
            ParallelMap-dispatched stDispatchFubini2 calls hit the same
@@ -22844,7 +23144,7 @@ Module[{
            fallbacks are best-effort (may be undercounted). *)
         With[{bk = lrBackendValue, spf = $STScorePruneFactor,
               ef = $STEulerFilter, sb = $STSolverBound,
-              rex = $STRationalizeExplicit},
+              rex = $STRationalizeExplicit, tb = $STTimeBudget},
             (* NOTE (review M3): this push reaches only kernels alive at core
                entry; kernels launched later in the same run inherit package
                defaults for these globals (pre-existing limitation). *)
@@ -22866,7 +23166,13 @@ Module[{
                    carry-skip latches (gathered at ::nolr time) and propagation
                    of the explicit-Rationalize marker for the carry opt-in. *)
                 $STSolverBoundTripped = False; $STCarrySkipped = False;
-                $STRationalizeExplicit = rex]]];
+                $STRationalizeExplicit = rex;
+                (* issue #52 round 3: per-call time budget reaches subkernel
+                   LR searches (closes the SetEnvironment-vs-subkernels trap),
+                   and the budget-trip ledger starts clean per run (review
+                   finding 15; gathered by stHFBudgetTripGather at summary). *)
+                $STTimeBudget = tb;
+                $stHFBudgetTripCount = 0; $stHFBudgetTripFaces = {}]]];
 
     (* 2026-06-22: push the Block-scoped IntegrationOrder pin + verify mode
        (set on the MAIN kernel by the STEvaluateGraph Block header) to every
@@ -23212,6 +23518,17 @@ Module[{
                     {pref, integrand, xvarsAll, coeffs} = STGenerateIntegrand[g, "Gauge" -> {},
                         FilterRules[DeleteCases[{opts}, "Gauge" -> _], Options[STGenerateIntegrand]]];
                     rawExpr = STtoCoeffMonPols[integrand, xvarsAll];
+                    (* PRE-FLIGHT-ALPHABET-BIAS (issue #52 round 3, review S8):
+                       this pre-flight LR-check predicate keeps only exponents
+                       with (v /. eps -> 0) <= 0, a strictly SMALLER alphabet
+                       than the production face filter at
+                       STsetupDirectorySubtraction (eps-dependent OR negative):
+                       e.g. an exponent 1 - 7 eps is dropped here but kept
+                       there.  The bias is OPTIMISTIC: this check can say LR
+                       where the production search says NOLR.  Same predicate
+                       at the sibling sites (grep the Position pattern).
+                       Unification is deferred behind a 3-bench A/B (it can
+                       change which gauge wins). *)
                     expsWithEps = Position[rawExpr//Last//Last, v_/;(v/.eps->0) <= 0, 1]//Flatten;
                     polysAndPairs = (rawExpr//Last//First)[[expsWithEps]];
                     If[polysAndPairs === {} || xvarsAll === {},
@@ -23281,6 +23598,18 @@ Module[{
                     checkOneGauge[gi_Integer] := Module[{xv, rawExpr, expsWithEps, polysAndPairs, bestOrder, score, espResult},
                         xv = Delete[xvarsAll, gi];
                         rawExpr = STtoCoeffMonPols[(integrand /. xvarsAll[[gi]] -> 1), xv];
+                        (* PRE-FLIGHT-ALPHABET-BIAS (issue #52 round 3, review
+                           S8): this pre-flight LR-check predicate keeps only
+                           exponents with (v /. eps -> 0) <= 0, a strictly
+                           SMALLER alphabet than the production face filter at
+                           STsetupDirectorySubtraction (eps-dependent OR
+                           negative): e.g. an exponent 1 - 7 eps is dropped
+                           here but kept there.  The bias is OPTIMISTIC: this
+                           check can say LR where the production search says
+                           NOLR.  Same predicate at the sibling sites (grep
+                           the Position pattern).  Unification is deferred
+                           behind a 3-bench A/B (it can change which gauge
+                           wins). *)
                         expsWithEps = Position[rawExpr//Last//Last, v_/;(v/.eps->0) <= 0, 1]//Flatten;
                         polysAndPairs = (rawExpr//Last//First)[[expsWithEps]];
                         If[polysAndPairs === {} || xv === {},
@@ -23799,6 +24128,11 @@ Module[{
                    misleading (measured: the boundtrip Message itself never
                    reaches the user). *)
                 Which[
+                    (* issue #52 round 3: budget abort first -- most specific
+                       (HF-path), and the summarize below is never reached on
+                       this Throw (review finding 3). *)
+                    stBudgetTrippedAnywhere[],
+                        Message[STEvaluateGraph::nolrbudget],
                     stSolverBoundTrippedAnywhere[],
                         Message[STEvaluateGraph::nolrtrip],
                     stCarrySkippedAnywhere[],
@@ -23824,6 +24158,10 @@ Module[{
             Echo[scores /. 10^500 -> "\!\(\*SuperscriptBox[\(10\), \(500\)]\)", "Picking the gauge x" <> ToString[bestGauge] <>
                 " from candidates x" <> StringJoin[Riffle[ToString /@ gaugesToConsider, ", x"]] <>
                 ", scores"];
+            (* issue #52 round 3: the scan itself runs quieted, so budget
+               aborts inside it were invisible; report the kernel-local
+               ledger here, outside the quiet region. *)
+            stHFBudgetTripSummarize[];
 
             (* Axis-5 decision record: machine-readable counterpart of the
                Echo above, captured by the UI as a distinct "Kernel decision"
@@ -23889,7 +24227,10 @@ Module[{
                Integrator -> "HyperInt" cannot consume Wm/Wp letters, so
                the escalation aborts cleanly with the standard
                findRootsHyperInt message in that case. *)
-            If[chosenFrLeg === False && frOrig === Automatic && stAnyFaceNOLR[problemId],
+            If[chosenFrLeg === False && frOrig === Automatic && stAnyFaceNOLR[problemId]
+                    && !TrueQ[$stHFBudgetTrip], (* issue #52 round 3, finding 5:
+                       never escalate a BUDGET-aborted face to the True leg --
+                       that retry re-runs the tripped operation *)
                 Print["[FR fallback] Some face NOLR with FindRoots -> False after gauge x", bestGauge, " selection; escalating laggard faces to True."];
                 If[OptionValue["Integrator"] === "HyperInt",
                     Message[STEvaluateGraph::findRootsHyperInt];
@@ -23921,7 +24262,10 @@ Module[{
             ];
 
             (* MethodPolysAndPairs: "Fast" -> "Standard" fallback if simple LR hit NOLR *)
-            If[methodPolysAndPairs === "Fast" && stAnyFaceNOLR[problemId],
+            If[methodPolysAndPairs === "Fast" && stAnyFaceNOLR[problemId]
+                    && !TrueQ[$stHFBudgetTrip], (* issue #52 round 3, finding 5:
+                       a budget abort is not a NOLR; the Standard rerun would
+                       clear directories and pay the budget twice *)
                 Print["[NOLR fallback] No linearly-reducible order found for all epsilon orders \[LongDash] truncating to the requested Order..."];
                 methodPolysAndPairs = "Standard";
                 Quiet@STClearDirectories[problemId];
@@ -24142,7 +24486,8 @@ Module[{
                Integrator -> "HyperInt" cannot consume Wm/Wp letters,
                so the escalation aborts cleanly with the standard
                findRootsHyperInt message. *)
-            If[chosenFrLeg === False && frOrig === Automatic && stAnyFaceNOLR[problemId],
+            If[chosenFrLeg === False && frOrig === Automatic && stAnyFaceNOLR[problemId]
+                    && !TrueQ[$stHFBudgetTrip], (* issue #52 round 3, finding 5 *)
                 Print["[FR fallback] Some face NOLR with FindRoots -> False on user-supplied gauge ", OptionValue["Gauge"], "; escalating laggard faces to True."];
                 If[OptionValue["Integrator"] === "HyperInt",
                     Message[STEvaluateGraph::findRootsHyperInt];
@@ -24172,7 +24517,10 @@ Module[{
             ];
 
             (* MethodPolysAndPairs: "Fast" -> "Standard" fallback if simple LR hit NOLR *)
-            If[methodPolysAndPairs === "Fast" && stAnyFaceNOLR[problemId],
+            If[methodPolysAndPairs === "Fast" && stAnyFaceNOLR[problemId]
+                    && !TrueQ[$stHFBudgetTrip], (* issue #52 round 3, finding 5:
+                       a budget abort is not a NOLR; the Standard rerun would
+                       clear directories and pay the budget twice *)
                 Print["[NOLR fallback] No linearly-reducible order found for all epsilon orders \[LongDash] truncating to the requested Order..."];
                 methodPolysAndPairs = "Standard";
                 Quiet@STClearDirectories[problemId];
@@ -24495,6 +24843,7 @@ Options[STEvaluateEulerIntegral] = Join[
            too; STIntegrateHF still forces HF explicitly (survives FilterRules). *)
         "LROrderBackend"         :> stDefaultSymbolicBackend[],
         "ScorePruneFactor"       -> Automatic,
+        "TimeBudget"             -> Automatic, (* issue #52 round 3: per-call LR search time budget in seconds; declared here so FilterRules does not strip it on the STIntegrate[integrand, x..] / STIntegrateHF routes (same trap as "ScorePruneFactor" above); read into the Block-scoped $STTimeBudget by the wrapper + pushed to subkernels. *)
         "EulerFilter"            -> False,    (* 2026-06-21 Doppio-C Euler chi-drop letter filter for the HF LR search; mirrors STEvaluateGraph.  Declared here so FilterRules[{opts}, Options[STEvaluateEulerIntegral]] on the STIntegrate[integrand, x..] / STIntegrateHF routes does NOT strip it (same reason as "LROrderBackend"/"ScorePruneFactor" above); read into the $STEulerFilter global by the wrapper Block + core below.  False (default) = legacy byte-identical behavior. *)
         "ScoreProgress"          -> False,    (* When True, Echo per-gauge LR status and wall time as each (sub)kernel finishes.
                                                  Default False (2026-06-05): must match STIntegrate's documented default --
@@ -24558,6 +24907,12 @@ Module[{cd, res},
                stNormalizePrune[
                    ("ScorePruneFactor" /. Flatten[{opts}] /. {"ScorePruneFactor" -> Automatic}) /.
                        Automatic :> $STScorePruneFactor],
+           (* issue #52 round 3: Block-scope the per-call LR time budget,
+              mirroring $STScorePruneFactor (Flatten for the same nesting
+              trap); pushed to subkernels alongside it. *)
+           $STTimeBudget = stValidateTimeBudget[
+               ("TimeBudget" /. Flatten[{opts}] /. {"TimeBudget" -> Automatic}) /.
+                   Automatic :> $STTimeBudget, "STEvaluateEulerIntegral"],
            (* 2026-06-21: Block-scope the Euler chi-drop flag over the whole
               raw-Euler run, mirroring $STScorePruneFactor, so every nested
               per-face order-finding call inherits one value.  The core
@@ -24756,10 +25111,14 @@ Module[{
        already exist. *)
     lrBackendValue        = OptionValue["LROrderBackend"];
     $STLROrderBackend     = lrBackendValue;
+    (* issue #52 round 3: per-run budget-trip ledger reset (see the
+       STEvaluateGraph sibling). *)
+    $stHFBudgetTripCount = 0;
+    $stHFBudgetTripFaces = {};
     If[Length[Kernels[]] > 0,
         With[{bk = lrBackendValue, spf = $STScorePruneFactor,
               ef = $STEulerFilter, sb = $STSolverBound,
-              rex = $STRationalizeExplicit},
+              rex = $STRationalizeExplicit, tb = $STTimeBudget},
             (* NOTE (review M3): this push reaches only kernels alive at core
                entry; kernels launched later in the same run inherit package
                defaults for these globals (pre-existing limitation). *)
@@ -24774,7 +25133,13 @@ Module[{
                    carry-skip latches (gathered at ::nolr time) and propagation
                    of the explicit-Rationalize marker for the carry opt-in. *)
                 $STSolverBoundTripped = False; $STCarrySkipped = False;
-                $STRationalizeExplicit = rex]]];
+                $STRationalizeExplicit = rex;
+                (* issue #52 round 3: per-call time budget reaches subkernel
+                   LR searches (closes the SetEnvironment-vs-subkernels trap),
+                   and the budget-trip ledger starts clean per run (review
+                   finding 15; gathered by stHFBudgetTripGather at summary). *)
+                $STTimeBudget = tb;
+                $stHFBudgetTripCount = 0; $stHFBudgetTripFaces = {}]]];
 
     problemId             = ToString[If[OptionValue["SetProblemID"] === Automatic,
                                 Unique[SubTropicaID], OptionValue["SetProblemID"]]];
@@ -25492,6 +25857,10 @@ Module[{
             If[AllTrue[scores, # === Infinity &],
                 (* issue #52 round 2: see the STEvaluateGraph mirror site. *)
                 Which[
+                    (* issue #52 round 3: budget abort first (see the
+                       STEvaluateGraph mirror site). *)
+                    stBudgetTrippedAnywhere[],
+                        Message[STEvaluateEulerIntegral::nolrbudget],
                     stSolverBoundTrippedAnywhere[],
                         Message[STEvaluateEulerIntegral::nolrtrip],
                     stCarrySkippedAnywhere[],
@@ -25515,6 +25884,9 @@ Module[{
                 "Picking gauge " <> ToString[bestGauge] <>
                 " from candidates " <> StringJoin[Riffle[ToString /@ gaugesToConsider, ", "]] <>
                 ", scores"];
+            (* issue #52 round 3: report budget aborts collected during the
+               quieted scan (kernel-local ledger). *)
+            stHFBudgetTripSummarize[];
 
             (* Delete losing gauge directories to free disk/memory *)
             Module[{loserPids, matches},
@@ -25550,7 +25922,10 @@ Module[{
             STEchoLinearOrders[problemId];
 
             (* MethodPolysAndPairs: "Fast" -> "Standard" fallback if simple LR hit NOLR *)
-            If[methodPolysAndPairs === "Fast" && stAnyFaceNOLR[problemId],
+            If[methodPolysAndPairs === "Fast" && stAnyFaceNOLR[problemId]
+                    && !TrueQ[$stHFBudgetTrip], (* issue #52 round 3, finding 5:
+                       a budget abort is not a NOLR; the Standard rerun would
+                       clear directories and pay the budget twice *)
                 Print["[NOLR fallback] No linearly-reducible order found for all epsilon orders \[LongDash] truncating to the requested Order..."];
                 methodPolysAndPairs = "Standard";
                 Quiet@STClearDirectories[problemId];
@@ -25732,6 +26107,13 @@ Module[{
                        False,
                        True
                    ],
+                    (* issue #52 round 3 (review finding 5): a BUDGET abort must
+                       not be consumed as a NOLR verdict -- the Standard retry
+                       would clear the tripped face's directory (destroying its
+                       provenance) and re-run the same budgeted operation.  The
+                       per-kernel latch is still set from the tripped dispatch;
+                       re-raise instead of retrying. *)
+                    If[TrueQ[$stHFBudgetTrip], Abort[]];
                     If[methodPolysAndPairs =!= "Fast", Abort[]];
                     Print["[NOLR fallback] No linearly-reducible order for the no-scan integrand under \"Fast\" \[LongDash] retrying with MethodPolysAndPairs -> \"Standard\"..."];
                     methodPolysAndPairs = "Standard";
@@ -26144,6 +26526,7 @@ $STOptionValues = <|
     "Rationalize"            -> {Automatic, True, False, "the root-handling escalation: Automatic (default) tries strict, then FindRoots->True algebraic letters, then the carry / Euler-rationalization rung -- each per face, only as far as needed; True forces the carry rung available; False stops before it (strict + algebraic letters only).  Replaces the deprecated \"Carry\" option."},
     "Carry"                  -> {False, True, "DEPRECATED silent alias for \"Rationalize\" (True = Rationalize->True, False = Rationalize->False); prefer \"Rationalize\"."},
     "ScorePruneFactor"       -> {Automatic, "Infinity = exhaustive (default)", "real X >= 1 = drop partial orders scoring > X times the best of their length.  v1.2.12: with a finite prune the rationalization (carry) escalation is SKIPPED unless \"Rationalize\" -> True is set explicitly (the carry search cannot honor a prune); a no-order outcome then reports as ::nolrcarryskip, which is NOT a proof of non-reducibility.  Values below 1 or non-real values are rejected with a message (they could silently disable pruning or corrupt the result in earlier releases)"},
+    "TimeBudget"             -> {Automatic, "Automatic = inherit the HF_LR_TIME_BUDGET_S environment (loader default 180 s)", "N >= 0 seconds = per-call deadline on every LR order search of this call (0 or Infinity = no deadline).  Reaches the in-process dylib, the CLI child, AND launched subkernels (unlike a controller-side SetEnvironment).  A budget abort is reported as ::budgetexceeded / ::noorderbudget / ::nolrbudget -- an ABORT, never a NOLR verdict (v1.2.12.1, issue #52 round 3)"},
     "SolverBound"            -> {Automatic, "Automatic = inherit $STSolverBound (10^9, effectively unbounded)", "finite integer N > 0 = size bound on the operands of the Lungo LR solver's discriminant/resultant step.  FAIL-CLOSED (issue #52): an operand above the bound ABORTS the search with STFubiniLR::boundtrip rather than being skipped, because skipping under-approximates the singularity set and can certify an order that is NOT linearly reducible (measured at 28% of truncation-certified orders on a 91-face sample).  A bound trip is NOT a proof that no linearly reducible order exists.  To bound a runaway search soundly use \"ScorePruneFactor\" -> N (prunes candidate ORDERS), \"EulerFilter\" -> True, or HF_LR_TIME_BUDGET_S.  Consumed only on the Mma LR path (LROrderBackend -> \"HyperIntica\", or an HF -> Mma fallback)"},
     "EulerFilter"            -> {False, True},
     "IntegrationOrder"       -> {None, "Automatic = legacy auto-search (default)", "{x1, ..., xn} (symbols) = GLOBAL order, projected per face", "{fspec -> order, ...} (rules) = PER-FACE (fspec = SelectFaces vocabulary: i, (o->i), pattern {eps,face} pair e.g. {_,1}, OR-list e.g. {1,4}, Except[...])"},
@@ -36525,6 +36908,9 @@ With[{stnsLedger = {
   "stDeriveGaugeFromHomogeneousLR",
   (* issue #52 round 2: SolverBound trip + carry-skip gathers (the ::nolr verdict branch) *)
   "stSolverBoundTrippedAnywhere", "stCarrySkippedAnywhere", "stNormalizePrune",
+  (* issue #52 round 3: budget-trip ledger/advice/provenance + TimeBudget *)
+  "stHFBudgetAdvice", "stHFBudgetTripSummarize", "stBudgetTrippedAnywhere",
+  "stHFBudgetTripGather", "stOrderProvenance", "stValidateTimeBudget",
   "stWarnGlobalStructuralSymbols", "stWithSuppressedOutput", "STwrapTranslator", "stWriteSplitEntry", "STXStringReplace", "style$", "STzetaStringReplace", "STZetaStringReplace",
   "stCarryTau", "stCarryPerfectSquareRoot", "stCarrySubstitute", "stCarryChamberOKQ", "stCarryChamberPoint", "stCarryEndpointMap", "stCarryConicPredicate", "stCarryConicRadicand", "stCarryTriggerCheck",
   "stCarryTransformIntegrand", "stCarryExecuteTerm", "stCarryTermSplit", "stCarryApplyExecution"}},
