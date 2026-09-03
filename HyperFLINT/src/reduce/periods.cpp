@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include "hyperflint/reduce/periods.hpp"
+#include "hyperflint/reduce/zero_one_atoms.hpp"
 
 #include "hyperflint/reduce/period_scratch.hpp"  // period-tuples (binding fold)
 
@@ -244,16 +245,29 @@ Rat zero_one_period(const PolyCtx& ctx,
     }
 
     // MZV branch (letters in {-1, 0, 1} — verified by letter check).
-    for (const auto& l : word.letters) {
-        if (!letter_is_integer(l)) {
-            throw std::runtime_error(
-                "zero_one_period: non-integer letter (Phase 6b scope)");
+    // Issue #52 round 5: an integer letter outside {-1, 0, 1} is not an
+    // error -- the (already endpoint-regularized) word is the constant
+    // G(w; 1) -- so it is minted as a reserved opaque atom and reported
+    // in the response's "zero_one_periods" table (reduce/zero_one_atoms.hpp)
+    // instead of throwing across the OMP region.
+    {
+        bool out_of_scope = false;
+        for (const auto& l : word.letters) {
+            if (!letter_is_integer(l)) {
+                throw std::runtime_error(
+                    "zero_one_period: non-integer letter (Phase 6b scope)");
+            }
+            long v = letter_as_integer(l);
+            if (v != -1 && v != 0 && v != 1) out_of_scope = true;
         }
-        long v = letter_as_integer(l);
-        if (v != -1 && v != 0 && v != 1) {
-            throw std::runtime_error(
-                "zero_one_period: letter outside {-1,0,1} "
-                "(Phase 6b scope)");
+        if (out_of_scope) {
+            std::string wj = "[";
+            for (size_t i = 0; i < word.size(); ++i) {
+                if (i) wj += ",";
+                wj += std::to_string(letter_as_integer(word[i]));
+            }
+            wj += "]";
+            return Rat::parse(ctx, zero_one_atom_for(wj));
         }
     }
 

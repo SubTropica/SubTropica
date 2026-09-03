@@ -569,6 +569,67 @@ stHFCliBaseEnv[] := {
         {Except[_String] -> ""}]
 };
 
+(* Issue #52 round 4 (2026-08-20): decode a nonzero CLI exit status into an
+   actionable diagnostic.  A signal-terminated child surfaces as 128+signal
+   (the convention RunProcess reports on macOS and Linux) or, through some
+   layers, as the negative signal number.  The three codes users actually
+   hit, in the order of how often they are misread:
+   - 139 = SIGSEGV.  With an EMPTY stderr this is the signature of memory
+     exhaustion: the kernel cannot map another stack/heap page and the
+     process dies before it can print anything.  A graceful allocation
+     failure is LOUD (GMP/FLINT print and abort -> 134), and an OS
+     out-of-memory kill is 137, so a bare "exit 139" is neither.  Round-4
+     measurement: single integration pieces at expansion orders >= 0 of a
+     6-var counterterm face can need tens of GB each, and every parallel
+     subkernel spawns its own engine process.
+   - 134 = SIGABRT: engine assertion or allocation failure; stderr says
+     which.
+   - 137 = SIGKILL: killed externally (OS out-of-memory killer, cgroup
+     limit, or a watchdog script).  *)
+stHFDecodeExitCode[ec_Integer] := Module[{sig},
+    sig = Which[ec > 128, ec - 128, ec < 0, -ec, True, 0];
+    Switch[sig,
+        11, " [SIGSEGV: the engine crashed.  The most common cause is " <>
+            "memory exhaustion: engine builds before 1.2.13.1 crash " <>
+            "SILENTLY when a GMP-side allocation fails (the allocator " <>
+            "hook returned NULL into GMP, which never checks), and a " <>
+            "failed stack-page map is equally silent; an OS " <>
+            "out-of-memory kill shows 137 instead.  A genuine engine " <>
+            "bug (out-of-bounds access) is possible but the rarer " <>
+            "cause.  Mitigations: lower \"Order\", serialize with " <>
+            "\"KernelsAvailable\" -> 1 (every parallel subkernel spawns " <>
+            "its own engine process), add RAM/swap, or set the " <>
+            "\"MemoryBudget\" option (MB; it reaches the parallel " <>
+            "subkernels, where an in-session SetEnvironment does not) " <>
+            "so the engine fails cleanly at a chosen size instead of " <>
+            "crashing.  The HF_MEM_BUDGET_MB env works too if set in " <>
+            "the shell BEFORE Mathematica starts.]",
+        6,  " [abort-class exit: engine assertion or allocation " <>
+            "failure.  NOTE: FLINT's own allocation-failure message " <>
+            "goes to stdout, not stderr, so the stderr tail here can " <>
+            "be empty; from engine 1.2.13.1 a GMP-side allocation " <>
+            "failure prints its own stderr line before exiting 134.]",
+        9,  " [SIGKILL: killed externally -- OS out-of-memory killer, " <>
+            "cgroup limit, or a watchdog.]",
+        _,  If[ec === 97,
+            " [memory-budget hard-stop: the engine's watchdog ended " <>
+            "the process cleanly before it could run the machine out " <>
+            "of memory; the stderr tail carries the measured peak " <>
+            "RSS.  Raise the \"MemoryBudget\" option / HF_MEM_BUDGET_MB " <>
+            "(or unset both) to allow more, or lower \"Order\" / " <>
+            "parallelism to shrink the computation.]",
+            ""]]];
+stHFDecodeExitCode[_] := "";
+
+(* Issue #52 round 4 (review S5): show the LAST n characters of a
+   subprocess stderr -- the diagnostic line (memory-budget hard-stop,
+   GMP allocation failure) is written last, and a progress-chatty run
+   easily exceeds n from the front.  StringTake has no -UpTo[n] spec
+   (found the hard way), hence this helper. *)
+stHFTailTake[s_String, n_Integer] :=
+    If[StringLength[s] > n, StringTake[s, -n], s];
+stHFTailTake[s_, n_] := ToString[s];
+
 (* HyperFORM (Kardos, github.com/adamkardos/HyperFORM): hyperlogarithm
    integration inside FORM, used by Integrator -> "HyperFORM" /
    STHyperForm.  $STHyperFormPath points at the directory holding
@@ -2163,7 +2224,7 @@ Options[ConfigureSubTropica] = {
 With[{$SubTropicaDir = DirectoryName[$InputFileName]},
 
 $SubTropicaInstallDir = $SubTropicaDir;
-$SubTropicaVersion = "1.2.13";
+$SubTropicaVersion = "1.2.14";
 
 (* Init-order fix: line 109 set $STHyperFlintDataPath before
    $SubTropicaInstallDir was bound, so the install-dir-derived data
@@ -10700,6 +10761,7 @@ STIntegrate::contourdelta = "The expansion depends on the contour prescription f
 
 STIntegrate::contourdeltaresolved = "Contour prescription resolved by reality: `1`.  A singularity on the integration path made the expansion depend on the contour symbol delta[a] = sign(Im(a + i0)) = +-1.  The sign was verified to move only the imaginary part of every eps-coefficient, so it cannot affect the real answer, and exactly one assignment makes the whole series real (tolerance `2` relative to the series scale), which is what a Euclidean-region integral must be.  That assignment was applied.  Because the real part is provably untouched, the only thing this can cost is an imaginary part: if these kinematics are NOT in a Euclidean region, so that a nonzero Im is physical, set \"ContourDeltaResolution\" -> None and resolve the symbol yourself (STVerify's delta[_] resolver scores both signs against a numerical backend).";
 
+STIntegrate::contourdeltavanishes = "Contour prescription not needed: the result takes the same value at every sign assignment of the contour symbols `1` as at zero, within `2` of the scale of the probe values (the on-path residues cancel between the pieces of the assembled result), so the symbols were dropped.";
 STIntegrate::badcontourdeltares = "Unknown \"ContourDeltaResolution\" value `1`; expected Automatic, \"Reality\", or None.  Proceeding with Automatic.";
 
 (* Numeric probe of one assembled eps-coefficient.  Returns a machine
@@ -10856,6 +10918,41 @@ stContourDeltaReasonText[r_] := ToString[r];
 $stContourDeltaMaxSymbols = 3;
 $stContourDeltaBudget = 900;
 
+(* Issue #52 round 5: True when the result does not depend on the contour
+   symbols at all: every eps-coefficient evaluates, at EVERY sign
+   assignment of the symbols (delta = +1 or -1, the only values the
+   engine's delta^2 -> 1 fold leaves), to the same number as at delta = 0,
+   within $stContourDeltaRealTol of the scale of all probe values.  The
+   2^n sign points determine the multilinear dependence completely, so a
+   cross term delta[a] delta[b] cannot hide (adversarial review of the
+   1.2.14 diff).  "Undecided" when a probe cannot evaluate or when there
+   are more than $stContourDeltaVanishMaxSymbols symbols; False otherwise. *)
+$stContourDeltaVanishMaxSymbols = 3;
+stContourDeltaVanishingQ[res_, ds_List] :=
+  Module[{coefs, n = Length[ds], signs, base, probes, scale},
+    If[n > $stContourDeltaVanishMaxSymbols, Return["Undecided"]];
+    coefs = If[Head[res] === SeriesData, res[[3]], {res}];
+    base = Map[stContourDeltaNumeric[# /. Thread[ds -> 0]] &, coefs];
+    If[!FreeQ[base, $Failed], Return["Undecided"]];
+    signs = Tuples[{1, -1}, n];
+    probes = Table[stContourDeltaNumeric[c /. Thread[ds -> s]], {c, coefs}, {s, signs}];
+    If[!FreeQ[probes, $Failed], Return["Undecided"]];
+    scale = Max[Abs[Flatten[{base, probes}]]];
+    If[!TrueQ[scale > 0], scale = 1];
+    And @@ Flatten @ Table[
+        TrueQ[Abs[probes[[i, j]] - base[[i]]] <= $stContourDeltaRealTol * scale],
+        {i, Length[coefs]}, {j, Length[signs]}]];
+
+(* v1.0.443 truncation policy, shared by both contour branches: if a
+   substitution cancelled the leading coefficient, the series would start
+   above the requested order, and reporting that coefficient would be the
+   same accuracy lie the TruncateOutput stage refuses. *)
+stContourDeltaTruncate[res_, out_] :=
+    If[Head[res] === SeriesData && Head[out] === SeriesData &&
+       out[[3]] =!= {} && out[[4]] > res[[5]] - 1,
+        SeriesData[eps, 0, {}, res[[5]], res[[5]], 1],
+        out];
+
 stContourDeltaCheck[res_] := stContourDeltaCheck[res, Automatic];
 
 stContourDeltaCheck[res_, mode_] := Module[{ds, resolveQ, outcome, out},
@@ -10869,6 +10966,26 @@ stContourDeltaCheck[res_, mode_] := Module[{ds, resolveQ, outcome, out},
     ds = Union@Cases[res, HyperIntica`delta[_], {0, Infinity}];
     If[ds === {}, Return[res]];
 
+    (* Issue #52 round 5: a contour sector whose coefficients all vanish
+       numerically needs no prescription at all -- the residues of the
+       on-path poles cancel between the terms of the assembled result
+       (they only appear separated because the engine evaluates the
+       pieces one by one).  Checked before any sign resolution and for
+       EVERY producer class (derived or Reglim), since a vanishing
+       coefficient is convention-independent.  Announced through
+       STIntegrate::contourdeltavanishes; anything not vanishing falls
+       through to the existing logic unchanged. *)
+    If[resolveQ,
+        Module[{van},
+            van = CheckAbort[TimeConstrained[
+                stContourDeltaVanishingQ[res, ds], $stContourDeltaBudget, "Undecided"],
+                "Undecided"];
+            If[van === True,
+                out = stContourDeltaTruncate[res, res /. Thread[ds -> 0]];
+                Message[STIntegrate::contourdeltavanishes, ds,
+                        ToString[N[$stContourDeltaRealTol], InputForm]];
+                Return[out]]]];
+
     outcome = Which[
         !resolveQ,                                       "Off",
         Length[ds] > $stContourDeltaMaxSymbols,          "OverCap",
@@ -10880,14 +10997,7 @@ stContourDeltaCheck[res_, mode_] := Module[{ds, resolveQ, outcome, out},
                   "Undecided"]];
 
     If[MatchQ[outcome, {__Rule}],
-        out = res /. outcome;
-        (* v1.0.443 truncation policy again: if the substitution cancelled
-           the leading coefficient the series can now start above the
-           requested order, and reporting that coefficient would be the
-           same accuracy lie the TruncateOutput stage refuses. *)
-        If[Head[res] === SeriesData && Head[out] === SeriesData &&
-           out[[3]] =!= {} && out[[4]] > res[[5]] - 1,
-            out = SeriesData[eps, 0, {}, res[[5]], res[[5]], 1]];
+        out = stContourDeltaTruncate[res, res /. outcome];
         Message[STIntegrate::contourdeltaresolved, outcome,
             $stContourDeltaRealTol];
         Return[out]];
@@ -12787,11 +12897,14 @@ STHyperFlint::badjson   = "HyperFLINT returned non-JSON output: ``";
 STHyperFlint::hferror   = "HyperFLINT error: ``";
 STHyperFlint::divergent = "HyperFLINT reports the integral is divergent (``).";
 STHyperFlint::hffailed  = "HyperFLINT integration failed: ``";
+STHyperFlint::budgetexceeded = "HyperFLINT integration aborted by the memory budget: ``  This is an ABORT, not a value: raise \"MemoryBudget\" (or unset HF_MEM_BUDGET_MB) to allow more, lower \"Order\", or serialize with \"KernelsAvailable\" -> 1 so fewer engine processes compete for RAM.";
 STHyperFlint::clidisabled = "HyperFLINT LibraryLink dylib is not loaded and the CLI subprocess transport is disabled ($STHyperFlintAllowCLI = False), so ST -> HF communication has no available transport.  Fix: build a version-matched LibraryLink dylib so the loader sets $STHyperFlintUseLibraryLink = True (cd HyperFLINT && cmake -S . -B build-omp -DHF_VERSION=<paclet version> && cmake --build build-omp --target hyperflint_librarylink, then install/point $STHyperFlintLibraryPath at it), OR set $STHyperFlintAllowCLI = True to allow the slower CLI transport for development.  The version gate is strict equality: the resolved dylib's hf_version must equal $SubTropicaVersion = `1`.  Resolved $STHyperFlintLibraryPath: `2`.";
 STHyperFlint::narrowfallback = "HyperFLINT narrow ctx insufficient: ``";
 STHyperFlint::narrowfatal    = "HyperFLINT wide-ctx retry also returned narrow_ctx_insufficient -- MZV table is incomplete for this fixture; report to maintainer.  Vars=``";
 STHyperFlint::narrownobinary = "HyperFLINT narrow ctx insufficient via LibraryLink; CLI binary needed for retry but $STHyperFlintPath is not set or missing -- set ConfigureSubTropica[HyperFlintPath -> ...] or unset HF_NARROW_CTX to force wide ctx (was: ``).";
 STHyperFlint::regkey    = "HyperFLINT returned a non-empty regulator key (``); Phase 1 of the ST-backend integration only handles convergent results with empty keys.  Use \"Integrator\" -> \"HyperIntica\" for now.";
+STHyperFlint::zeroone = "HyperFLINT emitted the 0->1 boundary-period atom `` without a matching entry in the returned zero_one_periods table.  This is a bug in the response wiring.";
+STHyperFlint::unknowntoken = "HyperFLINT emitted engine atom token(s) `` that this version of SubTropica does not decode; the result is withheld rather than parsed into a wrong expression.  Update SubTropica, or report the token.";
 STHyperFlint::algletter = "HyperFLINT emitted an algebraic letter token (``) in the coefficient without a matching entry in the returned `algebraic_letters` table.  This is a bug in the request wiring (FindRoots -> True flag missing or HF table emission failed).";
 
 (* Translate a single HF mzv token to a Mathematica-syntax "Zeta[...]"
@@ -12801,7 +12914,7 @@ STHyperFlint::algletter = "HyperFLINT emitted an algebraic letter token (``) in 
      "mzv_2"          -> "Zeta[2]"
      "mzv_1_m3"       -> "Zeta[1, -3]"
      "mzv_m1_1_1_m3"  -> "Zeta[-1, 1, 1, -3]" *)
-stMzvTokenToZeta[token_String] := Module[{parts, arg},
+stMzvTokenToZeta[token_String] := Module[{parts, arg, idx},
     parts = StringSplit[token, "_"];
     If[Length[parts] < 2 || First[parts] =!= "mzv",
         Return[token]];
@@ -12810,7 +12923,37 @@ stMzvTokenToZeta[token_String] := Module[{parts, arg},
             "-" <> StringDrop[#, 1],
             #] &,
         Rest[parts]];
+    (* Issue #52 round 5: a token with a NEGATIVE index is an alternating
+       sum in HyperFLINT's own index encoding (reduce/periods.cpp
+       to_mzv_one_word), NOT Mathematica's Zeta[s1, s2, ...] -- e.g.
+       Zeta[1, -3] evaluates to ComplexInfinity.  Decode it exactly as
+       sign * Hlog[1, word] (the Goncharov polylogarithm G(word; 1)),
+       which every downstream evaluator handles. *)
+    idx = ToExpression /@ arg;
+    (* Depth >= 2 as well (adversarial review of the 1.2.14 diff):
+       Mathematica's Zeta[s1, s2] is the HURWITZ zeta, not the multiple
+       zeta value, so mzv_3_5 (= zeta(5,3) = 0.0377...) must not become
+       Zeta[3, 5] (= 0.0244...).  Only depth-1 positive tokens are Zeta[n]. *)
+    If[Length[idx] > 1 || AnyTrue[idx, # < 0 &],
+        Module[{sw = stMzvIndicesToWord[idx]},
+            Return["(" <> ToString[sw[[1]]] <> ")*HyperIntica`Hlog[1, " <>
+                ToString[sw[[2]], InputForm] <> "]"]]];
     "Zeta[" <> StringRiffle[arg, ", "] <> "]"];
+
+(* Inverse of HyperFLINT's index encoding (reduce/periods.cpp
+   to_mzv_one_word): the word is scanned right-to-left, each nonzero
+   letter opens a group whose count is 1 + the zeros to its left;
+   index_j = count_j * pole_{j+1} / pole_j with pole_{k+1} = 1, and the
+   token equals (-1)^k * G(word; 1).  With poles in {-1, 1}:
+   count_j = |index_j|, pole_j = Sign[index_j] * pole_{j+1}.
+   Examples: {2} -> {-1, {0, 1}} (so mzv_2 = -G(0,1;1) = Zeta[2]);
+   {1, -3} -> {1, {0, 0, -1, -1}} (mzv_1_m3 = G(0,0,-1,-1;1) = Zeta(3bar,1)). *)
+stMzvIndicesToWord[idx_List] := Module[{k = Length[idx], poles, counts, word},
+    poles = ConstantArray[1, k + 1];
+    Do[poles[[j]] = Sign[idx[[j]]] * poles[[j + 1]], {j, k, 1, -1}];
+    counts = Abs[idx];
+    word = Flatten[Table[Join[ConstantArray[0, counts[[j]] - 1], {poles[[j]]}], {j, k, 1, -1}]];
+    {(-1)^k, word}];
 
 (* Parse HF's algebraic_letters table and register each entry in
    HyperIntica`$HyperAlgebraicLetterTable at a fresh Mma index, so
@@ -12872,7 +13015,10 @@ Module[{remap = <||>, entry, hfIdx, mmaIdx, polyExpr, varSym, lcExpr,
 stHyperFlintCoefStringToMma[s_String] :=
     stHyperFlintCoefStringToMma[s, <||>, <||>];
 stHyperFlintCoefStringToMma[s_String, alRemap_Association, alEntries_Association] :=
-Module[{out = s, tokens, badPairs, needsMaping, lookupMma, lookupDisc},
+(* Catch/Throw at function level (adversarial review of the 1.2.14 diff):
+   a Return[$Failed, Module] inside Do[Module[...]] exits only the inner
+   Module, so the loops below used to run on after a missing atom. *)
+Catch[Module[{out = s, tokens, badPairs, needsMaping, lookupMma, lookupDisc},
     (* First handle algebraic letters: WmOverWp before Wm/Wp to avoid
        the shorter prefix eating into it. *)
     lookupMma[hfIdxStr_String] := Module[{n = ToExpression[hfIdxStr]},
@@ -12886,7 +13032,7 @@ Module[{out = s, tokens, badPairs, needsMaping, lookupMma, lookupDisc},
     Do[Module[{mmaIdx = lookupMma[tok]},
             If[mmaIdx === $Failed,
                 Message[STHyperFlint::algletter, "WmOverWp_" <> tok];
-                Return[$Failed, Module]];
+                Throw[$Failed, stHFDecodeFail]];
             out = StringReplace[out,
                 "WmOverWp_" <> tok -> "(Wm[" <> ToString[mmaIdx] <> "]/Wp[" <> ToString[mmaIdx] <> "])"]],
         {tok, tokens}];
@@ -12896,7 +13042,7 @@ Module[{out = s, tokens, badPairs, needsMaping, lookupMma, lookupDisc},
     Do[Module[{mmaIdx = lookupMma[tok]},
             If[mmaIdx === $Failed,
                 Message[STHyperFlint::algletter, "Wm_" <> tok];
-                Return[$Failed, Module]];
+                Throw[$Failed, stHFDecodeFail]];
             out = StringReplace[out,
                 "Wm_" <> tok -> "Wm[" <> ToString[mmaIdx] <> "]"];
             out = StringReplace[out,
@@ -12908,7 +13054,7 @@ Module[{out = s, tokens, badPairs, needsMaping, lookupMma, lookupDisc},
     Do[Module[{discExpr = lookupDisc[tok]},
             If[discExpr === $Failed,
                 Message[STHyperFlint::algletter, "sqrt_disc_" <> tok];
-                Return[$Failed, Module]];
+                Throw[$Failed, stHFDecodeFail]];
             out = StringReplace[out,
                 "sqrt_disc_" <> tok ->
                     "Sqrt[(" <> ToString[discExpr, InputForm] <> ")]"]],
@@ -12924,7 +13070,36 @@ Module[{out = s, tokens, badPairs, needsMaping, lookupMma, lookupDisc},
         {tok, tokens}];
     (* Log2 literal -> Log[2]. *)
     out = StringReplace[out, RegularExpression["\\bLog2\\b"] -> "Log[2]"];
-    out];
+    (* Issue #52 round 5: zop_<k> = an unsupported 0->1 boundary period
+       the engine minted as an opaque atom; its word arrives in the
+       response's "zero_one_periods" table (bound by the decoder into
+       $stHFZeroOnePeriodMap).  Decode directly to HyperIntica`Hlog[1,
+       word], the Goncharov polylogarithm G(word; 1): exact, numerically
+       evaluable, and free of HyperIntica`ZeroOnePeriod's general branch,
+       which can leak an unevaluated TryReduceZeroOnePeriod head. *)
+    tokens = DeleteDuplicates @ StringCases[out,
+        RegularExpression["\\bzop_(\\d+)\\b"] :> "$1"];
+    Do[Module[{w = Lookup[$stHFZeroOnePeriodMap, "zop_" <> tok, $Failed]},
+            If[!ListQ[w],
+                Message[STHyperFlint::zeroone, "zop_" <> tok];
+                Throw[$Failed, stHFDecodeFail]];
+            out = StringReplace[out,
+                RegularExpression["\\bzop_" <> tok <> "\\b"] ->
+                    "HyperIntica`Hlog[1, " <> ToString[w, InputForm] <> "]"]],
+        {tok, tokens}];
+    (* Issue #52 round 5: fail closed on any engine atom family we did not
+       decode.  ToExpression would otherwise parse e.g. "zop_1" as the
+       pattern zop_ * 1 and silently collapse distinct atoms.  Restricted
+       to the engine's own atom families so user symbols with underscores
+       are never rejected. *)
+    tokens = DeleteDuplicates @ StringCases[out,
+        RegularExpression["\\b(?:mzv|zop|Wm|Wp|WmOverWp|sqrt_disc|hfpad)_[A-Za-z0-9_]+\\b"]];
+    If[tokens =!= {},
+        Message[STHyperFlint::unknowntoken, tokens];
+        Throw[$Failed, stHFDecodeFail]];
+    out], stHFDecodeFail];
+
+$stHFZeroOnePeriodMap = <||>;
 
 (* Collect the list of free Mma symbols that appear in `integrand` but
    are not in the integration variable list.  Needed so HF's parser
@@ -13436,7 +13611,22 @@ stHyperFlintCore[integrand_, vars_List, opts:OptionsPattern[]] := Module[
                     {Except[_String] -> ""}],
                 "HF_MAX_THREADS_PER_CALL" -> Replace[
                     Environment["HF_MAX_THREADS_PER_CALL"],
-                    {Except[_String] -> ""}]|>];
+                    {Except[_String] -> ""}],
+                (* Issue #52 round 4: arm the integration memory fuse in
+                   the CLI child.  The Block-scoped $STMemoryBudget (the
+                   "MemoryBudget" option, pushed to subkernels) wins;
+                   Automatic falls through to the parent env for the
+                   shell-set workflow.  CForm, not ToString: InputForm's
+                   1.5*^4 is read by strtod as 1.5 (the round-3 trap).
+                   ProcessEnvironment REPLACES the child env, so without
+                   this entry the fuse could never arm where the memory
+                   blowups actually run (the subkernel CLI children). *)
+                "HF_MEM_BUDGET_MB" -> Which[
+                    NumericQ[$STMemoryBudget],
+                        ToString[CForm[N[$STMemoryBudget]]],
+                    True, Replace[
+                        Environment["HF_MEM_BUDGET_MB"],
+                        {Except[_String] -> ""}]]|>];
 
         If[!AssociationQ[procResult],
             Message[STHyperFlint::hffailed, "RunProcess returned " <> ToString[procResult]];
@@ -13446,7 +13636,8 @@ stHyperFlintCore[integrand_, vars_List, opts:OptionsPattern[]] := Module[
         stderr   = Lookup[procResult, "StandardError", ""];
         If[exitCode =!= 0,
             Message[STHyperFlint::hffailed, "exit " <> ToString[exitCode] <>
-                If[StringLength[stderr] > 0, ": " <> StringTake[stderr, UpTo[400]], ""]];
+                stHFDecodeExitCode[exitCode] <>
+                If[StringLength[stderr] > 0, ": " <> stHFTailTake[stderr, 400], ""]];
             Return[$Failed]];
 
         (* HF prints one JSON line on stdout; ignore any leading progress. *)
@@ -13515,7 +13706,22 @@ stHyperFlintCore[integrand_, vars_List, opts:OptionsPattern[]] := Module[
                     {Except[_String] -> ""}],
                 "HF_MAX_THREADS_PER_CALL" -> Replace[
                     Environment["HF_MAX_THREADS_PER_CALL"],
-                    {Except[_String] -> ""}]|>];
+                    {Except[_String] -> ""}],
+                (* Issue #52 round 4: arm the integration memory fuse in
+                   the CLI child.  The Block-scoped $STMemoryBudget (the
+                   "MemoryBudget" option, pushed to subkernels) wins;
+                   Automatic falls through to the parent env for the
+                   shell-set workflow.  CForm, not ToString: InputForm's
+                   1.5*^4 is read by strtod as 1.5 (the round-3 trap).
+                   ProcessEnvironment REPLACES the child env, so without
+                   this entry the fuse could never arm where the memory
+                   blowups actually run (the subkernel CLI children). *)
+                "HF_MEM_BUDGET_MB" -> Which[
+                    NumericQ[$STMemoryBudget],
+                        ToString[CForm[N[$STMemoryBudget]]],
+                    True, Replace[
+                        Environment["HF_MEM_BUDGET_MB"],
+                        {Except[_String] -> ""}]]|>];
         If[!AssociationQ[procResult],
             Message[STHyperFlint::hffailed,
                 "wide-ctx retry RunProcess returned " <> ToString[procResult]];
@@ -13526,8 +13732,9 @@ stHyperFlintCore[integrand_, vars_List, opts:OptionsPattern[]] := Module[
         If[exitCode =!= 0,
             Message[STHyperFlint::hffailed,
                 "wide-ctx retry exit " <> ToString[exitCode] <>
+                stHFDecodeExitCode[exitCode] <>
                 If[StringLength[stderr] > 0,
-                    ": " <> StringTake[stderr, UpTo[400]], ""]];
+                    ": " <> stHFTailTake[stderr, 400], ""]];
             Return[$Failed]];
         resp = Quiet @ Check[
             ImportString[Last[StringSplit[StringTrim[stdout], "\n"]],
@@ -13545,10 +13752,30 @@ stHyperFlintCore[integrand_, vars_List, opts:OptionsPattern[]] := Module[
     If[TrueQ[Lookup[resp, "divergent", False]],
         Message[STHyperFlint::divergent, Lookup[resp, "reason", "<no reason>"]];
         Return[$Failed]];
-    Module[{err = Lookup[resp, "error", ""]},
-        If[StringQ[err] && err =!= "",
-            Message[STHyperFlint::hferror, err];
-            Return[$Failed, Module]]];
+
+    (* Issue #52 round 4 (review S4): the integration op's memory-budget
+       trip must be a DISTINCT verdict, never absorbed by the generic
+       error path -- same doctrine as the LR ::budgetexceeded branch.
+       Checked BEFORE "error": budget_exceeded_json_op emits both keys.
+       Feeds the round-3 trip ledger so stBudgetTrippedAnywhere[] and
+       the ::budgettrips summary see memory trips too. *)
+    If[TrueQ[Lookup[resp, "budget_exceeded", False]],
+        Message[STHyperFlint::budgetexceeded,
+            Lookup[resp, "reason", Lookup[resp, "error", "<no reason>"]]];
+        $stHFBudgetTrip = True;
+        $stHFBudgetTripCount = If[IntegerQ[$stHFBudgetTripCount],
+            $stHFBudgetTripCount + 1, 1];
+        Return[$Failed]];
+
+    (* Review S4: the previous Module wrapper's Return[$Failed, Module]
+       exited only that inner Module, so execution fell through to the
+       "missing 'result' field" ::badjson below -- a spurious second
+       message on every error response.  No scoping construct here: a
+       plain statement-level If lets Return exit stHyperFlintCore, the
+       same shape as every sibling branch above. *)
+    If[StringQ[Lookup[resp, "error", ""]] && Lookup[resp, "error", ""] =!= "",
+        Message[STHyperFlint::hferror, Lookup[resp, "error", ""]];
+        Return[$Failed]];
 
     If[TrueQ[Lookup[resp, "failed", False]],
         Message[STHyperFlint::hffailed, Lookup[resp, "reason", "<no reason>"]];
@@ -13596,6 +13823,11 @@ stHyperFlintCore[integrand_, vars_List, opts:OptionsPattern[]] := Module[
                     Nothing]]],
             alList],
         <||>];
+
+    (* Issue #52 round 5: atom -> word table for unsupported 0->1
+       boundary periods (absent when the engine minted none). *)
+    $stHFZeroOnePeriodMap = Module[{z = Lookup[resp, "zero_one_periods", <||>]},
+        If[AssociationQ[z], z, <||>]];
 
     (* Translate each term: coef * period_factor.  period_factor is 1
        when key=[], ZeroInfPeriod[{letters...}] when key=[[w]], or bail
@@ -13684,6 +13916,7 @@ $stHFNoCarryWarned   = False;
 
 STFindLROrdersHF::notfound = "HyperFLINT binary not found at ``.  Build with `cd <SubTropica>/HyperFLINT && cmake -S . -B build-release && cmake --build build-release -j`.";
 STFindLROrdersHF::clidisabled = "HyperFLINT LibraryLink dylib is not loaded and the CLI subprocess transport is disabled ($STHyperFlintAllowCLI = False).  Build a version-matched LibraryLink dylib (so $STHyperFlintUseLibraryLink = True; its hf_version must equal $SubTropicaVersion = `1`), or set $STHyperFlintAllowCLI = True to allow the CLI transport.  Resolved $STHyperFlintLibraryPath: `2`.";
+STFindLROrdersHF::prunednolr = "No linearly reducible order was found, but the search was INCOMPLETE: \"ScorePruneFactor\" -> `1` discarded candidate subsets, so this is not a proof that no reducible order exists.  Retry with \"ScorePruneFactor\" -> Infinity (exhaustive; can be much slower) before treating the face as non-reducible.";
 STFindLROrdersHF::hferror  = "HyperFLINT error: ``";
 (* issue #52 round 3: the advice is built AT THE EMISSION SITE (second
    template slot) so it can react to the resolved configuration -- Christoph
@@ -13971,7 +14204,8 @@ Module[{coeffVars, req, procResult, resp, bestOrder, score, respStr,
         If[!AssociationQ[procResult] || procResult["ExitCode"] =!= 0,
             Message[STFindLROrdersHF::hferror,
                 "exit " <> ToString[Lookup[procResult, "ExitCode", -1]] <>
-                ": " <> StringTake[Lookup[procResult, "StandardError", ""], UpTo[400]]];
+                stHFDecodeExitCode[Lookup[procResult, "ExitCode", -1]] <>
+                ": " <> stHFTailTake[Lookup[procResult, "StandardError", ""], 400]];
             Return[$Failed]];
         resp = Quiet @ Check[
             ImportString[StringTrim[procResult["StandardOutput"]], "RawJSON"],
@@ -14146,6 +14380,11 @@ Module[{coeffVars, req, procResult, resp, bestOrder, score, respStr,
            !$stHFNoCarryWarned,
             $stHFNoCarryWarned = True;
             Message[STFindLROrdersHF::nocarry]];
+        (* Issue #52 round 5: the engine reports whether a finite
+           score_prune_factor actually discarded subsets.  A pruned NOLR is
+           an incomplete search, never a non-reducibility verdict. *)
+        If[TrueQ[resp["nolr"]] && Lookup[resp, "search_complete", True] === False,
+            Message[STFindLROrdersHF::prunednolr, $STScorePruneFactor]];
         If[TrueQ[resp["nolr"]],
             Which[
                 wantRoots && wantCarry, Return[{{NOLR, Infinity}, {}, profile}],
@@ -14336,7 +14575,8 @@ Module[{order, coeffVars, allPolys, req, resp, respStr, procResult,
         If[!AssociationQ[procResult] || procResult["ExitCode"] =!= 0,
             Message[STBuildFactorTable::hferr,
                 "exit " <> ToString[Lookup[procResult, "ExitCode", -1]] <>
-                ": " <> StringTake[Lookup[procResult, "StandardError", ""], UpTo[400]]];
+                stHFDecodeExitCode[Lookup[procResult, "ExitCode", -1]] <>
+                ": " <> stHFTailTake[Lookup[procResult, "StandardError", ""], 400]];
             Return[$Failed]];
         resp = Quiet @ Check[
             ImportString[StringTrim[procResult["StandardOutput"]], "RawJSON"],
@@ -14665,7 +14905,8 @@ Module[{coeffVars, req, resp, respStr, procResult, threads, timeout,
         If[!AssociationQ[procResult] || procResult["ExitCode"] =!= 0,
             Message[STFindLROrdersHF::hferror,
                 "exit " <> ToString[Lookup[procResult, "ExitCode", -1]] <>
-                ": " <> StringTake[Lookup[procResult, "StandardError", ""], UpTo[400]]];
+                stHFDecodeExitCode[Lookup[procResult, "ExitCode", -1]] <>
+                ": " <> stHFTailTake[Lookup[procResult, "StandardError", ""], 400]];
             Return[$Failed]];
         resp = Quiet @ Check[
             ImportString[StringTrim[procResult["StandardOutput"]], "RawJSON"],
@@ -15806,6 +16047,31 @@ $STLROrderBackend = "HyperIntica";
    overrides it.  STEvaluateGraph Block-scopes this so all nested order-finding
    calls inherit a single value without per-call-site threading. *)
 $STScorePruneFactor = Infinity;
+
+(* Issue #52 round 5: the gauge-scan legs run under TimeConstrained[..., tub],
+   which cannot interrupt an in-process (LibraryLink) engine call, so a leg's
+   order search would otherwise run to the full "TimeBudget" (50000 s in the
+   round-5 report) before the per-gauge "TimeUpperBound" could act.  For the
+   duration of the scoring section the engine's own deadline, which reaches
+   the dylib, the CLI child and the subkernels, is capped at the per-gauge
+   limit; the caller restores the original value afterwards so the final
+   per-face searches run under the full budget.  Automatic resolves to the
+   HF_LR_TIME_BUDGET_S environment (loader default 180 s) so the cap can only
+   lower a deadline, never raise one. *)
+stScanLegBudget[budget_, tub_] := Module[{envStr, env, eff},
+    (* No per-gauge limit (absent, <= 0, or the 10^17 default): leave the
+       budget alone.  In particular never return 0, which would DISABLE
+       the deadline. *)
+    If[!NumericQ[tub] || !TrueQ[tub > 0] || tub >= 10^17, Return[budget]];
+    eff = Which[
+        budget === Automatic,
+            envStr = Environment["HF_LR_TIME_BUDGET_S"];
+            env = If[StringQ[envStr] && StringMatchQ[StringTrim[envStr], NumberString],
+                ToExpression[StringTrim[envStr]], 180];
+            If[NumericQ[env] && env > 0, env, Infinity],
+        budget === Infinity || budget === 0 || !NumericQ[budget], Infinity,
+        True, budget];
+    Min[eff, N[tub]]];
 (* issue #52 round 3: per-call LR time budget.  Automatic = leave the process
    env HF_LR_TIME_BUDGET_S alone (loader default 180 s, shell override wins);
    a positive number N = run THIS call's find_lr_orders under an N-second
@@ -15828,6 +16094,30 @@ stValidateTimeBudget[value_, caller_String] := Which[
     value === Infinity, 0.,
     NumericQ[value] && FreeQ[value, Complex] && TrueQ[value >= 0], N[value],
     True, Message[STIntegrate::badtimebudget, InputForm[value], caller];
+        Automatic];
+
+(* Issue #52 round 4: per-call ceiling (MB of engine peak RSS) for the
+   HyperFLINT INTEGRATION op's memory fuse (HF_MEM_BUDGET_MB; engine
+   1.2.13.1).  Automatic = inherit the HF_MEM_BUDGET_MB environment (unset =
+   no fuse); Infinity = 0 = no fuse for the call; N > 0 arms the fuse in
+   every CLI integration child of this call.  Deliberately CLI-ONLY: the
+   in-process dylib is NOT armed, because getrusage there measures the WHOLE
+   Wolfram kernel's lifetime peak (a loaded kernel is routinely several GB,
+   so any useful per-integration budget would trip immediately); the CLI
+   children -- one process per integration piece, and the transport every
+   parallel subkernel uses -- are where the memory blowups actually run.
+   Injected into the RunProcess ProcessEnvironment of the integration
+   transport, and -- Block-scoped by the wrappers + pushed via
+   ParallelEvaluate -- it reaches subkernels, closing the same
+   SetEnvironment-does-not-reach-launched-subkernels trap as "TimeBudget"
+   (round-4 review B1). *)
+$STMemoryBudget = Automatic;
+STIntegrate::badmembudget = "Invalid \"MemoryBudget\" -> `1` in `2`: must be Automatic, Infinity (= 0 = no memory fuse for the call), or a non-negative number of MB.  Using Automatic.";
+stValidateMemoryBudget[value_, caller_String] := Which[
+    value === Automatic, Automatic,
+    value === Infinity, 0.,
+    NumericQ[value] && FreeQ[value, Complex] && TrueQ[value >= 0], N[value],
+    True, Message[STIntegrate::badmembudget, InputForm[value], caller];
         Automatic];
 
 (* 2026-06-21 Doppio-C Euler chi-drop letter filter (master default OFF).
@@ -22841,6 +23131,7 @@ Options[STEvaluateGraph] = Join[
         "Carry" -> Automatic,  (* DEPRECATED silent alias for "Rationalize" (sentinel Automatic = defer to Rationalize; an explicit True|False is a legacy override).  carry-discharge LR tier; spec 2026-06-10-carry-option-design.md.  NOTE: under StopAt LR-checks the carry verdict is computed on the serial path only; parallel subkernels lack the HF binary path and report strict (pre-existing limitation, see notes/carry_option/G3B_FINDINGS.md) *)
         "ScorePruneFactor" -> Automatic,  (* 2026-06-16 score-driven branch-and-bound prune for the HF LR search; Automatic inherits the $STScorePruneFactor global (Infinity = exhaustive).  A finite X > 0 drops partial orders scoring > X times the best of their length, breaking the subset-DP blow-up on hard faces.  Block-scoped over the order-finding so every nested call inherits one value. *)
         "TimeBudget" -> Automatic,  (* issue #52 round 3: per-call LR search time budget in seconds; Automatic inherits $STTimeBudget (itself Automatic = the HF_LR_TIME_BUDGET_S env, loader default 180 s); N >= 0 runs every order search of this call under an N-second deadline (0 disables).  Block-scoped and pushed to subkernels alongside ScorePruneFactor, so it reaches parallel per-face searches (unlike a controller-side SetEnvironment). *)
+        "MemoryBudget" -> Automatic,  (* issue #52 round 4: per-call INTEGRATION memory fuse in MB of engine peak RSS (HF_MEM_BUDGET_MB, engine 1.2.13.1); Automatic inherits the env (unset = no fuse); Infinity = 0 = off; N > 0 makes every CLI integration child of this call fail with a structured budget verdict instead of a silent out-of-memory SIGSEGV.  CLI-only by design (the dylib's getrusage sees the whole kernel); Block-scoped + pushed to subkernels like "TimeBudget". *)
         SolverBound -> Automatic,  (* 2026-06-25 (Christoph): LR-solver term-count bound for the Lungo STFubiniLR path; Automatic inherits the $STSolverBound global (10^9 default).  FAIL-CLOSED as of issue #52: an operand above the bound ABORTS the search (STFubiniLR::boundtrip) instead of being skipped, because skipping under-approximates the singularity set and can CERTIFY A NON-REDUCIBLE ORDER (28% of truncation-certified orders on a 91-face production sample).  A trip is not a proof of non-reducibility.  Bound a runaway search soundly with "ScorePruneFactor", "EulerFilter", or HF_LR_TIME_BUDGET_S instead.  Block-scoped over the order-finding (mirrors ScorePruneFactor) so every nested STFasterFubini2 / STFubiniLR call inherits it; previously dropped because SolverBound was absent here AND the stDispatchFubini2 call sites forward options by explicit enumeration.  SYMBOL key (not a string) so FilterRules cannot strip it -- declared on STEvaluateEulerIntegral too.  NOTE: only the Mma LR path (LROrderBackend -> "HyperIntica", or an HF -> Mma fallback) consumes SolverBound; the default HF C++ find_lr_orders ignores it (it prunes via ScorePruneFactor + the time budget instead). *)
         "EulerFilter" -> False,  (* 2026-06-21 Doppio-C Euler chi-drop letter filter for the HF LR search.  False (default) = legacy behavior (byte-identical; the C++ filter is dormant).  True = run HF find_lr_orders with HF_EULER_FILTER=1 so every per-subset Fubini letter is vetted against the genuine Euler discriminant of its marginal (msolve-based chi count) and fictitious letters are dropped; conservative (failure/Indeterminate -> KEEP), boundary monomials exempt, so a clean integral's order+score are unchanged.  Needs msolve on PATH.  Block-scoped over the order-finding (via $STEulerFilter) so every nested call inherits one value without per-call-site threading. *)
         IntegrationOrder -> None,  (* 2026-06-22 pro-only pin of the per-face integration order (spec notes/integration_order_design.md).  None / Automatic = legacy auto-search (byte-identical).  {x1,...,xn} (Symbols) = a GLOBAL order projected onto each face; {fspec -> order, ...} (Rules) = PER-FACE (fspec uses the SelectFaces vocabulary).  Block-scoped to $STIntegrationOrderPin over the order-finding; a pinned face SKIPS the LR search.  A SYMBOL key (not a string) so FilterRules cannot strip it -- declared on STEvaluateEulerIntegral too. *)
@@ -22974,6 +23265,11 @@ STEvaluateGraph[g_, opts : OptionsPattern[]] :=
                $STTimeBudget = stValidateTimeBudget[
                    ("TimeBudget" /. Flatten[{opts}] /. {"TimeBudget" -> Automatic}) /.
                        Automatic :> $STTimeBudget, "STEvaluateGraph"],
+               (* issue #52 round 4: Block-scope the per-call integration
+                  memory fuse, mirroring $STTimeBudget. *)
+               $STMemoryBudget = stValidateMemoryBudget[
+                   ("MemoryBudget" /. Flatten[{opts}] /. {"MemoryBudget" -> Automatic}) /.
+                       Automatic :> $STMemoryBudget, "STEvaluateGraph"],
                (* 2026-06-21: Block-scope the Euler chi-drop flag for the whole
                   diagram run, mirroring $STScorePruneFactor, so every nested
                   order-finding call (the ~21 STfindLinearlyReducibleOrders2
@@ -23144,7 +23440,8 @@ Module[{
            fallbacks are best-effort (may be undercounted). *)
         With[{bk = lrBackendValue, spf = $STScorePruneFactor,
               ef = $STEulerFilter, sb = $STSolverBound,
-              rex = $STRationalizeExplicit, tb = $STTimeBudget},
+              rex = $STRationalizeExplicit, tb = $STTimeBudget,
+              mb = $STMemoryBudget},
             (* NOTE (review M3): this push reaches only kernels alive at core
                entry; kernels launched later in the same run inherit package
                defaults for these globals (pre-existing limitation). *)
@@ -23172,6 +23469,9 @@ Module[{
                    and the budget-trip ledger starts clean per run (review
                    finding 15; gathered by stHFBudgetTripGather at summary). *)
                 $STTimeBudget = tb;
+                (* issue #52 round 4: per-call memory fuse reaches subkernel
+                   CLI integration children (same trap-closure as tb). *)
+                $STMemoryBudget = mb;
                 $stHFBudgetTripCount = 0; $stHFBudgetTripFaces = {}]]];
 
     (* 2026-06-22: push the Block-scoped IntegrationOrder pin + verify mode
@@ -23838,6 +24138,14 @@ Module[{
             ParallelEvaluate[$HistoryLength = 0];
             
             (* Scoring section with memory constraint *)
+            (* Issue #52 round 5: cap the engine deadline at the per-gauge
+               limit for the scan legs.  The controller value is Block-scoped
+               and the subkernels are restored by the WithCleanup on every
+               exit path (normal, Abort, Throw). *)
+            With[{lb = stScanLegBudget[$STTimeBudget, timeUpperBound], sv = $STTimeBudget},
+            WithCleanup[
+                ParallelEvaluate[$STTimeBudget = lb],
+                Block[{$STTimeBudget = lb},
             scores =  conditionalEchoTiming[With[{
                 tub = timeUpperBound,
                 hv = heuristicValue,
@@ -24068,6 +24376,13 @@ Module[{
                 ]
             ], showTimings, "Time taken to set up the gauge:"];
             
+            (* Issue #52 round 5: end of the scan-leg budget scope (Block +
+               WithCleanup opened before the scoring section); the cleanup
+               restores the subkernels' full budget for the final per-face
+               searches. *)
+                ],
+                ParallelEvaluate[$STTimeBudget = sv]]];
+
             (* Optimization: clear sub-kernel memory after scoring step *)
             If[verbose, Print["Clearing sub-kernel caches after scoring step..."]];
             ParallelEvaluate[ClearSystemCache[]];
@@ -24844,6 +25159,7 @@ Options[STEvaluateEulerIntegral] = Join[
         "LROrderBackend"         :> stDefaultSymbolicBackend[],
         "ScorePruneFactor"       -> Automatic,
         "TimeBudget"             -> Automatic, (* issue #52 round 3: per-call LR search time budget in seconds; declared here so FilterRules does not strip it on the STIntegrate[integrand, x..] / STIntegrateHF routes (same trap as "ScorePruneFactor" above); read into the Block-scoped $STTimeBudget by the wrapper + pushed to subkernels. *)
+        "MemoryBudget"           -> Automatic, (* issue #52 round 4: per-call integration memory fuse in MB (HF_MEM_BUDGET_MB); declared here for the same FilterRules reason; read into the Block-scoped $STMemoryBudget by the wrapper + pushed to subkernels; injected into the CLI child env by stHyperFlintCore (CLI-only by design). *)
         "EulerFilter"            -> False,    (* 2026-06-21 Doppio-C Euler chi-drop letter filter for the HF LR search; mirrors STEvaluateGraph.  Declared here so FilterRules[{opts}, Options[STEvaluateEulerIntegral]] on the STIntegrate[integrand, x..] / STIntegrateHF routes does NOT strip it (same reason as "LROrderBackend"/"ScorePruneFactor" above); read into the $STEulerFilter global by the wrapper Block + core below.  False (default) = legacy byte-identical behavior. *)
         "ScoreProgress"          -> False,    (* When True, Echo per-gauge LR status and wall time as each (sub)kernel finishes.
                                                  Default False (2026-06-05): must match STIntegrate's documented default --
@@ -24913,6 +25229,12 @@ Module[{cd, res},
            $STTimeBudget = stValidateTimeBudget[
                ("TimeBudget" /. Flatten[{opts}] /. {"TimeBudget" -> Automatic}) /.
                    Automatic :> $STTimeBudget, "STEvaluateEulerIntegral"],
+           (* issue #52 round 4: Block-scope the per-call integration memory
+              fuse, mirroring $STTimeBudget; pushed to subkernels alongside
+              it. *)
+           $STMemoryBudget = stValidateMemoryBudget[
+               ("MemoryBudget" /. Flatten[{opts}] /. {"MemoryBudget" -> Automatic}) /.
+                   Automatic :> $STMemoryBudget, "STEvaluateEulerIntegral"],
            (* 2026-06-21: Block-scope the Euler chi-drop flag over the whole
               raw-Euler run, mirroring $STScorePruneFactor, so every nested
               per-face order-finding call inherits one value.  The core
@@ -25118,7 +25440,8 @@ Module[{
     If[Length[Kernels[]] > 0,
         With[{bk = lrBackendValue, spf = $STScorePruneFactor,
               ef = $STEulerFilter, sb = $STSolverBound,
-              rex = $STRationalizeExplicit, tb = $STTimeBudget},
+              rex = $STRationalizeExplicit, tb = $STTimeBudget,
+              mb = $STMemoryBudget},
             (* NOTE (review M3): this push reaches only kernels alive at core
                entry; kernels launched later in the same run inherit package
                defaults for these globals (pre-existing limitation). *)
@@ -25139,6 +25462,9 @@ Module[{
                    and the budget-trip ledger starts clean per run (review
                    finding 15; gathered by stHFBudgetTripGather at summary). *)
                 $STTimeBudget = tb;
+                (* issue #52 round 4: per-call memory fuse reaches subkernel
+                   CLI integration children (same trap-closure as tb). *)
+                $STMemoryBudget = mb;
                 $stHFBudgetTripCount = 0; $stHFBudgetTripFaces = {}]]];
 
     problemId             = ToString[If[OptionValue["SetProblemID"] === Automatic,
@@ -25631,6 +25957,14 @@ Module[{
             ParallelEvaluate[$HistoryLength = 0];
 
             (* Scoring *)
+            (* Issue #52 round 5: cap the engine deadline at the per-gauge
+               limit for the scan legs.  The controller value is Block-scoped
+               and the subkernels are restored by the WithCleanup on every
+               exit path (normal, Abort, Throw). *)
+            With[{lb = stScanLegBudget[$STTimeBudget, timeUpperBound], sv = $STTimeBudget},
+            WithCleanup[
+                ParallelEvaluate[$STTimeBudget = lb],
+                Block[{$STTimeBudget = lb},
             scores = conditionalEchoTiming[With[{
                 tub      = timeUpperBound,
                 hv       = heuristicValue,
@@ -25831,6 +26165,13 @@ Module[{
                     Flatten[results]
                 ]
             ], showTimings, "Time taken to set up the gauge:"];
+
+            (* Issue #52 round 5: end of the scan-leg budget scope (Block +
+               WithCleanup opened before the scoring section); the cleanup
+               restores the subkernels' full budget for the final per-face
+               searches. *)
+                ],
+                ParallelEvaluate[$STTimeBudget = sv]]];
 
             ParallelEvaluate[ClearSystemCache[]];
             ParallelEvaluate[$HistoryLength = 1];
@@ -26526,7 +26867,8 @@ $STOptionValues = <|
     "Rationalize"            -> {Automatic, True, False, "the root-handling escalation: Automatic (default) tries strict, then FindRoots->True algebraic letters, then the carry / Euler-rationalization rung -- each per face, only as far as needed; True forces the carry rung available; False stops before it (strict + algebraic letters only).  Replaces the deprecated \"Carry\" option."},
     "Carry"                  -> {False, True, "DEPRECATED silent alias for \"Rationalize\" (True = Rationalize->True, False = Rationalize->False); prefer \"Rationalize\"."},
     "ScorePruneFactor"       -> {Automatic, "Infinity = exhaustive (default)", "real X >= 1 = drop partial orders scoring > X times the best of their length.  v1.2.12: with a finite prune the rationalization (carry) escalation is SKIPPED unless \"Rationalize\" -> True is set explicitly (the carry search cannot honor a prune); a no-order outcome then reports as ::nolrcarryskip, which is NOT a proof of non-reducibility.  Values below 1 or non-real values are rejected with a message (they could silently disable pruning or corrupt the result in earlier releases)"},
-    "TimeBudget"             -> {Automatic, "Automatic = inherit the HF_LR_TIME_BUDGET_S environment (loader default 180 s)", "N >= 0 seconds = per-call deadline on every LR order search of this call (0 or Infinity = no deadline).  Reaches the in-process dylib, the CLI child, AND launched subkernels (unlike a controller-side SetEnvironment).  A budget abort is reported as ::budgetexceeded / ::noorderbudget / ::nolrbudget -- an ABORT, never a NOLR verdict (v1.2.12.1, issue #52 round 3)"},
+    "TimeBudget"             -> {Automatic, "Automatic = inherit the HF_LR_TIME_BUDGET_S environment (loader default 180 s)", "N >= 0 seconds = per-call deadline on every LR order search of this call (0 or Infinity = no deadline).  Reaches the in-process dylib, the CLI child, AND launched subkernels (unlike a controller-side SetEnvironment).  A budget abort is reported as ::budgetexceeded / ::noorderbudget / ::nolrbudget -- an ABORT, never a NOLR verdict (v1.2.12.1, issue #52 round 3).  NOTE: this budget guards the ORDER SEARCH only, never the integration itself -- for that see \"MemoryBudget\""},
+    "MemoryBudget"           -> {Automatic, "Automatic = inherit the HF_MEM_BUDGET_MB environment (unset = no fuse)", "N > 0 MB = per-call peak-RSS fuse on every CLI INTEGRATION child of this call (0 or Infinity = no fuse; engine 1.2.13.1+).  A breach returns a structured STHyperFlint::budgetexceeded abort -- or, if the engine cannot reach a graceful checkpoint within 10 s, a loud exit 97 with the measured peak on stderr -- instead of the silent out-of-memory SIGSEGV (exit 139) that unfused engines die with.  Reaches launched subkernels (pushed like \"TimeBudget\"); deliberately NOT armed on the in-process dylib leg, whose getrusage sees the whole Wolfram kernel (issue #52 round 4)"},
     "SolverBound"            -> {Automatic, "Automatic = inherit $STSolverBound (10^9, effectively unbounded)", "finite integer N > 0 = size bound on the operands of the Lungo LR solver's discriminant/resultant step.  FAIL-CLOSED (issue #52): an operand above the bound ABORTS the search with STFubiniLR::boundtrip rather than being skipped, because skipping under-approximates the singularity set and can certify an order that is NOT linearly reducible (measured at 28% of truncation-certified orders on a 91-face sample).  A bound trip is NOT a proof that no linearly reducible order exists.  To bound a runaway search soundly use \"ScorePruneFactor\" -> N (prunes candidate ORDERS), \"EulerFilter\" -> True, or HF_LR_TIME_BUDGET_S.  Consumed only on the Mma LR path (LROrderBackend -> \"HyperIntica\", or an HF -> Mma fallback)"},
     "EulerFilter"            -> {False, True},
     "IntegrationOrder"       -> {None, "Automatic = legacy auto-search (default)", "{x1, ..., xn} (symbols) = GLOBAL order, projected per face", "{fspec -> order, ...} (rules) = PER-FACE (fspec = SelectFaces vocabulary: i, (o->i), pattern {eps,face} pair e.g. {_,1}, OR-list e.g. {1,4}, Except[...])"},
@@ -36894,6 +37236,8 @@ With[{stnsLedger = {
      collection and reality-resolution (2026-07-22) *)
   "stSingularContinuationGuard", "stSingularPeriodCases",
   "stContourDeltaCheck", "stContourDeltaNumeric", "stContourDeltaDerivedQ",
+  "stContourDeltaVanishingQ", "stMzvIndicesToWord", "stValidateMemoryBudget",
+  "stScanLegBudget", "stContourDeltaTruncate", "stHFDecodeFail",
   "stContourDeltaResolveByReality", "stContourDeltaReasonText",
   "stStageTime", "stStampCanonicalName", "stStripDefaultOptions", "stStripMmaContexts", "STSTtoMonomial", "STSTtropicalDataWithRefinement", "stSymbolToTeX", "stTeXBalancedQ", "stTeXCleanup",
   "stTeXH", "stTeXNotationPass", "stTeXOrEmpty", "stTimedHyperFlint", "stTimedHyperForm", "STtoMatGraph", "STtoMonomial", "STtoMonPols", "stTranslateGaugeOpt",

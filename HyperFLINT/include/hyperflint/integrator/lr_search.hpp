@@ -106,6 +106,11 @@ struct LrResult {
     // proportionality forms.  Empty on the Strict / deg<=1 paths and
     // whenever carry_discharge is off.
     std::vector<Poly> obligation_polys;
+    // false iff a finite score_prune_factor actually discarded subsets
+    // during the DP: a NOLR result with search_complete == false is an
+    // incomplete search, not a proof that no reducible order exists
+    // (issue #52 round 5).  Exhaustive searches (the default) keep true.
+    bool search_complete = true;
     bool nolr() const { return order.empty() && score >= 1e300; }
 };
 

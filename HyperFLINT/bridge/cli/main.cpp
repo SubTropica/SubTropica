@@ -17,6 +17,7 @@
 
 #include "hyperflint/core/poly.hpp"
 #include "hyperflint/core/rat.hpp"
+#include "hyperflint/runtime/mem_budget.hpp"  // issue #52 round 4: hard-stage enable (CLI only)
 #include "hyperflint/algebra/linear_factors.hpp"
 #include "hyperflint/core/zw_table.hpp"  // iter-52 C0c.1: ZWTable for linear_factors transient
 #include "hyperflint/algebra/algebraic_letters.hpp"
@@ -3117,6 +3118,12 @@ __attribute__((weak)) void  mi_free(void* p);
 
 int main(int argc, char** argv) {
     hf_init_mimalloc_for_gmp_flint();
+    // Issue #52 round 4: the CLI transport owns its process, so the
+    // HF_MEM_BUDGET_MB watchdog may end it (structured stderr +
+    // _exit(97)) when no graceful checkpoint arrives -- NEVER enabled
+    // in the LibraryLink dylib, where _exit would kill the host
+    // Wolfram kernel.  Inert while HF_MEM_BUDGET_MB is unset.
+    hyperflint::runtime::mem_budget_enable_hard_exit();
     // HF FF Phase 5 §A.1 iter-49 REQ-1 BINDING: probe init MUST follow the
     // Phase 0.5 retrofit at gmp_mimalloc_init.cpp:145. The probe snapshots
     // the GMP function pointers via mp_get_memory_functions THEN re-registers

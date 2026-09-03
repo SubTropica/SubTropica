@@ -1,6 +1,7 @@
 // Phase 6a: MZV reduction implementation.
 
 #include "hyperflint/reduce/mzv_reduce.hpp"
+#include "hyperflint/reduce/zero_one_atoms.hpp"
 
 #include "hyperflint/core/poly.hpp"
 #include "hyperflint/runtime/narrow_ctx_flag.hpp"
@@ -345,6 +346,10 @@ std::vector<std::string> build_mzv_var_list(
     add("Log2");
     for (const auto& b : table.basis) add(b);
     for (const auto& r : table.reductions) add(r.lhs);
+    // Issue #52 round 5: reserved atoms for unsupported 0->1 periods
+    // (see reduce/zero_one_atoms.hpp); appended AFTER every mzv atom so
+    // existing index-ordered caches are unaffected.
+    append_zero_one_atoms(out);
     return out;
 }
 
@@ -484,6 +489,7 @@ std::vector<std::string> build_narrow_var_list(
                   return va < vb;
               });
     for (auto& s : mzv_extras) append_if_new(s);
+    append_zero_one_atoms(out);  // issue #52 round 5 (see build_mzv_var_list)
     return out;
 }
 

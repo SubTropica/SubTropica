@@ -1,6 +1,6 @@
 PacletObject[<|
     "Name" -> "HyperFLINT",
-    "Version" -> "1.2.2",
+    "Version" -> "1.2.14",
     "WolframVersion" -> "13.1+",
     "Description" -> "Prebuilt HyperFLINT binaries (analytic hyperlogarithm backend) for SubTropica, for macOS and Linux. Optional add-on; discovered at runtime by SubTropica.",
     "Creator" -> "Sebastian Mizera",

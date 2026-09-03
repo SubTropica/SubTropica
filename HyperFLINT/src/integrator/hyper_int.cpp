@@ -6,6 +6,7 @@
 #include "hyperflint/integrator/integration_step.hpp"
 #include "hyperflint/reduce/mzv_reduce.hpp"  // substitute_var_rat
 #include "hyperflint/runtime/narrow_ctx_flag.hpp"  // R24v2 narrow-ctx defense
+#include "hyperflint/runtime/mem_budget.hpp"  // issue #52 round 4: HF_MEM_BUDGET_MB fuse
 #include "hyperflint/runtime/rat_split_verify.hpp"  // Phase A commit (3) verifier
 #include "hyperflint/runtime/scalar_rep.hpp"  // Phase B B7 env-gate
 #include "hyperflint/runtime/scs_roundtrip.hpp"  // Phase B B7 entry/exit adapters
@@ -1152,6 +1153,10 @@ RegulatorSym hyperflint_sym(const PolyCtx& ctx,
         return e && e[0] == '1';
     }();
     for (size_t step = 0; step + 1 < var_indices.size(); ++step) {
+        // Issue #52 round 4: serial memory-budget checkpoint at each
+        // variable boundary (default-off single relaxed load; see
+        // runtime/mem_budget.hpp).
+        ::hyperflint::runtime::check_mem_budget("hyperflint_sym step boundary");
         if (hf_progress) {
             std::fprintf(stderr,
                 "[hf-progress] step %zu/%zu: integrating %s (entries=%zu)\n",

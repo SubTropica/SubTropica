@@ -18,7 +18,9 @@
 #include "hyperflint/integrator/transform.hpp"
 #include "hyperflint/core/addpf_probe.hpp"          // HF_ADDPF_PROBE (additive-parfrac Phase 0)
 #include "hyperflint/reduce/periods.hpp"           // test_zero_function_sym
+#include "hyperflint/reduce/zero_one_atoms.hpp"    // issue #52 round 5: ZeroOneAtomsExhausted
 #include "hyperflint/runtime/narrow_ctx_flag.hpp"  // R24v2 sentinel-tolerance
+#include "hyperflint/runtime/mem_budget.hpp"  // issue #52 round 4: HF_MEM_BUDGET_MB fuse
 #include "hyperflint/runtime/scalar_rep.hpp"        // Phase-B B6.b: scalar_rep_enabled()
 #include "hyperflint/runtime/scs_roundtrip.hpp"     // Phase-B B6.b: roundtrip_rat_through_scs (transitively pulls ZWTable)
 #include "hyperflint/runtime/trace_gate.hpp"
@@ -55,6 +57,42 @@
 #  include <cstdlib>
 #  include <cstring>
 #endif
+
+namespace hyperflint {
+namespace {
+// Issue #52 round 5: exception transport across OpenMP regions.  Any
+// exception thrown by a worker iteration that is NOT one of the
+// flag-carried verdicts (narrow ctx, nonlinear denominator, memory
+// budget) is captured here (first wins) and rethrown by the host thread
+// after the region's implicit barrier.  Escaping an exception from a
+// parallel region is implementation-defined and calls std::terminate on
+// Apple-clang/libomp (issue #52 rounds 4-5: CLI exit 134, dead Wolfram
+// kernels).  The captured type is preserved, so the bridge handler's
+// typed catches still produce the right structured response.
+std::mutex g_region_exception_mutex;
+std::exception_ptr g_region_exception;
+
+void capture_region_exception() {
+    std::lock_guard<std::mutex> lk(g_region_exception_mutex);
+    if (!g_region_exception) g_region_exception = std::current_exception();
+}
+
+void rethrow_captured_region_exception() {
+    std::exception_ptr e;
+    {
+        std::lock_guard<std::mutex> lk(g_region_exception_mutex);
+        e = g_region_exception;
+        g_region_exception = nullptr;
+    }
+    if (e) std::rethrow_exception(e);
+}
+
+void reset_captured_region_exception() {
+    std::lock_guard<std::mutex> lk(g_region_exception_mutex);
+    g_region_exception = nullptr;
+}
+}  // namespace
+}  // namespace hyperflint
 
 namespace hyperflint {
 
@@ -1015,6 +1053,10 @@ RegulatorSym close_positive_letters_in_regulator_sym(
     (void)do_parallel_closure;
     std::vector<RegulatorSym> partials(static_cast<size_t>(n_threads_inner));
 
+    // Issue #52 round 5 (review F6): no stale exception slot can survive
+    // into this region (a memory-budget throw after an earlier region
+    // leaves the slot set).
+    reset_captured_region_exception();
 #ifdef HF_OMP_FULL_SCHEDULES
     #pragma omp parallel for schedule(dynamic, 1) if(do_parallel_closure)
 #else
@@ -1022,6 +1064,12 @@ RegulatorSym close_positive_letters_in_regulator_sym(
 #endif
     for (long ti = 0; ti < n; ++ti) {
         hf_promote_qos_once();
+        // Issue #52 round 4: memory-budget fuse.  No-throw inside the
+        // OMP region (escape would std::terminate); trip the global
+        // flag and skip the term — the post-barrier check below
+        // rethrows from host code before partials are concatenated.
+        if (::hyperflint::runtime::mem_budget_hit(
+                "close_positive_letters closure")) continue;
         // Phase 1 Task 1.E: hf_get_thread_num() returns omp_get_thread_num() in OMP mode;
         // under HF_USE_GCD=1 returns the GCD slot index.
         const int tid = ::hyperflint::runtime::hf_get_thread_num();
@@ -1134,13 +1182,21 @@ RegulatorSym close_positive_letters_in_regulator_sym(
             // as IntegrationStepFailed).  NOT a narrow-ctx signal.  Must
             // propagate so the handler emits {"failed": true, ...}
             // instead of swallowing it as narrow_ctx_insufficient.
-            // (defense-in-depth — break_up_contour_sym does not call
-            // integrate_ii today, but we want this guard in place if
-            // a future closure body does.)
-            throw;
+            // Issue #52 round 5: captured and rethrown post-barrier
+            // (never `throw;` inside the region).
+            capture_region_exception();
+            continue;
         } catch (const HyperFLINTDivergentIntegral&) {
             // R26 C1 — divergence detection.  NOT a narrow-ctx signal.
-            throw;
+            capture_region_exception();
+            continue;
+        } catch (const hyperflint::ZeroOneAtomsExhausted&) {
+            // Issue #52 round 5 (review F8): typed BEFORE the generic arm,
+            // so parse-tolerance mode cannot misroute pool exhaustion into
+            // a narrow-ctx retry; rethrown post-barrier for the handler's
+            // typed catch.
+            capture_region_exception();
+            continue;
         } catch (const std::runtime_error&) {
             if (tolerance_enabled()) {
                 // Set the global flag; host code will throw
@@ -1153,8 +1209,15 @@ RegulatorSym close_positive_letters_in_regulator_sym(
                                                 std::memory_order_relaxed);
                 continue;
             }
-            throw;  // re-throw for default-off path (will std::terminate
-                    // in OMP — same as before this commit).
+            // Issue #52 round 5: was `throw;` (std::terminate in OMP).
+            capture_region_exception();
+            continue;
+        } catch (...) {
+            // Issue #52 round 5 (review F5): std::bad_alloc and any other
+            // non-runtime_error exception would otherwise escape the
+            // region and terminate the process.
+            capture_region_exception();
+            continue;
         }
     }
 
@@ -1165,6 +1228,19 @@ RegulatorSym close_positive_letters_in_regulator_sym(
     // (NOT from inside the parallel region — the OMP standard makes
     // exception escape from a parallel region implementation-
     // defined; on Apple-clang/libomp it calls `std::terminate`).
+    // Issue #52 round 4: post-barrier check for the memory-budget fuse
+    // (same OMP-escape rationale as the narrow-ctx check below;
+    // default-off path is a single relaxed load).  Checked FIRST
+    // (review S8): memory exhaustion is the more fundamental verdict,
+    // and a narrow-ctx rethrow here would trigger a WIDER out-of-
+    // process retry — the worst response to running out of memory.
+    ::hyperflint::runtime::mem_budget_throw_if_hit(
+        "close_positive_letters post-barrier");
+
+    // Issue #52 round 5: a worker's captured exception is the most
+    // specific verdict; rethrow it from the host thread first.
+    rethrow_captured_region_exception();
+
     if (narrow_ctx_was_too_narrow()) {
         throw NarrowCtxTooNarrow{
             "close_positive_letters_in_regulator_sym"};
@@ -2119,12 +2195,25 @@ RegulatorSym integration_step(const PolyCtx& ctx,
             // generic catch would silently misattribute this as a
             // narrow-ctx fall-forward, leading to a wasteful Mma-side
             // wide-ctx retry that crashes on the same divergence.
-            // Rethrow so the handler emits {"failed": true} cleanly.
-            throw;
+            // Issue #52 round 5: captured for the post-barrier rethrow
+            // (a `throw;` here is std::terminate inside the region).
+            capture_region_exception();
+            hyperflint::IntegrationNodeRssSampler::instance()
+                .snapshot_thread_records();
+            return;
         } catch (const HyperFLINTDivergentIntegral&) {
             // R26 C1 — divergence detection from check_divergences
             // mode.  Same rationale as IntegrationStepFailed.
-            throw;
+            capture_region_exception();
+            hyperflint::IntegrationNodeRssSampler::instance()
+                .snapshot_thread_records();
+            return;
+        } catch (const hyperflint::ZeroOneAtomsExhausted&) {
+            // Issue #52 round 5 (review F8): typed before the generic arm.
+            capture_region_exception();
+            hyperflint::IntegrationNodeRssSampler::instance()
+                .snapshot_thread_records();
+            return;
         } catch (const std::runtime_error&) {
             if (tolerance_enabled()) {
                 g_narrow_ctx_too_narrow.store(true,
@@ -2136,7 +2225,19 @@ RegulatorSym integration_step(const PolyCtx& ctx,
                     .snapshot_thread_records();
                 return;
             }
-            throw;
+            // Issue #52 round 5: was `throw;` (std::terminate in OMP).
+            capture_region_exception();
+            hyperflint::IntegrationNodeRssSampler::instance()
+                .snapshot_thread_records();
+            return;
+        } catch (...) {
+            // Issue #52 round 5 (review F5): std::bad_alloc and any other
+            // non-runtime_error exception (the realistic case under the
+            // memory pressure of issue #52) is captured, never escaped.
+            capture_region_exception();
+            hyperflint::IntegrationNodeRssSampler::instance()
+                .snapshot_thread_records();
+            return;
         }
         // Task 0-5: snapshot this thread's completed node records into the
         // cross-thread aggregate.  _node_scope has already been destroyed
@@ -2184,6 +2285,7 @@ RegulatorSym integration_step(const PolyCtx& ctx,
     // integration_step calls are serial (the var-step loop and the lazy
     // addend loop are both serial), so this reset cannot race a sibling.
     reset_nonlinear_den_flag();
+    reset_captured_region_exception();  // issue #52 round 5
 
     // Phase 1 Task 1.E (post-FOLD-7): runtime gate between GCD dispatch
     // and OMP parallel-for.  Default (HF_USE_GCD unset or "0"): OMP path,
@@ -2236,6 +2338,11 @@ RegulatorSym integration_step(const PolyCtx& ctx,
         #pragma omp parallel for schedule(static, 1) if(do_parallel) num_threads(max_active_slots)
 #endif
         for (long entry_i = 0; entry_i < static_cast<long>(input.size()); ++entry_i) {
+            // Issue #52 round 4: memory-budget fuse — no-throw
+            // in-region check (see close_positive_letters above);
+            // trips + skips the entry, host rethrows post-barrier.
+            if (::hyperflint::runtime::mem_budget_hit(
+                    "integration_step entry")) continue;
             // HF_PROGRESS heartbeat (2026-06-04): entries are the big
             // work units; report every ~5% (min 1). Atomic counter,
             // default-OFF, one branch when off.
@@ -2310,6 +2417,10 @@ RegulatorSym integration_step(const PolyCtx& ctx,
         }
     }
 
+    // Issue #52 round 5 (codex #3): a captured worker exception is rethrown
+    // BEFORE anything is merged into persistent state (the ZW table below).
+    rethrow_captured_region_exception();
+
     // Iter-58 C0c.1 Increment β B1 fix STEP 3: post-barrier master merge of
     // per-thread ZWTables into the function-parameter `zw_tab` (the
     // persistent driver-entry ZWTable, when scalar_rep_enabled()). Mirrors
@@ -2337,12 +2448,24 @@ RegulatorSym integration_step(const PolyCtx& ctx,
         (void)zw_tab->merge_into(combined);
     }
 
+    // Issue #52 round 4: post-barrier check for the memory-budget fuse
+    // (default-off path: single relaxed load).  Checked FIRST (review
+    // S8): if a worker also set the narrow-ctx flag, the narrow-ctx
+    // rethrow would make the Mma side re-issue the WHOLE integration
+    // out-of-process with the wide ctx — a second, more memory-hungry
+    // run launched precisely because the first ran out of memory.
+    ::hyperflint::runtime::mem_budget_throw_if_hit(
+        "integration_step post-barrier");
+
     // R24 rev 2 / chain 17 — post-OMP flag check.  See the
     // matching block in `close_positive_letters_in_regulator_sym`
     // above for rationale.  Throw `NarrowCtxTooNarrow` from host
     // code so the OMP region's barrier guarantees worker writes
     // are visible.  Default-off path: flag is never set, this is
     // a single relaxed-load no-op.
+    // Issue #52 round 5: captured worker exception first (most specific).
+    rethrow_captured_region_exception();
+
     if (narrow_ctx_was_too_narrow()) {
         throw NarrowCtxTooNarrow{"integration_step"};
     }
@@ -2936,12 +3059,20 @@ RegulatorSym integration_step(const PolyCtx& ctx,
     // SIGSEGVs at PC=0 inside integration_step on the dbox's do_parallel_merge path.
     // Gate it like the siblings so the dylib uses schedule(static,1); the CLI
     // (HF_OMP_FULL_SCHEDULES=1) keeps the dynamic path for load balancing.
+    reset_captured_region_exception();  // issue #52 round 5 (review F6)
 #ifdef HF_OMP_FULL_SCHEDULES
     #pragma omp parallel for schedule(dynamic, 1) if(do_parallel_merge)
 #else
     #pragma omp parallel for schedule(static, 1) if(do_parallel_merge)
 #endif
     for (long i = 0; i < static_cast<long>(flat_v.size()); ++i) {
+        try {  // issue #52 round 5 (review F4): same exception transport
+        // Issue #52 round 4 (review S7): the merge/canonicalize loop is
+        // a documented RSS peak with no other checkpoint — no-throw
+        // in-region check, same OMP discipline as the entry loop; the
+        // post-loop throw below prevents any use of a partial merge.
+        if (::hyperflint::runtime::mem_budget_hit(
+                "integration_step merge/canonicalize")) continue;
         auto& mp = flat_v[static_cast<size_t>(i)];
         // 2026-04-28 (Lever-D gate): per-slot in/out monomial counts.
         // Captured before move into the merge.
@@ -3010,10 +3141,23 @@ RegulatorSym integration_step(const PolyCtx& ctx,
             canon_slots[static_cast<size_t>(i)] =
                 RegTermSym{std::move(c), std::move(mp.second->key)};
         }
+        } catch (...) {
+            // Issue #52 round 5 (review F4): tree_merge / canonicalize can
+            // throw (and std::bad_alloc under the RSS peak documented
+            // above); capture for the post-barrier rethrow instead of
+            // terminating the process.
+            capture_region_exception();
+            continue;
+        }
     }
     // Probe 4: close the parallel-canonicalize wall.
     g_omp_parallel_canonicalize_s += std::chrono::duration<double>(
         std::chrono::steady_clock::now() - _pm_canon_t0).count();
+    // Issue #52 round 4 (review S7): post-barrier throw for the merge
+    // loop above — must precede any use of canon_slots.
+    ::hyperflint::runtime::mem_budget_throw_if_hit(
+        "integration_step post-merge");
+    rethrow_captured_region_exception();  // issue #52 round 5 (review F4)
     // Iter-52 C0c.1 Increment β (Protocol A STEP 3): post-barrier master
     // merge of per-thread ZWTables into the function-parameter `zw_tab`
     // (the persistent driver-entry ZWTable, when scalar_rep_enabled()).

@@ -224,8 +224,10 @@ set(HF_SOURCES
     src/reduce/mzv_reduce.cpp
     src/reduce/mzv_expansion.cpp   # HF basis-ctx campaign (2026-05-28); design.md §5.1
     src/reduce/periods.cpp
+    src/reduce/zero_one_atoms.cpp
     src/reduce/break_up_contour.cpp
     src/runtime/hf_thread_num.cpp
+    src/runtime/mem_budget.cpp     # issue #52 round 4: HF_MEM_BUDGET_MB fuse
     src/runtime/narrow_ctx_flag.cpp
     src/runtime/rat_split_verify.cpp
     src/runtime/scalar_rep.cpp
@@ -673,6 +675,26 @@ target_link_libraries(hyperflint-test-univar-rat PRIVATE hyperflint)
 target_include_directories(hyperflint-test-univar-rat PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/src/algebra)
 add_test(NAME hf-univar-rat COMMAND hyperflint-test-univar-rat)
+
+# Issue #52 round 5: unsupported 0->1 boundary periods are minted as
+# reserved atoms (reduce/zero_one_atoms.hpp) and reported in the
+# response; exhausting the pool must surface as a structured failure
+# through the OpenMP exception transport, never as std::terminate.
+add_test(NAME hf-issue52-zero-one-periods-mint
+         COMMAND python3 ${CMAKE_SOURCE_DIR}/test/scripts/check_zero_one_periods.py
+                 $<TARGET_FILE:hyperflint-cli>
+                 ${CMAKE_SOURCE_DIR}/test/fixtures/issue52_round5_face1.json mint
+                 ${CMAKE_SOURCE_DIR}/data/mzv_reductions.json)
+add_test(NAME hf-issue52-zero-one-periods-exhaust
+         COMMAND python3 ${CMAKE_SOURCE_DIR}/test/scripts/check_zero_one_periods.py
+                 $<TARGET_FILE:hyperflint-cli>
+                 ${CMAKE_SOURCE_DIR}/test/fixtures/issue52_round5_face1.json exhaust
+                 ${CMAKE_SOURCE_DIR}/data/mzv_reductions.json)
+add_test(NAME hf-issue52-zero-one-periods-reserved
+         COMMAND python3 ${CMAKE_SOURCE_DIR}/test/scripts/check_zero_one_periods.py
+                 $<TARGET_FILE:hyperflint-cli>
+                 ${CMAKE_SOURCE_DIR}/test/fixtures/issue52_round5_face1.json reserved
+                 ${CMAKE_SOURCE_DIR}/data/mzv_reductions.json)
 
 # Doppio port phase 1 (2026-06-05): Euler-characteristic counter (DK
 # cleared-dlog core, msolve grevlex GBs over temp files).  The source is
@@ -2190,3 +2212,13 @@ add_test(NAME st-carry-benchmark
                  wolframscript -file
                  ${CMAKE_CURRENT_SOURCE_DIR}/../notes/carry_benchmark/run_benchmark.wl)
 set_tests_properties(st-carry-benchmark PROPERTIES TIMEOUT 1800 LABELS "wl;carry")
+
+# Issue #52 round 5 (Mathematica side): a hyperflint response carrying
+# zero_one_periods atoms and a negative-index mzv token must decode to the
+# exact Hlog[1, word] constants (checked numerically against ginsh), and an
+# undecodable engine atom must fail closed.  Needs wolframscript + ginsh.
+add_test(NAME st-issue52-zero-one-decode
+         COMMAND ${CMAKE_COMMAND} -E env "ST_ROOT=${CMAKE_CURRENT_SOURCE_DIR}/.." --
+                 wolframscript -file
+                 ${CMAKE_CURRENT_SOURCE_DIR}/test/scripts/st_issue52_zero_one_decode.wl)
+set_tests_properties(st-issue52-zero-one-decode PROPERTIES TIMEOUT 600 LABELS "wl")

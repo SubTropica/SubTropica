@@ -124,6 +124,9 @@
 #define HF_FLAG_MI_INIT_VERBOSE                std::getenv("HF_MI_INIT_VERBOSE")
 #define HF_FLAG_MI_STATS                       std::getenv("HF_MI_STATS")
 
+// Issue #52 round 4: the memory-budget fuse (runtime/mem_budget.cpp).
+#define HF_FLAG_MEM_BUDGET_MB                  std::getenv("HF_MEM_BUDGET_MB")
+
 // Track-narrow-ctx (4 flags; see docs/env_flags.md §3 "Track-narrow-ctx"
 // inventory and §5.1 header-location rule; iter-69 §T7 fifth chunk).
 // All evaluate to `const char*` (the std::getenv return value), NULL when unset.

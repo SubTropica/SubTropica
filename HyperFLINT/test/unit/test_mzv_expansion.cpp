@@ -11,6 +11,7 @@
 // Design: notes/hf_mzv_weight_cap_2026-05-28/design.md §7.2 gate 1.
 
 #include "hyperflint/reduce/mzv_expansion.hpp"
+#include "hyperflint/reduce/zero_one_atoms.hpp"
 #include "hyperflint/reduce/mzv_reduce.hpp"
 #include "hyperflint/reduce/periods.hpp"
 #include "hyperflint/symbols/word.hpp"
@@ -356,8 +357,10 @@ int main() {
         // user_vars empty here. The "711" figure from symcoef.cpp:714
         // refers to the wide ctx during integration where 1 extra
         // variable is typically present (e.g., from user_vars).
-        check(wide_vars.size() == 710,
-              "wide ctx has 710 vars (10 basis incl Log2 + 700 LHS; user_vars=0)");
+        // Issue #52 round 5: the wide ring also carries the reserved
+        // opaque atoms for unsupported 0->1 periods (zero_one_atoms.hpp).
+        check(wide_vars.size() == 710 + kZeroOneAtomPoolSize,
+              "wide ctx has 710 + pool vars (10 basis incl Log2 + 700 LHS + reserved 0->1 atoms; user_vars=0)");
         check(slim_vars.size() == 10,
               "slim ctx has 10 vars (Log2 + 9 basis, no user_vars, no LHS)");
 

@@ -9,6 +9,76 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+## [1.2.14] - 2026-09-03
+
+Issue #52 rounds 4-5 (kernel deaths that looked like out-of-memory; the
+final-period alphabet; contour bookkeeping).
+
+### Added
+- HyperFLINT no longer aborts when the final boundary-period evaluation
+  meets a letter outside {-1, 0, 1}: the (regularized) 0->1 period is
+  returned as an opaque atom with its word listed under
+  `zero_one_periods`, and SubTropica decodes it into the exact
+  `Hlog[1, word]` (Goncharov polylogarithm G(word; 1)), numerically
+  evaluable.  Two engine regressions (`hf-issue52-zero-one-periods-*`)
+  and one Mathematica-side regression (`st-issue52-zero-one-decode`).
+- `STIntegrate::contourdeltavanishes`: when the assembled result does
+  not depend on its contour symbols `delta[...]` at all (every
+  eps-coefficient takes the same value at every sign assignment of the
+  symbols as at zero, up to at most three symbols), the symbols are
+  dropped with that certificate instead of being reported as
+  unresolved.  The certificate covers cross terms between symbols; a
+  result with more than three symbols is never dropped this way.
+- `"MemoryBudget"` option (round 4) plus `HF_MEM_BUDGET_MB`: a peak-RSS
+  fuse for the integration engine with a structured verdict; heap
+  exhaustion is now a loud exit instead of a silent segmentation fault;
+  engine exit codes are decoded in the error messages.
+- `find_lr_orders` responses carry `search_complete`; a NOLR verdict from
+  a search that `"ScorePruneFactor"` actually pruned is reported as an
+  incomplete search (`STFindLROrdersHF::prunednolr`), never as a
+  non-reducibility proof.
+- The gauge scan's per-gauge `"TimeUpperBound"` now also caps the
+  engine's order-search deadline for the scan legs (the in-process
+  transport cannot be interrupted by `TimeConstrained`, so a leg could
+  previously run to the full `"TimeBudget"`); the full budget is restored
+  for the final per-face searches.  A scan leg whose search trips the
+  cap is reported through the budget-trip ledger (`::budgettrips`) and
+  the gauge scores as unavailable for this scan, so a small
+  `"TimeUpperBound"` can now exclude a gauge that a longer search would
+  accept; raise it, or pin the gauge with `"IncludeGauges"`.  The same
+  holds, as before, for a finite `"ScorePruneFactor"`: a gauge whose
+  pruned search finds no order is excluded from that scan (the scan
+  quiets `STFindLROrdersHF::prunednolr`); an exhaustive search needs
+  `"ScorePruneFactor" -> Infinity`.
+- Alternating and depth-two-or-higher multiple zeta values from the
+  engine (tokens such as `mzv_1_m3`, `mzv_3_5`) are decoded into exact
+  `Hlog[1, word]` constants; `mzv_3_5` used to become `Zeta[3, 5]`, the
+  Hurwitz zeta, a silent 35 % error in any weight-8 result.
+
+### Fixed
+- Exceptions raised inside HyperFLINT's OpenMP regions are captured and
+  rethrown by the host thread after the barrier (both integration
+  regions, all callbacks), so an engine error is reported as a
+  structured failure instead of terminating the process: exit 134 on
+  the subprocess transport, or a dead Wolfram kernel on the in-process
+  transport (the "out of memory" symptom of issue #52 round 5).
+- Negative-index multiple-zeta-value tokens from the engine (e.g.
+  `mzv_1_m3`) no longer become `Zeta[1, -3]`, which Mathematica
+  evaluates to ComplexInfinity (see the `Hlog[1, word]` decode above).
+- Unknown engine atom tokens are rejected by the response decoder
+  (`STHyperFlint::unknowntoken`) instead of being parsed into a wrong
+  expression.
+
+### Known limitations
+- The order-pin route `IntegrationOrder -> {{_, 1} -> ...}` on faces
+  whose evaluation passes through the engine's positive-letter contour
+  deformation can produce a wrong finite part with a surviving
+  `delta[...]` symbol; such a symbol means the coefficient is not
+  reliable.  The deformation-side determination is being reworked.
+- The armed divergence scan (`check_divergences`) can report a spurious
+  `Log^3 / x^0` divergence on a finite face when the integration order
+  is pinned; the default (unarmed) scan is unaffected.
+
 ## [1.2.13] - 2026-08-13
 
 Issue #52 round 3 (budget-abort honesty + gauge questions).

@@ -14,6 +14,7 @@
 
 #include "hyperflint/c_abi.h"  // HF_SCHEMA_VERSION SSOT (Track 8.1b chunk-1, iter-46)
 #include "hyperflint/algebra/algebraic_letters.hpp"
+#include "hyperflint/reduce/zero_one_atoms.hpp"
 #include "hyperflint/algebra/linear_factors.hpp"  // clear_linear_factors_cache
 #include "hyperflint/algebra/partial_fractions.hpp"  // Track 8.1b chunk-2b iter-48
 #include "hyperflint/algebra/shuffle.hpp"
@@ -39,6 +40,7 @@
 #include "hyperflint/core/period_table.hpp"             // period_powers emission (Phase 2)
 #include "hyperflint/reduce/period_scratch.hpp"          // period_tuples_enabled (Phase 2)
 #include "hyperflint/runtime/narrow_ctx_flag.hpp"       // reset_narrow_ctx_flag
+#include "hyperflint/runtime/mem_budget.hpp"            // issue #52 round 4: HF_MEM_BUDGET_MB fuse
 #include "hyperflint/runtime/env_flags.hpp"             // HF_FLAG_NARROW_CTX (iter-69)
 
 #include <atomic>
@@ -876,6 +878,12 @@ std::string find_lr_orders(const std::string& body) {
         }
         o << ",\"nolr\":"
           << ((!verify_requested && result.nolr()) ? "true" : "false")
+          // Issue #52 round 5: a finite score_prune_factor discards
+          // subsets, so a NOLR verdict from a pruned search is NOT a
+          // proof that no reducible order exists.  false = the DP
+          // actually pruned something; true = exhaustive (or verify mode).
+          << ",\"search_complete\":"
+          << ((verify_requested || result.search_complete) ? "true" : "false")
           << ",\"strategy\":\"" << strategy_name << "\""
           << ",\"timing_compute_s\":" << compute_s
           << ",\"nXVars\":" << xvars.size()
@@ -1661,6 +1669,13 @@ std::string linear_factors(const std::string& body) {
 // ---------- hyperflint_sym ----------
 
 std::string hyperflint_sym(const std::string& body) {
+    // Issue #52 round 4: arm/disarm the HF_MEM_BUDGET_MB fuse for this
+    // request (re-reads env + clears the trip flag; mirrors LrBudget's
+    // per-entry reset so per-call env pushes work in the long-lived
+    // dylib process too).  Default (env unset) = fully disarmed, and
+    // the watchdog RAII below is then a no-op.
+    hyperflint::runtime::mem_budget_reset_from_env();
+    hyperflint::runtime::MemBudgetWatchdog _mem_watchdog;
     // Memory operational lever: per-call FLINT thread count from env
     // HF_MAX_THREADS_PER_CALL.  When set, calls
     // flint_set_num_threads(N) before any FLINT work in this call.
@@ -1705,6 +1720,20 @@ std::string hyperflint_sym(const std::string& body) {
     try {
         auto user_vars = json_str_array(body, "vars");
         auto vars_int = json_str_array(body, "vars_int");
+        // Issue #52 round 5 (codex #4): zop_<k> are the reserved 0->1
+        // period atoms (reduce/zero_one_atoms.hpp); a user variable of
+        // that name would be silently merged with the atom by the ring
+        // builders.  Reject it with a structured error instead.
+        for (const auto* lst : {&user_vars, &vars_int}) {
+            for (const auto& v : *lst) {
+                if (v.size() > 4 && v.compare(0, 4, "zop_") == 0 &&
+                    v.find_first_not_of("0123456789", 4) == std::string::npos) {
+                    throw std::runtime_error(
+                        "reserved variable name " + v +
+                        " (HyperFLINT 0->1 period atom): rename it");
+                }
+            }
+        }
         auto vars_int_from = json_str_array(body, "vars_int_from");
         auto vars_int_to   = json_str_array(body, "vars_int_to");
         if (user_vars.empty()) {
@@ -2167,6 +2196,11 @@ std::string hyperflint_sym(const std::string& body) {
                 }
                 out = hyperflint::canonicalize_regulator_sym(out);
             }
+            // Issue #52 round 4 (review S3): the computation is COMPLETE.
+            // Disarm the fuse before serializing the response — the
+            // peak-RSS event already happened, and a hard-stop during
+            // emission would only discard a finished result.
+            hyperflint::runtime::mem_budget_disarm();
             auto _bench_t1 = std::chrono::steady_clock::now();
             double compute_s =
                 std::chrono::duration<double>(_bench_t1 - _bench_t0).count();
@@ -2193,8 +2227,23 @@ std::string hyperflint_sym(const std::string& body) {
             if (introduce_al) {
                 o << ",\"algebraic_letters\":" << emit_algebraic_letter_table();
             }
+            // Issue #52 round 5: atom -> word table for unsupported 0->1
+            // boundary periods minted during this process (emitted only
+            // when non-empty, so unaffected responses stay byte-identical).
+            if (hyperflint::zero_one_atoms_used()) {
+                o << ",\"zero_one_periods\":" << hyperflint::zero_one_atoms_json();
+            }
             o << "}";
             return o.str();
+        } catch (const hyperflint::runtime::MemBudgetExceeded& e) {
+            // Issue #52 round 4: the HF_MEM_BUDGET_MB fuse tripped.
+            // Emit the same {"budget_exceeded":true} shape as the LR
+            // time budget so the Mma side reports a structured verdict
+            // instead of the silent SIGSEGV this fuse exists to
+            // pre-empt.  R1: cleanup FLINT pools like the sibling
+            // failure paths.
+            flint_cleanup_master();
+            return budget_exceeded_json_op("hyperflint", e.what());
         } catch (const hyperflint::NarrowCtxTooNarrow&) {
             // R24 rev 2 / chain 17 — narrow ctx is missing some MZV
             // variable referenced at runtime.  Emit a structured-error
@@ -2208,6 +2257,21 @@ std::string hyperflint_sym(const std::string& body) {
             std::ostringstream o;
             o << "{\"op\":\"hyperflint\",\"narrow_ctx_insufficient\":true"
               << ",\"vars\":[";
+            for (size_t i = 0; i < vars.size(); ++i) {
+                if (i) o << ",";
+                o << "\"" << json_escape(vars[i]) << "\"";
+            }
+            o << "]}";
+            return o.str();
+        } catch (const hyperflint::ZeroOneAtomsExhausted& e) {
+            // Issue #52 round 5: the reserved-atom pool for unsupported 0->1
+            // boundary periods ran out (or was lowered by HF_ZERO_ONE_ATOM_POOL
+            // in a test).  A typed, structured verdict; the request is
+            // unanswerable in this process, not malformed.
+            flint_cleanup_master();
+            std::ostringstream o;
+            o << "{\"op\":\"hyperflint\",\"failed\":true,\"reason\":\""
+              << json_escape(e.what()) << "\",\"vars\":[";
             for (size_t i = 0; i < vars.size(); ++i) {
                 if (i) o << ",";
                 o << "\"" << json_escape(vars[i]) << "\"";

@@ -1081,7 +1081,9 @@ LrResult find_lr_orders(
                     "(all subsets NOLR)\n", size, n);
                 std::fflush(stderr);
             }
-            return LrResult{{}, INF, {}};
+            LrResult early{{}, INF, {}};
+            early.search_complete = score_pruned.empty();
+            return early;
         }
 
         // Memory pruning: drop size-(size-1) set entries, they're no
@@ -1257,8 +1259,9 @@ LrResult find_lr_orders(
 
     const uint64_t full = (n == 64) ? ~0ull : ((1ull << n) - 1);
     auto it = orders_table.find(full);
-    if (it == orders_table.end()) return LrResult{{}, INF, {}};
-    return it->second;
+    LrResult res = (it == orders_table.end()) ? LrResult{{}, INF, {}} : it->second;
+    res.search_complete = score_pruned.empty();
+    return res;
 }
 
 // Build the intersection-refined subset reduction table that find_lr_orders'

@@ -35,6 +35,7 @@
 #include <cassert>
 #include <cstdio>
 #include <cstdlib>
+#include <unistd.h>  // issue #52 round 4: write(2) + _exit in gmp_alloc_die
 
 #include "hyperflint/runtime/env_flags.hpp"  // §T7 third chunk: HF_FLAG_MI_INIT_VERBOSE
 
@@ -65,11 +66,36 @@ namespace {
 // The size argument to free is informative for size-class allocators
 // (which mimalloc is); we pass it through but mi_free finds the size
 // itself via segment metadata, so the n parameter is unused.
+// Issue #52 round 4 (adversarial review, 2026-08-21): GMP's custom-
+// allocation contract says the hooks MUST NOT RETURN on failure — GMP
+// never NULL-checks them.  mi_malloc returns NULL on exhaustion (and
+// release builds print nothing), so an unchecked return here turned
+// heap exhaustion into a silent NULL-dereference SIGSEGV: the bare
+// "exit 139, empty stderr" a user actually hit on a big integration.
+// Die loudly-but-cleanly instead: write(2) + _exit(134) — no stdio, no
+// allocation (both can fail or deadlock at the moment of exhaustion).
+// 134 matches the abort-class code FLINT's own alloc failure produces,
+// and SubTropica.wl's stHFDecodeExitCode explains it to the user.
+[[noreturn]] void gmp_alloc_die(size_t n) {
+    char line[128];
+    const int len = std::snprintf(line, sizeof(line),
+        "HyperFLINT: GMP allocation of %zu bytes failed "
+        "(out of memory); exiting 134\n", n);
+    if (len > 0) {
+        ssize_t ignored = write(2, line, static_cast<size_t>(len));
+        (void)ignored;
+    }
+    _exit(134);
+}
 void* gmp_alloc(size_t n) {
-    return mi_malloc(n);
+    void* p = mi_malloc(n);
+    if (p == nullptr) gmp_alloc_die(n);
+    return p;
 }
 void* gmp_realloc(void* p, size_t /*old*/, size_t newsz) {
-    return mi_realloc(p, newsz);
+    void* q = mi_realloc(p, newsz);
+    if (q == nullptr && newsz != 0) gmp_alloc_die(newsz);
+    return q;
 }
 void gmp_free(void* p, size_t /*n*/) {
     mi_free(p);
