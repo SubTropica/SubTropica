@@ -1,0 +1,225 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Wolfram 15.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       154,          7]
+NotebookDataLength[      8053,        216]
+NotebookOptionsPosition[      5754,        172]
+NotebookOutlinePosition[      6194,        188]
+CellTagsIndexPosition[      6151,        185]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["Applyd", "ObjectName",ExpressionUUID->"af9b5357-ee21-4f96-ae84-f43c2e7331e2"],
+
+Cell[BoxData[GridBox[{
+   {Cell[TextData[{
+     StyleBox["Applyd[expr, {x1, ..., xn}]", "TI"],
+     " \[LineSeparator]expands every differential d[f] in expr by the chain \
+rule, d[f] -> Sum_i D[f, xi] d[xi], and normalizes the resulting wedge \
+products (Wedge[d[xi], d[xj]] antisymmetric, Wedge[d[xi], d[xi]] = 0). Used \
+to carry the Jacobian of a change of variables: for an integrand d[x] f[x] \
+the substitution x -> x/(1 + x) followed by"
+    }], "TableText",ExpressionUUID->"21e7b092-620b-4211-8118-96b3801af955"]},
+   {Cell[TextData[{
+     StyleBox["Applyd[#, {x}]", "TI"],
+     " \[LineSeparator]gives f[x/(1 + x)] D[x/(1 + x), x] d[x], and the rule \
+d[x_] :> 1 then removes the measure symbol, as in the \
+energy-energy-correlator example of the paper (Sec. 4.3)."
+    }], "TableText",ExpressionUUID->"22555662-296c-4a21-8b1e-21507e6c3f08"]}
+  },
+  GridBoxAlignment->{"Columns" -> {{Left}}},
+  GridBoxItemSize->{
+   "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}]], "Usage",
+ CellID->1,ExpressionUUID->"424e4257-b9b6-42b6-a55c-ab71930d220c"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["See Also", "SeeAlsoSection",ExpressionUUID->"c9bfbabc-d54b-4ba3-bca8-c804d402f3b7"],
+
+Cell[TextData[{
+ Cell[BoxData[
+  ButtonBox["STPreAnalysis",
+   BaseStyle->"Link",
+   ButtonData->"paclet:SubTropica/ref/STPreAnalysis"]], "InlineFormula",
+  ExpressionUUID->"753088a0-4dc1-45ac-9f6c-03d243751d3f"],
+ " \[EmptyVerySmallSquare] ",
+ Cell[BoxData[
+  ButtonBox["STIntegrate",
+   BaseStyle->"Link",
+   ButtonData->"paclet:SubTropica/ref/STIntegrate"]], "InlineFormula",
+  ExpressionUUID->"162b7d8e-72a2-40ff-8919-346a2ae3f2f6"]
+}], "SeeAlso",ExpressionUUID->"7b3cad7d-a18f-4d7f-8629-07bfeb530183"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ InterpretationBox[GridBox[{
+    {
+     StyleBox[
+      RowBox[{"Basic", " ", "Examples"}], "PrimaryExamplesSection"], 
+     ButtonBox[
+      RowBox[{
+       RowBox[{"More", " ", "Examples"}], " ", "\[RightTriangle]"}],
+      BaseStyle->"ExtendedExamplesLink",
+      ButtonData:>"ExtendedExamples"]}
+   }],
+  $Line = 0; Null]], "PrimaryExamplesSection",ExpressionUUID->"c2300497-d350-\
+49ba-866f-2cf0c53f7de1"],
+
+Cell["\<\
+The Moebius map x -> x/(1 + x) applied to the integrand d[x] x^2/(1 - z x): \
+Applyd rewrites the substituted differential d[x/(1 + x)] as D[x/(1 + x), x] \
+d[x], and the rule d[x_] :> 1 removes the measure symbol, so the result \
+carries the Jacobian of the change of variables (as in the energy-energy \
+correlator example of the paper, Sec. 4.3).\
+\>", "ExampleText",ExpressionUUID->"22cffd4b-9aa5-4dc2-bd4d-10cfa3387b65"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"d", "[", "x", "]"}], " ", 
+    RowBox[{
+     RowBox[{"x", "^", "2"}], "/", 
+     RowBox[{"(", 
+      RowBox[{"1", " ", "-", " ", 
+       RowBox[{"z", " ", "x"}]}], ")"}]}]}], " ", "/.", " ", 
+   RowBox[{"x", " ", "->", " ", 
+    RowBox[{"x", "/", 
+     RowBox[{"(", 
+      RowBox[{"1", " ", "+", " ", "x"}], ")"}]}]}]}], " ", "//", " ", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"Applyd", "[", 
+     RowBox[{"#", ",", " ", 
+      RowBox[{"{", "x", "}"}]}], "]"}], " ", "//.", " ", 
+    RowBox[{
+     RowBox[{"d", "[", "x_", "]"}], " ", ":>", " ", "1"}]}], " ", 
+   "&"}]}]], "Input",ExpressionUUID->"3a971634-f1d1-44b0-a484-6df25931c38b"],
+
+Cell[BoxData[
+ FractionBox[
+  RowBox[{
+   SuperscriptBox["x", "2"], " ", 
+   RowBox[{"(", 
+    RowBox[{
+     RowBox[{"-", 
+      FractionBox["x", 
+       SuperscriptBox[
+        RowBox[{"(", 
+         RowBox[{"1", "+", "x"}], ")"}], "2"]]}], "+", 
+     FractionBox["1", 
+      RowBox[{"1", "+", "x"}]]}], ")"}]}], 
+  RowBox[{
+   SuperscriptBox[
+    RowBox[{"(", 
+     RowBox[{"1", "+", "x"}], ")"}], "2"], " ", 
+   RowBox[{"(", 
+    RowBox[{"1", "-", 
+     FractionBox[
+      RowBox[{"x", " ", "z"}], 
+      RowBox[{"1", "+", "x"}]]}], ")"}]}]]], "Output",ExpressionUUID->\
+"7930181a-69e2-45ca-9bd2-f6b28d601107"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Metadata", "MetadataSection",ExpressionUUID->"155e596d-82bf-4a7e-afc2-30bce32cb516"],
+
+Cell[CellGroupData[{
+
+Cell["Categorization", "CategorizationSection",ExpressionUUID->"cdd58122-9231-4792-bbdf-892e1dd8fc3f"],
+
+Cell["Symbol", "Categorization",
+ CellLabel->
+  "Entity Type",ExpressionUUID->"85c87168-828c-4b46-9635-57d629bbc904"],
+
+Cell["SubTropica", "Categorization",
+ CellLabel->
+  "Paclet Name",ExpressionUUID->"5fdc164f-ff4c-40e9-b94d-9c79db7b10e6"],
+
+Cell["SubTropica`", "Categorization",
+ CellLabel->"Context",ExpressionUUID->"15233f90-f901-4a5e-bfdc-7db905dd5fe7"],
+
+Cell["SubTropica/ref/Applyd", "Categorization",
+ CellLabel->"URI",ExpressionUUID->"d33f2bb4-eb7b-4af7-bdbf-1045d42e72fd"]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Keywords", "KeywordsSection",ExpressionUUID->"ef259054-578c-4b61-9b53-ae972f404ddf"],
+
+Cell["Feynman integral", "Keywords",ExpressionUUID->"2dc81b7d-fef7-4e5a-a724-8e0ff25f01dd"],
+
+Cell["tropical geometry", "Keywords",ExpressionUUID->"b6d7aa6d-e46d-49e1-98e5-2fd65967dda5"],
+
+Cell["dimensional regularization", "Keywords",ExpressionUUID->"a2ad81b4-c26b-46b8-bf16-6c08081e30aa"]
+}, Closed]]
+}, Open  ]]
+},
+TaggingRules-><|"Paclet" -> "SubTropica"|>,
+FrontEndVersion->"15.0 for Mac OS X ARM (64-bit) (May 19, 2026)",
+StyleDefinitions->FrontEnd`FileName[{"Wolfram"}, "FunctionPageStylesExt.nb", 
+  CharacterEncoding -> "UTF-8"],
+ExpressionUUID->"996016ba-1536-4c98-95d3-098dbb8a9156"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[576, 22, 83, 0, 70, "ObjectName",ExpressionUUID->"af9b5357-ee21-4f96-ae84-f43c2e7331e2"],
+Cell[662, 24, 1059, 19, 70, "Usage",ExpressionUUID->"424e4257-b9b6-42b6-a55c-ab71930d220c",
+ CellID->1]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[1758, 48, 89, 0, 70, "SeeAlsoSection",ExpressionUUID->"c9bfbabc-d54b-4ba3-bca8-c804d402f3b7"],
+Cell[1850, 50, 506, 12, 70, "SeeAlso",ExpressionUUID->"7b3cad7d-a18f-4d7f-8629-07bfeb530183"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[2393, 67, 424, 12, 70, "PrimaryExamplesSection",ExpressionUUID->"c2300497-d350-49ba-866f-2cf0c53f7de1"],
+Cell[2820, 81, 435, 6, 70, "ExampleText",ExpressionUUID->"22cffd4b-9aa5-4dc2-bd4d-10cfa3387b65"],
+Cell[3258, 89, 692, 21, 70, "Input",ExpressionUUID->"3a971634-f1d1-44b0-a484-6df25931c38b"],
+Cell[3953, 112, 613, 22, 70, "Output",ExpressionUUID->"7930181a-69e2-45ca-9bd2-f6b28d601107"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[4603, 139, 90, 0, 70, "MetadataSection",ExpressionUUID->"155e596d-82bf-4a7e-afc2-30bce32cb516"],
+Cell[CellGroupData[{
+Cell[4718, 143, 102, 0, 70, "CategorizationSection",ExpressionUUID->"cdd58122-9231-4792-bbdf-892e1dd8fc3f"],
+Cell[4823, 145, 117, 2, 70, "Categorization",ExpressionUUID->"85c87168-828c-4b46-9635-57d629bbc904"],
+Cell[4943, 149, 121, 2, 70, "Categorization",ExpressionUUID->"5fdc164f-ff4c-40e9-b94d-9c79db7b10e6"],
+Cell[5067, 153, 115, 1, 70, "Categorization",ExpressionUUID->"15233f90-f901-4a5e-bfdc-7db905dd5fe7"],
+Cell[5185, 156, 121, 1, 70, "Categorization",ExpressionUUID->"d33f2bb4-eb7b-4af7-bdbf-1045d42e72fd"]
+}, Closed]],
+Cell[CellGroupData[{
+Cell[5343, 162, 90, 0, 70, "KeywordsSection",ExpressionUUID->"ef259054-578c-4b61-9b53-ae972f404ddf"],
+Cell[5436, 164, 91, 0, 70, "Keywords",ExpressionUUID->"2dc81b7d-fef7-4e5a-a724-8e0ff25f01dd"],
+Cell[5530, 166, 92, 0, 70, "Keywords",ExpressionUUID->"b6d7aa6d-e46d-49e1-98e5-2fd65967dda5"],
+Cell[5625, 168, 101, 0, 70, "Keywords",ExpressionUUID->"a2ad81b4-c26b-46b8-bf16-6c08081e30aa"]
+}, Closed]]
+}, Open  ]]
+}
+]
+*)
+
+(* End of internal cache information *)

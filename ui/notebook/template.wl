@@ -214,7 +214,7 @@ libraryIndex = If[FileExistsQ[libraryPath], Import[libraryPath, "RawJSON"], <||>
   Substitutions   -> {M -> 1, s -> -1, ...}   numeric / symbolic kinematic substitutions
   ScanGauges      -> True         try multiple GL(1) gauges to find a linearly reducible order
   MethodLR        -> "Lungo"      linear-reducibility analyzer ("Lungo" (default) | "Doppio")
-  FindRoots       -> Automatic    default; fibered rationalization when LR otherwise fails (Automatic = retry with roots only after a no-roots search fails; True forces it on)
+  "FindRoots"     -> Automatic    default; fibered rationalization when LR otherwise fails (Automatic = retry with roots only after a no-roots search fails; True forces it on)
   CleanOutput     -> True         prune zeros and Infinity-weight contributions in the returned expression
   StopAt          -> Automatic    early-exit marker for debugging ("AfterExpansion", "AfterLinearOrder", ...)
   Verbose         -> True         print progress messages (default True)

@@ -1195,6 +1195,34 @@ if(APPLE)
         "-Wl,-U,_mi_subproc_visit_heaps")
 endif()
 
+# Bracketed symbol names in JSON request arrays (2026-09-21,
+# INV-JSON-STRING-ARRAYS): the regex extractors stopped at the first `]`
+# inside a string, truncating every request array at an indexed name such
+# as mm[1]; the search then certified orders on a mutilated polynomial set.
+# Handler-level; the fixture is the real problem.nb face (nPolys [8,9]).
+add_executable(hyperflint-test-json-bracketed-names
+               test/unit/test_json_bracketed_names.cpp)
+target_link_libraries(hyperflint-test-json-bracketed-names PRIVATE hyperflint)
+target_compile_definitions(hyperflint-test-json-bracketed-names PRIVATE
+                           HF_TEST_MZV_DATA=${CMAKE_CURRENT_SOURCE_DIR}/data/mzv_reductions.json)
+if(APPLE)
+    target_link_options(hyperflint-test-json-bracketed-names
+                        PRIVATE
+        "-Wl,-U,_mi_collect"
+        "-Wl,-U,_mi_heap_collect"
+        "-Wl,-U,_mi_heap_main"
+        "-Wl,-U,_mi_heap_visit_abandoned_blocks"
+        "-Wl,-U,_mi_heap_visit_blocks"
+        "-Wl,-U,_mi_option_get"
+        "-Wl,-U,_mi_option_set"
+        "-Wl,-U,_mi_process_info"
+        "-Wl,-U,_mi_subproc_main"
+        "-Wl,-U,_mi_subproc_visit_heaps")
+endif()
+add_test(NAME hf-json-bracketed-names
+         COMMAND hyperflint-test-json-bracketed-names
+                 ${CMAKE_CURRENT_SOURCE_DIR}/test/fixtures/bracketed_names_face.json)
+
 # verify_order_is_lr multi-group false-negative regression (2026-06-17).
 # Posts verify_order request bodies to hyperflint::handlers::find_lr_orders
 # and asserts: (1) the real e26 2-group face is LR in its search-found order
@@ -2240,3 +2268,18 @@ add_test(NAME st-issue52-zero-one-decode
                  wolframscript -file
                  ${CMAKE_CURRENT_SOURCE_DIR}/test/scripts/st_issue52_zero_one_decode.wl)
 set_tests_properties(st-issue52-zero-one-decode PROPERTIES TIMEOUT 600 LABELS "wl")
+
+# INV-JSON-STRING-ARRAYS (Mathematica side, 2026-09-22): the ST -> HF bridge
+# invariants through the CLI transport against canned engine responses
+# (test/fixtures/st_fake_hf/): a per-group polynomial count that disagrees
+# with what was sent is refused (::polycount, all three group ops), an
+# integration variable surviving in a result is refused (::varsurvived), the
+# contour symbol delta[x6] on an integrated variable is not a survivor (issue
+# #52 round-5 face replay), the schema-gated wrappers accept a schema-2
+# response without nPolys, and STBuildFactorTable accepts an indexed
+# coefficient name.  Needs wolframscript.
+add_test(NAME st-json-bracketed-names
+         COMMAND ${CMAKE_COMMAND} -E env "ST_ROOT=${CMAKE_CURRENT_SOURCE_DIR}/.." --
+                 wolframscript -file
+                 ${CMAKE_CURRENT_SOURCE_DIR}/test/scripts/st_json_bracketed_names.wl)
+set_tests_properties(st-json-bracketed-names PROPERTIES TIMEOUT 600 LABELS "wl")

@@ -61,8 +61,8 @@ int main() {
         check(resp != nullptr, "A1 partial_fractions: non-NULL return");
         check(contains(resp, "\"op\":\"partial_fractions\""),
               "A2 envelope: op field");
-        check(contains(resp, "\"schema_version\":2"),
-              "A3 envelope: schema_version=2");
+        check(contains(resp, "\"schema_version\":3"),
+              "A3 envelope: schema_version=3");
         check(contains(resp, "\"hf_version\":"),
               "A4 envelope: hf_version field");
         check(contains(resp, "\"polynomial_part\":"),
@@ -83,7 +83,7 @@ int main() {
         check(resp != nullptr, "C1 missing-f: non-NULL return");
         check(contains(resp, "\"error\":"),
               "C2 missing-f: error field present");
-        check(contains(resp, "\"schema_version\":2"),
+        check(contains(resp, "\"schema_version\":3"),
               "C3 missing-f: envelope intact");
         hf_free_string(resp);
     }

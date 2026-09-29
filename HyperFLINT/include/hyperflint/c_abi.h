@@ -84,7 +84,7 @@
 // non-breaking additions keep the version; renames/removals bump it and
 // require lockstep update of SubTropica.wl's
 // $SubTropicaHFSchemaVersionExpected.
-#define HF_SCHEMA_VERSION 2  /* 2 = carry-aware find_lr_orders (carry_discharge + profile fields), spec 2026-06-10 4a.4 */
+#define HF_SCHEMA_VERSION 3  /* 3 = structural JSON request parsing + nPolys on every group-parsing op (INV-JSON-STRING-ARRAYS, 2026-09-21); 2 = carry-aware find_lr_orders (carry_discharge + profile fields), spec 2026-06-10 4a.4 */
 
 #ifdef __cplusplus
 extern "C" {

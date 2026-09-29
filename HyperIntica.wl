@@ -142,7 +142,7 @@ CanonicalizeAlgebraicLetters::usage = "CanonicalizeAlgebraicLetters[results_:Non
 Wm::usage = "Wm[i] is the i-th algebraic root letter with the '-Sqrt' branch; introduced by LinearFactors[] when $HyperIntroduceAlgebraicLetters is True. Metadata in $HyperAlgebraicLetterTable[i].";
 Wp::usage = "Wp[i] is the i-th algebraic root letter with the '+Sqrt' branch; introduced by LinearFactors[] when $HyperIntroduceAlgebraicLetters is True. Metadata in $HyperAlgebraicLetterTable[i].";
 WmOverWp::usage = "WmOverWp[i] is the compound alphabet letter Wm[i]/Wp[i] introduced by the symbol-level ratio-merge pass (stCombineWmWpRatios) when two symbol terms differ only in one slot by the Wm \[LeftRightArrow] Wp conjugation with opposite coefficients.  Kept as an atomic symbol rather than the literal ratio so downstream lookup tables and LaTeX rendering can treat it as a first-class letter.";
-STShowAlgebraicLetters::usage = "STShowAlgebraicLetters[] prints a table of the currently-defined algebraic root letters Wm[i]/Wp[i] introduced by the most recent FindRoots integration: the polynomial, its Feynman-parameter variable, the discriminant, the two roots, and Vieta sum/product. Call it from a notebook after STIntegrate[..., FindRoots -> True] to see what each Wm[i]/Wp[i] stands for.";
+STShowAlgebraicLetters::usage = "STShowAlgebraicLetters[] prints a table of the currently-defined algebraic root letters Wm[i]/Wp[i] introduced by the most recent FindRoots integration: the polynomial, its Feynman-parameter variable, the discriminant, the two roots, and Vieta sum/product. Call it from a notebook after STIntegrate[..., \"FindRoots\" -> True] to see what each Wm[i]/Wp[i] stands for.";
 
 $UseFFPolynomialQuotient::usage = "If True, STPartialFractions[] uses SPQRPolynomialQuotient[] \
 (finite-field arithmetic via FiniteFlow/SPQR) instead of PolynomialQuotient[]. \
@@ -582,13 +582,13 @@ Used internally to extract integration constants during TransformWord[]. Results
 
 factorCompletely::usage = "factorCompletely[poly, x] factors poly completely by solving for roots numerically (Cubics and Quartics options are off) and returns the explicit product form lcoeff * (x - r1) * (x - r2) * ...";
 
-factorCompletely2::usage = "factorCompletely2[poly, x, label] factors poly like factorCompletely[] but substitutes abstract symbols for the roots, storing the map from abstract symbols to numerical values in explicit[label].
+factorCompletely2::usage = "factorCompletely2[poly, x, label] factors poly like factorCompletely[] but substitutes the abstract symbols label[1], label[2], ... for the roots, storing the rules label[i] -> root in explicit[label].
 
 Used when a symbolic factored form is needed that can be evaluated later via explicit[label].";
 
-explicit::usage = "explicit[label] holds the substitution rules created by factorCompletely2[poly, x, label], mapping abstract root symbols to their numerical values.";
+explicit::usage = "explicit[label] holds the substitution rules label[i] -> root created by STFactorAndTrackRoots[poly, x, label] (factorCompletely2), accumulated over all calls with that label: a root value already present keeps its symbol, a new one gets the next free index.  explicit[label] =. (or Clear[explicit]) forgets the roots of a label, so that the next call starts again at label[1].";
 
-STFactorAndTrackRoots::usage = "STFactorAndTrackRoots[poly, x, label] factors poly in x completely, substituting abstract symbols for the roots and storing the map from those symbols to their numerical values in explicit[label].";
+STFactorAndTrackRoots::usage = "STFactorAndTrackRoots[poly, x, label] factors poly in x completely, substituting the abstract symbols label[1], label[2], ... for its roots and storing the rules label[i] -> root in explicit[label].  The symbols are ordinary indexed symbols of the caller's context, so the factored form can be integrated by either engine (HyperIntica or HyperFLINT); substitute explicit[label] into the result to restore the roots.  label must be a symbol without definitions, not a built-in, whose name is not reserved by the engines or the mass conventions (Wm, Wp, Hlog, mzv, eps, m, M, mm, MM, ...), and poly must have positive degree in x with as many roots as its degree (a polynomial whose coefficients are transcendental in the parameters, which Solve does not handle, is refused the same way); otherwise a message is issued and $Failed returned.  Pass a factored integrand to STIntegrate in its tuple form {prefactor, integrand, xvars, coeffs}, as in the paper's Sec. 4.3 listing: the roots are opaque constants there, whereas the bare Euler form STIntegrate[integrand, x] would collect them as kinematic coefficients.  A boundary period whose letters are abstract roots stays as ZeroInfPeriod[word] in the result (its contour cannot be decided without the values); after result //. explicit[label], convert them with result /. ZeroInfPeriod[w_] :> ZeroInfPeriodAsMpl[w].";
 
 
 (* ::Section::Closed:: *)
@@ -3051,7 +3051,7 @@ GetAlgebraicBackSubRules[] := Flatten @ KeyValueMap[
   $HyperAlgebraicLetterTable]
 
 (* STShowAlgebraicLetters[]: pretty inspection of $HyperAlgebraicLetterTable.
-   Usage: after STIntegrate[..., FindRoots -> True] returns a SeriesData that
+   Usage: after STIntegrate[..., "FindRoots" -> True] returns a SeriesData that
    contains Wm[i]/Wp[i] atoms, call STShowAlgebraicLetters[] to see the
    per-letter polynomial, variable, discriminant, and the two roots.
    In notebooks this returns a Dataset; in scripted kernels it falls back
@@ -3060,7 +3060,7 @@ STShowAlgebraicLetters[] := Module[{table = $HyperAlgebraicLetterTable,
     rows, notebookQ},
   If[Length[table] == 0,
     Print["[SubTropica] No algebraic letters currently defined. ",
-          "Run STIntegrate[..., FindRoots -> True] first."];
+          "Run STIntegrate[..., \"FindRoots\" -> True] first."];
     Return[Null]];
   notebookQ = TrueQ[$Notebooks];
   rows = KeyValueMap[
@@ -5165,10 +5165,14 @@ HyperInt[f_, vars_, opts:OptionsPattern[]] := MaybeQuiet[Module[
 *)
 Clear[HyperIntica];
 
-(* HyperIntica defaults "EvaluatePeriodsQ" to False (unlike HyperInt, whose
-   default Automatic defers to the global $HyperEvaluatePeriods). The resolved
-   value is forwarded explicitly so this default takes effect even though the
-   wrappers delegate to HyperInt. *)
+(* Both HyperIntica and HyperInt default "EvaluatePeriodsQ" to False (HyperInt
+   since f2bf39e06, 2026-06-16; the earlier default Automatic deferred to the
+   global $HyperEvaluatePeriods, which an explicit "EvaluatePeriodsQ" ->
+   Automatic still does): a bare call returns the internal wordlist, and the
+   boundary periods are evaluated only on request.  The resolved value is
+   forwarded explicitly so this default takes effect even though the wrappers
+   delegate to HyperInt.  Callers that need an expression (SubTropica's
+   per-face integrations) pass "EvaluatePeriodsQ" -> True. *)
 Options[HyperIntica] = {"Monitor" -> False, "EvaluatePeriodsQ" -> False};
 
 (* Integrate-style: HyperIntica[f, {x,0,1}, {y,0,Infinity}, ...] *)
@@ -6007,13 +6011,48 @@ SymbolWeight[symbolList_List]:=If[symbolList==={},0,Max[Map[Length[#[[2]]]&,symb
 factorCompletely[poly_,x_]:=Module[{solns,lcoeff},solns=Solve[poly==0,x,Cubics->False,Quartics->False];
 lcoeff=Coefficient[poly,x^Exponent[poly,x]];
 lcoeff*(Times@@(x-(x/.solns)))]
-(*Version with saved abstract coefficients:*)
-factorCompletely2[poly_,x_,label_]:=Module[{lcoeff},
-solns=Solve[poly==0,x,Cubics->False,Quartics->False];
-solnsSym=solns/.Rule[a_,b_]:>Rule[a,Unique[abc]];
-explicit[label]=Thread[Flatten[solnsSym//.Rule[a_,b_]:>b]->Flatten[solns//.Rule[a_,b_]:>b]];
-lcoeff=Coefficient[poly,x^Exponent[poly,x]];
-lcoeff*(Times@@(x-(x/.(*solns*)solnsSym)))
+(*Version with saved abstract roots.  The roots are represented by the indexed symbols
+  label[1], label[2], ... in the caller's context: admissible names for both engines
+  (HyperFLINT's tokenizer merges name[ints]; until 2026-09-27 the roots were Unique[abc]
+  temporaries in HyperIntica`Private`, which HyperFLINT cannot carry, so the paper's
+  Sec. 4.3 integrand had a face that was never integrated under the default engine).
+  explicit[label] holds the rules label[i] -> root and accumulates across calls: a root
+  value already present reuses its symbol (repeated calls on the same polynomial are
+  idempotent), a new value gets the next free index (two polynomials factored under one
+  label never share a symbol).  Roots are stored in Together form; the label must be an
+  inert symbol; a polynomial of degree < 1 in x is refused with a message instead of the
+  silent 0 the old code returned.*)
+STFactorAndTrackRoots::badlabel = "The root label `1` is not usable: `2`.  The label must be a symbol without values (it becomes the head of the root symbols label[1], label[2], ...) and its name must not be one of the integration engines' reserved names.";
+STFactorAndTrackRoots::nofactor = "`1` is not a polynomial of positive degree in `2` (degree `3`, `4` root(s) found); nothing was factored.";
+$STFactorAndTrackRootsReservedLabels = {"Wm", "Wp", "WmOverWp", "Hlog", "mzv", "zop", "delta", "eps", "m", "M", "mm", "MM"};
+factorCompletely2[poly_,x_,label_]:=Module[{deg,solns,roots,known,next,syms,lcoeff},
+(* the label becomes the head of the root symbols, so it must be an inert symbol *)
+Which[
+  !MatchQ[label,_Symbol],
+    Message[STFactorAndTrackRoots::badlabel,label,"it is not a symbol"];Return[$Failed],
+  Context[label]==="System`",
+    Message[STFactorAndTrackRoots::badlabel,label,"it is a built-in symbol, so label[i] would evaluate"];Return[$Failed],
+  DownValues[label]=!={}||SubValues[label]=!={}||UpValues[label]=!={},
+    Message[STFactorAndTrackRoots::badlabel,label,"it has definitions, so label[i] would evaluate"];Return[$Failed],
+  label===x||MemberQ[$STFactorAndTrackRootsReservedLabels,SymbolName[label]],
+    Message[STFactorAndTrackRoots::badlabel,label,"its name is the integration variable or a name reserved by the integration engines"];Return[$Failed]];
+deg=Exponent[poly,x];
+solns=If[IntegerQ[deg]&&deg>=1,Solve[poly==0,x,Cubics->False,Quartics->False],{}];
+(* Together: one canonical form per root value, so the same pole presented differently
+   (expanded, factored, rescaled input) reuses one symbol instead of minting a second letter *)
+roots=If[solns==={},{},Together/@(x/.solns)];
+If[!(IntegerQ[deg]&&deg>=1)||Length[roots]=!=deg,
+  Message[STFactorAndTrackRoots::nofactor,poly,x,deg,Length[roots]];Return[$Failed]];
+known=If[ListQ[explicit[label]],explicit[label],{}];
+(* next free index = the largest index in the list plus one, not the list length: deleting a
+   rule from explicit[label] then never re-mints an index still present in the list (only the
+   deleted index itself is freed) *)
+next=Max[0,Cases[known,(label[i_Integer]->_):>i]];
+syms=Table[Module[{hit=FirstCase[known,(s_->r_)/;r===root:>s,Missing["NotFound"]]},
+  If[MissingQ[hit],next++;AppendTo[known,label[next]->root];label[next],hit]],{root,roots}];
+explicit[label]=known;
+lcoeff=Coefficient[poly,x,deg];
+lcoeff*(Times@@(x-syms))
 ]
 
 STFactorAndTrackRoots = factorCompletely2;

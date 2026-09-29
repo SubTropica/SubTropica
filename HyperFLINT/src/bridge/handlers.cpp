@@ -10,6 +10,9 @@
 // field), never stderr; neither transport aborts.
 
 #include "hyperflint/bridge/handlers.hpp"
+
+#include <cstdio>
+#include "hyperflint/bridge/json_min.hpp"  // INV-JSON-STRING-ARRAYS (2026-09-21): structural request parsing
 #include "hyperflint/bridge/env_flags.hpp"  // iter-94 Track-OMP bridge portion: HF_FLAG_MAX_THREADS_PER_CALL (NEW first bridge-domain env_flags header; §5.1 rule-1 BINDING placement)
 
 #include "hyperflint/c_abi.h"  // HF_SCHEMA_VERSION SSOT (Track 8.1b chunk-1, iter-46)
@@ -132,10 +135,23 @@ std::string json_escape(const std::string& s) {
         switch (c) {
             case '"':  out += "\\\""; break;
             case '\\': out += "\\\\"; break;
+            case '\b': out += "\\b";  break;
+            case '\f': out += "\\f";  break;
             case '\n': out += "\\n";  break;
             case '\r': out += "\\r";  break;
             case '\t': out += "\\t";  break;
-            default:   out += c;
+            default:
+                // RFC 8259: every C0 control character is escaped, so a
+                // refused name carrying one (decoded from a \u escape of the
+                // request) cannot make the error envelope invalid JSON.
+                if (static_cast<unsigned char>(c) < 0x20) {
+                    char buf[8];
+                    std::snprintf(buf, sizeof buf, "\\u%04x",
+                                  static_cast<unsigned>(static_cast<unsigned char>(c)));
+                    out += buf;
+                } else {
+                    out += c;
+                }
         }
     }
     return out;
@@ -157,7 +173,11 @@ std::vector<std::string> autoscan_vars_single(const std::string& expr) {
     // exposes an initializer-list variant; we keep this minimal form
     // local because partial_fractions only scans one expression.
     std::set<std::string> seen;
-    std::regex re("[A-Za-z][A-Za-z0-9_]*");
+    // INV-JSON-STRING-ARRAYS (2026-09-21): the discovery scan merges an
+    // integer-indexed name (`mm[1]`) into one identifier, as the tokenizer
+    // does, so partial_fractions / linear_factors without an explicit
+    // "vars" also work on indexed masses.
+    std::regex re("[A-Za-z][A-Za-z0-9_]*(\\[[0-9]+(\\s*,\\s*[0-9]+)*\\])?");
     for (auto it = std::sregex_iterator(expr.begin(), expr.end(), re);
          it != std::sregex_iterator(); ++it) {
         seen.insert((*it)[0]);
@@ -165,39 +185,24 @@ std::vector<std::string> autoscan_vars_single(const std::string& expr) {
     return std::vector<std::string>(seen.begin(), seen.end());
 }
 
+// INV-JSON-STRING-ARRAYS (2026-09-21): the regex extractors that lived here
+// stopped at the first `]` byte regardless of string quoting, so a request
+// array was truncated at any element containing an indexed symbol name
+// (`mm[1]`): the order search and verify_order then ran on a mutilated
+// polynomial set and certified orders the integrator refused, and the
+// `hyperflint` op silently skipped a bracketed integration variable.  Both
+// helpers now delegate to the structural, string-aware layer of
+// bridge/json_min.hpp (exact top-level member, strict elements, failure
+// instead of a parsed prefix; a malformed request throws and the op's
+// try/catch answers with its error envelope).
 std::vector<std::string> json_str_array(const std::string& body,
                                         const std::string& key) {
-    std::regex re("\"" + key + "\"\\s*:\\s*\\[([^\\]]*)\\]");
-    std::smatch m;
-    std::vector<std::string> out;
-    if (!std::regex_search(body, m, re)) return out;
-    std::string inner = m[1];
-    std::regex re_item("\"((?:[^\"\\\\]|\\\\.)*)\"");
-    for (auto it = std::sregex_iterator(inner.begin(), inner.end(), re_item);
-         it != std::sregex_iterator(); ++it) {
-        out.push_back((*it)[1]);
-    }
-    return out;
+    return hyperflint::jsonmin::json_str_array(body, key);
 }
 
 std::string extract_top_array(const std::string& body,
                                const std::string& key) {
-    std::string search = "\"" + key + "\"";
-    size_t k = body.find(search);
-    if (k == std::string::npos) return {};
-    size_t colon = body.find(':', k + search.size());
-    if (colon == std::string::npos) return {};
-    size_t bracket = body.find('[', colon);
-    if (bracket == std::string::npos) return {};
-    int depth = 1;
-    size_t i = bracket + 1;
-    while (i < body.size() && depth > 0) {
-        if (body[i] == '[') depth++;
-        else if (body[i] == ']') depth--;
-        ++i;
-    }
-    if (depth != 0) return {};
-    return body.substr(bracket + 1, i - bracket - 2);
+    return hyperflint::jsonmin::json_array_interior(body, key);
 }
 
 std::string error_json(const std::string& msg) {
@@ -305,27 +310,41 @@ inline void debug_check_parse_idempotent(
 // both reach them).  Keep `static` / anon-namespace linkage; they're
 // implementation detail of handlers.cpp.
 
+// INV-JSON-STRING-ARRAYS (2026-09-21): symbol-name admissibility, in exact
+// parity with the integrator's tokenizer (convert/parse.cpp lex_ident:
+// alphanumerics and '_' only; `name[ints]` merged only around a non-empty
+// integer list; Hlog/Log/PolyLog are function heads, never variables).  The
+// order search registers names in a FLINT context that accepts any string,
+// so without this predicate a name such as `Sqrt[MM]` or `m[k]` (which
+// Variables[] does emit on the Mathematica side) would be certified by the
+// search and refused by the integrator.  Returns the first offending name,
+// or "" when every name is admissible.
+bool admissible_symbol_name(const std::string& s) {
+    static const std::regex re("^[A-Za-z][A-Za-z0-9_]*(\\[[0-9]+(\\s*,\\s*[0-9]+)*\\])?$");
+    if (!std::regex_match(s, re)) return false;
+    // The engine's own atom tokens are refused as variable names: the
+    // Mathematica decoder rewrites them on the way back (mzv_2 -> Zeta[2],
+    // Log2 -> Log[2], Wm_1 -> Wm[i], ...), which would silently mistranslate
+    // a variable so named.  Same family as SubTropica's ::unknowntoken scan.
+    static const std::regex reserved("^(mzv|zop|Wm|Wp|WmOverWp|sqrt_disc|hfpad)_");
+    if (std::regex_search(s, reserved) || s == "Log2") return false;
+    return s != "Hlog" && s != "Log" && s != "PolyLog";
+}
+
+std::string first_inadmissible_name(const std::vector<std::string>& names) {
+    // "" is the "all admissible" sentinel of the callers, so an inadmissible
+    // EMPTY name (json_str_array preserves "" as an element) is reported as
+    // the literal '""' rather than slipping through as "no bad name".
+    for (const auto& n : names)
+        if (!admissible_symbol_name(n)) return n.empty() ? std::string("\"\"") : n;
+    return {};
+}
+
+// INV-JSON-STRING-ARRAYS (2026-09-21): structural lookup with the standard
+// JSON escapes (the former lenient convention, backslash stripped from an
+// unknown escape, is retired; no production request carries such escapes).
 std::string json_str_field(const std::string& body, const std::string& key) {
-    std::regex re("\"" + key + "\"\\s*:\\s*\"((?:[^\"\\\\]|\\\\.)*)\"");
-    std::smatch m;
-    if (!std::regex_search(body, m, re)) return {};
-    std::string v = m[1];
-    std::string out;
-    out.reserve(v.size());
-    for (size_t i = 0; i < v.size(); ++i) {
-        if (v[i] == '\\' && i + 1 < v.size()) {
-            char nx = v[++i];
-            switch (nx) {
-                case 'n': out += '\n'; break;
-                case 't': out += '\t'; break;
-                case 'r': out += '\r'; break;
-                default:  out += nx;
-            }
-        } else {
-            out += v[i];
-        }
-    }
-    return out;
+    return hyperflint::jsonmin::json_str_field(body, key);
 }
 
 std::string resolve_mzv_data_path(const std::string& body) {
@@ -379,44 +398,25 @@ hyperflint::ShuffleList parse_shuffle_list(const hyperflint::PolyCtx& ctx,
                                            const std::string& body,
                                            const std::string& key) {
     hyperflint::ShuffleList input;
-    std::string inner = extract_top_array(body, key);
-    if (inner.empty()) return input;
-    int depth = 0;
-    size_t start = 0;
-    std::vector<std::string> entries;
-    for (size_t i = 0; i < inner.size(); ++i) {
-        if (inner[i] == '{') {
-            if (depth == 0) start = i;
-            depth++;
-        } else if (inner[i] == '}') {
-            depth--;
-            if (depth == 0) entries.push_back(inner.substr(start, i - start + 1));
-        }
-    }
-    for (const auto& e : entries) {
+    if (!hyperflint::jsonmin::json_member_present(body, key)) return input;
+    // INV-JSON-STRING-ARRAYS (2026-09-21): string-aware splitting of the
+    // entry objects and of the shuffle words -- letters are rational
+    // functions whose symbols may carry brackets (mm[1]); the former
+    // brace/bracket counting was blind to string contents.
+    const std::string inner = hyperflint::jsonmin::json_array_interior(body, key);
+    for (const auto& e : hyperflint::jsonmin::json_subvalues(inner)) {
         std::string coef_s = json_str_field(e, "coef");
         // HF MZV-rewrite C-prep.4 iter-32 F2 parse-boundary safety rail.
         hyperflint::Rat coef_r = hyperflint::Rat::parse(ctx, coef_s);
         debug_check_parse_idempotent(ctx, coef_r,
                                       "parse_shuffle_list/coef");
         hyperflint::ShuffleEntry ent{std::move(coef_r), {}};
-        std::string sh_inner = extract_top_array(e, "shuffle");
-        if (!sh_inner.empty()) {
-            int wd = 0;
-            size_t ws = 0;
-            for (size_t i = 0; i < sh_inner.size(); ++i) {
-                if (sh_inner[i] == '[') {
-                    if (wd == 0) ws = i;
-                    wd++;
-                } else if (sh_inner[i] == ']') {
-                    wd--;
-                    if (wd == 0) {
-                        std::string w_json = sh_inner.substr(ws, i - ws + 1);
-                        std::string wrapped = "{\"w\":" + w_json + "}";
-                        auto letters = json_str_array(wrapped, "w");
-                        ent.shuffle.push_back(parse_word(ctx, letters));
-                    }
-                }
+        if (hyperflint::jsonmin::json_member_present(e, "shuffle")) {
+            const std::string sh_inner =
+                hyperflint::jsonmin::json_array_interior(e, "shuffle");
+            for (const auto& w_json : hyperflint::jsonmin::json_subarrays(sh_inner)) {
+                auto letters = json_str_array("{\"w\":" + w_json + "}", "w");
+                ent.shuffle.push_back(parse_word(ctx, letters));
             }
         }
         input.push_back(std::move(ent));
@@ -626,6 +626,16 @@ std::string find_lr_orders(const std::string& body) {
         auto xvars = json_str_array(body, "xvars");
         if (xvars.empty()) return error_json("need \"xvars\"");
         auto coeff_vars = json_str_array(body, "coeff_vars");
+        {
+            // INV-JSON-STRING-ARRAYS: parser parity with the integrator.
+            std::string bad = first_inadmissible_name(xvars);
+            if (bad.empty()) bad = first_inadmissible_name(coeff_vars);
+            if (!bad.empty())
+                return error_json("inadmissible symbol name '" + bad +
+                                  "' (the integrator's tokenizer accepts "
+                                  "[A-Za-z][A-Za-z0-9_]* optionally followed by "
+                                  "[i,j,...] with integer indices; rename it)");
+        }
 
         // Group shape: either "groups":[[...],[...]] (multi-group: one
         // group per ADDEND; the LR search finds an order reducible for
@@ -637,24 +647,14 @@ std::string find_lr_orders(const std::string& body) {
         // convenience for genuinely single-integrand inputs only.
         // See docs/cross-subsystem-invariants.md (INV-LAZYSUM-GROUPS) and
         // HyperFLINT/docs/op-contracts.md#find_lr_orders.
+        // INV-JSON-STRING-ARRAYS (2026-09-21): structural, string-aware
+        // group parsing (an element may contain brackets, e.g. mm[1]).  An
+        // empty INNER group is kept as an empty list (it imposes no LR
+        // restriction and is reported through nPolys); only an empty
+        // OUTER list is an error, as before.
         std::vector<std::vector<std::string>> group_strs;
-        std::string groups_inner = extract_top_array(body, "groups");
-        if (!groups_inner.empty()) {
-            int depth = 0;
-            size_t start = 0;
-            for (size_t i = 0; i < groups_inner.size(); ++i) {
-                if (groups_inner[i] == '[') {
-                    if (depth == 0) start = i;
-                    depth++;
-                } else if (groups_inner[i] == ']') {
-                    depth--;
-                    if (depth == 0) {
-                        std::string sub_obj = "{\"xs\":" +
-                            groups_inner.substr(start, i - start + 1) + "}";
-                        group_strs.push_back(json_str_array(sub_obj, "xs"));
-                    }
-                }
-            }
+        if (hyperflint::jsonmin::json_member_present(body, "groups")) {
+            group_strs = hyperflint::jsonmin::json_nested_str_arrays(body, "groups");
         } else {
             auto polys_str = json_str_array(body, "polys");
             if (polys_str.empty()) return error_json("need \"polys\" or \"groups\"");
@@ -759,18 +759,17 @@ std::string find_lr_orders(const std::string& body) {
         // search + best-order comparison.
         std::vector<std::string> verify_order_names;
         bool verify_requested = false;
-        {
-            std::regex re("\"verify_order\"\\s*:\\s*\\[([^\\]]*)\\]");
-            std::smatch m;
-            if (std::regex_search(body, m, re)) {
-                verify_requested = true;
-                std::string inner = m[1].str();
-                std::regex name_re("\"([^\"]+)\"");
-                for (std::sregex_iterator it(inner.begin(), inner.end(), name_re),
-                         end; it != end; ++it) {
-                    verify_order_names.push_back((*it)[1].str());
-                }
-            }
+        // INV-JSON-STRING-ARRAYS (2026-09-21): presence of the member,
+        // even as an empty list, selects verify mode (never a free search).
+        if (hyperflint::jsonmin::json_member_present(body, "verify_order")) {
+            verify_requested = true;
+            verify_order_names = json_str_array(body, "verify_order");
+            // Same admissibility as xvars, so that a name the tokenizer
+            // cannot carry is refused here with a precise message rather
+            // than failing inside ctx.index_of below.
+            const std::string bad = first_inadmissible_name(verify_order_names);
+            if (!bad.empty())
+                return error_json("inadmissible symbol name '" + bad + "' in verify_order");
         }
 
         // Value-initialize (2026-06-20): in VERIFY-ORDER mode
@@ -1073,25 +1072,18 @@ std::string factor_table(const std::string& body) {
         auto xvars = json_str_array(body, "xvars");
         if (xvars.empty()) return error_json_op(kOp, "need \"xvars\"");
         auto coeff_vars = json_str_array(body, "coeff_vars");
+        {
+            std::string bad = first_inadmissible_name(xvars);
+            if (bad.empty()) bad = first_inadmissible_name(coeff_vars);
+            if (!bad.empty())
+                return error_json_op(kOp, "inadmissible symbol name '" + bad + "'");
+        }
 
+        // INV-JSON-STRING-ARRAYS (2026-09-21): structural, string-aware
+        // group parsing (see find_lr_orders).
         std::vector<std::vector<std::string>> group_strs;
-        std::string groups_inner = extract_top_array(body, "groups");
-        if (!groups_inner.empty()) {
-            int depth = 0;
-            size_t start = 0;
-            for (size_t i = 0; i < groups_inner.size(); ++i) {
-                if (groups_inner[i] == '[') {
-                    if (depth == 0) start = i;
-                    depth++;
-                } else if (groups_inner[i] == ']') {
-                    depth--;
-                    if (depth == 0) {
-                        std::string sub_obj = "{\"xs\":" +
-                            groups_inner.substr(start, i - start + 1) + "}";
-                        group_strs.push_back(json_str_array(sub_obj, "xs"));
-                    }
-                }
-            }
+        if (hyperflint::jsonmin::json_member_present(body, "groups")) {
+            group_strs = hyperflint::jsonmin::json_nested_str_arrays(body, "groups");
         } else {
             auto polys_str = json_str_array(body, "polys");
             if (polys_str.empty())
@@ -1102,6 +1094,11 @@ std::string factor_table(const std::string& body) {
 
         auto order_strs = json_str_array(body, "order");
         if (order_strs.empty()) return error_json_op(kOp, "need \"order\"");
+        {
+            std::string bad = first_inadmissible_name(order_strs);
+            if (!bad.empty())
+                return error_json_op(kOp, "inadmissible symbol name '" + bad + "'");
+        }
         {
             // Permutation validation: string multisets must agree
             // (spec 4.2; exact-name matching, no aliasing).
@@ -1176,7 +1173,13 @@ std::string factor_table(const std::string& body) {
         o << "{\"op\":\"factor_table\""
           << ",\"schema_version\":" << kSchemaVersion
           << ",\"hf_version\":\"" << json_escape(kHFVersion()) << "\""
-          << ",\"order\":[";
+          << ",\"nPolys\":[";
+        // INV-JSON-STRING-ARRAYS (2026-09-21, schema 3): per-group INPUT
+        // polynomial counts (the interned output list below is a different
+        // quantity), checked by STBuildFactorTable against what it sent.
+        for (size_t g = 0; g < group_polys.size(); ++g)
+            o << (g ? "," : "") << group_polys[g].size();
+        o << "],\"order\":[";
         for (size_t i = 0; i < order_strs.size(); ++i)
             o << (i ? "," : "") << "\"" << json_escape(order_strs[i]) << "\"";
         o << "],\"polys\":[";
@@ -1315,30 +1318,23 @@ std::string find_lr_orders_scan(const std::string& body) {
         auto xvars = json_str_array(body, "xvars");
         if (xvars.empty()) return error_json_op(kOp, "need \"xvars\"");
         auto coeff_vars = json_str_array(body, "coeff_vars");
+        {
+            std::string bad = first_inadmissible_name(xvars);
+            if (bad.empty()) bad = first_inadmissible_name(coeff_vars);
+            if (!bad.empty())
+                return error_json_op(kOp, "inadmissible symbol name '" + bad + "'");
+        }
 
         // groups: list of lists of poly strings (same parser shape as
         // find_lr_orders, multi-group form only — the scan is defined
         // on per-term groups).
         std::vector<std::vector<std::string>> group_strs;
         {
-            std::string groups_inner = extract_top_array(body, "groups");
-            if (groups_inner.empty())
+            // INV-JSON-STRING-ARRAYS (2026-09-21): structural, string-aware
+            // group parsing (see find_lr_orders).
+            if (!hyperflint::jsonmin::json_member_present(body, "groups"))
                 return error_json_op(kOp, "need \"groups\"");
-            int depth = 0;
-            size_t start = 0;
-            for (size_t i = 0; i < groups_inner.size(); ++i) {
-                if (groups_inner[i] == '[') {
-                    if (depth == 0) start = i;
-                    depth++;
-                } else if (groups_inner[i] == ']') {
-                    depth--;
-                    if (depth == 0) {
-                        std::string sub_obj = "{\"xs\":" +
-                            groups_inner.substr(start, i - start + 1) + "}";
-                        group_strs.push_back(json_str_array(sub_obj, "xs"));
-                    }
-                }
-            }
+            group_strs = hyperflint::jsonmin::json_nested_str_arrays(body, "groups");
         }
         if (group_strs.empty()) return error_json_op(kOp, "empty group list");
 
@@ -1484,7 +1480,13 @@ std::string find_lr_orders_scan(const std::string& body) {
         o << "],\"timing_compute_s\":" << compute_s
           << ",\"nXVars\":" << xvars.size()
           << ",\"nGroups\":" << group_polys.size()
-          << "}";
+          << ",\"nPolys\":[";
+        // INV-JSON-STRING-ARRAYS (2026-09-21, schema 3): per-group input
+        // polynomial counts, checked by the Mathematica caller against what
+        // it sent (a mangled request must never pass as a verdict).
+        for (size_t g = 0; g < group_polys.size(); ++g)
+            o << (g ? "," : "") << group_polys[g].size();
+        o << "]}";
         return o.str();
     } catch (const hyperflint::lr_search::LrBudgetExceeded& e) {
         // issue #52 round 3 (item 9, codex): structured budget flag on the
@@ -1524,6 +1526,12 @@ std::string partial_fractions(const std::string& body) {
         }
         auto vars = json_str_array(body, "vars");
         if (vars.empty()) vars = autoscan_vars_single(f);
+        {
+            std::string bad = first_inadmissible_name(vars);
+            if (bad.empty() && !admissible_symbol_name(var)) bad = var;
+            if (!bad.empty())
+                return error_json_op("partial_fractions", "inadmissible symbol name '" + bad + "'");
+        }
         bool present = false;
         for (const auto& v : vars) if (v == var) { present = true; break; }
         if (!present) vars.push_back(var);
@@ -1615,6 +1623,12 @@ std::string linear_factors(const std::string& body) {
         }
         auto user_vars = json_str_array(body, "vars");
         if (user_vars.empty()) user_vars = autoscan_vars_single(poly_s);
+        {
+            std::string bad = first_inadmissible_name(user_vars);
+            if (bad.empty() && !admissible_symbol_name(var)) bad = var;
+            if (!bad.empty())
+                return error_json_op("linear_factors", "inadmissible symbol name '" + bad + "'");
+        }
         bool present = false;
         for (const auto& v : user_vars) if (v == var) { present = true; break; }
         if (!present) user_vars.push_back(var);
@@ -1749,6 +1763,21 @@ std::string hyperflint_sym(const std::string& body) {
         }
         auto vars_int_from = json_str_array(body, "vars_int_from");
         auto vars_int_to   = json_str_array(body, "vars_int_to");
+        {
+            // INV-JSON-STRING-ARRAYS: parser parity -- a name the tokenizer
+            // cannot carry is refused here, not silently dropped later.
+            // Only the SYMBOL lists are checked: vars_int_from / vars_int_to
+            // are range-endpoint EXPRESSIONS ("0", "2", "1-x2", "Infinity"),
+            // parsed by rescale_interval through Rat::parse, which fails
+            // loudly on its own.
+            std::string bad = first_inadmissible_name(user_vars);
+            if (bad.empty()) bad = first_inadmissible_name(vars_int);
+            if (!bad.empty())
+                return error_json_op("hyperflint",
+                    "inadmissible symbol name '" + bad + "' (the tokenizer accepts "
+                    "[A-Za-z][A-Za-z0-9_]* optionally followed by [i,j,...] with "
+                    "integer indices; rename it)");
+        }
         if (user_vars.empty()) {
             for (const auto& v : vars_int) user_vars.push_back(v);
         }
@@ -1921,7 +1950,7 @@ std::string hyperflint_sym(const std::string& body) {
         std::string expr_str = json_str_field(body, "expr");
         {
             int given = (!expr_str.empty() ? 1 : 0) + (!f_str.empty() ? 1 : 0)
-                + (!extract_top_array(body, "wordlist").empty() ? 1 : 0);
+                + (hyperflint::jsonmin::json_member_present(body, "wordlist") ? 1 : 0);
             if (given > 1) {
                 std::cerr << "hyperflint: warning: multiple input forms "
                              "provided (expr/f/wordlist); expr > f > wordlist "
@@ -2075,6 +2104,16 @@ std::string hyperflint_sym(const std::string& body) {
         for (const auto& vi : vars_int) {
             size_t idx = 0;
             for (; idx < vars.size(); ++idx) if (vars[idx] == vi) break;
+            // INV-JSON-STRING-ARRAYS (2026-09-21): an integration variable
+            // that is not in the parsed context used to be pushed as an
+            // out-of-range index and silently never integrated (the
+            // integrand came back unchanged with exit 0).  Since the
+            // structural parse every vars_int name is appended to user_vars
+            // before the context is built (above), so this branch is
+            // unreachable by construction; it stays as an assertion.
+            if (idx == vars.size())
+                return error_json_op("hyperflint",
+                    "integration variable '" + vi + "' is absent from the parsed context");
             var_indices.push_back(idx);
         }
 

@@ -9,6 +9,132 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+## [1.2.16] - 2026-09-28
+
+### Added
+- **`Applyd` has a reference page** in the Documentation Center (usage-only
+  page with the Möbius-map example of the paper's Sec. 4.3 listing) and a
+  guide entry.
+- **`Applyd` is public again.** The differential-form helper of the paper's
+  Sec. 4.3 listing (`Applyd[expr, {x}]` applies the exterior derivative to the
+  `d[x]` factors of `expr`, with the wedge-product rules) was public in v1.1.0 and
+  had been private since the namespace refactor; it now carries a usage message,
+  as does `d`.
+
+### Changed
+- **The benchmark case `eulerIntegrands[2]` is the true energy-energy
+  correlator integrand** (arXiv:2512.23791 (A.14) at `J1 = 1`, `J2 = 2`, the
+  quadratics `P`, `Q` of (3.17) in the denominator through
+  `STFactorAndTrackRoots`). It used to divide the factored numerators by the
+  numerators, which cancelled both quadratics and integrated `(1+x)^-3` in
+  disguise; its hash and timing change, its eps^0 coefficient with the roots
+  restored equals `Integrate[(1-x)/(P Q), {x, 0, 1}]`.
+- **`"FindRoots"` and `"IntegrationOrder"` are string-keyed options** like
+  the other pipeline options (`STIntegrate[diag, "FindRoots" -> True]`); they were
+  the two legacy symbol-keyed exceptions, and `Options[STIntegrate]` now
+  reports the quoted form.  The bare-symbol spelling `FindRoots -> True` /
+  `IntegrationOrder -> {...}` stays accepted on every function (option
+  names are matched by symbol name), so existing notebooks are unaffected.
+
+### Fixed
+- **`STFactorAndTrackRoots` (the paper's Sec. 4.3 energy-energy correlator
+  example) never integrated under the default engine.** The roots it minted
+  were `Unique` temporaries of `HyperIntica`Private`` (`abc$7634`), names the
+  HyperFLINT bridge cannot carry, so the face came back as
+  `STwrapError["... not yet integrated!"]` (the HyperIntica engine was fine).
+  The roots are now the indexed symbols `label[1]`, `label[2]`, ... of the
+  caller's context; `explicit[label]` accumulates them (a repeated call reuses
+  the symbols, `explicit[label] =.` resets); and the function refuses a label
+  with definitions or a reserved name, and a polynomial of degree zero in the
+  variable (the old code returned `0` silently).
+- **Symbol names the HyperFLINT tokenizer cannot carry are aliased instead of
+  refused.** A Greek letter in a kinematic symbol (`\[Delta]J1`, the expansion
+  parameters of the same Sec. 4.3 listing) or a `$` in a temporary made every
+  HyperFLINT request fail (`inadmissible symbol name`); the bridge now renders
+  such a symbol, and any symbol whose bare name would not decode back to
+  itself (a context off the session's `$ContextPath`, two symbols with one
+  short name), under an ASCII alias and maps every response back by name, and
+  the three order-search request builders strip context prefixes as the
+  integrator op always did. Names refused for other reasons (a function head,
+  an engine atom token) are still refused.
+- **`STBenchmark` counted an unintegrated result as a pass.** A returned
+  expression carrying `STwrapError`, `$Failed`, `$Aborted`, `$TimedOut`, an
+  indeterminate or infinite value is now a fail (tag `STBenchmark::badresult`
+  in the case's message list; for the numerical categories only the value and
+  error slots are inspected), a symbol leaked from a `Private`` context demotes
+  the case to a warning (`STBenchmark::privleak`), and the benchmark reads its
+  case list and runs each case with the tracked-root map `HyperIntica`explicit`
+  localized, so the EEC case's root indices and hash do not depend on what ran
+  before and a benchmark run never clears roots a user built.
+- **Multi-mass graphs with indexed masses (`m[1]`, `m[2]`) failed under the
+  HyperFLINT order search with `STwrapError["... not yet integrated!"]`.**
+  The bridge extracted every JSON string array of a request with a regex
+  that stopped at the first `]` inside an element, so any polynomial
+  containing an indexed symbol truncated the array: the order search and
+  `verify_order` ran on a mutilated polynomial set and certified orders that
+  the integrator, which parses the true integrand, refused at the
+  pending-letter guard; the same defect silently skipped integration
+  variables and range endpoints with bracketed names in the `hyperflint` op.
+  The bridge now parses requests structurally (`json_min.hpp`), every
+  group-parsing op reports per-group polynomial counts (`nPolys`, schema 3)
+  that the Mathematica callers check, every integration variable is
+  registered in the integrator's context, the Mathematica side refuses a
+  result in which one survives (outside the contour symbol `delta`), and
+  names the integrator cannot carry are refused up front.
+  `STBuildFactorTable` also accepts indexed coefficient names now (its
+  clean-scope `Block` listed `mm[1]`, a `Block::lvsym` error).  Present since
+  the LibraryLink transport of v1.2.x (`4fbe79c17`); the paper's box
+  (unindexed `mm`) was never affected.
+- **Automatic-gauge runs recover from a face that has no order on the
+  all-orders ("Fast") letter set.**  The one-mass box with equal internal
+  and external masses of the paper (Sec. 4.1.1,
+  `STIntegrate[diag, "FindRoots" -> True]`) aborted since v1.2.x with
+  `STEvaluateEulerIntegral::carrydemote` followed by `STIntegrate::noorder`.
+  The letter set read off before the eps-expansion contains `U` (which
+  enters only at O(eps) through `U^(2 eps)`), whose resultant with `F`
+  admits no order with kinematic-only algebraic letters; the eps-truncated
+  ("Standard") set is reducible.  The gauge scan flips to "Standard" only
+  when every gauge scores `Infinity`, and the HyperFLINT search scores a
+  carry-leg-only order with a finite (penalized) score, so the flip never
+  happened; the integration pass then demoted that order and its `Abort[]`
+  unwound past the `"Fast" -> "Standard"` and FindRoots escalations.  The
+  post-scan per-face search of the automatic-gauge routes of
+  `STEvaluateGraph` and `STEvaluateEulerIntegral` is now wrapped in the
+  same `CheckAbort` trap that the pinned-gauge and no-scan routes already
+  use: on a caught NOLR abort (never on a budget abort) the directories are
+  rebuilt under `"Standard"`, FindRoots is escalated to `True` on the graph
+  route when the user allows algebraic letters, and the per-face search runs
+  once more; a genuine NOLR at that combination re-aborts as before.  The
+  box now returns the closed form of the paper (also with the default
+  `FindRoots -> Automatic`); the `Short` and `Long` benchmark suites and the
+  `uq5` carry fixture give the same outcomes as before.  A line
+  `[NOLR fallback] A face of gauge ... retrying with MethodPolysAndPairs -> "Standard"`
+  reports the recovery.  The verdict messages of the first search
+  (`carrydemote`, `noorder`, ...) are held until the outcome is known: a
+  recovered run prints none of them, a run that still fails prints the
+  verdict of its last attempt (the eps-truncated letter set).  The same holds
+  for the pinned-gauge and no-scan routes, whose existing traps now also
+  leave budget aborts, Strict-verify aborts and user interrupts untouched;
+  with `"Integrator" -> "HyperInt"` the retry changes the extraction only
+  (no FindRoots escalation, whose algebraic letters Maple cannot consume).
+- **`"Integrator" -> "HyperIntica"` returns expressions again.**  Since
+  2026-06-16 (`f2bf39e06`) the engine's `HyperInt` no longer evaluates the
+  boundary periods by default (`"EvaluatePeriodsQ" -> False`), so every
+  per-counter-term result on the HyperIntica route was the engine's raw
+  wordlist (`{}` for zero, `{{coef, words}, ...}` otherwise); the assembly
+  in `STReadResults` then failed with `Total::tllen` and returned an
+  unevaluated `Total[...]`.  The two HyperIntica call sites of the
+  integration launchers now pass `"EvaluatePeriodsQ" -> True` explicitly,
+  which restores the per-face contract (an expression with `ZeroInfPeriod`
+  heads, converted by the aggregator) on the default `"All"` strategy.  The
+  `"BruteForce"` strategy with live subkernels has a separate, pre-existing
+  defect (its integrator is a `Module` local that is never distributed to
+  the subkernels), tracked separately.  The standalone `HyperIntica[...]`
+  wrapper keeps its `"EvaluatePeriodsQ" -> False` default.  Any result
+  obtained on the HyperIntica route between 2026-06-16 and this fix is
+  suspect: depending on the face shapes the assembly failed loudly
+  (`Total::tllen`) or collapsed silently to an empty list.
+
 ## [1.2.15] - 2026-09-15
 
 Issue #52 round 6 (a 7-variable integrand whose linear-reducibility search
